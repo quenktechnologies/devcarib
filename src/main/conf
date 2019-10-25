@@ -1,0 +1,59 @@
+
+-- [Actor Configuration] --
+
+-- The id and mount point for this module.
+-- Change if you want routes to be served relative to another directory.
+id = "/"
+
+-- [Server Configuration] --
+
+-- Read the port number from the environment
+server.port = ${PORT}
+
+-- Bind to the loopback. You can change this if you like.
+server.host = "0.0.0.0"
+
+-- Default middleware configuration.
+-- Remember that middleware must be declared available before actual use.
+-- The "log" middleware will require npm install --save packages/@quenk/tendril-morgan
+-- before yse.
+app.middleware.available = {
+
+  public = {
+
+    provider = express#static
+    
+    options = ["${__dirname}/public", {maxAge=0}]
+
+  }
+
+  log = {
+
+    provider = @quenk/tendril-middleware-morgan#log
+    
+    options = [${MORGAN_LOG_FORMAT}]
+
+  }
+
+  json = {
+
+    provider = body-parser#json 
+
+  }
+
+  urlencoded = {
+
+    provider = body-parser#urlencoded 
+
+  }
+
+}
+
+-- Actually enable the middleware in this order.
+app.middleware.enabled = ["log", "public", "json", "urlencoded"]
+
+-- Invoke the connected hook.
+app.on.connected = ../app/events#connected
+
+-- Invoke the started hook.
+app.on.started = ../app/events#started
