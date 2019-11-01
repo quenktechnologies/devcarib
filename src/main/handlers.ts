@@ -1,8 +1,9 @@
-import { ok } from '@quenk/tendril/lib/app/api/action/response';
+import { show } from '@quenk/tendril/lib/app/api/action/response';
 import { ActionM } from '@quenk/tendril/lib/app/api/action';
-import { Request  } from '@quenk/tendril/lib/app/api/request';
+import { Request } from '@quenk/tendril/lib/app/api/request';
 
 /**
- * index sends a 200 status with example body text.
+ * showForm displays the employer regisration form.
  */
-export const index = (_: Request): ActionM<undefined> => ok('It works!');
+export const showForm = (_: Request): ActionM<undefined> =>
+    show('employer/registration/form.html', {});

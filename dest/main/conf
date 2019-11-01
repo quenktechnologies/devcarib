@@ -13,6 +13,13 @@ server.port = ${PORT}
 -- Bind to the loopback. You can change this if you like.
 server.host = "0.0.0.0"
 
+app.views = {
+
+  provider = @quenk/tendril-show-nunjucks#show
+  options = [{path = "dest/main/views"}]
+  
+}
+
 -- Default middleware configuration.
 -- Remember that middleware must be declared available before actual use.
 -- The "log" middleware will require npm install --save packages/@quenk/tendril-morgan
