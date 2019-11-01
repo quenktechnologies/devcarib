@@ -10,15 +10,16 @@
     "author": "Quenk Technologies Interns 2019 <interns-2019@quenk.com> (http://quenk.com)",
     "license": "Apache-2.0",
     "dependencies": {
+        "@quenk/noni": "^1.26.0",
         "@quenk/preconditions": "^5.2.2",
         "@quenk/tendril": "^0.31.5",
-        "@quenk/noni": "^1.26.0",
+        "@quenk/tendril-middleware-morgan": "0.0.1",
+        "bcrypt": "^3.0.2",
         "body-parser": "^1.17.2",
         "dotenv": "^8.0.0",
         "express": "^4.17.1",
         "express-session": "^1.16.2",
         "morgan": "^1.9.1",
-        "bcrypt": "^3.0.2",
         "nunjucks": "^3.2.0"
     },
     "devDependencies": {
