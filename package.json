@@ -14,6 +14,7 @@
         "@quenk/preconditions": "^5.2.2",
         "@quenk/tendril": "^0.31.5",
         "@quenk/tendril-middleware-morgan": "0.0.1",
+        "@quenk/tendril-show-nunjucks": "0.0.3",
         "bcrypt": "^3.0.2",
         "body-parser": "^1.17.2",
         "dotenv": "^8.0.0",
