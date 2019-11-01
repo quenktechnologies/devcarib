@@ -1,0 +1,4 @@
+%import index from "./handlers"
+
+-- Sample route that demonstrates how to declare routes.
+GET / index
