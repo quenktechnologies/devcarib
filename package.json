@@ -1,13 +1,13 @@
 {
-    "name": "{{{project.name}}}",
+    "name": "@quenk/board",
     "version": "0.0.1",
     "private": true,
-    "description": "{{{project.description}}}",
+    "description": "Job board for caribbean software developers.",
     "scripts": {
         "test": "./node_modules/.bin/mocha --opts mocha.opts $(find test -name *_test.ts)",
-       "start": "node -r dotenv/config dest/main/start.js"
-   },
-    "author": "Quenk Technologies Limited <info@quenk.com> (http://quenk.com)",
+        "start": "node -r dotenv/config dest/main/start.js"
+    },
+    "author": "Quenk Technologies Interns 2019 <interns-2019@quenk.com> (http://quenk.com)",
     "license": "Apache-2.0",
     "dependencies": {
         "@quenk/preconditions": "^5.2.2",
@@ -35,7 +35,5 @@
         "mocha": "^5.2.0",
         "ts-node": "^7.0.0",
         "typescript": "^3.2.2"
-
     }
-
 }
