@@ -1,1 +1,3 @@
-GET / "employer/registration/form.html"
+%import showForm from "./handlers"
+
+GET / showForm

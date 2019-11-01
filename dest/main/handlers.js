@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var response_1 = require("@quenk/tendril/lib/app/api/action/response");
 /**
- * index sends a 200 status with example body text.
+ * showForm displays the employer regisration form.
  */
-exports.index = function (_) { return response_1.ok('It works!'); };
+exports.showForm = function (_) {
+    return response_1.show('employer/registration/form.html', {});
+};
 //# sourceMappingURL=handlers.js.map

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var tendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
 var express = require("express");
 var tendrilMiddlewareMorgan = require("@quenk/tendril-middleware-morgan");
 var bodyParser = require("body-parser");
@@ -12,7 +13,9 @@ exports.template = function (_app) { return ({ 'create':
     'id': "/",
     'server': { 'port': process.env['PORT'],
         'host': "0.0.0.0" },
-    'app': { 'middleware': { 'available': { public: { provider: express.static,
+    'app': { 'views': { provider: tendrilShowNunjucks.show,
+            options: [{ path: "dest/main/views" }] },
+        'middleware': { 'available': { public: { provider: express.static,
                     options: [__dirname + "/public", { maxAge: 0 }] },
                 log: { provider: tendrilMiddlewareMorgan.log,
                     options: [process.env['MORGAN_LOG_FORMAT']] },
@@ -22,7 +25,7 @@ exports.template = function (_app) { return ({ 'create':
         'on': { 'connected': events.connected,
             'started': events.started },
         'routes': function (_m) {
-            return [{ method: 'get', path: '/', filters: [handlers_1.index] }
+            return [{ method: 'get', path: '/', filters: [handlers_1.showForm] }
             ];
         } } }); };
 //# sourceMappingURL=index.js.map
