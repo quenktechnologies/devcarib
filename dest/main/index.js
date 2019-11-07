@@ -16,7 +16,7 @@ exports.template = function (_app) { return ({ 'create':
     'app': { 'views': { provider: tendrilShowNunjucks.show,
             options: [{ path: "dest/main/views" }] },
         'middleware': { 'available': { public: { provider: express.static,
-                    options: [__dirname + "/public", { maxAge: 0 }] },
+                    options: [__dirname + "/../../public", { maxAge: 0 }] },
                 log: { provider: tendrilMiddlewareMorgan.log,
                     options: [process.env['MORGAN_LOG_FORMAT']] },
                 json: { provider: bodyParser.json },

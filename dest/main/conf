@@ -30,7 +30,7 @@ app.middleware.available = {
 
     provider = express#static
     
-    options = ["${__dirname}/public", {maxAge=0}]
+    options = ["${__dirname}/../../public", {maxAge=0}]
 
   }
 
