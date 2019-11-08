@@ -13,6 +13,19 @@ server.port = ${PORT}
 -- Bind to the loopback. You can change this if you like.
 server.host = "0.0.0.0"
 
+-- [Connections] --
+connections = {
+
+  main = {
+
+    connector = @quenk/tendril-connection-mongodb#connector
+
+    options = [${MONGO_URL}, {useNewUrlParser = true}]
+
+  }
+
+}
+
 app.views = {
 
   provider = @quenk/tendril-show-nunjucks#show

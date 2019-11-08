@@ -1,31 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
-var express = require("express");
-var tendrilMiddlewareMorgan = require("@quenk/tendril-middleware-morgan");
-var bodyParser = require("body-parser");
-var events = require("../app/events");
-var handlers_1 = require("./handlers");
-var module_1 = require("@quenk/tendril/lib/app/module");
-exports.template = function (_app) { return ({ 'create': 
+const tendrilConnectionMongodb = require("@quenk/tendril-connection-mongodb");
+const tendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
+const express = require("express");
+const tendrilMiddlewareMorgan = require("@quenk/tendril-middleware-morgan");
+const bodyParser = require("body-parser");
+const events = require("../app/events");
+const handlers_1 = require("./handlers");
+const module_1 = require("@quenk/tendril/lib/app/module");
+exports.template = (_app) => ({ 'create': 
     //@ts-ignore: 6133 
-    function (_app) { return new module_1.Module(_app); },
-    'id': "/",
+    (_app) => new module_1.Module(_app),
+    'id': `/`,
     'server': { 'port': process.env['PORT'],
-        'host': "0.0.0.0" },
+        'host': `0.0.0.0` },
+    'connections': { main: { connector: tendrilConnectionMongodb.connector,
+            options: [process.env['MONGO_URL'], { useNewUrlParser: true }] } },
     'app': { 'views': { provider: tendrilShowNunjucks.show,
-            options: [{ path: "dest/main/views" }] },
+            options: [{ path: `dest/main/views` }] },
         'middleware': { 'available': { public: { provider: express.static,
-                    options: [__dirname + "/../../public", { maxAge: 0 }] },
+                    options: [`${__dirname}/../../public`, { maxAge: 0 }] },
                 log: { provider: tendrilMiddlewareMorgan.log,
                     options: [process.env['MORGAN_LOG_FORMAT']] },
                 json: { provider: bodyParser.json },
                 urlencoded: { provider: bodyParser.urlencoded } },
-            'enabled': ["log", "public", "json", "urlencoded"] },
+            'enabled': [`log`, `public`, `json`, `urlencoded`] },
         'on': { 'connected': events.connected,
             'started': events.started },
-        'routes': function (_m) {
-            return [{ method: 'get', path: '/', filters: [handlers_1.showForm] }
+        'routes': (_m) => {
+            return [{ method: 'get', path: '/', filters: [handlers_1.showForm] },
+                { method: 'post', path: '/', filters: [handlers_1.createEmployer] }
             ];
-        } } }); };
+        } } });
 //# sourceMappingURL=index.js.map

@@ -1,9 +1,10 @@
+import * as tendrilConnectionMongodb from '@quenk/tendril-connection-mongodb'; 
 import * as tendrilShowNunjucks from '@quenk/tendril-show-nunjucks'; 
 import * as express from 'express'; 
 import * as tendrilMiddlewareMorgan from '@quenk/tendril-middleware-morgan'; 
 import * as bodyParser from 'body-parser'; 
 import * as events from '../app/events'; 
-import { showForm } from './handlers';
+import { showForm,createEmployer } from './handlers';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 import {Module} from '@quenk/tendril/lib/app/module';
 import {App as App} from '@quenk/tendril/lib/app';
@@ -17,6 +18,8 @@ export const template = (_app:App) : Template<App> =>(
 'id': `/`,
 'server': {'port': (<string>process.env['PORT']),
 'host': `0.0.0.0`},
+'connections': { main: { connector: tendrilConnectionMongodb.connector,
+options: [(<string>process.env['MONGO_URL']),{ useNewUrlParser: true }] } },
 'app': {'views': { provider: tendrilShowNunjucks.show,
 options: [{ path: `dest/main/views` }] },
 'middleware': {'available': { public: { provider: express.static,
@@ -31,5 +34,6 @@ urlencoded: { provider: bodyParser.urlencoded } },
 'routes': (_m:Module) => {
 
 return [{ method: 'get',path: '/',filters: [showForm  ]}
+,{ method: 'post',path: '/',filters: [createEmployer  ]}
 ]
 }}})
