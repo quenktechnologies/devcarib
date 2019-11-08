@@ -322,3 +322,6 @@ body {
   color: #555555;
   background-color: #e8e8e8;
 }
+#main {
+  margin-top: 100px;
+}

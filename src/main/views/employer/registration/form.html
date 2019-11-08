@@ -12,28 +12,54 @@
 </head>
 
 <body>
-    <div class="ww-panel">
-        <div class="ww-panel__body">
-            <form>
-                <div class="ww-text-field -block">
-                    <label class="ww-label">Company Name</label>
-                    <input name="name" class="ww-text-input">
+
+    <div id="main" class="ww-grid-layout">
+
+
+        <div class="ww-grid-layout__row">
+
+            <div class="ww-grid-layout__column -span6 -offset3">
+
+                <h3>Employer Registration Form </h3>
+
+                <div class="ww-panel">
+
+                    <div class="ww-panel__body">
+
+                        <form autocomplete="off">
+
+                            <div class="ww-text-field">
+                                <label class="ww-label">Company Name</label>
+                                <input name="name" class="ww-text-input -block" autocomplete="off">
+                            </div>
+
+                            <div class="ww-text-field">
+                                <label class="ww-label">Email</label>
+                                <input name="email" class="ww-text-input -block" autocomplete="off">
+                            </div>
+
+                            <div class="ww-text-field">
+                                <label class="ww-label">Website</label>
+                                <input name="website" class="ww-text-input -block">
+                            </div>
+
+                            <div class="ww-text-field">
+                                <label class="ww-label">Description</label>
+                                <textarea class="ww-text-input -block" name="description" rows="10"></textarea>
+                            </div>
+
+                            <button type="button" class="ww-button -toolbar-compat -error -block">Register</button>
+
+                        </form>
+                    </div>
                 </div>
-                <div class="ww-text-field -block">
-                    <label class="ww-label">Email</label>
-                    <input name="email" class="ww-text-input">
-                </div>
-                <div class="ww-text-field -block">
-                    <label class="ww-label">Website</label>
-                    <input name="website" class="ww-text-input">
-                </div>
-                <div class="ww-text-field -block">
-                    <label class="ww-label">Description</label>
-                    <textarea class="ww-textfield" name="description" rows="10"></textarea>
-                </div>
-            </form>
+
+            </div>
+
         </div>
+
     </div>
+
 </body>
 
 </html>
