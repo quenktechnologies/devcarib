@@ -1,6 +1,12 @@
-import { show, ok } from '@quenk/tendril/lib/app/api/action/response';
+import * as mongodb from 'mongodb';
+import { insertOne } from '@quenk/safe-mongodb/lib/database/collection';
+import { show, redirect } from '@quenk/tendril/lib/app/api/action/response';
+import { checkout } from '@quenk/tendril/lib/app/api/action/pool';
 import { ActionM } from '@quenk/tendril/lib/app/api/action';
 import { Request } from '@quenk/tendril/lib/app/api/request';
+import { DoFn, doN } from '@quenk/noni/lib/control/monad';
+import { isObject } from '@quenk/noni/lib/data/type';
+
 
 /**
  * showForm displays the employer regisration form.
@@ -11,10 +17,33 @@ export const showForm = (_: Request): ActionM<undefined> =>
 /** 
  *   createEmployer creates the employer after registration.
 */
-export const createEmployer = (r: Request): ActionM<undefined> => {
+export const createEmployer = (r: Request): ActionM<undefined> => 
+    doN(<DoFn<undefined,ActionM<undefined>>>function*(){
 
-    console.log(r.body);
+        if(isObject(r.body)){
+            
+            let data = r.body;
 
-    return ok('submitted');
+            let db:mongodb.Db = yield checkout('main');
 
-}
+            let collection = db.collection('employers');
+
+            let mResult = yield insertOne(collection, data);
+
+            if(mResult.isJust()){
+                
+                redirect('/dashboard',302);
+
+            }else{
+
+                redirect('/',302);
+
+            }
+        
+        }else{
+            return redirect('/',302);
+        }
+
+    })
+
+
