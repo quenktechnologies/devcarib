@@ -41,7 +41,9 @@ TENDRIL_MORGAN_BUILD:=$(PROJECT_PACKAGES_DIR)/tendril-morgan/lib
 
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
-$(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES) $(TENDRIL_MORGAN_BUILD)
+$(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
+		      $(TENDRIL_MORGAN_BUILD)\
+		      public/board.css
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
 	$(TDC) $(PROJECT_BUILD_MAIN_DIR)
@@ -50,6 +52,9 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES) $(TENDRIL_MORGAN_BUILD)
 
 # Include *.mk files here.
 include $(PROJECT_PACKAGES_DIR)/tendril-morgan/build.mk
+
+public/board.css: $(shell find src/main/less -name \*.less)
+	./node_modules/.bin/lessc src/main/less/main.less > $@ 
 
 # Remove the build application files.
 .PHONY: clean
