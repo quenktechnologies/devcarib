@@ -11,7 +11,7 @@
     "license": "Apache-2.0",
     "dependencies": {
         "@quenk/noni": "^1.26.0",
-        "@quenk/preconditions": "^5.2.2",
+        "@quenk/preconditions": "^5.4.1",
         "@quenk/safe-mongodb": "^0.1.3",
         "@quenk/tendril": "^0.31.5",
         "@quenk/tendril-connection-mongodb": "0.0.3",

@@ -6,7 +6,7 @@ import { checkout } from '@quenk/tendril/lib/app/api/action/pool';
 import { ActionM } from '@quenk/tendril/lib/app/api/action';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
-import { isObject } from '@quenk/noni/lib/data/type';
+import {validate} from './validation/employer';
 
 /**
  * showForm displays the employer regisration form.
@@ -20,9 +20,11 @@ export const showForm = (_: Request): ActionM<undefined> =>
 export const createEmployer = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
-        if (isObject(r.body)) {
+        let eResult = validate(r.body);
+        
+        if(eResult.isRight()) {
 
-            let data = r.body;
+            let data = eResult.takeRight();
 
             let db: mongodb.Db = yield checkout('main');
 
@@ -33,6 +35,8 @@ export const createEmployer = (r: Request): ActionM<undefined> =>
             return redirect('/dashboard', 302);
 
         } else {
+
+            console.log(eResult.takeLeft().explain());
 
             return redirect('/', 302);
 
