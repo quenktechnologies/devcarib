@@ -15,14 +15,20 @@ export const showForm = (_: Request): ActionM<undefined> =>
     show('employer/registration/form.html', {});
 
 /**
+ * showLoginForm displays the user login form.
+ */
+export const showLoginForm = (_: Request): ActionM<undefined> =>
+    show('login.html', {});
+
+/**
  *   createEmployer creates the employer after registration.
 */
 export const createEmployer = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
-        let eResult = yield await(()=>check(r.body));
-        
-        if(eResult.isRight()) {
+        let eResult = yield await(() => check(r.body));
+
+        if (eResult.isRight()) {
 
             let data = eResult.takeRight();
 

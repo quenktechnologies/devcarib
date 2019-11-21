@@ -39,6 +39,7 @@ exports.template = (_app) => ({ 'create':
             'started': events.started },
         'routes': (_m) => {
             return [{ method: 'get', path: '/', filters: [handlers_1.showForm] },
+                { method: 'get', path: '/login', filters: [handlers_1.showLoginForm] },
                 { method: 'post', path: '/', filters: [handlers_1.createEmployer] }
             ];
         } } });

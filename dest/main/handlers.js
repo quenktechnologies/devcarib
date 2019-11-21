@@ -11,6 +11,10 @@ const employer_1 = require("./checks/employer");
  */
 exports.showForm = (_) => response_1.show('employer/registration/form.html', {});
 /**
+ * showLoginForm displays the user login form.
+ */
+exports.showLoginForm = (_) => response_1.show('login.html', {});
+/**
  *   createEmployer creates the employer after registration.
 */
 exports.createEmployer = (r) => monad_1.doN(function* () {
