@@ -6,7 +6,7 @@ import { checkout } from '@quenk/tendril/lib/app/api/action/pool';
 import { ActionM } from '@quenk/tendril/lib/app/api/action';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
-import {validate} from './validation/employer';
+import { check } from './checks/employer';
 
 /**
  * showForm displays the employer regisration form.
@@ -20,7 +20,7 @@ export const showForm = (_: Request): ActionM<undefined> =>
 export const createEmployer = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
-        let eResult = validate(r.body);
+        let eResult = yield await(()=>check(r.body));
         
         if(eResult.isRight()) {
 
@@ -28,7 +28,7 @@ export const createEmployer = (r: Request): ActionM<undefined> =>
 
             let db: mongodb.Db = yield checkout('main');
 
-            let collection = db.collection('employers');
+            let collection = db.collection('users');
 
             yield await(() => insertOne(collection, data));
 
