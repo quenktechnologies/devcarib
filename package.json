@@ -10,6 +10,7 @@
     "author": "Quenk Technologies Interns 2019 <interns-2019@quenk.com> (http://quenk.com)",
     "license": "Apache-2.0",
     "dependencies": {
+        "@csa/session": "file:packages/csa-session",
         "@quenk/noni": "^1.26.0",
         "@quenk/preconditions": "^5.4.1",
         "@quenk/safe-mongodb": "^0.1.3",

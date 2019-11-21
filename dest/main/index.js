@@ -5,6 +5,8 @@ const tendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
 const express = require("express");
 const tendrilMiddlewareMorgan = require("@quenk/tendril-middleware-morgan");
 const bodyParser = require("body-parser");
+const tendrilSessionMongodb = require("@quenk/tendril-session-mongodb");
+const middleware = require("@csa/session/lib/middleware");
 const events = require("../app/events");
 const handlers_1 = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
@@ -23,8 +25,16 @@ exports.template = (_app) => ({ 'create':
                 log: { provider: tendrilMiddlewareMorgan.log,
                     options: [process.env['MORGAN_LOG_FORMAT']] },
                 json: { provider: bodyParser.json },
-                urlencoded: { provider: bodyParser.urlencoded } },
-            'enabled': [`log`, `public`, `json`, `urlencoded`] },
+                urlencoded: { provider: bodyParser.urlencoded },
+                session: { provider: tendrilSessionMongodb.session,
+                    options: [{ session: { secret: process.env['SESSION_SECRET'],
+                                key: `boardsesssioncookie`,
+                                resave: false,
+                                saveUninitialized: false },
+                            store: { uri: process.env['MONGO_URL'] } }] },
+                rmExpired: { provider: middleware.removeExpired },
+                decTTL: { provider: middleware.decrementTTL } },
+            'enabled': [`log`, `public`, `session`, `rmExpired`, `decTTL`, `json`, `urlencoded`] },
         'on': { 'connected': events.connected,
             'started': events.started },
         'routes': (_m) => {
