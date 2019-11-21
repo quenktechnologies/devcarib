@@ -14,7 +14,7 @@ exports.bcrypt = (str) => monad_1.doN(function* () {
     let salted = yield hash(str, salty);
     return future_1.pure(result_1.succeed(salted));
 });
-exports.check = async_1.and(async_1.async(employer_1.validate), record_1.intersect({
+exports.check = async_1.and(async_1.async(employer_1.validate), record_1.disjoint({
     password: exports.bcrypt
 }));
 //# sourceMappingURL=employer.js.map
