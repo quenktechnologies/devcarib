@@ -1,34 +1,41 @@
-import {View} from '@quenk/wml';
-import {BoardDashBoardView} from './views/board';
+import { View } from '@quenk/wml';
+import { BoardDashboardView } from './views/board';
 
-export class BoardDashboard{
+export class BoardDashboard {
 
-    constructor(public content:HTMLElement){}
+    constructor(public content: HTMLElement) { }
 
-    view: View = new BoardDashBoardView(this);
+    view: View = new BoardDashboardView(this);
 
-    static create(id:string){
+    values = {
 
-        let e:HTMLElement = <HTMLElement>document.getElementById(id);
+        main: { id: 'main' }
+
+    };
+
+    static create(id: string) {
+
+        let e: HTMLElement = <HTMLElement>document.getElementById(id);
 
         return new BoardDashboard(e);
 
     }
 
-    setContent(view:View){
+    setContent(view: View) {
 
-        while(this.content.firstChild != null)
+        while (this.content.firstChild != null)
             this.content.removeChild(this.content.firstChild);
 
         this.content.appendChild(view.render());
 
     }
 
-    run(){
+    run() {
 
-        this.setContent(this.view.render());
+        this.setContent(this.view);
 
     }
+
 }
 
 BoardDashboard.create('app').run();
