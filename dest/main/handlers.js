@@ -10,6 +10,7 @@ const employer_1 = require("./validation/employer");
  * showForm displays the employer regisration form.
  */
 exports.showForm = (_) => response_1.show('employer/registration/form.html', {});
+exports.showDashboard = (_) => response_1.show('dashboard.html', {});
 /**
  *   createEmployer creates the employer after registration.
 */

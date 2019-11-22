@@ -14,6 +14,10 @@ import {validate} from './validation/employer';
 export const showForm = (_: Request): ActionM<undefined> =>
     show('employer/registration/form.html', {});
 
+
+export const showDashboard =(_:Request): ActionM<undefined> =>
+    show('dashboard.html',{});
+
 /**
  *   createEmployer creates the employer after registration.
 */
