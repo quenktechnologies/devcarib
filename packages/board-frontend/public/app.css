@@ -1021,8 +1021,8 @@ a.ww-tag:focus {
   z-index: 9998;
   box-shadow: none;
   color: #fff;
-  background: #00aa88;
-  border-bottom: 1px solid #00aa88;
+  background: #00bcd4;
+  border-bottom: 1px solid #03a9f4;
 }
 .ww-action-bar .ww-action-bar__content {
   display: flex;
@@ -2457,6 +2457,10 @@ textarea.ww-search > input {
 }
 .ww-typeahead.-block + .ww-typeahead.-block {
   margin-top: 0.5em;
+}
+.ww-action-bar {
+  height: 50px;
+  overflow-y: hidden;
 }
 /**
  * Style all elements to use border-box box sizing, making calculations easier.
