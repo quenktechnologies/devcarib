@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as tendrilSessionMongodb from '@quenk/tendril-session-mongodb'; 
 import * as middleware from '@csa/session/lib/middleware'; 
 import * as events from '../app/events'; 
-import { showForm,createEmployer } from './handlers';
+import { showForm,showLoginForm,createEmployer } from './handlers';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 import {Module} from '@quenk/tendril/lib/app/module';
 import {App as App} from '@quenk/tendril/lib/app';
@@ -30,8 +30,11 @@ log: { provider: tendrilMiddlewareMorgan.log,
 options: [(<string>process.env['MORGAN_LOG_FORMAT'])] },
 json: { provider: bodyParser.json },
 urlencoded: { provider: bodyParser.urlencoded },
+<<<<<<< HEAD
 frontend: { provider: express.static,
 options: [`${__dirname}/../../packages/board-frontend/public`,{ maxAge: 0 }] },
+=======
+>>>>>>> 150600f633cffae97d9d4fe07c893a57ed67e3c8
 session: { provider: tendrilSessionMongodb.session,
 options: [{ session: { secret: (<string>process.env['SESSION_SECRET']),
 key: `boardsesssioncookie`,
@@ -40,12 +43,17 @@ saveUninitialized: false },
 store: { uri: (<string>process.env['MONGO_URL']) } }] },
 rmExpired: { provider: middleware.removeExpired },
 decTTL: { provider: middleware.decrementTTL } },
+<<<<<<< HEAD
 'enabled': [`log`,`public`,`frontend`,`session`,`rmExpired`,`decTTL`,`json`,`urlencoded`]},
+=======
+'enabled': [`log`,`public`,`session`,`rmExpired`,`decTTL`,`json`,`urlencoded`]},
+>>>>>>> 150600f633cffae97d9d4fe07c893a57ed67e3c8
 'on': {'connected': events.connected,
 'started': events.started},
 'routes': (_m:Module) => {
 
 return [{ method: 'get',path: '/',filters: [showForm  ]}
+,{ method: 'get',path: '/login',filters: [showLoginForm  ]}
 ,{ method: 'post',path: '/',filters: [createEmployer  ]}
 ]
 }}})

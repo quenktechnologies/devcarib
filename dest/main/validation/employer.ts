@@ -1,20 +1,9 @@
-import {Value, Object} from '@quenk/noni/lib/data/json';
+import {Value} from '@quenk/noni/lib/data/json';
 import {Precondition, optional, and} from '@quenk/preconditions';
 import { isRecord, restrict } from '@quenk/preconditions/lib/record';
 import {isString} from '@quenk/preconditions/lib/string';
 
-/**
- * Employer
- */
-export interface Employer extends Object{
-
-    name?:string,
-    website?:string,
-    email?:string,
-    password?:string,
-    description?:string
-
-}
+import {Employer} from '../types/employer';
 
 /**
  * Validate a JSON value to see if it's an Employer.
