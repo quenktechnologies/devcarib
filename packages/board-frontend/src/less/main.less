@@ -1,0 +1,67 @@
+@import "@quenk/wml-widgets/widgets";
+@import "./variables";
+
+/**
+ * Style all elements to use border-box box sizing, making calculations easier.
+ */
+* {
+
+  box-sizing: border-box;
+
+  &:before, &:after {
+
+    box-sizing: border-box;
+
+  }
+  
+}
+
+/**
+ * Remove default margins from the document.
+ */
+html,body { 
+
+  margin: 0;
+
+}
+
+/**
+ * Give the bare body slightly more visual appeal.
+ */
+body {
+
+  height: 100%;
+  min-height: 800px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #e8eaef;
+  margin: 0;
+
+  & > #main {
+
+    padding-top: 75px;
+
+  }
+
+  & .csa-menu-link:hover {
+
+    outline: none;
+    background-color: transparent;
+
+  }
+
+  & .-after-headband {
+
+    padding-top: 7em;
+
+  }
+
+}
+
+.ww-overlay {
+
+  background-color: rgba(0,0,0,0.3);
+
+}

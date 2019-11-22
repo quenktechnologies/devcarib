@@ -67,6 +67,14 @@ app.middleware.available = {
 
   }
   
+  frontend = {
+
+    provider = express#static
+              
+    options = ["${__dirname}/../../packages/board-frontend/public", {maxAge=0}]
+
+  }
+  
   session = {
 
     provider = @quenk/tendril-session-mongodb#session
@@ -113,6 +121,7 @@ app.middleware.available = {
 app.middleware.enabled = [
    "log",
    "public", 
+   "frontend",
    "session",
    "rmExpired",
    "decTTL",

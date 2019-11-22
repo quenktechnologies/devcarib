@@ -66,11 +66,68 @@ app.middleware.available = {
     provider = body-parser#urlencoded 
 
   }
+  
+  frontend = {
+
+    provider = express#static
+              
+    options = ["${__dirname}/../../packages/board-frontend/public", {maxAge=0}]
+
+  }
+  
+  session = {
+
+    provider = @quenk/tendril-session-mongodb#session
+
+    options = [{
+
+    	session = {
+
+      	secret = ${SESSION_SECRET}
+      
+        key = "boardsesssioncookie"
+      
+        resave = false
+      
+        saveUninitialized = false
+
+      }
+      
+      store = {
+
+        uri = ${MONGO_URL}
+
+      }
+
+  }]
+
+  }
+
+  rmExpired = {
+
+    provider = @csa/session/lib/middleware#removeExpired
+
+  }
+
+  decTTL = {
+
+    provider = @csa/session/lib/middleware#decrementTTL
+
+  }
 
 }
 
 -- Actually enable the middleware in this order.
-app.middleware.enabled = ["log", "public", "json", "urlencoded"]
+app.middleware.enabled = [
+   "log",
+   "public", 
+   "frontend",
+   "session",
+   "rmExpired",
+   "decTTL",
+   "json", 
+   "urlencoded"
+ ]
 
 -- Invoke the connected hook.
 app.on.connected = ../app/events#connected

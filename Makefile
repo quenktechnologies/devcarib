@@ -35,14 +35,15 @@ PROJECT_BUILD_DIR:=$(HERE)/dest
 PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/main
 
 # Configure the paths for your extra packages here.
-TENDRIL_MORGAN_BUILD:=$(PROJECT_PACKAGES_DIR)/tendril-morgan/lib
+CSA_SESSION_BUILD:=$(PROJECT_PACKAGES_DIR)/csa-session/lib
+BOARD_FRONTEND_BUILD:=$(PROJECT_PACKAGES_DIR)/board-frontend/public
 
 ### Dependency Graph ###
 
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
-		      $(TENDRIL_MORGAN_BUILD)\
+		      $(BOARD_FRONTEND_BUILD)\
 		      public/board.css
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
@@ -51,7 +52,8 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 	$(TOUCH) $(PROJECT_BUILD_DIR)
 
 # Include *.mk files here.
-include $(PROJECT_PACKAGES_DIR)/tendril-morgan/build.mk
+#include $(PROJECT_PACKAGES_DIR)/csa-session/build.mk
+include $(PROJECT_PACKAGES_DIR)/board-frontend/build.mk
 
 public/board.css: $(shell find src/main/less -name \*.less)
 	./node_modules/.bin/lessc src/main/less/main.less > $@ 
