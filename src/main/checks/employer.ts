@@ -1,4 +1,5 @@
 import * as bcryptjs from 'bcryptjs';
+import * as v4 from 'uuid/v4';
 
 import { Future, fromCallback, pure } from '@quenk/noni/lib/control/monad/future';
 
@@ -28,10 +29,15 @@ export const bcrypt = (str: string): Result<string, string> =>
 
     });
 
+export const id = (): Result<void, string> =>
+    pure (succeed(v4()));
+
 export const check: Precondition<Value, Employer> = and(
     async(validate), disjoint<any, any, any, Employer>({
 
+        id: id,
         password: bcrypt
 
     })
 )
+
