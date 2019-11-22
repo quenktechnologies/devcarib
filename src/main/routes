@@ -1,5 +1,7 @@
-%import showForm, createEmployer from "./handlers"
+%import showForm, createEmployer, showDashboard from "./handlers"
 
 GET / showForm
+
+GET/dashboard showDashboard
 
 POST / createEmployer
