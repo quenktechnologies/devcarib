@@ -52,7 +52,6 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 	$(TOUCH) $(PROJECT_BUILD_DIR)
 
 # Include *.mk files here.
-#include $(PROJECT_PACKAGES_DIR)/csa-session/build.mk
 include $(PROJECT_PACKAGES_DIR)/board-frontend/build.mk
 
 public/board.css: $(shell find src/main/less -name \*.less)

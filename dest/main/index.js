@@ -10,8 +10,8 @@ const middleware = require("@csa/session/lib/middleware");
 const events = require("../app/events");
 const handlers_1 = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
-exports.template = (_app) => ({ 'create': 
-    //@ts-ignore: 6133 
+exports.template = (_app) => ({ 'create':
+    //@ts-ignore: 6133
     (_app) => new module_1.Module(_app),
     'id': `/`,
     'server': { 'port': process.env['PORT'],
@@ -37,10 +37,12 @@ exports.template = (_app) => ({ 'create':
                 rmExpired: { provider: middleware.removeExpired },
                 decTTL: { provider: middleware.decrementTTL } },
             'enabled': [`log`, `public`, `frontend`, `session`, `rmExpired`, `decTTL`, `json`, `urlencoded`] },
+            'enabled': [`log`, `public`, `session`, `rmExpired`, `decTTL`, `json`, `urlencoded`] },
         'on': { 'connected': events.connected,
             'started': events.started },
         'routes': (_m) => {
             return [{ method: 'get', path: '/', filters: [handlers_1.showForm] },
+                { method: 'get', path: '/login', filters: [handlers_1.showLoginForm] },
                 { method: 'post', path: '/', filters: [handlers_1.createEmployer] }
             ];
         } } });

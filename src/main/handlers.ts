@@ -1,12 +1,20 @@
 import * as mongodb from 'mongodb';
-import { insertOne } from '@quenk/safe-mongodb/lib/database/collection';
+import * as bcryptjs from 'bcryptjs';
+import { insertOne, findOne } from '@quenk/safe-mongodb/lib/database/collection';
 import { show, redirect } from '@quenk/tendril/lib/app/api/action/response';
 import { await } from '@quenk/tendril/lib/app/api/action/control';
 import { checkout } from '@quenk/tendril/lib/app/api/action/pool';
 import { ActionM } from '@quenk/tendril/lib/app/api/action';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
-import {validate} from './validation/employer';
+import { check } from './checks/employer';
+import { isRecord } from '@quenk/noni/lib/data/record';
+import { fromCallback } from '@quenk/noni/lib/control/monad/future';
+
+interface SessionRequest extends Request {
+
+    session: {[key: string]: any}
+}
 
 /**
  * showForm displays the employer regisration form.
@@ -15,20 +23,26 @@ export const showForm = (_: Request): ActionM<undefined> =>
     show('employer/registration/form.html', {});
 
 /**
+ * showLoginForm displays the user login form.
+ */
+export const showLoginForm = (_: Request): ActionM<undefined> =>
+    show('login.html', {});
+
+/**
  *   createEmployer creates the employer after registration.
 */
 export const createEmployer = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
-        let eResult = validate(r.body);
-        
-        if(eResult.isRight()) {
+        let eResult = yield await(() => check(r.body));
+
+        if (eResult.isRight()) {
 
             let data = eResult.takeRight();
 
             let db: mongodb.Db = yield checkout('main');
 
-            let collection = db.collection('employers');
+            let collection = db.collection('users');
 
             yield await(() => insertOne(collection, data));
 
@@ -43,3 +57,44 @@ export const createEmployer = (r: Request): ActionM<undefined> =>
         }
 
     })
+
+export const authenticate = (r: SessionRequest): ActionM<undefined> =>
+    doN(<DoFn<undefined, ActionM<undefined>>>function*(){
+
+        if(isRecord(r.body)) {
+
+            let email = r.body.email;
+
+            let password = <string>r.body.password;
+
+            let db: mongodb.Db = yield checkout('main');
+
+            let users = db.collection('users');
+
+            let qry = {email};
+
+            let mUser = yield await(()=> findOne(users, qry));
+
+            if(mUser.isNothing()) 
+            return redirect('/login', 302);
+
+            let user = mUser.get(); 
+
+            let didMatch = yield await(()=> compare(password, user.password));
+
+            if(didMatch){
+                r.session = {user: user.id};
+            }else {
+                return redirect('/login', 302);
+            }
+
+        }else {
+
+            return redirect('/login', 302);
+
+                    }
+    })
+
+    const compare = (pwd: string, hash: string) => 
+    fromCallback (cb => bcryptjs.compare(pwd, hash, cb));
+
