@@ -1,0 +1,11 @@
+{% import (ActionBar) from "@quenk/wml-widgets/lib/layout/action-bar" %}
+{% import (MainLayout) from "@quenk/wml-widgets/lib/layout/main" %}
+{% import (BoardDashboard) from "../main" %}
+
+{% view BoardDashboardView (BoardDashboard) %}
+<div>
+    <ActionBar ww:className="board-action-bar">
+    </ActionBar>
+
+    <MainLayout wml:id={{@values.main.id}}/>
+</div>

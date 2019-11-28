@@ -22,6 +22,10 @@ interface SessionRequest extends Request {
 export const showForm = (_: Request): ActionM<undefined> =>
     show('employer/registration/form.html', {});
 
+
+export const showDashboard =(_:Request): ActionM<undefined> =>
+    show('dashboard.html',{});
+
 /**
  * showLoginForm displays the user login form.
  */

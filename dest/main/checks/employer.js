@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs = require("bcryptjs");
+const v4 = require("uuid/v4");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const result_1 = require("@quenk/preconditions/lib/result");
 const monad_1 = require("@quenk/noni/lib/control/monad");
@@ -14,7 +15,9 @@ exports.bcrypt = (str) => monad_1.doN(function* () {
     let salted = yield hash(str, salty);
     return future_1.pure(result_1.succeed(salted));
 });
+exports.id = () => future_1.pure(result_1.succeed(v4()));
 exports.check = async_1.and(async_1.async(employer_1.validate), record_1.disjoint({
+    id: exports.id,
     password: exports.bcrypt
 }));
 //# sourceMappingURL=employer.js.map
