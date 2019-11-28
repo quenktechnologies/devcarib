@@ -1,15 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const bcryptjs = require("bcryptjs");
 const collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
 const response_1 = require("@quenk/tendril/lib/app/api/action/response");
 const control_1 = require("@quenk/tendril/lib/app/api/action/control");
 const pool_1 = require("@quenk/tendril/lib/app/api/action/pool");
 const monad_1 = require("@quenk/noni/lib/control/monad");
 const employer_1 = require("./checks/employer");
+const record_1 = require("@quenk/noni/lib/data/record");
+const future_1 = require("@quenk/noni/lib/control/monad/future");
 /**
  * showForm displays the employer regisration form.
  */
 exports.showForm = (_) => response_1.show('employer/registration/form.html', {});
+exports.showDashboard = (_) => response_1.show('dashboard.html', {});
 /**
  * showLoginForm displays the user login form.
  */
@@ -31,4 +35,28 @@ exports.createEmployer = (r) => monad_1.doN(function* () {
         return response_1.redirect('/', 302);
     }
 });
+exports.authenticate = (r) => monad_1.doN(function* () {
+    if (record_1.isRecord(r.body)) {
+        let email = r.body.email;
+        let password = r.body.password;
+        let db = yield pool_1.checkout('main');
+        let users = db.collection('users');
+        let qry = { email };
+        let mUser = yield control_1.await(() => collection_1.findOne(users, qry));
+        if (mUser.isNothing())
+            return response_1.redirect('/login', 302);
+        let user = mUser.get();
+        let didMatch = yield control_1.await(() => compare(password, user.password));
+        if (didMatch) {
+            r.session = { user: user.id };
+        }
+        else {
+            return response_1.redirect('/login', 302);
+        }
+    }
+    else {
+        return response_1.redirect('/login', 302);
+    }
+});
+const compare = (pwd, hash) => future_1.fromCallback(cb => bcryptjs.compare(pwd, hash, cb));
 //# sourceMappingURL=handlers.js.map
