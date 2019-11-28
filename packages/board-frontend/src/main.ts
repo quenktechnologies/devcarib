@@ -1,5 +1,23 @@
 import { View } from '@quenk/wml';
 import { BoardDashboardView } from './views/board';
+import { Value, Object } from '@quenk/noni/lib/data/json';
+import { Event } from '@quenk/wml-widgets/lib/control';
+
+export interface Job extends Object{
+
+    id?:string,
+    title?:string,
+    country?:string,
+    city?:string,
+    type?:string, 
+    role?:string,
+    indusrty?:string,
+    technologies?:string,
+    description?:string,
+    link?:string,
+
+}
+ 
 
 export class BoardDashboard {
 
@@ -9,8 +27,18 @@ export class BoardDashboard {
 
     values = {
 
-        main: { id: 'main' }
+        main: { id: 'main' },
+        data: <Job>{},
+        controls: {
 
+            onChange: (e:Event<Value>)=>{
+
+            this.values.data[e.name]= e.value;
+
+        },
+        create: () =>{},
+        }
+    
     };
 
     static create(id: string) {
