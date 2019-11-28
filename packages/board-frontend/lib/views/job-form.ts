@@ -1,8 +1,9 @@
 import * as __wml from '@quenk/wml';
 
-import {ActionBar} from '@quenk/wml-widgets/lib/layout/action-bar'; ;
-import {MainLayout} from '@quenk/wml-widgets/lib/layout/main'; ;
-import {JobFormView} from './job-form'; ;
+import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
+import {Panel,PanelBody,PanelFooter} from '@quenk/wml-widgets/lib/layout/panel'; ;
+import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
+import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {BoardDashboard} from '../main'; 
 //@ts-ignore: 6192
 import {
@@ -57,23 +58,73 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
     return ret.length === 0 ? alt(): ret;
 
 }
-export class BoardDashboardView  implements __wml.View {
+export class JobFormView  implements __wml.View {
 
    constructor(__context: BoardDashboard  ) {
 
        this.template = (__this:__wml.Registry) => {
 
-           return __this.node('div', <__wml.Attrs>{}, [
+           return __this.widget(new GridLayout({}, [
 
-        __this.widget(new ActionBar({ww : { 'className' : 'board-action-bar'  }}, [
+        __this.widget(new Row({}, [
+
+        __this.widget(new Column({ww : { 'span' : 8 ,'offset' : 2  }}, [
+
+        __this.widget(new Panel({}, [
+
+        __this.widget(new PanelBody({}, [
+
+        __this.node('form', <__wml.Attrs>{'autocomplete': 'off'}, [
+
+        __this.widget(new TextField({ww : { 'name' : 'title' ,'value' : __context.values.data .title  ,'label' : 'Title' ,'focus' : true  ,'onChange' : __context.values.controls .change   }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : 'board-action-bar'  }}),
-__this.widget(new MainLayout({wml : { 'id' : __context.values.main .id   }}, [
+     ]),<__wml.Attrs>{ww : { 'name' : 'title' ,'value' : __context.values.data .title  ,'label' : 'Title' ,'focus' : true  ,'onChange' : __context.values.controls .change   }}),
+__this.widget(new TextField({ww : { 'name' : 'country' ,'value' : __context.values.data .country  ,'label' : 'Country' ,'onChange' : __context.values.controls .change   }}, [
 
-        __this.registerView((new JobFormView(__context))).render()
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.main .id   }})
-     ]);
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'country' ,'value' : __context.values.data .country  ,'label' : 'Country' ,'onChange' : __context.values.controls .change   }}),
+__this.widget(new TextField({ww : { 'name' : 'city' ,'value' : __context.values.data .city  ,'label' : 'City' ,'onChange' : __context.values.controls .change   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'city' ,'value' : __context.values.data .city  ,'label' : 'City' ,'onChange' : __context.values.controls .change   }}),
+__this.widget(new TextField({ww : { 'name' : 'type' ,'value' : __context.values.data .type  ,'label' : 'Type' ,'onChange' : __context.values.controls .change   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'type' ,'value' : __context.values.data .type  ,'label' : 'Type' ,'onChange' : __context.values.controls .change   }}),
+__this.widget(new TextField({ww : { 'name' : 'role' ,'value' : __context.values.data .role  ,'label' : 'Role' ,'onChange' : __context.values.controls .change   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'role' ,'value' : __context.values.data .role  ,'label' : 'Role' ,'onChange' : __context.values.controls .change   }}),
+__this.widget(new TextField({ww : { 'name' : 'industry' ,'value' : __context.values.data .industry  ,'label' : 'Industry' ,'onChange' : __context.values.controls .change   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'industry' ,'value' : __context.values.data .industry  ,'label' : 'Industry' ,'onChange' : __context.values.controls .change   }}),
+__this.widget(new TextField({ww : { 'name' : 'technologies' ,'value' : __context.values.data .technologies  ,'label' : 'Technologies' ,'onChange' : __context.values.controls .change   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'technologies' ,'value' : __context.values.data .technologies  ,'label' : 'Technologies' ,'onChange' : __context.values.controls .change   }}),
+__this.widget(new TextField({ww : { 'name' : 'link' ,'value' : __context.values.data .link  ,'label' : 'Link' ,'onChange' : __context.values.controls .change   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'link' ,'value' : __context.values.data .link  ,'label' : 'Link' ,'onChange' : __context.values.controls .change   }}),
+__this.widget(new TextField({ww : { 'name' : 'description' ,'value' : __context.values.data .description  ,'label' : 'Description' ,'rows' : 15 ,'onChange' : __context.values.controls .change   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'description' ,'value' : __context.values.data .description  ,'label' : 'Description' ,'rows' : 15 ,'onChange' : __context.values.controls .change   }})
+     ])
+     ]),<__wml.Attrs>{}),
+__this.widget(new PanelFooter({}, [
+
+        __this.widget(new Button({ww : { 'className' : '-primary' ,'text' : 'create' ,'onClick' : __context.values.controls .create   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'className' : '-primary' ,'text' : 'create' ,'onClick' : __context.values.controls .create   }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{ww : { 'span' : 8 ,'offset' : 2  }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{});
 
        }
 

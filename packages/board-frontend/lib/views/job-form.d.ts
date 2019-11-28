@@ -1,7 +1,7 @@
 import * as __wml from '@quenk/wml';
 import { BoardDashboard } from '../main';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-export declare class BoardDashboardView implements __wml.View {
+export declare class JobFormView implements __wml.View {
     constructor(__context: BoardDashboard);
     ids: {
         [key: string]: __wml.WMLElement;
