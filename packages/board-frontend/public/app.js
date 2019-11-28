@@ -286,6 +286,28 @@ exports.getBlockClassName = function (attrs) {
 
 },{}],3:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * getId from a widget's passed attributes.
+ */
+exports.getId = function (attrs) {
+    return (attrs.ww && attrs.ww.id) ? attrs.ww.id : '';
+};
+/**
+ * getClassName from a widget's passed attributes.
+ */
+exports.getClassName = function (attrs) {
+    return (attrs.ww && attrs.ww.className) ? attrs.ww.className : '';
+};
+/**
+ * text constructor.
+ */
+exports.text = function (str) {
+    return document.createTextNode(String((str == null) ? '' : str));
+};
+
+},{}],4:[function(require,module,exports){
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -300,9 +322,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var util = require("../../util");
 var orientation = require("../../content/orientation");
-var __1 = require("../");
+var __1 = require("../..");
+var util_1 = require("../../util");
+var __2 = require("../");
 var action_bar_1 = require("./wml/action-bar");
 ///classNames:begin
 /**
@@ -329,11 +352,7 @@ var ActionBar = /** @class */ (function (_super) {
                 },
                 id: (_this.attrs.ww && _this.attrs.ww.id) ?
                     _this.attrs.ww.id : '',
-                class: util.combine([
-                    exports.ACTION_BAR,
-                    __1.LAYOUT,
-                    orientation.POSITIONED
-                ])
+                className: util_1.concat(exports.ACTION_BAR, __2.LAYOUT, orientation.POSITIONED, __1.getClassName(_this.attrs))
             },
             content: {
                 wml: {
@@ -345,10 +364,10 @@ var ActionBar = /** @class */ (function (_super) {
         return _this;
     }
     return ActionBar;
-}(__1.AbstractLayout));
+}(__2.AbstractLayout));
 exports.ActionBar = ActionBar;
 
-},{"../":5,"../../content/orientation":2,"../../util":8,"./wml/action-bar":4}],4:[function(require,module,exports){
+},{"../":6,"../..":3,"../../content/orientation":2,"../../util":9,"./wml/action-bar":5}],5:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -386,7 +405,7 @@ var Main = /** @class */ (function () {
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
-            return __this.node('div', { wml: { 'id': __context.values.root.wml.id }, 'id': __context.values.root.id, 'class': __context.values.root.class }, [
+            return __this.node('div', { wml: { 'id': __context.values.root.wml.id }, 'id': __context.values.root.id, 'class': __context.values.root.className }, [
                 __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'class': __context.values.content.class }, __spreadArrays((__context.children)))
             ]);
         };
@@ -477,7 +496,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":1}],5:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":1}],6:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -541,7 +560,7 @@ exports.doRemoveContent = function (view, id) {
         n.removeChild(n.firstChild);
 };
 
-},{"../util":8,"@quenk/wml":9}],6:[function(require,module,exports){
+},{"../util":9,"@quenk/wml":10}],7:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -586,7 +605,7 @@ var MainLayout = /** @class */ (function (_super) {
 }(__1.AbstractLayout));
 exports.MainLayout = MainLayout;
 
-},{"../":5,"../../util":8,"./wml/main":7}],7:[function(require,module,exports){
+},{"../":6,"../../util":9,"./wml/main":8}],8:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -713,7 +732,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":1}],8:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":1}],9:[function(require,module,exports){
 "use strict";
 /**
  * This module provides utility functions and constants used
@@ -787,7 +806,7 @@ exports.debounce = function (f, delay) {
     };
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ;
@@ -812,7 +831,7 @@ var Component = /** @class */ (function () {
 exports.Component = Component;
 ;
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var board_1 = require("./views/board");
@@ -841,7 +860,7 @@ var BoardDashboard = /** @class */ (function () {
 exports.BoardDashboard = BoardDashboard;
 BoardDashboard.create('app').run();
 
-},{"./views/board":11}],11:[function(require,module,exports){
+},{"./views/board":12}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var action_bar_1 = require("@quenk/wml-widgets/lib/layout/action-bar");
@@ -968,4 +987,4 @@ var BoardDashboardView = /** @class */ (function () {
 }());
 exports.BoardDashboardView = BoardDashboardView;
 
-},{"@quenk/noni/lib/data/maybe":1,"@quenk/wml-widgets/lib/layout/action-bar":3,"@quenk/wml-widgets/lib/layout/main":6}]},{},[10]);
+},{"@quenk/noni/lib/data/maybe":1,"@quenk/wml-widgets/lib/layout/action-bar":4,"@quenk/wml-widgets/lib/layout/main":7}]},{},[11]);

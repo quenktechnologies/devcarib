@@ -1193,6 +1193,7 @@ a.ww-tag:focus {
   cursor: pointer;
   border: 1px solid transparent;
   white-space: nowrap;
+  text-decoration: none;
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
@@ -1242,17 +1243,17 @@ a.ww-tag:focus {
   border-color: #ccc;
 }
 .ww-button.-default.-outline {
-  color: #fff;
+  color: #333;
   background-color: transparent;
-  border-color: #fff;
+  border-color: #333;
 }
 .ww-button.-default.-outline:hover {
-  color: #808080;
-  background-color: #fff;
-  border-color: #fff;
+  color: #000000;
+  background-color: #333;
+  border-color: #333;
 }
 .ww-button.-default.-outline:disabled {
-  color: #fff;
+  color: #333;
   background-color: transparent;
 }
 .ww-button.-primary {
@@ -1283,17 +1284,17 @@ a.ww-tag:focus {
   border-color: #2d6da3;
 }
 .ww-button.-primary.-outline {
-  color: #337ab7;
+  color: #fff;
   background-color: transparent;
-  border-color: #337ab7;
+  border-color: #fff;
 }
 .ww-button.-primary.-outline:hover {
-  color: #000000;
-  background-color: #337ab7;
-  border-color: #337ab7;
+  color: #808080;
+  background-color: #fff;
+  border-color: #fff;
 }
 .ww-button.-primary.-outline:disabled {
-  color: #337ab7;
+  color: #fff;
   background-color: transparent;
 }
 .ww-button.-success {
@@ -1324,17 +1325,17 @@ a.ww-tag:focus {
   border-color: #4cae4c;
 }
 .ww-button.-success.-outline {
-  color: #5cb85c;
+  color: #fff;
   background-color: transparent;
-  border-color: #5cb85c;
+  border-color: #fff;
 }
 .ww-button.-success.-outline:hover {
-  color: #060f06;
-  background-color: #5cb85c;
-  border-color: #5cb85c;
+  color: #808080;
+  background-color: #fff;
+  border-color: #fff;
 }
 .ww-button.-success.-outline:disabled {
-  color: #5cb85c;
+  color: #fff;
   background-color: transparent;
 }
 .ww-button.-info {
@@ -1365,17 +1366,17 @@ a.ww-tag:focus {
   border-color: #46b8da;
 }
 .ww-button.-info.-outline {
-  color: #5bc0de;
+  color: #fff;
   background-color: transparent;
-  border-color: #5bc0de;
+  border-color: #fff;
 }
 .ww-button.-info.-outline:hover {
-  color: #0a2730;
-  background-color: #5bc0de;
-  border-color: #5bc0de;
+  color: #808080;
+  background-color: #fff;
+  border-color: #fff;
 }
 .ww-button.-info.-outline:disabled {
-  color: #5bc0de;
+  color: #fff;
   background-color: transparent;
 }
 .ww-button.-warning {
@@ -1406,17 +1407,17 @@ a.ww-tag:focus {
   border-color: #eea236;
 }
 .ww-button.-warning.-outline {
-  color: #f0ad4e;
+  color: #fff;
   background-color: transparent;
-  border-color: #f0ad4e;
+  border-color: #fff;
 }
 .ww-button.-warning.-outline:hover {
-  color: #3a2405;
-  background-color: #f0ad4e;
-  border-color: #f0ad4e;
+  color: #808080;
+  background-color: #fff;
+  border-color: #fff;
 }
 .ww-button.-warning.-outline:disabled {
-  color: #f0ad4e;
+  color: #fff;
   background-color: transparent;
 }
 .ww-button.-error {
@@ -1447,17 +1448,17 @@ a.ww-tag:focus {
   border-color: #d43f3a;
 }
 .ww-button.-error.-outline {
-  color: #d9534f;
+  color: #fff;
   background-color: transparent;
-  border-color: #d9534f;
+  border-color: #fff;
 }
 .ww-button.-error.-outline:hover {
-  color: #220807;
-  background-color: #d9534f;
-  border-color: #d9534f;
+  color: #808080;
+  background-color: #fff;
+  border-color: #fff;
 }
 .ww-button.-error.-outline:disabled {
-  color: #d9534f;
+  color: #fff;
   background-color: transparent;
 }
 .ww-button.ww-link {

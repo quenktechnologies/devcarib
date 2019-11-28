@@ -19,7 +19,6 @@
         "@quenk/tendril-middleware-morgan": "0.0.1",
         "@quenk/tendril-session-mongodb": "0.0.2",
         "@quenk/tendril-show-nunjucks": "0.0.3",
-        "bcrypt": "^3.0.2",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.17.2",
         "dotenv": "^8.0.0",
@@ -27,7 +26,8 @@
         "express-session": "^1.16.2",
         "mongodb": "^3.3.3",
         "morgan": "^1.9.1",
-        "nunjucks": "^3.2.0"
+        "nunjucks": "^3.2.0",
+        "uuid": "^3.3.3"
     },
     "devDependencies": {
         "@quenk/dagen": "^1.0.0",
@@ -44,6 +44,7 @@
         "@types/morgan": "^1.7.35",
         "@types/node": "^10.2.12",
         "@types/nunjucks": "3.1.1",
+        "@types/uuid": "^3.4.6",
         "browserify": "^16.5.0",
         "less": "^3.10.3",
         "less-plugin-js-vars": "^3.0.0",

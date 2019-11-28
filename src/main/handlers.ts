@@ -13,7 +13,8 @@ import { fromCallback } from '@quenk/noni/lib/control/monad/future';
 
 interface SessionRequest extends Request {
 
-    session: {[key: string]: any}
+    session: any
+
 }
 
 /**
@@ -23,8 +24,8 @@ export const showForm = (_: Request): ActionM<undefined> =>
     show('employer/registration/form.html', {});
 
 
-export const showDashboard =(_:Request): ActionM<undefined> =>
-    show('dashboard.html',{});
+export const showDashboard = (_: Request): ActionM<undefined> =>
+    show('dashboard.html', {});
 
 /**
  * showLoginForm displays the user login form.
@@ -63,9 +64,9 @@ export const createEmployer = (r: Request): ActionM<undefined> =>
     })
 
 export const authenticate = (r: SessionRequest): ActionM<undefined> =>
-    doN(<DoFn<undefined, ActionM<undefined>>>function*(){
+    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
-        if(isRecord(r.body)) {
+        if (isRecord(r.body)) {
 
             let email = r.body.email;
 
@@ -75,30 +76,29 @@ export const authenticate = (r: SessionRequest): ActionM<undefined> =>
 
             let users = db.collection('users');
 
-            let qry = {email};
+            let qry = { email };
 
-            let mUser = yield await(()=> findOne(users, qry));
+            let mUser = yield await(() => findOne(users, qry));
 
-            if(mUser.isNothing()) 
-            return redirect('/login', 302);
+            if (mUser.isNothing())
+                return redirect('/login', 302);
 
-            let user = mUser.get(); 
+            let user = mUser.get();
 
-            let didMatch = yield await(()=> compare(password, user.password));
+            let didMatch = yield await(() => compare(password, user.password));
 
-            if(didMatch){
-                r.session = {user: user.id};
-            }else {
+            if (didMatch) {
+                r.session = { user: user.id };
+            } else {
                 return redirect('/login', 302);
             }
 
-        }else {
+        } else {
 
             return redirect('/login', 302);
 
-                    }
+        }
     })
 
-    const compare = (pwd: string, hash: string) => 
-    fromCallback (cb => bcryptjs.compare(pwd, hash, cb));
-
+const compare = (pwd: string, hash: string) =>
+    fromCallback(cb => bcryptjs.compare(pwd, hash, cb));
