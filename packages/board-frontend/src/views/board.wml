@@ -1,5 +1,7 @@
 {% import (ActionBar) from "@quenk/wml-widgets/lib/layout/action-bar" %}
 {% import (MainLayout) from "@quenk/wml-widgets/lib/layout/main" %}
+
+{% import (JobFormView) from "./job-form" %}
 {% import (BoardDashboard) from "../main" %}
 
 {% view BoardDashboardView (BoardDashboard) %}
@@ -7,5 +9,10 @@
     <ActionBar ww:className="board-action-bar">
     </ActionBar>
 
-    <MainLayout wml:id={{@values.main.id}}/>
+    <MainLayout wml:id={{@values.main.id}}>
+
+      {{ <JobFormView(@)> }}
+
+    </MainLayout>
+
 </div>
