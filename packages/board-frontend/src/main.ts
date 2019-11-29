@@ -24,12 +24,12 @@ export class BoardDashboard {
                 this.values.data[e.name] = e.value;
 
             },
-            create: () => { 
+            create: () => {
 
                 agent.post('/api/jobs', this.values.data)
-                .fork(console.error, console.log);
+                    .fork(console.error, console.log);
 
-           },
+            },
         }
 
     };

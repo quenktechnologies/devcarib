@@ -48,6 +48,7 @@
         "@types/morgan": "^1.7.35",
         "@types/node": "^10.2.12",
         "@types/nunjucks": "3.1.1",
+        "@types/qs": "^6.9.0",
         "@types/uuid": "^3.4.6",
         "browserify": "^16.5.0",
         "less": "^3.10.3",

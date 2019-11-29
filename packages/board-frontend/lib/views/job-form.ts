@@ -134,12 +134,21 @@ __this.widget(new PanelFooter({}, [
 
    groups: { [key: string]: __wml.WMLElement[] } = {};
 
+   views: __wml.View[] = [];
+
    widgets: __wml.Widget[] = [];
 
    tree: __wml.Content = document.createElement('div');
 
    template: __wml.Template;
 
+   registerView(v:__wml.View) : __wml.View {
+
+       this.views.push(v);
+
+       return v;
+
+}
    register(e:__wml.WMLElement, attrs:__wml.Attributes<any>) {
 
        let attrsMap = (<__wml.Attrs><any>attrs)
@@ -230,15 +239,22 @@ __this.widget(new PanelFooter({}, [
 
    findById<E extends __wml.WMLElement>(id: string): __Maybe<E> {
 
-       return __fromNullable<E>(<E>this.ids[id])
+       let mW:__Maybe<E> = __fromNullable<E>(<E>this.ids[id])
+
+       return this.views.reduce((p,c)=>
+       p.isJust() ? p : c.findById(id), mW);
 
    }
 
    findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
 
-       return __fromArray(this.groups.hasOwnProperty(name) ?
+      let mGroup:__Maybe<E[]> =
+           __fromArray(this.groups.hasOwnProperty(name) ?
            <any>this.groups[name] : 
            []);
+
+      return this.views.reduce((p,c) =>
+       p.isJust() ? p : c.findByGroup(name), mGroup);
 
    }
 
@@ -262,6 +278,7 @@ __this.widget(new PanelFooter({}, [
        this.ids = {};
        this.widgets.forEach(w => w.removed());
        this.widgets = [];
+       this.views = [];
        this.tree = this.template(this);
 
        this.ids['root'] = (this.ids['root']) ?
