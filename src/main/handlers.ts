@@ -1,7 +1,7 @@
 import * as mongodb from 'mongodb';
 import * as bcryptjs from 'bcryptjs';
 import { insertOne, findOne } from '@quenk/safe-mongodb/lib/database/collection';
-import { show, redirect } from '@quenk/tendril/lib/app/api/action/response';
+import { show, redirect, created, conflict } from '@quenk/tendril/lib/app/api/action/response';
 import { await } from '@quenk/tendril/lib/app/api/action/control';
 import { checkout } from '@quenk/tendril/lib/app/api/action/pool';
 import { ActionM } from '@quenk/tendril/lib/app/api/action';
@@ -102,3 +102,30 @@ export const authenticate = (r: SessionRequest): ActionM<undefined> =>
 
 const compare = (pwd: string, hash: string) =>
     fromCallback(cb => bcryptjs.compare(pwd, hash, cb));
+
+export const createJob = (r: SessionRequest): ActionM<undefined> => 
+    doN(<DoFn<undefined, ActionM<undefined>>>function*(){
+
+        let eResult = yield await(() => check(r.body));
+
+        if(eResult.isRight()){
+
+            let data = eResult.takeRight();
+
+            let db: mongodb.Db = yield checkout('main');
+
+            let collection = db.collection('jobs');
+
+            data.employer = r.session.user;
+
+            yield await(() => insertOne(collection, data));
+
+            return created();
+
+        }else{
+
+            return conflict(eResult.takeLeft().explain());
+
+        }
+
+    })

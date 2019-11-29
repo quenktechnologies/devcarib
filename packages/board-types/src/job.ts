@@ -12,5 +12,6 @@ export interface Job extends Object {
     technologies?: string,
     description?: string,
     link?: string,
+    employer?: string,
 
 }
