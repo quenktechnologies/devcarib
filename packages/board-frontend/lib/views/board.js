@@ -31,17 +31,22 @@ var BoardDashboardView = /** @class */ (function () {
     function BoardDashboardView(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', {}, [
                 __this.widget(new action_bar_1.ActionBar({ ww: { 'className': 'board-action-bar' } }, []), { ww: { 'className': 'board-action-bar' } }),
                 __this.widget(new main_1.MainLayout({ wml: { 'id': __context.values.main.id } }, [
-                    (new job_form_1.JobFormView(__context)).render()
+                    __this.registerView((new job_form_1.JobFormView(__context))).render()
                 ]), { wml: { 'id': __context.values.main.id } })
             ]);
         };
     }
+    BoardDashboardView.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     BoardDashboardView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -97,12 +102,18 @@ var BoardDashboardView = /** @class */ (function () {
         return w.render();
     };
     BoardDashboardView.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     BoardDashboardView.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     BoardDashboardView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -117,6 +128,7 @@ var BoardDashboardView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :

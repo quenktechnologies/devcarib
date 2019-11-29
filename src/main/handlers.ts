@@ -8,6 +8,7 @@ import { ActionM } from '@quenk/tendril/lib/app/api/action';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
 import { check } from '@board/checks/lib/employer';
+import { check as checkJob } from '@board/checks/lib/job';
 import { isRecord } from '@quenk/noni/lib/data/record';
 import { fromCallback } from '@quenk/noni/lib/control/monad/future';
 
@@ -144,7 +145,7 @@ export const logout = (r: Request): ActionM<undefined> => {
 export const createJob = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
-        let eResult = yield await(() => check(r.body));
+        let eResult = yield await(() => checkJob(r.body));
 
         if (eResult.isRight()) {
 

@@ -7,6 +7,7 @@ const control_1 = require("@quenk/tendril/lib/app/api/action/control");
 const pool_1 = require("@quenk/tendril/lib/app/api/action/pool");
 const monad_1 = require("@quenk/noni/lib/control/monad");
 const employer_1 = require("@board/checks/lib/employer");
+const job_1 = require("@board/checks/lib/job");
 const record_1 = require("@quenk/noni/lib/data/record");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 /**
@@ -83,7 +84,7 @@ exports.logout = (r) => {
     return response_1.redirect('/', 302);
 };
 exports.createJob = (r) => monad_1.doN(function* () {
-    let eResult = yield control_1.await(() => employer_1.check(r.body));
+    let eResult = yield control_1.await(() => job_1.check(r.body));
     if (eResult.isRight()) {
         let data = eResult.takeRight();
         let db = yield pool_1.checkout('main');

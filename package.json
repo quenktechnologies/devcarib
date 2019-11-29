@@ -34,6 +34,7 @@
     },
     "devDependencies": {
         "@quenk/dagen": "^1.0.0",
+        "@quenk/jhr": "^2.6.13",
         "@quenk/must": "^1.0.3",
         "@quenk/tdc": "^1.0.3",
         "@quenk/wml": "^2.3.2",
@@ -47,6 +48,7 @@
         "@types/morgan": "^1.7.35",
         "@types/node": "^10.2.12",
         "@types/nunjucks": "3.1.1",
+        "@types/qs": "^6.9.0",
         "@types/uuid": "^3.4.6",
         "browserify": "^16.5.0",
         "less": "^3.10.3",

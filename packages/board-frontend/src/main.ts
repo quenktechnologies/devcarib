@@ -3,6 +3,9 @@ import { BoardDashboardView } from './views/board';
 import { Value } from '@quenk/noni/lib/data/json';
 import { Event } from '@quenk/wml-widgets/lib/control';
 import { Job } from '@board/types/lib/job';
+import { createAgent } from '@quenk/jhr/lib/browser';
+
+const agent = createAgent();
 
 export class BoardDashboard {
 
@@ -21,7 +24,12 @@ export class BoardDashboard {
                 this.values.data[e.name] = e.value;
 
             },
-            create: () => { },
+            create: () => {
+
+                agent.post('/api/jobs', this.values.data)
+                    .fork(console.error, console.log);
+
+            },
         }
 
     };

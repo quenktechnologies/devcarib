@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var board_1 = require("./views/board");
+var browser_1 = require("@quenk/jhr/lib/browser");
+var agent = browser_1.createAgent();
 var BoardDashboard = /** @class */ (function () {
     function BoardDashboard(content) {
         var _this = this;
@@ -13,7 +15,10 @@ var BoardDashboard = /** @class */ (function () {
                 change: function (e) {
                     _this.values.data[e.name] = e.value;
                 },
-                create: function () { },
+                create: function () {
+                    agent.post('/api/jobs', _this.values.data)
+                        .fork(console.error, console.log);
+                },
             }
         };
     }
