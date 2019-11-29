@@ -7,7 +7,7 @@ import { checkout } from '@quenk/tendril/lib/app/api/action/pool';
 import { ActionM } from '@quenk/tendril/lib/app/api/action';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
-import { check } from './checks/employer';
+import { check } from '@board/checks/lib/employer';
 import { isRecord } from '@quenk/noni/lib/data/record';
 import { fromCallback } from '@quenk/noni/lib/control/monad/future';
 
