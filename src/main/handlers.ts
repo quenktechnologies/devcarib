@@ -103,12 +103,12 @@ export const authenticate = (r: SessionRequest): ActionM<undefined> =>
 const compare = (pwd: string, hash: string) =>
     fromCallback(cb => bcryptjs.compare(pwd, hash, cb));
 
-export const createJob = (r: SessionRequest): ActionM<undefined> => 
-    doN(<DoFn<undefined, ActionM<undefined>>>function*(){
+export const createJob = (r: Request): ActionM<undefined> =>
+    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
         let eResult = yield await(() => check(r.body));
 
-        if(eResult.isRight()){
+        if (eResult.isRight()) {
 
             let data = eResult.takeRight();
 
@@ -116,13 +116,13 @@ export const createJob = (r: SessionRequest): ActionM<undefined> =>
 
             let collection = db.collection('jobs');
 
-            data.employer = r.session.user;
+            data.employer = (<SessionRequest>r).session.user;
 
             yield await(() => insertOne(collection, data));
 
             return created();
 
-        }else{
+        } else {
 
             return conflict(eResult.takeLeft().explain());
 

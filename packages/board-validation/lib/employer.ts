@@ -8,12 +8,17 @@ import { Employer } from '@board/types/lib/employer';
 /**
  * Validate a JSON value to see if it's an Employer.
  */
-export const validate: Precondition<Value, Employer> = and(isRecord, restrict<any, any, any, Employer>({
+export const validate: Precondition<Value, Employer> =
+    and(isRecord, restrict<any, any, any, Employer>({
 
-    name: isString,
-    website: optional(isString),
-    email: isString,
-    password: isString,
-    description: isString
+        name: isString,
 
-}))
+        website: optional(isString),
+
+        email: isString,
+
+        password: isString,
+
+        description: isString
+
+    }))
