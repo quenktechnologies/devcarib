@@ -6,7 +6,7 @@ const response_1 = require("@quenk/tendril/lib/app/api/action/response");
 const control_1 = require("@quenk/tendril/lib/app/api/action/control");
 const pool_1 = require("@quenk/tendril/lib/app/api/action/pool");
 const monad_1 = require("@quenk/noni/lib/control/monad");
-const employer_1 = require("./checks/employer");
+const employer_1 = require("@board/checks/lib/employer");
 const record_1 = require("@quenk/noni/lib/data/record");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 /**
@@ -59,4 +59,18 @@ exports.authenticate = (r) => monad_1.doN(function* () {
     }
 });
 const compare = (pwd, hash) => future_1.fromCallback(cb => bcryptjs.compare(pwd, hash, cb));
+exports.createJob = (r) => monad_1.doN(function* () {
+    let eResult = yield control_1.await(() => employer_1.check(r.body));
+    if (eResult.isRight()) {
+        let data = eResult.takeRight();
+        let db = yield pool_1.checkout('main');
+        let collection = db.collection('jobs');
+        data.employer = r.session.user;
+        yield control_1.await(() => collection_1.insertOne(collection, data));
+        return response_1.created();
+    }
+    else {
+        return response_1.conflict(eResult.takeLeft().explain());
+    }
+});
 //# sourceMappingURL=handlers.js.map

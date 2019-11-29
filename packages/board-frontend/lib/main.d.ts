@@ -1,18 +1,7 @@
 import { View } from '@quenk/wml';
-import { Value, Object } from '@quenk/noni/lib/data/json';
+import { Value } from '@quenk/noni/lib/data/json';
 import { Event } from '@quenk/wml-widgets/lib/control';
-export interface Job extends Object {
-    id?: string;
-    title?: string;
-    country?: string;
-    city?: string;
-    type?: string;
-    role?: string;
-    industry?: string;
-    technologies?: string;
-    description?: string;
-    link?: string;
-}
+import { Job } from '@board/types/lib/job';
 export declare class BoardDashboard {
     content: HTMLElement;
     constructor(content: HTMLElement);
