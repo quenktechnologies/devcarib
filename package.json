@@ -10,6 +10,9 @@
     "author": "Quenk Technologies Interns 2019 <interns-2019@quenk.com> (http://quenk.com)",
     "license": "Apache-2.0",
     "dependencies": {
+        "@board/checks": "file:packages/board-checks",
+        "@board/types": "file:packages/board-types",
+        "@board/validation": "file:packages/board-validation",
         "@csa/session": "file:packages/csa-session",
         "@quenk/noni": "^1.26.0",
         "@quenk/preconditions": "^5.4.1",

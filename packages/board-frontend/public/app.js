@@ -580,17 +580,12 @@ var ButtonView = /** @class */ (function () {
     function ButtonView(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('button', { wml: { 'id': __context.values.button.wml.id }, 'id': __context.values.button.id, 'type': __context.values.button.type, 'name': __context.values.button.name, 'disabled': __context.values.button.disabled, 'class': __context.values.button.className, 'onclick': __context.values.button.onclick }, __spreadArrays((__context.values.button.content())));
         };
     }
-    ButtonView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     ButtonView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -646,18 +641,12 @@ var ButtonView = /** @class */ (function () {
         return w.render();
     };
     ButtonView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     ButtonView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     ButtonView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -672,7 +661,6 @@ var ButtonView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -688,17 +676,12 @@ var AnchorView = /** @class */ (function () {
     function AnchorView(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('a', { wml: { 'id': __context.values.button.wml.id }, 'id': __context.values.button.id, 'type': __context.values.button.type, 'href': '#', 'name': __context.values.button.name, 'disabled': __context.values.button.disabled, 'class': __context.values.button.className, 'onclick': __context.values.button.onclick }, __spreadArrays((__context.values.button.content())));
         };
     }
-    AnchorView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     AnchorView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -754,18 +737,12 @@ var AnchorView = /** @class */ (function () {
         return w.render();
     };
     AnchorView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     AnchorView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     AnchorView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -780,7 +757,6 @@ var AnchorView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -1137,17 +1113,12 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('span', { wml: { 'id': __context.values.help.wml.id }, 'id': __context.values.help.id, 'class': __context.values.help.className }, __spreadArrays((__context.values.help.text)));
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -1203,18 +1174,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -1229,7 +1194,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -1394,17 +1358,12 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('label', { 'for': __context.values.label.for, 'class': __context.values.label.className }, __spreadArrays((__context.values.label.text)));
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -1460,18 +1419,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -1486,7 +1439,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -1638,7 +1590,6 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
@@ -1649,10 +1600,6 @@ var Main = /** @class */ (function () {
             ]);
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -1708,18 +1655,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -1734,7 +1675,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -1886,7 +1826,6 @@ var Textarea = /** @class */ (function () {
     function Textarea(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
@@ -1895,10 +1834,6 @@ var Textarea = /** @class */ (function () {
             ]);
         };
     }
-    Textarea.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Textarea.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -1954,18 +1889,12 @@ var Textarea = /** @class */ (function () {
         return w.render();
     };
     Textarea.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Textarea.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Textarea.prototype.invalidate = function () {
         var tree = this.tree;
@@ -1980,7 +1909,6 @@ var Textarea = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -1996,17 +1924,12 @@ var Input = /** @class */ (function () {
     function Input(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('input', { wml: { 'id': __context.values.control.wml.id }, 'id': __context.values.id, 'name': __context.values.name, 'type': __context.values.type, 'min': __context.values.min, 'max': __context.values.max, 'placeholder': __context.values.placeholder, 'oninput': __context.values.oninput, 'onkeydown': __context.values.onkeydown, 'autofocus': __context.values.autofocus, 'value': __context.values.value, 'disabled': __context.values.disabled, 'readonly': __context.values.readOnly, 'class': __context.values.className }, []);
         };
     }
-    Input.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Input.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -2062,18 +1985,12 @@ var Input = /** @class */ (function () {
         return w.render();
     };
     Input.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Input.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Input.prototype.invalidate = function () {
         var tree = this.tree;
@@ -2088,7 +2005,6 @@ var Input = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -2179,17 +2095,12 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { 'id': __context.values.root.id, 'class': __context.values.root.className }, __spreadArrays((__context.children)));
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -2245,18 +2156,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -2271,7 +2176,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -2401,7 +2305,6 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
@@ -2410,10 +2313,6 @@ var Main = /** @class */ (function () {
             ]);
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -2469,18 +2368,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -2495,7 +2388,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -2652,17 +2544,12 @@ var GridLayout = /** @class */ (function () {
     function GridLayout(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
-    GridLayout.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     GridLayout.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -2718,18 +2605,12 @@ var GridLayout = /** @class */ (function () {
         return w.render();
     };
     GridLayout.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     GridLayout.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     GridLayout.prototype.invalidate = function () {
         var tree = this.tree;
@@ -2744,7 +2625,6 @@ var GridLayout = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -2760,17 +2640,12 @@ var Row = /** @class */ (function () {
     function Row(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
-    Row.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Row.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -2826,18 +2701,12 @@ var Row = /** @class */ (function () {
         return w.render();
     };
     Row.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Row.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Row.prototype.invalidate = function () {
         var tree = this.tree;
@@ -2852,7 +2721,6 @@ var Row = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -2868,17 +2736,12 @@ var Column = /** @class */ (function () {
     function Column(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
-    Column.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Column.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -2934,18 +2797,12 @@ var Column = /** @class */ (function () {
         return w.render();
     };
     Column.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Column.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Column.prototype.invalidate = function () {
         var tree = this.tree;
@@ -2960,7 +2817,6 @@ var Column = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -3116,17 +2972,12 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -3182,18 +3033,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -3208,7 +3053,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -3402,17 +3246,12 @@ var Panel = /** @class */ (function () {
     function Panel(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    Panel.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Panel.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -3468,18 +3307,12 @@ var Panel = /** @class */ (function () {
         return w.render();
     };
     Panel.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Panel.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Panel.prototype.invalidate = function () {
         var tree = this.tree;
@@ -3494,7 +3327,6 @@ var Panel = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -3510,17 +3342,12 @@ var PanelHeader = /** @class */ (function () {
     function PanelHeader(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    PanelHeader.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     PanelHeader.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -3576,18 +3403,12 @@ var PanelHeader = /** @class */ (function () {
         return w.render();
     };
     PanelHeader.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     PanelHeader.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     PanelHeader.prototype.invalidate = function () {
         var tree = this.tree;
@@ -3602,7 +3423,6 @@ var PanelHeader = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -3618,17 +3438,12 @@ var PanelBody = /** @class */ (function () {
     function PanelBody(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    PanelBody.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     PanelBody.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -3684,18 +3499,12 @@ var PanelBody = /** @class */ (function () {
         return w.render();
     };
     PanelBody.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     PanelBody.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     PanelBody.prototype.invalidate = function () {
         var tree = this.tree;
@@ -3710,7 +3519,6 @@ var PanelBody = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -3726,17 +3534,12 @@ var PanelFooter = /** @class */ (function () {
     function PanelFooter(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    PanelFooter.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     PanelFooter.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -3792,18 +3595,12 @@ var PanelFooter = /** @class */ (function () {
         return w.render();
     };
     PanelFooter.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     PanelFooter.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     PanelFooter.prototype.invalidate = function () {
         var tree = this.tree;
@@ -3818,7 +3615,6 @@ var PanelFooter = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4000,22 +3796,17 @@ var BoardDashboardView = /** @class */ (function () {
     function BoardDashboardView(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', {}, [
                 __this.widget(new action_bar_1.ActionBar({ ww: { 'className': 'board-action-bar' } }, []), { ww: { 'className': 'board-action-bar' } }),
                 __this.widget(new main_1.MainLayout({ wml: { 'id': __context.values.main.id } }, [
-                    __this.registerView((new job_form_1.JobFormView(__context))).render()
+                    (new job_form_1.JobFormView(__context)).render()
                 ]), { wml: { 'id': __context.values.main.id } })
             ]);
         };
     }
-    BoardDashboardView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     BoardDashboardView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4071,18 +3862,12 @@ var BoardDashboardView = /** @class */ (function () {
         return w.render();
     };
     BoardDashboardView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     BoardDashboardView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     BoardDashboardView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4097,7 +3882,6 @@ var BoardDashboardView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4145,7 +3929,6 @@ var JobFormView = /** @class */ (function () {
     function JobFormView(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
@@ -4175,10 +3958,6 @@ var JobFormView = /** @class */ (function () {
             ]), {});
         };
     }
-    JobFormView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     JobFormView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4234,18 +4013,12 @@ var JobFormView = /** @class */ (function () {
         return w.render();
     };
     JobFormView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     JobFormView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     JobFormView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4260,7 +4033,6 @@ var JobFormView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
