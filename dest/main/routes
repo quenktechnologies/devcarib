@@ -1,8 +1,22 @@
-%import showForm,showLoginForm,createEmployer,showDashboard,createJob from "./handlers"
+%import showIndex,
+        showRegistrationForm,
+        showLoginForm,
+        showDashboard,
+        authenticate,
+        logout,
+        createEmployer,
+        createJob 
+from "./handlers"
 
-GET / showForm
+GET / showIndex
+
+GET /register showRegistrationForm
 
 GET /login showLoginForm
+
+POST /login authenticate
+
+GET /logout logout
 
 GET /dashboard showDashboard
 

@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as tendrilSessionMongodb from '@quenk/tendril-session-mongodb'; 
 import * as middleware from '@csa/session/lib/middleware'; 
 import * as events from '../app/events'; 
-import { showForm,showLoginForm,createEmployer,showDashboard,createJob } from './handlers';
+import { showIndex,showRegistrationForm,showLoginForm,showDashboard,authenticate,logout,createEmployer,createJob } from './handlers';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 import {Module} from '@quenk/tendril/lib/app/module';
 import {App as App} from '@quenk/tendril/lib/app';
@@ -45,8 +45,11 @@ decTTL: { provider: middleware.decrementTTL } },
 'started': events.started},
 'routes': (_m:Module) => {
 
-return [{ method: 'get',path: '/',filters: [showForm  ]}
+return [{ method: 'get',path: '/',filters: [showIndex  ]}
+,{ method: 'get',path: '/register',filters: [showRegistrationForm  ]}
 ,{ method: 'get',path: '/login',filters: [showLoginForm  ]}
+,{ method: 'post',path: '/login',filters: [authenticate  ]}
+,{ method: 'get',path: '/logout',filters: [logout  ]}
 ,{ method: 'get',path: '/dashboard',filters: [showDashboard  ]}
 ,{ method: 'post',path: '/',filters: [createEmployer  ]}
 ,{ method: 'post',path: '/api/jobs',filters: [createJob  ]}

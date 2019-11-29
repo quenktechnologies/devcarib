@@ -18,9 +18,28 @@ interface SessionRequest extends Request {
 }
 
 /**
- * showForm displays the employer regisration form.
+ * showIndex of the site.
  */
-export const showForm = (_: Request): ActionM<undefined> =>
+export const showIndex = (r: Request): ActionM<undefined> => {
+
+    let req = <SessionRequest>r;
+    console.error(req.session);
+    if (req.session.user == null) {
+
+        return redirect('/login', 302);
+
+    } else {
+
+        return redirect('/dashboard', 302);
+
+    }
+
+}
+
+/**
+ * showRegistrationForm displays the employer regisration form.
+ */
+export const showRegistrationForm = (_: Request): ActionM<undefined> =>
     show('employer/registration/form.html', {});
 
 
@@ -51,7 +70,7 @@ export const createEmployer = (r: Request): ActionM<undefined> =>
 
             yield await(() => insertOne(collection, data));
 
-            return redirect('/dashboard', 302);
+            return redirect('/login', 302);
 
         } else {
 
@@ -63,7 +82,7 @@ export const createEmployer = (r: Request): ActionM<undefined> =>
 
     })
 
-export const authenticate = (r: SessionRequest): ActionM<undefined> =>
+export const authenticate = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
         if (isRecord(r.body)) {
@@ -88,9 +107,15 @@ export const authenticate = (r: SessionRequest): ActionM<undefined> =>
             let didMatch = yield await(() => compare(password, user.password));
 
             if (didMatch) {
-                r.session = { user: user.id };
+
+                (<SessionRequest>r).session.user = user.id;
+
+                return redirect('/dashboard', 302);
+
             } else {
+
                 return redirect('/login', 302);
+
             }
 
         } else {
@@ -102,6 +127,19 @@ export const authenticate = (r: SessionRequest): ActionM<undefined> =>
 
 const compare = (pwd: string, hash: string) =>
     fromCallback(cb => bcryptjs.compare(pwd, hash, cb));
+
+/**
+ * logout the user from the system.
+ *
+ * Clears the session property.
+ */
+export const logout = (r: Request): ActionM<undefined> => {
+
+    (<SessionRequest>r).session = {};
+
+    return redirect('/', 302);
+
+}
 
 export const createJob = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
