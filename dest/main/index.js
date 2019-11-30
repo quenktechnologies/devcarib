@@ -42,11 +42,11 @@ exports.template = (_app) => ({ 'create':
         'routes': (_m) => {
             return [{ method: 'get', path: '/', filters: [handlers_1.showIndex] },
                 { method: 'get', path: '/register', filters: [handlers_1.showRegistrationForm] },
+                { method: 'post', path: '/register', filters: [handlers_1.createEmployer] },
                 { method: 'get', path: '/login', filters: [handlers_1.showLoginForm] },
-                { method: 'post', path: '/login', filters: [handlers_1.authenticate] },
+                { method: 'post', path: '/login', filters: [handlers_1.login] },
                 { method: 'get', path: '/logout', filters: [handlers_1.logout] },
                 { method: 'get', path: '/dashboard', filters: [handlers_1.showDashboard] },
-                { method: 'post', path: '/', filters: [handlers_1.createEmployer] },
                 { method: 'post', path: '/api/jobs', filters: [handlers_1.createJob] }
             ];
         } } });

@@ -113,7 +113,7 @@ var Agent = /** @class */ (function () {
 }());
 exports.Agent = Agent;
 
-},{"../request":9,"../util":13,"@quenk/noni/lib/control/monad/future":20,"@quenk/noni/lib/data/record":26,"@quenk/noni/lib/data/string":28}],2:[function(require,module,exports){
+},{"../request":9,"../util":13,"@quenk/noni/lib/control/monad/future":15,"@quenk/noni/lib/data/record":21,"@quenk/noni/lib/data/string":23}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var error_1 = require("@quenk/noni/lib/control/error");
@@ -139,7 +139,7 @@ var JSONParser = /** @class */ (function () {
 }());
 exports.JSONParser = JSONParser;
 
-},{"@quenk/noni/lib/control/error":19}],3:[function(require,module,exports){
+},{"@quenk/noni/lib/control/error":14}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var util = require("../../util");
@@ -164,7 +164,7 @@ var JSONTransform = /** @class */ (function () {
 }());
 exports.JSONTransform = JSONTransform;
 
-},{"../../util":13,"@quenk/noni/lib/control/error":19}],4:[function(require,module,exports){
+},{"../../util":13,"@quenk/noni/lib/control/error":14}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var future_1 = require("@quenk/noni/lib/control/monad/future");
@@ -233,7 +233,7 @@ var XHRTransport = /** @class */ (function () {
 }());
 exports.XHRTransport = XHRTransport;
 
-},{"../../header":7,"../../headers":8,"../../request/method":10,"../../response":11,"@quenk/noni/lib/control/monad/future":20}],5:[function(require,module,exports){
+},{"../../header":7,"../../headers":8,"../../request/method":10,"../../response":11,"@quenk/noni/lib/control/monad/future":15}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var memory_1 = require("./cookie/container/memory");
@@ -934,817 +934,7 @@ exports.urlFromString = function (url, params) {
     return url + "?" + qs.stringify(params);
 };
 
-},{"qs":15}],14:[function(require,module,exports){
-'use strict';
-
-var replace = String.prototype.replace;
-var percentTwenties = /%20/g;
-
-var util = require('./utils');
-
-var Format = {
-    RFC1738: 'RFC1738',
-    RFC3986: 'RFC3986'
-};
-
-module.exports = util.assign(
-    {
-        'default': Format.RFC3986,
-        formatters: {
-            RFC1738: function (value) {
-                return replace.call(value, percentTwenties, '+');
-            },
-            RFC3986: function (value) {
-                return String(value);
-            }
-        }
-    },
-    Format
-);
-
-},{"./utils":18}],15:[function(require,module,exports){
-'use strict';
-
-var stringify = require('./stringify');
-var parse = require('./parse');
-var formats = require('./formats');
-
-module.exports = {
-    formats: formats,
-    parse: parse,
-    stringify: stringify
-};
-
-},{"./formats":14,"./parse":16,"./stringify":17}],16:[function(require,module,exports){
-'use strict';
-
-var utils = require('./utils');
-
-var has = Object.prototype.hasOwnProperty;
-var isArray = Array.isArray;
-
-var defaults = {
-    allowDots: false,
-    allowPrototypes: false,
-    arrayLimit: 20,
-    charset: 'utf-8',
-    charsetSentinel: false,
-    comma: false,
-    decoder: utils.decode,
-    delimiter: '&',
-    depth: 5,
-    ignoreQueryPrefix: false,
-    interpretNumericEntities: false,
-    parameterLimit: 1000,
-    parseArrays: true,
-    plainObjects: false,
-    strictNullHandling: false
-};
-
-var interpretNumericEntities = function (str) {
-    return str.replace(/&#(\d+);/g, function ($0, numberStr) {
-        return String.fromCharCode(parseInt(numberStr, 10));
-    });
-};
-
-// This is what browsers will submit when the ✓ character occurs in an
-// application/x-www-form-urlencoded body and the encoding of the page containing
-// the form is iso-8859-1, or when the submitted form has an accept-charset
-// attribute of iso-8859-1. Presumably also with other charsets that do not contain
-// the ✓ character, such as us-ascii.
-var isoSentinel = 'utf8=%26%2310003%3B'; // encodeURIComponent('&#10003;')
-
-// These are the percent-encoded utf-8 octets representing a checkmark, indicating that the request actually is utf-8 encoded.
-var charsetSentinel = 'utf8=%E2%9C%93'; // encodeURIComponent('✓')
-
-var parseValues = function parseQueryStringValues(str, options) {
-    var obj = {};
-    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
-    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
-    var parts = cleanStr.split(options.delimiter, limit);
-    var skipIndex = -1; // Keep track of where the utf8 sentinel was found
-    var i;
-
-    var charset = options.charset;
-    if (options.charsetSentinel) {
-        for (i = 0; i < parts.length; ++i) {
-            if (parts[i].indexOf('utf8=') === 0) {
-                if (parts[i] === charsetSentinel) {
-                    charset = 'utf-8';
-                } else if (parts[i] === isoSentinel) {
-                    charset = 'iso-8859-1';
-                }
-                skipIndex = i;
-                i = parts.length; // The eslint settings do not allow break;
-            }
-        }
-    }
-
-    for (i = 0; i < parts.length; ++i) {
-        if (i === skipIndex) {
-            continue;
-        }
-        var part = parts[i];
-
-        var bracketEqualsPos = part.indexOf(']=');
-        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
-
-        var key, val;
-        if (pos === -1) {
-            key = options.decoder(part, defaults.decoder, charset, 'key');
-            val = options.strictNullHandling ? null : '';
-        } else {
-            key = options.decoder(part.slice(0, pos), defaults.decoder, charset, 'key');
-            val = options.decoder(part.slice(pos + 1), defaults.decoder, charset, 'value');
-        }
-
-        if (val && options.interpretNumericEntities && charset === 'iso-8859-1') {
-            val = interpretNumericEntities(val);
-        }
-
-        if (val && typeof val === 'string' && options.comma && val.indexOf(',') > -1) {
-            val = val.split(',');
-        }
-
-        if (part.indexOf('[]=') > -1) {
-            val = isArray(val) ? [val] : val;
-        }
-
-        if (has.call(obj, key)) {
-            obj[key] = utils.combine(obj[key], val);
-        } else {
-            obj[key] = val;
-        }
-    }
-
-    return obj;
-};
-
-var parseObject = function (chain, val, options) {
-    var leaf = val;
-
-    for (var i = chain.length - 1; i >= 0; --i) {
-        var obj;
-        var root = chain[i];
-
-        if (root === '[]' && options.parseArrays) {
-            obj = [].concat(leaf);
-        } else {
-            obj = options.plainObjects ? Object.create(null) : {};
-            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
-            var index = parseInt(cleanRoot, 10);
-            if (!options.parseArrays && cleanRoot === '') {
-                obj = { 0: leaf };
-            } else if (
-                !isNaN(index)
-                && root !== cleanRoot
-                && String(index) === cleanRoot
-                && index >= 0
-                && (options.parseArrays && index <= options.arrayLimit)
-            ) {
-                obj = [];
-                obj[index] = leaf;
-            } else {
-                obj[cleanRoot] = leaf;
-            }
-        }
-
-        leaf = obj;
-    }
-
-    return leaf;
-};
-
-var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
-    if (!givenKey) {
-        return;
-    }
-
-    // Transform dot notation to bracket notation
-    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
-
-    // The regex chunks
-
-    var brackets = /(\[[^[\]]*])/;
-    var child = /(\[[^[\]]*])/g;
-
-    // Get the parent
-
-    var segment = options.depth > 0 && brackets.exec(key);
-    var parent = segment ? key.slice(0, segment.index) : key;
-
-    // Stash the parent if it exists
-
-    var keys = [];
-    if (parent) {
-        // If we aren't using plain objects, optionally prefix keys that would overwrite object prototype properties
-        if (!options.plainObjects && has.call(Object.prototype, parent)) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-
-        keys.push(parent);
-    }
-
-    // Loop through children appending to the array until we hit depth
-
-    var i = 0;
-    while (options.depth > 0 && (segment = child.exec(key)) !== null && i < options.depth) {
-        i += 1;
-        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-        keys.push(segment[1]);
-    }
-
-    // If there's a remainder, just add whatever is left
-
-    if (segment) {
-        keys.push('[' + key.slice(segment.index) + ']');
-    }
-
-    return parseObject(keys, val, options);
-};
-
-var normalizeParseOptions = function normalizeParseOptions(opts) {
-    if (!opts) {
-        return defaults;
-    }
-
-    if (opts.decoder !== null && opts.decoder !== undefined && typeof opts.decoder !== 'function') {
-        throw new TypeError('Decoder has to be a function.');
-    }
-
-    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
-        throw new Error('The charset option must be either utf-8, iso-8859-1, or undefined');
-    }
-    var charset = typeof opts.charset === 'undefined' ? defaults.charset : opts.charset;
-
-    return {
-        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
-        allowPrototypes: typeof opts.allowPrototypes === 'boolean' ? opts.allowPrototypes : defaults.allowPrototypes,
-        arrayLimit: typeof opts.arrayLimit === 'number' ? opts.arrayLimit : defaults.arrayLimit,
-        charset: charset,
-        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
-        comma: typeof opts.comma === 'boolean' ? opts.comma : defaults.comma,
-        decoder: typeof opts.decoder === 'function' ? opts.decoder : defaults.decoder,
-        delimiter: typeof opts.delimiter === 'string' || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults.delimiter,
-        // eslint-disable-next-line no-implicit-coercion, no-extra-parens
-        depth: (typeof opts.depth === 'number' || opts.depth === false) ? +opts.depth : defaults.depth,
-        ignoreQueryPrefix: opts.ignoreQueryPrefix === true,
-        interpretNumericEntities: typeof opts.interpretNumericEntities === 'boolean' ? opts.interpretNumericEntities : defaults.interpretNumericEntities,
-        parameterLimit: typeof opts.parameterLimit === 'number' ? opts.parameterLimit : defaults.parameterLimit,
-        parseArrays: opts.parseArrays !== false,
-        plainObjects: typeof opts.plainObjects === 'boolean' ? opts.plainObjects : defaults.plainObjects,
-        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
-    };
-};
-
-module.exports = function (str, opts) {
-    var options = normalizeParseOptions(opts);
-
-    if (str === '' || str === null || typeof str === 'undefined') {
-        return options.plainObjects ? Object.create(null) : {};
-    }
-
-    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
-    var obj = options.plainObjects ? Object.create(null) : {};
-
-    // Iterate over the keys and setup the new object
-
-    var keys = Object.keys(tempObj);
-    for (var i = 0; i < keys.length; ++i) {
-        var key = keys[i];
-        var newObj = parseKeys(key, tempObj[key], options);
-        obj = utils.merge(obj, newObj, options);
-    }
-
-    return utils.compact(obj);
-};
-
-},{"./utils":18}],17:[function(require,module,exports){
-'use strict';
-
-var utils = require('./utils');
-var formats = require('./formats');
-var has = Object.prototype.hasOwnProperty;
-
-var arrayPrefixGenerators = {
-    brackets: function brackets(prefix) {
-        return prefix + '[]';
-    },
-    comma: 'comma',
-    indices: function indices(prefix, key) {
-        return prefix + '[' + key + ']';
-    },
-    repeat: function repeat(prefix) {
-        return prefix;
-    }
-};
-
-var isArray = Array.isArray;
-var push = Array.prototype.push;
-var pushToArray = function (arr, valueOrArray) {
-    push.apply(arr, isArray(valueOrArray) ? valueOrArray : [valueOrArray]);
-};
-
-var toISO = Date.prototype.toISOString;
-
-var defaultFormat = formats['default'];
-var defaults = {
-    addQueryPrefix: false,
-    allowDots: false,
-    charset: 'utf-8',
-    charsetSentinel: false,
-    delimiter: '&',
-    encode: true,
-    encoder: utils.encode,
-    encodeValuesOnly: false,
-    format: defaultFormat,
-    formatter: formats.formatters[defaultFormat],
-    // deprecated
-    indices: false,
-    serializeDate: function serializeDate(date) {
-        return toISO.call(date);
-    },
-    skipNulls: false,
-    strictNullHandling: false
-};
-
-var isNonNullishPrimitive = function isNonNullishPrimitive(v) {
-    return typeof v === 'string'
-        || typeof v === 'number'
-        || typeof v === 'boolean'
-        || typeof v === 'symbol'
-        || typeof v === 'bigint';
-};
-
-var stringify = function stringify(
-    object,
-    prefix,
-    generateArrayPrefix,
-    strictNullHandling,
-    skipNulls,
-    encoder,
-    filter,
-    sort,
-    allowDots,
-    serializeDate,
-    formatter,
-    encodeValuesOnly,
-    charset
-) {
-    var obj = object;
-    if (typeof filter === 'function') {
-        obj = filter(prefix, obj);
-    } else if (obj instanceof Date) {
-        obj = serializeDate(obj);
-    } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
-        obj = obj.join(',');
-    }
-
-    if (obj === null) {
-        if (strictNullHandling) {
-            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder, charset, 'key') : prefix;
-        }
-
-        obj = '';
-    }
-
-    if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
-        if (encoder) {
-            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key');
-            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value'))];
-        }
-        return [formatter(prefix) + '=' + formatter(String(obj))];
-    }
-
-    var values = [];
-
-    if (typeof obj === 'undefined') {
-        return values;
-    }
-
-    var objKeys;
-    if (isArray(filter)) {
-        objKeys = filter;
-    } else {
-        var keys = Object.keys(obj);
-        objKeys = sort ? keys.sort(sort) : keys;
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        if (isArray(obj)) {
-            pushToArray(values, stringify(
-                obj[key],
-                typeof generateArrayPrefix === 'function' ? generateArrayPrefix(prefix, key) : prefix,
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly,
-                charset
-            ));
-        } else {
-            pushToArray(values, stringify(
-                obj[key],
-                prefix + (allowDots ? '.' + key : '[' + key + ']'),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly,
-                charset
-            ));
-        }
-    }
-
-    return values;
-};
-
-var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
-    if (!opts) {
-        return defaults;
-    }
-
-    if (opts.encoder !== null && opts.encoder !== undefined && typeof opts.encoder !== 'function') {
-        throw new TypeError('Encoder has to be a function.');
-    }
-
-    var charset = opts.charset || defaults.charset;
-    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
-        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
-    }
-
-    var format = formats['default'];
-    if (typeof opts.format !== 'undefined') {
-        if (!has.call(formats.formatters, opts.format)) {
-            throw new TypeError('Unknown format option provided.');
-        }
-        format = opts.format;
-    }
-    var formatter = formats.formatters[format];
-
-    var filter = defaults.filter;
-    if (typeof opts.filter === 'function' || isArray(opts.filter)) {
-        filter = opts.filter;
-    }
-
-    return {
-        addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
-        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
-        charset: charset,
-        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
-        delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
-        encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
-        encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
-        encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
-        filter: filter,
-        formatter: formatter,
-        serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults.serializeDate,
-        skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults.skipNulls,
-        sort: typeof opts.sort === 'function' ? opts.sort : null,
-        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
-    };
-};
-
-module.exports = function (object, opts) {
-    var obj = object;
-    var options = normalizeStringifyOptions(opts);
-
-    var objKeys;
-    var filter;
-
-    if (typeof options.filter === 'function') {
-        filter = options.filter;
-        obj = filter('', obj);
-    } else if (isArray(options.filter)) {
-        filter = options.filter;
-        objKeys = filter;
-    }
-
-    var keys = [];
-
-    if (typeof obj !== 'object' || obj === null) {
-        return '';
-    }
-
-    var arrayFormat;
-    if (opts && opts.arrayFormat in arrayPrefixGenerators) {
-        arrayFormat = opts.arrayFormat;
-    } else if (opts && 'indices' in opts) {
-        arrayFormat = opts.indices ? 'indices' : 'repeat';
-    } else {
-        arrayFormat = 'indices';
-    }
-
-    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
-
-    if (!objKeys) {
-        objKeys = Object.keys(obj);
-    }
-
-    if (options.sort) {
-        objKeys.sort(options.sort);
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (options.skipNulls && obj[key] === null) {
-            continue;
-        }
-        pushToArray(keys, stringify(
-            obj[key],
-            key,
-            generateArrayPrefix,
-            options.strictNullHandling,
-            options.skipNulls,
-            options.encode ? options.encoder : null,
-            options.filter,
-            options.sort,
-            options.allowDots,
-            options.serializeDate,
-            options.formatter,
-            options.encodeValuesOnly,
-            options.charset
-        ));
-    }
-
-    var joined = keys.join(options.delimiter);
-    var prefix = options.addQueryPrefix === true ? '?' : '';
-
-    if (options.charsetSentinel) {
-        if (options.charset === 'iso-8859-1') {
-            // encodeURIComponent('&#10003;'), the "numeric entity" representation of a checkmark
-            prefix += 'utf8=%26%2310003%3B&';
-        } else {
-            // encodeURIComponent('✓')
-            prefix += 'utf8=%E2%9C%93&';
-        }
-    }
-
-    return joined.length > 0 ? prefix + joined : '';
-};
-
-},{"./formats":14,"./utils":18}],18:[function(require,module,exports){
-'use strict';
-
-var has = Object.prototype.hasOwnProperty;
-var isArray = Array.isArray;
-
-var hexTable = (function () {
-    var array = [];
-    for (var i = 0; i < 256; ++i) {
-        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
-    }
-
-    return array;
-}());
-
-var compactQueue = function compactQueue(queue) {
-    while (queue.length > 1) {
-        var item = queue.pop();
-        var obj = item.obj[item.prop];
-
-        if (isArray(obj)) {
-            var compacted = [];
-
-            for (var j = 0; j < obj.length; ++j) {
-                if (typeof obj[j] !== 'undefined') {
-                    compacted.push(obj[j]);
-                }
-            }
-
-            item.obj[item.prop] = compacted;
-        }
-    }
-};
-
-var arrayToObject = function arrayToObject(source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
-    for (var i = 0; i < source.length; ++i) {
-        if (typeof source[i] !== 'undefined') {
-            obj[i] = source[i];
-        }
-    }
-
-    return obj;
-};
-
-var merge = function merge(target, source, options) {
-    /* eslint no-param-reassign: 0 */
-    if (!source) {
-        return target;
-    }
-
-    if (typeof source !== 'object') {
-        if (isArray(target)) {
-            target.push(source);
-        } else if (target && typeof target === 'object') {
-            if ((options && (options.plainObjects || options.allowPrototypes)) || !has.call(Object.prototype, source)) {
-                target[source] = true;
-            }
-        } else {
-            return [target, source];
-        }
-
-        return target;
-    }
-
-    if (!target || typeof target !== 'object') {
-        return [target].concat(source);
-    }
-
-    var mergeTarget = target;
-    if (isArray(target) && !isArray(source)) {
-        mergeTarget = arrayToObject(target, options);
-    }
-
-    if (isArray(target) && isArray(source)) {
-        source.forEach(function (item, i) {
-            if (has.call(target, i)) {
-                var targetItem = target[i];
-                if (targetItem && typeof targetItem === 'object' && item && typeof item === 'object') {
-                    target[i] = merge(targetItem, item, options);
-                } else {
-                    target.push(item);
-                }
-            } else {
-                target[i] = item;
-            }
-        });
-        return target;
-    }
-
-    return Object.keys(source).reduce(function (acc, key) {
-        var value = source[key];
-
-        if (has.call(acc, key)) {
-            acc[key] = merge(acc[key], value, options);
-        } else {
-            acc[key] = value;
-        }
-        return acc;
-    }, mergeTarget);
-};
-
-var assign = function assignSingleSource(target, source) {
-    return Object.keys(source).reduce(function (acc, key) {
-        acc[key] = source[key];
-        return acc;
-    }, target);
-};
-
-var decode = function (str, decoder, charset) {
-    var strWithoutPlus = str.replace(/\+/g, ' ');
-    if (charset === 'iso-8859-1') {
-        // unescape never throws, no try...catch needed:
-        return strWithoutPlus.replace(/%[0-9a-f]{2}/gi, unescape);
-    }
-    // utf-8
-    try {
-        return decodeURIComponent(strWithoutPlus);
-    } catch (e) {
-        return strWithoutPlus;
-    }
-};
-
-var encode = function encode(str, defaultEncoder, charset) {
-    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-    // It has been adapted here for stricter adherence to RFC 3986
-    if (str.length === 0) {
-        return str;
-    }
-
-    var string = str;
-    if (typeof str === 'symbol') {
-        string = Symbol.prototype.toString.call(str);
-    } else if (typeof str !== 'string') {
-        string = String(str);
-    }
-
-    if (charset === 'iso-8859-1') {
-        return escape(string).replace(/%u[0-9a-f]{4}/gi, function ($0) {
-            return '%26%23' + parseInt($0.slice(2), 16) + '%3B';
-        });
-    }
-
-    var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
-
-        if (
-            c === 0x2D // -
-            || c === 0x2E // .
-            || c === 0x5F // _
-            || c === 0x7E // ~
-            || (c >= 0x30 && c <= 0x39) // 0-9
-            || (c >= 0x41 && c <= 0x5A) // a-z
-            || (c >= 0x61 && c <= 0x7A) // A-Z
-        ) {
-            out += string.charAt(i);
-            continue;
-        }
-
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        out += hexTable[0xF0 | (c >> 18)]
-            + hexTable[0x80 | ((c >> 12) & 0x3F)]
-            + hexTable[0x80 | ((c >> 6) & 0x3F)]
-            + hexTable[0x80 | (c & 0x3F)];
-    }
-
-    return out;
-};
-
-var compact = function compact(value) {
-    var queue = [{ obj: { o: value }, prop: 'o' }];
-    var refs = [];
-
-    for (var i = 0; i < queue.length; ++i) {
-        var item = queue[i];
-        var obj = item.obj[item.prop];
-
-        var keys = Object.keys(obj);
-        for (var j = 0; j < keys.length; ++j) {
-            var key = keys[j];
-            var val = obj[key];
-            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
-                queue.push({ obj: obj, prop: key });
-                refs.push(val);
-            }
-        }
-    }
-
-    compactQueue(queue);
-
-    return value;
-};
-
-var isRegExp = function isRegExp(obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-var isBuffer = function isBuffer(obj) {
-    if (!obj || typeof obj !== 'object') {
-        return false;
-    }
-
-    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
-};
-
-var combine = function combine(a, b) {
-    return [].concat(a, b);
-};
-
-module.exports = {
-    arrayToObject: arrayToObject,
-    assign: assign,
-    combine: combine,
-    compact: compact,
-    decode: decode,
-    encode: encode,
-    isBuffer: isBuffer,
-    isRegExp: isRegExp,
-    merge: merge
-};
-
-},{}],19:[function(require,module,exports){
+},{"qs":26}],14:[function(require,module,exports){
 "use strict";
 /**
  * This module provides functions and types to make dealing with ES errors
@@ -1785,7 +975,7 @@ exports.attempt = function (f) {
     }
 };
 
-},{"../data/either":23}],20:[function(require,module,exports){
+},{"../data/either":18}],15:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -2299,7 +1489,7 @@ exports.liftP = function (f) { return new Run(function (s) {
     return function_1.noop;
 }); };
 
-},{"../../data/function":24,"../error":19,"../timer":21}],21:[function(require,module,exports){
+},{"../../data/function":19,"../error":14,"../timer":16}],16:[function(require,module,exports){
 (function (process){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -2349,7 +1539,7 @@ exports.throttle = function (f, duration) {
 };
 
 }).call(this,require('_process'))
-},{"_process":62}],22:[function(require,module,exports){
+},{"_process":63}],17:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -2484,7 +1674,7 @@ exports.combine = function (list) {
     return list.reduce(function (p, c) { return p.concat(c); }, []);
 };
 
-},{"../../math":29,"../record":26}],23:[function(require,module,exports){
+},{"../../math":24,"../record":21}],18:[function(require,module,exports){
 "use strict";
 /**
  * Either represents a value that may be one of two types.
@@ -2679,7 +1869,7 @@ exports.either = function (f) { return function (g) { return function (e) {
     return (e instanceof Right) ? g(e.takeRight()) : f(e.takeLeft());
 }; }; };
 
-},{"./maybe":25}],24:[function(require,module,exports){
+},{"./maybe":20}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2738,7 +1928,7 @@ exports.curry5 = function (f) {
  */
 exports.noop = function () { };
 
-},{}],25:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2971,7 +2161,7 @@ exports.fromNaN = function (n) {
     return isNaN(n) ? new Nothing() : new Just(n);
 };
 
-},{}],26:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3191,7 +2381,7 @@ var _clone = function (a) {
         return a;
 };
 
-},{"../array":22}],27:[function(require,module,exports){
+},{"../array":17}],22:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3495,7 +2685,7 @@ exports.project = function (spec, rec) {
     });
 };
 
-},{"../maybe":25,"./":26}],28:[function(require,module,exports){
+},{"../maybe":20,"./":21}],23:[function(require,module,exports){
 "use strict";
 /**
  *  Common functions used to manipulate strings.
@@ -3591,7 +2781,7 @@ exports.interpolate = function (str, data, opts) {
     });
 };
 
-},{"./record":26,"./record/path":27}],29:[function(require,module,exports){
+},{"./record":21,"./record/path":22}],24:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3599,7 +2789,819 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 exports.isMultipleOf = function (x, y) { return ((y % x) === 0); };
 
+},{}],25:[function(require,module,exports){
+'use strict';
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+var util = require('./utils');
+
+var Format = {
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+module.exports = util.assign(
+    {
+        'default': Format.RFC3986,
+        formatters: {
+            RFC1738: function (value) {
+                return replace.call(value, percentTwenties, '+');
+            },
+            RFC3986: function (value) {
+                return String(value);
+            }
+        }
+    },
+    Format
+);
+
+},{"./utils":29}],26:[function(require,module,exports){
+'use strict';
+
+var stringify = require('./stringify');
+var parse = require('./parse');
+var formats = require('./formats');
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+},{"./formats":25,"./parse":27,"./stringify":28}],27:[function(require,module,exports){
+'use strict';
+
+var utils = require('./utils');
+
+var has = Object.prototype.hasOwnProperty;
+var isArray = Array.isArray;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    comma: false,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    ignoreQueryPrefix: false,
+    interpretNumericEntities: false,
+    parameterLimit: 1000,
+    parseArrays: true,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var interpretNumericEntities = function (str) {
+    return str.replace(/&#(\d+);/g, function ($0, numberStr) {
+        return String.fromCharCode(parseInt(numberStr, 10));
+    });
+};
+
+// This is what browsers will submit when the ✓ character occurs in an
+// application/x-www-form-urlencoded body and the encoding of the page containing
+// the form is iso-8859-1, or when the submitted form has an accept-charset
+// attribute of iso-8859-1. Presumably also with other charsets that do not contain
+// the ✓ character, such as us-ascii.
+var isoSentinel = 'utf8=%26%2310003%3B'; // encodeURIComponent('&#10003;')
+
+// These are the percent-encoded utf-8 octets representing a checkmark, indicating that the request actually is utf-8 encoded.
+var charsetSentinel = 'utf8=%E2%9C%93'; // encodeURIComponent('✓')
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+    var skipIndex = -1; // Keep track of where the utf8 sentinel was found
+    var i;
+
+    var charset = options.charset;
+    if (options.charsetSentinel) {
+        for (i = 0; i < parts.length; ++i) {
+            if (parts[i].indexOf('utf8=') === 0) {
+                if (parts[i] === charsetSentinel) {
+                    charset = 'utf-8';
+                } else if (parts[i] === isoSentinel) {
+                    charset = 'iso-8859-1';
+                }
+                skipIndex = i;
+                i = parts.length; // The eslint settings do not allow break;
+            }
+        }
+    }
+
+    for (i = 0; i < parts.length; ++i) {
+        if (i === skipIndex) {
+            continue;
+        }
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder, charset, 'key');
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder, charset, 'key');
+            val = options.decoder(part.slice(pos + 1), defaults.decoder, charset, 'value');
+        }
+
+        if (val && options.interpretNumericEntities && charset === 'iso-8859-1') {
+            val = interpretNumericEntities(val);
+        }
+
+        if (val && typeof val === 'string' && options.comma && val.indexOf(',') > -1) {
+            val = val.split(',');
+        }
+
+        if (part.indexOf('[]=') > -1) {
+            val = isArray(val) ? [val] : val;
+        }
+
+        if (has.call(obj, key)) {
+            obj[key] = utils.combine(obj[key], val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options) {
+    var leaf = val;
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]' && options.parseArrays) {
+            obj = [].concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (!options.parseArrays && cleanRoot === '') {
+                obj = { 0: leaf };
+            } else if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj;
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = options.depth > 0 && brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while (options.depth > 0 && (segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options);
+};
+
+var normalizeParseOptions = function normalizeParseOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.decoder !== null && opts.decoder !== undefined && typeof opts.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new Error('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+    var charset = typeof opts.charset === 'undefined' ? defaults.charset : opts.charset;
+
+    return {
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        allowPrototypes: typeof opts.allowPrototypes === 'boolean' ? opts.allowPrototypes : defaults.allowPrototypes,
+        arrayLimit: typeof opts.arrayLimit === 'number' ? opts.arrayLimit : defaults.arrayLimit,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        comma: typeof opts.comma === 'boolean' ? opts.comma : defaults.comma,
+        decoder: typeof opts.decoder === 'function' ? opts.decoder : defaults.decoder,
+        delimiter: typeof opts.delimiter === 'string' || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults.delimiter,
+        // eslint-disable-next-line no-implicit-coercion, no-extra-parens
+        depth: (typeof opts.depth === 'number' || opts.depth === false) ? +opts.depth : defaults.depth,
+        ignoreQueryPrefix: opts.ignoreQueryPrefix === true,
+        interpretNumericEntities: typeof opts.interpretNumericEntities === 'boolean' ? opts.interpretNumericEntities : defaults.interpretNumericEntities,
+        parameterLimit: typeof opts.parameterLimit === 'number' ? opts.parameterLimit : defaults.parameterLimit,
+        parseArrays: opts.parseArrays !== false,
+        plainObjects: typeof opts.plainObjects === 'boolean' ? opts.plainObjects : defaults.plainObjects,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (str, opts) {
+    var options = normalizeParseOptions(opts);
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options);
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+},{"./utils":29}],28:[function(require,module,exports){
+'use strict';
+
+var utils = require('./utils');
+var formats = require('./formats');
+var has = Object.prototype.hasOwnProperty;
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) {
+        return prefix + '[]';
+    },
+    comma: 'comma',
+    indices: function indices(prefix, key) {
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) {
+        return prefix;
+    }
+};
+
+var isArray = Array.isArray;
+var push = Array.prototype.push;
+var pushToArray = function (arr, valueOrArray) {
+    push.apply(arr, isArray(valueOrArray) ? valueOrArray : [valueOrArray]);
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaultFormat = formats['default'];
+var defaults = {
+    addQueryPrefix: false,
+    allowDots: false,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    format: defaultFormat,
+    formatter: formats.formatters[defaultFormat],
+    // deprecated
+    indices: false,
+    serializeDate: function serializeDate(date) {
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var isNonNullishPrimitive = function isNonNullishPrimitive(v) {
+    return typeof v === 'string'
+        || typeof v === 'number'
+        || typeof v === 'boolean'
+        || typeof v === 'symbol'
+        || typeof v === 'bigint';
+};
+
+var stringify = function stringify(
+    object,
+    prefix,
+    generateArrayPrefix,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    formatter,
+    encodeValuesOnly,
+    charset
+) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
+        obj = obj.join(',');
+    }
+
+    if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder, charset, 'key') : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key');
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value'))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        if (isArray(obj)) {
+            pushToArray(values, stringify(
+                obj[key],
+                typeof generateArrayPrefix === 'function' ? generateArrayPrefix(prefix, key) : prefix,
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly,
+                charset
+            ));
+        } else {
+            pushToArray(values, stringify(
+                obj[key],
+                prefix + (allowDots ? '.' + key : '[' + key + ']'),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly,
+                charset
+            ));
+        }
+    }
+
+    return values;
+};
+
+var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.encoder !== null && opts.encoder !== undefined && typeof opts.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var charset = opts.charset || defaults.charset;
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+
+    var format = formats['default'];
+    if (typeof opts.format !== 'undefined') {
+        if (!has.call(formats.formatters, opts.format)) {
+            throw new TypeError('Unknown format option provided.');
+        }
+        format = opts.format;
+    }
+    var formatter = formats.formatters[format];
+
+    var filter = defaults.filter;
+    if (typeof opts.filter === 'function' || isArray(opts.filter)) {
+        filter = opts.filter;
+    }
+
+    return {
+        addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
+        encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
+        encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
+        encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
+        filter: filter,
+        formatter: formatter,
+        serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults.serializeDate,
+        skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults.skipNulls,
+        sort: typeof opts.sort === 'function' ? opts.sort : null,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = normalizeStringifyOptions(opts);
+
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (opts && opts.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = opts.arrayFormat;
+    } else if (opts && 'indices' in opts) {
+        arrayFormat = opts.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (options.sort) {
+        objKeys.sort(options.sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (options.skipNulls && obj[key] === null) {
+            continue;
+        }
+        pushToArray(keys, stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            options.strictNullHandling,
+            options.skipNulls,
+            options.encode ? options.encoder : null,
+            options.filter,
+            options.sort,
+            options.allowDots,
+            options.serializeDate,
+            options.formatter,
+            options.encodeValuesOnly,
+            options.charset
+        ));
+    }
+
+    var joined = keys.join(options.delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    if (options.charsetSentinel) {
+        if (options.charset === 'iso-8859-1') {
+            // encodeURIComponent('&#10003;'), the "numeric entity" representation of a checkmark
+            prefix += 'utf8=%26%2310003%3B&';
+        } else {
+            // encodeURIComponent('✓')
+            prefix += 'utf8=%E2%9C%93&';
+        }
+    }
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+},{"./formats":25,"./utils":29}],29:[function(require,module,exports){
+'use strict';
+
+var has = Object.prototype.hasOwnProperty;
+var isArray = Array.isArray;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    while (queue.length > 1) {
+        var item = queue.pop();
+        var obj = item.obj[item.prop];
+
+        if (isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+};
+
+var arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+var merge = function merge(target, source, options) {
+    /* eslint no-param-reassign: 0 */
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (isArray(target)) {
+            target.push(source);
+        } else if (target && typeof target === 'object') {
+            if ((options && (options.plainObjects || options.allowPrototypes)) || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (!target || typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (isArray(target) && !isArray(source)) {
+        mergeTarget = arrayToObject(target, options);
+    }
+
+    if (isArray(target) && isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                var targetItem = target[i];
+                if (targetItem && typeof targetItem === 'object' && item && typeof item === 'object') {
+                    target[i] = merge(targetItem, item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+var assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+var decode = function (str, decoder, charset) {
+    var strWithoutPlus = str.replace(/\+/g, ' ');
+    if (charset === 'iso-8859-1') {
+        // unescape never throws, no try...catch needed:
+        return strWithoutPlus.replace(/%[0-9a-f]{2}/gi, unescape);
+    }
+    // utf-8
+    try {
+        return decodeURIComponent(strWithoutPlus);
+    } catch (e) {
+        return strWithoutPlus;
+    }
+};
+
+var encode = function encode(str, defaultEncoder, charset) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = str;
+    if (typeof str === 'symbol') {
+        string = Symbol.prototype.toString.call(str);
+    } else if (typeof str !== 'string') {
+        string = String(str);
+    }
+
+    if (charset === 'iso-8859-1') {
+        return escape(string).replace(/%u[0-9a-f]{4}/gi, function ($0) {
+            return '%26%23' + parseInt($0.slice(2), 16) + '%3B';
+        });
+    }
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+var compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    compactQueue(queue);
+
+    return value;
+};
+
+var isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var isBuffer = function isBuffer(obj) {
+    if (!obj || typeof obj !== 'object') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+var combine = function combine(a, b) {
+    return [].concat(a, b);
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    combine: combine,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    merge: merge
+};
+
 },{}],30:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],31:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ///classNames:begin
@@ -3652,7 +3654,7 @@ exports.getBlockClassName = function (attrs) {
     return (attrs.ww && (attrs.ww.block === true)) ? exports.BLOCK : '';
 };
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ///classNames:begin
@@ -3690,7 +3692,7 @@ exports.getSizeClassName = function (s) {
     return '';
 };
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = require("../../util");
@@ -3732,7 +3734,7 @@ exports.isActive = function (view, id) {
         .get();
 };
 
-},{"../../util":60}],33:[function(require,module,exports){
+},{"../../util":61}],34:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ///classNames:begin
@@ -3805,7 +3807,7 @@ exports.getStyleClassName = function (s) {
     return exports.DEFAULT;
 };
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -3913,7 +3915,7 @@ var Button = /** @class */ (function (_super) {
 }(__2.AbstractControl));
 exports.Button = Button;
 
-},{"../":41,"../../":50,"../../content/orientation":30,"../../content/size":31,"../../content/state/active":32,"../../content/style":33,"../../util":60,"../toolbar":48,"./wml/button":35}],35:[function(require,module,exports){
+},{"../":42,"../../":51,"../../content/orientation":31,"../../content/size":32,"../../content/state/active":33,"../../content/style":34,"../../util":61,"../toolbar":49,"./wml/button":36}],36:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -3948,17 +3950,12 @@ var ButtonView = /** @class */ (function () {
     function ButtonView(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('button', { wml: { 'id': __context.values.button.wml.id }, 'id': __context.values.button.id, 'type': __context.values.button.type, 'name': __context.values.button.name, 'disabled': __context.values.button.disabled, 'class': __context.values.button.className, 'onclick': __context.values.button.onclick }, __spreadArrays((__context.values.button.content())));
         };
     }
-    ButtonView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     ButtonView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4014,18 +4011,12 @@ var ButtonView = /** @class */ (function () {
         return w.render();
     };
     ButtonView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     ButtonView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     ButtonView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4040,7 +4031,6 @@ var ButtonView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4056,17 +4046,12 @@ var AnchorView = /** @class */ (function () {
     function AnchorView(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('a', { wml: { 'id': __context.values.button.wml.id }, 'id': __context.values.button.id, 'type': __context.values.button.type, 'href': '#', 'name': __context.values.button.name, 'disabled': __context.values.button.disabled, 'class': __context.values.button.className, 'onclick': __context.values.button.onclick }, __spreadArrays((__context.values.button.content())));
         };
     }
-    AnchorView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     AnchorView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4122,18 +4107,12 @@ var AnchorView = /** @class */ (function () {
         return w.render();
     };
     AnchorView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     AnchorView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     AnchorView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4148,7 +4127,6 @@ var AnchorView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4160,7 +4138,7 @@ var AnchorView = /** @class */ (function () {
 }());
 exports.AnchorView = AnchorView;
 
-},{"@quenk/noni/lib/data/maybe":25}],36:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],37:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4327,7 +4305,7 @@ exports.validationState2ClassName = function (state) {
         return '';
 };
 
-},{"../content/style":33,"../control":41,"../util":60}],37:[function(require,module,exports){
+},{"../content/style":34,"../control":42,"../util":61}],38:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = require("../util");
@@ -4359,7 +4337,7 @@ exports.focus = function (view, id) {
         .map(function (e) { return e.focus(); });
 };
 
-},{"../util":60}],38:[function(require,module,exports){
+},{"../util":61}],39:[function(require,module,exports){
 "use strict";
 /**
  * The form module deals with controls specifically for accepting user input.
@@ -4413,7 +4391,7 @@ exports.removeMessage = function (view, id) {
     util_1.getById(view, id).map(function (h) { h.removeMessage(); });
 };
 
-},{"../util":60,"./feedback":36}],39:[function(require,module,exports){
+},{"../util":61,"./feedback":37}],40:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4470,7 +4448,7 @@ var Help = /** @class */ (function (_super) {
 }(wml_1.Component));
 exports.Help = Help;
 
-},{"../../":50,"../../util":60,"../feedback":36,"./wml/help":40,"@quenk/wml":61}],40:[function(require,module,exports){
+},{"../../":51,"../../util":61,"../feedback":37,"./wml/help":41,"@quenk/wml":62}],41:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -4505,17 +4483,12 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('span', { wml: { 'id': __context.values.help.wml.id }, 'id': __context.values.help.id, 'class': __context.values.help.className }, __spreadArrays((__context.values.help.text)));
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4571,18 +4544,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4597,7 +4564,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4609,7 +4575,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":25}],41:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],42:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4682,7 +4648,7 @@ exports.getValue = function (attrs) {
     return (attrs.ww && attrs.ww.value) ? maybe_1.just(attrs.ww.value) : maybe_1.nothing();
 };
 
-},{"@quenk/noni/lib/data/maybe":25,"@quenk/wml":61}],42:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30,"@quenk/wml":62}],43:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4727,7 +4693,7 @@ var Label = /** @class */ (function (_super) {
 }(wml_1.Component));
 exports.Label = Label;
 
-},{"../../":50,"../../util":60,"./wml/label":43,"@quenk/wml":61}],43:[function(require,module,exports){
+},{"../../":51,"../../util":61,"./wml/label":44,"@quenk/wml":62}],44:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -4762,17 +4728,12 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('label', { 'for': __context.values.label.for, 'class': __context.values.label.className }, __spreadArrays((__context.values.label.text)));
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4828,18 +4789,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4854,7 +4809,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4866,7 +4820,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":25}],44:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],45:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4972,7 +4926,7 @@ var oninput = function (f) { return function (e) {
             f.attrs.ww.name : '', e.target.value));
 }; };
 
-},{"../":41,"../../":50,"../../util":60,"../feedback":36,"../form":38,"../text-input":46,"./wml/text-field":45}],45:[function(require,module,exports){
+},{"../":42,"../../":51,"../../util":61,"../feedback":37,"../form":39,"../text-input":47,"./wml/text-field":46}],46:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var label_1 = require("../../label");
@@ -5006,7 +4960,6 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
@@ -5017,10 +4970,6 @@ var Main = /** @class */ (function () {
             ]);
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5076,18 +5025,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5102,7 +5045,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5114,7 +5056,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"../../help":39,"../../label":42,"../../text-input":46,"@quenk/noni/lib/data/maybe":25}],46:[function(require,module,exports){
+},{"../../help":40,"../../label":43,"../../text-input":47,"@quenk/noni/lib/data/maybe":30}],47:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5226,7 +5168,7 @@ var dispatchInput = function (i) { return function (e) {
             i.attrs.ww.name : '', e.target.value));
 }; };
 
-},{"../":41,"../../":50,"../../content/orientation":30,"../../content/size":31,"../../util":60,"../focus":37,"./wml/text-input":47}],47:[function(require,module,exports){
+},{"../":42,"../../":51,"../../content/orientation":31,"../../content/size":32,"../../util":61,"../focus":38,"./wml/text-input":48}],48:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 //@ts-ignore: 6192
@@ -5254,19 +5196,14 @@ var Textarea = /** @class */ (function () {
     function Textarea(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
-            return __this.node('textarea', { wml: { 'id': __context.values.control.wml.id }, 'id': __context.values.id, 'name': __context.values.name, 'placeholder': __context.values.placeholder, 'oninput': __context.values.oninput, 'value': __context.values.value, 'disabled': __context.values.disabled, 'readonly': __context.values.readOnly, 'rows': ''+__context.values.rows, 'class': __context.values.className }, [
+            return __this.node('textarea', { wml: { 'id': __context.values.control.wml.id }, 'id': __context.values.id, 'name': __context.values.name, 'placeholder': __context.values.placeholder, 'oninput': __context.values.oninput, 'value': __context.values.value, 'disabled': __context.values.disabled, 'readonly': __context.values.readOnly, 'rows': __context.values.rows, 'class': __context.values.className }, [
                 document.createTextNode(__context.values.value)
             ]);
         };
     }
-    Textarea.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Textarea.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5322,18 +5259,12 @@ var Textarea = /** @class */ (function () {
         return w.render();
     };
     Textarea.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Textarea.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Textarea.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5348,7 +5279,6 @@ var Textarea = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5364,17 +5294,12 @@ var Input = /** @class */ (function () {
     function Input(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('input', { wml: { 'id': __context.values.control.wml.id }, 'id': __context.values.id, 'name': __context.values.name, 'type': __context.values.type, 'min': __context.values.min, 'max': __context.values.max, 'placeholder': __context.values.placeholder, 'oninput': __context.values.oninput, 'onkeydown': __context.values.onkeydown, 'autofocus': __context.values.autofocus, 'value': __context.values.value, 'disabled': __context.values.disabled, 'readonly': __context.values.readOnly, 'class': __context.values.className }, []);
         };
     }
-    Input.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Input.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5430,18 +5355,12 @@ var Input = /** @class */ (function () {
         return w.render();
     };
     Input.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Input.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Input.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5456,7 +5375,6 @@ var Input = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5468,8 +5386,7 @@ var Input = /** @class */ (function () {
 }());
 exports.Input = Input;
 
-
-},{"@quenk/noni/lib/data/maybe":25}],48:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],49:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5513,7 +5430,7 @@ var Toolbar = /** @class */ (function (_super) {
 }(wml_1.Component));
 exports.Toolbar = Toolbar;
 
-},{"../../":50,"../../util":60,"./wml/toolbar":49,"@quenk/wml":61}],49:[function(require,module,exports){
+},{"../../":51,"../../util":61,"./wml/toolbar":50,"@quenk/wml":62}],50:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -5548,17 +5465,12 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { 'id': __context.values.root.id, 'class': __context.values.root.className }, __spreadArrays((__context.children)));
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5614,18 +5526,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5640,7 +5546,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5652,7 +5557,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":25}],50:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],51:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -5674,7 +5579,7 @@ exports.text = function (str) {
     return document.createTextNode(String((str == null) ? '' : str));
 };
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5735,7 +5640,7 @@ var ActionBar = /** @class */ (function (_super) {
 }(__2.AbstractLayout));
 exports.ActionBar = ActionBar;
 
-},{"../":55,"../..":50,"../../content/orientation":30,"../../util":60,"./wml/action-bar":52}],52:[function(require,module,exports){
+},{"../":56,"../..":51,"../../content/orientation":31,"../../util":61,"./wml/action-bar":53}],53:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -5770,7 +5675,6 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
@@ -5779,10 +5683,6 @@ var Main = /** @class */ (function () {
             ]);
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5838,18 +5738,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5864,7 +5758,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5876,7 +5769,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":25}],53:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],54:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5986,7 +5879,7 @@ var Column = /** @class */ (function (_super) {
 }(__1.AbstractLayout));
 exports.Column = Column;
 
-},{"../":55,"../../util":60,"./wml/grid":54}],54:[function(require,module,exports){
+},{"../":56,"../../util":61,"./wml/grid":55}],55:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -6021,17 +5914,12 @@ var GridLayout = /** @class */ (function () {
     function GridLayout(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
-    GridLayout.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     GridLayout.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6087,18 +5975,12 @@ var GridLayout = /** @class */ (function () {
         return w.render();
     };
     GridLayout.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     GridLayout.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     GridLayout.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6113,7 +5995,6 @@ var GridLayout = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6129,17 +6010,12 @@ var Row = /** @class */ (function () {
     function Row(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
-    Row.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Row.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6195,18 +6071,12 @@ var Row = /** @class */ (function () {
         return w.render();
     };
     Row.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Row.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Row.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6221,7 +6091,6 @@ var Row = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6237,17 +6106,12 @@ var Column = /** @class */ (function () {
     function Column(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
-    Column.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Column.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6303,18 +6167,12 @@ var Column = /** @class */ (function () {
         return w.render();
     };
     Column.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Column.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Column.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6329,7 +6187,6 @@ var Column = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6341,7 +6198,7 @@ var Column = /** @class */ (function () {
 }());
 exports.Column = Column;
 
-},{"@quenk/noni/lib/data/maybe":25}],55:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],56:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6405,7 +6262,7 @@ exports.doRemoveContent = function (view, id) {
         n.removeChild(n.firstChild);
 };
 
-},{"../util":60,"@quenk/wml":61}],56:[function(require,module,exports){
+},{"../util":61,"@quenk/wml":62}],57:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6450,7 +6307,7 @@ var MainLayout = /** @class */ (function (_super) {
 }(__1.AbstractLayout));
 exports.MainLayout = MainLayout;
 
-},{"../":55,"../../util":60,"./wml/main":57}],57:[function(require,module,exports){
+},{"../":56,"../../util":61,"./wml/main":58}],58:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -6485,17 +6342,12 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    Main.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6551,18 +6403,12 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Main.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6577,7 +6423,6 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6589,7 +6434,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":25}],58:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],59:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6736,7 +6581,7 @@ var PanelFooter = /** @class */ (function (_super) {
 }(__1.AbstractLayout));
 exports.PanelFooter = PanelFooter;
 
-},{"..":55,"../../content/style":33,"../../util":60,"./wml/panel":59}],59:[function(require,module,exports){
+},{"..":56,"../../content/style":34,"../../util":61,"./wml/panel":60}],60:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -6771,17 +6616,12 @@ var Panel = /** @class */ (function () {
     function Panel(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    Panel.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     Panel.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6837,18 +6677,12 @@ var Panel = /** @class */ (function () {
         return w.render();
     };
     Panel.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     Panel.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     Panel.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6863,7 +6697,6 @@ var Panel = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6879,17 +6712,12 @@ var PanelHeader = /** @class */ (function () {
     function PanelHeader(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    PanelHeader.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     PanelHeader.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6945,18 +6773,12 @@ var PanelHeader = /** @class */ (function () {
         return w.render();
     };
     PanelHeader.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     PanelHeader.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     PanelHeader.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6971,7 +6793,6 @@ var PanelHeader = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6987,17 +6808,12 @@ var PanelBody = /** @class */ (function () {
     function PanelBody(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    PanelBody.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     PanelBody.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -7053,18 +6869,12 @@ var PanelBody = /** @class */ (function () {
         return w.render();
     };
     PanelBody.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     PanelBody.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     PanelBody.prototype.invalidate = function () {
         var tree = this.tree;
@@ -7079,7 +6889,6 @@ var PanelBody = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -7095,17 +6904,12 @@ var PanelFooter = /** @class */ (function () {
     function PanelFooter(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
-    PanelFooter.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     PanelFooter.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -7161,18 +6965,12 @@ var PanelFooter = /** @class */ (function () {
         return w.render();
     };
     PanelFooter.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     PanelFooter.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     PanelFooter.prototype.invalidate = function () {
         var tree = this.tree;
@@ -7187,7 +6985,6 @@ var PanelFooter = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -7199,7 +6996,7 @@ var PanelFooter = /** @class */ (function () {
 }());
 exports.PanelFooter = PanelFooter;
 
-},{"@quenk/noni/lib/data/maybe":25}],60:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":30}],61:[function(require,module,exports){
 "use strict";
 /**
  * This module provides utility functions and constants used
@@ -7273,7 +7070,7 @@ exports.debounce = function (f, delay) {
     };
 };
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ;
@@ -7298,7 +7095,7 @@ var Component = /** @class */ (function () {
 exports.Component = Component;
 ;
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7484,7 +7281,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var board_1 = require("./views/board");
@@ -7526,7 +7323,7 @@ var BoardDashboard = /** @class */ (function () {
 exports.BoardDashboard = BoardDashboard;
 BoardDashboard.create('app').run();
 
-},{"./views/board":64,"@quenk/jhr/lib/browser":5}],64:[function(require,module,exports){
+},{"./views/board":65,"@quenk/jhr/lib/browser":5}],65:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var action_bar_1 = require("@quenk/wml-widgets/lib/layout/action-bar");
@@ -7560,22 +7357,17 @@ var BoardDashboardView = /** @class */ (function () {
     function BoardDashboardView(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', {}, [
                 __this.widget(new action_bar_1.ActionBar({ ww: { 'className': 'board-action-bar' } }, []), { ww: { 'className': 'board-action-bar' } }),
                 __this.widget(new main_1.MainLayout({ wml: { 'id': __context.values.main.id } }, [
-                    __this.registerView((new job_form_1.JobFormView(__context))).render()
+                    (new job_form_1.JobFormView(__context)).render()
                 ]), { wml: { 'id': __context.values.main.id } })
             ]);
         };
     }
-    BoardDashboardView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     BoardDashboardView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -7631,18 +7423,12 @@ var BoardDashboardView = /** @class */ (function () {
         return w.render();
     };
     BoardDashboardView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     BoardDashboardView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     BoardDashboardView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -7657,7 +7443,6 @@ var BoardDashboardView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -7669,7 +7454,7 @@ var BoardDashboardView = /** @class */ (function () {
 }());
 exports.BoardDashboardView = BoardDashboardView;
 
-},{"./job-form":65,"@quenk/noni/lib/data/maybe":25,"@quenk/wml-widgets/lib/layout/action-bar":51,"@quenk/wml-widgets/lib/layout/main":56}],65:[function(require,module,exports){
+},{"./job-form":66,"@quenk/noni/lib/data/maybe":30,"@quenk/wml-widgets/lib/layout/action-bar":52,"@quenk/wml-widgets/lib/layout/main":57}],66:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
@@ -7705,7 +7490,6 @@ var JobFormView = /** @class */ (function () {
     function JobFormView(__context) {
         this.ids = {};
         this.groups = {};
-        this.views = [];
         this.widgets = [];
         this.tree = document.createElement('div');
         this.template = function (__this) {
@@ -7735,10 +7519,6 @@ var JobFormView = /** @class */ (function () {
             ]), {});
         };
     }
-    JobFormView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
-    };
     JobFormView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -7794,18 +7574,12 @@ var JobFormView = /** @class */ (function () {
         return w.render();
     };
     JobFormView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
+        return maybe_1.fromNullable(this.ids[id]);
     };
     JobFormView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
     };
     JobFormView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -7820,7 +7594,6 @@ var JobFormView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
-        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -7832,4 +7605,4 @@ var JobFormView = /** @class */ (function () {
 }());
 exports.JobFormView = JobFormView;
 
-},{"@quenk/noni/lib/data/maybe":25,"@quenk/wml-widgets/lib/control/button":34,"@quenk/wml-widgets/lib/control/text-field":44,"@quenk/wml-widgets/lib/layout/grid":53,"@quenk/wml-widgets/lib/layout/panel":58}]},{},[63]);
+},{"@quenk/noni/lib/data/maybe":30,"@quenk/wml-widgets/lib/control/button":35,"@quenk/wml-widgets/lib/control/text-field":45,"@quenk/wml-widgets/lib/layout/grid":54,"@quenk/wml-widgets/lib/layout/panel":59}]},{},[64]);
