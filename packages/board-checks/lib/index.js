@@ -55,6 +55,6 @@ exports.bcrypt = function (str) {
     });
 };
 exports.id = function () {
-    return future_1.pure(result_1.succeed(v4()));
+    return future_1.pure(result_1.succeed(v4().split('-').join('')));
 };
 //# sourceMappingURL=index.js.map

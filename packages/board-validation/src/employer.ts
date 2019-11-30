@@ -1,7 +1,12 @@
 import { Value } from '@quenk/noni/lib/data/json';
-import { Precondition, optional, and } from '@quenk/preconditions';
+import { Precondition, and, every, optional } from '@quenk/preconditions';
 import { isRecord, restrict } from '@quenk/preconditions/lib/record';
-import { isString } from '@quenk/preconditions/lib/string';
+import {
+    isString,
+    maxLength,
+    minLength,
+    trim
+} from '@quenk/preconditions/lib/string';
 
 import { Employer } from '@board/types/lib/employer';
 
@@ -11,14 +16,14 @@ import { Employer } from '@board/types/lib/employer';
 export const validate: Precondition<Value, Employer> =
     and(isRecord, restrict<any, any, any, Employer>({
 
-        name: isString,
+        name: every(isString, trim, minLength(3), maxLength(140)),
 
-        website: optional(isString),
+        website: optional(every(isString, trim, maxLength(2048))),
 
-        email: isString,
+        email: every(isString, trim, minLength(3), maxLength(255)),
 
-        password: isString,
+        password: every(isString, trim, minLength(8), maxLength(512)),
 
-        description: isString
+        description: every(isString, trim, maxLength(3000)),
 
     }))

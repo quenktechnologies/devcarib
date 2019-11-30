@@ -1,15 +1,33 @@
-import { id, bcrypt } from './';
-import { validate } from '@board/validation/lib/employer';
-import { Precondition, async, and } from '@quenk/preconditions/lib/async';
-import { disjoint } from '@quenk/preconditions/lib/async/record';
-import { Employer } from '@board/types/lib/employer';
+import {
+    Precondition,
+    async,
+    and,
+    identity
+} from '@quenk/preconditions/lib/async';
+import { restrict } from '@quenk/preconditions/lib/async/record';
 import { Value } from '@quenk/noni/lib/data/json';
 
+import { Employer } from '@board/types/lib/employer';
+import { validate } from '@board/validation/lib/employer';
+
+import { id, bcrypt } from './';
+
+/**
+ * check for Employer type.
+ */
 export const check: Precondition<Value, Employer> = and(
-    async(validate), disjoint<any, any, any, Employer>({
+    async(validate), restrict<any, any, any, Employer>({
 
         id: id,
-        password: bcrypt
 
-    })
-)
+        name: identity,
+
+        website: identity,
+
+        email: identity,
+
+        password: bcrypt,
+
+        description: identity
+
+    }))

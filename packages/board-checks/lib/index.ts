@@ -25,4 +25,4 @@ export const bcrypt = (str: string): Result<string, string> =>
     });
 
 export const id = (): Result<void, string> =>
-    pure(succeed(v4()));
+    pure(succeed(v4().split('-').join('')));

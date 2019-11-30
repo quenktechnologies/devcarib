@@ -32,6 +32,6 @@ export const validate: Precondition<Value, Job> =
 
         description: every(isString, trim, minLength(1), maxLength(5000)),
 
-        link: optional(every(isString, trim, minLength(3), maxLength(1024))),
+        link: optional(every(isString, trim, minLength(3), maxLength(2048))),
 
     }))

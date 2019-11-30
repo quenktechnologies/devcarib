@@ -15,6 +15,6 @@ exports.validate = preconditions_1.and(record_1.isRecord, record_1.restrict({
     industry: preconditions_1.optional(preconditions_1.every(string_1.isString, string_1.trim, string_1.minLength(3), string_1.maxLength(140))),
     technologies: preconditions_1.optional(preconditions_1.every(string_1.isString, string_1.trim, string_1.maxLength(512))),
     description: preconditions_1.every(string_1.isString, string_1.trim, string_1.minLength(1), string_1.maxLength(5000)),
-    link: preconditions_1.optional(preconditions_1.every(string_1.isString, string_1.trim, string_1.minLength(3), string_1.maxLength(1024))),
+    link: preconditions_1.optional(preconditions_1.every(string_1.isString, string_1.trim, string_1.minLength(3), string_1.maxLength(2048))),
 }));
 //# sourceMappingURL=job.js.map
