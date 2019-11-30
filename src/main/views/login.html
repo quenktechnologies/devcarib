@@ -17,6 +17,20 @@
 
         <div class="ww-grid-layout__row">
 
+            {% if error %}
+
+            <div class="ww-grid-layout__column -span6 -offset3">
+
+                <div class="ww-alert -error" style="text-align:center">
+
+                    {{ error }}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
             <div class="ww-grid-layout__column -span6 -offset3">
 
                 <h3>User Login </h3>
@@ -37,7 +51,7 @@
                                 <input name="password" class="ww-text-input -block" autocomplete="off" type="password">
                             </div>
 
-                            <button type="submit" class="ww-button -toolbar-compat -error -block">Login</button>
+                            <button type="submit" class="ww-button -toolbar-compat -primary  -block">Login</button>
 
                         </form>
                     </div>
@@ -52,7 +66,7 @@
             <div class="ww-grid-layout__column -span6 -offset3">
 
                 <p style="text-align:center">
-                  Don't have an account yet? Click <a href="/register">here.</a>
+                    Don't have an account yet? Click <a href="/register">here</a>                    to get one.
                 </p>
 
             </div>

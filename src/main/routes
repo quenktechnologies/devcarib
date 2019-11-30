@@ -2,7 +2,7 @@
         showRegistrationForm,
         showLoginForm,
         showDashboard,
-        authenticate,
+        login,
         logout,
         createEmployer,
         createJob 
@@ -12,14 +12,14 @@ GET / showIndex
 
 GET /register showRegistrationForm
 
+POST /register  createEmployer
+
 GET /login showLoginForm
 
-POST /login authenticate
+POST /login login
 
 GET /logout logout
 
 GET /dashboard showDashboard
-
-POST / createEmployer
 
 POST /api/jobs createJob
