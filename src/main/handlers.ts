@@ -1,7 +1,7 @@
 import * as mongodb from 'mongodb';
 import * as bcryptjs from 'bcryptjs';
 
-import { insertOne, findOne } from '@quenk/safe-mongodb/lib/database/collection';
+import { insertOne, findOne, find } from '@quenk/safe-mongodb/lib/database/collection';
 import {
     show,
     redirect,
@@ -273,6 +273,26 @@ export const showProfile = (r: Request): ActionM<undefined> =>
             return show('jobs/profile.html', { job: mResult.get() });
 
     })
+
+ /**
+  * showJobs
+  * 
+  * shows the recent 30 posts from the database to visitors of the site.
+  */   
+export const showJobs = (_: Request): ActionM<undefined> =>
+    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
+
+        let db = yield getMain();
+
+        let collection = db.collection('jobs');
+
+        let mResult = yield await(() => find(collection, {}, {sort : {created_at : -1}, limit : 30}));
+
+        let jobs = mResult.isNothing()? []: mResult.get();
+
+        return show('jobs/index.html', {jobs : jobs});
+     
+});
 
 //retrieves the main connection from the tendril pool.
 const getMain = (): ActionM<mongodb.Db> => checkout('main');
