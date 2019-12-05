@@ -169,6 +169,18 @@ exports.showProfile = (r) => monad_1.doN(function* () {
     else
         return response_1.show('jobs/profile.html', { job: mResult.get() });
 });
+/**
+ * showJobs
+ *
+ * shows the recent 30 posts from the database to visitors of the site.
+ */
+exports.showJobs = (_) => monad_1.doN(function* () {
+    let db = yield getMain();
+    let collection = db.collection('jobs');
+    let mResult = yield control_1.await(() => collection_1.find(collection, {}, { sort: { created_at: -1 }, limit: 30 }));
+    let jobs = mResult.isNothing() ? [] : mResult.get();
+    return response_1.show('jobs/index.html', { jobs: jobs });
+});
 //retrieves the main connection from the tendril pool.
 const getMain = () => pool_1.checkout('main');
 //# sourceMappingURL=handlers.js.map

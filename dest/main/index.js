@@ -40,7 +40,7 @@ exports.template = (_app) => ({ 'create':
         'on': { 'connected': events.connected,
             'started': events.started },
         'routes': (_m) => {
-            return [{ method: 'get', path: '/', filters: [handlers_1.showIndex] },
+            return [{ method: 'get', path: '/', filters: [handlers_1.showJobs] },
                 { method: 'get', path: '/register', filters: [handlers_1.showRegistrationForm] },
                 { method: 'post', path: '/register', filters: [handlers_1.createEmployer] },
                 { method: 'get', path: '/login', filters: [handlers_1.showLoginForm] },

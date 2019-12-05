@@ -1,7 +1,8 @@
-%import showIndex,
+%import 
         showRegistrationForm,
         showLoginForm,
         showDashboard,
+        showJobs,
         login,
         logout,
         createEmployer,
@@ -9,7 +10,7 @@
         showProfile 
 from "./handlers"
 
-GET / showIndex
+GET / showJobs
 
 GET /register showRegistrationForm
 
