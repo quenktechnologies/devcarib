@@ -5,7 +5,8 @@
         login,
         logout,
         createEmployer,
-        createJob 
+        createJob,
+        showProfile 
 from "./handlers"
 
 GET / showIndex
@@ -23,3 +24,5 @@ GET /logout logout
 GET /dashboard showDashboard
 
 POST /api/jobs createJob
+
+GET /jobs/:id showProfile

@@ -18,5 +18,6 @@ export declare class BoardDashboard {
     };
     static create(id: string): BoardDashboard;
     setContent(view: View): void;
+    redirectToJob(id: string): void;
     run(): void;
 }

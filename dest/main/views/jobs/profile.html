@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Quenk Technologies Interns">
+    <title> {{job.title}} </title>
+    <link rel="stylesheet" href="/widgets.css">
+    <link href="/board.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="main" class="ww-grid-layout">
+
+        <div class="ww-grid-layout__row">
+
+            <div class="ww-grid-layout__column -span8 -offset2">
+
+                <div class="ww-grid-layout__row">
+
+                    <div class="ww-grid-layout__column">
+
+                        <h1>{{job.title}}</h1>
+
+                    </div>
+
+                </div>
+
+                <div class="ww-grid-layout__row">
+
+                    <div class="ww-grid-layout__column">
+
+                        <dl class="ww-property-list -horizontal">
+                            <dt>Country</dt>
+                            <dd>{{job.country}}</dd>
+                            <dt>City</dt>
+                            <dd>{{job.city}}</dd>
+                            <dt>Type</dt>
+                            <dd>{{job.type}}</dd>
+                            <dt>Role</dt>
+                            <dd>{{job.role}}</dd>
+                            <dt>Industry</dt>
+                            <dd>{{job.industry}}</dd>
+                        </dl>
+                         
+                    </div>
+
+                </div>
+
+                <div class="ww-grid-layout__row">
+
+                    <div class="ww-grid-layout__column">
+
+                        <h3>Technologies</h3>
+                        
+                        <p>
+                            {% for tag in job.technologies %}
+                                <span class="ww-tag -success">{{tag}}</span>
+                            {% endfor %}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="ww-grid-layout__row">
+
+                    <div class="ww-grid-layout__column">
+    
+                        <h3>Job Description</h3>
+
+                        <p>{{job.description}}</p>
+    
+                    </div>
+    
+                </div>
+
+                <div class="ww-grid-layout__row">
+
+                    <div class="ww-grid-layout__column">
+    
+                        {% if job.link %}
+
+                        <a href="{{job.link}}" class="ww-button -success">Apply</a>
+
+                        {% endif %}
+    
+                    </div>
+    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

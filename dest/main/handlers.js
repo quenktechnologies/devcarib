@@ -145,10 +145,30 @@ exports.createJob = (r) => monad_1.doN(function* () {
         let collection = db.collection('jobs');
         data.employer = r.session.user;
         yield control_1.await(() => collection_1.insertOne(collection, data));
-        return response_1.created();
+        return response_1.created({ id: data.id });
     }
     else {
         return response_1.conflict(eResult.takeLeft().explain());
+    }
+});
+/**
+ * showProfile
+ *
+ * gets and id, then gets the jobs collection from the
+ * database. Then searches through the jobs collection for
+ * a job where the job's id is the same as the previously collected id
+ * and displays the information related to that job.
+ */
+exports.showProfile = (r) => monad_1.doN(function* () {
+    let id = r.params.id;
+    let db = yield getMain();
+    let collection = db.collection('jobs');
+    let mResult = yield control_1.await(() => collection_1.findOne(collection, { id: id }));
+    if (mResult.isNothing()) {
+        return response_1.show('error/not-found.html', {}, 404);
+    }
+    else {
+        return response_1.show('job/profile.html', { job: mResult.get() });
     }
 });
 //retrieves the main connection from the tendril pool.
