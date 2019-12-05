@@ -164,12 +164,10 @@ exports.showProfile = (r) => monad_1.doN(function* () {
     let db = yield getMain();
     let collection = db.collection('jobs');
     let mResult = yield control_1.await(() => collection_1.findOne(collection, { id: id }));
-    if (mResult.isNothing()) {
-        return response_1.show('error/not-found.html', {}, 404);
-    }
-    else {
-        return response_1.show('job/profile.html', { job: mResult.get() });
-    }
+    if (mResult.isNothing())
+        return response_1.show('errors/not-found.html', {}, 404);
+    else
+        return response_1.show('jobs/profile.html', { job: mResult.get() });
 });
 //retrieves the main connection from the tendril pool.
 const getMain = () => pool_1.checkout('main');

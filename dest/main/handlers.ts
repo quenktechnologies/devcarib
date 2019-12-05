@@ -238,7 +238,7 @@ export const createJob = (r: Request): ActionM<undefined> =>
 
             yield await(() => insertOne(collection, data));
 
-            return created({id: data.id});
+            return created({ id: data.id });
 
         } else {
 
@@ -250,28 +250,28 @@ export const createJob = (r: Request): ActionM<undefined> =>
 
 /**
  * showProfile
- * 
+ *
  * gets and id, then gets the jobs collection from the
  * database. Then searches through the jobs collection for
  * a job where the job's id is the same as the previously collected id
  * and displays the information related to that job.
  */
-export const showProfile= (r: Request): ActionM<undefined> =>
+export const showProfile = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
-        
+
         let id = r.params.id;
-        
+
         let db = yield getMain();
 
         let collection = db.collection('jobs');
 
-        let mResult = yield await(() => findOne(collection, {id: id}));
+        let mResult = yield await(() => findOne(collection, { id: id }));
 
-        if(mResult.isNothing()){
-            return show('error/not-found.html',{},404);
-        }else{
-            return show('job/profile.html', {job: mResult.get()});
-        }
+        if (mResult.isNothing())
+            return show('errors/not-found.html', {}, 404);
+        else
+            return show('jobs/profile.html', { job: mResult.get() });
+
     })
 
 //retrieves the main connection from the tendril pool.
