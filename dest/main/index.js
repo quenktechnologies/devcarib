@@ -47,7 +47,8 @@ exports.template = (_app) => ({ 'create':
                 { method: 'post', path: '/login', filters: [handlers_1.login] },
                 { method: 'get', path: '/logout', filters: [handlers_1.logout] },
                 { method: 'get', path: '/dashboard', filters: [handlers_1.showDashboard] },
-                { method: 'post', path: '/api/jobs', filters: [handlers_1.createJob] }
+                { method: 'post', path: '/api/jobs', filters: [handlers_1.createJob] },
+                { method: 'get', path: '/jobs/:id', filters: [handlers_1.showProfile] }
             ];
         } } });
 //# sourceMappingURL=index.js.map

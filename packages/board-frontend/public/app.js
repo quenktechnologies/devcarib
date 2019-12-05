@@ -7301,7 +7301,9 @@ var BoardDashboard = /** @class */ (function () {
                 },
                 create: function () {
                     agent.post('/api/jobs', _this.values.data)
-                        .fork(console.error, console.log);
+                        .fork(console.error, function (r) {
+                        return _this.redirectToJob(r.body.id);
+                    });
                 },
             }
         };
@@ -7314,6 +7316,9 @@ var BoardDashboard = /** @class */ (function () {
         while (this.content.firstChild != null)
             this.content.removeChild(this.content.firstChild);
         this.content.appendChild(view.render());
+    };
+    BoardDashboard.prototype.redirectToJob = function (id) {
+        window.location.href = "/jobs/" + id;
     };
     BoardDashboard.prototype.run = function () {
         this.setContent(this.view);

@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as tendrilSessionMongodb from '@quenk/tendril-session-mongodb'; 
 import * as middleware from '@csa/session/lib/middleware'; 
 import * as events from '../app/events'; 
-import { showIndex,showRegistrationForm,showLoginForm,showDashboard,login,logout,createEmployer,createJob } from './handlers';
+import { showIndex,showRegistrationForm,showLoginForm,showDashboard,login,logout,createEmployer,createJob,showProfile } from './handlers';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 import {Module} from '@quenk/tendril/lib/app/module';
 import {App as App} from '@quenk/tendril/lib/app';
@@ -53,5 +53,6 @@ return [{ method: 'get',path: '/',filters: [showIndex  ]}
 ,{ method: 'get',path: '/logout',filters: [logout  ]}
 ,{ method: 'get',path: '/dashboard',filters: [showDashboard  ]}
 ,{ method: 'post',path: '/api/jobs',filters: [createJob  ]}
+,{ method: 'get',path: '/jobs/:id',filters: [showProfile  ]}
 ]
 }}})

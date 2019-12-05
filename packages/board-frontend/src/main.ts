@@ -28,7 +28,8 @@ export class BoardDashboard {
             create: () => {
 
                 agent.post('/api/jobs', this.values.data)
-                    .fork(console.error, (r: Response<Object>) => this.redirectToJob(r.body.id));
+                    .fork(console.error, (r: Response<Object>) =>
+                        this.redirectToJob(<string>r.body.id));
 
             },
         }
@@ -52,7 +53,7 @@ export class BoardDashboard {
 
     }
 
-    redirectToJob(id: string){
+    redirectToJob(id: string) {
 
         window.location.href = `/jobs/${id}`;
 

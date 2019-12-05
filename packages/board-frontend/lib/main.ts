@@ -1,9 +1,10 @@
 import { View } from '@quenk/wml';
 import { BoardDashboardView } from './views/board';
-import { Value } from '@quenk/noni/lib/data/json';
+import { Value, Object } from '@quenk/noni/lib/data/json';
 import { Event } from '@quenk/wml-widgets/lib/control';
 import { Job } from '@board/types/lib/job';
 import { createAgent } from '@quenk/jhr/lib/browser';
+import { Response } from '@quenk/jhr/lib/response';
 
 const agent = createAgent();
 
@@ -27,7 +28,8 @@ export class BoardDashboard {
             create: () => {
 
                 agent.post('/api/jobs', this.values.data)
-                    .fork(console.error, console.log);
+                    .fork(console.error, (r: Response<Object>) =>
+                        this.redirectToJob(<string>r.body.id));
 
             },
         }
@@ -48,6 +50,12 @@ export class BoardDashboard {
             this.content.removeChild(this.content.firstChild);
 
         this.content.appendChild(view.render());
+
+    }
+
+    redirectToJob(id: string) {
+
+        window.location.href = `/jobs/${id}`;
 
     }
 
