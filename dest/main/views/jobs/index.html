@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Quenk Technologies Interns">
+    <title> Most recent postings </title>
+    <link rel="stylesheet" href="/widgets.css">
+    <link href="/board.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="main" class="ww-grid-layout">
+
+        <div class="ww-grid-layout__row">
+
+            <div class="ww-grid-layout__column -span8 -offset2">
+
+                {% for job in jobs %}
+
+                    <div class="ww-grid-layout__row">
+
+                       <div class="ww-grid-layout__column">
+
+                        <h3><a href="/jobs/{{job.id}}">{{job.title}}</a></h3>
+
+                        <p><span>{{job.type}}</span>/<span>{{job.country}}</span></p>
+
+                      </div>
+
+                    </div>
+
+                {% endfor %}   
+                                                 
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
