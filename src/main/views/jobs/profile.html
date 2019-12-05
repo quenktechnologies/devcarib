@@ -33,7 +33,7 @@
 
                     <div class="ww-grid-layout__column">
 
-                        <dl class="ww-property-list -horizontal">
+                        <dl class="ww-description-list ww-property-list -horizontal">
                             <dt>Country</dt>
                             <dd>{{job.country}}</dd>
                             <dt>City</dt>
@@ -45,7 +45,7 @@
                             <dt>Industry</dt>
                             <dd>{{job.industry}}</dd>
                         </dl>
-                         
+
                     </div>
 
                 </div>
@@ -55,11 +55,12 @@
                     <div class="ww-grid-layout__column">
 
                         <h3>Technologies</h3>
-                        
+
                         <p>
-                            {% for tag in job.technologies %}
-                                <span class="ww-tag -success">{{tag}}</span>
-                            {% endfor %}
+
+                            {% if job.technologies %} {% for tag in job.technologies.split(',') %}
+                            <span class="ww-tag -primary">{{tag}}</span> {% endfor
+                            %} {% endif %}
                         </p>
 
                     </div>
@@ -69,27 +70,25 @@
                 <div class="ww-grid-layout__row">
 
                     <div class="ww-grid-layout__column">
-    
+
                         <h3>Job Description</h3>
 
                         <p>{{job.description}}</p>
-    
+
                     </div>
-    
+
                 </div>
 
                 <div class="ww-grid-layout__row">
 
                     <div class="ww-grid-layout__column">
-    
+
                         {% if job.link %}
 
-                        <a href="{{job.link}}" class="ww-button -success">Apply</a>
+                        <a href="{{job.link}}" class="ww-button -success">Apply</a>                        {% endif %}
 
-                        {% endif %}
-    
                     </div>
-    
+
                 </div>
 
             </div>
