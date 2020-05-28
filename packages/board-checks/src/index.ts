@@ -1,5 +1,5 @@
 import * as bcryptjs from 'bcryptjs';
-import * as v4 from 'uuid/v4';
+import * as uuid from 'uuid';
 
 import { Future, fromCallback, pure } from '@quenk/noni/lib/control/monad/future';
 
@@ -25,4 +25,4 @@ export const bcrypt = (str: string): Result<string, string> =>
     });
 
 export const id = (): Result<void, string> =>
-    pure(succeed(v4().split('-').join('')));
+    pure(succeed(uuid.v4().split('-').join('')));

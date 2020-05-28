@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.check = void 0;
 var _1 = require("./");
 var async_1 = require("@quenk/preconditions/lib/async");
 var record_1 = require("@quenk/preconditions/lib/async/record");

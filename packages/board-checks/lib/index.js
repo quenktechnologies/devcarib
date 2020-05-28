@@ -27,8 +27,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.id = exports.bcrypt = void 0;
 var bcryptjs = require("bcryptjs");
-var v4 = require("uuid/v4");
+var uuid = require("uuid");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var result_1 = require("@quenk/preconditions/lib/result");
 var monad_1 = require("@quenk/noni/lib/control/monad");
@@ -55,6 +56,6 @@ exports.bcrypt = function (str) {
     });
 };
 exports.id = function () {
-    return future_1.pure(result_1.succeed(v4().split('-').join('')));
+    return future_1.pure(result_1.succeed(uuid.v4().split('-').join('')));
 };
 //# sourceMappingURL=index.js.map
