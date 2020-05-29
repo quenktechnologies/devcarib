@@ -2,7 +2,7 @@
 
 ### Settings ###
 TSC?=./node_modules/.bin/tsc
-BOARD_TYPES_DIR:=$(PROJECT_PACKAGES_DIR)/board-types
+BOARD_TYPES_DIR:=$(PACKAGES_DIR)/board-types
 BOARD_TYPES_SRC_DIR:=$(BOARD_TYPES_DIR)/src
 BOARD_TYPES_SRC_DIR_FILES:=$(shell find $(BOARD_TYPES_SRC_DIR) -type f) 
 

@@ -2,7 +2,7 @@
 
 ### Settings ###
 TSC?=./node_modules/.bin/tsc
-BOARD_CHECKS_DIR:=$(PROJECT_PACKAGES_DIR)/board-checks
+BOARD_CHECKS_DIR:=$(PACKAGES_DIR)/board-checks
 BOARD_CHECKS_SRC_DIR:=$(BOARD_CHECKS_DIR)/src
 BOARD_CHECKS_SRC_DIR_FILES:=$(shell find $(BOARD_CHECKS_SRC_DIR) -type f) 
 

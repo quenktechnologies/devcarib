@@ -7,7 +7,7 @@ BROWSERIFY?=node_modules/.bin/browserify
 LESSC?=node_modules/.bin/lessc
 WMLC?=node_modules/.bin/wmlc
 
-BOARD_FRONTEND_DIR:=$(PROJECT_PACKAGES_DIR)/board-frontend
+BOARD_FRONTEND_DIR:=$(PACKAGES_DIR)/board-frontend
 BOARD_FRONTEND_SRC_DIR:=$(BOARD_FRONTEND_DIR)/src
 BOARD_FRONTEND_SRC_DIR_TS:=$(shell find $(BOARD_FRONTEND_SRC_DIR) -name \*.ts -o -name \*.json)
 BOARD_FRONTEND_SRC_DIR_WML:=$(shell find $(BOARD_FRONTEND_SRC_DIR) -name \*.wml)

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Quenk Technologies Interns">
+    <title> Job Board: Login </title>
+    <link rel="stylesheet" href="/widgets.css">
+    <link href="/board.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="main" class="ww-grid-layout">
+
+        <div class="ww-grid-layout__row">
+
+            {% if error %}
+
+            <div class="ww-grid-layout__column -span6 -offset3">
+
+                <div class="ww-alert -error" style="text-align:center">
+
+                    {{ error }}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            <div class="ww-grid-layout__column -span6 -offset3">
+
+                <h3>User Login </h3>
+
+                <div class="ww-panel">
+
+                    <div class="ww-panel__body">
+
+                        <form autocomplete="off" action="/login" method="POST">
+
+                            <div class="ww-text-field">
+                                <label class="ww-label">Email</label>
+                                <input name="email" class="ww-text-input -block" autocomplete="off">
+                            </div>
+
+                            <div class="ww-text-field">
+                                <label class="ww-label">Password</label>
+                                <input name="password" class="ww-text-input -block" autocomplete="off" type="password">
+                            </div>
+
+                            <button type="submit" class="ww-button -toolbar-compat -primary  -block">Login</button>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="ww-grid-layout__row">
+
+            <div class="ww-grid-layout__column -span6 -offset3">
+
+                <p style="text-align:center">
+                    Don't have an account yet? Click <a href="/register">here</a>                    to get one.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 ### Build the tendril-morgan package. ###
 
 ### Settings ###
-TENDRIL_MORGAN_DIR:=$(PROJECT_PACKAGES_DIR)/tendril-morgan
+TENDRIL_MORGAN_DIR:=$(PACKAGES_DIR)/tendril-morgan
 TENDRIL_MORGAN_SRC_DIR:=$(TENDRIL_MORGAN_DIR)/src
 TENDRIL_MORGAN_SRC_DIR_FILES:=$(shell find $(TENDRIL_MORGAN_SRC_DIR) -type f)
 

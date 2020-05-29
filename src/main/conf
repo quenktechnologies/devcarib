@@ -29,7 +29,8 @@ connections = {
 app.views = {
 
   provider = @quenk/tendril-show-nunjucks#show
-  options = [{path = "dest/main/views"}]
+
+  options = [{path = "packages/local/board-views/views"}]
   
 }
 

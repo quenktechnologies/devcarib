@@ -1,0 +1,11 @@
+{
+
+    "name": "@board/views",
+
+    "private": "true",
+
+    "version": "0.0.1",
+
+    "description": "Server side views for the board application"
+
+}
