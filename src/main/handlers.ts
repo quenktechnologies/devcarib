@@ -274,11 +274,11 @@ export const showProfile = (r: Request): ActionM<undefined> =>
 
     })
 
- /**
-  * showJobs
-  * 
-  * shows the recent 30 posts from the database to visitors of the site.
-  */   
+/**
+ * showJobs
+ *
+ * shows the recent 30 posts from the database to visitors of the site.
+ */
 export const showJobs = (_: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
@@ -286,13 +286,13 @@ export const showJobs = (_: Request): ActionM<undefined> =>
 
         let collection = db.collection('jobs');
 
-        let mResult = yield await(() => find(collection, {}, {sort : {created_at : -1}, limit : 30}));
+        let mResult = yield await(() => find(collection, {}, { sort: { created_at: -1 }, limit: 30 }));
 
-        let jobs = mResult.isNothing()? []: mResult.get();
+        let jobs = mResult.isNothing() ? [] : mResult.get();
 
-        return show('jobs/index.html', {jobs : jobs});
-     
-});
+        return show('index.html', { jobs: jobs });
+
+    });
 
 //retrieves the main connection from the tendril pool.
 const getMain = (): ActionM<mongodb.Db> => checkout('main');
