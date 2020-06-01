@@ -29,7 +29,8 @@ connections = {
 app.views = {
 
   provider = @quenk/tendril-show-nunjucks#show
-  options = [{path = "dest/main/views"}]
+
+  options = [{path = "packages/local/board-views/views"}]
   
 }
 
@@ -43,7 +44,27 @@ app.middleware.available = {
 
     provider = express#static
     
-    options = ["${__dirname}/../../public", {maxAge=0}]
+    options = [
+
+      "${__dirname}/../../public",
+
+       {maxAge=0}
+
+    ]
+
+  }
+
+  viewsPublic = {
+
+    provider = express#static
+    
+    options = [
+
+      "${__dirname}/../../packages/local/board-views/public",
+
+       {maxAge=0}
+
+    ]
 
   }
 
@@ -121,6 +142,7 @@ app.middleware.available = {
 app.middleware.enabled = [
    "log",
    "public", 
+   "viewsPublic",
    "frontend",
    "session",
    "rmExpired",
