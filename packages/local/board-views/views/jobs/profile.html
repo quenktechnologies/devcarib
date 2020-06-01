@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "common/base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Quenk Technologies Interns">
-    <title> {{job.title}} </title>
-    <link rel="stylesheet" href="/widgets.css">
-    <link href="/board.css" rel="stylesheet">
-</head>
+{% block title %}{{job.title}}{% endblock %}
 
-<body>
-
-    <div id="main" class="ww-grid-layout">
+{% block body %}
+  
+  <div id="main" class="ww-grid-layout">
 
         <div class="ww-grid-layout__row">
 
@@ -95,8 +86,6 @@
 
         </div>
 
-    </div>
+  </div>
 
-</body>
-
-</html>
+{% endblock %}

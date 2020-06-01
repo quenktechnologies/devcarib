@@ -1,6 +1,12 @@
-{% extends "common/base.html" %} {% block body %}
+{% extends "common/base.html" %} 
 
-<header id="header" class="ww-grid-layout">
+{% block title %}
+  Caribbean Developers Job Board - Hire Caribbean Software Developers 
+{% endblock %}
+
+{% block body %}
+  
+  <header id="header" class="ww-grid-layout">
 
     <div class="ww-grid-layout__row">
 
@@ -22,33 +28,32 @@
 
     </div>
 
-</header>
-<div id="main" class="ww-grid-layout">
+  </header>
+
+  <div id="main" class="ww-grid-layout">
 
     <div class="ww-grid-layout__row">
 
         <div class="ww-grid-layout__column -span8 -offset2">
 
+          {% if jobs != null %}
+
             {% for job in jobs %}
 
-            <div class="ww-grid-layout__row">
-
-                <div class="ww-grid-layout__column">
-
-                    <h3><a href="/jobs/{{job.id}}">{{job.title}}</a></h3>
-
-                    <p><span>{{job.type}}</span>/<span>{{job.country}}</span></p>
-
-                </div>
-
-            </div>
+              {% include "includes/job/panel.html" %}
 
             {% endfor %}
+
+          {% else %}
+
+            No data
+
+          {% endif %}
 
         </div>
 
     </div>
 
-</div>
+  </div>
 
 {% endblock %}
