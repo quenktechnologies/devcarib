@@ -44,7 +44,27 @@ app.middleware.available = {
 
     provider = express#static
     
-    options = ["${__dirname}/../../public", {maxAge=0}]
+    options = [
+
+      "${__dirname}/../../public",
+
+       {maxAge=0}
+
+    ]
+
+  }
+
+  viewsPublic = {
+
+    provider = express#static
+    
+    options = [
+
+      "${__dirname}/../../packages/local/board-views/public",
+
+       {maxAge=0}
+
+    ]
 
   }
 
@@ -122,6 +142,7 @@ app.middleware.available = {
 app.middleware.enabled = [
    "log",
    "public", 
+   "viewsPublic",
    "frontend",
    "session",
    "rmExpired",

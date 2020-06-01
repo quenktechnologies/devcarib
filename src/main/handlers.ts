@@ -290,7 +290,7 @@ export const showJobs = (_: Request): ActionM<undefined> =>
 
         let jobs = mResult.isNothing() ? [] : mResult.get();
 
-        return show('index.html', { jobs: jobs });
+        return show('index/index.html', { jobs: jobs });
 
     });
 
