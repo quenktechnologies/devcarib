@@ -32,7 +32,7 @@ PROJECT_SRC_DIR:=$(HERE)/src
 PROJECT_SRC_DIR_FILES:=$(shell $(FIND) $(PROJECT_SRC_DIR) -type f)
 PACKAGES_DIR:=$(HERE)/packages
 LOCAL_PACKAGES_DIR:=$(PACKAGES_DIR)/local
-PROJECT_BUILD_DIR:=$(HERE)/dest
+PROJECT_BUILD_DIR:=$(HERE)/build
 PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/main
 
 # Configure the paths for your extra packages here.
