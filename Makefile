@@ -42,6 +42,7 @@ BOARD_VALIDATION_BUILD:=$(PACKAGES_DIR)/board-validation/lib
 BOARD_CHECKS_BUILD:=$(PACKAGES_DIR)/board-checks/lib
 BOARD_FRONTEND_BUILD:=$(PACKAGES_DIR)/board-frontend/public
 BOARD_VIEWS_DIR:=$(LOCAL_PACKAGES_DIR)/board-views
+BOARD_APP_POST_DIR:=$(LOCAL_PACKAGES_DIR)/board-app-post
 ### Dependency Graph ###
 
 .DELETE_ON_ERROR:
@@ -53,7 +54,8 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 		      $(BOARD_VALIDATION_BUILD)\
 		      $(BOARD_CHECKS_BUILD)\
 		      $(BOARD_FRONTEND_BUILD)\
-		      $(BOARD_VIEWS_DIR)
+		      $(BOARD_VIEWS_DIR)\
+		      $(BOARD_APP_POST_DIR)
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
 	$(TDC) $(PROJECT_BUILD_MAIN_DIR)
@@ -66,6 +68,7 @@ include $(PACKAGES_DIR)/board-types/build.mk
 include $(PACKAGES_DIR)/board-validation/build.mk
 include $(PACKAGES_DIR)/board-checks/build.mk
 include $(BOARD_VIEWS_DIR)/build.mk
+include $(BOARD_APP_POST_DIR)/build.mk
 
 # Remove the build application files.
 .PHONY: clean
