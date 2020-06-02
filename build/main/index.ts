@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as tendrilSessionMongodb from '@quenk/tendril-session-mongodb'; 
 import * as middleware from '@csa/session/lib/middleware'; 
 import * as events from '../app/events'; 
-import { showRegistrationForm,showLoginForm,showDashboard,showJobs,login,logout,createEmployer,createJob,showProfile } from './handlers';
+import { showJobs,showProfile,showPostJobPage } from './handlers';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 import {Module} from '@quenk/tendril/lib/app/module';
 import {App as App} from '@quenk/tendril/lib/app';
@@ -28,6 +28,8 @@ options: [{ path: `packages/local/board-views/views` }] },
 options: [`${__dirname}/../../public`,{ maxAge: 0 }] },
 viewsPublic: { provider: express.static,
 options: [`${__dirname}/../../packages/local/board-views/public`,{ maxAge: 0 }] },
+postPublic: { provider: express.static,
+options: [`${__dirname}/../../packages/local/board-app-post/public`,{ maxAge: 0 }] },
 log: { provider: tendrilMiddlewareMorgan.log,
 options: [(<string>process.env['MORGAN_LOG_FORMAT'])] },
 json: { provider: bodyParser.json },
@@ -42,19 +44,13 @@ saveUninitialized: false },
 store: { uri: (<string>process.env['MONGO_URL']) } }] },
 rmExpired: { provider: middleware.removeExpired },
 decTTL: { provider: middleware.decrementTTL } },
-'enabled': [`log`,`public`,`viewsPublic`,`frontend`,`session`,`rmExpired`,`decTTL`,`json`,`urlencoded`]},
+'enabled': [`log`,`public`,`viewsPublic`,`postPublic`,`frontend`,`session`,`rmExpired`,`decTTL`,`json`,`urlencoded`]},
 'on': {'connected': events.connected,
 'started': events.started},
 'routes': (_m:Module) => {
 
 return [{ method: 'get',path: '/',filters: [showJobs  ]}
-,{ method: 'get',path: '/register',filters: [showRegistrationForm  ]}
-,{ method: 'post',path: '/register',filters: [createEmployer  ]}
-,{ method: 'get',path: '/login',filters: [showLoginForm  ]}
-,{ method: 'post',path: '/login',filters: [login  ]}
-,{ method: 'get',path: '/logout',filters: [logout  ]}
-,{ method: 'get',path: '/dashboard',filters: [showDashboard  ]}
-,{ method: 'post',path: '/api/jobs',filters: [createJob  ]}
+,{ method: 'get',path: '/post',filters: [showPostJobPage  ]}
 ,{ method: 'get',path: '/jobs/:id',filters: [showProfile  ]}
 ]
 }}})

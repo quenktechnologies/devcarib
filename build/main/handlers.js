@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showJobs = exports.showProfile = exports.createJob = exports.logout = exports.login = exports.createEmployer = exports.showRegistrationForm = exports.showLoginForm = exports.showDashboard = exports.showIndex = exports.ERROR_AUTH_FAILED = void 0;
+exports.showPostJobPage = exports.showJobs = exports.showProfile = exports.createJob = exports.logout = exports.login = exports.createEmployer = exports.showRegistrationForm = exports.showLoginForm = exports.showDashboard = exports.showIndex = exports.ERROR_AUTH_FAILED = void 0;
 const bcryptjs = require("bcryptjs");
 const collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
 const response_1 = require("@quenk/tendril/lib/app/api/action/response");
@@ -180,7 +180,14 @@ exports.showJobs = (_) => monad_1.doN(function* () {
     let collection = db.collection('jobs');
     let mResult = yield control_1.await(() => collection_1.find(collection, {}, { sort: { created_at: -1 }, limit: 30 }));
     let jobs = mResult.isNothing() ? [] : mResult.get();
-    return response_1.show('index/index.html', { jobs: jobs });
+    return response_1.show('index.html', { jobs: jobs });
+});
+/**
+ * showPostJobPage displays the form for creating new posts on a new
+ * page.
+ */
+exports.showPostJobPage = (_) => monad_1.doN(function* () {
+    return response_1.show('post-form.html', {});
 });
 //retrieves the main connection from the tendril pool.
 const getMain = () => pool_1.checkout('main');

@@ -1,29 +1,11 @@
 %import 
-        showRegistrationForm,
-        showLoginForm,
-        showDashboard,
         showJobs,
-        login,
-        logout,
-        createEmployer,
-        createJob,
-        showProfile 
+        showProfile,
+        showPostJobPage
 from "./handlers"
 
-GET / showJobs
+GET  /                    showJobs
 
-GET /register showRegistrationForm
+GET  /post                showPostJobPage 
 
-POST /register  createEmployer
-
-GET /login showLoginForm
-
-POST /login login
-
-GET /logout logout
-
-GET /dashboard showDashboard
-
-POST /api/jobs createJob
-
-GET /jobs/:id showProfile
+GET  /jobs/:id            showProfile

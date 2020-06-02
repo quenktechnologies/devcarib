@@ -290,7 +290,18 @@ export const showJobs = (_: Request): ActionM<undefined> =>
 
         let jobs = mResult.isNothing() ? [] : mResult.get();
 
-        return show('index/index.html', { jobs: jobs });
+        return show('index.html', { jobs: jobs });
+
+    });
+
+/**
+ * showPostJobPage displays the form for creating new posts on a new
+ * page.
+ */
+export const showPostJobPage = (_: Request): ActionM<undefined> =>
+    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
+
+        return show('post-form.html', {});
 
     });
 

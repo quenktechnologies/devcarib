@@ -19,23 +19,19 @@ exports.template = (_app) => ({ 'create':
             options: [{ path: `packages/local/board-views/views` }] }, 'middleware': { 'available': { public: { provider: express.static,
                     options: [`${__dirname}/../../public`, { maxAge: 0 }] },
                 viewsPublic: { provider: express.static,
-                    options: [`${__dirname}/../../packages/local/board-views/public`, { maxAge: 0 }] }, log: { provider: tendrilMiddlewareMorgan.log, options: [process.env['MORGAN_LOG_FORMAT']] }, json: { provider: bodyParser.json },
+                    options: [`${__dirname}/../../packages/local/board-views/public`, { maxAge: 0 }] },
+                postPublic: { provider: express.static,
+                    options: [`${__dirname}/../../packages/local/board-app-post/public`, { maxAge: 0 }] }, log: { provider: tendrilMiddlewareMorgan.log, options: [process.env['MORGAN_LOG_FORMAT']] }, json: { provider: bodyParser.json },
                 urlencoded: { provider: bodyParser.urlencoded },
                 frontend: { provider: express.static,
                     options: [`${__dirname}/../../packages/board-frontend/public`, { maxAge: 0 }] }, session: { provider: tendrilSessionMongodb.session, options: [{ session: { secret: process.env['SESSION_SECRET'], key: `boardsesssioncookie`,
                                 resave: false,
                                 saveUninitialized: false },
                             store: { uri: process.env['MONGO_URL'] } }] }, rmExpired: { provider: middleware.removeExpired },
-                decTTL: { provider: middleware.decrementTTL } }, 'enabled': [`log`, `public`, `viewsPublic`, `frontend`, `session`, `rmExpired`, `decTTL`, `json`, `urlencoded`] }, 'on': { 'connected': events.connected,
+                decTTL: { provider: middleware.decrementTTL } }, 'enabled': [`log`, `public`, `viewsPublic`, `postPublic`, `frontend`, `session`, `rmExpired`, `decTTL`, `json`, `urlencoded`] }, 'on': { 'connected': events.connected,
             'started': events.started }, 'routes': (_m) => {
             return [{ method: 'get', path: '/', filters: [handlers_1.showJobs] },
-                { method: 'get', path: '/register', filters: [handlers_1.showRegistrationForm] },
-                { method: 'post', path: '/register', filters: [handlers_1.createEmployer] },
-                { method: 'get', path: '/login', filters: [handlers_1.showLoginForm] },
-                { method: 'post', path: '/login', filters: [handlers_1.login] },
-                { method: 'get', path: '/logout', filters: [handlers_1.logout] },
-                { method: 'get', path: '/dashboard', filters: [handlers_1.showDashboard] },
-                { method: 'post', path: '/api/jobs', filters: [handlers_1.createJob] },
+                { method: 'get', path: '/post', filters: [handlers_1.showPostJobPage] },
                 { method: 'get', path: '/jobs/:id', filters: [handlers_1.showProfile] }
             ];
         } } });
