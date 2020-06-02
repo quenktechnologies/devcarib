@@ -68,6 +68,20 @@ app.middleware.available = {
 
   }
 
+  postPublic = {
+
+    provider = express#static
+
+    options = [
+
+      "${__dirname}/../../packages/local/board-app-post/public",
+
+       {maxAge=0}
+
+    ]
+
+  }
+
   log = {
 
     provider = @quenk/tendril-middleware-morgan#log
@@ -143,6 +157,7 @@ app.middleware.enabled = [
    "log",
    "public", 
    "viewsPublic",
+   "postPublic",
    "frontend",
    "session",
    "rmExpired",
