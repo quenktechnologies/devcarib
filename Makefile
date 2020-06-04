@@ -35,6 +35,8 @@ LOCAL_PACKAGES_DIR:=$(PACKAGES_DIR)/local
 PROJECT_BUILD_DIR:=$(HERE)/build
 PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/main
 
+CLEAN_TARGETS:=
+
 # Configure the paths for your extra packages here.
 CSA_SESSION_BUILD:=$(PACKAGES_DIR)/csa-session/lib
 BOARD_TYPES_BUILD:=$(PACKAGES_DIR)/board-types/lib
@@ -42,7 +44,7 @@ BOARD_VALIDATION_BUILD:=$(PACKAGES_DIR)/board-validation/lib
 BOARD_CHECKS_BUILD:=$(PACKAGES_DIR)/board-checks/lib
 BOARD_FRONTEND_BUILD:=$(PACKAGES_DIR)/board-frontend/public
 BOARD_VIEWS_DIR:=$(LOCAL_PACKAGES_DIR)/board-views
-BOARD_APP_POST_DIR:=$(LOCAL_PACKAGES_DIR)/board-app-post
+BOARD_FORM_POST_DIR:=$(LOCAL_PACKAGES_DIR)/board-form-post
 ### Dependency Graph ###
 
 .DELETE_ON_ERROR:
@@ -55,7 +57,7 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 		      $(BOARD_CHECKS_BUILD)\
 		      $(BOARD_FRONTEND_BUILD)\
 		      $(BOARD_VIEWS_DIR)\
-		      $(BOARD_APP_POST_DIR)
+		      $(BOARD_FORM_POST_DIR)
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
 	$(TDC) $(PROJECT_BUILD_MAIN_DIR)
@@ -68,9 +70,10 @@ include $(PACKAGES_DIR)/board-types/build.mk
 include $(PACKAGES_DIR)/board-validation/build.mk
 include $(PACKAGES_DIR)/board-checks/build.mk
 include $(BOARD_VIEWS_DIR)/build.mk
-include $(BOARD_APP_POST_DIR)/build.mk
+include $(BOARD_FORM_POST_DIR)/build.mk
 
 # Remove the build application files.
 .PHONY: clean
 clean: 
 	rm -R $(PROJECT_BUILD_DIR) || true
+	rm -R $(CLEAN_TARGETS) || true
