@@ -21,7 +21,7 @@ exports.template = (_app) => ({ 'create':
                 viewsPublic: { provider: express.static,
                     options: [`${__dirname}/../../packages/local/board-views/public`, { maxAge: 0 }] },
                 postPublic: { provider: express.static,
-                    options: [`${__dirname}/../../packages/local/board-app-post/public`, { maxAge: 0 }] }, log: { provider: tendrilMiddlewareMorgan.log, options: [process.env['MORGAN_LOG_FORMAT']] }, json: { provider: bodyParser.json },
+                    options: [`${__dirname}/../../packages/local/board-form-post/public`, { maxAge: 0 }] }, log: { provider: tendrilMiddlewareMorgan.log, options: [process.env['MORGAN_LOG_FORMAT']] }, json: { provider: bodyParser.json },
                 urlencoded: { provider: bodyParser.urlencoded },
                 frontend: { provider: express.static,
                     options: [`${__dirname}/../../packages/board-frontend/public`, { maxAge: 0 }] }, session: { provider: tendrilSessionMongodb.session, options: [{ session: { secret: process.env['SESSION_SECRET'], key: `boardsesssioncookie`,
