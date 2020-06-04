@@ -1,6 +1,6 @@
 {
 
-    "name": "@board/app-post",
+    "name": "@board/form-post",
     "private": "true",
     "version": "0.0.1",
     "main": "lib/index.js"
