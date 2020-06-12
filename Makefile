@@ -12,6 +12,7 @@ SHELL=/bin/bash -o pipefail
 ### Binaries. ###
 TDC?=$(HERE)/node_modules/.bin/tdc
 TSC?=$(HERE)/node_modules/.bin/tsc
+WML?=$(HERE)/node_modules/.bin/wmlc
 MKDIRP?=mkdir -p
 FIND?=find
 CP?=cp
@@ -40,8 +41,8 @@ CLEAN_TARGETS:=
 # Configure the paths for your extra packages here.
 CSA_SESSION_BUILD:=$(PACKAGES_DIR)/csa-session/lib
 BOARD_TYPES_BUILD:=$(PACKAGES_DIR)/board-types/lib
-BOARD_VALIDATION_BUILD:=$(PACKAGES_DIR)/board-validation/lib
-BOARD_CHECKS_BUILD:=$(PACKAGES_DIR)/board-checks/lib
+BOARD_VALIDATION_DIR:=$(LOCAL_PACKAGES_DIR)/board-validation
+BOARD_CHECKS_DIR:=$(LOCAL_PACKAGES_DIR)/board-checks
 BOARD_FRONTEND_BUILD:=$(PACKAGES_DIR)/board-frontend/public
 BOARD_VIEWS_DIR:=$(LOCAL_PACKAGES_DIR)/board-views
 BOARD_FORM_POST_DIR:=$(LOCAL_PACKAGES_DIR)/board-form-post
@@ -53,8 +54,8 @@ BOARD_FORM_POST_DIR:=$(LOCAL_PACKAGES_DIR)/board-form-post
 # Remember to add a dependency here for each of your extra packages.
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 		      $(BOARD_TYPES_BUILD)\
-		      $(BOARD_VALIDATION_BUILD)\
-		      $(BOARD_CHECKS_BUILD)\
+		      $(BOARD_VALIDATION_DIR)\
+		      $(BOARD_CHECKS_DIR)\
 		      $(BOARD_FRONTEND_BUILD)\
 		      $(BOARD_VIEWS_DIR)\
 		      $(BOARD_FORM_POST_DIR)
@@ -67,8 +68,8 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 # Include *.mk files here.
 include $(PACKAGES_DIR)/board-frontend/build.mk
 include $(PACKAGES_DIR)/board-types/build.mk
-include $(PACKAGES_DIR)/board-validation/build.mk
-include $(PACKAGES_DIR)/board-checks/build.mk
+include $(BOARD_VALIDATION_DIR)/build.mk
+include $(BOARD_CHECKS_DIR)/build.mk
 include $(BOARD_VIEWS_DIR)/build.mk
 include $(BOARD_FORM_POST_DIR)/build.mk
 
