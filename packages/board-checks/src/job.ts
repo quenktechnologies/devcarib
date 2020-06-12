@@ -15,7 +15,7 @@ import { validate } from '@board/validation/lib/job';
  * check for Job type.
  */
 export const check: Precondition<Value, Job> = and(
-    async(validate), restrict<any, any, any, Job>({
+    async(validate), restrict<any, any, Job>({
 
         id: id,
 

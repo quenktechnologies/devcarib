@@ -14,7 +14,7 @@ import { Job } from '@board/types/lib/job';
  * validate a JSON value as a Job.
  */
 export const validate: Precondition<Value, Job> =
-    and(isRecord, restrict<any, any, any, Job>({
+    and(isRecord, restrict<any, any, Job>({
 
         title: every(isString, trim, minLength(3), maxLength(140)),
 

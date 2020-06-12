@@ -16,7 +16,7 @@ import { id, bcrypt } from './';
  * check for Employer type.
  */
 export const check: Precondition<Value, Employer> = and(
-    async(validate), restrict<any, any, any, Employer>({
+    async(validate), restrict<any, any, Employer>({
 
         id: id,
 

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.validate = void 0;
 var preconditions_1 = require("@quenk/preconditions");
 var record_1 = require("@quenk/preconditions/lib/record");
 var string_1 = require("@quenk/preconditions/lib/string");
