@@ -14,8 +14,8 @@ UGLIFYJS?=./node_modules/.bin/uglifyjs
 BOARD_FORM_POST_JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
 BOARD_FORM_POST_SRC_DIR:=$(BOARD_FORM_POST_DIR)/src
 
-BOARD_FORM_POST_TS_FILES:=$(shell $(FIND) $(BOARD_FORM_POST_SRC_DIR)\
-                         -name \*.ts -o -name \*.json)
+BOARD_FORM_POST_SRC_FILES:=$(shell $(FIND) $(BOARD_FORM_POST_SRC_DIR)\
+                         -name \*.ts -o -name \*.json -o -name \*.wml)
 
 BOARD_FORM_POST_LIB_DIR:=$(BOARD_FORM_POST_DIR)/lib
 BOARD_FORM_POST_LESS_FILES:=$(shell $(FIND) $(BOARD_FORM_POST_SRC_DIR)\
@@ -42,10 +42,11 @@ $(BOARD_FORM_POST_JS_FILE): $(BOARD_FORM_POST_LIB_DIR)
 	$(BROWSERIFY) $(BOARD_FORM_POST_LIB_DIR)/main.js \
 	$(if $(findstring yes,$(DEBUG)),,|$(UGLIFYJS)) > $@
 
-$(BOARD_FORM_POST_LIB_DIR): $(BOARD_FORM_POST_TS_FILES)
+$(BOARD_FORM_POST_LIB_DIR): $(BOARD_FORM_POST_SRC_FILES)
 	rm -R $@ 2> /dev/null || true 
 	mkdir $@
 	cp -R -u $(BOARD_FORM_POST_SRC_DIR)/* $@
+	$(WMLC) $@
 	$(TSC) --project $@
 	touch $@
 

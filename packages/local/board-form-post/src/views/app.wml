@@ -1,0 +1,126 @@
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+
+{% import (PostFormApp) from "../main" %}
+
+{% view PostFormAppView (PostFormApp) %}
+
+<form>
+
+  <GridLayout>
+
+    <Row>
+
+      <Column ww:span=10 ww:offset=1>
+
+        <Row>
+
+          <Column ww:span=6>
+
+            <TextField
+              wml:id="company"
+              ww:name="company"
+              ww:label="Company*"
+              ww:value={{@values.post.data.company}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+          <Column ww:span=6>
+
+            <TextField
+              wml:id="company_email"
+              ww:name="company_email" 
+              ww:label="Email*"
+              ww:value={{@values.post.data.company_email}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column ww:span=6>
+
+            <TextField
+              wml:id="company_logo"
+              ww:name="company_logo"
+              ww:label="Logo URL"
+              ww:value={{@values.post.data.company_logo}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+          <Column ww:span=6>
+
+            <TextField
+              wml:id="apply_url"
+              ww:name="apply_url"
+              ww:label="Apply Link"
+              ww:value={{@values.post.data.apply_url}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column>
+
+             <TextField
+              wml:id="title"
+              ww:name="title"
+              ww:label="Job Title*"
+              ww:value={{@values.post.data.title}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+        
+          <Column>
+
+            <TextField
+              wml:id="description"
+              ww:name="description"
+              ww:rows=12 
+              ww:value={{@values.post.data.description}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+      </Column>
+
+    </Row>
+
+    <Row>
+
+      <Column>
+
+        <div class="preview-button-container">
+
+          <Button
+           wml:id={{@values.buttons.preview.id}}
+           ww:disabled=true
+           ww:className="preview-button -primary -large"
+           ww:text="Preview" />
+
+
+        </div>
+
+        <p class="required-note"><b>* indicates a field is required.</b></p>
+
+      </Column>
+
+    </Row>
+
+  </GridLayout>
+
+</form>
