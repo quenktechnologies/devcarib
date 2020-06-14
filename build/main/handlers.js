@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showPostJobPage = exports.showJobs = exports.showProfile = exports.createJob = exports.logout = exports.login = exports.createEmployer = exports.showRegistrationForm = exports.showLoginForm = exports.showDashboard = exports.showIndex = exports.ERROR_AUTH_FAILED = void 0;
+exports.showPostJobPage = exports.showJobs = exports.showProfile = exports.createPost = exports.logout = exports.login = exports.showLoginForm = exports.showIndex = exports.ERROR_AUTH_FAILED = void 0;
 const bcryptjs = require("bcryptjs");
 const collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
 const response_1 = require("@quenk/tendril/lib/app/api/action/response");
@@ -9,8 +9,7 @@ const pool_1 = require("@quenk/tendril/lib/app/api/action/pool");
 const monad_1 = require("@quenk/noni/lib/control/monad");
 const record_1 = require("@quenk/noni/lib/data/record");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
-const employer_1 = require("@board/checks/lib/employer");
-const job_1 = require("@board/checks/lib/job");
+const post_1 = require("@board/checks/lib/post");
 exports.ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 /**
  * showIndex of the site.
@@ -30,43 +29,9 @@ exports.showIndex = (r) => {
     }
 };
 /**
- * showDashboard displays the application dashboard.
- */
-exports.showDashboard = (_) => response_1.show('dashboard.html', {});
-/**
  * showLoginForm displays the user login form.
  */
 exports.showLoginForm = (r) => response_1.show('login.html', r.session);
-/**
- * showRegistrationForm displays the employer regisration form.
- */
-exports.showRegistrationForm = (r) => response_1.show('employer/registration/form.html', r.session);
-/**
- * createEmployer creates a new user account for an employer.
- *
- * It works like this:
- * 1. We apply the Employer check to the request body to see if its valid.
- * 2. If yes we save the employer in the "users" collection and redirect
- *    to the login page.
- * 3. If not, we store the errors in the session and redirect to the form.
- */
-exports.createEmployer = (req) => monad_1.doN(function* () {
-    let r = req;
-    let eResult = yield control_1.await(() => employer_1.check(r.body));
-    if (eResult.isRight()) {
-        let data = eResult.takeRight();
-        let db = yield getMain();
-        let collection = db.collection('users');
-        yield control_1.await(() => collection_1.insertOne(collection, data));
-        return response_1.redirect('/login', 303);
-    }
-    else {
-        //TODO: expand the errors so they make sense.
-        if (r.session != null)
-            r.session.errors = eResult.takeLeft().explain();
-        return response_1.redirect('/', 303);
-    }
-});
 /**
  * login attempts to authenticate a user so they can access the protected
  * resources of the application.
@@ -132,24 +97,20 @@ exports.logout = (req) => monad_1.doN(function* () {
     return response_1.redirect('/', 302);
 });
 /**
- * createJob
- *
- * Operates simllar to createEmployer except we are creating a job.
- * This handler is meant to be used by the dashboard's client side application.
- * The responses are in JSON.
+ * createPost saves the submitted post data in the database for approval later.
  */
-exports.createJob = (r) => monad_1.doN(function* () {
-    let eResult = yield control_1.await(() => job_1.check(r.body));
+exports.createPost = (r) => monad_1.doN(function* () {
+    let eResult = yield control_1.await(() => post_1.check(r.body));
     if (eResult.isRight()) {
         let data = eResult.takeRight();
         let db = yield getMain();
-        let collection = db.collection('jobs');
-        data.employer = r.session.user;
+        let collection = db.collection('posts');
+        data.approved = false;
         yield control_1.await(() => collection_1.insertOne(collection, data));
         return response_1.created({ id: data.id });
     }
     else {
-        return response_1.conflict(eResult.takeLeft().explain());
+        return response_1.conflict({ errors: eResult.takeLeft().explain() });
     }
 });
 /**

@@ -32,6 +32,7 @@ exports.template = (_app) => ({ 'create':
             'started': events.started }, 'routes': (_m) => {
             return [{ method: 'get', path: '/', filters: [handlers_1.showJobs] },
                 { method: 'get', path: '/post', filters: [handlers_1.showPostJobPage] },
+                { method: 'post', path: '/post', filters: [handlers_1.createPost] },
                 { method: 'get', path: '/jobs/:id', filters: [handlers_1.showProfile] }
             ];
         } } });
