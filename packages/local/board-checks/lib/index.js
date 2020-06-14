@@ -31,8 +31,8 @@ exports.id = exports.bcrypt = void 0;
 var bcryptjs = require("bcryptjs");
 var uuid = require("uuid");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
-var result_1 = require("@quenk/preconditions/lib/result");
 var monad_1 = require("@quenk/noni/lib/control/monad");
+var result_1 = require("@quenk/preconditions/lib/result");
 var salt = function () {
     return future_1.fromCallback(function (cb) { return bcryptjs.genSalt(12, cb); });
 };
@@ -55,6 +55,9 @@ exports.bcrypt = function (str) {
         });
     });
 };
+/**
+ * id generates the id number for a record.
+ */
 exports.id = function () {
     return future_1.pure(result_1.succeed(uuid.v4().split('-').join('')));
 };

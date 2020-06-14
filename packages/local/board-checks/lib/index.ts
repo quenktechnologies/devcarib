@@ -1,10 +1,11 @@
 import * as bcryptjs from 'bcryptjs';
 import * as uuid from 'uuid';
 
+import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Future, fromCallback, pure } from '@quenk/noni/lib/control/monad/future';
-
-import { Result as SResult, succeed } from '@quenk/preconditions/lib/result';
 import { doN, DoFn } from '@quenk/noni/lib/control/monad';
+import { Result as SResult, succeed } from '@quenk/preconditions/lib/result';
+import { Precondition } from '@quenk/preconditions/lib/async';
 
 export type Result<A, B> = Future<SResult<A, B>>;
 
@@ -24,5 +25,8 @@ export const bcrypt = (str: string): Result<string, string> =>
 
     });
 
-export const id = (): Result<void, string> =>
-    pure(succeed(uuid.v4().split('-').join('')));
+/**
+ * id generates the id number for a record.
+ */
+export const id: Precondition<Value, Value> = () =>
+    pure(succeed(<Value>uuid.v4().split('-').join('')));
