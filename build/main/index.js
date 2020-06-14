@@ -30,10 +30,10 @@ exports.template = (_app) => ({ 'create':
                             store: { uri: process.env['MONGO_URL'] } }] }, rmExpired: { provider: middleware.removeExpired },
                 decTTL: { provider: middleware.decrementTTL } }, 'enabled': [`log`, `public`, `viewsPublic`, `postPublic`, `frontend`, `session`, `rmExpired`, `decTTL`, `json`, `urlencoded`] }, 'on': { 'connected': events.connected,
             'started': events.started }, 'routes': (_m) => {
-            return [{ method: 'get', path: '/', filters: [handlers_1.showJobs] },
+            return [{ method: 'get', path: '/', filters: [handlers_1.showPosts] },
                 { method: 'get', path: '/post', filters: [handlers_1.showPostJobPage] },
                 { method: 'post', path: '/post', filters: [handlers_1.createPost] },
-                { method: 'get', path: '/jobs/:id', filters: [handlers_1.showProfile] }
+                { method: 'get', path: '/posts/:id', filters: [handlers_1.showPost] }
             ];
         } } });
 //# sourceMappingURL=index.js.map

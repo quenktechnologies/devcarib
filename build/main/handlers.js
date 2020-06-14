@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showPostJobPage = exports.showJobs = exports.showProfile = exports.createPost = exports.logout = exports.login = exports.showLoginForm = exports.showIndex = exports.ERROR_AUTH_FAILED = void 0;
+exports.showPostJobPage = exports.showPosts = exports.showPost = exports.createPost = exports.logout = exports.login = exports.showLoginForm = exports.showIndex = exports.ERROR_AUTH_FAILED = void 0;
 const bcryptjs = require("bcryptjs");
 const collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
 const response_1 = require("@quenk/tendril/lib/app/api/action/response");
@@ -114,34 +114,32 @@ exports.createPost = (r) => monad_1.doN(function* () {
     }
 });
 /**
- * showProfile
- *
- * gets and id, then gets the jobs collection from the
- * database. Then searches through the jobs collection for
- * a job where the job's id is the same as the previously collected id
- * and displays the information related to that job.
+ * showPost displays a page for a single approved post.
  */
-exports.showProfile = (r) => monad_1.doN(function* () {
+exports.showPost = (r) => monad_1.doN(function* () {
     let id = r.params.id;
     let db = yield getMain();
-    let collection = db.collection('jobs');
-    let mResult = yield control_1.await(() => collection_1.findOne(collection, { id: id }));
+    let collection = db.collection('posts');
+    let qry = { id: id, approved: true };
+    let mResult = yield control_1.await(() => collection_1.findOne(collection, qry));
     if (mResult.isNothing())
         return response_1.show('errors/not-found.html', {}, 404);
     else
-        return response_1.show('jobs/profile.html', { job: mResult.get() });
+        return response_1.show('post.html', { post: mResult.get() });
 });
 /**
- * showJobs
+ * showPosts currently approved.
  *
- * shows the recent 30 posts from the database to visitors of the site.
+ * This only shows the most recent 50 posts. In future we will refactor if
+ * needed to show more.
  */
-exports.showJobs = (_) => monad_1.doN(function* () {
+exports.showPosts = (_) => monad_1.doN(function* () {
     let db = yield getMain();
-    let collection = db.collection('jobs');
-    let mResult = yield control_1.await(() => collection_1.find(collection, {}, { sort: { created_at: -1 }, limit: 30 }));
-    let jobs = mResult.isNothing() ? [] : mResult.get();
-    return response_1.show('index.html', { jobs: jobs });
+    let collection = db.collection('posts');
+    let qry = { approved: true };
+    let mResult = yield control_1.await(() => collection_1.find(collection, qry, { sort: { created_at: -1 }, limit: 50 }));
+    let posts = mResult.isNothing() ? [] : mResult.get();
+    return response_1.show('index.html', { posts: posts });
 });
 /**
  * showPostJobPage displays the form for creating new posts on a new
