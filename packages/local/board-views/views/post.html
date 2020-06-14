@@ -1,6 +1,6 @@
-{% extends "common/base.html" %}
+{% extends "base.html" %}
 
-{% block title %}{{job.title}}{% endblock %}
+{% block title %}{{post.title}}{% endblock %}
 
 {% block body %}
   
@@ -14,7 +14,7 @@
 
                     <div class="ww-grid-layout__column">
 
-                        <h1>{{job.title}}</h1>
+                        <h1>{{post.title}}</h1>
 
                     </div>
 
@@ -26,15 +26,15 @@
 
                         <dl class="ww-description-list ww-property-list -horizontal">
                             <dt>Country</dt>
-                            <dd>{{job.country}}</dd>
+                            <dd>{{post.country}}</dd>
                             <dt>City</dt>
-                            <dd>{{job.city}}</dd>
+                            <dd>{{post.city}}</dd>
                             <dt>Type</dt>
-                            <dd>{{job.type}}</dd>
+                            <dd>{{post.type}}</dd>
                             <dt>Role</dt>
-                            <dd>{{job.role}}</dd>
+                            <dd>{{post.role}}</dd>
                             <dt>Industry</dt>
-                            <dd>{{job.industry}}</dd>
+                            <dd>{{post.industry}}</dd>
                         </dl>
 
                     </div>
@@ -49,7 +49,7 @@
 
                         <p>
 
-                            {% if job.technologies %} {% for tag in job.technologies.split(',') %}
+                            {% if post.technologies %} {% for tag in post.technologies.split(',') %}
                             <span class="ww-tag -primary">{{tag}}</span> {% endfor
                             %} {% endif %}
                         </p>
@@ -64,7 +64,7 @@
 
                         <h3>Job Description</h3>
 
-                        <p>{{job.description}}</p>
+                        <p>{{post.description}}</p>
 
                     </div>
 
@@ -74,9 +74,11 @@
 
                     <div class="ww-grid-layout__column">
 
-                        {% if job.link %}
+                        {% if post.apply_url %}
 
-                        <a href="{{job.link}}" class="ww-button -success">Apply</a>                        {% endif %}
+                          <a href="{{post.apply_url|escape}}" 
+                             class="ww-button -success">Apply</a>   
+                        {% endif %}
 
                     </div>
 
