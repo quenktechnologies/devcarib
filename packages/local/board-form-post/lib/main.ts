@@ -21,9 +21,19 @@ export type WMLId = string;
  */
 export type Message = string;
 
-const CHANGE_EVENT_DURATION = 500;
+const CHANGE_EVENT_DURATION = 1000;
 
 const messages = {
+
+    notNull: '{name} is required.',
+
+    minLength: '{name} must be at least {target} characters.',
+
+    maxLength: '{name} must not be more than {target} characters.',
+
+    isString: '{name} is invalid.',
+
+    isNumber: '{name} is invalid.'
 
 }
 
@@ -58,7 +68,9 @@ export class PostFormApp {
 
                     if (eResult.isLeft()) {
 
-                        let msg = <string>eResult.takeLeft().explain(messages);
+                        let msg = <string>eResult
+                            .takeLeft()
+                            .explain(messages, { name });
 
                         this.setControlErrorMessage(e.name, msg);
 

@@ -6,8 +6,14 @@ var util_1 = require("@quenk/wml-widgets/lib/util");
 var feedback_1 = require("@quenk/wml-widgets/lib/control/feedback");
 var post_1 = require("@board/validation/lib/post");
 var app_1 = require("./views/app");
-var CHANGE_EVENT_DURATION = 500;
-var messages = {};
+var CHANGE_EVENT_DURATION = 1000;
+var messages = {
+    notNull: '{name} is required.',
+    minLength: '{name} must be at least {target} characters.',
+    maxLength: '{name} must not be more than {target} characters.',
+    isString: '{name} is invalid.',
+    isNumber: '{name} is invalid.'
+};
 /**
  * PostFormApp provides the JS form used to create new forms.
  *
@@ -29,7 +35,9 @@ var PostFormApp = /** @class */ (function () {
                         _this.values.post.data[name] = value;
                         var eResult = post_1.schema[name](value);
                         if (eResult.isLeft()) {
-                            var msg = eResult.takeLeft().explain(messages);
+                            var msg = eResult
+                                .takeLeft()
+                                .explain(messages, { name: name });
                             _this.setControlErrorMessage(e.name, msg);
                         }
                         else {
