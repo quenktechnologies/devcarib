@@ -934,7 +934,7 @@ exports.urlFromString = function (url, params) {
     return url + "?" + qs.stringify(params);
 };
 
-},{"qs":26}],14:[function(require,module,exports){
+},{"qs":27}],14:[function(require,module,exports){
 "use strict";
 /**
  * This module provides functions and types to make dealing with ES errors
@@ -1308,19 +1308,30 @@ exports.attempt = function (f) { return new Run(function (s) {
     return function_1.noop;
 }); };
 /**
- * delay executes a function f after n milliseconds have passed.
+ * delay execution of a function f after n milliseconds have passed.
  *
- * Any errors thrown are caught.
+ * Any errors thrown are caught and processed in the Future chain.
  */
 exports.delay = function (f, n) {
     if (n === void 0) { n = 0; }
     return new Run(function (s) {
-        setTimeout(function () { try {
-            s.onSuccess(f());
-        }
-        catch (e) {
-            s.onError(e);
-        } }, n);
+        setTimeout(function () {
+            try {
+                s.onSuccess(f());
+            }
+            catch (e) {
+                s.onError(e);
+            }
+        }, n);
+        return function_1.noop;
+    });
+};
+/**
+ * wait n milliseconds before continuing the Future chain.
+ */
+exports.wait = function (n) {
+    return new Run(function (s) {
+        setTimeout(function () { s.onSuccess(undefined); }, n);
         return function_1.noop;
     });
 };
@@ -1539,7 +1550,7 @@ exports.throttle = function (f, duration) {
 };
 
 }).call(this,require('_process'))
-},{"_process":63}],17:[function(require,module,exports){
+},{"_process":66}],17:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -1570,11 +1581,18 @@ exports.empty = function (list) { return (list.length === 0); };
 /**
  * contains indicates whether an element exists in an array.
  */
-exports.contains = function (list) { return function (a) { return (list.indexOf(a) > -1); }; };
+exports.contains = function (list, a) { return (list.indexOf(a) > -1); };
 /**
  * map is a curried version of the Array#map method.
  */
 exports.map = function (list) { return function (f) { return list.map(f); }; };
+/**
+ * flatMap allows a function to produce a combined set of arrays from a map
+ * operation over each member of a list.
+ */
+exports.flatMap = function (list, f) {
+    return list.reduce(function (p, c, i) { return p.concat(f(c, i, list)); }, []);
+};
 /**
  * concat concatenates an element to an array without destructuring
  * the element if itself is an array.
@@ -1673,8 +1691,14 @@ exports.make = function (size, f) {
 exports.combine = function (list) {
     return list.reduce(function (p, c) { return p.concat(c); }, []);
 };
+/**
+ * compact removes any occurences of null or undefined in the list.
+ */
+exports.compact = function (list) {
+    return list.filter(function (v) { return (v != null); });
+};
 
-},{"../../math":24,"../record":21}],18:[function(require,module,exports){
+},{"../../math":25,"../record":21}],18:[function(require,module,exports){
 "use strict";
 /**
  * Either represents a value that may be one of two types.
@@ -2171,6 +2195,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * be able track integrity and may result in runtime errors if not used carefully.
  */
 var array_1 = require("../array");
+var type_1 = require("../type");
 /**
  * assign polyfill.
  */
@@ -2207,6 +2232,7 @@ exports.assign = assign;
  */
 exports.isRecord = function (value) {
     return (typeof value === 'object') &&
+        (value != null) &&
         (!Array.isArray(value)) &&
         (!(value instanceof Date)) &&
         (!(value instanceof RegExp));
@@ -2225,6 +2251,14 @@ exports.map = function (o, f) {
         var _a;
         return exports.merge(p, (_a = {}, _a[k] = f(o[k], k, o), _a));
     }, {});
+};
+/**
+ * mapTo maps over a Record's properties producing an array of each result.
+ *
+ * The order of elements in the array is not guaranteed.
+ */
+exports.mapTo = function (o, f) {
+    return exports.keys(o).map(function (k) { return f(o[k], k, o); });
 };
 /**
  * reduce a Record's keys to a single value.
@@ -2373,15 +2407,37 @@ exports.clone = function (r) {
     return exports.reduce(r, {}, function (p, c, k) { p[k] = _clone(c); return p; });
 };
 var _clone = function (a) {
-    if (Array.isArray(a))
+    if (type_1.isArray(a))
         return a.map(_clone);
-    else if (typeof a === 'object')
+    else if (exports.isRecord(a))
         return exports.clone(a);
     else
         return a;
 };
+/**
+ * count how many properties exist on the record.
+ */
+exports.count = function (r) { return exports.keys(r).length; };
+/**
+ * empty tests whether the object has any properties or not.
+ */
+exports.empty = function (r) { return exports.count(r) === 0; };
+/**
+ * some tests whether at least one property of a Record passes the
+ * test implemented by the provided function.
+ */
+exports.some = function (o, f) {
+    return exports.keys(o).some(function (k) { return f(o[k], k, o); });
+};
+/**
+ * every tests whether each  property of a Record passes the
+ * test implemented by the provided function.
+ */
+exports.every = function (o, f) {
+    return exports.keys(o).every(function (k) { return f(o[k], k, o); });
+};
 
-},{"../array":17}],22:[function(require,module,exports){
+},{"../array":17,"../type":24}],22:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2780,16 +2836,192 @@ exports.interpolate = function (str, data, opts) {
             .get();
     });
 };
+/**
+ * propercase converts a string into Proper Case.
+ */
+exports.propercase = function (str) {
+    return str
+        .trim()
+        .toLowerCase()
+        .split(' ')
+        .map(function (tok) { return (tok.length > 0) ?
+        "" + tok[0].toUpperCase() + tok.slice(1) : tok; })
+        .join(' ');
+};
 
 },{"./record":21,"./record/path":22}],24:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var prims = ['string', 'number', 'boolean'];
+/**
+ * Any is a class used to represent typescript's "any" type.
+ */
+var Any = /** @class */ (function () {
+    function Any() {
+    }
+    return Any;
+}());
+exports.Any = Any;
+/**
+ * isObject test.
+ *
+ * Does not consider an Array an object.
+ */
+exports.isObject = function (value) {
+    return (typeof value === 'object') && (!exports.isArray(value));
+};
+/**
+ * isArray test.
+ */
+exports.isArray = Array.isArray;
+/**
+ * isString test.
+ */
+exports.isString = function (value) {
+    return typeof value === 'string';
+};
+/**
+ * isNumber test.
+ */
+exports.isNumber = function (value) {
+    return (typeof value === 'number') && (!isNaN(value));
+};
+/**
+ * isBoolean test.
+ */
+exports.isBoolean = function (value) {
+    return typeof value === 'boolean';
+};
+/**
+ * isFunction test.
+ */
+exports.isFunction = function (value) {
+    return typeof value === 'function';
+};
+/**
+ * isPrim test.
+ */
+exports.isPrim = function (value) {
+    return !(exports.isObject(value) ||
+        exports.isArray(value) ||
+        exports.isFunction(value));
+};
+/**
+ * is performs a typeof of check on a type.
+ */
+exports.is = function (expected) { return function (value) {
+    return typeof (value) === expected;
+}; };
+/**
+ * test whether a value conforms to some pattern.
+ *
+ * This function is made available mainly for a crude pattern matching
+ * machinery that works as followss:
+ * string   -> Matches on the value of the string.
+ * number   -> Matches on the value of the number.
+ * boolean  -> Matches on the value of the boolean.
+ * object   -> Each key of the object is matched on the value, all must match.
+ * function -> Treated as a constructor and results in an instanceof check or
+ *             for String,Number and Boolean, this uses the typeof check. If
+ *             the function is RegExp then we uses the RegExp.test function
+ *             instead.
+ */
+exports.test = function (value, t) {
+    if ((prims.indexOf(typeof t) > -1) && (value === t))
+        return true;
+    else if ((typeof t === 'function') &&
+        (((t === String) && (typeof value === 'string')) ||
+            ((t === Number) && (typeof value === 'number')) ||
+            ((t === Boolean) && (typeof value === 'boolean')) ||
+            ((t === Array) && (Array.isArray(value))) ||
+            (t === Any) ||
+            (value instanceof t)))
+        return true;
+    else if ((t instanceof RegExp) &&
+        ((typeof value === 'string') &&
+            t.test(value)))
+        return true;
+    else if ((typeof t === 'object') && (typeof value === 'object'))
+        return Object
+            .keys(t)
+            .every(function (k) { return Object.hasOwnProperty.call(value, k) ?
+            exports.test(value[k], t[k]) : false; });
+    return false;
+};
+/**
+ * show the type of a value.
+ *
+ * Note: This may crash if the value is an
+ * object literal with recursive references.
+ */
+exports.show = function (value) {
+    if (typeof value === 'object') {
+        if (Array.isArray(value))
+            return "[" + value.map(exports.show) + "];";
+        else if (value.constructor !== Object)
+            return (value.constructor.name ||
+                value.constructor);
+        else
+            return JSON.stringify(value);
+    }
+    else {
+        return '' + value;
+    }
+};
+/**
+ * toString casts a value to a string.
+ *
+ * If the value is null or undefined an empty string is returned instead of
+ * the default.
+ */
+exports.toString = function (val) {
+    return (val == null) ? '' : String(val);
+};
+
+},{}],25:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * isMultipleOf tests whether the Integer 'y' is a multiple of x.
  */
 exports.isMultipleOf = function (x, y) { return ((y % x) === 0); };
+/**
+ * round a number "x" to "n" places (n defaults to 0 places).
+ *
+ * This uses the Math.round(x * n) / n method however we take into
+ * consideration the Math.round(1.005 * 100) / 100 === 1 issue by use of an
+ * offset:
+ *
+ * sign * (round((abs(x) * 10^n) + (1 / 10^n+1)) / 10^n)
+ *
+ * Where:
+ *
+ * sign is the sign of x
+ * round is Math.round
+ * abs is Math.abs
+ * (1 / 10^n+1) is the offset.
+ *
+ * The offset is only used if n is more than zero. The absolute value of x
+ * is used in the calculation to avoid JavaScript idiosyncracies when rounding
+ * 0.5:
+ * (Math.round((1.005 * 100)+0.001) / 100) === 1.01
+ *
+ * whereas
+ * (Math.round((-1.005 * 100)+0.001) / 100) === -1
+ *
+ * See the description [here]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round)
+ * for more details.
+ *
+ */
+exports.round = function (x, n) {
+    if (n === void 0) { n = 0; }
+    var exp = Math.pow(10, n);
+    var sign = x >= 0 ? 1 : -1;
+    var offset = (n > 0) ? (1 / (Math.pow(10, n + 1))) : 0;
+    return sign * (Math.round((Math.abs(x) * exp) + offset) / exp);
+};
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var replace = String.prototype.replace;
@@ -2817,7 +3049,7 @@ module.exports = util.assign(
     Format
 );
 
-},{"./utils":29}],26:[function(require,module,exports){
+},{"./utils":30}],27:[function(require,module,exports){
 'use strict';
 
 var stringify = require('./stringify');
@@ -2830,7 +3062,7 @@ module.exports = {
     stringify: stringify
 };
 
-},{"./formats":25,"./parse":27,"./stringify":28}],27:[function(require,module,exports){
+},{"./formats":26,"./parse":28,"./stringify":29}],28:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -2860,6 +3092,14 @@ var interpretNumericEntities = function (str) {
     return str.replace(/&#(\d+);/g, function ($0, numberStr) {
         return String.fromCharCode(parseInt(numberStr, 10));
     });
+};
+
+var parseArrayValue = function (val, options) {
+    if (val && typeof val === 'string' && options.comma && val.indexOf(',') > -1) {
+        return val.split(',');
+    }
+
+    return val;
 };
 
 // This is what browsers will submit when the ✓ character occurs in an
@@ -2910,15 +3150,16 @@ var parseValues = function parseQueryStringValues(str, options) {
             val = options.strictNullHandling ? null : '';
         } else {
             key = options.decoder(part.slice(0, pos), defaults.decoder, charset, 'key');
-            val = options.decoder(part.slice(pos + 1), defaults.decoder, charset, 'value');
+            val = utils.maybeMap(
+                parseArrayValue(part.slice(pos + 1), options),
+                function (encodedVal) {
+                    return options.decoder(encodedVal, defaults.decoder, charset, 'value');
+                }
+            );
         }
 
         if (val && options.interpretNumericEntities && charset === 'iso-8859-1') {
             val = interpretNumericEntities(val);
-        }
-
-        if (val && typeof val === 'string' && options.comma && val.indexOf(',') > -1) {
-            val = val.split(',');
         }
 
         if (part.indexOf('[]=') > -1) {
@@ -2935,8 +3176,8 @@ var parseValues = function parseQueryStringValues(str, options) {
     return obj;
 };
 
-var parseObject = function (chain, val, options) {
-    var leaf = val;
+var parseObject = function (chain, val, options, valuesParsed) {
+    var leaf = valuesParsed ? val : parseArrayValue(val, options);
 
     for (var i = chain.length - 1; i >= 0; --i) {
         var obj;
@@ -2964,13 +3205,13 @@ var parseObject = function (chain, val, options) {
             }
         }
 
-        leaf = obj;
+        leaf = obj; // eslint-disable-line no-param-reassign
     }
 
     return leaf;
 };
 
-var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
+var parseKeys = function parseQueryStringKeys(givenKey, val, options, valuesParsed) {
     if (!givenKey) {
         return;
     }
@@ -3021,7 +3262,7 @@ var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
         keys.push('[' + key.slice(segment.index) + ']');
     }
 
-    return parseObject(keys, val, options);
+    return parseObject(keys, val, options, valuesParsed);
 };
 
 var normalizeParseOptions = function normalizeParseOptions(opts) {
@@ -3034,7 +3275,7 @@ var normalizeParseOptions = function normalizeParseOptions(opts) {
     }
 
     if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
-        throw new Error('The charset option must be either utf-8, iso-8859-1, or undefined');
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
     }
     var charset = typeof opts.charset === 'undefined' ? defaults.charset : opts.charset;
 
@@ -3073,14 +3314,14 @@ module.exports = function (str, opts) {
     var keys = Object.keys(tempObj);
     for (var i = 0; i < keys.length; ++i) {
         var key = keys[i];
-        var newObj = parseKeys(key, tempObj[key], options);
+        var newObj = parseKeys(key, tempObj[key], options, typeof str === 'string');
         obj = utils.merge(obj, newObj, options);
     }
 
     return utils.compact(obj);
 };
 
-},{"./utils":29}],28:[function(require,module,exports){
+},{"./utils":30}],29:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -3158,7 +3399,12 @@ var stringify = function stringify(
     } else if (obj instanceof Date) {
         obj = serializeDate(obj);
     } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
-        obj = obj.join(',');
+        obj = utils.maybeMap(obj, function (value) {
+            if (value instanceof Date) {
+                return serializeDate(value);
+            }
+            return value;
+        }).join(',');
     }
 
     if (obj === null) {
@@ -3193,44 +3439,31 @@ var stringify = function stringify(
 
     for (var i = 0; i < objKeys.length; ++i) {
         var key = objKeys[i];
+        var value = obj[key];
 
-        if (skipNulls && obj[key] === null) {
+        if (skipNulls && value === null) {
             continue;
         }
 
-        if (isArray(obj)) {
-            pushToArray(values, stringify(
-                obj[key],
-                typeof generateArrayPrefix === 'function' ? generateArrayPrefix(prefix, key) : prefix,
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly,
-                charset
-            ));
-        } else {
-            pushToArray(values, stringify(
-                obj[key],
-                prefix + (allowDots ? '.' + key : '[' + key + ']'),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly,
-                charset
-            ));
-        }
+        var keyPrefix = isArray(obj)
+            ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(prefix, key) : prefix
+            : prefix + (allowDots ? '.' + key : '[' + key + ']');
+
+        pushToArray(values, stringify(
+            value,
+            keyPrefix,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encoder,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            formatter,
+            encodeValuesOnly,
+            charset
+        ));
     }
 
     return values;
@@ -3361,7 +3594,7 @@ module.exports = function (object, opts) {
     return joined.length > 0 ? prefix + joined : '';
 };
 
-},{"./formats":25,"./utils":29}],29:[function(require,module,exports){
+},{"./formats":26,"./utils":30}],30:[function(require,module,exports){
 'use strict';
 
 var has = Object.prototype.hasOwnProperty;
@@ -3587,6 +3820,17 @@ var combine = function combine(a, b) {
     return [].concat(a, b);
 };
 
+var maybeMap = function maybeMap(val, fn) {
+    if (isArray(val)) {
+        var mapped = [];
+        for (var i = 0; i < val.length; i += 1) {
+            mapped.push(fn(val[i]));
+        }
+        return mapped;
+    }
+    return fn(val);
+};
+
 module.exports = {
     arrayToObject: arrayToObject,
     assign: assign,
@@ -3596,12 +3840,15 @@ module.exports = {
     encode: encode,
     isBuffer: isBuffer,
     isRegExp: isRegExp,
+    maybeMap: maybeMap,
     merge: merge
 };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
+arguments[4][16][0].apply(exports,arguments)
+},{"_process":66,"dup":16}],32:[function(require,module,exports){
 arguments[4][20][0].apply(exports,arguments)
-},{"dup":20}],31:[function(require,module,exports){
+},{"dup":20}],33:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ///classNames:begin
@@ -3654,7 +3901,7 @@ exports.getBlockClassName = function (attrs) {
     return (attrs.ww && (attrs.ww.block === true)) ? exports.BLOCK : '';
 };
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ///classNames:begin
@@ -3692,7 +3939,7 @@ exports.getSizeClassName = function (s) {
     return '';
 };
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = require("../../util");
@@ -3734,7 +3981,7 @@ exports.isActive = function (view, id) {
         .get();
 };
 
-},{"../../util":61}],34:[function(require,module,exports){
+},{"../../util":63}],36:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ///classNames:begin
@@ -3807,7 +4054,7 @@ exports.getStyleClassName = function (s) {
     return exports.DEFAULT;
 };
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -3915,7 +4162,7 @@ var Button = /** @class */ (function (_super) {
 }(__2.AbstractControl));
 exports.Button = Button;
 
-},{"../":42,"../../":51,"../../content/orientation":31,"../../content/size":32,"../../content/state/active":33,"../../content/style":34,"../../util":61,"../toolbar":49,"./wml/button":36}],36:[function(require,module,exports){
+},{"../":44,"../../":53,"../../content/orientation":33,"../../content/size":34,"../../content/state/active":35,"../../content/style":36,"../../util":63,"../toolbar":51,"./wml/button":38}],38:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -3925,6 +4172,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -3950,12 +4198,17 @@ var ButtonView = /** @class */ (function () {
     function ButtonView(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('button', { wml: { 'id': __context.values.button.wml.id }, 'id': __context.values.button.id, 'type': __context.values.button.type, 'name': __context.values.button.name, 'disabled': __context.values.button.disabled, 'class': __context.values.button.className, 'onclick': __context.values.button.onclick }, __spreadArrays((__context.values.button.content())));
         };
     }
+    ButtonView.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     ButtonView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -3973,7 +4226,7 @@ var ButtonView = /** @class */ (function () {
         return e;
     };
     ButtonView.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -3985,7 +4238,7 @@ var ButtonView = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -3993,7 +4246,7 @@ var ButtonView = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -4011,12 +4264,18 @@ var ButtonView = /** @class */ (function () {
         return w.render();
     };
     ButtonView.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     ButtonView.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     ButtonView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4031,6 +4290,7 @@ var ButtonView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4046,12 +4306,17 @@ var AnchorView = /** @class */ (function () {
     function AnchorView(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('a', { wml: { 'id': __context.values.button.wml.id }, 'id': __context.values.button.id, 'type': __context.values.button.type, 'href': '#', 'name': __context.values.button.name, 'disabled': __context.values.button.disabled, 'class': __context.values.button.className, 'onclick': __context.values.button.onclick }, __spreadArrays((__context.values.button.content())));
         };
     }
+    AnchorView.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     AnchorView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4069,7 +4334,7 @@ var AnchorView = /** @class */ (function () {
         return e;
     };
     AnchorView.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -4081,7 +4346,7 @@ var AnchorView = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -4089,7 +4354,7 @@ var AnchorView = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -4107,12 +4372,18 @@ var AnchorView = /** @class */ (function () {
         return w.render();
     };
     AnchorView.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     AnchorView.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     AnchorView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4127,6 +4398,7 @@ var AnchorView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4138,7 +4410,7 @@ var AnchorView = /** @class */ (function () {
 }());
 exports.AnchorView = AnchorView;
 
-},{"@quenk/noni/lib/data/maybe":30}],37:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],39:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4305,7 +4577,7 @@ exports.validationState2ClassName = function (state) {
         return '';
 };
 
-},{"../content/style":34,"../control":42,"../util":61}],38:[function(require,module,exports){
+},{"../content/style":36,"../control":44,"../util":63}],40:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = require("../util");
@@ -4337,7 +4609,7 @@ exports.focus = function (view, id) {
         .map(function (e) { return e.focus(); });
 };
 
-},{"../util":61}],39:[function(require,module,exports){
+},{"../util":63}],41:[function(require,module,exports){
 "use strict";
 /**
  * The form module deals with controls specifically for accepting user input.
@@ -4391,7 +4663,7 @@ exports.removeMessage = function (view, id) {
     util_1.getById(view, id).map(function (h) { h.removeMessage(); });
 };
 
-},{"../util":61,"./feedback":37}],40:[function(require,module,exports){
+},{"../util":63,"./feedback":39}],42:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4448,7 +4720,7 @@ var Help = /** @class */ (function (_super) {
 }(wml_1.Component));
 exports.Help = Help;
 
-},{"../../":51,"../../util":61,"../feedback":37,"./wml/help":41,"@quenk/wml":62}],41:[function(require,module,exports){
+},{"../../":53,"../../util":63,"../feedback":39,"./wml/help":43,"@quenk/wml":65}],43:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -4458,6 +4730,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -4483,12 +4756,17 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('span', { wml: { 'id': __context.values.help.wml.id }, 'id': __context.values.help.id, 'class': __context.values.help.className }, __spreadArrays((__context.values.help.text)));
         };
     }
+    Main.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4506,7 +4784,7 @@ var Main = /** @class */ (function () {
         return e;
     };
     Main.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -4518,7 +4796,7 @@ var Main = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -4526,7 +4804,7 @@ var Main = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -4544,12 +4822,18 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Main.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4564,6 +4848,7 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4575,7 +4860,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":30}],42:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],44:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4648,7 +4933,7 @@ exports.getValue = function (attrs) {
     return (attrs.ww && attrs.ww.value) ? maybe_1.just(attrs.ww.value) : maybe_1.nothing();
 };
 
-},{"@quenk/noni/lib/data/maybe":30,"@quenk/wml":62}],43:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml":65}],45:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4693,7 +4978,7 @@ var Label = /** @class */ (function (_super) {
 }(wml_1.Component));
 exports.Label = Label;
 
-},{"../../":51,"../../util":61,"./wml/label":44,"@quenk/wml":62}],44:[function(require,module,exports){
+},{"../../":53,"../../util":63,"./wml/label":46,"@quenk/wml":65}],46:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -4703,6 +4988,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -4728,12 +5014,17 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('label', { 'for': __context.values.label.for, 'class': __context.values.label.className }, __spreadArrays((__context.values.label.text)));
         };
     }
+    Main.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4751,7 +5042,7 @@ var Main = /** @class */ (function () {
         return e;
     };
     Main.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -4763,7 +5054,7 @@ var Main = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -4771,7 +5062,7 @@ var Main = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -4789,12 +5080,18 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Main.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -4809,6 +5106,7 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -4820,7 +5118,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":30}],45:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],47:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -4926,17 +5224,18 @@ var oninput = function (f) { return function (e) {
             f.attrs.ww.name : '', e.target.value));
 }; };
 
-},{"../":42,"../../":51,"../../util":61,"../feedback":37,"../form":39,"../text-input":47,"./wml/text-field":46}],46:[function(require,module,exports){
+},{"../":44,"../../":53,"../../util":63,"../feedback":39,"../form":41,"../text-input":49,"./wml/text-field":48}],48:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
+//@ts-ignore: 6192
+var maybe_1 = require("@quenk/noni/lib/data/maybe");
 var label_1 = require("../../label");
 ;
 var help_1 = require("../../help");
 ;
 var text_input_1 = require("../../text-input");
 ;
-//@ts-ignore: 6192
-var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -4960,8 +5259,9 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.root.wml.id }, 'class': __context.values.root.className }, [
                 __this.widget(new label_1.Label({ ww: { 'for': __context.values.control.id, 'text': __context.values.label.text } }, []), { ww: { 'for': __context.values.control.id, 'text': __context.values.label.text } }),
@@ -4970,6 +5270,10 @@ var Main = /** @class */ (function () {
             ]);
         };
     }
+    Main.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -4987,7 +5291,7 @@ var Main = /** @class */ (function () {
         return e;
     };
     Main.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -4999,7 +5303,7 @@ var Main = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -5007,7 +5311,7 @@ var Main = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -5025,12 +5329,18 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Main.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5045,6 +5355,7 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5056,7 +5367,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"../../help":40,"../../label":43,"../../text-input":47,"@quenk/noni/lib/data/maybe":30}],47:[function(require,module,exports){
+},{"../../help":42,"../../label":45,"../../text-input":49,"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],49:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5073,6 +5384,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var views = require("./wml/text-input");
+var timer_1 = require("@quenk/noni/lib/control/timer");
 var util_1 = require("../../util");
 var orientation_1 = require("../../content/orientation");
 var size_1 = require("../../content/size");
@@ -5126,8 +5438,8 @@ var TextInput = /** @class */ (function (_super) {
                 _this.attrs.ww.placeholder : '',
             value: (_this.attrs.ww && _this.attrs.ww.value) ?
                 _this.attrs.ww.value : '',
-            rows: (_this.attrs.ww && _this.attrs.ww.rows) ?
-                _this.attrs.ww.rows : 1,
+            rows: String((_this.attrs.ww && _this.attrs.ww.rows) ?
+                _this.attrs.ww.rows : 1),
             disabled: (_this.attrs.ww && _this.attrs.ww.disabled === true) ?
                 true : null,
             readOnly: (_this.attrs.ww && _this.attrs.ww.readOnly === true) ?
@@ -5153,8 +5465,13 @@ var TextInput = /** @class */ (function (_super) {
         };
         return _this;
     }
+    TextInput.prototype.rendered = function () {
+        if (this.values.autofocus === true)
+            this.focus();
+    };
     TextInput.prototype.focus = function () {
-        return focus_1.focus(this.view, this.values.control.wml.id);
+        var _this = this;
+        return timer_1.tick(function () { return focus_1.focus(_this.view, _this.values.control.wml.id); });
     };
     return TextInput;
 }(__2.AbstractControl));
@@ -5168,9 +5485,10 @@ var dispatchInput = function (i) { return function (e) {
             i.attrs.ww.name : '', e.target.value));
 }; };
 
-},{"../":42,"../../":51,"../../content/orientation":31,"../../content/size":32,"../../util":61,"../focus":38,"./wml/text-input":48}],48:[function(require,module,exports){
+},{"../":44,"../../":53,"../../content/orientation":33,"../../content/size":34,"../../util":63,"../focus":40,"./wml/text-input":50,"@quenk/noni/lib/control/timer":31}],50:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -5196,14 +5514,19 @@ var Textarea = /** @class */ (function () {
     function Textarea(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('textarea', { wml: { 'id': __context.values.control.wml.id }, 'id': __context.values.id, 'name': __context.values.name, 'placeholder': __context.values.placeholder, 'oninput': __context.values.oninput, 'value': __context.values.value, 'disabled': __context.values.disabled, 'readonly': __context.values.readOnly, 'rows': __context.values.rows, 'class': __context.values.className }, [
                 document.createTextNode(__context.values.value)
             ]);
         };
     }
+    Textarea.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Textarea.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5221,7 +5544,7 @@ var Textarea = /** @class */ (function () {
         return e;
     };
     Textarea.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -5233,7 +5556,7 @@ var Textarea = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -5241,7 +5564,7 @@ var Textarea = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -5259,12 +5582,18 @@ var Textarea = /** @class */ (function () {
         return w.render();
     };
     Textarea.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Textarea.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Textarea.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5279,6 +5608,7 @@ var Textarea = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5294,12 +5624,17 @@ var Input = /** @class */ (function () {
     function Input(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('input', { wml: { 'id': __context.values.control.wml.id }, 'id': __context.values.id, 'name': __context.values.name, 'type': __context.values.type, 'min': __context.values.min, 'max': __context.values.max, 'placeholder': __context.values.placeholder, 'oninput': __context.values.oninput, 'onkeydown': __context.values.onkeydown, 'autofocus': __context.values.autofocus, 'value': __context.values.value, 'disabled': __context.values.disabled, 'readonly': __context.values.readOnly, 'class': __context.values.className }, []);
         };
     }
+    Input.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Input.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5317,7 +5652,7 @@ var Input = /** @class */ (function () {
         return e;
     };
     Input.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -5329,7 +5664,7 @@ var Input = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -5337,7 +5672,7 @@ var Input = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -5355,12 +5690,18 @@ var Input = /** @class */ (function () {
         return w.render();
     };
     Input.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Input.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Input.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5375,6 +5716,7 @@ var Input = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5386,7 +5728,7 @@ var Input = /** @class */ (function () {
 }());
 exports.Input = Input;
 
-},{"@quenk/noni/lib/data/maybe":30}],49:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],51:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5430,7 +5772,7 @@ var Toolbar = /** @class */ (function (_super) {
 }(wml_1.Component));
 exports.Toolbar = Toolbar;
 
-},{"../../":51,"../../util":61,"./wml/toolbar":50,"@quenk/wml":62}],50:[function(require,module,exports){
+},{"../../":53,"../../util":63,"./wml/toolbar":52,"@quenk/wml":65}],52:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -5440,6 +5782,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -5465,12 +5808,17 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { 'id': __context.values.root.id, 'class': __context.values.root.className }, __spreadArrays((__context.children)));
         };
     }
+    Main.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5488,7 +5836,7 @@ var Main = /** @class */ (function () {
         return e;
     };
     Main.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -5500,7 +5848,7 @@ var Main = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -5508,7 +5856,7 @@ var Main = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -5526,12 +5874,18 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Main.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5546,6 +5900,7 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5557,7 +5912,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":30}],51:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],53:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -5579,7 +5934,7 @@ exports.text = function (str) {
     return document.createTextNode(String((str == null) ? '' : str));
 };
 
-},{}],52:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5640,7 +5995,7 @@ var ActionBar = /** @class */ (function (_super) {
 }(__2.AbstractLayout));
 exports.ActionBar = ActionBar;
 
-},{"../":56,"../..":51,"../../content/orientation":31,"../../util":61,"./wml/action-bar":53}],53:[function(require,module,exports){
+},{"../":58,"../..":53,"../../content/orientation":33,"../../util":63,"./wml/action-bar":55}],55:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -5650,6 +6005,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -5675,14 +6031,19 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.root.wml.id }, 'id': __context.values.root.id, 'class': __context.values.root.className }, [
                 __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'class': __context.values.content.class }, __spreadArrays((__context.children)))
             ]);
         };
     }
+    Main.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5700,7 +6061,7 @@ var Main = /** @class */ (function () {
         return e;
     };
     Main.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -5712,7 +6073,7 @@ var Main = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -5720,7 +6081,7 @@ var Main = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -5738,12 +6099,18 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Main.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5758,6 +6125,7 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -5769,7 +6137,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":30}],54:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],56:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5879,7 +6247,7 @@ var Column = /** @class */ (function (_super) {
 }(__1.AbstractLayout));
 exports.Column = Column;
 
-},{"../":56,"../../util":61,"./wml/grid":55}],55:[function(require,module,exports){
+},{"../":58,"../../util":63,"./wml/grid":57}],57:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -5889,6 +6257,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -5914,12 +6283,17 @@ var GridLayout = /** @class */ (function () {
     function GridLayout(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
+    GridLayout.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     GridLayout.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -5937,7 +6311,7 @@ var GridLayout = /** @class */ (function () {
         return e;
     };
     GridLayout.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -5949,7 +6323,7 @@ var GridLayout = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -5957,7 +6331,7 @@ var GridLayout = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -5975,12 +6349,18 @@ var GridLayout = /** @class */ (function () {
         return w.render();
     };
     GridLayout.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     GridLayout.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     GridLayout.prototype.invalidate = function () {
         var tree = this.tree;
@@ -5995,6 +6375,7 @@ var GridLayout = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6010,12 +6391,17 @@ var Row = /** @class */ (function () {
     function Row(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
+    Row.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Row.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6033,7 +6419,7 @@ var Row = /** @class */ (function () {
         return e;
     };
     Row.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -6045,7 +6431,7 @@ var Row = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -6053,7 +6439,7 @@ var Row = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -6071,12 +6457,18 @@ var Row = /** @class */ (function () {
         return w.render();
     };
     Row.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Row.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Row.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6091,6 +6483,7 @@ var Row = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6106,12 +6499,17 @@ var Column = /** @class */ (function () {
     function Column(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className() }, __spreadArrays((__context.children)));
         };
     }
+    Column.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Column.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6129,7 +6527,7 @@ var Column = /** @class */ (function () {
         return e;
     };
     Column.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -6141,7 +6539,7 @@ var Column = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -6149,7 +6547,7 @@ var Column = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -6167,12 +6565,18 @@ var Column = /** @class */ (function () {
         return w.render();
     };
     Column.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Column.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Column.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6187,6 +6591,7 @@ var Column = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6198,7 +6603,7 @@ var Column = /** @class */ (function () {
 }());
 exports.Column = Column;
 
-},{"@quenk/noni/lib/data/maybe":30}],56:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],58:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6262,7 +6667,7 @@ exports.doRemoveContent = function (view, id) {
         n.removeChild(n.firstChild);
 };
 
-},{"../util":61,"@quenk/wml":62}],57:[function(require,module,exports){
+},{"../util":63,"@quenk/wml":65}],59:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6307,7 +6712,7 @@ var MainLayout = /** @class */ (function (_super) {
 }(__1.AbstractLayout));
 exports.MainLayout = MainLayout;
 
-},{"../":56,"../../util":61,"./wml/main":58}],58:[function(require,module,exports){
+},{"../":58,"../../util":63,"./wml/main":60}],60:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -6317,6 +6722,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -6342,12 +6748,17 @@ var Main = /** @class */ (function () {
     function Main(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.wml.id }, 'id': __context.values.content.id, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
+    Main.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Main.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6365,7 +6776,7 @@ var Main = /** @class */ (function () {
         return e;
     };
     Main.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -6377,7 +6788,7 @@ var Main = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -6385,7 +6796,7 @@ var Main = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -6403,12 +6814,18 @@ var Main = /** @class */ (function () {
         return w.render();
     };
     Main.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Main.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Main.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6423,6 +6840,7 @@ var Main = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6434,7 +6852,7 @@ var Main = /** @class */ (function () {
 }());
 exports.Main = Main;
 
-},{"@quenk/noni/lib/data/maybe":30}],59:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],61:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6581,7 +6999,7 @@ var PanelFooter = /** @class */ (function (_super) {
 }(__1.AbstractLayout));
 exports.PanelFooter = PanelFooter;
 
-},{"..":56,"../../content/style":34,"../../util":61,"./wml/panel":60}],60:[function(require,module,exports){
+},{"..":58,"../../content/style":36,"../../util":63,"./wml/panel":62}],62:[function(require,module,exports){
 "use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -6591,6 +7009,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
@@ -6616,12 +7035,17 @@ var Panel = /** @class */ (function () {
     function Panel(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
+    Panel.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     Panel.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6639,7 +7063,7 @@ var Panel = /** @class */ (function () {
         return e;
     };
     Panel.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -6651,7 +7075,7 @@ var Panel = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -6659,7 +7083,7 @@ var Panel = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -6677,12 +7101,18 @@ var Panel = /** @class */ (function () {
         return w.render();
     };
     Panel.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     Panel.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     Panel.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6697,6 +7127,7 @@ var Panel = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6712,12 +7143,17 @@ var PanelHeader = /** @class */ (function () {
     function PanelHeader(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
+    PanelHeader.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     PanelHeader.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6735,7 +7171,7 @@ var PanelHeader = /** @class */ (function () {
         return e;
     };
     PanelHeader.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -6747,7 +7183,7 @@ var PanelHeader = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -6755,7 +7191,7 @@ var PanelHeader = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -6773,12 +7209,18 @@ var PanelHeader = /** @class */ (function () {
         return w.render();
     };
     PanelHeader.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     PanelHeader.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     PanelHeader.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6793,6 +7235,7 @@ var PanelHeader = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6808,12 +7251,17 @@ var PanelBody = /** @class */ (function () {
     function PanelBody(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
+    PanelBody.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     PanelBody.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6831,7 +7279,7 @@ var PanelBody = /** @class */ (function () {
         return e;
     };
     PanelBody.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -6843,7 +7291,7 @@ var PanelBody = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -6851,7 +7299,7 @@ var PanelBody = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -6869,12 +7317,18 @@ var PanelBody = /** @class */ (function () {
         return w.render();
     };
     PanelBody.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     PanelBody.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     PanelBody.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6889,6 +7343,7 @@ var PanelBody = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6904,12 +7359,17 @@ var PanelFooter = /** @class */ (function () {
     function PanelFooter(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', { wml: { 'id': __context.values.content.id }, 'class': __context.values.content.className }, __spreadArrays((__context.children)));
         };
     }
+    PanelFooter.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     PanelFooter.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -6927,7 +7387,7 @@ var PanelFooter = /** @class */ (function () {
         return e;
     };
     PanelFooter.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -6939,7 +7399,7 @@ var PanelFooter = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -6947,7 +7407,7 @@ var PanelFooter = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -6965,12 +7425,18 @@ var PanelFooter = /** @class */ (function () {
         return w.render();
     };
     PanelFooter.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     PanelFooter.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     PanelFooter.prototype.invalidate = function () {
         var tree = this.tree;
@@ -6985,6 +7451,7 @@ var PanelFooter = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
@@ -6996,7 +7463,7 @@ var PanelFooter = /** @class */ (function () {
 }());
 exports.PanelFooter = PanelFooter;
 
-},{"@quenk/noni/lib/data/maybe":30}],61:[function(require,module,exports){
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml/lib/dom":64}],63:[function(require,module,exports){
 "use strict";
 /**
  * This module provides utility functions and constants used
@@ -7070,7 +7537,97 @@ exports.debounce = function (f, delay) {
     };
 };
 
-},{}],62:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * This module provides functions used in templates to generate supported DOM
+ * nodes.
+ *
+ * The idea here is to provide an abstraction over DOM construction so
+ * we can detect whether we are in a browser or elsewhere and adjust to
+ * suite.
+ */
+var ATTRS_ESC_REGEX = /[><&\u2028\u2029]/g;
+var HTML_ESC_REGEX = /["'&<>]/;
+var ATTR_ESC_MAP = {
+    '&': '\\u0026',
+    '>': '\\u003e',
+    '<': '\\u003c',
+    '"': '\\u0022',
+    '\u2028': '\\u2028',
+    '\u2029': '\\u2029'
+};
+var HTML_ENT_MAP = {
+    '"': '&quot;',
+    '&': '&amp;',
+    '\'': '&#x27;',
+    '<': '&lt;',
+    '>': '&gt;'
+};
+var voidElements = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr',
+    'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+/**
+ * SSRText is used to represent Text nodes on the server side.
+ */
+var SSRText = /** @class */ (function () {
+    function SSRText(value) {
+        this.value = value;
+    }
+    SSRText.prototype.renderToString = function () {
+        return escapeHTML(this.value);
+    };
+    return SSRText;
+}());
+exports.SSRText = SSRText;
+/**
+ * SSRElement is used to represent Element nodes on the server side.
+ */
+var SSRElement = /** @class */ (function () {
+    function SSRElement(name) {
+        this.name = name;
+        this.attrs = [];
+        this.children = [];
+    }
+    SSRElement.prototype.setAttribute = function (key, value) {
+        var newKey = escapeAttrValue(key);
+        this.attrs.push((value === '') ? newKey :
+            newKey + "=\"" + escapeAttrValue(value) + "\"");
+    };
+    SSRElement.prototype.appendChild = function (node) {
+        this.children.push(node);
+    };
+    SSRElement.prototype.renderToString = function () {
+        var name = this.name;
+        var childs = this.children.map(function (c) { return c.renderToString(); }).join('');
+        var attrs = this.attrs.join(' ');
+        var open = "<" + name + " " + attrs + ">";
+        return (voidElements.indexOf(name) > -1) ?
+            open : "<" + open + ">" + childs + "</" + name + ">";
+    };
+    return SSRElement;
+}());
+exports.SSRElement = SSRElement;
+var isBrowser = ((window != null) && (document != null));
+var escapeAttrValue = function (value) {
+    return value.replace(ATTRS_ESC_REGEX, function (hit) { return ATTR_ESC_MAP[hit]; });
+};
+var escapeHTML = function (value) {
+    return value.replace(HTML_ESC_REGEX, function (hit) { return HTML_ENT_MAP[hit]; });
+};
+/**
+ * createTextNode wrapper.
+ */
+exports.createTextNode = function (txt) { return isBrowser ?
+    document.createTextNode(txt) : new SSRText(txt); };
+/**
+ * createElement wrapper.
+ */
+exports.createElement = function (name) {
+    return isBrowser ? document.createElement(name) : new SSRElement(name);
+};
+
+},{}],65:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 ;
@@ -7094,8 +7651,16 @@ var Component = /** @class */ (function () {
 }());
 exports.Component = Component;
 ;
+/**
+ * renderAsNode content from a Renderable.
+ *
+ * This function unsafely assumes the Renderable always returns DOM content.
+ */
+exports.renderAsNode = function (r) {
+    return r.render();
+};
 
-},{}],63:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7281,7 +7846,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],64:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var board_1 = require("./views/board");
@@ -7328,7 +7893,7 @@ var BoardDashboard = /** @class */ (function () {
 exports.BoardDashboard = BoardDashboard;
 BoardDashboard.create('app').run();
 
-},{"./views/board":65,"@quenk/jhr/lib/browser":5}],65:[function(require,module,exports){
+},{"./views/board":68,"@quenk/jhr/lib/browser":5}],68:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var action_bar_1 = require("@quenk/wml-widgets/lib/layout/action-bar");
@@ -7459,7 +8024,7 @@ var BoardDashboardView = /** @class */ (function () {
 }());
 exports.BoardDashboardView = BoardDashboardView;
 
-},{"./job-form":66,"@quenk/noni/lib/data/maybe":30,"@quenk/wml-widgets/lib/layout/action-bar":52,"@quenk/wml-widgets/lib/layout/main":57}],66:[function(require,module,exports){
+},{"./job-form":69,"@quenk/noni/lib/data/maybe":32,"@quenk/wml-widgets/lib/layout/action-bar":54,"@quenk/wml-widgets/lib/layout/main":59}],69:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
@@ -7610,4 +8175,4 @@ var JobFormView = /** @class */ (function () {
 }());
 exports.JobFormView = JobFormView;
 
-},{"@quenk/noni/lib/data/maybe":30,"@quenk/wml-widgets/lib/control/button":35,"@quenk/wml-widgets/lib/control/text-field":45,"@quenk/wml-widgets/lib/layout/grid":54,"@quenk/wml-widgets/lib/layout/panel":59}]},{},[64]);
+},{"@quenk/noni/lib/data/maybe":32,"@quenk/wml-widgets/lib/control/button":37,"@quenk/wml-widgets/lib/control/text-field":47,"@quenk/wml-widgets/lib/layout/grid":56,"@quenk/wml-widgets/lib/layout/panel":61}]},{},[67]);
