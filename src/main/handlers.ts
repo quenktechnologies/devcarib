@@ -16,8 +16,7 @@ import { DoFn, doN } from '@quenk/noni/lib/control/monad';
 import { isRecord } from '@quenk/noni/lib/data/record';
 import { fromCallback } from '@quenk/noni/lib/control/monad/future';
 
-import { check as checkEmployer } from '@board/checks/lib/employer';
-import { check as checkJob } from '@board/checks/lib/job';
+import { check as checkPost } from '@board/checks/lib/post';
 
 export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 
@@ -58,62 +57,10 @@ export const showIndex = (r: Request): ActionM<undefined> => {
 }
 
 /**
- * showDashboard displays the application dashboard.
- */
-export const showDashboard = (_: Request): ActionM<undefined> =>
-    show('dashboard.html', {});
-
-/**
  * showLoginForm displays the user login form.
  */
 export const showLoginForm = (r: Request): ActionM<undefined> =>
     show('login.html', (<SessionRequest>r).session);
-
-/**
- * showRegistrationForm displays the employer regisration form.
- */
-export const showRegistrationForm = (r: Request): ActionM<undefined> =>
-    show('employer/registration/form.html', (<SessionRequest>r).session);
-
-/**
- * createEmployer creates a new user account for an employer.
- *
- * It works like this:
- * 1. We apply the Employer check to the request body to see if its valid.
- * 2. If yes we save the employer in the "users" collection and redirect
- *    to the login page.
- * 3. If not, we store the errors in the session and redirect to the form.
- */
-export const createEmployer = (req: Request): ActionM<undefined> =>
-    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
-
-        let r = <SessionRequest>req;
-
-        let eResult = yield await(() => checkEmployer(r.body));
-
-        if (eResult.isRight()) {
-
-            let data = eResult.takeRight();
-
-            let db = yield getMain();
-
-            let collection = db.collection('users');
-
-            yield await(() => insertOne(collection, data));
-
-            return redirect('/login', 303);
-
-        } else {
-
-            //TODO: expand the errors so they make sense.
-            if (r.session != null)
-                r.session.errors = eResult.takeLeft().explain();
-
-            return redirect('/', 303);
-
-        }
-
-    })
 
 /**
  * login attempts to authenticate a user so they can access the protected
@@ -215,26 +162,20 @@ export const logout = (req: Request): ActionM<undefined> =>
     });
 
 /**
- * createJob
- *
- * Operates simllar to createEmployer except we are creating a job.
- * This handler is meant to be used by the dashboard's client side application.
- * The responses are in JSON.
+ * createPost saves the submitted post data in the database for approval later.
  */
-export const createJob = (r: Request): ActionM<undefined> =>
+export const createPost = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
-        let eResult = yield await(() => checkJob(r.body));
+        let eResult = yield await(() => checkPost(r.body));
 
         if (eResult.isRight()) {
 
             let data = eResult.takeRight();
-
             let db = yield getMain();
+            let collection = db.collection('posts');
 
-            let collection = db.collection('jobs');
-
-            data.employer = (<SessionRequest>r).session.user;
+            data.approved = false;
 
             yield await(() => insertOne(collection, data));
 
@@ -242,7 +183,7 @@ export const createJob = (r: Request): ActionM<undefined> =>
 
         } else {
 
-            return conflict(eResult.takeLeft().explain());
+            return conflict({ errors: eResult.takeLeft().explain() });
 
         }
 
