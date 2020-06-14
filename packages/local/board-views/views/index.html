@@ -1,4 +1,6 @@
-{% extends "common/base.html" %} 
+{% from "macros/header.html" import header %}
+
+{% extends "base.html" %} 
 
 {% block title %}
   Caribbean Developers Job Board - Hire Caribbean Software Developers 
@@ -6,29 +8,7 @@
 
 {% block body %}
   
-  <header id="header" class="ww-grid-layout">
-
-    <div class="ww-grid-layout__row">
-
-        <div class="ww-grid-layout__column -span12">
-            
-            <img class="logo-image"
-                 height="100"
-                 src="/assets/img/logo437x437.png" 
-                 alt="Caribbean Developers Logo" />
-
-            <h1>Caribbean Developers Job Board</h1>
-
-            <h2>Reach developers from Trinidad & Tobago, Jamaica, Curaçao,
-                Barbados, Guyana and more!</h2>
-
-            <a class="ww-button -primary -large" href="/post">Post A Job</a>
-
-        </div>
-
-    </div>
-
-  </header>
+  {{ header(true) }}
 
   <div id="main" class="ww-grid-layout">
 
