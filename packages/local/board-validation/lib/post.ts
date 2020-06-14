@@ -1,4 +1,10 @@
-import { Precondition, and, every, optional } from '@quenk/preconditions';
+import {
+    Precondition,
+    and,
+    every,
+    optional,
+    notNull
+} from '@quenk/preconditions';
 import { Value, Object } from '@quenk/noni/lib/data/jsonx';
 import { Record } from '@quenk/noni/lib/data/record';
 import { isRecord, restrict } from '@quenk/preconditions/lib/record';
@@ -35,13 +41,15 @@ export interface Schema extends Record<Precondition<Value, Value>> {
  */
 export const schema: Schema = {
 
-    title: every(isString, trim, minLength(3), maxLength(140)),
+    title: and(notNull, every(isString, trim, minLength(3), maxLength(140))),
 
-    description: every(isString, trim, minLength(1), maxLength(8000)),
+    description: and(notNull, every(isString, trim, minLength(1),
+        maxLength(8000))),
 
-    company: every(isString, trim, minLength(3), maxLength(80)),
+    company: and(notNull, every(isString, trim, minLength(3), maxLength(80))),
 
-    company_email: every(isString, trim, minLength(3), maxLength(80)),
+    company_email: and(notNull, every(isString, trim, minLength(3),
+        maxLength(80))),
 
     company_logo: optional(every(isString, trim, minLength(3), maxLength(3000))),
 
