@@ -190,48 +190,49 @@ export const createPost = (r: Request): ActionM<undefined> =>
     })
 
 /**
- * showProfile
- *
- * gets and id, then gets the jobs collection from the
- * database. Then searches through the jobs collection for
- * a job where the job's id is the same as the previously collected id
- * and displays the information related to that job.
+ * showPost displays a page for a single approved post.
  */
-export const showProfile = (r: Request): ActionM<undefined> =>
+export const showPost = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
         let id = r.params.id;
 
         let db = yield getMain();
 
-        let collection = db.collection('jobs');
+        let collection = db.collection('posts');
 
-        let mResult = yield await(() => findOne(collection, { id: id }));
+        let qry = { id: id, approved: true };
+
+        let mResult = yield await(() => findOne(collection, qry));
 
         if (mResult.isNothing())
             return show('errors/not-found.html', {}, 404);
         else
-            return show('jobs/profile.html', { job: mResult.get() });
+            return show('post.html', { post: mResult.get() });
 
     })
 
 /**
- * showJobs
+ * showPosts currently approved.
  *
- * shows the recent 30 posts from the database to visitors of the site.
+ * This only shows the most recent 50 posts. In future we will refactor if
+ * needed to show more.
  */
-export const showJobs = (_: Request): ActionM<undefined> =>
+export const showPosts = (_: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
         let db = yield getMain();
 
-        let collection = db.collection('jobs');
+        let collection = db.collection('posts');
 
-        let mResult = yield await(() => find(collection, {}, { sort: { created_at: -1 }, limit: 30 }));
+        let qry = { approved: true };
 
-        let jobs = mResult.isNothing() ? [] : mResult.get();
+        let mResult = yield await(() =>
+            find(collection, qry, { sort: { created_at: -1 }, limit: 50 }));
 
-        return show('index.html', { jobs: jobs });
+        let posts = mResult.isNothing() ? [] : mResult.get();
+
+        return show('index.html', { posts: posts });
 
     });
 

@@ -1,14 +1,14 @@
 %import 
-        showJobs,
-        showProfile,
+        showPosts,
+        showPost,
         showPostJobPage,
         createPost
 from "./handlers"
 
-GET  /                    showJobs
+GET  /                    showPosts
 
 GET  /post                showPostJobPage 
 
 POST /post                createPost
 
-GET  /jobs/:id            showProfile
+GET  /posts/:id            showPost
