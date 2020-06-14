@@ -48,6 +48,7 @@
               wml:id="company_logo"
               ww:name="company_logo"
               ww:label="Logo URL"
+              ww:placeholder="(Image should be 640x640)"
               ww:value={{@values.post.data.company_logo}}
               ww:onChange={{@values.post.onChange}} />
 
@@ -74,6 +75,7 @@
               wml:id="title"
               ww:name="title"
               ww:label="Job Title*"
+              ww:placeholder="Software Engineer With Finance Background Needed"
               ww:value={{@values.post.data.title}}
               ww:onChange={{@values.post.onChange}} />
 
@@ -88,6 +90,7 @@
             <TextField
               wml:id="description"
               ww:name="description"
+              ww:placeholder="Job Decription"
               ww:rows=12 
               ww:value={{@values.post.data.description}}
               ww:onChange={{@values.post.onChange}} />
@@ -110,7 +113,8 @@
            wml:id={{@values.buttons.preview.id}}
            ww:disabled=true
            ww:className="preview-button -primary -large"
-           ww:text="Preview" />
+           ww:text="Preview" 
+           ww:onClick={{@values.buttons.preview.click}} />
 
         </div>
 

@@ -1,7 +1,11 @@
+import { View } from '@quenk/wml';
 import { Value } from '@quenk/noni/lib/data/json';
+import { Record } from '@quenk/noni/lib/data/record';
 import { Event } from '@quenk/wml-widgets/lib/control';
 import { Post } from '@board/types/lib/post';
 import { PostFormAppView } from './views/app';
+import { PreviewView } from './views/preview';
+import { FinishView } from './views/finish';
 /**
  * WMLId for wml elements.
  */
@@ -21,14 +25,25 @@ export declare class PostFormApp {
     node: Node;
     constructor(node: Node);
     view: PostFormAppView;
+    previewView: PreviewView;
+    finishView: FinishView;
     values: {
         post: {
             data: Post;
+            errors: Record<string>;
             onChange: import("@quenk/noni/lib/data/function").Function<Event<Value>, void>;
         };
         buttons: {
             preview: {
                 id: string;
+                click: () => void;
+            };
+            post: {
+                click: () => void;
+            };
+            send: {
+                id: string;
+                click: () => void;
             };
         };
     };
@@ -45,19 +60,35 @@ export declare class PostFormApp {
      */
     setControlOk(id: WMLId): void;
     /**
-     * formIsValid tests whether the data entered into the form so far is
+     * validatePost tests whether the data entered into the form so far is
      * valid.
-     */
-    formIsValid(): boolean;
-    /**
-     * updatePreviewButton toggles the "Preview" button between
-     * it's disabled and enabled states.
      *
-     * @param state - If true, the button will be enabled, disabled otherwise.
+     * If it is, the "preview" button will be enabled.
      */
-    updatePreviewButton(state: boolean): void;
+    validatePost(): void;
+    /**
+     * showPreview switches to the preview screen.
+     */
+    showPreview(): void;
+    /**
+     * showPost switches to the post screen.
+     */
+    showPost(): void;
+    /**
+     * showFinished shows the finished views.
+     */
+    showFinished(): void;
+    /**
+     * send the data to the backend.
+     */
+    send(): void;
     /**
      * run the application.
      */
     run(): void;
+    /**
+     * render a view of the application to the screen.
+     */
+    render(view: View): void;
 }
+export declare const escape: (str: string) => string;

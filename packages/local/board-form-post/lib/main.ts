@@ -1,15 +1,22 @@
-import { Value } from '@quenk/noni/lib/data/json';
+import { View } from '@quenk/wml';
+import { Value, Object } from '@quenk/noni/lib/data/json';
 import { debounce } from '@quenk/noni/lib/control/timer';
+import { Future, pure, raise } from '@quenk/noni/lib/control/monad/future';
+import { Record } from '@quenk/noni/lib/data/record';
 import { Event } from '@quenk/wml-widgets/lib/control';
 import { getById } from '@quenk/wml-widgets/lib/util';
 import { ValidationState } from '@quenk/wml-widgets/lib/control/feedback';
 import { TextField } from '@quenk/wml-widgets/lib/control/text-field';
 import { Button } from '@quenk/wml-widgets/lib/control/button';
+import { createAgent } from '@quenk/jhr/lib/browser';
+import { Response } from '@quenk/jhr/lib/response';
 
 import { Post } from '@board/types/lib/post';
 import { schema, validate } from '@board/validation/lib/post';
 
 import { PostFormAppView } from './views/app';
+import { PreviewView } from './views/preview';
+import { FinishView } from './views/finish';
 
 /**
  * WMLId for wml elements.
@@ -21,7 +28,7 @@ export type WMLId = string;
  */
 export type Message = string;
 
-const CHANGE_EVENT_DURATION = 1000;
+const CHANGE_EVENT_DURATION = 250;
 
 const messages = {
 
@@ -37,6 +44,22 @@ const messages = {
 
 }
 
+const escapeMap: Record<string> = {
+
+    '&': '&amp;',
+
+    '"': '&quot;',
+
+    '\'': '&#39;',
+
+    '<': '&lt;',
+
+    '>': '&gt;'
+
+}
+
+const agent = createAgent();
+
 /**
  * PostFormApp provides the JS form used to create new forms.
  *
@@ -50,11 +73,17 @@ export class PostFormApp {
 
     view = new PostFormAppView(this);
 
+    previewView = new PreviewView(this);
+
+    finishView = new FinishView(this);
+
     values = {
 
         post: {
 
             data: <Post>{},
+
+            errors: <Record<string>>{},
 
             onChange: debounce((e: Event<Value>) => {
 
@@ -82,7 +111,7 @@ export class PostFormApp {
 
                     }
 
-                    this.updatePreviewButton(this.formIsValid());
+                    this.validatePost();
 
                 }
 
@@ -94,7 +123,23 @@ export class PostFormApp {
 
             preview: {
 
-                id: 'preview'
+                id: 'preview',
+
+                click: () => this.showPreview()
+
+            },
+
+            post: {
+
+                click: () => this.showPost()
+
+            },
+
+            send: {
+
+                id: 'send',
+
+                click: () => this.send()
 
             }
 
@@ -137,28 +182,26 @@ export class PostFormApp {
 
         let mCtl = getById<TextField>(this.view, id);
 
-        if (mCtl.isJust())
-            mCtl.get().setValidationState(ValidationState.Success);
+        if (mCtl.isJust()) {
+
+            let ctl = mCtl.get();
+
+            ctl.setMessage('');
+            ctl.setValidationState(ValidationState.Success);
+
+        }
 
     }
 
     /**
-     * formIsValid tests whether the data entered into the form so far is
+     * validatePost tests whether the data entered into the form so far is
      * valid.
-     */
-    formIsValid(): boolean {
-
-        return validate(this.values.post.data).isRight();
-
-    }
-
-    /**
-     * updatePreviewButton toggles the "Preview" button between
-     * it's disabled and enabled states.
      *
-     * @param state - If true, the button will be enabled, disabled otherwise.
+     * If it is, the "preview" button will be enabled.
      */
-    updatePreviewButton(state: boolean): void {
+    validatePost() {
+
+        let state = validate(this.values.post.data).isRight();
 
         let mbtn = getById<Button<void>>(this.view,
             this.values.buttons.preview.id);
@@ -176,14 +219,106 @@ export class PostFormApp {
     }
 
     /**
+     * showPreview switches to the preview screen.
+     */
+    showPreview(): void {
+
+        this.render(this.previewView);
+
+    }
+
+    /**
+     * showPost switches to the post screen.
+     */
+    showPost(): void {
+
+        this.render(this.view);
+        this.validatePost();
+
+    }
+
+    /**
+     * showFinished shows the finished views.
+     */
+    showFinished(): void {
+
+        this.render(this.finishView);
+
+    }
+
+    /**
+     * send the data to the backend.
+     */
+    send(): void {
+
+        let mButton = getById<Button<void>>(this.previewView,
+            this.values.buttons.send.id);
+
+        if (mButton.isJust())
+            mButton.get().disable();
+
+        agent
+            .post('/post', this.values.post.data)
+            .chain((r: Response<Object>) => {
+
+                if (r.code === 401) {
+
+                    this.values.post.errors = <Record<string>>r.body.errors;
+
+                    this.view.invalidate();
+
+                } else if (r.code === 201) {
+
+                    this.showFinished();
+
+                } else {
+
+                    return <Future<void>>raise(new Error(`Status: ${r.code}`));
+
+                }
+
+                return <Future<void>>pure(undefined);
+
+            })
+            .catch(e => {
+
+                alert('An error occured while sending your request!');
+
+                this.view.invalidate();
+
+                return <Future<void>>raise(e);
+
+            })
+            .fork(console.error, () => { });
+
+    }
+
+    /**
      * run the application.
      */
     run(): void {
 
-        this.node.appendChild(<Node>this.view.render());
+        this.render(this.view);
+
+    }
+
+    /**
+     * render a view of the application to the screen.
+     */
+    render(view: View): void {
+
+        while (this.node.firstChild != null)
+            this.node.removeChild(this.node.firstChild);
+
+        this.node.appendChild(<Node>view.render());
+
+        window.scroll(0, 0);
 
     }
 
 }
+
+export const escape = (str: string) =>
+    str.replace(/[&"'<>]/g, t => escapeMap[t]);
 
 PostFormApp.create(<Node>document.getElementById('main')).run();

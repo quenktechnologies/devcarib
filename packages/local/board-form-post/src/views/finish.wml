@@ -1,0 +1,63 @@
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+
+{% import (PostFormApp) from "../main" %}
+
+{% view FinishView (PostFormApp) %}
+<GridLayout>
+
+  <Row>
+
+    <Column ww:span=8 ww:offset=2>
+
+      <Row>
+
+        <Column>
+
+          <h1 class="post-title">Success !</h1>
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <p>
+            Your job posting has been saved and is waiting approval.
+            Approval usually takes up to 48 hours so check back later to see
+            it in the listings.
+
+            It we need any more information we will contact you via the email
+            you supplied.
+          </p>
+
+          <p>Thanks for choosing Caribbean Developers!</p>
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <div class="action-container">
+
+            <Link
+              ww:text="See Current Listings" 
+              ww:className="current-listings-link"
+              ww:href="/" />
+
+          </div>
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+  </Row>
+
+</GridLayout>

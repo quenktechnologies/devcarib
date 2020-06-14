@@ -51,7 +51,7 @@ var PostFormAppView = /** @class */ (function () {
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo URL', 'value': __context.values.post.data.company_logo, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo URL', 'value': __context.values.post.data.company_logo, 'onChange': __context.values.post.onChange } })
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo URL', 'placeholder': '(Image should be 640x640)', 'value': __context.values.post.data.company_logo, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo URL', 'placeholder': '(Image should be 640x640)', 'value': __context.values.post.data.company_logo, 'onChange': __context.values.post.onChange } })
                                 ]), { ww: { 'span': 6 } }),
                                 __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
                                     __this.widget(new text_field_1.TextField({ wml: { 'id': 'apply_url' }, ww: { 'name': 'apply_url', 'label': 'Apply Link', 'value': __context.values.post.data.apply_url, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'apply_url' }, ww: { 'name': 'apply_url', 'label': 'Apply Link', 'value': __context.values.post.data.apply_url, 'onChange': __context.values.post.onChange } })
@@ -59,12 +59,12 @@ var PostFormAppView = /** @class */ (function () {
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'title' }, ww: { 'name': 'title', 'label': 'Job Title*', 'value': __context.values.post.data.title, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'title' }, ww: { 'name': 'title', 'label': 'Job Title*', 'value': __context.values.post.data.title, 'onChange': __context.values.post.onChange } })
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'title' }, ww: { 'name': 'title', 'label': 'Job Title*', 'placeholder': 'Software Engineer With Finance Background Needed', 'value': __context.values.post.data.title, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'title' }, ww: { 'name': 'title', 'label': 'Job Title*', 'placeholder': 'Software Engineer With Finance Background Needed', 'value': __context.values.post.data.title, 'onChange': __context.values.post.onChange } })
                                 ]), {})
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'description' }, ww: { 'name': 'description', 'rows': 12, 'value': __context.values.post.data.description, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'description' }, ww: { 'name': 'description', 'rows': 12, 'value': __context.values.post.data.description, 'onChange': __context.values.post.onChange } })
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'description' }, ww: { 'name': 'description', 'placeholder': 'Job Decription', 'rows': 12, 'value': __context.values.post.data.description, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'description' }, ww: { 'name': 'description', 'placeholder': 'Job Decription', 'rows': 12, 'value': __context.values.post.data.description, 'onChange': __context.values.post.onChange } })
                                 ]), {})
                             ]), {})
                         ]), { ww: { 'span': 10, 'offset': 1 } })
@@ -72,7 +72,7 @@ var PostFormAppView = /** @class */ (function () {
                     __this.widget(new grid_1.Row({}, [
                         __this.widget(new grid_1.Column({}, [
                             __this.node('div', { 'class': 'preview-button-container' }, [
-                                __this.widget(new button_1.Button({ wml: { 'id': __context.values.buttons.preview.id }, ww: { 'disabled': true, 'className': 'preview-button -primary -large', 'text': 'Preview' } }, []), { wml: { 'id': __context.values.buttons.preview.id }, ww: { 'disabled': true, 'className': 'preview-button -primary -large', 'text': 'Preview' } })
+                                __this.widget(new button_1.Button({ wml: { 'id': __context.values.buttons.preview.id }, ww: { 'disabled': true, 'className': 'preview-button -primary -large', 'text': 'Preview', 'onClick': __context.values.buttons.preview.click } }, []), { wml: { 'id': __context.values.buttons.preview.id }, ww: { 'disabled': true, 'className': 'preview-button -primary -large', 'text': 'Preview', 'onClick': __context.values.buttons.preview.click } })
                             ]),
                             __this.node('p', { 'class': 'required-note' }, [
                                 __this.node('b', {}, [

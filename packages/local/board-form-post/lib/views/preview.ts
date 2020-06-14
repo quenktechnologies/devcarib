@@ -7,9 +7,10 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
-import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
+import {text} from '@quenk/wml-widgets'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
+import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
+import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {PostFormApp} from '../main'; 
 
 
@@ -61,98 +62,72 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
-export class PostFormAppView  implements __wml.View {
+export class PreviewView  implements __wml.View {
 
    constructor(__context: PostFormApp) {
 
        this.template = (__this:__wml.Registry) => {
 
-           return __this.node('form', <__wml.Attrs>{}, [
-
-        __this.widget(new GridLayout({}, [
+           return __this.widget(new GridLayout({}, [
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 10 ,'offset' : 1  }}, [
+        __this.widget(new Column({ww : { 'span' : 8 ,'offset' : 2  }}, [
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 6  }}, [
-
-        __this.widget(new TextField({wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company*' ,'value' : __context.values.post .data .company  ,'onChange' : __context.values.post .onChange   }}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company*' ,'value' : __context.values.post .data .company  ,'onChange' : __context.values.post .onChange   }})
-     ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
-__this.widget(new Column({ww : { 'span' : 6  }}, [
-
-        __this.widget(new TextField({wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.values.post .data .company_email  ,'onChange' : __context.values.post .onChange   }}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.values.post .data .company_email  ,'onChange' : __context.values.post .onChange   }})
-     ]),<__wml.Attrs>{ww : { 'span' : 6  }})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({ww : { 'span' : 6  }}, [
-
-        __this.widget(new TextField({wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo URL' ,'placeholder' : '(Image should be 640x640)' ,'value' : __context.values.post .data .company_logo  ,'onChange' : __context.values.post .onChange   }}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo URL' ,'placeholder' : '(Image should be 640x640)' ,'value' : __context.values.post .data .company_logo  ,'onChange' : __context.values.post .onChange   }})
-     ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
-__this.widget(new Column({ww : { 'span' : 6  }}, [
-
-        __this.widget(new TextField({wml : { 'id' : 'apply_url'  },ww : { 'name' : 'apply_url' ,'label' : 'Apply Link' ,'value' : __context.values.post .data .apply_url  ,'onChange' : __context.values.post .onChange   }}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : 'apply_url'  },ww : { 'name' : 'apply_url' ,'label' : 'Apply Link' ,'value' : __context.values.post .data .apply_url  ,'onChange' : __context.values.post .onChange   }})
-     ]),<__wml.Attrs>{ww : { 'span' : 6  }})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Job Title*' ,'placeholder' : 'Software Engineer With Finance Background Needed' ,'value' : __context.values.post .data .title  ,'onChange' : __context.values.post .onChange   }}, [
+        __this.node('h1', <__wml.Attrs>{'class': 'post-title'}, [
 
-        
-     ]),<__wml.Attrs>{wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Job Title*' ,'placeholder' : 'Software Engineer With Finance Background Needed' ,'value' : __context.values.post .data .title  ,'onChange' : __context.values.post .onChange   }})
+        text (__context.values.post .data .title )
+     ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Job Decription' ,'rows' : 12 ,'value' : __context.values.post .data .description  ,'onChange' : __context.values.post .onChange   }}, [
+        __this.node('dl', <__wml.Attrs>{'class': 'ww-description-list ww-property-list -horizontal'}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Job Decription' ,'rows' : 12 ,'value' : __context.values.post .data .description  ,'onChange' : __context.values.post .onChange   }})
+     ])
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 10 ,'offset' : 1  }})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'preview-button-container'}, [
+        __this.node('h3', <__wml.Attrs>{}, [
 
-        __this.widget(new Button({wml : { 'id' : __context.values.buttons .preview .id   },ww : { 'disabled' : true  ,'className' : 'preview-button -primary -large' ,'text' : 'Preview' ,'onClick' : __context.values.buttons .preview .click   }}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.buttons .preview .id   },ww : { 'disabled' : true  ,'className' : 'preview-button -primary -large' ,'text' : 'Preview' ,'onClick' : __context.values.buttons .preview .click   }})
+        __document.createTextNode('Job Description')
      ]),
-__this.node('p', <__wml.Attrs>{'class': 'required-note'}, [
+__this.node('p', <__wml.Attrs>{}, [
 
-        __this.node('b', <__wml.Attrs>{}, [
-
-        __document.createTextNode('* indicates a field is required.')
-     ])
+        text (__context.values.post .data .description )
      ])
      ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.node('div', <__wml.Attrs>{'class': 'action-container'}, [
+
+        __this.widget(new Link({ww : { 'text' : 'Back' ,'onClick' : __context.values.buttons .post .click   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'text' : 'Back' ,'onClick' : __context.values.buttons .post .click   }}),
+__this.widget(new Button({wml : { 'id' : __context.values.buttons .send .id   },ww : { 'className' : 'send-button -primary -large' ,'text' : 'Post' ,'onClick' : __context.values.buttons .send .click   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.buttons .send .id   },ww : { 'className' : 'send-button -primary -large' ,'text' : 'Post' ,'onClick' : __context.values.buttons .send .click   }})
+     ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]);
+     ]),<__wml.Attrs>{ww : { 'span' : 8 ,'offset' : 2  }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{});
 
        }
 
