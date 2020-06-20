@@ -10,6 +10,8 @@ var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
 var button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
+var link_1 = require("@quenk/wml-widgets/lib/content/link");
+;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -41,6 +43,13 @@ var PostFormAppView = /** @class */ (function () {
                 __this.widget(new grid_1.GridLayout({}, [
                     __this.widget(new grid_1.Row({}, [
                         __this.widget(new grid_1.Column({ ww: { 'span': 10, 'offset': 1 } }, [
+                            __this.widget(new grid_1.Row({}, [
+                                __this.widget(new grid_1.Column({}, [
+                                    __this.node('div', { 'class': 'back-link-container' }, [
+                                        __this.widget(new link_1.Link({ ww: { 'className': 'back-link', 'text': '← Back to Listings', 'href': '/' } }, []), { ww: { 'className': 'back-link', 'text': '← Back to Listings', 'href': '/' } })
+                                    ])
+                                ]), {})
+                            ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
                                     __this.widget(new text_field_1.TextField({ wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company*', 'value': __context.values.post.data.company, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company*', 'value': __context.values.post.data.company, 'onChange': __context.values.post.onChange } })

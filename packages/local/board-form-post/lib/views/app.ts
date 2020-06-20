@@ -10,6 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
+import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {PostFormApp} from '../main'; 
 
 
@@ -76,6 +77,19 @@ export class PostFormAppView  implements __wml.View {
         __this.widget(new Column({ww : { 'span' : 10 ,'offset' : 1  }}, [
 
         __this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.node('div', <__wml.Attrs>{'class': 'back-link-container'}, [
+
+        __this.widget(new Link({ww : { 'className' : 'back-link' ,'text' : '← Back to Listings' ,'href' : '/'  }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'className' : 'back-link' ,'text' : '← Back to Listings' ,'href' : '/'  }})
+     ])
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
 
         __this.widget(new Column({ww : { 'span' : 6  }}, [
 
