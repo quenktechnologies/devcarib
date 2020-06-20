@@ -27,18 +27,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.id = exports.bcrypt = void 0;
+exports.inc = exports.id = exports.bcrypt = exports.SETTINGS_ID = void 0;
 var bcryptjs = require("bcryptjs");
 var uuid = require("uuid");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var monad_1 = require("@quenk/noni/lib/control/monad");
+var path_1 = require("@quenk/noni/lib/data/record/path");
 var result_1 = require("@quenk/preconditions/lib/result");
-var salt = function () {
-    return future_1.fromCallback(function (cb) { return bcryptjs.genSalt(12, cb); });
-};
-var hash = function (str, salt) {
-    return future_1.fromCallback(function (cb) { return bcryptjs.hash(str, salt, cb); });
-};
+var collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
+var connection_1 = require("@quenk/tendril/lib/app/connection");
+exports.SETTINGS_ID = 'main';
+/**
+ * bcrypt
+ */
 exports.bcrypt = function (str) {
     return monad_1.doN(function () {
         var salty, salted;
@@ -47,7 +48,7 @@ exports.bcrypt = function (str) {
                 case 0: return [4 /*yield*/, salt()];
                 case 1:
                     salty = _a.sent();
-                    return [4 /*yield*/, hash(str, salty)];
+                    return [4 /*yield*/, hash(String(str), salty)];
                 case 2:
                     salted = _a.sent();
                     return [2 /*return*/, future_1.pure(result_1.succeed(salted))];
@@ -55,10 +56,49 @@ exports.bcrypt = function (str) {
         });
     });
 };
+var salt = function () {
+    return future_1.fromCallback(function (cb) { return bcryptjs.genSalt(12, cb); });
+};
+var hash = function (str, salt) {
+    return future_1.fromCallback(function (cb) { return bcryptjs.hash(str, salt, cb); });
+};
 /**
  * id generates the id number for a record.
  */
 exports.id = function () {
     return future_1.pure(result_1.succeed(uuid.v4().split('-').join('')));
+};
+/**
+ * inc increments a counter stored in the database returning the value.
+ *
+ * This is used mostly for generationg sequential ids.
+ */
+exports.inc = function (field, dbid) {
+    if (dbid === void 0) { dbid = 'main'; }
+    return function (_) {
+        return monad_1.doN(function () {
+            var db, target, filter, key, update, opts, r;
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, getMain(dbid)];
+                    case 1:
+                        db = _b.sent();
+                        target = db.collection('settings');
+                        filter = { id: exports.SETTINGS_ID };
+                        key = "counters." + field;
+                        update = { $inc: (_a = {}, _a[key] = 1, _a) };
+                        opts = { returnOriginal: false };
+                        return [4 /*yield*/, collection_1.findOneAndUpdate(target, filter, update, opts)];
+                    case 2:
+                        r = _b.sent();
+                        return [2 /*return*/, future_1.pure(result_1.succeed(path_1.unsafeGet(key, r.value)))];
+                }
+            });
+        });
+    };
+};
+var getMain = function (id) {
+    return connection_1.getInstance().get(id).get().checkout();
 };
 //# sourceMappingURL=index.js.map

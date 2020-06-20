@@ -1,4 +1,4 @@
-import { id } from './';
+import { inc } from './';
 import {
     Precondition,
     async,
@@ -17,7 +17,7 @@ import { validate } from '@board/validation/lib/post';
 export const check: Precondition<Value, Post> = and(
     async(validate), restrict<Value, Value, Post>({
 
-        id: id,
+        id: inc('posts'),
 
         title: identity,
 

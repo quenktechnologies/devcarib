@@ -9,7 +9,7 @@ var post_1 = require("@board/validation/lib/post");
  * check function for Post types.
  */
 exports.check = async_1.and(async_1.async(post_1.validate), record_1.restrict({
-    id: _1.id,
+    id: _1.inc('posts'),
     title: async_1.identity,
     description: async_1.identity,
     company: async_1.identity,
