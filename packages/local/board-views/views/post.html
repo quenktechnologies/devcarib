@@ -22,9 +22,17 @@
 
                         <h2 class="post-title">{{post.title}}</h2>
 
+                        {% if post.company_logo %}
+
+                          <img class="post-company-logo"
+                               src={{post.company_logo|escape}}
+                               alt="Company Logo" />
+
+                        {% endif %}
+
                         <p class="post-company">{{post.company}}</p>
 
-                      </section>
+                      </div>
 
                     </div>
 
@@ -44,11 +52,18 @@
 
                     <div class="ww-grid-layout__column -span12">
 
+                      <div class="post-footer-section">
+
                         {% if post.apply_url %}
 
                           <a href="{{post.apply_url|escape}}" 
-                             class="ww-button -success">Apply</a>   
+                             class="ww-button -success -large post-apply-button"
+                             target="_blank">
+                            Apply</a>   
+
                         {% endif %}
+
+                      </div>
 
                     </div>
 
