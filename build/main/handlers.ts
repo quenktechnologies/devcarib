@@ -195,13 +195,13 @@ export const createPost = (r: Request): ActionM<undefined> =>
 export const showPost = (r: Request): ActionM<undefined> =>
     doN(<DoFn<undefined, ActionM<undefined>>>function*() {
 
-        let id = r.params.id;
+        let id = Number(r.params.id); //XXX: this could be done with a check.
 
         let db = yield getMain();
 
         let collection = db.collection('posts');
 
-        let qry = { id: id, approved: true };
+        let qry = { id, approved: true };
 
         let mResult = yield await(() => findOne(collection, qry));
 

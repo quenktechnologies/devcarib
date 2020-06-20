@@ -167,7 +167,13 @@ app.middleware.enabled = [
  ]
 
 -- Invoke the connected hook.
-app.on.connected = ../app/events#connected
+app.on.connected = [
+
+  ../app/events#connected,
+
+  ../app/setup#run
+
+]
 
 -- Invoke the started hook.
 app.on.started = ../app/events#started

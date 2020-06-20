@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const tendrilSessionMongodb = require("@quenk/tendril-session-mongodb");
 const middleware = require("@csa/session/lib/middleware");
 const events = require("../app/events");
+const setup = require("../app/setup");
 const handlers_1 = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
 exports.template = (_app) => ({ 'create': 
@@ -28,7 +29,7 @@ exports.template = (_app) => ({ 'create':
                                 resave: false,
                                 saveUninitialized: false },
                             store: { uri: process.env['MONGO_URL'] } }] }, rmExpired: { provider: middleware.removeExpired },
-                decTTL: { provider: middleware.decrementTTL } }, 'enabled': [`log`, `public`, `viewsPublic`, `postPublic`, `frontend`, `session`, `rmExpired`, `decTTL`, `json`, `urlencoded`] }, 'on': { 'connected': events.connected,
+                decTTL: { provider: middleware.decrementTTL } }, 'enabled': [`log`, `public`, `viewsPublic`, `postPublic`, `frontend`, `session`, `rmExpired`, `decTTL`, `json`, `urlencoded`] }, 'on': { 'connected': [events.connected, setup.run],
             'started': events.started }, 'routes': (_m) => {
             return [{ method: 'get', path: '/', filters: [handlers_1.showPosts] },
                 { method: 'get', path: '/post', filters: [handlers_1.showPostJobPage] },

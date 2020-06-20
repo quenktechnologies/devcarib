@@ -6,6 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as tendrilSessionMongodb from '@quenk/tendril-session-mongodb'; 
 import * as middleware from '@csa/session/lib/middleware'; 
 import * as events from '../app/events'; 
+import * as setup from '../app/setup'; 
 import { showPosts,showPost,showPostJobPage,createPost } from './handlers';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 import {Module} from '@quenk/tendril/lib/app/module';
@@ -45,7 +46,7 @@ store: { uri: (<string>process.env['MONGO_URL']) } }] },
 rmExpired: { provider: middleware.removeExpired },
 decTTL: { provider: middleware.decrementTTL } },
 'enabled': [`log`,`public`,`viewsPublic`,`postPublic`,`frontend`,`session`,`rmExpired`,`decTTL`,`json`,`urlencoded`]},
-'on': {'connected': events.connected,
+'on': {'connected': [events.connected,setup.run],
 'started': events.started},
 'routes': (_m:Module) => {
 
