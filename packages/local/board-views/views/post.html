@@ -1,9 +1,13 @@
+{% from "macros/header.html" import header %}
+
 {% extends "base.html" %}
 
 {% block title %}{{post.title}}{% endblock %}
 
 {% block body %}
-  
+
+  {{ header(false) }}
+
   <div id="main" class="ww-grid-layout">
 
         <div class="ww-grid-layout__row">
@@ -12,30 +16,15 @@
 
                 <div class="ww-grid-layout__row">
 
-                    <div class="ww-grid-layout__column">
+                    <div class="ww-grid-layout__column -span12">
 
-                        <h1>{{post.title}}</h1>
+                      <div class="post-title-section">
 
-                    </div>
+                        <h2 class="post-title">{{post.title}}</h2>
 
-                </div>
+                        <p class="post-company">{{post.company}}</p>
 
-                <div class="ww-grid-layout__row">
-
-                    <div class="ww-grid-layout__column">
-
-                        <dl class="ww-description-list ww-property-list -horizontal">
-                            <dt>Country</dt>
-                            <dd>{{post.country}}</dd>
-                            <dt>City</dt>
-                            <dd>{{post.city}}</dd>
-                            <dt>Type</dt>
-                            <dd>{{post.type}}</dd>
-                            <dt>Role</dt>
-                            <dd>{{post.role}}</dd>
-                            <dt>Industry</dt>
-                            <dd>{{post.industry}}</dd>
-                        </dl>
+                      </section>
 
                     </div>
 
@@ -43,16 +32,9 @@
 
                 <div class="ww-grid-layout__row">
 
-                    <div class="ww-grid-layout__column">
+                    <div class="ww-grid-layout__column -span12">
 
-                        <h3>Technologies</h3>
-
-                        <p>
-
-                            {% if post.technologies %} {% for tag in post.technologies.split(',') %}
-                            <span class="ww-tag -primary">{{tag}}</span> {% endfor
-                            %} {% endif %}
-                        </p>
+                        {{post.description}}
 
                     </div>
 
@@ -60,19 +42,7 @@
 
                 <div class="ww-grid-layout__row">
 
-                    <div class="ww-grid-layout__column">
-
-                        <h3>Job Description</h3>
-
-                        <p>{{post.description}}</p>
-
-                    </div>
-
-                </div>
-
-                <div class="ww-grid-layout__row">
-
-                    <div class="ww-grid-layout__column">
+                    <div class="ww-grid-layout__column -span12">
 
                         {% if post.apply_url %}
 
