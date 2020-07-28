@@ -46,6 +46,7 @@ BOARD_CHECKS_DIR:=$(LOCAL_PACKAGES_DIR)/board-checks
 BOARD_FRONTEND_BUILD:=$(PACKAGES_DIR)/board-frontend/public
 BOARD_VIEWS_DIR:=$(LOCAL_PACKAGES_DIR)/board-views
 BOARD_FORM_POST_DIR:=$(LOCAL_PACKAGES_DIR)/board-form-post
+BOARD_ADMIN_DIR:=$(LOCAL_PACKAGES_DIR)/board-admin
 ### Dependency Graph ###
 
 .DELETE_ON_ERROR:
@@ -58,7 +59,7 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 		      $(BOARD_CHECKS_DIR)\
 		      $(BOARD_FRONTEND_BUILD)\
 		      $(BOARD_VIEWS_DIR)\
-		      $(BOARD_FORM_POST_DIR)
+		      $(BOARD_ADMIN_DIR)
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
 	$(TDC) $(PROJECT_BUILD_MAIN_DIR)
@@ -71,7 +72,7 @@ include $(PACKAGES_DIR)/board-types/build.mk
 include $(BOARD_VALIDATION_DIR)/build.mk
 include $(BOARD_CHECKS_DIR)/build.mk
 include $(BOARD_VIEWS_DIR)/build.mk
-include $(BOARD_FORM_POST_DIR)/build.mk
+include $(BOARD_ADMIN_DIR)/build.mk
 
 # Remove the build application files.
 .PHONY: clean
