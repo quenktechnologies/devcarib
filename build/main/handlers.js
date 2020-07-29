@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.showPostJobPage = exports.showPosts = exports.showPost = exports.createPost = exports.logout = exports.login = exports.showLoginForm = exports.showIndex = exports.ERROR_AUTH_FAILED = void 0;
 const bcryptjs = require("bcryptjs");
 const collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
-const response_1 = require("@quenk/tendril/lib/app/api/action/response");
-const control_1 = require("@quenk/tendril/lib/app/api/action/control");
-const pool_1 = require("@quenk/tendril/lib/app/api/action/pool");
-const monad_1 = require("@quenk/noni/lib/control/monad");
+const response_1 = require("@quenk/tendril/lib/app/api/response");
+const control_1 = require("@quenk/tendril/lib/app/api/control");
+const pool_1 = require("@quenk/tendril/lib/app/api/pool");
+const api_1 = require("@quenk/tendril/lib/app/api");
 const record_1 = require("@quenk/noni/lib/data/record");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const post_1 = require("@board/checks/lib/post");
@@ -48,7 +48,7 @@ exports.showLoginForm = (r) => response_1.show('login.html', r.session);
  * 6. If the comparisson fails, we redirect the user and tell them their attempt
  *    failed.
  */
-exports.login = (req) => monad_1.doN(function* () {
+exports.login = (req) => api_1.doAction(function* () {
     //shut the compiler up.
     let r = req;
     //If a session does not exist, the user is probably not
@@ -61,16 +61,16 @@ exports.login = (req) => monad_1.doN(function* () {
         let db = yield getMain();
         let users = db.collection('users');
         let qry = { email: email };
-        let mUser = yield control_1.await(() => collection_1.findOne(users, qry));
+        let mUser = yield control_1.fork(collection_1.findOne(users, qry));
         if (mUser.isNothing()) {
             r.session.error = exports.ERROR_AUTH_FAILED;
             return response_1.redirect('/login', 303);
         }
         let user = mUser.get();
-        let didMatch = yield control_1.await(() => compare(password, user.password));
+        let didMatch = yield control_1.fork(compare(password, user.password));
         if (didMatch) {
             //regenerate the session to start a fresh.
-            yield control_1.await(() => future_1.fromCallback(cb => r.session.regenerate(cb)));
+            yield control_1.fork(future_1.fromCallback(cb => r.session.regenerate(cb)));
             r.session.user = user.id;
             return response_1.redirect('/dashboard', 303);
         }
@@ -90,23 +90,23 @@ const compare = (pwd, hash) => future_1.fromCallback(cb => bcryptjs.compare(pwd,
  *
  * This basically destroys the session so we no longer know who the user is.
  */
-exports.logout = (req) => monad_1.doN(function* () {
+exports.logout = (req) => api_1.doAction(function* () {
     let r = req;
     if (r.session != null)
-        yield control_1.await(() => future_1.fromCallback(cb => r.session.destroy(cb)));
+        yield control_1.fork(future_1.fromCallback(cb => r.session.destroy(cb)));
     return response_1.redirect('/', 302);
 });
 /**
  * createPost saves the submitted post data in the database for approval later.
  */
-exports.createPost = (r) => monad_1.doN(function* () {
-    let eResult = yield control_1.await(() => post_1.check(r.body));
+exports.createPost = (r) => api_1.doAction(function* () {
+    let eResult = yield control_1.fork(post_1.check(r.body));
     if (eResult.isRight()) {
         let data = eResult.takeRight();
         let db = yield getMain();
         let collection = db.collection('posts');
         data.approved = false;
-        yield control_1.await(() => collection_1.insertOne(collection, data));
+        yield control_1.fork(collection_1.insertOne(collection, data));
         return response_1.created({ id: data.id });
     }
     else {
@@ -116,12 +116,12 @@ exports.createPost = (r) => monad_1.doN(function* () {
 /**
  * showPost displays a page for a single approved post.
  */
-exports.showPost = (r) => monad_1.doN(function* () {
+exports.showPost = (r) => api_1.doAction(function* () {
     let id = Number(r.params.id); //XXX: this could be done with a check.
     let db = yield getMain();
     let collection = db.collection('posts');
     let qry = { id, approved: true };
-    let mResult = yield control_1.await(() => collection_1.findOne(collection, qry));
+    let mResult = yield control_1.fork(collection_1.findOne(collection, qry));
     if (mResult.isNothing())
         return response_1.show('errors/not-found.html', {}, 404);
     else
@@ -133,11 +133,11 @@ exports.showPost = (r) => monad_1.doN(function* () {
  * This only shows the most recent 50 posts. In future we will refactor if
  * needed to show more.
  */
-exports.showPosts = (_) => monad_1.doN(function* () {
+exports.showPosts = (_) => api_1.doAction(function* () {
     let db = yield getMain();
     let collection = db.collection('posts');
     let qry = { approved: true };
-    let mResult = yield control_1.await(() => collection_1.find(collection, qry, { sort: { created_at: -1 }, limit: 50 }));
+    let mResult = yield control_1.fork(collection_1.find(collection, qry, { sort: { created_at: -1 }, limit: 50 }));
     let posts = mResult.isNothing() ? [] : mResult.get();
     return response_1.show('index.html', { posts: posts });
 });
@@ -145,7 +145,7 @@ exports.showPosts = (_) => monad_1.doN(function* () {
  * showPostJobPage displays the form for creating new posts on a new
  * page.
  */
-exports.showPostJobPage = (_) => monad_1.doN(function* () {
+exports.showPostJobPage = (_) => api_1.doAction(function* () {
     return response_1.show('post-form.html', {});
 });
 //retrieves the main connection from the tendril pool.
