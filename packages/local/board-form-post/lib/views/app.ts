@@ -191,7 +191,7 @@ __this.node('p', <__wml.Attrs>{'class': 'required-note'}, [
        return v;
 
 }
-   register(e:__wml.WMLElement, attrs:__wml.Attributes<any>) {
+   register(e:__wml.WMLElement, attrs:__wml.Attributes<any>) : __wml.WMLElement {
 
        let attrsMap = (<__wml.Attrs><any>attrs)
 
@@ -219,7 +219,7 @@ __this.node('p', <__wml.Attrs>{'class': 'required-note'}, [
        return e;
 }
 
-   node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]) {
+   node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
        let e = __document.createElement(tag);
 
@@ -269,7 +269,7 @@ __this.node('p', <__wml.Attrs>{'class': 'required-note'}, [
    }
 
 
-   widget(w: __wml.Widget, attrs:__wml.Attrs) {
+   widget(w: __wml.Widget, attrs:__wml.Attrs) : __wml.Content {
 
        this.register(w, attrs);
 

@@ -1,13 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BoardDashboardView = void 0;
+var __document = require("@quenk/wml/lib/dom");
+//@ts-ignore: 6192
+var maybe_1 = require("@quenk/noni/lib/data/maybe");
 var action_bar_1 = require("@quenk/wml-widgets/lib/layout/action-bar");
 ;
 var main_1 = require("@quenk/wml-widgets/lib/layout/main");
 ;
 var job_form_1 = require("./job-form");
 ;
-//@ts-ignore: 6192
-var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -31,17 +33,22 @@ var BoardDashboardView = /** @class */ (function () {
     function BoardDashboardView(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('div', {}, [
                 __this.widget(new action_bar_1.ActionBar({ ww: { 'className': 'board-action-bar' } }, []), { ww: { 'className': 'board-action-bar' } }),
                 __this.widget(new main_1.MainLayout({ wml: { 'id': __context.values.main.id } }, [
-                    (new job_form_1.JobFormView(__context)).render()
+                    __this.registerView((new job_form_1.JobFormView(__context))).render()
                 ]), { wml: { 'id': __context.values.main.id } })
             ]);
         };
     }
+    BoardDashboardView.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     BoardDashboardView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -59,7 +66,7 @@ var BoardDashboardView = /** @class */ (function () {
         return e;
     };
     BoardDashboardView.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -71,7 +78,7 @@ var BoardDashboardView = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -79,7 +86,7 @@ var BoardDashboardView = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -97,12 +104,18 @@ var BoardDashboardView = /** @class */ (function () {
         return w.render();
     };
     BoardDashboardView.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     BoardDashboardView.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     BoardDashboardView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -117,6 +130,7 @@ var BoardDashboardView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :

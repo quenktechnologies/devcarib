@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BoardDashboard = void 0;
 var board_1 = require("./views/board");
 var browser_1 = require("@quenk/jhr/lib/browser");
 var agent = browser_1.createAgent();

@@ -1,5 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JobFormView = void 0;
+var __document = require("@quenk/wml/lib/dom");
+//@ts-ignore: 6192
+var maybe_1 = require("@quenk/noni/lib/data/maybe");
 var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
 var panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
@@ -8,8 +12,6 @@ var text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
 ;
 var button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
-//@ts-ignore: 6192
-var maybe_1 = require("@quenk/noni/lib/data/maybe");
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -33,8 +35,9 @@ var JobFormView = /** @class */ (function () {
     function JobFormView(__context) {
         this.ids = {};
         this.groups = {};
+        this.views = [];
         this.widgets = [];
-        this.tree = document.createElement('div');
+        this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
@@ -62,6 +65,10 @@ var JobFormView = /** @class */ (function () {
             ]), {});
         };
     }
+    JobFormView.prototype.registerView = function (v) {
+        this.views.push(v);
+        return v;
+    };
     JobFormView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
@@ -79,7 +86,7 @@ var JobFormView = /** @class */ (function () {
         return e;
     };
     JobFormView.prototype.node = function (tag, attrs, children) {
-        var e = document.createElement(tag);
+        var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
             if (typeof value === 'function') {
@@ -91,7 +98,7 @@ var JobFormView = /** @class */ (function () {
                     e.setAttribute(key, value);
             }
             else if (typeof value === 'boolean') {
-                e.setAttribute(key, "" + value);
+                e.setAttribute(key, '');
             }
         });
         children.forEach(function (c) {
@@ -99,7 +106,7 @@ var JobFormView = /** @class */ (function () {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = document.createTextNode('' + c);
+                    var tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
@@ -117,12 +124,18 @@ var JobFormView = /** @class */ (function () {
         return w.render();
     };
     JobFormView.prototype.findById = function (id) {
-        return maybe_1.fromNullable(this.ids[id]);
+        var mW = maybe_1.fromNullable(this.ids[id]);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findById(id);
+        }, mW);
     };
     JobFormView.prototype.findByGroup = function (name) {
-        return maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
+        return this.views.reduce(function (p, c) {
+            return p.isJust() ? p : c.findByGroup(name);
+        }, mGroup);
     };
     JobFormView.prototype.invalidate = function () {
         var tree = this.tree;
@@ -137,6 +150,7 @@ var JobFormView = /** @class */ (function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
+        this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
