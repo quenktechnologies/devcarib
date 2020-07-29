@@ -152,6 +152,12 @@ app.middleware.available = {
 
 }
 
+app.modules = {
+
+  admin = ./admin#template
+
+}
+
 -- Actually enable the middleware in this order.
 app.middleware.enabled = [
    "log",

@@ -1,18 +1,21 @@
 import * as mongodb from 'mongodb';
 import * as bcryptjs from 'bcryptjs';
 
-import { insertOne, findOne, find } from '@quenk/safe-mongodb/lib/database/collection';
+import {
+    insertOne,
+    findOne,
+    find
+} from '@quenk/safe-mongodb/lib/database/collection';
 import {
     show,
     redirect,
     created,
     conflict
-} from '@quenk/tendril/lib/app/api/action/response';
-import { await } from '@quenk/tendril/lib/app/api/action/control';
-import { checkout } from '@quenk/tendril/lib/app/api/action/pool';
-import { ActionM } from '@quenk/tendril/lib/app/api/action';
+} from '@quenk/tendril/lib/app/api/response';
+import { fork } from '@quenk/tendril/lib/app/api/control';
+import { checkout } from '@quenk/tendril/lib/app/api/pool';
+import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { Request } from '@quenk/tendril/lib/app/api/request';
-import { DoFn, doN } from '@quenk/noni/lib/control/monad';
 import { isRecord } from '@quenk/noni/lib/data/record';
 import { fromCallback } from '@quenk/noni/lib/control/monad/future';
 
@@ -40,7 +43,7 @@ interface SessionRequest extends Request {
  *
  * In a future iteration this will display recent job postings.
  */
-export const showIndex = (r: Request): ActionM<undefined> => {
+export const showIndex = (r: Request): Action<undefined> => {
 
     let req = <SessionRequest>r;
 
@@ -59,7 +62,7 @@ export const showIndex = (r: Request): ActionM<undefined> => {
 /**
  * showLoginForm displays the user login form.
  */
-export const showLoginForm = (r: Request): ActionM<undefined> =>
+export const showLoginForm = (r: Request): Action<undefined> =>
     show('login.html', (<SessionRequest>r).session);
 
 /**
@@ -78,8 +81,8 @@ export const showLoginForm = (r: Request): ActionM<undefined> =>
  * 6. If the comparisson fails, we redirect the user and tell them their attempt
  *    failed.
  */
-export const login = (req: Request): ActionM<undefined> =>
-    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
+export const login = (req: Request): Action<undefined> =>
+    doAction(function*() {
 
         //shut the compiler up.
         let r = <SessionRequest>req;
@@ -100,7 +103,7 @@ export const login = (req: Request): ActionM<undefined> =>
 
             let qry = { email: email };
 
-            let mUser = yield await(() => findOne(users, qry));
+            let mUser = yield fork(findOne(users, qry));
 
             if (mUser.isNothing()) {
 
@@ -112,12 +115,12 @@ export const login = (req: Request): ActionM<undefined> =>
 
             let user = mUser.get();
 
-            let didMatch = yield await(() => compare(password, user.password));
+            let didMatch = yield fork(compare(password, user.password));
 
             if (didMatch) {
 
                 //regenerate the session to start a fresh.
-                yield await(() => fromCallback(cb => r.session.regenerate(cb)));
+                yield fork(fromCallback(cb => r.session.regenerate(cb)));
 
                 r.session.user = user.id;
 
@@ -149,13 +152,13 @@ const compare = (pwd: string, hash: string) =>
  *
  * This basically destroys the session so we no longer know who the user is.
  */
-export const logout = (req: Request): ActionM<undefined> =>
-    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
+export const logout = (req: Request): Action<undefined> =>
+    doAction(function*() {
 
         let r = <SessionRequest>req;
 
         if (r.session != null)
-            yield await(() => fromCallback(cb => r.session.destroy(cb)));
+            yield fork(fromCallback(cb => r.session.destroy(cb)));
 
         return redirect('/', 302);
 
@@ -164,10 +167,10 @@ export const logout = (req: Request): ActionM<undefined> =>
 /**
  * createPost saves the submitted post data in the database for approval later.
  */
-export const createPost = (r: Request): ActionM<undefined> =>
-    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
+export const createPost = (r: Request): Action<undefined> =>
+    doAction(function*() {
 
-        let eResult = yield await(() => checkPost(r.body));
+        let eResult = yield fork(checkPost(r.body));
 
         if (eResult.isRight()) {
 
@@ -177,7 +180,7 @@ export const createPost = (r: Request): ActionM<undefined> =>
 
             data.approved = false;
 
-            yield await(() => insertOne(collection, data));
+            yield fork(insertOne(collection, data));
 
             return created({ id: data.id });
 
@@ -192,8 +195,8 @@ export const createPost = (r: Request): ActionM<undefined> =>
 /**
  * showPost displays a page for a single approved post.
  */
-export const showPost = (r: Request): ActionM<undefined> =>
-    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
+export const showPost = (r: Request): Action<undefined> =>
+    doAction(function*() {
 
         let id = Number(r.params.id); //XXX: this could be done with a check.
 
@@ -203,7 +206,7 @@ export const showPost = (r: Request): ActionM<undefined> =>
 
         let qry = { id, approved: true };
 
-        let mResult = yield await(() => findOne(collection, qry));
+        let mResult = yield fork(findOne(collection, qry));
 
         if (mResult.isNothing())
             return show('errors/not-found.html', {}, 404);
@@ -218,8 +221,8 @@ export const showPost = (r: Request): ActionM<undefined> =>
  * This only shows the most recent 50 posts. In future we will refactor if
  * needed to show more.
  */
-export const showPosts = (_: Request): ActionM<undefined> =>
-    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
+export const showPosts = (_: Request): Action<undefined> =>
+    doAction(function*() {
 
         let db = yield getMain();
 
@@ -227,7 +230,7 @@ export const showPosts = (_: Request): ActionM<undefined> =>
 
         let qry = { approved: true };
 
-        let mResult = yield await(() =>
+        let mResult = yield fork(
             find(collection, qry, { sort: { created_at: -1 }, limit: 50 }));
 
         let posts = mResult.isNothing() ? [] : mResult.get();
@@ -240,12 +243,12 @@ export const showPosts = (_: Request): ActionM<undefined> =>
  * showPostJobPage displays the form for creating new posts on a new
  * page.
  */
-export const showPostJobPage = (_: Request): ActionM<undefined> =>
-    doN(<DoFn<undefined, ActionM<undefined>>>function*() {
+export const showPostJobPage = (_: Request): Action<undefined> =>
+    doAction(function*() {
 
         return show('post-form.html', {});
 
     });
 
 //retrieves the main connection from the tendril pool.
-const getMain = (): ActionM<mongodb.Db> => checkout('main');
+const getMain = (): Action<mongodb.Db> => checkout('main');
