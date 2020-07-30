@@ -1,9 +1,12 @@
 import * as mongodb from 'mongodb';
+import * as prs from '@quenk/tendril/lib/app/api/storage/prs';
 
-import { checkout } from '@quenk/tendril/lib/app/api/pool';
+import { isString } from '@quenk/noni/lib/data/type';
+import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
-import { value } from '@quenk/tendril/lib/app/api/control';
-import { BaseResource } from '@quenk/backdey-resource-mongodb';
+import { checkout } from '@quenk/tendril/lib/app/api/pool';
+import { value, next } from '@quenk/tendril/lib/app/api/control';
+import { SearchKeys, BaseResource } from '@quenk/backdey-resource-mongodb';
 import { BaseModel } from '@quenk/backdey-model-mongodb';
 
 import { Post } from '@board/types/lib/post';
@@ -29,6 +32,22 @@ export class PostModel extends BaseModel<Post> {
  * This should only be accessible to authenticated admin level users!
  */
 export class PostApiController extends BaseResource<Post> {
+
+    /**
+     * setQuery sets the PRS for executing a search on the posts collection.
+     */
+    setQuery = (r: Request): Action<void> => {
+
+        return doAction(function*() {
+
+            yield prs.set(SearchKeys.query, isString(r.query.q) ?
+                { title: r.query.q } : {});
+
+            return next(r);
+
+        });
+
+    }
 
     getModel(): Action<PostModel> {
 

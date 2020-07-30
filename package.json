@@ -15,7 +15,7 @@
         "@board/validation": "file:packages/local/board-validation",
         "@csa/session": "file:packages/csa-session",
         "@quenk/backdey-model-mongodb": "^0.1.3",
-        "@quenk/backdey-resource-mongodb": "^1.0.2",
+        "@quenk/backdey-resource-mongodb": "^1.0.3",
         "@quenk/noni": "^1.39.1",
         "@quenk/preconditions": "^5.4.3",
         "@quenk/safe-mongodb": "^0.3.2",

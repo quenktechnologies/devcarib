@@ -1,9 +1,9 @@
 %import postAPI from "./handlers"
 
-GET  /r/posts postAPI.search
+GET     /r/posts postAPI.setQuery postAPI.search
 
-PATCH  /r/posts postAPI.update
+PATCH   /r/posts postAPI.update
 
-GET  /r/posts/:id postAPI.get
+GET     /r/posts/:id postAPI.get
 
 DELETE  /r/posts/:id postAPI.remove
