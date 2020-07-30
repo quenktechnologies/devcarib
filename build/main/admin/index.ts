@@ -13,7 +13,7 @@ export const template = (_app:App) : Template<App> =>(
 'id': `admin`,
 'app': {'routes': (_m:Module) => {
 
-return [{ method: 'get',path: '/r/posts',filters: [postAPI.search  ]}
+return [{ method: 'get',path: '/r/posts',filters: [postAPI.setQuery  ,postAPI.search  ]}
 ,{ method: 'patch',path: '/r/posts',filters: [postAPI.update  ]}
 ,{ method: 'get',path: '/r/posts/:id',filters: [postAPI.get  ]}
 ,{ method: 'delete',path: '/r/posts/:id',filters: [postAPI.remove  ]}
