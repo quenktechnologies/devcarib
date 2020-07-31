@@ -15,7 +15,7 @@ export const template = (_app:App) : Template<App> =>(
 
 return [{ method: 'get',path: '/',filters: [adminCtl.showIndex  ]}
 ,{ method: 'get',path: '/r/posts',filters: [adminCtl.setQuery  ,adminCtl.search  ]}
-,{ method: 'patch',path: '/r/posts',filters: [adminCtl.update  ]}
+,{ method: 'patch',path: '/r/posts/:id',filters: [adminCtl.update  ]}
 ,{ method: 'get',path: '/r/posts/:id',filters: [adminCtl.get  ]}
 ,{ method: 'delete',path: '/r/posts/:id',filters: [adminCtl.remove  ]}
 ]
