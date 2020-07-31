@@ -39,12 +39,11 @@ class AdminController extends backdey_resource_mongodb_1.BaseResource {
         this.showIndex = (_) => {
             return response_1.show('admin.html');
         };
-        this.search = (r) => {
-            let doSearch = super.search;
+        this.setQuery = (r) => {
             return api_1.doAction(function* () {
                 yield prs.set("resource.mongodb.search.query" /* query */, type_1.isString(r.query.q) ?
                     { title: r.query.q } : {});
-                return doSearch(r);
+                return control_1.next(r);
             });
         };
     }

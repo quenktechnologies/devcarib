@@ -5,7 +5,7 @@ import { isString } from '@quenk/noni/lib/data/type';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import { value  } from '@quenk/tendril/lib/app/api/control';
+import { value,next } from '@quenk/tendril/lib/app/api/control';
 import { show } from '@quenk/tendril/lib/app/api/response';
 import { SearchKeys, BaseResource } from '@quenk/backdey-resource-mongodb';
 import { BaseModel } from '@quenk/backdey-model-mongodb';
@@ -46,16 +46,14 @@ export class AdminController extends BaseResource<Post> {
 
     }
 
-    search = (r: Request): Action<void> => {
-
-        let doSearch = super.search;
+    setQuery = (r: Request): Action<void> => {
 
         return doAction(function*() {
 
             yield prs.set(SearchKeys.query, isString(r.query.q) ?
                 { title: r.query.q } : {});
 
-            return doSearch(r);
+            return next(r);
 
         });
 

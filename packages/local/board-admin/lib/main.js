@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardAdmin = void 0;
+var browser_1 = require("@quenk/jhr/lib/browser");
 var app_1 = require("./views/app");
+var agent = browser_1.createAgent();
 /**
  * BoardAdmin is the main class for the admin application.
  */
@@ -27,6 +29,13 @@ var BoardAdmin = /** @class */ (function () {
     BoardAdmin.create = function (node) {
         return new BoardAdmin(node);
     };
+    BoardAdmin.prototype.loadPosts = function () {
+        var _this = this;
+        agent.get('/admin/r/posts').fork(console.error, function (r) {
+            _this.values.data = r.body.data;
+            _this.view.invalidate();
+        });
+    };
     /**
      * render a view of the application to the screen.
      */
@@ -41,6 +50,7 @@ var BoardAdmin = /** @class */ (function () {
      */
     BoardAdmin.prototype.run = function () {
         this.render(this.view);
+        this.loadPosts();
     };
     return BoardAdmin;
 }());
