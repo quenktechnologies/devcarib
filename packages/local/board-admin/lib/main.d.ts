@@ -22,6 +22,7 @@ export declare class BoardAdmin {
         columns: Column<Value, Post>[];
     };
     static create(node: Node): BoardAdmin;
+    loadPosts(): void;
     /**
      * render a view of the application to the screen.
      */

@@ -1,10 +1,13 @@
 import { Column } from '@quenk/wml-widgets/lib/data/table';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { View } from '@quenk/wml';
+import { createAgent } from '@quenk/jhr/lib/browser';
 
 import { Post } from '@board/types/lib/post';
 
 import { BoardAdminView } from './views/app';
+
+const agent = createAgent();
 
 /**
  * BoardAdmin is the main class for the admin application.
@@ -42,6 +45,16 @@ export class BoardAdmin {
 
     }
 
+    loadPosts(): void {
+    agent.get('/admin/r/posts').fork(console.error,r=>{
+
+      this.values.data=<any>r.body.data;
+      this.view.invalidate();
+
+    });
+
+    }
+
     /**
      * render a view of the application to the screen.
      */
@@ -62,6 +75,7 @@ export class BoardAdmin {
     run(): void {
 
         this.render(this.view);
+        this.loadPosts();
 
     }
 
