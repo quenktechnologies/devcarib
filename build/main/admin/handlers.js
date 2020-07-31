@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postAPI = exports.PostApiController = exports.PostModel = void 0;
+exports.adminCtl = exports.AdminController = exports.PostModel = void 0;
 const prs = require("@quenk/tendril/lib/app/api/storage/prs");
 const type_1 = require("@quenk/noni/lib/data/type");
 const api_1 = require("@quenk/tendril/lib/app/api");
 const pool_1 = require("@quenk/tendril/lib/app/api/pool");
 const control_1 = require("@quenk/tendril/lib/app/api/control");
+const response_1 = require("@quenk/tendril/lib/app/api/response");
 const backdey_resource_mongodb_1 = require("@quenk/backdey-resource-mongodb");
 const backdey_model_mongodb_1 = require("@quenk/backdey-model-mongodb");
 /**
@@ -22,21 +23,28 @@ class PostModel extends backdey_model_mongodb_1.BaseModel {
 }
 exports.PostModel = PostModel;
 /**
- * PostAPIController provides the endpoints for post management.
+ * AdminController serves the UI and endpoints for the admin section.
  *
- * This should only be accessible to authenticated admin level users!
+ * All the routes here should only be accessible to authenticated admin level
+ * users!
  */
-class PostApiController extends backdey_resource_mongodb_1.BaseResource {
+class AdminController extends backdey_resource_mongodb_1.BaseResource {
     constructor() {
         super(...arguments);
         /**
-         * setQuery sets the PRS for executing a search on the posts collection.
+         * showIndex displays the admin app page to the user.
+         *
+         * Note: This is not a JSON endpoint!
          */
-        this.setQuery = (r) => {
+        this.showIndex = (_) => {
+            return response_1.show('admin.html');
+        };
+        this.search = (r) => {
+            let doSearch = super.search;
             return api_1.doAction(function* () {
                 yield prs.set("resource.mongodb.search.query" /* query */, type_1.isString(r.query.q) ?
                     { title: r.query.q } : {});
-                return control_1.next(r);
+                return doSearch(r);
             });
         };
     }
@@ -47,6 +55,6 @@ class PostApiController extends backdey_resource_mongodb_1.BaseResource {
         });
     }
 }
-exports.PostApiController = PostApiController;
-exports.postAPI = new PostApiController();
+exports.AdminController = AdminController;
+exports.adminCtl = new AdminController();
 //# sourceMappingURL=handlers.js.map

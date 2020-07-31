@@ -1,5 +1,5 @@
 
-import { postAPI } from './handlers';
+import { adminCtl } from './handlers';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 import {Module} from '@quenk/tendril/lib/app/module';
 import {App as App} from '@quenk/tendril/lib/app';
@@ -13,9 +13,10 @@ export const template = (_app:App) : Template<App> =>(
 'id': `admin`,
 'app': {'routes': (_m:Module) => {
 
-return [{ method: 'get',path: '/r/posts',filters: [postAPI.setQuery  ,postAPI.search  ]}
-,{ method: 'patch',path: '/r/posts',filters: [postAPI.update  ]}
-,{ method: 'get',path: '/r/posts/:id',filters: [postAPI.get  ]}
-,{ method: 'delete',path: '/r/posts/:id',filters: [postAPI.remove  ]}
+return [{ method: 'get',path: '/',filters: [adminCtl.showIndex  ]}
+,{ method: 'get',path: '/r/posts',filters: [adminCtl.search  ]}
+,{ method: 'patch',path: '/r/posts',filters: [adminCtl.update  ]}
+,{ method: 'get',path: '/r/posts/:id',filters: [adminCtl.get  ]}
+,{ method: 'delete',path: '/r/posts/:id',filters: [adminCtl.remove  ]}
 ]
 }}})
