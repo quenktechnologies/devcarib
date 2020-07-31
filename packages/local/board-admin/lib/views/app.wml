@@ -1,0 +1,24 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (DataTable) from "@quenk/wml-widgets/lib/data/table" %}
+
+{% import (BoardAdmin) from "../main" %}
+
+{% view BoardAdminView (BoardAdmin) %}
+
+<GridLayout>
+
+  <Row>
+
+    <Column>
+
+      <h1>Manage Posts</h1>
+
+      <DataTable
+       ww:data={{@values.data}}
+       ww:columns={{@values.columns}} />
+
+    </Column>
+
+  </Row>
+
+</GridLayout>

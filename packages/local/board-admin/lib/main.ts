@@ -1,17 +1,40 @@
+import { Column } from '@quenk/wml-widgets/lib/data/table';
+import { Value } from '@quenk/noni/lib/data/jsonx';
 import { View } from '@quenk/wml';
 
-//import { BoardAdminView } from './views/app';
+import { Post } from '@board/types/lib/post';
+
+import { BoardAdminView } from './views/app';
 
 /**
- *
+ * BoardAdmin is the main class for the admin application.
  */
 export class BoardAdmin {
 
     constructor(public node: Node) { }
 
-    view: any = 1;//new BoardAdminView(this);
+    /**
+     * view is the WML content to display on the screen.
+     */
+    view = new BoardAdminView(this);
 
-    values = {};
+    /**
+     * values contains various bits of information used to generate
+     * the view.
+     */
+    values = {
+
+        data: <Post[]>[],
+
+        columns: <Column<Value, Post>[]>[
+
+            { name: 'title', heading: 'Title' },
+
+            { name: 'approved', heading: 'Approved?' }
+
+        ]
+
+    };
 
     static create(node: Node): BoardAdmin {
 

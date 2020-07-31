@@ -1,15 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardAdmin = void 0;
-//import { BoardAdminView } from './views/app';
+var app_1 = require("./views/app");
 /**
- *
+ * BoardAdmin is the main class for the admin application.
  */
 var BoardAdmin = /** @class */ (function () {
     function BoardAdmin(node) {
         this.node = node;
-        this.view = 1; //new BoardAdminView(this);
-        this.values = {};
+        /**
+         * view is the WML content to display on the screen.
+         */
+        this.view = new app_1.BoardAdminView(this);
+        /**
+         * values contains various bits of information used to generate
+         * the view.
+         */
+        this.values = {
+            data: [],
+            columns: [
+                { name: 'title', heading: 'Title' },
+                { name: 'approved', heading: 'Approved?' }
+            ]
+        };
     }
     BoardAdmin.create = function (node) {
         return new BoardAdmin(node);
