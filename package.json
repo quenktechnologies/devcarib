@@ -41,7 +41,7 @@
         "@quenk/must": "^1.0.3",
         "@quenk/tdc": "^1.0.3",
         "@quenk/wml": "^2.6.1",
-        "@quenk/wml-widgets": "^1.27.13",
+        "@quenk/wml-widgets": "^1.27.14",
         "@types/bcrypt": "^3.0.0",
         "@types/bcryptjs": "^2.4.2",
         "@types/dotenv": "^8.2.0",

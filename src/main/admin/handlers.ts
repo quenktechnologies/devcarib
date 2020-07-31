@@ -5,7 +5,8 @@ import { isString } from '@quenk/noni/lib/data/type';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import { value, next } from '@quenk/tendril/lib/app/api/control';
+import { value  } from '@quenk/tendril/lib/app/api/control';
+import { show } from '@quenk/tendril/lib/app/api/response';
 import { SearchKeys, BaseResource } from '@quenk/backdey-resource-mongodb';
 import { BaseModel } from '@quenk/backdey-model-mongodb';
 
@@ -27,23 +28,34 @@ export class PostModel extends BaseModel<Post> {
 }
 
 /**
- * PostAPIController provides the endpoints for post management.
+ * AdminController serves the UI and endpoints for the admin section.
  *
- * This should only be accessible to authenticated admin level users!
+ * All the routes here should only be accessible to authenticated admin level
+ * users!
  */
-export class PostApiController extends BaseResource<Post> {
+export class AdminController extends BaseResource<Post> {
 
     /**
-     * setQuery sets the PRS for executing a search on the posts collection.
+     * showIndex displays the admin app page to the user.
+     *
+     * Note: This is not a JSON endpoint!
      */
-    setQuery = (r: Request): Action<void> => {
+    showIndex = (_: Request): Action<undefined> => {
+
+        return show('admin.html');
+
+    }
+
+    search = (r: Request): Action<void> => {
+
+        let doSearch = super.search;
 
         return doAction(function*() {
 
             yield prs.set(SearchKeys.query, isString(r.query.q) ?
                 { title: r.query.q } : {});
 
-            return next(r);
+            return doSearch(r);
 
         });
 
@@ -63,4 +75,4 @@ export class PostApiController extends BaseResource<Post> {
 
 }
 
-export const postAPI = new PostApiController();
+export const adminCtl = new AdminController();

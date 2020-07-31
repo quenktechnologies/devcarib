@@ -1,9 +1,11 @@
-%import postAPI from "./handlers"
+%import adminCtl from "./handlers"
 
-GET     /r/posts postAPI.setQuery postAPI.search
+GET     /               adminCtl.showIndex
 
-PATCH   /r/posts postAPI.update
+GET     /r/posts        adminCtl.search
 
-GET     /r/posts/:id postAPI.get
+PATCH   /r/posts        adminCtl.update
 
-DELETE  /r/posts/:id postAPI.remove
+GET     /r/posts/:id    adminCtl.get
+
+DELETE  /r/posts/:id    adminCtl.remove
