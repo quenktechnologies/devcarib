@@ -5,7 +5,7 @@ import { isString } from '@quenk/noni/lib/data/type';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import { value,next } from '@quenk/tendril/lib/app/api/control';
+import { value } from '@quenk/tendril/lib/app/api/control';
 import { show } from '@quenk/tendril/lib/app/api/response';
 import { SearchKeys, BaseResource } from '@quenk/backdey-resource-mongodb';
 import { BaseModel } from '@quenk/backdey-model-mongodb';
@@ -28,32 +28,26 @@ export class PostModel extends BaseModel<Post> {
 }
 
 /**
- * AdminController serves the UI and endpoints for the admin section.
- *
- * All the routes here should only be accessible to authenticated admin level
- * users!
+ * PostsController provides the handlers for the /admin/r/posts routes.
  */
-export class AdminController extends BaseResource<Post> {
+export class PostsController extends BaseResource<Post> {
 
     /**
-     * showIndex displays the admin app page to the user.
-     *
-     * Note: This is not a JSON endpoint!
+     * configuredSearch executes a search using the "q" query variable
+     * as an argument for
      */
-    showIndex = (_: Request): Action<undefined> => {
+    configuredSearch = (r: Request): Action<void> => {
 
-        return show('admin.html');
-
-    }
-
-    setQuery = (r: Request): Action<void> => {
+        let that = this;
 
         return doAction(function*() {
 
-            yield prs.set(SearchKeys.query, isString(r.query.q) ?
-                { title: r.query.q } : {});
+            let qry = isString(r.query.q) ?
+                { title: { $regex: escape(r.query.q), $options: 'i' } } : {};
 
-            return next(r);
+            yield prs.set(SearchKeys.query, qry);
+
+            return that.search(r);
 
         });
 
@@ -73,4 +67,26 @@ export class AdminController extends BaseResource<Post> {
 
 }
 
+/**
+ * AdminController serves the UI for the admin section.
+ *
+ * All the routes here should only be accessible to authenticated admin level
+ * users!
+ */
+export class AdminController {
+
+    /**
+     * showIndex displays the admin app page to the user.
+     *
+     * Note: This is not a JSON endpoint!
+     */
+    showIndex = (_: Request): Action<undefined> => {
+
+        return show('admin.html');
+
+    }
+
+}
+
 export const adminCtl = new AdminController();
+export const postsCtl = new PostsController();
