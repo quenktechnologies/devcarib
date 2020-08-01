@@ -1,5 +1,5 @@
 import { Column, CellContext } from '@quenk/wml-widgets/lib/data/table';
-import { pure, doFuture, Future } from '@quenk/noni/lib/control/monad/future';
+import { Future, pure, doFuture } from '@quenk/noni/lib/control/monad/future';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { interpolate } from '@quenk/noni/lib/data/string';
 import { noop } from '@quenk/noni/lib/data/function';
@@ -10,10 +10,12 @@ import { Ok } from '@quenk/jhr/lib/response';
 import { Post } from '@board/types/lib/post';
 
 import { BoardAdminView } from './views/app';
-import { ActionColumnView } from './views/columns';
+import { ActionColumnView,TitleColumnView } from './views/columns';
+import {PostPreviewView} from './views/dialog/preview';
 
 export const ACTION_APPROVE = 'approve';
 export const ACTION_REMOVE = 'remove';
+export const ACTION_SHOW = 'show';
 
 export const RESOURCE_POSTS = '/admin/r/posts';
 export const RESOURCE_POST = '/admin/r/posts/{id}';
@@ -41,9 +43,19 @@ export interface ActionColumnListener {
 
 export class TitleColumn implements Column<Value, Post> {
 
+    constructor(public listener: ActionColumnListener) { }
+
     name = 'title';
 
-    heading = 'Title'
+    heading = 'Title';
+
+    cellFragment = (c: CellContext<Value, Post>) => new TitleColumnView({
+
+        post: c.datum,
+
+        show: () => this.listener.executeAction(ACTION_SHOW, c.datum)
+
+    });
 
 }
 
@@ -62,7 +74,6 @@ export class ApprovedColumn implements Column<Value, Post> {
     heading = 'Approved?';
 
 }
-
 
 export class ActionColumn implements Column<Value, Post> {
 
@@ -104,7 +115,7 @@ export class BoardAdmin implements ActionColumnListener {
 
         columns: <Column<Value, Post>[]>[
 
-            new TitleColumn(),
+            new TitleColumn(this),
             new CompanyColumn(),
             new ApprovedColumn(),
             new ActionColumn(this)
@@ -136,6 +147,10 @@ export class BoardAdmin implements ActionColumnListener {
 
             case ACTION_REMOVE:
                 this.runFuture(this.removePost(<number>data.id));
+                break;
+
+            case ACTION_SHOW:
+                this.showPost(data);
                 break;
 
             default:
@@ -232,6 +247,15 @@ export class BoardAdmin implements ActionColumnListener {
 
     }
 
+    showPost(data: Post): void {
+
+      this.showModal(new PostPreviewView({
+        post:data,
+        close:() => this.closeModal()
+      }));
+
+    }
+
     /**
      * show a View on the application's screen.
      */
@@ -243,6 +267,28 @@ export class BoardAdmin implements ActionColumnListener {
         this.node.appendChild(<Node>view.render());
 
         window.scroll(0, 0);
+
+    }
+
+    showModal(view: View): void {
+
+       let node =< Node > document.getElementById('modal');
+
+        while (node.firstChild != null)
+            node.removeChild(node.firstChild);
+
+        node.appendChild(<Node>view.render());
+
+        window.scroll(0, 0);
+
+    }
+
+    closeModal(): void {
+
+       let node =< Node > document.getElementById('modal');
+
+        while (node.firstChild != null)
+            node.removeChild(node.firstChild);
 
     }
 

@@ -4,9 +4,10 @@ import { Value } from '@quenk/noni/lib/data/jsonx';
 import { View } from '@quenk/wml';
 import { Post } from '@board/types/lib/post';
 import { BoardAdminView } from './views/app';
-import { ActionColumnView } from './views/columns';
+import { ActionColumnView, TitleColumnView } from './views/columns';
 export declare const ACTION_APPROVE = "approve";
 export declare const ACTION_REMOVE = "remove";
+export declare const ACTION_SHOW = "show";
 export declare const RESOURCE_POSTS = "/admin/r/posts";
 export declare const RESOURCE_POST = "/admin/r/posts/{id}";
 /**
@@ -23,8 +24,11 @@ export interface ActionColumnListener {
     executeAction(name: string, data: Post): void;
 }
 export declare class TitleColumn implements Column<Value, Post> {
+    listener: ActionColumnListener;
+    constructor(listener: ActionColumnListener);
     name: string;
     heading: string;
+    cellFragment: (c: CellContext<Value, Post>) => TitleColumnView;
 }
 export declare class CompanyColumn implements Column<Value, Post> {
     name: string;
@@ -76,10 +80,13 @@ export declare class BoardAdmin implements ActionColumnListener {
      * removePost permenantly removes a post from the site.
      */
     removePost(id: number): Future<void>;
+    showPost(data: Post): void;
     /**
      * show a View on the application's screen.
      */
     show(view: View): void;
+    showModal(view: View): void;
+    closeModal(): void;
     refresh(): void;
     runFuture(ft: Future<void>): void;
     /**

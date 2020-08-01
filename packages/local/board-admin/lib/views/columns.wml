@@ -3,11 +3,21 @@
 {% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
-{% contract ActionColumnViewCtx = 
+{% import (Post) from "@board/types/lib/post" %}
+
+{% contract ActionColumnViewCtx =
 
   approve: () -> Void,
 
   remove: () -> Void
+
+%}
+
+{% contract TitleColumnViewCtx =
+
+  post: Post,
+
+  show: () -> Void
 
 %}
 
@@ -22,7 +32,7 @@
 
       <Item>
 
-        <Link 
+        <Link
           ww:text="Approve"
           ww:onClick={{@approve}} />
 
@@ -30,15 +40,18 @@
 
       <Item>
 
-        <Link 
+        <Link
           ww:text="Remove"
           ww:onClick={{@remove}} />
 
       </Item>
     </Menu>
-           
+
   </DropDown>
 
 </td>
 
-
+{% view TitleColumnView (TitleColumnViewCtx) %}
+<Link
+  ww:text={{@post.title}}
+  ww:onClick={{@show}} />
