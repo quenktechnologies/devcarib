@@ -52,6 +52,10 @@
 </td>
 
 {% view TitleColumnView (TitleColumnViewCtx) %}
-<Link
-  ww:text={{@post.title}}
-  ww:onClick={{@show}} />
+<td>
+
+  <Link
+    ww:text={{@post.title}}
+    ww:onClick={{@show}} />
+
+</td>

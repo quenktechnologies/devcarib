@@ -160,7 +160,9 @@ var TitleColumnView = /** @class */ (function () {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.widget(new link_1.Link({ ww: { 'text': __context.post.title, 'onClick': __context.show } }, []), { ww: { 'text': __context.post.title, 'onClick': __context.show } });
+            return __this.node('td', {}, [
+                __this.widget(new link_1.Link({ ww: { 'text': __context.post.title, 'onClick': __context.show } }, []), { ww: { 'text': __context.post.title, 'onClick': __context.show } })
+            ]);
         };
     }
     TitleColumnView.prototype.registerView = function (v) {

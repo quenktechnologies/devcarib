@@ -268,10 +268,13 @@ export class TitleColumnView  implements __wml.View {
 
        this.template = (__this:__wml.Registry) => {
 
-           return __this.widget(new Link({ww : { 'text' : __context.post.title  ,'onClick' : __context.show  }}, [
+           return __this.node('td', <__wml.Attrs>{}, [
+
+        __this.widget(new Link({ww : { 'text' : __context.post.title  ,'onClick' : __context.show  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : __context.post.title  ,'onClick' : __context.show  }});
+     ]),<__wml.Attrs>{ww : { 'text' : __context.post.title  ,'onClick' : __context.show  }})
+     ]);
 
        }
 
