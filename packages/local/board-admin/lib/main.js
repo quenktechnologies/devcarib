@@ -27,22 +27,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BoardAdmin = exports.ActionColumn = exports.ApprovedColumn = exports.CompanyColumn = exports.TitleColumn = exports.RESOURCE_POST = exports.RESOURCE_POSTS = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
+exports.BoardAdmin = exports.ActionColumn = exports.ApprovedColumn = exports.CompanyColumn = exports.TitleColumn = exports.RESOURCE_POST = exports.RESOURCE_POSTS = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var string_1 = require("@quenk/noni/lib/data/string");
 var function_1 = require("@quenk/noni/lib/data/function");
 var browser_1 = require("@quenk/jhr/lib/browser");
 var app_1 = require("./views/app");
 var columns_1 = require("./views/columns");
+var preview_1 = require("./views/dialog/preview");
 exports.ACTION_APPROVE = 'approve';
 exports.ACTION_REMOVE = 'remove';
+exports.ACTION_SHOW = 'show';
 exports.RESOURCE_POSTS = '/admin/r/posts';
 exports.RESOURCE_POST = '/admin/r/posts/{id}';
 var agent = browser_1.createAgent();
 var TitleColumn = /** @class */ (function () {
-    function TitleColumn() {
+    function TitleColumn(listener) {
+        var _this = this;
+        this.listener = listener;
         this.name = 'title';
         this.heading = 'Title';
+        this.cellFragment = function (c) { return new columns_1.TitleColumnView({
+            post: c.datum,
+            show: function () { return _this.listener.executeAction(exports.ACTION_SHOW, c.datum); }
+        }); };
     }
     return TitleColumn;
 }());
@@ -94,7 +102,7 @@ var BoardAdmin = /** @class */ (function () {
         this.values = {
             data: [],
             columns: [
-                new TitleColumn(),
+                new TitleColumn(this),
                 new CompanyColumn(),
                 new ApprovedColumn(),
                 new ActionColumn(this)
@@ -115,6 +123,9 @@ var BoardAdmin = /** @class */ (function () {
                 break;
             case exports.ACTION_REMOVE:
                 this.runFuture(this.removePost(data.id));
+                break;
+            case exports.ACTION_SHOW:
+                this.showPost(data);
                 break;
             default:
                 break;
@@ -199,6 +210,13 @@ var BoardAdmin = /** @class */ (function () {
             });
         });
     };
+    BoardAdmin.prototype.showPost = function (data) {
+        var _this = this;
+        this.showModal(new preview_1.PostPreviewView({
+            post: data,
+            close: function () { return _this.closeModal(); }
+        }));
+    };
     /**
      * show a View on the application's screen.
      */
@@ -207,6 +225,18 @@ var BoardAdmin = /** @class */ (function () {
             this.node.removeChild(this.node.firstChild);
         this.node.appendChild(view.render());
         window.scroll(0, 0);
+    };
+    BoardAdmin.prototype.showModal = function (view) {
+        var node = document.getElementById('modal');
+        while (node.firstChild != null)
+            node.removeChild(node.firstChild);
+        node.appendChild(view.render());
+        window.scroll(0, 0);
+    };
+    BoardAdmin.prototype.closeModal = function () {
+        var node = document.getElementById('modal');
+        while (node.firstChild != null)
+            node.removeChild(node.firstChild);
     };
     BoardAdmin.prototype.refresh = function () {
         this.runFuture(this.loadPosts());
