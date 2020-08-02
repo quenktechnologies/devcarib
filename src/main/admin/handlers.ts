@@ -2,6 +2,7 @@ import * as mongodb from 'mongodb';
 import * as prs from '@quenk/tendril/lib/app/api/storage/prs';
 
 import { isString } from '@quenk/noni/lib/data/type';
+import { escape} from '@quenk/noni/lib/data/string/regex';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
