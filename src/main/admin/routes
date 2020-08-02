@@ -2,9 +2,9 @@
 
 GET     /               adminCtl.showIndex
 
-GET     /r/posts        postsCtl.configuredSearch
+GET     /r/posts        postsCtl.runSearch
 
-PATCH   /r/posts/:id    postsCtl.update
+PATCH   /r/posts/:id    postsCtl.runUpdate
 
 GET     /r/posts/:id    postsCtl.get
 

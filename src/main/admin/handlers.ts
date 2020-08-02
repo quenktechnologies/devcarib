@@ -2,16 +2,17 @@ import * as mongodb from 'mongodb';
 import * as prs from '@quenk/tendril/lib/app/api/storage/prs';
 
 import { isString } from '@quenk/noni/lib/data/type';
-import { escape} from '@quenk/noni/lib/data/string/regex';
+import { escape } from '@quenk/noni/lib/data/string/regex';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import { value } from '@quenk/tendril/lib/app/api/control';
-import { show } from '@quenk/tendril/lib/app/api/response';
+import { value, fork } from '@quenk/tendril/lib/app/api/control';
+import { show, conflict } from '@quenk/tendril/lib/app/api/response';
 import { SearchKeys, BaseResource } from '@quenk/backdey-resource-mongodb';
 import { BaseModel } from '@quenk/backdey-model-mongodb';
 
 import { Post } from '@board/types/lib/post';
+import {patch} from '@board/checks/lib/post';
 
 /**
  * PostModel
@@ -34,10 +35,10 @@ export class PostModel extends BaseModel<Post> {
 export class PostsController extends BaseResource<Post> {
 
     /**
-     * configuredSearch executes a search using the "q" query variable
+     * runSearch executes a search using the "q" query variable
      * as an argument for
      */
-    configuredSearch = (r: Request): Action<void> => {
+    runSearch = (r: Request): Action<void> => {
 
         let that = this;
 
@@ -49,6 +50,28 @@ export class PostsController extends BaseResource<Post> {
             yield prs.set(SearchKeys.query, qry);
 
             return that.search(r);
+
+        });
+
+    }
+
+    /**
+     * runUpdate valdiates and applies an update to a post.
+     */
+    runUpdate = (r: Request): Action<void> => {
+
+        let that = this;
+
+        return doAction(function*() {
+
+            let eBody = yield fork(patch(r.body));
+
+            if (eBody.isLeft())
+                return conflict({ errors: eBody.takeLeft() });
+
+            r.body = eBody.takeRight();
+
+            return that.update(r);
 
         });
 
