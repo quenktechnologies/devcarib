@@ -1,11 +1,11 @@
-%import adminCtl from "./handlers"
+%import adminCtl,postsCtl from "./handlers"
 
 GET     /               adminCtl.showIndex
 
-GET     /r/posts        adminCtl.setQuery adminCtl.search
+GET     /r/posts        postsCtl.runSearch
 
-PATCH   /r/posts/:id    adminCtl.update
+PATCH   /r/posts/:id    postsCtl.runUpdate
 
-GET     /r/posts/:id    adminCtl.get
+GET     /r/posts/:id    postsCtl.get
 
-DELETE  /r/posts/:id    adminCtl.remove
+DELETE  /r/posts/:id    postsCtl.remove

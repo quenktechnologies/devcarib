@@ -18,3 +18,7 @@ export declare const id: Precondition<Value, Value>;
  * This is used mostly for generationg sequential ids.
  */
 export declare const inc: (field: string, dbid?: string) => (_: Value) => Result<Value, Value>;
+/**
+ * timestamp provides the current UTC datetime as a Date object.
+ */
+export declare const timestamp: () => Result<Value, Value>;

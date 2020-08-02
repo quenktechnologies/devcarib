@@ -27,9 +27,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.inc = exports.id = exports.bcrypt = exports.SETTINGS_ID = void 0;
+exports.timestamp = exports.inc = exports.id = exports.bcrypt = exports.SETTINGS_ID = void 0;
 var bcryptjs = require("bcryptjs");
 var uuid = require("uuid");
+var moment = require("moment");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var monad_1 = require("@quenk/noni/lib/control/monad");
 var path_1 = require("@quenk/noni/lib/data/record/path");
@@ -100,5 +101,11 @@ exports.inc = function (field, dbid) {
 };
 var getMain = function (id) {
     return connection_1.getInstance().get(id).get().checkout();
+};
+/**
+ * timestamp provides the current UTC datetime as a Date object.
+ */
+exports.timestamp = function () {
+    return future_1.pure(result_1.succeed(moment.utc().toDate()));
 };
 //# sourceMappingURL=index.js.map

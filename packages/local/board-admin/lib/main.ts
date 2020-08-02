@@ -1,8 +1,10 @@
-import { Column, CellContext } from '@quenk/wml-widgets/lib/data/table';
 import { Future, pure, doFuture } from '@quenk/noni/lib/control/monad/future';
+import { Object as JSONObject } from '@quenk/noni/lib/data/json';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { interpolate } from '@quenk/noni/lib/data/string';
 import { noop } from '@quenk/noni/lib/data/function';
+import { Column, CellContext } from '@quenk/wml-widgets/lib/data/table';
+import { Event } from '@quenk/wml-widgets/lib/control';
 import { View } from '@quenk/wml';
 import { createAgent } from '@quenk/jhr/lib/browser';
 import { Ok } from '@quenk/jhr/lib/response';
@@ -10,8 +12,11 @@ import { Ok } from '@quenk/jhr/lib/response';
 import { Post } from '@board/types/lib/post';
 
 import { BoardAdminView } from './views/app';
-import { ActionColumnView,TitleColumnView } from './views/columns';
-import {PostPreviewView} from './views/dialog/preview';
+import { ActionColumnView, TitleColumnView } from './views/columns';
+import { PostPreviewView } from './views/dialog/preview';
+import { debounce } from '@quenk/noni/lib/control/timer';
+import { getById } from '@quenk/wml-widgets/lib/util';
+import { Updatable } from '@quenk/wml-widgets/lib/data/updatable';
 
 export const ACTION_APPROVE = 'approve';
 export const ACTION_REMOVE = 'remove';
@@ -19,6 +24,8 @@ export const ACTION_SHOW = 'show';
 
 export const RESOURCE_POSTS = '/admin/r/posts';
 export const RESOURCE_POST = '/admin/r/posts/{id}';
+
+export const TIME_SEARCH_DEBOUNCE = 500;
 
 const agent = createAgent();
 
@@ -32,18 +39,22 @@ export interface OkBody<D> {
 }
 
 /**
- * ActionColumnListener is used by the ActionColumn to execute actions
- * the user selects for a row.
+ * ColumnActionListener responds to specific actions happening on a column
+ * via the onAction method.
  */
-export interface ActionColumnListener {
+export interface ColumnActionListener {
 
-    executeAction(name: string, data: Post): void
+    /**
+     * onAction is called to react to an event the user has triggered in a
+     * column.
+     */
+    onAction(name: string, data: Post): void
 
 }
 
 export class TitleColumn implements Column<Value, Post> {
 
-    constructor(public listener: ActionColumnListener) { }
+    constructor(public listener: ColumnActionListener) { }
 
     name = 'title';
 
@@ -53,7 +64,7 @@ export class TitleColumn implements Column<Value, Post> {
 
         post: c.datum,
 
-        show: () => this.listener.executeAction(ACTION_SHOW, c.datum)
+        show: () => this.listener.onAction(ACTION_SHOW, c.datum)
 
     });
 
@@ -77,7 +88,7 @@ export class ApprovedColumn implements Column<Value, Post> {
 
 export class ActionColumn implements Column<Value, Post> {
 
-    constructor(public listener: ActionColumnListener) { }
+    constructor(public listener: ColumnActionListener) { }
 
     name = '';
 
@@ -85,9 +96,9 @@ export class ActionColumn implements Column<Value, Post> {
 
     cellFragment = (c: CellContext<Value, Post>) => new ActionColumnView({
 
-        approve: () => this.listener.executeAction(ACTION_APPROVE, c.datum),
+        approve: () => this.listener.onAction(ACTION_APPROVE, c.datum),
 
-        remove: () => this.listener.executeAction(ACTION_REMOVE, c.datum)
+        remove: () => this.listener.onAction(ACTION_REMOVE, c.datum)
 
     });
 
@@ -95,10 +106,15 @@ export class ActionColumn implements Column<Value, Post> {
 
 /**
  * BoardAdmin is the main class for the admin application.
+ *
+ * @param main    - The DOM node that the main application content will reside.
+ * @param dialogs - The DOM node that will be used for dialogs.
  */
-export class BoardAdmin implements ActionColumnListener {
+export class BoardAdmin implements ColumnActionListener {
 
-    constructor(public node: Node) { }
+    constructor(
+        public main: Node,
+        public dialogs: Node) { }
 
     /**
      * view is the WML content to display on the screen.
@@ -111,16 +127,37 @@ export class BoardAdmin implements ActionColumnListener {
      */
     values = {
 
-        data: <Post[]>[],
+        search: {
 
-        columns: <Column<Value, Post>[]>[
+            onChange: debounce((e: Event<Value>) => {
 
-            new TitleColumn(this),
-            new CompanyColumn(),
-            new ApprovedColumn(),
-            new ActionColumn(this)
+                let qry = e.value === '' ? {} : { q: e.value };
 
-        ]
+                this.runFuture(this.searchPosts(qry));
+
+            }, TIME_SEARCH_DEBOUNCE)
+
+        },
+
+        table: {
+
+            id: 'table',
+
+            data: <Post[]>[],
+
+            columns: <Column<Value, Post>[]>[
+
+                new TitleColumn(this),
+
+                new CompanyColumn(),
+
+                new ApprovedColumn(),
+
+                new ActionColumn(this)
+
+            ]
+
+        }
 
     };
 
@@ -131,13 +168,13 @@ export class BoardAdmin implements ActionColumnListener {
 
     }
 
-    static create(node: Node): BoardAdmin {
+    static create(main: Node, dialogs: Node): BoardAdmin {
 
-        return new BoardAdmin(node);
+        return new BoardAdmin(main, dialogs);
 
     }
 
-    executeAction(name: string, data: Post) {
+    onAction(name: string, data: Post) {
 
         switch (name) {
 
@@ -161,15 +198,47 @@ export class BoardAdmin implements ActionColumnListener {
     }
 
     /**
-     * loadPosts from the database into the table.
+     * searchPosts in the database.
+     *
+     * Differs from loadPosts() by updating only the table, not the whole
+     * view on success.
+     *
+     * @param qry - The query object to include in the GET request.
      */
-    loadPosts(): Future<void> {
+    searchPosts(qry: object = {}): Future<void> {
 
         let that = this;
 
         return doFuture<void>(function*() {
 
-            let r: Ok<OkBody<Post[]>> = yield agent.get(RESOURCE_POSTS);
+            let r: Ok<OkBody<Post[]>> =
+                yield agent.get(RESOURCE_POSTS, <JSONObject>qry);
+
+            let mtable = getById<Updatable<Post>>(
+                that.view,
+                that.values.table.id
+            );
+
+            if (mtable.isJust())
+                mtable.get().update((r.code === 200) ? r.body.data : []);
+
+            return pure(<void>undefined);
+
+        });
+
+    }
+
+    /**
+     * loadInitialPosts from the database into the table.
+     */
+    loadInitialPosts(): Future<void> {
+
+        let that = this;
+
+        return doFuture<void>(function*() {
+
+            let r: Ok<OkBody<Post[]>> =
+                yield agent.get(RESOURCE_POSTS);
 
             if (r.code !== 200) {
 
@@ -177,7 +246,7 @@ export class BoardAdmin implements ActionColumnListener {
 
             } else {
 
-                that.values.data = r.body.data;
+                that.values.table.data = r.body.data;
                 that.view.invalidate();
 
             }
@@ -200,11 +269,15 @@ export class BoardAdmin implements ActionColumnListener {
         return doFuture<void>(function*() {
 
             let path = interpolate(RESOURCE_POST, { id });
+
             let change = { approved: true };
+
             let r = yield agent.patch(path, change);
 
             if (r.code == 200) {
+
                 alert('Post approved!');
+
                 that.refresh();
 
             } else {
@@ -229,10 +302,13 @@ export class BoardAdmin implements ActionColumnListener {
         return doFuture<void>(function*() {
 
             let path = interpolate(RESOURCE_POST, { id });
+
             let r = yield agent.delete(path);
 
             if (r.code == 200) {
+
                 alert('Post removed!');
+
                 that.refresh();
 
             } else {
@@ -247,12 +323,27 @@ export class BoardAdmin implements ActionColumnListener {
 
     }
 
+    /**
+     * showPost displays a single Post in a dialog.
+     */
     showPost(data: Post): void {
 
-      this.showModal(new PostPreviewView({
-        post:data,
-        close:() => this.closeModal()
-      }));
+        this.showDialog(new PostPreviewView({
+
+            post: data,
+
+            close: () => this.closeDialog()
+
+        }));
+
+    }
+
+    /**
+     * showDialog displays a View in the dialog area of the app's screen.
+     */
+    showDialog(view: View): void {
+
+        setView(this.dialogs, view);
 
     }
 
@@ -261,43 +352,31 @@ export class BoardAdmin implements ActionColumnListener {
      */
     show(view: View): void {
 
-        while (this.node.firstChild != null)
-            this.node.removeChild(this.node.firstChild);
-
-        this.node.appendChild(<Node>view.render());
-
-        window.scroll(0, 0);
+        setView(this.main, view);
 
     }
 
-    showModal(view: View): void {
+    /**
+     * closeDialog removes a dialog from the app's screen.
+     */
+    closeDialog(): void {
 
-       let node =< Node > document.getElementById('modal');
-
-        while (node.firstChild != null)
-            node.removeChild(node.firstChild);
-
-        node.appendChild(<Node>view.render());
-
-        window.scroll(0, 0);
+        unsetView(this.dialogs);
 
     }
 
-    closeModal(): void {
-
-       let node =< Node > document.getElementById('modal');
-
-        while (node.firstChild != null)
-            node.removeChild(node.firstChild);
-
-    }
-
+    /**
+     * refresh reloads and displays the application.
+     */
     refresh(): void {
 
-        this.runFuture(this.loadPosts());
+        this.runFuture(this.loadInitialPosts());
 
     }
 
+    /**
+     * runFuture is used to execute async work wrapped in the Future type.
+     */
     runFuture(ft: Future<void>): void {
 
         ft.fork(this.onError, noop);
@@ -310,10 +389,29 @@ export class BoardAdmin implements ActionColumnListener {
     run(): void {
 
         this.show(this.view);
-        this.runFuture(this.loadPosts());
+        this.refresh();
 
     }
 
 }
 
-BoardAdmin.create(<Node>document.getElementById('main')).run();
+const setView = (node: Node, view: View) => {
+
+    unsetView(node);
+    node.appendChild(<Node>view.render());
+
+}
+
+const unsetView = (node: Node) => {
+
+    while (node.firstChild != null)
+        node.removeChild(node.firstChild);
+
+}
+
+//Create and run the app. Note that it will crash if the DOM nodes below are
+//missing.
+BoardAdmin.create(
+    <Node>document.getElementById('main'),
+    <Node>document.getElementById('dialogs')
+).run();

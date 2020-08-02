@@ -9,6 +9,7 @@ fromArray as __fromArray
 from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {DataTable} from '@quenk/wml-widgets/lib/data/table'; ;
+import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
 import {BoardAdmin} from '../main'; 
 
 
@@ -75,11 +76,27 @@ export class BoardAdminView  implements __wml.View {
         __this.node('h1', <__wml.Attrs>{}, [
 
         __document.createTextNode('Manage Posts')
-     ]),
-__this.widget(new DataTable({ww : { 'data' : __context.values.data  ,'columns' : __context.values.columns   }}, [
+     ])
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new TextField({ww : { 'placeholder' : 'Search' ,'onChange' : __context.values.search .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'data' : __context.values.data  ,'columns' : __context.values.columns   }})
+     ]),<__wml.Attrs>{ww : { 'placeholder' : 'Search' ,'onChange' : __context.values.search .onChange   }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new DataTable({wml : { 'id' : __context.values.table .id   },ww : { 'data' : __context.values.table .data  ,'columns' : __context.values.table .columns   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.table .id   },ww : { 'data' : __context.values.table .data  ,'columns' : __context.values.table .columns   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});

@@ -1,6 +1,7 @@
 import * as bcryptjs from 'bcryptjs';
 import * as uuid from 'uuid';
 import * as mongodb from 'mongodb';
+import * as moment from 'moment';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Future, fromCallback, pure } from '@quenk/noni/lib/control/monad/future';
@@ -73,3 +74,9 @@ export const inc =
 
 const getMain = (id: string): Future<mongodb.Db> =>
     getInstance().get(id).get().checkout();
+
+/**
+ * timestamp provides the current UTC datetime as a Date object.
+ */
+export const timestamp = (): Result<Value, Value> =>
+    pure(succeed(<Value>moment.utc().toDate()));

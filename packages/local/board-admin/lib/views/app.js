@@ -8,6 +8,8 @@ var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
 var table_1 = require("@quenk/wml-widgets/lib/data/table");
 ;
+var text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
+;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -40,8 +42,17 @@ var BoardAdminView = /** @class */ (function () {
                     __this.widget(new grid_1.Column({}, [
                         __this.node('h1', {}, [
                             __document.createTextNode('Manage Posts')
-                        ]),
-                        __this.widget(new table_1.DataTable({ ww: { 'data': __context.values.data, 'columns': __context.values.columns } }, []), { ww: { 'data': __context.values.data, 'columns': __context.values.columns } })
+                        ])
+                    ]), {})
+                ]), {}),
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new text_field_1.TextField({ ww: { 'placeholder': 'Search', 'onChange': __context.values.search.onChange } }, []), { ww: { 'placeholder': 'Search', 'onChange': __context.values.search.onChange } })
+                    ]), {})
+                ]), {}),
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new table_1.DataTable({ wml: { 'id': __context.values.table.id }, ww: { 'data': __context.values.table.data, 'columns': __context.values.table.columns } }, []), { wml: { 'id': __context.values.table.id }, ww: { 'data': __context.values.table.data, 'columns': __context.values.table.columns } })
                     ]), {})
                 ]), {})
             ]), {});

@@ -27,7 +27,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BoardAdmin = exports.ActionColumn = exports.ApprovedColumn = exports.CompanyColumn = exports.TitleColumn = exports.RESOURCE_POST = exports.RESOURCE_POSTS = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
+exports.BoardAdmin = exports.ActionColumn = exports.ApprovedColumn = exports.CompanyColumn = exports.TitleColumn = exports.TIME_SEARCH_DEBOUNCE = exports.RESOURCE_POST = exports.RESOURCE_POSTS = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var string_1 = require("@quenk/noni/lib/data/string");
 var function_1 = require("@quenk/noni/lib/data/function");
@@ -35,11 +35,14 @@ var browser_1 = require("@quenk/jhr/lib/browser");
 var app_1 = require("./views/app");
 var columns_1 = require("./views/columns");
 var preview_1 = require("./views/dialog/preview");
+var timer_1 = require("@quenk/noni/lib/control/timer");
+var util_1 = require("@quenk/wml-widgets/lib/util");
 exports.ACTION_APPROVE = 'approve';
 exports.ACTION_REMOVE = 'remove';
 exports.ACTION_SHOW = 'show';
 exports.RESOURCE_POSTS = '/admin/r/posts';
 exports.RESOURCE_POST = '/admin/r/posts/{id}';
+exports.TIME_SEARCH_DEBOUNCE = 500;
 var agent = browser_1.createAgent();
 var TitleColumn = /** @class */ (function () {
     function TitleColumn(listener) {
@@ -49,7 +52,7 @@ var TitleColumn = /** @class */ (function () {
         this.heading = 'Title';
         this.cellFragment = function (c) { return new columns_1.TitleColumnView({
             post: c.datum,
-            show: function () { return _this.listener.executeAction(exports.ACTION_SHOW, c.datum); }
+            show: function () { return _this.listener.onAction(exports.ACTION_SHOW, c.datum); }
         }); };
     }
     return TitleColumn;
@@ -78,8 +81,8 @@ var ActionColumn = /** @class */ (function () {
         this.name = '';
         this.heading = 'Actions';
         this.cellFragment = function (c) { return new columns_1.ActionColumnView({
-            approve: function () { return _this.listener.executeAction(exports.ACTION_APPROVE, c.datum); },
-            remove: function () { return _this.listener.executeAction(exports.ACTION_REMOVE, c.datum); }
+            approve: function () { return _this.listener.onAction(exports.ACTION_APPROVE, c.datum); },
+            remove: function () { return _this.listener.onAction(exports.ACTION_REMOVE, c.datum); }
         }); };
     }
     return ActionColumn;
@@ -87,10 +90,15 @@ var ActionColumn = /** @class */ (function () {
 exports.ActionColumn = ActionColumn;
 /**
  * BoardAdmin is the main class for the admin application.
+ *
+ * @param main    - The DOM node that the main application content will reside.
+ * @param dialogs - The DOM node that will be used for dialogs.
  */
 var BoardAdmin = /** @class */ (function () {
-    function BoardAdmin(node) {
-        this.node = node;
+    function BoardAdmin(main, dialogs) {
+        var _this = this;
+        this.main = main;
+        this.dialogs = dialogs;
         /**
          * view is the WML content to display on the screen.
          */
@@ -100,23 +108,32 @@ var BoardAdmin = /** @class */ (function () {
          * the view.
          */
         this.values = {
-            data: [],
-            columns: [
-                new TitleColumn(this),
-                new CompanyColumn(),
-                new ApprovedColumn(),
-                new ActionColumn(this)
-            ]
+            search: {
+                onChange: timer_1.debounce(function (e) {
+                    var qry = e.value === '' ? {} : { q: e.value };
+                    _this.runFuture(_this.searchPosts(qry));
+                }, exports.TIME_SEARCH_DEBOUNCE)
+            },
+            table: {
+                id: 'table',
+                data: [],
+                columns: [
+                    new TitleColumn(this),
+                    new CompanyColumn(),
+                    new ApprovedColumn(),
+                    new ActionColumn(this)
+                ]
+            }
         };
         this.onError = function (e) {
             console.error(e);
             alert('An error has occurred! Details have been logged to the console.');
         };
     }
-    BoardAdmin.create = function (node) {
-        return new BoardAdmin(node);
+    BoardAdmin.create = function (main, dialogs) {
+        return new BoardAdmin(main, dialogs);
     };
-    BoardAdmin.prototype.executeAction = function (name, data) {
+    BoardAdmin.prototype.onAction = function (name, data) {
         switch (name) {
             case exports.ACTION_APPROVE:
                 this.runFuture(this.approvePost(data.id));
@@ -132,9 +149,35 @@ var BoardAdmin = /** @class */ (function () {
         }
     };
     /**
-     * loadPosts from the database into the table.
+     * searchPosts in the database.
+     *
+     * Differs from loadPosts() by updating only the table, not the whole
+     * view on success.
+     *
+     * @param qry - The query object to include in the GET request.
      */
-    BoardAdmin.prototype.loadPosts = function () {
+    BoardAdmin.prototype.searchPosts = function (qry) {
+        if (qry === void 0) { qry = {}; }
+        var that = this;
+        return future_1.doFuture(function () {
+            var r, mtable;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, agent.get(exports.RESOURCE_POSTS, qry)];
+                    case 1:
+                        r = _a.sent();
+                        mtable = util_1.getById(that.view, that.values.table.id);
+                        if (mtable.isJust())
+                            mtable.get().update((r.code === 200) ? r.body.data : []);
+                        return [2 /*return*/, future_1.pure(undefined)];
+                }
+            });
+        });
+    };
+    /**
+     * loadInitialPosts from the database into the table.
+     */
+    BoardAdmin.prototype.loadInitialPosts = function () {
         var that = this;
         return future_1.doFuture(function () {
             var r;
@@ -147,7 +190,7 @@ var BoardAdmin = /** @class */ (function () {
                             alert('Could not load posts!');
                         }
                         else {
-                            that.values.data = r.body.data;
+                            that.values.table.data = r.body.data;
                             that.view.invalidate();
                         }
                         return [2 /*return*/, future_1.pure(undefined)];
@@ -210,37 +253,43 @@ var BoardAdmin = /** @class */ (function () {
             });
         });
     };
+    /**
+     * showPost displays a single Post in a dialog.
+     */
     BoardAdmin.prototype.showPost = function (data) {
         var _this = this;
-        this.showModal(new preview_1.PostPreviewView({
+        this.showDialog(new preview_1.PostPreviewView({
             post: data,
-            close: function () { return _this.closeModal(); }
+            close: function () { return _this.closeDialog(); }
         }));
+    };
+    /**
+     * showDialog displays a View in the dialog area of the app's screen.
+     */
+    BoardAdmin.prototype.showDialog = function (view) {
+        setView(this.dialogs, view);
     };
     /**
      * show a View on the application's screen.
      */
     BoardAdmin.prototype.show = function (view) {
-        while (this.node.firstChild != null)
-            this.node.removeChild(this.node.firstChild);
-        this.node.appendChild(view.render());
-        window.scroll(0, 0);
+        setView(this.main, view);
     };
-    BoardAdmin.prototype.showModal = function (view) {
-        var node = document.getElementById('modal');
-        while (node.firstChild != null)
-            node.removeChild(node.firstChild);
-        node.appendChild(view.render());
-        window.scroll(0, 0);
+    /**
+     * closeDialog removes a dialog from the app's screen.
+     */
+    BoardAdmin.prototype.closeDialog = function () {
+        unsetView(this.dialogs);
     };
-    BoardAdmin.prototype.closeModal = function () {
-        var node = document.getElementById('modal');
-        while (node.firstChild != null)
-            node.removeChild(node.firstChild);
-    };
+    /**
+     * refresh reloads and displays the application.
+     */
     BoardAdmin.prototype.refresh = function () {
-        this.runFuture(this.loadPosts());
+        this.runFuture(this.loadInitialPosts());
     };
+    /**
+     * runFuture is used to execute async work wrapped in the Future type.
+     */
     BoardAdmin.prototype.runFuture = function (ft) {
         ft.fork(this.onError, function_1.noop);
     };
@@ -249,10 +298,20 @@ var BoardAdmin = /** @class */ (function () {
      */
     BoardAdmin.prototype.run = function () {
         this.show(this.view);
-        this.runFuture(this.loadPosts());
+        this.refresh();
     };
     return BoardAdmin;
 }());
 exports.BoardAdmin = BoardAdmin;
-BoardAdmin.create(document.getElementById('main')).run();
+var setView = function (node, view) {
+    unsetView(node);
+    node.appendChild(view.render());
+};
+var unsetView = function (node) {
+    while (node.firstChild != null)
+        node.removeChild(node.firstChild);
+};
+//Create and run the app. Note that it will crash if the DOM nodes below are
+//missing.
+BoardAdmin.create(document.getElementById('main'), document.getElementById('dialogs')).run();
 //# sourceMappingURL=main.js.map
