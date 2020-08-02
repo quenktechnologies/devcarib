@@ -39,18 +39,22 @@ export interface OkBody<D> {
 }
 
 /**
- * ActionColumnListener is used by the ActionColumn to execute actions
- * the user selects for a row.
+ * ColumnActionListener responds to specific actions happening on a column
+ * via the onAction method.
  */
-export interface ActionColumnListener {
+export interface ColumnActionListener {
 
-    executeAction(name: string, data: Post): void
+    /**
+     * onAction is called to react to an event the user has triggered in a
+     * column.
+     */
+    onAction(name: string, data: Post): void
 
 }
 
 export class TitleColumn implements Column<Value, Post> {
 
-    constructor(public listener: ActionColumnListener) { }
+    constructor(public listener: ColumnActionListener) { }
 
     name = 'title';
 
@@ -60,7 +64,7 @@ export class TitleColumn implements Column<Value, Post> {
 
         post: c.datum,
 
-        show: () => this.listener.executeAction(ACTION_SHOW, c.datum)
+        show: () => this.listener.onAction(ACTION_SHOW, c.datum)
 
     });
 
@@ -84,7 +88,7 @@ export class ApprovedColumn implements Column<Value, Post> {
 
 export class ActionColumn implements Column<Value, Post> {
 
-    constructor(public listener: ActionColumnListener) { }
+    constructor(public listener: ColumnActionListener) { }
 
     name = '';
 
@@ -92,9 +96,9 @@ export class ActionColumn implements Column<Value, Post> {
 
     cellFragment = (c: CellContext<Value, Post>) => new ActionColumnView({
 
-        approve: () => this.listener.executeAction(ACTION_APPROVE, c.datum),
+        approve: () => this.listener.onAction(ACTION_APPROVE, c.datum),
 
-        remove: () => this.listener.executeAction(ACTION_REMOVE, c.datum)
+        remove: () => this.listener.onAction(ACTION_REMOVE, c.datum)
 
     });
 
@@ -103,7 +107,7 @@ export class ActionColumn implements Column<Value, Post> {
 /**
  * BoardAdmin is the main class for the admin application.
  */
-export class BoardAdmin implements ActionColumnListener {
+export class BoardAdmin implements ColumnActionListener {
 
     constructor(public node: Node) { }
 
@@ -165,7 +169,7 @@ export class BoardAdmin implements ActionColumnListener {
 
     }
 
-    executeAction(name: string, data: Post) {
+    onAction(name: string, data: Post) {
 
         switch (name) {
 
