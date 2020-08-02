@@ -16,7 +16,7 @@
         "@csa/session": "file:packages/csa-session",
         "@quenk/backdey-model-mongodb": "^0.1.3",
         "@quenk/backdey-resource-mongodb": "^1.0.3",
-        "@quenk/noni": "^1.39.3",
+        "@quenk/noni": "^1.39.4",
         "@quenk/preconditions": "^5.4.3",
         "@quenk/safe-mongodb": "^0.3.2",
         "@quenk/tendril": "^0.40.3",
