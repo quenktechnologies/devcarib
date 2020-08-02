@@ -1,8 +1,10 @@
-import { Column, CellContext } from '@quenk/wml-widgets/lib/data/table';
 import { Future, pure, doFuture } from '@quenk/noni/lib/control/monad/future';
+import { Object as JSONObject } from '@quenk/noni/lib/data/json';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { interpolate } from '@quenk/noni/lib/data/string';
 import { noop } from '@quenk/noni/lib/data/function';
+import { Column, CellContext } from '@quenk/wml-widgets/lib/data/table';
+import { Event } from '@quenk/wml-widgets/lib/control';
 import { View } from '@quenk/wml';
 import { createAgent } from '@quenk/jhr/lib/browser';
 import { Ok } from '@quenk/jhr/lib/response';
@@ -10,8 +12,11 @@ import { Ok } from '@quenk/jhr/lib/response';
 import { Post } from '@board/types/lib/post';
 
 import { BoardAdminView } from './views/app';
-import { ActionColumnView,TitleColumnView } from './views/columns';
-import {PostPreviewView} from './views/dialog/preview';
+import { ActionColumnView, TitleColumnView } from './views/columns';
+import { PostPreviewView } from './views/dialog/preview';
+import { debounce } from '@quenk/noni/lib/control/timer';
+import { getById } from '@quenk/wml-widgets/lib/util';
+import { Updatable } from '@quenk/wml-widgets/lib/data/updatable';
 
 export const ACTION_APPROVE = 'approve';
 export const ACTION_REMOVE = 'remove';
@@ -19,6 +24,8 @@ export const ACTION_SHOW = 'show';
 
 export const RESOURCE_POSTS = '/admin/r/posts';
 export const RESOURCE_POST = '/admin/r/posts/{id}';
+
+export const TIME_SEARCH_DEBOUNCE = 250;
 
 const agent = createAgent();
 
@@ -111,16 +118,37 @@ export class BoardAdmin implements ActionColumnListener {
      */
     values = {
 
-        data: <Post[]>[],
+        search: {
 
-        columns: <Column<Value, Post>[]>[
+            onChange: debounce((e: Event<Value>) => {
 
-            new TitleColumn(this),
-            new CompanyColumn(),
-            new ApprovedColumn(),
-            new ActionColumn(this)
+                let qry = e.value === '' ? {} : { q: e.value };
 
-        ]
+                this.runFuture(this.searchPosts(qry));
+
+            }, TIME_SEARCH_DEBOUNCE)
+
+        },
+
+        table: {
+
+            id: 'table',
+
+            data: <Post[]>[],
+
+            columns: <Column<Value, Post>[]>[
+
+                new TitleColumn(this),
+
+                new CompanyColumn(),
+
+                new ApprovedColumn(),
+
+                new ActionColumn(this)
+
+            ]
+
+        }
 
     };
 
@@ -161,15 +189,47 @@ export class BoardAdmin implements ActionColumnListener {
     }
 
     /**
-     * loadPosts from the database into the table.
+     * searchPosts in the database.
+     *
+     * Differs from loadPosts() by updating only the table, not the whole
+     * view on success.
+     *
+     * @param qry - The query object to include in the GET request.
      */
-    loadPosts(): Future<void> {
+    searchPosts(qry: object = {}): Future<void> {
 
         let that = this;
 
         return doFuture<void>(function*() {
 
-            let r: Ok<OkBody<Post[]>> = yield agent.get(RESOURCE_POSTS);
+            let r: Ok<OkBody<Post[]>> =
+                yield agent.get(RESOURCE_POSTS, <JSONObject>qry);
+
+            let mtable = getById<Updatable<Post>>(
+                that.view,
+                that.values.table.id
+            );
+
+            if (mtable.isJust())
+                mtable.get().update((r.code === 200) ? r.body.data : []);
+
+            return pure(<void>undefined);
+
+        });
+
+    }
+
+    /**
+     * loadInitialPosts from the database into the table.
+     */
+    loadInitialPosts(): Future<void> {
+
+        let that = this;
+
+        return doFuture<void>(function*() {
+
+            let r: Ok<OkBody<Post[]>> =
+                yield agent.get(RESOURCE_POSTS);
 
             if (r.code !== 200) {
 
@@ -177,7 +237,7 @@ export class BoardAdmin implements ActionColumnListener {
 
             } else {
 
-                that.values.data = r.body.data;
+                that.values.table.data = r.body.data;
                 that.view.invalidate();
 
             }
@@ -200,11 +260,15 @@ export class BoardAdmin implements ActionColumnListener {
         return doFuture<void>(function*() {
 
             let path = interpolate(RESOURCE_POST, { id });
+
             let change = { approved: true };
+
             let r = yield agent.patch(path, change);
 
             if (r.code == 200) {
+
                 alert('Post approved!');
+
                 that.refresh();
 
             } else {
@@ -229,10 +293,13 @@ export class BoardAdmin implements ActionColumnListener {
         return doFuture<void>(function*() {
 
             let path = interpolate(RESOURCE_POST, { id });
+
             let r = yield agent.delete(path);
 
             if (r.code == 200) {
+
                 alert('Post removed!');
+
                 that.refresh();
 
             } else {
@@ -249,10 +316,13 @@ export class BoardAdmin implements ActionColumnListener {
 
     showPost(data: Post): void {
 
-      this.showModal(new PostPreviewView({
-        post:data,
-        close:() => this.closeModal()
-      }));
+        this.showModal(new PostPreviewView({
+
+            post: data,
+
+            close: () => this.closeModal()
+
+        }));
 
     }
 
@@ -272,7 +342,7 @@ export class BoardAdmin implements ActionColumnListener {
 
     showModal(view: View): void {
 
-       let node =< Node > document.getElementById('modal');
+        let node = <Node>document.getElementById('modal');
 
         while (node.firstChild != null)
             node.removeChild(node.firstChild);
@@ -285,7 +355,7 @@ export class BoardAdmin implements ActionColumnListener {
 
     closeModal(): void {
 
-       let node =< Node > document.getElementById('modal');
+        let node = <Node>document.getElementById('modal');
 
         while (node.firstChild != null)
             node.removeChild(node.firstChild);
@@ -294,7 +364,7 @@ export class BoardAdmin implements ActionColumnListener {
 
     refresh(): void {
 
-        this.runFuture(this.loadPosts());
+        this.runFuture(this.loadInitialPosts());
 
     }
 
@@ -310,7 +380,7 @@ export class BoardAdmin implements ActionColumnListener {
     run(): void {
 
         this.show(this.view);
-        this.runFuture(this.loadPosts());
+        this.refresh();
 
     }
 
