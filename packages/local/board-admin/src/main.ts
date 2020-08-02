@@ -25,7 +25,7 @@ export const ACTION_SHOW = 'show';
 export const RESOURCE_POSTS = '/admin/r/posts';
 export const RESOURCE_POST = '/admin/r/posts/{id}';
 
-export const TIME_SEARCH_DEBOUNCE = 250;
+export const TIME_SEARCH_DEBOUNCE = 500;
 
 const agent = createAgent();
 
@@ -106,10 +106,15 @@ export class ActionColumn implements Column<Value, Post> {
 
 /**
  * BoardAdmin is the main class for the admin application.
+ *
+ * @param main    - The DOM node that the main application content will reside.
+ * @param dialogs - The DOM node that will be used for dialogs.
  */
 export class BoardAdmin implements ColumnActionListener {
 
-    constructor(public node: Node) { }
+    constructor(
+        public main: Node,
+        public dialogs: Node) { }
 
     /**
      * view is the WML content to display on the screen.
@@ -163,9 +168,9 @@ export class BoardAdmin implements ColumnActionListener {
 
     }
 
-    static create(node: Node): BoardAdmin {
+    static create(main: Node, dialogs: Node): BoardAdmin {
 
-        return new BoardAdmin(node);
+        return new BoardAdmin(main, dialogs);
 
     }
 
@@ -318,15 +323,27 @@ export class BoardAdmin implements ColumnActionListener {
 
     }
 
+    /**
+     * showPost displays a single Post in a dialog.
+     */
     showPost(data: Post): void {
 
-        this.showModal(new PostPreviewView({
+        this.showDialog(new PostPreviewView({
 
             post: data,
 
-            close: () => this.closeModal()
+            close: () => this.closeDialog()
 
         }));
+
+    }
+
+    /**
+     * showDialog displays a View in the dialog area of the app's screen.
+     */
+    showDialog(view: View): void {
+
+        setView(this.dialogs, view);
 
     }
 
@@ -335,43 +352,31 @@ export class BoardAdmin implements ColumnActionListener {
      */
     show(view: View): void {
 
-        while (this.node.firstChild != null)
-            this.node.removeChild(this.node.firstChild);
-
-        this.node.appendChild(<Node>view.render());
-
-        window.scroll(0, 0);
+        setView(this.main, view);
 
     }
 
-    showModal(view: View): void {
+    /**
+     * closeDialog removes a dialog from the app's screen.
+     */
+    closeDialog(): void {
 
-        let node = <Node>document.getElementById('modal');
-
-        while (node.firstChild != null)
-            node.removeChild(node.firstChild);
-
-        node.appendChild(<Node>view.render());
-
-        window.scroll(0, 0);
+        unsetView(this.dialogs);
 
     }
 
-    closeModal(): void {
-
-        let node = <Node>document.getElementById('modal');
-
-        while (node.firstChild != null)
-            node.removeChild(node.firstChild);
-
-    }
-
+    /**
+     * refresh reloads and displays the application.
+     */
     refresh(): void {
 
         this.runFuture(this.loadInitialPosts());
 
     }
 
+    /**
+     * runFuture is used to execute async work wrapped in the Future type.
+     */
     runFuture(ft: Future<void>): void {
 
         ft.fork(this.onError, noop);
@@ -390,4 +395,23 @@ export class BoardAdmin implements ColumnActionListener {
 
 }
 
-BoardAdmin.create(<Node>document.getElementById('main')).run();
+const setView = (node: Node, view: View) => {
+
+    unsetView(node);
+    node.appendChild(<Node>view.render());
+
+}
+
+const unsetView = (node: Node) => {
+
+    while (node.firstChild != null)
+        node.removeChild(node.firstChild);
+
+}
+
+//Create and run the app. Note that it will crash if the DOM nodes below are
+//missing.
+BoardAdmin.create(
+    <Node>document.getElementById('main'),
+    <Node>document.getElementById('dialogs')
+).run();
