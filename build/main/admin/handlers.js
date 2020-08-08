@@ -11,6 +11,7 @@ const response_1 = require("@quenk/tendril/lib/app/api/response");
 const backdey_resource_mongodb_1 = require("@quenk/backdey-resource-mongodb");
 const backdey_model_mongodb_1 = require("@quenk/backdey-model-mongodb");
 const post_1 = require("@board/checks/lib/post");
+const templates = {};
 /**
  * PostModel
  */
@@ -47,14 +48,16 @@ class PostsController extends backdey_resource_mongodb_1.BaseResource {
             });
         };
         /**
-         * runUpdate valdiates and applies an update to a post.
+         * runUpdate valdiates and applies an update to a Post.
          */
         this.runUpdate = (r) => {
             let that = this;
             return api_1.doAction(function* () {
-                let eBody = yield control_1.fork(post_1.patch(r.body));
-                if (eBody.isLeft())
-                    return response_1.conflict({ errors: eBody.takeLeft() });
+                let eBody = yield control_1.fork(post_1.adminCheckPatch(r.body));
+                if (eBody.isLeft()) {
+                    let errors = eBody.takeLeft().explain(templates);
+                    return response_1.conflict({ errors });
+                }
                 r.body = eBody.takeRight();
                 return that.update(r);
             });
