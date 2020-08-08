@@ -18,6 +18,22 @@ export interface Schema extends Record<Precondition<Value, Value>> {
  */
 export declare const schema: Schema;
 /**
+ * adminSchema implementation
+ */
+export declare const adminSchema: Schema;
+/**
  * validate a JSON value as a Post.
  */
 export declare const validate: Precondition<Value, Post>;
+/**
+ * validatePatch validates JSON for a Post update.
+ */
+export declare const validatePatch: Precondition<Value, Post>;
+/**
+ * adminValidate a JSON value as a Post.
+ */
+export declare const adminValidate: Precondition<Value, Post>;
+/**
+ * adminValidatePatch validates JSON for admin Post updates.
+ */
+export declare const adminValidatePatch: Precondition<Value, Post>;

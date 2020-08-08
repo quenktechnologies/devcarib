@@ -13,7 +13,9 @@ import { SearchKeys, BaseResource } from '@quenk/backdey-resource-mongodb';
 import { BaseModel } from '@quenk/backdey-model-mongodb';
 
 import { Post } from '@board/types/lib/post';
-import {patch} from '@board/checks/lib/post';
+import { adminCheckPatch } from '@board/checks/lib/post';
+
+const templates = {};
 
 /**
  * PostModel
@@ -64,7 +66,7 @@ export class PostsController extends BaseResource<Post> {
     }
 
     /**
-     * runUpdate valdiates and applies an update to a post.
+     * runUpdate valdiates and applies an update to a Post.
      */
     runUpdate = (r: Request): Action<void> => {
 
@@ -72,10 +74,14 @@ export class PostsController extends BaseResource<Post> {
 
         return doAction(function*() {
 
-            let eBody = yield fork(patch(r.body));
+            let eBody = yield fork(adminCheckPatch(r.body));
 
-            if (eBody.isLeft())
-                return conflict({ errors: eBody.takeLeft() });
+            if (eBody.isLeft()) {
+
+                let errors = eBody.takeLeft().explain(templates);
+                return conflict({ errors });
+
+            }
 
             r.body = eBody.takeRight();
 
