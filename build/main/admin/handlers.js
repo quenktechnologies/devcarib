@@ -37,8 +37,11 @@ class PostsController extends backdey_resource_mongodb_1.BaseResource {
         this.runSearch = (r) => {
             let that = this;
             return api_1.doAction(function* () {
-                let qry = type_1.isString(r.query.q) ?
-                    { title: { $regex: regex_1.escape(r.query.q), $options: 'i' } } : {};
+                let qry = {};
+                if (type_1.isString(r.query.q)) {
+                    let filter = { $regex: regex_1.escape(r.query.q), $options: 'i' };
+                    qry = { $or: [{ title: filter }, { company: filter }] };
+                }
                 yield prs.set("resource.mongodb.search.query" /* query */, qry);
                 return that.search(r);
             });

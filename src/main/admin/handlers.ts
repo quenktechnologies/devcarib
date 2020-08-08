@@ -3,6 +3,7 @@ import * as prs from '@quenk/tendril/lib/app/api/storage/prs';
 
 import { isString } from '@quenk/noni/lib/data/type';
 import { escape } from '@quenk/noni/lib/data/string/regex';
+import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
@@ -44,8 +45,15 @@ export class PostsController extends BaseResource<Post> {
 
         return doAction(function*() {
 
-            let qry = isString(r.query.q) ?
-                { title: { $regex: escape(r.query.q), $options: 'i' } } : {};
+            let qry: Object = {};
+
+            if (isString(r.query.q)) {
+
+              let filter = { $regex: escape(r.query.q), $options: 'i' };
+
+              qry = { $or: [{title: filter}, {company: filter}] };
+
+            }
 
             yield prs.set(SearchKeys.query, qry);
 
