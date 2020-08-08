@@ -6,6 +6,10 @@ import { Post } from '@board/types/lib/post';
  */
 export declare const check: Precondition<Value, Post>;
 /**
- * patch function for existing Post types.
+ * checkPatch function for existing Post types.
  */
-export declare const patch: Precondition<Value, Post>;
+export declare const checkPatch: Precondition<Value, Post>;
+/**
+ * checkPatch function for existing Post types.
+ */
+export declare const adminCheckPatch: Precondition<Value, Post>;
