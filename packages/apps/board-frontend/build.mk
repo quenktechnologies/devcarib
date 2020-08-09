@@ -7,7 +7,7 @@ BROWSERIFY?=node_modules/.bin/browserify
 LESSC?=node_modules/.bin/lessc
 WMLC?=node_modules/.bin/wmlc
 
-BOARD_FRONTEND_DIR:=$(PACKAGES_DIR)/board-frontend
+BOARD_FRONTEND_BUILD:=$(PACKAGES_DIR)/board-frontend/public
 BOARD_FRONTEND_SRC_DIR:=$(BOARD_FRONTEND_DIR)/src
 BOARD_FRONTEND_SRC_DIR_TS:=$(shell find $(BOARD_FRONTEND_SRC_DIR) -name \*.ts -o -name \*.json)
 BOARD_FRONTEND_SRC_DIR_WML:=$(shell find $(BOARD_FRONTEND_SRC_DIR) -name \*.wml)
@@ -22,6 +22,9 @@ BOARD_FRONTEND_SRC_DIR_LESS:=$(shell find $(BOARD_FRONTEND_SRC_DIR) -name \*.les
 BOARD_FRONTEND_LESS_DIR_MAIN:=$(BOARD_FRONTEND_DIR)/src/less/main.less
 
 ### Graph ###
+$(BOARD_FRONTEND_DIR): $(BOARD_FRONTEND_BUILD)
+	touch $@
+
 $(BOARD_FRONTEND_BUILD): $(BOARD_FRONTEND_JS_BUILD)\
 		         $(BOARD_FRONTEND_CSS_BUILD)\
 			 $(BOARD_TYPES_BUILD)

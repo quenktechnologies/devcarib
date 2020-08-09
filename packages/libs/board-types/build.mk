@@ -2,11 +2,13 @@
 
 ### Settings ###
 TSC?=./node_modules/.bin/tsc
-BOARD_TYPES_DIR:=$(PACKAGES_DIR)/board-types
 BOARD_TYPES_SRC_DIR:=$(BOARD_TYPES_DIR)/src
 BOARD_TYPES_SRC_DIR_FILES:=$(shell find $(BOARD_TYPES_SRC_DIR) -type f) 
 
 ### Graph ###
+
+$(BOARD_TYPES_DIR): $(BOARD_TYPES_BUILD)
+	touch $@
 
 # Copy all the sources to the lib folder then run tsc.
 $(BOARD_TYPES_BUILD): $(BOARD_TYPES_SRC_DIR)

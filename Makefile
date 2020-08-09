@@ -1,9 +1,4 @@
-# Build script for {{{project.name}}}.
-# 
-# This script is intended to build an acyclical dependency graph
-# of your projects build into $PROJECT_DEST_DIR.
-#
-# Try to separate complex sub-builds into the packages folder where possible.
+# Build script for board
 
 ### Current location. ###
 HERE=$(shell pwd)
@@ -32,6 +27,8 @@ endef
 PROJECT_SRC_DIR:=$(HERE)/src
 PROJECT_SRC_DIR_FILES:=$(shell $(FIND) $(PROJECT_SRC_DIR) -type f)
 PACKAGES_DIR:=$(HERE)/packages
+LIBS_PACKAGES_DIR:=$(PACKAGES_DIR)/libs
+APPS_PACKAGES_DIR:=$(PACKAGES_DIR)/apps
 LOCAL_PACKAGES_DIR:=$(PACKAGES_DIR)/local
 PROJECT_BUILD_DIR:=$(HERE)/build
 PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/main
@@ -39,14 +36,14 @@ PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/main
 CLEAN_TARGETS:=
 
 # Configure the paths for your extra packages here.
-CSA_SESSION_BUILD:=$(PACKAGES_DIR)/csa-session/lib
-BOARD_TYPES_BUILD:=$(PACKAGES_DIR)/board-types/lib
-BOARD_VALIDATION_DIR:=$(LOCAL_PACKAGES_DIR)/board-validation
-BOARD_CHECKS_DIR:=$(LOCAL_PACKAGES_DIR)/board-checks
-BOARD_FRONTEND_BUILD:=$(PACKAGES_DIR)/board-frontend/public
+CSA_SESSION_DIR:=$(LIBS_PACKAGES_DIR)/csa-session
+BOARD_TYPES_DIR:=$(LIBS_PACKAGES_DIR)/board-types
+BOARD_VALIDATION_DIR:=$(LIBS_PACKAGES_DIR)/board-validation
+BOARD_CHECKS_DIR:=$(LIBS_PACKAGES_DIR)/board-checks
+BOARD_FRONTEND_DIR:=$(PACKAGES_DIR)/board-frontend
+BOARD_FORM_POST_DIR:=$(APPS_PACKAGES_DIR)/board-form-post
+BOARD_ADMIN_DIR:=$(APPS_PACKAGES_DIR)/board-admin
 BOARD_VIEWS_DIR:=$(LOCAL_PACKAGES_DIR)/board-views
-BOARD_FORM_POST_DIR:=$(LOCAL_PACKAGES_DIR)/board-form-post
-BOARD_ADMIN_DIR:=$(LOCAL_PACKAGES_DIR)/board-admin
 ### Dependency Graph ###
 
 .DELETE_ON_ERROR:
@@ -54,10 +51,10 @@ BOARD_ADMIN_DIR:=$(LOCAL_PACKAGES_DIR)/board-admin
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
-		      $(BOARD_TYPES_BUILD)\
+		      $(BOARD_TYPES_DIR)\
 		      $(BOARD_VALIDATION_DIR)\
 		      $(BOARD_CHECKS_DIR)\
-		      $(BOARD_FRONTEND_BUILD)\
+		      $(BOARD_FRONTEND_DIR)\
 		      $(BOARD_VIEWS_DIR)\
 		      $(BOARD_ADMIN_DIR)
 	mkdir -p $@
@@ -67,8 +64,8 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 	$(TOUCH) $(PROJECT_BUILD_DIR)
 
 # Include *.mk files here.
-include $(PACKAGES_DIR)/board-frontend/build.mk
-include $(PACKAGES_DIR)/board-types/build.mk
+include $(BOARD_FRONTEND_DIR)/build.mk
+include $(BOARD_TYPES_DIR)/build.mk
 include $(BOARD_VALIDATION_DIR)/build.mk
 include $(BOARD_CHECKS_DIR)/build.mk
 include $(BOARD_VIEWS_DIR)/build.mk
