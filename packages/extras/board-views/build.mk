@@ -29,6 +29,3 @@ $(BOARD_VIEWS_LESS_IMPORTS): $(BOARD_VIEWS_LESS_FILES)
 	echo "" > $@
 	$(foreach f,$(subst $(BOARD_VIEWS_DIR),,$^),\
 	echo '@import "./$(f)";' >> $@ && ) true
-
-
-
