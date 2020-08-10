@@ -30,7 +30,7 @@ app.views = {
 
   provider = @quenk/tendril-show-nunjucks#show
 
-  options = [{path = "packages/local/board-views/views"}]
+  options = [{path = "packages/extras/board-views/views"}]
   
 }
 
@@ -60,7 +60,7 @@ app.middleware.available = {
     
     options = [
 
-      "${__dirname}/../../packages/local/board-views/public",
+      "${__dirname}/../../packages/extras/board-views/public",
 
        {maxAge=0}
 
@@ -74,7 +74,7 @@ app.middleware.available = {
 
     options = [
 
-      "${__dirname}/../../packages/local/board-form-post/public",
+      "${__dirname}/../../packages/apps/board-form-post/public",
 
        {maxAge=0}
 
@@ -88,7 +88,7 @@ app.middleware.available = {
 
     options = [
 
-      "${__dirname}/../../packages/local/board-admin/public",
+      "${__dirname}/../../packages/apps/board-admin/public",
 
        {maxAge=0}
 
@@ -120,7 +120,7 @@ app.middleware.available = {
 
     provider = express#static
               
-    options = ["${__dirname}/../../packages/board-frontend/public", {maxAge=0}]
+    options = ["${__dirname}/../../packages/apps/board-frontend/public", {maxAge=0}]
 
   }
   
