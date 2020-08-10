@@ -1,4 +1,3 @@
-///<reference path='../../../node_modules/@types/express-session/index.d.ts'/>
 import {
     Maybe,
     fromNullable,

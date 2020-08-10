@@ -12,7 +12,7 @@ $(BOARD_CHECKS_DIR): $(BOARD_CHECKS_LIB_DIR)
 
 # Copy all the sources to the lib folder then run tsc.
 $(BOARD_CHECKS_LIB_DIR): $(BOARD_CHECKS_SRC_DIR)\
-                         $(BOARD_TYPES_BUILD)\
+                         $(BOARD_TYPES_DIR)\
                          $(BOARD_VALIDATION_DIR)
 	rm -R $@ 2> /dev/null || true 
 	mkdir $@

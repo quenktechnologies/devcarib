@@ -2,7 +2,7 @@ import { View } from '@quenk/wml';
 import { BoardDashboardView } from './views/board';
 import { Value, Object } from '@quenk/noni/lib/data/json';
 import { Event } from '@quenk/wml-widgets/lib/control';
-import { Job } from '@board/types/lib/job';
+import { Post } from '@board/types/lib/post';
 import { createAgent } from '@quenk/jhr/lib/browser';
 import { Response } from '@quenk/jhr/lib/response';
 
@@ -17,7 +17,7 @@ export class BoardDashboard {
     values = {
 
         main: { id: 'main' },
-        data: <Job>{},
+        data: <Post>{},
         controls: {
 
             change: (e: Event<Value>) => {

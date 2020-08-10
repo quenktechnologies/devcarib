@@ -12,7 +12,7 @@ $(BOARD_VALIDATION_DIR): $(BOARD_VALIDATION_LIB_DIR)
 	touch $@
 
 # Copy all the sources to the lib folder then run tsc.
-$(BOARD_VALIDATION_LIB_DIR): $(BOARD_VALIDATION_SRC_DIR) $(BOARD_TYPES_BUILD)
+$(BOARD_VALIDATION_LIB_DIR): $(BOARD_VALIDATION_SRC_DIR) $(BOARD_TYPES_DIR)
 	rm -R $@ 2> /dev/null || true 
 	mkdir $@
 	cp -R -u $(BOARD_VALIDATION_SRC_DIR)/* $@

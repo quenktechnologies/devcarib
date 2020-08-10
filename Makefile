@@ -40,7 +40,6 @@ CSA_SESSION_DIR:=$(LIBS_PACKAGES_DIR)/csa-session
 BOARD_TYPES_DIR:=$(LIBS_PACKAGES_DIR)/board-types
 BOARD_VALIDATION_DIR:=$(LIBS_PACKAGES_DIR)/board-validation
 BOARD_CHECKS_DIR:=$(LIBS_PACKAGES_DIR)/board-checks
-BOARD_FRONTEND_DIR:=$(PACKAGES_DIR)/board-frontend
 BOARD_FORM_POST_DIR:=$(APPS_PACKAGES_DIR)/board-form-post
 BOARD_ADMIN_DIR:=$(APPS_PACKAGES_DIR)/board-admin
 BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
@@ -54,7 +53,6 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 		      $(BOARD_TYPES_DIR)\
 		      $(BOARD_VALIDATION_DIR)\
 		      $(BOARD_CHECKS_DIR)\
-		      $(BOARD_FRONTEND_DIR)\
 		      $(BOARD_VIEWS_DIR)\
 		      $(BOARD_ADMIN_DIR)
 	mkdir -p $@
@@ -64,7 +62,6 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 	$(TOUCH) $(PROJECT_BUILD_DIR)
 
 # Include *.mk files here.
-include $(BOARD_FRONTEND_DIR)/build.mk
 include $(BOARD_TYPES_DIR)/build.mk
 include $(BOARD_VALIDATION_DIR)/build.mk
 include $(BOARD_CHECKS_DIR)/build.mk
