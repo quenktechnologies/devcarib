@@ -26,6 +26,24 @@ connections = {
 
 }
 
+app.session.enable = true
+
+app.session.options = {
+
+  secret = ${SESSION_SECRET}
+      
+  name = "boardsessioncookie"
+
+}
+
+app.session.store = {
+
+    provider = @quenk/tendril-session-mongodb#provider
+
+    options.uri = ${MONGO_URL}
+
+}
+
 app.views = {
 
   provider = @quenk/tendril-show-nunjucks#show
@@ -115,49 +133,9 @@ app.middleware.available = {
     provider = body-parser#urlencoded 
 
   }
-  
-  session = {
-
-    provider = @quenk/tendril-session-mongodb#session
-
-    options = [{
-
-    	session = {
-
-      	secret = ${SESSION_SECRET}
-      
-        key = "boardsesssioncookie"
-      
-        resave = false
-      
-        saveUninitialized = false
-
-      }
-      
-      store = {
-
-        uri = ${MONGO_URL}
-
-      }
-
-  }]
-
-  }
-
-  rmExpired = {
-
-    provider = @csa/session/lib/middleware#removeExpired
-
-  }
-
-  decTTL = {
-
-    provider = @csa/session/lib/middleware#decrementTTL
-
-  }
 
 }
-
+  
 app.modules = {
 
   admin = ./admin#template
@@ -171,10 +149,6 @@ app.middleware.enabled = [
    "viewsPublic",
    "postPublic",
    "adminPublic",
-   "frontend",
-   "session",
-   "rmExpired",
-   "decTTL",
    "json", 
    "urlencoded"
  ]
