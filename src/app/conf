@@ -49,10 +49,10 @@ app.modules = {
 
 app.on.connected = [
 
-  ../app/events#connected,
+  ../events#connected,
 
-  ../app/setup#run
+  ../setup#run
 
 ]
 
-app.on.started = ../app/events#started
+app.on.started = ../events#started
