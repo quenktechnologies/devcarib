@@ -8,14 +8,14 @@ const api_1 = require("@quenk/tendril/lib/app/api");
 const pool_1 = require("@quenk/tendril/lib/app/api/pool");
 const control_1 = require("@quenk/tendril/lib/app/api/control");
 const response_1 = require("@quenk/tendril/lib/app/api/response");
-const backdey_resource_mongodb_1 = require("@quenk/backdey-resource-mongodb");
-const backdey_model_mongodb_1 = require("@quenk/backdey-model-mongodb");
+const dback_resource_mongodb_1 = require("@quenk/dback-resource-mongodb");
+const dback_model_mongodb_1 = require("@quenk/dback-model-mongodb");
 const post_1 = require("@board/checks/lib/post");
 const templates = {};
 /**
  * PostModel
  */
-class PostModel extends backdey_model_mongodb_1.BaseModel {
+class PostModel extends dback_model_mongodb_1.BaseModel {
     constructor() {
         super(...arguments);
         this.id = 'id';
@@ -28,7 +28,7 @@ exports.PostModel = PostModel;
 /**
  * PostsController provides the handlers for the /admin/r/posts routes.
  */
-class PostsController extends backdey_resource_mongodb_1.BaseResource {
+class PostsController extends dback_resource_mongodb_1.BaseResource {
     constructor() {
         super(...arguments);
         /**

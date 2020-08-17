@@ -9,8 +9,8 @@ import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
 import { value, fork } from '@quenk/tendril/lib/app/api/control';
 import { show, conflict } from '@quenk/tendril/lib/app/api/response';
-import { SearchKeys, BaseResource } from '@quenk/backdey-resource-mongodb';
-import { BaseModel } from '@quenk/backdey-model-mongodb';
+import { SearchKeys, BaseResource } from '@quenk/dback-resource-mongodb';
+import { BaseModel } from '@quenk/dback-model-mongodb';
 
 import { Post } from '@board/types/lib/post';
 import { adminCheckPatch } from '@board/checks/lib/post';
