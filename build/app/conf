@@ -1,0 +1,58 @@
+id = "/"
+
+server.port = ${PORT}
+
+server.host = "0.0.0.0"
+
+connections.main.connector = @quenk/tendril-connection-mongodb#connector
+
+connections.main.options = [${MONGO_URL}, {useNewUrlParser = true}]
+
+app.session.enable = true
+
+app.session.options.secret = ${SESSION_SECRET}
+      
+app.session.options.name = "bscid"
+
+app.session.store.provider = @quenk/tendril-session-mongodb#provider
+
+app.session.store.options.uri = ${MONGO_URL}
+
+app.views.provider = @quenk/tendril-show-nunjucks#show
+
+app.views.options = [{path = "packages/extras/board-views/views"}]
+
+app.log.enable = true
+
+app.log.format = ${LOG_FORMAT}
+
+app.parsers.body.json.enable = true
+
+app.dirs.public = [
+
+  "public",
+  "../../packages/extras/board-views/public",
+  "../../packages/apps/board-form-post/public",
+  "../../packages/apps/board-admin/public"
+
+]
+
+app.middleware.available = {}
+  
+app.middleware.enabled = []
+
+app.modules = {
+
+  admin = ./admin#template
+
+}
+
+app.on.connected = [
+
+  ../events#connected,
+
+  ../setup#run
+
+]
+
+app.on.started = ../events#started
