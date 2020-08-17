@@ -1,159 +1,52 @@
-
--- [Actor Configuration] --
-
--- The id and mount point for this module.
--- Change if you want routes to be served relative to another directory.
 id = "/"
 
--- [Server Configuration] --
-
--- Read the port number from the environment
 server.port = ${PORT}
 
--- Bind to the loopback. You can change this if you like.
 server.host = "0.0.0.0"
 
--- [Connections] --
-connections = {
+connections.main.connector = @quenk/tendril-connection-mongodb#connector
 
-  main = {
-
-    connector = @quenk/tendril-connection-mongodb#connector
-
-    options = [${MONGO_URL}, {useNewUrlParser = true}]
-
-  }
-
-}
+connections.main.options = [${MONGO_URL}, {useNewUrlParser = true}]
 
 app.session.enable = true
 
-app.session.options = {
-
-  secret = ${SESSION_SECRET}
+app.session.options.secret = ${SESSION_SECRET}
       
-  name = "boardsessioncookie"
+app.session.options.name = "bscid"
 
-}
+app.session.store.provider = @quenk/tendril-session-mongodb#provider
 
-app.session.store = {
+app.session.store.options.uri = ${MONGO_URL}
 
-    provider = @quenk/tendril-session-mongodb#provider
+app.views.provider = @quenk/tendril-show-nunjucks#show
 
-    options.uri = ${MONGO_URL}
+app.views.options = [{path = "packages/extras/board-views/views"}]
 
-}
+app.log.enable = true
 
-app.views = {
+app.log.format = ${LOG_FORMAT}
 
-  provider = @quenk/tendril-show-nunjucks#show
+app.parsers.body.json.enable = true
 
-  options = [{path = "packages/extras/board-views/views"}]
+app.dirs.public = [
+
+  "public",
+  "../../packages/extras/board-views/public",
+  "../../packages/apps/board-form-post/public",
+  "../../packages/apps/board-admin/public"
+
+]
+
+app.middleware.available = {}
   
-}
+app.middleware.enabled = []
 
--- Default middleware configuration.
--- Remember that middleware must be declared available before actual use.
--- The "log" middleware will require npm install --save packages/@quenk/tendril-morgan
--- before yse.
-app.middleware.available = {
-
-  public = {
-
-    provider = express#static
-    
-    options = [
-
-      "${__dirname}/../../public",
-
-       {maxAge=0}
-
-    ]
-
-  }
-
-  viewsPublic = {
-
-    provider = express#static
-    
-    options = [
-
-      "${__dirname}/../../packages/extras/board-views/public",
-
-       {maxAge=0}
-
-    ]
-
-  }
-
-  postPublic = {
-
-    provider = express#static
-
-    options = [
-
-      "${__dirname}/../../packages/apps/board-form-post/public",
-
-       {maxAge=0}
-
-    ]
-
-  }
-
-  adminPublic = {
-
-    provider = express#static
-
-    options = [
-
-      "${__dirname}/../../packages/apps/board-admin/public",
-
-       {maxAge=0}
-
-    ]
-
-  }
-
-  log = {
-
-    provider = @quenk/tendril-middleware-morgan#log
-    
-    options = [${MORGAN_LOG_FORMAT}]
-
-  }
-
-  json = {
-
-    provider = body-parser#json 
-
-  }
-
-  urlencoded = {
-
-    provider = body-parser#urlencoded 
-
-  }
-
-}
-  
 app.modules = {
 
   admin = ./admin#template
 
 }
 
--- Actually enable the middleware in this order.
-app.middleware.enabled = [
-   "log",
-   "public", 
-   "viewsPublic",
-   "postPublic",
-   "adminPublic",
-   "json", 
-   "urlencoded"
- ]
-
--- Invoke the connected hook.
 app.on.connected = [
 
   ../app/events#connected,
@@ -162,5 +55,4 @@ app.on.connected = [
 
 ]
 
--- Invoke the started hook.
 app.on.started = ../app/events#started
