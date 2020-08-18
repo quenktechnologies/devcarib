@@ -166,8 +166,7 @@ var PostFormApp = /** @class */ (function () {
             return future_1.pure(undefined);
         })
             .catch(function (e) {
-            alert('An error occured while sending your request!');
-            _this.view.invalidate();
+            alert('An error occured please go back and try again!');
             return future_1.raise(e);
         })
             .fork(console.error, function () { });

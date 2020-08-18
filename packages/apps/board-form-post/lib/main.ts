@@ -282,10 +282,7 @@ export class PostFormApp {
             })
             .catch(e => {
 
-                alert('An error occured while sending your request!');
-
-                this.view.invalidate();
-
+                alert('An error occured please go back and try again!');
                 return <Future<void>>raise(e);
 
             })

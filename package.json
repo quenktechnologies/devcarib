@@ -37,7 +37,7 @@
     },
     "devDependencies": {
         "@quenk/dagen": "^1.9.6",
-        "@quenk/jhr": "^2.6.15",
+        "@quenk/jhr": "^2.6.17",
         "@quenk/must": "^1.0.3",
         "@quenk/tdc": "^1.6.4",
         "@quenk/wml": "^2.6.1",
