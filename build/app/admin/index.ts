@@ -12,6 +12,9 @@ export const template = (_app:App) : Template<App> =>(
 'routes': (_m:Module) => {
 
 return [{ method: 'get',path: '/',filters: [adminCtl.showIndex  ]}
+,{ method: 'get',path: '/login',filters: [adminCtl.showLoginForm  ]}
+,{ method: 'post',path: '/login',filters: [adminCtl.authenticate  ]}
+,{ method: 'get',path: '/logout',filters: [adminCtl.logout  ]}
 ,{ method: 'get',path: '/r/posts',filters: [postsCtl.runSearch  ]}
 ,{ method: 'patch',path: '/r/posts/:id',filters: [postsCtl.runUpdate  ]}
 ,{ method: 'get',path: '/r/posts/:id',filters: [postsCtl.get  ]}

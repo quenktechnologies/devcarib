@@ -48,7 +48,8 @@ BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
 
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
-$(PROJECT_BUILD_DIR): $(BOARD_TYPES_DIR)\
+$(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
+		      $(BOARD_TYPES_DIR)\
 		      $(BOARD_VALIDATION_DIR)\
 		      $(BOARD_CHECKS_DIR)\
 		      $(BOARD_VIEWS_DIR)\

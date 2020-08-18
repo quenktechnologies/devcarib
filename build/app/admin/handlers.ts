@@ -1,5 +1,8 @@
 import * as mongodb from 'mongodb';
+import * as moment from 'moment';
+import * as bcrypt from 'bcryptjs';
 import * as prs from '@quenk/tendril/lib/app/api/storage/prs';
+import * as session from '@quenk/tendril/lib/app/api/storage/session';
 
 import { isString } from '@quenk/noni/lib/data/type';
 import { escape } from '@quenk/noni/lib/data/string/regex';
@@ -8,12 +11,14 @@ import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
 import { value, fork } from '@quenk/tendril/lib/app/api/control';
-import { show, conflict } from '@quenk/tendril/lib/app/api/response';
+import { show, conflict, redirect } from '@quenk/tendril/lib/app/api/response';
 import { SearchKeys, BaseResource } from '@quenk/dback-resource-mongodb';
 import { BaseModel } from '@quenk/dback-model-mongodb';
 
 import { Post } from '@board/types/lib/post';
+import { User } from '@board/types/lib/user';
 import { adminCheckPatch } from '@board/checks/lib/post';
+import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
 
 const templates = {};
 
@@ -27,6 +32,21 @@ export class PostModel extends BaseModel<Post> {
     static getInstance(db: mongodb.Db): PostModel {
 
         return new PostModel(db, db.collection('posts'));
+
+    }
+
+}
+
+/**
+ * UserModel
+ */
+export class UserModel extends BaseModel<User> {
+
+    id = 'id';
+
+    static getInstance(db: mongodb.Db): PostModel {
+
+        return new UserModel(db, db.collection('admins'));
 
     }
 
@@ -51,9 +71,9 @@ export class PostsController extends BaseResource<Post> {
 
             if (isString(r.query.q)) {
 
-              let filter = { $regex: escape(r.query.q), $options: 'i' };
+                let filter = { $regex: escape(r.query.q), $options: 'i' };
 
-              qry = { $or: [{title: filter}, {company: filter}] };
+                qry = { $or: [{ title: filter }, { company: filter }] };
 
             }
 
@@ -120,11 +140,101 @@ export class AdminController {
      */
     showIndex = (_: Request): Action<undefined> => {
 
-        return show('admin.html');
+        return doAction<undefined>(function*() {
+
+            let muser = yield session.get('user');
+
+            if (muser.isJust()) {
+
+                return show('admin.html');
+
+            } else {
+
+                return redirect('/admin/login', 301);
+
+            }
+
+        });
+
+    }
+
+    /**
+     * showLoginForm renders the page with the login form.
+     */
+    showLoginForm(_: Request): Action<undefined> {
+
+        // TODO: Show messages stored in flash
+        return show('login.html', {});
+
+    }
+
+    /**
+     * authenticate the admin user.
+     */
+    authenticate(req: Request): Action<undefined> {
+
+        let { username, password } =
+            <{ username: string, password: string }>req.body;
+
+        return doAction(function*() {
+
+            let db = yield checkout('main');
+
+            let model = UserModel.getInstance(db);
+
+            let musers = yield fork(model.search({ username }));
+
+            if (musers.isNothing())
+                return showAuthError(username);
+
+            let user = musers.get()[0];
+
+            let matches = yield fork(comparePasswords(password, user.password));
+
+            if (!matches)
+                return showAuthError(username);
+
+            let change = { last_login: today() };
+
+            yield fork(model.update(user.id, change));
+
+            yield session.set('user', { id: user.id });
+
+            return redirect('/admin', 302);
+
+        });
+
+    }
+
+    /**
+     * logout the admin user.
+     */
+    logout(_: Request): Action<undefined> {
+
+        return doAction(function*() {
+
+            yield session.destroy();
+
+            return redirect('/admin/login', 303);
+
+        });
 
     }
 
 }
+
+const showAuthError = (_username: string): Action<undefined> =>
+    doAction(function*() {
+
+        // TODO: This function awaits flash support in tendril.
+        return redirect('/admin/login', 303);
+
+    });
+
+const comparePasswords = (pwd1: string, pwd2: string): Future<boolean> =>
+    fromCallback<boolean>(cb => bcrypt.compare(pwd1, pwd2, cb));
+
+const today = () => moment.utc().toDate();
 
 export const adminCtl = new AdminController();
 export const postsCtl = new PostsController();

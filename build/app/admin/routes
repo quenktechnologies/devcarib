@@ -2,6 +2,13 @@
 
 GET     /               adminCtl.showIndex
 
+GET     /login          adminCtl.showLoginForm
+
+POST    /login          adminCtl.authenticate
+
+-- TODO: use post
+GET     /logout         adminCtl.logout
+
 GET     /r/posts        postsCtl.runSearch
 
 PATCH   /r/posts/:id    postsCtl.runUpdate
