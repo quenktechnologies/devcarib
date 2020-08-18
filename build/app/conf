@@ -18,6 +18,10 @@ app.session.store.provider = @quenk/tendril-session-mongodb#provider
 
 app.session.store.options.uri = ${MONGO_URL}
 
+app.csrf.token.enable = true
+
+app.csrf.token.send_cookie = true
+
 app.views.provider = @quenk/tendril-show-nunjucks#show
 
 app.views.options = [{path = "packages/extras/board-views/views"}]

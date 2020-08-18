@@ -20,6 +20,8 @@ export const template = (_app:App) : Template<App> =>(
 'name': `bscid`},
 'store': {'provider': tendrilSessionMongodb.provider,
 'options': {'uri': (<string>process.env['MONGO_URL'])}}},
+'csrf': {'token': {'enable': true,
+'send_cookie': true}},
 'views': {'provider': tendrilShowNunjucks.show,
 'options': [{'path': `packages/extras/board-views/views`}]},
 'log': {'enable': true,

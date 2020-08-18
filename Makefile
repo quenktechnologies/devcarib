@@ -36,7 +36,6 @@ PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/app
 CLEAN_TARGETS:=
 
 # Configure the paths for your extra packages here.
-CSA_SESSION_DIR:=$(LIBS_PACKAGES_DIR)/csa-session
 BOARD_TYPES_DIR:=$(LIBS_PACKAGES_DIR)/board-types
 BOARD_VALIDATION_DIR:=$(LIBS_PACKAGES_DIR)/board-validation
 BOARD_CHECKS_DIR:=$(LIBS_PACKAGES_DIR)/board-checks
@@ -49,12 +48,13 @@ BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
 
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
-$(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
-		      $(BOARD_TYPES_DIR)\
+$(PROJECT_BUILD_DIR): $(BOARD_TYPES_DIR)\
 		      $(BOARD_VALIDATION_DIR)\
 		      $(BOARD_CHECKS_DIR)\
 		      $(BOARD_VIEWS_DIR)\
+		      $(BOARD_FORM_POST_DIR)\
 		      $(BOARD_ADMIN_DIR)
+
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
 	$(TDC) $(PROJECT_BUILD_MAIN_DIR)
@@ -66,6 +66,7 @@ include $(BOARD_TYPES_DIR)/build.mk
 include $(BOARD_VALIDATION_DIR)/build.mk
 include $(BOARD_CHECKS_DIR)/build.mk
 include $(BOARD_VIEWS_DIR)/build.mk
+include $(BOARD_FORM_POST_DIR)/build.mk
 include $(BOARD_ADMIN_DIR)/build.mk
 
 # Remove the build application files.

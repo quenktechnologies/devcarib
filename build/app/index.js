@@ -11,7 +11,9 @@ const handlers_1 = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
 exports.template = (_app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/home/master/Code/development/products/board/build/app`,
             'public': [`public`, `../../packages/extras/board-views/public`, `../../packages/apps/board-form-post/public`, `../../packages/apps/board-admin/public`] }, 'session': { 'enable': true, 'options': { 'secret': process.env['SESSION_SECRET'], 'name': `bscid` },
-            'store': { 'provider': tendrilSessionMongodb.provider, 'options': { 'uri': process.env['MONGO_URL'] } } }, 'views': { 'provider': tendrilShowNunjucks.show,
+            'store': { 'provider': tendrilSessionMongodb.provider, 'options': { 'uri': process.env['MONGO_URL'] } } }, 'csrf': { 'token': { 'enable': true,
+                'send_cookie': true } },
+        'views': { 'provider': tendrilShowNunjucks.show,
             'options': [{ 'path': `packages/extras/board-views/views` }] }, 'log': { 'enable': true, 'format': process.env['LOG_FORMAT'] }, 'parsers': { 'body': { 'json': { 'enable': true } } },
         'middleware': { 'available': {},
             'enabled': [] },
