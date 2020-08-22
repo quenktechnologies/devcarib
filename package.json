@@ -5,7 +5,7 @@
     "description": "Job board for caribbean software developers.",
     "scripts": {
         "test": "./node_modules/.bin/mocha --opts mocha.opts $(find test -name *_test.ts)",
-        "start": "node -r dotenv/config build/main/start.js"
+        "start": "node -r dotenv/config build/app/start.js"
     },
     "author": "Quenk Technologies Interns 2019 <interns-2019@quenk.com> (http://quenk.com)",
     "license": "Apache-2.0",
