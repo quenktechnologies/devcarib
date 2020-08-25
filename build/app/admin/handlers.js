@@ -16,6 +16,12 @@ const dback_model_mongodb_1 = require("@quenk/dback-model-mongodb");
 const post_1 = require("@board/checks/lib/post");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const templates = {};
+const ROUTE_INDEX = '/admin';
+const ROUTE_LOGIN = '/admin/login';
+const VIEW_LOGIN = 'admin/login.html';
+const VIEW_INDEX = 'admin/index.html';
+const KEY_LOGIN_VIEW_CTX = 'loginCtx';
+const ERR_AUTH_INVALID = 'Email or password is invalid!';
 /**
  * PostModel
  */
@@ -105,10 +111,10 @@ class AdminController {
             return api_1.doAction(function* () {
                 let muser = yield session.get('user');
                 if (muser.isJust()) {
-                    return response_1.show('admin.html');
+                    return response_1.show(VIEW_INDEX);
                 }
                 else {
-                    return response_1.redirect('/admin/login', 301);
+                    return response_1.redirect(ROUTE_LOGIN, 301);
                 }
             });
         };
@@ -117,28 +123,31 @@ class AdminController {
      * showLoginForm renders the page with the login form.
      */
     showLoginForm(_) {
-        // TODO: Show messages stored in flash
-        return response_1.show('login.html', {});
+        return api_1.doAction(function* () {
+            let ctx = yield session.getOrElse(KEY_LOGIN_VIEW_CTX, {});
+            return response_1.show(VIEW_LOGIN, ctx);
+        });
     }
     /**
      * authenticate the admin user.
      */
     authenticate(req) {
-        let { username, password } = req.body;
+        let { email, password } = req.body;
+        let uname = String(email); // Temporary until issue #39
+        let pass = String(password);
         return api_1.doAction(function* () {
             let db = yield pool_1.checkout('main');
             let model = UserModel.getInstance(db);
-            let musers = yield control_1.fork(model.search({ username }));
-            if (musers.isNothing())
-                return showAuthError(username);
-            let user = musers.get()[0];
-            let matches = yield control_1.fork(comparePasswords(password, user.password));
+            let [user] = yield control_1.fork(model.search({ email: uname }));
+            if (user == null)
+                return showAuthError(uname);
+            let matches = yield control_1.fork(comparePasswords(pass, user.password));
             if (!matches)
-                return showAuthError(username);
+                return showAuthError(uname);
             let change = { last_login: today() };
             yield control_1.fork(model.update(user.id, change));
             yield session.set('user', { id: user.id });
-            return response_1.redirect('/admin', 302);
+            return response_1.redirect(ROUTE_INDEX, 302);
         });
     }
     /**
@@ -147,14 +156,16 @@ class AdminController {
     logout(_) {
         return api_1.doAction(function* () {
             yield session.destroy();
-            return response_1.redirect('/admin/login', 303);
+            return response_1.redirect(ROUTE_LOGIN, 303);
         });
     }
 }
 exports.AdminController = AdminController;
-const showAuthError = (_username) => api_1.doAction(function* () {
-    // TODO: This function awaits flash support in tendril.
-    return response_1.redirect('/admin/login', 303);
+const showAuthError = (email) => api_1.doAction(function* () {
+    let flash = { email, error: ERR_AUTH_INVALID };
+    let opts = { ttl: 1 };
+    yield session.set(KEY_LOGIN_VIEW_CTX, flash, opts);
+    return response_1.redirect(ROUTE_LOGIN, 303);
 });
 const comparePasswords = (pwd1, pwd2) => future_1.fromCallback(cb => bcrypt.compare(pwd1, pwd2, cb));
 const today = () => moment.utc().toDate();
