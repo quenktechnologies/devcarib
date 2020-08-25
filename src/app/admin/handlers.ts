@@ -22,6 +22,12 @@ import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
 
 const templates = {};
 
+const ROUTE_INDEX = '/admin';
+const ROUTE_LOGIN = '/admin/login';
+
+const VIEW_LOGIN = 'admin/login.html';
+const VIEW_INDEX = 'admin/index.html';
+
 /**
  * PostModel
  */
@@ -146,11 +152,11 @@ export class AdminController {
 
             if (muser.isJust()) {
 
-                return show('admin.html');
+                return show(VIEW_INDEX);
 
             } else {
 
-                return redirect('/admin/login', 301);
+                return redirect(ROUTE_LOGIN, 301);
 
             }
 
@@ -164,7 +170,7 @@ export class AdminController {
     showLoginForm(_: Request): Action<undefined> {
 
         // TODO: Show messages stored in flash
-        return show('login.html', {});
+        return show(VIEW_LOGIN, {});
 
     }
 
@@ -200,7 +206,7 @@ export class AdminController {
 
             yield session.set('user', { id: user.id });
 
-            return redirect('/admin', 302);
+            return redirect(ROUTE_INDEX, 302);
 
         });
 
@@ -215,7 +221,7 @@ export class AdminController {
 
             yield session.destroy();
 
-            return redirect('/admin/login', 303);
+            return redirect(ROUTE_LOGIN, 303);
 
         });
 
@@ -227,7 +233,7 @@ const showAuthError = (_username: string): Action<undefined> =>
     doAction(function*() {
 
         // TODO: This function awaits flash support in tendril.
-        return redirect('/admin/login', 303);
+        return redirect(ROUTE_LOGIN, 303);
 
     });
 
