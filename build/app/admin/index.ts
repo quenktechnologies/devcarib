@@ -9,6 +9,7 @@ import {App as App} from '@quenk/tendril/lib/app';
 export const template = (_app:App) : Template<App> =>(
  {'id': `admin`,
 'app': {'dirs': {'self': `/home/master/Code/development/products/board/build/app/admin`},
+'csrf': {'token': {'enable': true}},
 'routes': (_m:Module) => {
 
 return [{ method: 'get',path: '/',filters: [adminCtl.showIndex  ]}

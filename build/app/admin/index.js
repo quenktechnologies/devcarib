@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.template = void 0;
 const handlers_1 = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
-exports.template = (_app) => ({ 'id': `admin`, 'app': { 'dirs': { 'self': `/home/master/Code/development/products/board/build/app/admin` }, 'routes': (_m) => {
+exports.template = (_app) => ({ 'id': `admin`, 'app': { 'dirs': { 'self': `/home/master/Code/development/products/board/build/app/admin` },
+        'csrf': { 'token': { 'enable': true } }, 'routes': (_m) => {
             return [{ method: 'get', path: '/', filters: [handlers_1.adminCtl.showIndex] },
                 { method: 'get', path: '/login', filters: [handlers_1.adminCtl.showLoginForm] },
                 { method: 'post', path: '/login', filters: [handlers_1.adminCtl.authenticate] },

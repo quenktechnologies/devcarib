@@ -39,19 +39,31 @@
 
                     <div class="ww-panel__body">
 
-                        <form autocomplete="off" action="/login" method="POST">
+                      <form autocomplete="off"
+                            action="/admin/login" 
+                            method="POST">
 
                             <div class="ww-text-field">
                                 <label class="ww-label">Email</label>
-                                <input name="email" class="ww-text-input -block" autocomplete="off">
+                                <input name="email"
+                                       class="ww-text-input -block"
+                                      autocomplete="off">
                             </div>
 
                             <div class="ww-text-field">
                                 <label class="ww-label">Password</label>
-                                <input name="password" class="ww-text-input -block" autocomplete="off" type="password">
+                                <input name="password" 
+                                       class="ww-text-input -block" 
+                                       autocomplete="off" type="password">
                             </div>
 
-                            <button type="submit" class="ww-button -toolbar-compat -primary  -block">Login</button>
+                            <input type="hidden"
+                                   name="_csrf" 
+                                   value="{{csrf.token}}" />
+
+                            <button type="submit" 
+                                    class="ww-button -toolbar-compat -primary -block">
+                              Login</button>
 
                         </form>
                     </div>
