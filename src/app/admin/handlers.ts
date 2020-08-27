@@ -7,6 +7,7 @@ import * as session from '@quenk/tendril/lib/app/api/storage/session';
 import { isString } from '@quenk/noni/lib/data/type';
 import { escape } from '@quenk/noni/lib/data/string/regex';
 import { Object } from '@quenk/noni/lib/data/jsonx';
+import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
@@ -18,7 +19,7 @@ import { BaseModel } from '@quenk/dback-model-mongodb';
 import { Post } from '@board/types/lib/post';
 import { User } from '@board/types/lib/user';
 import { adminCheckPatch } from '@board/checks/lib/post';
-import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
+import { validate as validateLogin } from '@board/validation/lib/login';
 
 const templates = {};
 
@@ -30,7 +31,18 @@ const VIEW_INDEX = 'admin/index.html';
 
 const KEY_LOGIN_VIEW_CTX = 'loginCtx';
 
-const ERR_AUTH_INVALID = 'Email or password is invalid!';
+const ERR_AUTH_FAILED = 'Email or password is invalid!';
+const ERR_AUTH_INVALID = 'Correct the below error(s) before continuing.';
+
+const messages = {
+
+    minLength: '{$key} must be {target} or more characters!',
+
+    maxLength: '{$key} must be less than {target} characters!',
+
+    notNull: '{$key} is required!'
+
+}
 
 /**
  * PostModel
@@ -187,27 +199,36 @@ export class AdminController {
      */
     authenticate(req: Request): Action<undefined> {
 
-        let { email, password } =
-            <{ email: string, password: string }>req.body;
-
-        let uname = String(email); // Temporary until issue #39
-        let pass = String(password);
-
         return doAction(function*() {
+
+            let elogin = validateLogin(req.body);
+
+            if (elogin.isLeft())
+                return showAuthError({
+
+                    message: ERR_AUTH_INVALID,
+
+                    errors: elogin.takeLeft().explain(messages)
+
+                });
+
+            let { email, password } = elogin.takeRight();
 
             let db = yield checkout('main');
 
             let model = UserModel.getInstance(db);
 
-            let [user] = yield fork(model.search({ email: uname }));
+            let [user] = yield fork(model.search({ email }));
 
             if (user == null)
-                return showAuthError(uname);
+                return showAuthError(authFailedErr(email));
 
-            let matches = yield fork(comparePasswords(pass, user.password));
+            let matches = yield fork(comparePasswords(
+                <string>password, user.password)
+            );
 
             if (!matches)
-                return showAuthError(uname);
+                return showAuthError(authFailedErr(email));
 
             let change = { last_login: today() };
 
@@ -238,14 +259,15 @@ export class AdminController {
 
 }
 
-const showAuthError = (email: string): Action<undefined> =>
+const authFailedErr = (email?: string) => ({
+    email,
+    errors: { message: ERR_AUTH_FAILED }
+})
+
+const showAuthError = (ctx: Object): Action<undefined> =>
     doAction(function*() {
 
-        let flash = { email , error: ERR_AUTH_INVALID  };
-        let opts = { ttl: 1 };
-
-        yield session.set(KEY_LOGIN_VIEW_CTX, flash, opts);
-
+        yield session.set(KEY_LOGIN_VIEW_CTX, ctx, { ttl: 1 });
         return redirect(ROUTE_LOGIN, 303);
 
     });

@@ -8,13 +8,13 @@
 
     <div class="ww-grid-layout__row">
 
-        {% if error %}
+        {% if errors.message %}
 
         <div class="ww-grid-layout__column -span6 -offset3">
 
             <div class="ww-alert -error" style="text-align:center">
 
-                {{ error }}
+                {{ errors.message }}
 
             </div>
 
@@ -32,19 +32,52 @@
 
                     <form autocomplete="off" action="/admin/login" method="POST">
 
+                      {% if errors and errors.email %}
+                        <div class="ww-text-field -error">
+                      {% else %}
                         <div class="ww-text-field">
-                            <label class="ww-label">Email</label>
-                            <input name="email" class="ww-text-input -block" autocomplete="off">
+                      {% endif %}
+                      
+                          <label class="ww-label">Email</label>
+
+                          <input name="email" 
+                                 class="ww-text-input -block"
+                                 value="{{email|default('')|escape}}"
+                                 autocomplete="off">
+
+                          <span class="ww-help">
+                              {% if errors and errors.email %}
+                                  {{errors.email|escape}}
+                              {% endif %}
+                          </span>
+
                         </div>
 
+                      {% if errors and errors.password %}
+                        <div class="ww-text-field -error">
+                      {% else %}
                         <div class="ww-text-field">
-                            <label class="ww-label">Password</label>
-                            <input name="password" class="ww-text-input -block" autocomplete="off" type="password">
+                      {% endif %} 
+
+                          <label class="ww-label">Password</label>
+
+                          <input name="password"
+                                 class="ww-text-input -block" 
+                                 autocomplete="off" 
+                                 type="password">
+
+                          <span class="ww-help">
+                              {% if errors and errors.password %}
+                                  {{errors.password|escape}}
+                              {% endif %}
+                          </span>
+
                         </div>
 
                         <input type="hidden" name="_csrf" value="{{csrf.token}}" />
 
-                        <button type="submit" class="ww-button -toolbar-compat -primary -block">
+                        <button type="submit" 
+                                class="ww-button -toolbar-compat -primary -block">
                               Login</button>
 
                     </form>
