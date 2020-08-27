@@ -7,6 +7,7 @@ const prs = require("@quenk/tendril/lib/app/api/storage/prs");
 const session = require("@quenk/tendril/lib/app/api/storage/session");
 const type_1 = require("@quenk/noni/lib/data/type");
 const regex_1 = require("@quenk/noni/lib/data/string/regex");
+const future_1 = require("@quenk/noni/lib/control/monad/future");
 const api_1 = require("@quenk/tendril/lib/app/api");
 const pool_1 = require("@quenk/tendril/lib/app/api/pool");
 const control_1 = require("@quenk/tendril/lib/app/api/control");
@@ -14,14 +15,20 @@ const response_1 = require("@quenk/tendril/lib/app/api/response");
 const dback_resource_mongodb_1 = require("@quenk/dback-resource-mongodb");
 const dback_model_mongodb_1 = require("@quenk/dback-model-mongodb");
 const post_1 = require("@board/checks/lib/post");
-const future_1 = require("@quenk/noni/lib/control/monad/future");
+const login_1 = require("@board/validation/lib/login");
 const templates = {};
 const ROUTE_INDEX = '/admin';
 const ROUTE_LOGIN = '/admin/login';
 const VIEW_LOGIN = 'admin/login.html';
 const VIEW_INDEX = 'admin/index.html';
 const KEY_LOGIN_VIEW_CTX = 'loginCtx';
-const ERR_AUTH_INVALID = 'Email or password is invalid!';
+const ERR_AUTH_FAILED = 'Email or password is invalid!';
+const ERR_AUTH_INVALID = 'Correct the below error(s) before continuing.';
+const messages = {
+    minLength: '{$key} must be {target} or more characters!',
+    maxLength: '{$key} must be less than {target} characters!',
+    notNull: '{$key} is required!'
+};
 /**
  * PostModel
  */
@@ -132,18 +139,22 @@ class AdminController {
      * authenticate the admin user.
      */
     authenticate(req) {
-        let { email, password } = req.body;
-        let uname = String(email); // Temporary until issue #39
-        let pass = String(password);
         return api_1.doAction(function* () {
+            let elogin = login_1.validate(req.body);
+            if (elogin.isLeft())
+                return showAuthError({
+                    message: ERR_AUTH_INVALID,
+                    errors: elogin.takeLeft().explain(messages)
+                });
+            let { email, password } = elogin.takeRight();
             let db = yield pool_1.checkout('main');
             let model = UserModel.getInstance(db);
-            let [user] = yield control_1.fork(model.search({ email: uname }));
+            let [user] = yield control_1.fork(model.search({ email }));
             if (user == null)
-                return showAuthError(uname);
-            let matches = yield control_1.fork(comparePasswords(pass, user.password));
+                return showAuthError(authFailedErr(email));
+            let matches = yield control_1.fork(comparePasswords(password, user.password));
             if (!matches)
-                return showAuthError(uname);
+                return showAuthError(authFailedErr(email));
             let change = { last_login: today() };
             yield control_1.fork(model.update(user.id, change));
             yield session.set('user', { id: user.id });
@@ -161,10 +172,12 @@ class AdminController {
     }
 }
 exports.AdminController = AdminController;
-const showAuthError = (email) => api_1.doAction(function* () {
-    let flash = { email, error: ERR_AUTH_INVALID };
-    let opts = { ttl: 1 };
-    yield session.set(KEY_LOGIN_VIEW_CTX, flash, opts);
+const authFailedErr = (email) => ({
+    email,
+    errors: { message: ERR_AUTH_FAILED }
+});
+const showAuthError = (ctx) => api_1.doAction(function* () {
+    yield session.set(KEY_LOGIN_VIEW_CTX, ctx, { ttl: 1 });
     return response_1.redirect(ROUTE_LOGIN, 303);
 });
 const comparePasswords = (pwd1, pwd2) => future_1.fromCallback(cb => bcrypt.compare(pwd1, pwd2, cb));
