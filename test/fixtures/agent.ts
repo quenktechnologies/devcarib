@@ -23,7 +23,11 @@ export const paths = {
 
         posts: '/admin/r/posts',
 
-        post: '/admin/r/posts/{id}'
+        post: '/admin/r/posts/{id}',
+
+        admins: '/admin/r/admins',
+
+        admin: '/admin/r/admins/{id}'
 
     }
 

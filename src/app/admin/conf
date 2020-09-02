@@ -1,3 +1,7 @@
 id = "admin"
 
-app.csrf.token.enable = true
+app.modules = {
+
+  r = ./r#template
+
+}
