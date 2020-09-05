@@ -8,7 +8,6 @@ from "./handlers"
 GET  /                    showPosts
 
 GET  /post                showPostJobPage 
-
 POST /post                createPost
 
-GET  /posts/:id            showPost
+GET  /posts/:id           showPost

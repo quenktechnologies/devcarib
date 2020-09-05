@@ -1,18 +1,6 @@
-%import adminCtl,postsCtl from "./handlers"
+%import adminCtl from "./handlers"
 
 GET     /               adminCtl.showIndex
-
 GET     /login          adminCtl.showLoginForm
-
 POST    /login          adminCtl.authenticate
-
--- TODO: use post
-GET     /logout         adminCtl.logout
-
-GET     /r/posts        postsCtl.runSearch
-
-PATCH   /r/posts/:id    postsCtl.runUpdate
-
-GET     /r/posts/:id    postsCtl.get
-
-DELETE  /r/posts/:id    postsCtl.remove
+POST    /logout         adminCtl.logout

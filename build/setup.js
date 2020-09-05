@@ -32,7 +32,7 @@ class Setup {
             let password = process.env[exports.ADMIN_PWD];
             if ((email == null) || (password == null))
                 return future_1.raise(new Error(exports.E_NO_ADMIN_CREDS));
-            let eAdmin = yield admin_1.check({
+            let eAdmin = yield admin_1.post({
                 name,
                 email,
                 password,

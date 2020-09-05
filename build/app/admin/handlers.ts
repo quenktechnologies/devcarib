@@ -1,27 +1,19 @@
 import * as mongodb from 'mongodb';
 import * as moment from 'moment';
 import * as bcrypt from 'bcryptjs';
-import * as prs from '@quenk/tendril/lib/app/api/storage/prs';
 import * as session from '@quenk/tendril/lib/app/api/storage/session';
 
-import { isString } from '@quenk/noni/lib/data/type';
-import { escape } from '@quenk/noni/lib/data/string/regex';
 import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import { value, fork } from '@quenk/tendril/lib/app/api/control';
-import { show, conflict, redirect } from '@quenk/tendril/lib/app/api/response';
-import { SearchKeys, BaseResource } from '@quenk/dback-resource-mongodb';
+import {  fork } from '@quenk/tendril/lib/app/api/control';
+import { show, redirect } from '@quenk/tendril/lib/app/api/response';
 import { BaseModel } from '@quenk/dback-model-mongodb';
 
-import { Post } from '@board/types/lib/post';
-import { User } from '@board/types/lib/user';
-import { adminCheckPatch } from '@board/checks/lib/post';
+import { Admin } from '@board/types/lib/admin';
 import { validate as validateLogin } from '@board/validation/lib/login';
-
-const templates = {};
 
 const ROUTE_INDEX = '/admin';
 const ROUTE_LOGIN = '/admin/login';
@@ -45,103 +37,15 @@ const messages = {
 }
 
 /**
- * PostModel
+ * AdminModel
  */
-export class PostModel extends BaseModel<Post> {
+export class AdminModel extends BaseModel<Admin> {
 
     id = 'id';
 
-    static getInstance(db: mongodb.Db): PostModel {
+    static getInstance(db: mongodb.Db): AdminModel {
 
-        return new PostModel(db, db.collection('posts'));
-
-    }
-
-}
-
-/**
- * UserModel
- */
-export class UserModel extends BaseModel<User> {
-
-    id = 'id';
-
-    static getInstance(db: mongodb.Db): PostModel {
-
-        return new UserModel(db, db.collection('admins'));
-
-    }
-
-}
-
-/**
- * PostsController provides the handlers for the /admin/r/posts routes.
- */
-export class PostsController extends BaseResource<Post> {
-
-    /**
-     * runSearch executes a search using the "q" query variable
-     * as an argument for
-     */
-    runSearch = (r: Request): Action<void> => {
-
-        let that = this;
-
-        return doAction(function*() {
-
-            let qry: Object = {};
-
-            if (isString(r.query.q)) {
-
-                let filter = { $regex: escape(r.query.q), $options: 'i' };
-
-                qry = { $or: [{ title: filter }, { company: filter }] };
-
-            }
-
-            yield prs.set(SearchKeys.query, qry);
-
-            return that.search(r);
-
-        });
-
-    }
-
-    /**
-     * runUpdate valdiates and applies an update to a Post.
-     */
-    runUpdate = (r: Request): Action<void> => {
-
-        let that = this;
-
-        return doAction(function*() {
-
-            let eBody = yield fork(adminCheckPatch(r.body));
-
-            if (eBody.isLeft()) {
-
-                let errors = eBody.takeLeft().explain(templates);
-                return conflict({ errors });
-
-            }
-
-            r.body = eBody.takeRight();
-
-            return that.update(r);
-
-        });
-
-    }
-
-    getModel(): Action<PostModel> {
-
-        return doAction(function*() {
-
-            let db: mongodb.Db = yield checkout('main');
-
-            return value(PostModel.getInstance(db));
-
-        });
+        return new AdminModel(db, db.collection('admins'));
 
     }
 
@@ -164,7 +68,7 @@ export class AdminController {
 
         return doAction<undefined>(function*() {
 
-            let muser = yield session.get('user');
+            let muser = yield session.get('admin');
 
             if (muser.isJust()) {
 
@@ -216,15 +120,15 @@ export class AdminController {
 
             let db = yield checkout('main');
 
-            let model = UserModel.getInstance(db);
+            let model = AdminModel.getInstance(db);
 
-            let [user] = yield fork(model.search({ email }));
+            let [admin] = yield fork(model.search({ email }));
 
-            if (user == null)
+            if (admin == null)
                 return showAuthError(authFailedErr(email));
 
             let matches = yield fork(comparePasswords(
-                <string>password, user.password)
+                <string>password, admin.password)
             );
 
             if (!matches)
@@ -232,9 +136,9 @@ export class AdminController {
 
             let change = { last_login: today() };
 
-            yield fork(model.update(user.id, change));
+            yield fork(model.update(admin.id, change));
 
-            yield session.set('user', { id: user.id });
+            yield session.set('admin', { id: admin.id });
 
             return redirect(ROUTE_INDEX, 302);
 
@@ -251,7 +155,7 @@ export class AdminController {
 
             yield session.destroy();
 
-            return redirect(ROUTE_LOGIN, 303);
+            return redirect(ROUTE_LOGIN, 302);
 
         });
 
@@ -278,5 +182,3 @@ const comparePasswords = (pwd1: string, pwd2: string): Future<boolean> =>
 const today = () => moment.utc().toDate();
 
 export const adminCtl = new AdminController();
-
-export const postsCtl = new PostsController();

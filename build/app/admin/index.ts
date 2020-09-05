@@ -1,5 +1,5 @@
-
-import { adminCtl,postsCtl } from './handlers';
+import * as r from './r'; 
+import { adminCtl } from './handlers';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 import {Module} from '@quenk/tendril/lib/app/module';
 import {App as App} from '@quenk/tendril/lib/app';
@@ -9,17 +9,13 @@ import {App as App} from '@quenk/tendril/lib/app';
 export const template = (_app:App) : Template<App> =>(
  {'id': `admin`,
 'app': {'dirs': {'self': `/build/app/admin`},
-'csrf': {'token': {'enable': true}},
+'modules': {'r': r.template},
 'routes': (_m:Module) => {
 
 return [{ method: 'get',path: '/',filters: [adminCtl.showIndex  ]}
 ,{ method: 'get',path: '/login',filters: [adminCtl.showLoginForm  ]}
 ,{ method: 'post',path: '/login',filters: [adminCtl.authenticate  ]}
-,{ method: 'get',path: '/logout',filters: [adminCtl.logout  ]}
-,{ method: 'get',path: '/r/posts',filters: [postsCtl.runSearch  ]}
-,{ method: 'patch',path: '/r/posts/:id',filters: [postsCtl.runUpdate  ]}
-,{ method: 'get',path: '/r/posts/:id',filters: [postsCtl.get  ]}
-,{ method: 'delete',path: '/r/posts/:id',filters: [postsCtl.remove  ]}
+,{ method: 'post',path: '/logout',filters: [adminCtl.logout  ]}
 ]
 }},
 'create': 

@@ -10,7 +10,7 @@ import {
 import { App } from '@quenk/tendril/lib/app';
 
 import { Settings } from '@board/types/lib/settings';
-import { check as checkAdmin } from '@board/checks/lib/admin';
+import { post as checkAdmin } from '@board/checks/lib/admin';
 
 export const ADMIN_EMAIL = 'ADMIN_EMAIL';
 export const ADMIN_PWD = 'ADMIN_PASSWORD';
