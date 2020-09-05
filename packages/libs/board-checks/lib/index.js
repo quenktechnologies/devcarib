@@ -27,7 +27,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.timestamp = exports.inc = exports.id = exports.bcrypt = exports.SETTINGS_ID = void 0;
+exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.SETTINGS_ID = void 0;
 var bcryptjs = require("bcryptjs");
 var uuid = require("uuid");
 var moment = require("moment");
@@ -62,6 +62,34 @@ var salt = function () {
 };
 var hash = function (str, salt) {
     return future_1.fromCallback(function (cb) { return bcryptjs.hash(str, salt, cb); });
+};
+/**
+ * unique fails if the value specified for the field is already stored in the
+ * database.
+ */
+exports.unique = function (collection, field, dbid) {
+    if (dbid === void 0) { dbid = 'main'; }
+    return function (value) {
+        return monad_1.doN(function () {
+            var db, n;
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, getMain(dbid)];
+                    case 1:
+                        db = _b.sent();
+                        return [4 /*yield*/, collection_1.count(db.collection(collection), (_a = {},
+                                _a[field] = value,
+                                _a))];
+                    case 2:
+                        n = _b.sent();
+                        return [2 /*return*/, future_1.pure((n > 0) ?
+                                result_1.fail('unique', value, { value: value }) :
+                                result_1.succeed(value))];
+                }
+            });
+        });
+    };
 };
 /**
  * id generates the id number for a record.

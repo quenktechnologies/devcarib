@@ -9,6 +9,11 @@ export declare const SETTINGS_ID = "main";
  */
 export declare const bcrypt: (str: Value) => Result<Value, Value>;
 /**
+ * unique fails if the value specified for the field is already stored in the
+ * database.
+ */
+export declare const unique: <A>(collection: string, field: string, dbid?: string) => (value: A) => Result<A, A>;
+/**
  * id generates the id number for a record.
  */
 export declare const id: Precondition<Value, Value>;

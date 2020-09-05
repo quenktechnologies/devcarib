@@ -10,6 +10,10 @@ export declare const check: Precondition<Value, Post>;
  */
 export declare const checkPatch: Precondition<Value, Post>;
 /**
- * checkPatch function for existing Post types.
+ * admingCheckPost
+ */
+export declare const adminCheckPost: Precondition<Value, Post>;
+/**
+ * adminCheckPatch
  */
 export declare const adminCheckPatch: Precondition<Value, Post>;

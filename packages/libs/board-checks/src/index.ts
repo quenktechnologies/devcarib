@@ -7,10 +7,10 @@ import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Future, fromCallback, pure } from '@quenk/noni/lib/control/monad/future';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
 import { unsafeGet } from '@quenk/noni/lib/data/record/path';
-import { Result as SResult, succeed } from '@quenk/preconditions/lib/result';
+import { Result as SResult, succeed, fail } from '@quenk/preconditions/lib/result';
 import { Precondition } from '@quenk/preconditions/lib/async';
 import {
-    findOneAndUpdate
+    findOneAndUpdate, count
 } from '@quenk/safe-mongodb/lib/database/collection';
 import { getInstance } from '@quenk/tendril/lib/app/connection';
 
@@ -26,7 +26,6 @@ export const bcrypt = (str: Value): Result<Value, Value> =>
 
         let salty = yield salt();
         let salted = yield hash(String(str), salty);
-
         return pure(succeed(salted));
 
     });
@@ -37,6 +36,28 @@ const salt = (): Future<string> =>
 const hash = (str: string, salt: string) =>
     fromCallback(cb => bcryptjs.hash(str, salt, cb));
 
+/**
+ * unique fails if the value specified for the field is already stored in the
+ * database.
+ */
+export const unique =
+    <A>(collection: string, field: string, dbid = 'main') =>
+        (value: A): Result<A, A> =>
+            doN(<DoFn<SResult<A, A>, Result<A, A>>>function*() {
+
+                let db = yield getMain(dbid);
+
+                let n = yield count(db.collection(collection), {
+
+                    [field]: value
+
+                });
+
+                return pure((n > 0) ?
+                    fail<A, A>('unique', value, { value }) :
+                    succeed<A, A>(value));
+
+            });
 
 /**
  * id generates the id number for a record.

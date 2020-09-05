@@ -59,12 +59,40 @@ export const checkPatch: Precondition<Value, Post> = and(
 
         apply_url: identity,
 
+   created_on: timestamp,
+
         last_modified_on: timestamp
 
     }));
 
 /**
- * checkPatch function for existing Post types.
+ * admingCheckPost
+ */
+export const adminCheckPost: Precondition<Value, Post> = and(
+   async(adminValidatePatch), restrict<Value, Value, Post>({
+
+     id: inc('posts'),
+
+        title: identity,
+
+        description: identity,
+
+        company: identity,
+
+        company_email: identity,
+
+        company_logo: identity,
+
+        apply_url: identity,
+
+        approved: identity,
+
+        last_modified_on: timestamp
+
+    }));
+
+/**
+ * adminCheckPatch
  */
 export const adminCheckPatch: Precondition<Value, Post> = and(
    async(adminValidatePatch), intersect<Value, Value, Post>({
