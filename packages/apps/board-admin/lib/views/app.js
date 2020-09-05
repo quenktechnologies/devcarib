@@ -1,4 +1,11 @@
 "use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardAdminView = void 0;
 var __document = require("@quenk/wml/lib/dom");
@@ -9,6 +16,12 @@ var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 var table_1 = require("@quenk/wml-widgets/lib/data/table");
 ;
 var text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
+;
+var nav_1 = require("@quenk/wml-widgets/lib/menu/nav");
+;
+var item_1 = require("@quenk/wml-widgets/lib/menu/item");
+;
+var link_1 = require("@quenk/wml-widgets/lib/content/link");
 ;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
@@ -38,6 +51,17 @@ var BoardAdminView = /** @class */ (function () {
         this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.widget(new grid_1.GridLayout({}, [
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new nav_1.Nav({}, __spreadArrays(__forOf(__context.values.header.links, function (handler, text, _$$all) {
+                            return ([
+                                __this.widget(new item_1.Item({}, [
+                                    __this.widget(new link_1.Link({ ww: { 'text': text, 'onClick': handler } }, []), { ww: { 'text': text, 'onClick': handler } })
+                                ]), {})
+                            ]);
+                        }, function () { return ([]); }))), {})
+                    ]), {})
+                ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
                         __this.node('h1', {}, [

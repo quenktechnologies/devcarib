@@ -70,6 +70,11 @@ export declare class BoardAdmin implements ColumnActionListener {
      * the view.
      */
     values: {
+        header: {
+            links: {
+                Logout: () => void;
+            };
+        };
         search: {
             onChange: import("@quenk/noni/lib/data/function").Function<Event<Value>, void>;
         };
@@ -95,6 +100,10 @@ export declare class BoardAdmin implements ColumnActionListener {
      * loadInitialPosts from the database into the table.
      */
     loadInitialPosts(): Future<void>;
+    /**
+     * logout the user from the application.
+     */
+    logout(): Future<void>;
     /**
      * approvePost sets the approved flag on a post to true.
      *

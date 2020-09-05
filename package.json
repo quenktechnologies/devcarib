@@ -14,7 +14,7 @@
         "@board/types": "file:packages/libs/board-types",
         "@board/validation": "file:packages/libs/board-validation",
         "@csa/session": "file:packages/libs/csa-session",
-        "@quenk/dback-model-mongodb": "^0.1.4",
+        "@quenk/dback-model-mongodb": "^0.1.5",
         "@quenk/dback-resource-mongodb": "^1.0.8",
         "@quenk/noni": "^1.40.6",
         "@quenk/preconditions": "^5.4.3",
@@ -37,7 +37,7 @@
     "devDependencies": {
         "@quenk/dagen": "^1.9.6",
         "@quenk/dback-mongodb-testkit": "^1.0.5",
-        "@quenk/jhr": "^2.6.19",
+        "@quenk/jhr": "^2.6.21",
         "@quenk/must": "^1.0.3",
         "@quenk/tdc": "^1.6.4",
         "@quenk/test": "^2.2.4",

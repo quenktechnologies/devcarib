@@ -108,6 +108,11 @@ var BoardAdmin = /** @class */ (function () {
          * the view.
          */
         this.values = {
+            header: {
+                links: {
+                    Logout: function () { return _this.runFuture(_this.logout()); }
+                }
+            },
             search: {
                 onChange: timer_1.debounce(function (e) {
                     var qry = e.value === '' ? {} : { q: e.value };
@@ -197,6 +202,19 @@ var BoardAdmin = /** @class */ (function () {
                 }
             });
         });
+    };
+    /**
+     * logout the user from the application.
+     */
+    BoardAdmin.prototype.logout = function () {
+        return confirm('Do you want to logout now?') ?
+            agent
+                .post('/admin/logout', {})
+                .chain(function () {
+                window.location.href = '/admin';
+                return future_1.pure(undefined);
+            }) :
+            future_1.pure(undefined);
     };
     /**
      * approvePost sets the approved flag on a post to true.

@@ -1,12 +1,39 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (DataTable) from "@quenk/wml-widgets/lib/data/table" %}
 {% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+{% import (Nav) from "@quenk/wml-widgets/lib/menu/nav" %}
+{% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
 {% import (BoardAdmin) from "../main" %}
 
 {% view BoardAdminView (BoardAdmin) %}
 
 <GridLayout>
+
+  <Row>
+
+    <Column>
+
+      <Nav>
+
+        {% for handler,text of @values.header.links %}
+
+          <Item>
+
+            <Link 
+              ww:text={{text}}
+              ww:onClick={{handler}} />
+
+          </Item>
+
+        {% endfor %}
+
+      </Nav>
+
+    </Column>
+
+  </Row>
 
   <Row>
 

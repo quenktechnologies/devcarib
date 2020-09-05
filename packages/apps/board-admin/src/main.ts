@@ -127,6 +127,16 @@ export class BoardAdmin implements ColumnActionListener {
      */
     values = {
 
+        header: {
+
+            links: {
+
+                Logout: () => this.runFuture(this.logout())
+
+            }
+
+        },
+
         search: {
 
             onChange: debounce((e: Event<Value>) => {
@@ -254,6 +264,24 @@ export class BoardAdmin implements ColumnActionListener {
             return pure(<void>undefined);
 
         });
+
+    }
+
+    /**
+     * logout the user from the application.
+     */
+    logout(): Future<void> {
+
+        return confirm('Do you want to logout now?') ?
+               agent
+                .post('/admin/logout', {})
+                .chain(() => {
+
+                    window.location.href = '/admin';
+                    return pure(<void>undefined);
+
+                }) :
+            pure(<void>undefined);
 
     }
 

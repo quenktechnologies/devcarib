@@ -10,6 +10,9 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {DataTable} from '@quenk/wml-widgets/lib/data/table'; ;
 import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
+import {Nav} from '@quenk/wml-widgets/lib/menu/nav'; ;
+import {Item} from '@quenk/wml-widgets/lib/menu/item'; ;
+import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {BoardAdmin} from '../main'; 
 
 
@@ -70,6 +73,27 @@ export class BoardAdminView  implements __wml.View {
            return __this.widget(new GridLayout({}, [
 
         __this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new Nav({}, [
+
+        ...__forOf (__context.values.header .links , (handler , text , _$$all) => 
+       ([
+
+        __this.widget(new Item({}, [
+
+        __this.widget(new Link({ww : { 'text' : text ,'onClick' : handler  }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'text' : text ,'onClick' : handler  }})
+     ]),<__wml.Attrs>{})
+     ]), 
+    ()=> ([]))
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
