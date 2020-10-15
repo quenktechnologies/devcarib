@@ -1,0 +1,34 @@
+{# type2TS translates a schema into a typescript type. #}
+{% macro type2TS(type) %}
+
+  {%- if type.type === 'array' -%}
+
+    ({{type2TS(type.items)|trim}})[]
+
+  {%- elseif type.type === 'object' -%}{
+
+  [key:string]: _json.Value
+
+      {% if type.properties != null %}
+        {% for key,value in type.properties -%}
+          '{{key}}'? : {{type2TS(value)|trim}}{% if not loop.last %},{% endif %}
+        {% endfor %}
+      {% endif %}
+
+    }
+
+  {%- elseif type.type === 'sum' -%}
+    
+    {% for key,value in type.variants -%}
+
+        {{type2TS(value)}}{% if not loop.last %}|{% endif %}
+
+    {%- endfor -%}
+
+  {%- else -%}
+
+    {{type.type|trim}}
+
+  {%- endif -%}
+
+{% endmacro %}

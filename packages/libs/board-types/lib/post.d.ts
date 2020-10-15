@@ -1,10 +1,31 @@
-import { Object } from '@quenk/noni/lib/data/jsonx';
-export interface Post extends Object {
-    id?: number;
-    title?: string;
-    description?: string;
-    company?: string;
-    company_email?: string;
-    company_logo?: string;
-    apply_url?: string;
+import * as _json from '@quenk/noni/lib/data/jsonx';
+/**
+ * DO NOT EDIT DIRECTLY! Changes will be lost.
+ */
+/**
+ * Posts
+ */
+export interface Posts {
+    [key: string]: Post;
+}
+export interface Post extends _json.Object {
+    [key: string]: _json.Value;
+    'title'?: string;
+    'description'?: string;
+    'company'?: string;
+    'company_email'?: string;
+    'company_logo'?: string;
+    'apply_url'?: string;
+    'created_by'?: {
+        [key: string]: _json.Value;
+        'id'?: number;
+        'username'?: string;
+    };
+    'created_on'?: string;
+    'last_updated_on'?: string;
+    'last_updated_by'?: {
+        [key: string]: _json.Value;
+        'id'?: number;
+        'username'?: string;
+    };
 }

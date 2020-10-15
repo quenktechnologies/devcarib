@@ -1,0 +1,69 @@
+{
+
+    "title": "Post",
+
+    "type": "object",
+
+    "collection": "posts",
+
+    "model.type": "ModelType",
+
+    "checks-complete:imports": {
+
+        "@board/validation/lib/post": "validate"
+
+    },
+
+    "checks-partial:imports": {
+
+        "@board/validation/lib/partial/post": "validate"
+
+    },
+
+    "properties": {
+
+        "$ref": "../common/models/properties.json",
+
+        "title": {
+
+            "type": "string"
+
+        },
+
+        "description": {
+
+            "type": "string"
+
+        },
+
+        "company": {
+
+            "type": "string"
+
+        },
+
+        "company_email": {
+
+            "type": "string"
+
+        },
+
+        "company_logo": {
+
+            "type": "string",
+
+            "optional": true
+
+        },
+
+        "apply_url": {
+
+            "type": "string",
+
+            "optional": true
+
+        }
+
+    }
+
+}

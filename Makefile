@@ -36,12 +36,14 @@ PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/app
 CLEAN_TARGETS:=
 
 # Configure the paths for your extra packages here.
+BOARD_SCHEMA_DIR:=$(EXTRAS_PACKAGES_DIR)/board-schema
 BOARD_TYPES_DIR:=$(LIBS_PACKAGES_DIR)/board-types
 BOARD_VALIDATION_DIR:=$(LIBS_PACKAGES_DIR)/board-validation
 BOARD_CHECKS_DIR:=$(LIBS_PACKAGES_DIR)/board-checks
 BOARD_FORM_POST_DIR:=$(APPS_PACKAGES_DIR)/board-form-post
 BOARD_ADMIN_DIR:=$(APPS_PACKAGES_DIR)/board-admin
 BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
+
 ### Dependency Graph ###
 
 .DELETE_ON_ERROR:
@@ -49,6 +51,7 @@ BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
+		      $(BOARD_SCHEMA_DIR) \
 		      $(BOARD_TYPES_DIR)\
 		      $(BOARD_VALIDATION_DIR)\
 		      $(BOARD_CHECKS_DIR)\
@@ -63,6 +66,7 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 	$(TOUCH) $(PROJECT_BUILD_DIR)
 
 # Include *.mk files here.
+include $(BOARD_SCHEMA_DIR)/build.mk
 include $(BOARD_TYPES_DIR)/build.mk
 include $(BOARD_VALIDATION_DIR)/build.mk
 include $(BOARD_CHECKS_DIR)/build.mk
