@@ -8,7 +8,7 @@ import {App as App} from '@quenk/tendril/lib/app';
 
 export const template = (_app:App) : Template<App> =>(
  {'id': `admin`,
-'app': {'dirs': {'self': `/build/app/admin`},
+'app': {'dirs': {'self': `/Users/genora/board/build/app/admin`},
 'modules': {'r': r.template},
 'routes': (_m:Module) => {
 
