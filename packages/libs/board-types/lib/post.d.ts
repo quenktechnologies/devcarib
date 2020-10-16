@@ -10,6 +10,7 @@ export interface Posts {
 }
 export interface Post extends _json.Object {
     [key: string]: _json.Value;
+    'id'?: number;
     'title'?: string;
     'description'?: string;
     'company'?: string;
