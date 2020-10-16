@@ -1,0 +1,41 @@
+{
+
+    "type": "object",
+
+    "title": "Admin",
+
+    "validation:imports": {
+
+      "@board/types/lib/admin": "Admin"
+
+    },
+
+    "properties": {
+
+      "id": {
+
+        "type": "number"
+
+      },
+
+      "name": {
+
+        "type": "string"
+
+      },
+
+      "email": {
+
+        "type": "string"
+
+      },
+
+      "password": {
+
+        "type": "string"
+
+      }
+
+    }
+
+}

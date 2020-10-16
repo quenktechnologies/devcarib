@@ -1,5 +1,5 @@
 /**
- * Post validatior.
+ * Admin validatior.
  * AUTO GENERATED! DO NOT EDIT DIRECTLY!
  */
 /** imports **/
@@ -34,30 +34,22 @@ import { toNumber as _number } from '@quenk/preconditions/lib/number';
 //@ts-ignore: 6133
 import { isString as _string } from '@quenk/preconditions/lib/string';
 
-import { Post } from '@board/types/lib/post';
+import { Admin } from '@board/types/lib/admin';
 
 //@ts-ignore: 6133
-const _title = 'Post';
+const _title = 'Admin';
 //@ts-ignore: 6133
-const _collection = 'posts';
-//@ts-ignore: 6133
-const _record = _restrict
+const _record = _intersect
 
-export const validate: Precondition<Value, Post> =
-    _and(_isRecord, _record<Type, Type, Post>({
-        'title': _string,
+export const validate: Precondition<Value, Admin> =
+    _and(_isRecord, _record<Type, Type, Admin>({
+        'id': _number,
 
-        'description': _string,
+        'name': _string,
 
-        'company': _string,
+        'email': _string,
 
-        'company_email': _string,
-
-        'company_logo': _optional(_string
-        ),
-
-        'apply_url': _optional(_string
-        ),
+        'password': _string
 
     }));
 

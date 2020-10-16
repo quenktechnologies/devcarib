@@ -12,7 +12,7 @@ var string_1 = require("@quenk/preconditions/lib/string");
 //@ts-ignore: 6133
 var _title = 'Admin';
 //@ts-ignore: 6133
-var _record = record_1.restrict;
+var _record = record_1.intersect;
 exports.validate = preconditions_1.and(record_1.isRecord, _record({
     'id': number_1.toNumber,
     'name': string_1.isString,

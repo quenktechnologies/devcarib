@@ -1,6 +1,6 @@
 /**
  * Post validatior.
- * AUTO GENERATED! DO NOT EDIT DIRECTLY! 
+ * AUTO GENERATED! DO NOT EDIT DIRECTLY!
  */
 /** imports **/
 //@ts-ignore: 6133
@@ -8,7 +8,7 @@ import { Type } from '@quenk/noni/lib/data/type';
 //@ts-ignore: 6133
 import { merge as _merge } from '@quenk/noni/lib/data/record';
 //@ts-ignore: 6133
-import { Value, Object } from '@quenk/noni/lib/data/json';
+import { Value, Object } from '@quenk/noni/lib/data/jsonx';
 //@ts-ignore: 6133
 import {
     Precondition,
