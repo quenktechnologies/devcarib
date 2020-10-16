@@ -11,7 +11,7 @@ import { Post } from '@board/types/lib/post';
 import { validate,
          validatePatch,
          adminValidatePatch
-} from '@board/validation/lib/post';
+} from '@board/validation/lib/post2';
 
 import { inc, timestamp } from './';
 

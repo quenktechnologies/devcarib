@@ -1,0 +1,180 @@
+{#
+
+  optional
+
+  Makes a precondition optional.
+  @param {Schema} type
+  @param {Output} content
+
+#}
+{% macro optional (type, content) %}
+
+  {%- if type.optional -%}
+    {%- if isObjectType(type) -%}
+      _optional<any, {{type.title}}>({{content}})
+    {%- else -%}
+      _optional({{content}})
+    {%- endif %}
+  {%- else -%}
+    {{content}}
+  {%- endif -%}
+
+{% endmacro %}
+
+{# 
+  Turns an array schema into a precondition. 
+  
+  @param {Schema} type
+
+#}
+{% macro arrayType2Test(type) %}
+
+  {% set content -%}
+    _and(_isArray, _map({{type2Test(type.items)}}))
+  {%- endset %}
+
+  {% if hasTest(type) -%}
+   {% set content -%}
+    _and({{content}}, {{getTest(type)}})
+   {%- endset %}
+  {% endif %}
+
+  {{optional(type, content)}}
+
+{% endmacro %}
+
+{# turns an object schema into a record of preconditions
+  
+  @param {Schema} type
+#}
+{% macro objectType2Test (type) %}
+
+  {% if isObject(type.additionalProperties) %}
+
+    {%- set content -%}
+      _and(_isRecord, _recordMap<Type, Type, {{type.title}}>(
+      {{anyType2Test(type.additionalProperties)}}))
+    {%- endset -%}
+
+  {% elseif isObject(type.properties) %}
+
+    {%- set content -%}
+      _and(_isRecord, _record<Type, Type, {{type.title}}>({
+        {% for key,value in type.properties %}
+          {% if (not value.readOnly) or hasTest(value)  %}
+            '{{key}}' : {{type2Test(value)|trim}}{% if not loop.last %},{% endif %}
+            {{"\n"}}
+          {% endif %}
+        {%- endfor -%}
+      }))
+    {%- endset -%}
+
+  {% else %}
+
+    {%- set content -%}_reject('not configured'){% endset %}
+
+  {% endif %}
+
+  {% if hasTest(type) -%}
+
+   {% set content -%}
+    _and({{content}}, {{getTest(type)}})
+   {%- endset %}
+
+  {% endif %}
+
+  {{ optional(type, content) }}
+
+{% endmacro %}
+
+{# 
+  
+  turn a sum schema into a precondition 
+  @param {Schema} type
+
+#}
+{% macro sumType2Test (type) %}
+
+  {% if type.discriminator.type == 'rw' %}
+
+    {%- set content -%}
+     {{type2Test(type.variants.write)}}
+    {%- endset -%}
+
+  {% elseif type.discriminator.type == 'shape' %}
+
+    {%- set content -%}
+    _match(
+      {%- for key,variant in type.variants -%}
+
+      {% set shape =  variant.discriminator %}
+      {% set validator =  type2Test(variant) %}
+      _caseOf({{shape|dump}}, {{validator}}){% if not loop.last %},{% endif %}
+
+      {%- endfor -%})
+    {% endset %}
+
+  {% else %}
+
+    {% set json %}{{type|dump}}{% endset %}
+    {{ 'sumType2Test: Unknown discriminator type '+ 
+    type.discriminator.type+ ' in '+json | error }}
+
+  {% endif %}
+
+  {{ optional(type,content) | trim}}
+
+{% endmacro %}
+
+{#
+  turns any schema type into a validator 
+
+  @param {Schema} type
+
+#}
+{% macro anyType2Test(type) %}
+
+    {%- set content -%}
+      {% if hasTest(type) %}
+        _and(_{{type.type}}, {{getTest(type)}})
+      {% elseif type.type == "any" %}
+
+        _identity
+
+      {% else %}
+        _{{type.type}}
+      {% endif %}
+    {%- endset -%}
+
+    {{ optional(type, content) | trim }}
+
+{% endmacro %}
+
+{# 
+ 
+  turns a type into a precondition. 
+  
+  @param {Schema} type
+
+#}
+{% macro type2Test(type) %}
+
+  {%- if isArrayType(type) -%}
+
+    {{arrayType2Test(type)}}
+
+  {%- elseif isObjectType(type) -%}
+    
+    {{objectType2Test(type) | trim }}
+
+  {%- elseif isSumType(type) -%}
+
+    {{sumType2Test(type) | trim }}
+    
+  {%- else -%}
+
+    {{anyType2Test(type) | trim }}
+    
+  {%- endif -%}
+
+{% endmacro %}

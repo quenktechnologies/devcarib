@@ -14,6 +14,12 @@
 
     },
 
+    "validation:imports": {
+
+        "@board/types/lib/post": "Post"
+
+    },
+
     "checks-partial:imports": {
 
         "@board/validation/lib/partial/post": "validate"

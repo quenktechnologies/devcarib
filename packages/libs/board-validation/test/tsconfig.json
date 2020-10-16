@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src",
+        "lib": ["es2017", "DOM"],
+        "module": "commonjs",
+        "target": "es6",
+        "moduleResolution": "node",
+        "allowUnreachableCode": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
+        "strict": true,
+        "sourceMap": true,
+        "types": ["node", "mocha"],
+        "typeRoots": ["../node_modules/@types"],
+        "noErrorTruncation": true
+    },
+    "exclude": ["node_modules"]
+}

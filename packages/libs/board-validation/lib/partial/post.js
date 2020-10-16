@@ -12,7 +12,7 @@ var _title = 'Post';
 //@ts-ignore: 6133
 var _collection = 'posts';
 //@ts-ignore: 6133
-var _record = record_1.restrict;
+var _record = record_1.intersect;
 exports.validate = preconditions_1.and(record_1.isRecord, _record({
     'title': string_1.isString,
     'description': string_1.isString,

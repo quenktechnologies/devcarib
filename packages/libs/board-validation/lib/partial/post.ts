@@ -41,7 +41,7 @@ const _title = 'Post';
 //@ts-ignore: 6133
 const _collection = 'posts';
 //@ts-ignore: 6133
-const _record = _restrict
+const _record = _intersect
 
 export const validate: Precondition<Value, Post> =
     _and(_isRecord, _record<Type, Type, Post>({

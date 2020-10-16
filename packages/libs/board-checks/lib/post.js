@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminCheckPatch = exports.adminCheckPost = exports.checkPatch = exports.check = void 0;
 var async_1 = require("@quenk/preconditions/lib/async");
 var record_1 = require("@quenk/preconditions/lib/async/record");
-var post_1 = require("@board/validation/lib/post");
+var post2_1 = require("@board/validation/lib/post2");
 var _1 = require("./");
 /**
  * check function for new Post types.
  */
-exports.check = async_1.and(async_1.async(post_1.validate), record_1.restrict({
+exports.check = async_1.and(async_1.async(post2_1.validate), record_1.restrict({
     id: _1.inc('posts'),
     title: async_1.identity,
     description: async_1.identity,
@@ -22,7 +22,7 @@ exports.check = async_1.and(async_1.async(post_1.validate), record_1.restrict({
 /**
  * checkPatch function for existing Post types.
  */
-exports.checkPatch = async_1.and(async_1.async(post_1.validatePatch), record_1.intersect({
+exports.checkPatch = async_1.and(async_1.async(post2_1.validatePatch), record_1.intersect({
     title: async_1.identity,
     description: async_1.identity,
     company: async_1.identity,
@@ -35,7 +35,7 @@ exports.checkPatch = async_1.and(async_1.async(post_1.validatePatch), record_1.i
 /**
  * admingCheckPost
  */
-exports.adminCheckPost = async_1.and(async_1.async(post_1.adminValidatePatch), record_1.restrict({
+exports.adminCheckPost = async_1.and(async_1.async(post2_1.adminValidatePatch), record_1.restrict({
     id: _1.inc('posts'),
     title: async_1.identity,
     description: async_1.identity,
@@ -49,7 +49,7 @@ exports.adminCheckPost = async_1.and(async_1.async(post_1.adminValidatePatch), r
 /**
  * adminCheckPatch
  */
-exports.adminCheckPatch = async_1.and(async_1.async(post_1.adminValidatePatch), record_1.intersect({
+exports.adminCheckPatch = async_1.and(async_1.async(post2_1.adminValidatePatch), record_1.intersect({
     title: async_1.identity,
     description: async_1.identity,
     company: async_1.identity,

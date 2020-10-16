@@ -37,7 +37,7 @@ BOARD_TYPES_TYPE_TEMPLATE:=type.types
 
 # Directory with dagen templates.
 BOARD_TYPES_TEMPLATE_DIR:=$(BOARD_TYPES_DIR)/templates
-BOARD_TYPES_TEMPLATE_DIR_FILES:=$(shell find $(BOARD_TYPES_TEMPLATE_DIR))
+BOARD_TYPES_TEMPLATE_DIR_FILES:=$(shell find $(BOARD_TYPES_TEMPLATE_DIR) -type f)
 
 # This is the name of all the files in the model dir without extensions.
 BOARD_TYPES_MODEL_NAMES=$(notdir $(basename $(wildcard \
