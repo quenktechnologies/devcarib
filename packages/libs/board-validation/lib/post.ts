@@ -1,10 +1,9 @@
+
 /**
- * Post validatior.
+ * Post validator.
  * AUTO GENERATED! DO NOT EDIT DIRECTLY!
  */
 /** imports **/
-//@ts-ignore: 6133
-import { Type } from '@quenk/noni/lib/data/type';
 //@ts-ignore: 6133
 import { merge as _merge } from '@quenk/noni/lib/data/record';
 //@ts-ignore: 6133
@@ -12,6 +11,7 @@ import { Value, Object } from '@quenk/noni/lib/data/jsonx';
 //@ts-ignore: 6133
 import {
     Precondition,
+    Preconditions,
     optional as _optional,
     and as _and,
     every as _every,
@@ -36,28 +36,57 @@ import { isString as _string } from '@quenk/preconditions/lib/string';
 
 import { Post } from '@board/types/lib/post';
 
-//@ts-ignore: 6133
-const _title = 'Post';
-//@ts-ignore: 6133
-const _collection = 'posts';
-//@ts-ignore: 6133
-const _record = _restrict
 
+/**
+ * validators for Post provided as a map.
+ */
+export const validators: Preconditions<Value, Value> = {
+    'title': _string,
+
+    'description': _string,
+
+    'company': _string,
+
+    'company_email': _string,
+
+    'company_logo': _optional(_string
+    ),
+
+    'apply_url': _optional(_string
+    ),
+
+};
+
+/**
+ * partialValidators for Post provided as a map.
+ */
+export const partialValidators: Preconditions<Value, Value> = {
+    'title': _string,
+
+    'description': _string,
+
+    'company': _string,
+
+    'company_email': _string,
+
+    'company_logo': _optional(_string
+    ),
+
+    'apply_url': _optional(_string
+    ),
+
+};
+
+/**
+ * validate a single Value against the rules for Post.
+ */
 export const validate: Precondition<Value, Post> =
-    _and(_isRecord, _record<Type, Type, Post>({
-        'title': _string,
+    _and(_isRecord, _restrict<Value, Value, Post>(validators));
 
-        'description': _string,
+/**
+ * validate a single Value against the rules for a partial Post.
+ */
+export const validatePartial: Precondition<Value, Partial<Post>> =
+    _and(_isRecord, _intersect<Value, Value, Post>(partialValidators));
 
-        'company': _string,
-
-        'company_email': _string,
-
-        'company_logo': _optional(_string
-        ),
-
-        'apply_url': _optional(_string
-        ),
-
-    }));
 

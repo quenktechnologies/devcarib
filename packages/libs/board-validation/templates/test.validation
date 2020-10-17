@@ -1,125 +1,161 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as mkdirp from 'mkdirp';
+{% if not document.test.disable %}
+
+import * as provider from '../fixtures/data/{{document.filename}}';
+
 import { assert } from '@quenk/test/lib/assert';
-import { Precondition } from '@quenk/preconditions';
-import { validate as full } from '../../lib/{{document.filename}}';
-import { validate as partial } from '../../lib/partial/{{document.filename}}';
+import {Explanations} from '@quenk/preconditions/lib/result/failure';
 
-const writeFile = (p:string, contents:string)=> {
+import { validate, validatePartial } from '../../lib/{{document.filename}}';
 
-  mkdirp.sync(path.dirname(p));
-  fs.writeFileSync(p, contents);
+const {expected} = provider;
 
-}
+/*
+ * Validation tests for {{document.title}}.
+ */
+describe('{{document.title}}', ()=> {
 
-const makeTest = <A,B>(suite:string, test:any, index:string, fn:Precondition<A,B>) => {
+  describe('validate', ()=> {
 
-    let file = index.replace(/\s/g, '-');
+    it('should pass valid data', ()=> {
 
-    if(test.dump) 
-      return console.error(fn(test.input));
+        let data = provider.valid();
+        let result = validate(data);
 
-    let data = test.success ?
-      fn(test.input).takeRight() : 
-      fn(test.input).takeLeft().explain({});
+        assert(result.isRight()).true();
+        assert(result.takeRight()).equate(expected.valid);
 
-    if (process.env.GENERATE) {
+    })
 
-      writeFile(`${path.dirname(__filename)}/../fixtures/expectations/${suite+'-'+file}.json`,
-      JSON.stringify(data));
+    it('should fail invalid data', ()=> {
 
-    } else {
+        let data = provider.invalid();
+        let result = validate(data);
 
-      assert(data)
-      .equate(
-      require(`${path.dirname(__filename)}/../fixtures/expectations/${suite+'-'+file}.json`));
+        assert(result.isLeft()).true();
 
-    }
+        assert(<Explanations>result.takeLeft().explain({}))
+          .equate(expected.invalid);
 
-}
+    })
 
-const fullTests = { 
+    it('should fail data lower than the lower bounds', ()=> {
 
-  'should pass valid data' : {
+        let data = provider.lower();
+        let result = validate(data);
 
-    input: require('../fixtures/data/valid/{{document.filename}}'),
-    success: true
+        assert(result.isLeft()).true();
 
-  },
-  'should fail if required fields ommitted': {
+        assert(<Explanations>result.takeLeft().explain({}))
+         .equate(expected.lower);
 
-    input: {},
-    failure: true
+    })
 
-  },
-  'should fail on invalid input': {
+    it('should fail data higher than the upper bounds', ()=> {
 
-    input: require('../fixtures/data/invalid/{{document.filename}}'),
-    failure: true
+        let data = provider.upper();
+        let result = validate(data);
 
-  },
-  'should detect failed lower bounds': {
+        assert(result.isLeft()).true();
 
-    input: require('../fixtures/data/lower/{{document.filename}}'),
-    failure: true
+        assert(<Explanations>result.takeLeft().explain({})).equate(expected.upper);
 
-  },
-  'should detect failed upper bounds': {
+    })
 
-   input: require('../fixtures/data/upper/{{document.filename}}'),
-   failure: true
+    it('should fail non-objects', ()=> {
 
-  }
+        let result = validate('');
 
-}
+        assert(result.isLeft()).true();
 
-const partialTests = {
+    })
 
-    'should pass valid data' : {
+  })
 
-    input: require('../fixtures/data/valid/{{document.filename}}'),
-    success: true
+  describe('validatePartial', ()=> {
 
-    },
-   'should not fail if all fields ommitted': {
+    it('should pass valid data', ()=> {
 
-      input: {},
-      success: true
+      let data = provider.valid();
 
-    },
-    'should fail on invalid input': {
+        for(let key in data)
+          if(data.hasOwnProperty(key)) {
 
-      input: require('../fixtures/data/invalid/{{document.filename}}'),
-      failure: true
+            let result = validatePartial({[key]: data[key]});
 
-    },
-   'should detect failed lower bounds': {
+            assert(result.isRight()).true();
+            assert(result.takeRight()[key]).equate(expected.valid[key]);
 
-      input: require('../fixtures/data/lower/{{document.filename}}'),
-      failure: true
+          }
 
-    },
-   'should detect failed upper bounds' : {
+    })
 
-      input:require('../fixtures/data/upper/{{document.filename}}'),
-      falure:true
+    it('should fail invalid data', ()=> {
 
-    }
+      let data = provider.invalid();
 
-}
+        for(let key in data)
+          if(data.hasOwnProperty(key)) {
 
-describe('{{document.title}}', ()=>
-  describe('full', ()=> 
-    Object
-      .keys(fullTests)
-      .forEach(k => it(k, ()=>makeTest('{{document.filename}}-full', 
-      (<any>fullTests)[k], k, full)))));
+            let result = validatePartial({[key]: data[key]});
 
-describe('{{document.title}}', ()=>
-  describe('partial', ()=> 
-    Object
-      .keys(partialTests)
-      .forEach(k => it(k, ()=> makeTest('{{document.filename}}-partial', 
-      (<any>partialTests)[k], k, partial)))));
+            assert(result.isLeft()).true();
+            assert((<Explanations>result.takeLeft().explain({}))[key])
+              .equate(expected.invalid[key]);
 
+          }
+
+    })
+
+    it('should fail data lower than the lower bounds', ()=> {
+
+      let data = provider.lower();
+
+        for(let key in data)
+          if(data.hasOwnProperty(key)) {
+
+            let result = validatePartial({[key]: data[key]});
+
+            assert(result.isLeft()).true();
+            assert((<Explanations>result.takeLeft().explain({}))[key])
+              .equate(expected.lower[key]);
+
+          }
+
+    })
+
+    it('should fail data higher than the upper bounds', ()=> {
+
+      let data = provider.upper();
+
+        for(let key in data)
+          if(data.hasOwnProperty(key)) {
+
+            let result = validatePartial({[key]: data[key]});
+
+            assert(result.isLeft()).true();
+            assert((<Explanations>result.takeLeft().explain({}))[key])
+             .equate(expected.upper[key]);
+
+          }
+
+      })
+
+    })
+
+    it('should fail non-objects', ()=> {
+
+        let result = validatePartial('');
+        assert(result.isLeft()).true();
+
+    })
+
+    it('should not fail empty objects', ()=> {
+
+      let result = validatePartial({});
+      assert(result.isRight()).true();
+
+    })
+
+})
+
+{% endif %}

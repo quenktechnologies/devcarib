@@ -25,12 +25,13 @@
   Turns an array schema into a precondition. 
   
   @param {Schema} type
+  @param {Precondition} recordFun
 
 #}
-{% macro arrayType2Test(type) %}
+{% macro arrayType2Test(type, recordFun) %}
 
   {% set content -%}
-    _and(_isArray, _map({{type2Test(type.items)}}))
+    _and(_isArray, _map({{type2Test(type.items, recordFun)}}))
   {%- endset %}
 
   {% if hasTest(type) -%}
@@ -43,11 +44,12 @@
 
 {% endmacro %}
 
-{# turns an object schema into a record of preconditions
+{# Turn an object schema into a record of preconditions
   
   @param {Schema} type
+  @param {Precondition} recordFun
 #}
-{% macro objectType2Test (type) %}
+{% macro objectType2Test (type, recordFun) %}
 
   {% if isObject(type.additionalProperties) %}
 
@@ -59,10 +61,10 @@
   {% elseif isObject(type.properties) %}
 
     {%- set content -%}
-      _and(_isRecord, _record<Type, Type, {{type.title}}>({
+      _and(_isRecord, {{recordFun}}<Value, Value, {{type.title}}>({
         {% for key,value in type.properties %}
           {% if (not value.readOnly) or hasTest(value)  %}
-            '{{key}}' : {{type2Test(value)|trim}}{% if not loop.last %},{% endif %}
+            '{{key}}' : {{type2Test(value,recordFun)|trim}}{% if not loop.last %},{% endif %}
             {{"\n"}}
           {% endif %}
         {%- endfor -%}
@@ -89,16 +91,17 @@
 
 {# 
   
-  turn a sum schema into a precondition 
+  Turn a sum schema into a precondition 
   @param {Schema} type
+  @param {Precondition} recordFun
 
 #}
-{% macro sumType2Test (type) %}
+{% macro sumType2Test (type, recordFun) %}
 
   {% if type.discriminator.type == 'rw' %}
 
     {%- set content -%}
-     {{type2Test(type.variants.write)}}
+     {{type2Test(type.variants.write, recordFun)}}
     {%- endset -%}
 
   {% elseif type.discriminator.type == 'shape' %}
@@ -108,7 +111,7 @@
       {%- for key,variant in type.variants -%}
 
       {% set shape =  variant.discriminator %}
-      {% set validator =  type2Test(variant) %}
+      {% set validator =  type2Test(variant, recordFun) %}
       _caseOf({{shape|dump}}, {{validator}}){% if not loop.last %},{% endif %}
 
       {%- endfor -%})
@@ -122,7 +125,7 @@
 
   {% endif %}
 
-  {{ optional(type,content) | trim}}
+  {{ optional(type, content) | trim}}
 
 {% endmacro %}
 
@@ -152,24 +155,25 @@
 
 {# 
  
-  turns a type into a precondition. 
+  Turn a type into a precondition. 
   
   @param {Schema} type
+  @param {Precondition} recordFun - Used for nested objects.
 
 #}
-{% macro type2Test(type) %}
+{% macro type2Test(type, recordFun="_restrict") %}
 
   {%- if isArrayType(type) -%}
 
-    {{arrayType2Test(type)}}
+    {{arrayType2Test(type, recordFun)}}
 
   {%- elseif isObjectType(type) -%}
     
-    {{objectType2Test(type) | trim }}
+    {{objectType2Test(type, recordFun) | trim }}
 
   {%- elseif isSumType(type) -%}
 
-    {{sumType2Test(type) | trim }}
+    {{sumType2Test(type, recordFun) | trim }}
     
   {%- else -%}
 

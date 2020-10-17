@@ -1,13 +1,10 @@
-{% from "macros/type2Test.validation" import type2Test %}
+{% from "macros/type2Test.validation" import type2Test,anyType2Test %}
 
-{%- set title = document.title -%}
 /**
- * {{title}} validatior.
+ * {{document.title}} validator.
  * AUTO GENERATED! DO NOT EDIT DIRECTLY!
  */
  /** imports **/
-//@ts-ignore: 6133
-import {Type} from '@quenk/noni/lib/data/type';
 //@ts-ignore: 6133
 import {merge as _merge} from '@quenk/noni/lib/data/record';
 //@ts-ignore: 6133
@@ -15,6 +12,7 @@ import {Value, Object} from '@quenk/noni/lib/data/jsonx';
 //@ts-ignore: 6133
 import {
 Precondition,
+Preconditions,
 optional as _optional,
 and as _and,
 every as _every,
@@ -39,21 +37,50 @@ import { isString as _string } from '@quenk/preconditions/lib/string';
 
 {{ imports2TS(document.imports) }}
 
-{% if document.title %}
-//@ts-ignore: 6133
-const _title = '{{document.title}}';
-{% endif %}
-{% if document.collection %}
-//@ts-ignore: 6133
-const _collection = '{{document.collection}}';
-{% endif %}
-{% if document.partial === "true" %}
-//@ts-ignore: 6133
-const _record = _intersect
-{% else %}
-//@ts-ignore: 6133
-const _record = _restrict
-{% endif %}
+{% if document.additionalProperties %}
 
-export const validate : Precondition<Value,{{document.title}}> =
-{{ type2Test(document) | trim}};
+/**
+ * validate a single Value against the rules for {{document.title}}.
+ */
+export const validate : Precondition<Value, {{document.title}}> =
+_and(_isRecord, _recordMap<Value, Value, {{document.title}}>(
+  {{anyType2Test(document.additionalProperties)}}
+));
+
+{% elseif document.properties %}
+
+/**
+ * validators for {{document.title}} provided as a map.
+ */ 
+export const validators:Preconditions<Value, Value> = {
+  {% for key,value in document.properties %}
+    {% if (not value.readOnly) or hasTest(value) %}
+      '{{key}}' : {{type2Test(value,"_restrict")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
+    {% endif %}
+  {%- endfor -%}
+};
+
+/**
+ * partialValidators for {{document.title}} provided as a map.
+ */ 
+export const partialValidators:Preconditions<Value, Value> = {
+  {% for key,value in document.properties %}
+    {% if (not value.readOnly) or hasTest(value) %}
+      '{{key}}' : {{type2Test(value,"_intersect")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
+    {% endif %}
+  {%- endfor -%}
+};
+
+/**
+ * validate a single Value against the rules for {{document.title}}.
+ */
+export const validate : Precondition<Value, {{document.title}}> =
+_and(_isRecord, _restrict<Value, Value, {{document.title}}>(validators));
+
+/**
+ * validate a single Value against the rules for a partial {{document.title}}.
+ */
+export const validatePartial : Precondition<Value, Partial<{{document.title}}>> =
+_and(_isRecord, _intersect<Value, Value, {{document.title}}>(partialValidators));
+
+{% endif %}

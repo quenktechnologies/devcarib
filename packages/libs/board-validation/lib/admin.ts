@@ -1,10 +1,9 @@
+
 /**
- * Admin validatior.
+ * Admin validator.
  * AUTO GENERATED! DO NOT EDIT DIRECTLY!
  */
 /** imports **/
-//@ts-ignore: 6133
-import { Type } from '@quenk/noni/lib/data/type';
 //@ts-ignore: 6133
 import { merge as _merge } from '@quenk/noni/lib/data/record';
 //@ts-ignore: 6133
@@ -12,6 +11,7 @@ import { Value, Object } from '@quenk/noni/lib/data/jsonx';
 //@ts-ignore: 6133
 import {
     Precondition,
+    Preconditions,
     optional as _optional,
     and as _and,
     every as _every,
@@ -36,20 +36,45 @@ import { isString as _string } from '@quenk/preconditions/lib/string';
 
 import { Admin } from '@board/types/lib/admin';
 
-//@ts-ignore: 6133
-const _title = 'Admin';
-//@ts-ignore: 6133
-const _record = _restrict
 
+/**
+ * validators for Admin provided as a map.
+ */
+export const validators: Preconditions<Value, Value> = {
+    'id': _number,
+
+    'name': _string,
+
+    'email': _string,
+
+    'password': _string
+
+};
+
+/**
+ * partialValidators for Admin provided as a map.
+ */
+export const partialValidators: Preconditions<Value, Value> = {
+    'id': _number,
+
+    'name': _string,
+
+    'email': _string,
+
+    'password': _string
+
+};
+
+/**
+ * validate a single Value against the rules for Admin.
+ */
 export const validate: Precondition<Value, Admin> =
-    _and(_isRecord, _record<Type, Type, Admin>({
-        'id': _number,
+    _and(_isRecord, _restrict<Value, Value, Admin>(validators));
 
-        'name': _string,
+/**
+ * validate a single Value against the rules for a partial Admin.
+ */
+export const validatePartial: Precondition<Value, Partial<Admin>> =
+    _and(_isRecord, _intersect<Value, Value, Admin>(partialValidators));
 
-        'email': _string,
-
-        'password': _string
-
-    }));
 
