@@ -33,7 +33,8 @@ EXTRAS_PACKAGES_DIR:=$(PACKAGES_DIR)/extras
 PROJECT_BUILD_DIR:=$(HERE)/build
 PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/app
 
-CLEAN_TARGETS:=
+BOARD_CLEAN_TARGETS:=
+BOARD_SRC_DIRS:=
 
 # Configure the paths for your extra packages here.
 BOARD_SCHEMA_DIR:=$(EXTRAS_PACKAGES_DIR)/board-schema
@@ -78,4 +79,4 @@ include $(BOARD_ADMIN_DIR)/build.mk
 .PHONY: clean
 clean: 
 	rm -R $(PROJECT_BUILD_DIR) || true
-	rm -R $(CLEAN_TARGETS) || true
+	rm -R $(BOARD_CLEAN_TARGETS) || true
