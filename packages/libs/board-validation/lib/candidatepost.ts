@@ -32,27 +32,33 @@ import { isBoolean as _boolean } from '@quenk/preconditions/lib/boolean';
 //@ts-ignore: 6133
 import { toNumber as _number } from '@quenk/preconditions/lib/number';
 //@ts-ignore: 6133
-import { isString as _string } from '@quenk/preconditions/lib/string';
+import {
+    isString as _isString,
+    trim as _trim
+} from '@quenk/preconditions/lib/string';
 
 import { CandidatePost } from '@board/types/lib/candidatepost';
+import { textsmall, textlarge, name, email, url } from './';
+
+const _string: Precondition<Value, string> = _and(_isString, _trim);
 
 
 /**
  * validators for CandidatePost provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'title': _string,
+    'title': _and(_string, textsmall),
 
-    'description': _string,
+    'description': _and(_string, textlarge),
 
-    'company': _string,
+    'company': _and(_string, name),
 
-    'company_email': _string,
+    'company_email': _and(_string, email),
 
-    'company_logo': _optional(_string
+    'company_logo': _optional(_and(_string, url)
     ),
 
-    'apply_url': _optional(_string
+    'apply_url': _optional(_and(_string, url)
     ),
 
     'approved': _boolean
@@ -63,18 +69,18 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for CandidatePost provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'title': _string,
+    'title': _and(_string, textsmall),
 
-    'description': _string,
+    'description': _and(_string, textlarge),
 
-    'company': _string,
+    'company': _and(_string, name),
 
-    'company_email': _string,
+    'company_email': _and(_string, email),
 
-    'company_logo': _optional(_string
+    'company_logo': _optional(_and(_string, url)
     ),
 
-    'apply_url': _optional(_string
+    'apply_url': _optional(_and(_string, url)
     ),
 
     'approved': _boolean

@@ -33,9 +33,14 @@ import { isBoolean as _boolean } from '@quenk/preconditions/lib/boolean';
 //@ts-ignore: 6133
 import { toNumber as _number } from '@quenk/preconditions/lib/number';
 //@ts-ignore: 6133
-import { isString as _string } from '@quenk/preconditions/lib/string';
+import { 
+  isString as _isString,
+  trim as _trim
+} from '@quenk/preconditions/lib/string';
 
 {{ imports2TS(document.imports) }}
+
+const _string:Precondition<Value, string> = _and(_isString, _trim);
 
 {% if document.additionalProperties %}
 

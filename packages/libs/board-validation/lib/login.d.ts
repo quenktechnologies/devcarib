@@ -1,19 +1,19 @@
-import { Precondition } from '@quenk/preconditions';
 import { Value } from '@quenk/noni/lib/data/jsonx';
-import { Record } from '@quenk/noni/lib/data/record';
+import { Precondition, Preconditions } from '@quenk/preconditions';
 import { Login } from '@board/types/lib/login';
 /**
- * Schema for validating login credentials.
+ * validators for Login provided as a map.
  */
-export interface Schema extends Record<Precondition<Value, Value>> {
-    email: Precondition<Value, string>;
-    password: Precondition<Value, string>;
-}
+export declare const validators: Preconditions<Value, Value>;
 /**
- * schema implementation
+ * partialValidators for Login provided as a map.
  */
-export declare const schema: Schema;
+export declare const partialValidators: Preconditions<Value, Value>;
 /**
- * validate a JSON value against the Login credential rules.
+ * validate a single Value against the rules for Login.
  */
 export declare const validate: Precondition<Value, Login>;
+/**
+ * validate a single Value against the rules for a partial Login.
+ */
+export declare const validatePartial: Precondition<Value, Partial<Login>>;

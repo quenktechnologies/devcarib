@@ -1,18 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validate = exports.schema = void 0;
+exports.validatePartial = exports.validate = exports.partialValidators = exports.validators = void 0;
+//@ts-ignore: 6133
 var preconditions_1 = require("@quenk/preconditions");
+//@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/record");
+//@ts-ignore: 6133
 var string_1 = require("@quenk/preconditions/lib/string");
+var _string = preconditions_1.and(string_1.isString, string_1.trim);
 /**
- * schema implementation
+ * validators for Login provided as a map.
  */
-exports.schema = {
-    email: preconditions_1.and(preconditions_1.notNull, preconditions_1.every(string_1.isString, string_1.trim, string_1.minLength(3), string_1.maxLength(140))),
-    password: preconditions_1.and(preconditions_1.notNull, preconditions_1.every(string_1.isString, string_1.trim, string_1.minLength(1), string_1.maxLength(512))),
+exports.validators = {
+    'email': _string,
+    'password': _string
 };
 /**
- * validate a JSON value against the Login credential rules.
+ * partialValidators for Login provided as a map.
  */
-exports.validate = preconditions_1.and(record_1.isRecord, record_1.restrict(exports.schema));
+exports.partialValidators = {
+    'email': _string,
+    'password': _string
+};
+/**
+ * validate a single Value against the rules for Login.
+ */
+exports.validate = preconditions_1.and(record_1.isRecord, record_1.restrict(exports.validators));
+/**
+ * validate a single Value against the rules for a partial Login.
+ */
+exports.validatePartial = preconditions_1.and(record_1.isRecord, record_1.intersect(exports.partialValidators));
 //# sourceMappingURL=login.js.map

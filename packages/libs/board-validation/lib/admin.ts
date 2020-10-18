@@ -32,22 +32,26 @@ import { isBoolean as _boolean } from '@quenk/preconditions/lib/boolean';
 //@ts-ignore: 6133
 import { toNumber as _number } from '@quenk/preconditions/lib/number';
 //@ts-ignore: 6133
-import { isString as _string } from '@quenk/preconditions/lib/string';
+import {
+    isString as _isString,
+    trim as _trim
+} from '@quenk/preconditions/lib/string';
 
 import { Admin } from '@board/types/lib/admin';
+import { name, email, password } from './';
+
+const _string: Precondition<Value, string> = _and(_isString, _trim);
 
 
 /**
  * validators for Admin provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'id': _number,
+    'name': _and(_string, name),
 
-    'name': _string,
+    'email': _and(_string, email),
 
-    'email': _string,
-
-    'password': _string
+    'password': _and(_string, password)
 
 };
 
@@ -55,13 +59,11 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for Admin provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'id': _number,
+    'name': _and(_string, name),
 
-    'name': _string,
+    'email': _and(_string, email),
 
-    'email': _string,
-
-    'password': _string
+    'password': _and(_string, password)
 
 };
 

@@ -6,26 +6,24 @@ var preconditions_1 = require("@quenk/preconditions");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/record");
 //@ts-ignore: 6133
-var number_1 = require("@quenk/preconditions/lib/number");
-//@ts-ignore: 6133
 var string_1 = require("@quenk/preconditions/lib/string");
+var _1 = require("./");
+var _string = preconditions_1.and(string_1.isString, string_1.trim);
 /**
  * validators for Admin provided as a map.
  */
 exports.validators = {
-    'id': number_1.toNumber,
-    'name': string_1.isString,
-    'email': string_1.isString,
-    'password': string_1.isString
+    'name': preconditions_1.and(_string, _1.name),
+    'email': preconditions_1.and(_string, _1.email),
+    'password': preconditions_1.and(_string, _1.password)
 };
 /**
  * partialValidators for Admin provided as a map.
  */
 exports.partialValidators = {
-    'id': number_1.toNumber,
-    'name': string_1.isString,
-    'email': string_1.isString,
-    'password': string_1.isString
+    'name': preconditions_1.and(_string, _1.name),
+    'email': preconditions_1.and(_string, _1.email),
+    'password': preconditions_1.and(_string, _1.password)
 };
 /**
  * validate a single Value against the rules for Admin.

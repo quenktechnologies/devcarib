@@ -9,28 +9,30 @@ var record_1 = require("@quenk/preconditions/lib/record");
 var boolean_1 = require("@quenk/preconditions/lib/boolean");
 //@ts-ignore: 6133
 var string_1 = require("@quenk/preconditions/lib/string");
+var _1 = require("./");
+var _string = preconditions_1.and(string_1.isString, string_1.trim);
 /**
  * validators for CandidatePost provided as a map.
  */
 exports.validators = {
-    'title': string_1.isString,
-    'description': string_1.isString,
-    'company': string_1.isString,
-    'company_email': string_1.isString,
-    'company_logo': preconditions_1.optional(string_1.isString),
-    'apply_url': preconditions_1.optional(string_1.isString),
+    'title': preconditions_1.and(_string, _1.textsmall),
+    'description': preconditions_1.and(_string, _1.textlarge),
+    'company': preconditions_1.and(_string, _1.name),
+    'company_email': preconditions_1.and(_string, _1.email),
+    'company_logo': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
+    'apply_url': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
     'approved': boolean_1.isBoolean
 };
 /**
  * partialValidators for CandidatePost provided as a map.
  */
 exports.partialValidators = {
-    'title': string_1.isString,
-    'description': string_1.isString,
-    'company': string_1.isString,
-    'company_email': string_1.isString,
-    'company_logo': preconditions_1.optional(string_1.isString),
-    'apply_url': preconditions_1.optional(string_1.isString),
+    'title': preconditions_1.and(_string, _1.textsmall),
+    'description': preconditions_1.and(_string, _1.textlarge),
+    'company': preconditions_1.and(_string, _1.name),
+    'company_email': preconditions_1.and(_string, _1.email),
+    'company_logo': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
+    'apply_url': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
     'approved': boolean_1.isBoolean
 };
 /**

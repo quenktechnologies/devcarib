@@ -1,45 +1,77 @@
+
+/**
+ * Login validator.
+ * AUTO GENERATED! DO NOT EDIT DIRECTLY!
+ */
+/** imports **/
+//@ts-ignore: 6133
+import { merge as _merge } from '@quenk/noni/lib/data/record';
+//@ts-ignore: 6133
+import { Value, Object } from '@quenk/noni/lib/data/jsonx';
+//@ts-ignore: 6133
 import {
     Precondition,
-    and,
-    every,
-    notNull
+    Preconditions,
+    optional as _optional,
+    and as _and,
+    every as _every,
+    reject as _reject,
+    identity as _identity
 } from '@quenk/preconditions';
-import { Value, Object } from '@quenk/noni/lib/data/jsonx';
-import { Record } from '@quenk/noni/lib/data/record';
-import { isRecord, restrict } from '@quenk/preconditions/lib/record';
+//@ts-ignore: 6133
+import { isArray as _isArray, map as _map } from '@quenk/preconditions/lib/array';
+//@ts-ignore: 6133
 import {
-    isString,
-    maxLength,
-    minLength,
-    trim
+    isRecord as _isRecord,
+    restrict as _restrict,
+    intersect as _intersect,
+    map as _recordMap
+} from '@quenk/preconditions/lib/record';
+//@ts-ignore: 6133
+import { isBoolean as _boolean } from '@quenk/preconditions/lib/boolean';
+//@ts-ignore: 6133
+import { toNumber as _number } from '@quenk/preconditions/lib/number';
+//@ts-ignore: 6133
+import {
+    isString as _isString,
+    trim as _trim
 } from '@quenk/preconditions/lib/string';
 
 import { Login } from '@board/types/lib/login';
 
+const _string: Precondition<Value, string> = _and(_isString, _trim);
+
+
 /**
- * Schema for validating login credentials.
+ * validators for Login provided as a map.
  */
-export interface Schema extends Record<Precondition<Value, Value>> {
+export const validators: Preconditions<Value, Value> = {
+    'email': _string,
 
-    email: Precondition<Value, string>,
+    'password': _string
 
-    password: Precondition<Value, string>
-
-}
+};
 
 /**
- * schema implementation
+ * partialValidators for Login provided as a map.
  */
-export const schema: Schema = {
+export const partialValidators: Preconditions<Value, Value> = {
+    'email': _string,
 
-    email: and(notNull, every(isString, trim, minLength(3), maxLength(140))),
+    'password': _string
 
-    password: and(notNull, every(isString, trim, minLength(1), maxLength(512))),
-
-}
+};
 
 /**
- * validate a JSON value against the Login credential rules.
+ * validate a single Value against the rules for Login.
  */
 export const validate: Precondition<Value, Login> =
-    and<Value, Object, Login>(isRecord, restrict<Value, Value, Login>(schema));
+    _and(_isRecord, _restrict<Value, Value, Login>(validators));
+
+/**
+ * validate a single Value against the rules for a partial Login.
+ */
+export const validatePartial: Precondition<Value, Partial<Login>> =
+    _and(_isRecord, _intersect<Value, Value, Login>(partialValidators));
+
+
