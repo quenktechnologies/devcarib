@@ -1,0 +1,77 @@
+{
+
+    "id": {
+
+        "type": "number",
+
+        "readOnly": true,
+
+        "checks": [
+
+            ["./#inc", ["'counters.post'"]],
+
+            ["./#unique", ["'posts'", "'id'"]]
+
+        ]
+
+    },
+
+    "title": {
+
+        "type": "string",
+
+        "validation": "./#textsmall"
+
+    },
+
+    "description": {
+
+        "type": "string",
+
+        "validation": "./#textlarge"
+
+    },
+
+    "company": {
+
+        "type": "string",
+
+        "validation": "./#name"
+
+    },
+
+    "company_email": {
+
+        "type": "string",
+
+        "validation": "./#email"
+
+    },
+
+    "company_logo": {
+
+        "type": "string",
+
+        "validation": "./#url",
+
+        "optional": true
+
+    },
+
+    "apply_url": {
+
+        "type": "string",
+
+        "validation": "./#url",
+
+        "optional": true
+
+    },
+
+    "approved": {
+
+        "type": "boolean"
+
+    }
+
+}

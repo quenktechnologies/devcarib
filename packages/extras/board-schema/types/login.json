@@ -1,0 +1,29 @@
+{
+
+    "type": "object",
+
+    "title": "Login",
+
+    "validation:imports": {
+
+        "@board/types/lib/login": "Login"
+
+    },
+
+    "properties": {
+
+        "email": {
+
+            "type": "string"
+
+        },
+
+        "password": {
+
+            "type": "string"
+
+        }
+
+    }
+
+}

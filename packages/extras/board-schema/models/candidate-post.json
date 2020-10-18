@@ -1,0 +1,41 @@
+{
+
+    "type": "object",
+
+    "title": "CandidatePost",
+
+    "collection": "posts",
+
+    "model.type": "ModelType",
+
+    "checks-complete:imports": {
+
+        "@board/validation/lib/candidatepost": "validate"
+
+    },
+
+    "validation:imports": {
+
+        "@board/types/lib/candidatepost": "CandidatePost"
+
+    },
+
+    "checks:imports": {
+
+        "@board/validation/lib/candidatepost": ["validate", "validatePartial"]
+
+    },
+
+    "properties": {
+
+        "$ref": [
+
+          "../common/models/properties.json",
+
+          "../common/post/properties.json"
+
+        ]
+
+    }
+
+}

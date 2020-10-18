@@ -4,37 +4,61 @@
 
     "title": "Admin",
 
+    "collection": "admins",
+
     "validation:imports": {
 
-      "@board/types/lib/admin": "Admin"
+        "@board/types/lib/admin": "Admin"
+
+    },
+
+    "checks:imports": {
+
+        "@board/validation/lib/admin": ["validate", "validatePartial"]
 
     },
 
     "properties": {
 
-      "id": {
+        "id": {
 
-        "type": "number"
+            "type": "number",
 
-      },
+            "readOnly": true,
 
-      "name": {
+            "checks": [
 
-        "type": "string"
+                ["./#inc", ["'counters.admin'"]],
 
-      },
+                ["./#unique", ["'admins'", "'id'"]]
 
-      "email": {
+            ]
 
-        "type": "string"
+        },
 
-      },
+        "name": {
 
-      "password": {
+            "type": "string",
 
-        "type": "string"
+            "validation": "./#name"
 
-      }
+        },
+
+        "email": {
+
+            "type": "string",
+
+            "validation": "./#email"
+
+        },
+
+        "password": {
+
+            "type": "string",
+
+            "validation": "./#password"
+
+        }
 
     }
 

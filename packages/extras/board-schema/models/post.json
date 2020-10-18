@@ -20,61 +20,25 @@
 
     },
 
-    "checks-partial:imports": {
+    "checks:imports": {
 
-        "@board/validation/lib/partial/post": "validate"
+        "@board/validation/lib/post": ["validate", "validatePartial"]
 
     },
 
     "properties": {
 
-        "$ref": "../common/models/properties.json",
+        "$ref": [
 
-        "id": {
+            "../common/models/properties.json",
 
-          "type": "number",
+            "../common/post/properties.json"
 
-          "readOnly": true
+        ],
 
-        },
+        "approved": {
 
-        "title": {
-
-            "type": "string"
-
-        },
-
-        "description": {
-
-            "type": "string"
-
-        },
-
-        "company": {
-
-            "type": "string"
-
-        },
-
-        "company_email": {
-
-            "type": "string"
-
-        },
-
-        "company_logo": {
-
-            "type": "string",
-
-            "optional": true
-
-        },
-
-        "apply_url": {
-
-            "type": "string",
-
-            "optional": true
+            "type": "boolean"
 
         }
 
