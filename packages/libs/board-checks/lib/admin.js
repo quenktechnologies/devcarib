@@ -6,13 +6,16 @@ var async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
 var admin_1 = require("@board/validation/lib/admin");
+var _1 = require("./");
 //@ts-ignore: 6133
 var _title = 'Admin';
+//@ts-ignore: 6133
+var _collection = 'admins';
 /**
  * checks for Admin provided as a map.
  */
 exports.checks = {
-    'id': async_1.identity,
+    'id': async_1.every(_1.inc('counters.admin'), _1.unique('admins', 'id')),
     'name': async_1.identity,
     'email': async_1.identity,
     'password': async_1.identity
@@ -21,7 +24,7 @@ exports.checks = {
  * partialChecks for Admin provided as a map.
  */
 exports.partialChecks = {
-    'id': async_1.identity,
+    'id': async_1.every(_1.inc('counters.admin'), _1.unique('admins', 'id')),
     'name': async_1.identity,
     'email': async_1.identity,
     'password': async_1.identity

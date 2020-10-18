@@ -37,15 +37,18 @@ import {
 
 import { Admin } from '@board/types/lib/admin';
 import { validate, validatePartial } from '@board/validation/lib/admin';
+import { inc, unique } from './';
 
 //@ts-ignore: 6133
 const _title = 'Admin';
+//@ts-ignore: 6133
+const _collection = 'admins';
 
 /**
  * checks for Admin provided as a map.
  */
 export const checks: Preconditions<Value, Value> = {
-    'id': _identity
+    'id': _every<Value, Value>(inc('counters.admin'), unique('admins', 'id'))
     ,
     'name': _identity
     ,
@@ -59,7 +62,7 @@ export const checks: Preconditions<Value, Value> = {
  * partialChecks for Admin provided as a map.
  */
 export const partialChecks: Preconditions<Value, Value> = {
-    'id': _identity
+    'id': _every<Value, Value>(inc('counters.admin'), unique('admins', 'id'))
     ,
     'name': _identity
     ,
