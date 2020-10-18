@@ -1,6 +1,6 @@
 
 /**
- * Post validator.
+ * CandidatePost validator.
  * AUTO GENERATED! DO NOT EDIT DIRECTLY!
  */
 /** imports **/
@@ -34,15 +34,13 @@ import { toNumber as _number } from '@quenk/preconditions/lib/number';
 //@ts-ignore: 6133
 import { isString as _string } from '@quenk/preconditions/lib/string';
 
-import { Post } from '@board/types/lib/post';
+import { CandidatePost } from '@board/types/lib/candidatepost';
 
 
 /**
- * validators for Post provided as a map.
+ * validators for CandidatePost provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'approved': _boolean,
-
     'title': _string,
 
     'description': _string,
@@ -55,16 +53,16 @@ export const validators: Preconditions<Value, Value> = {
     ),
 
     'apply_url': _optional(_string
-    )
+    ),
+
+    'approved': _boolean
 
 };
 
 /**
- * partialValidators for Post provided as a map.
+ * partialValidators for CandidatePost provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'approved': _boolean,
-
     'title': _string,
 
     'description': _string,
@@ -77,20 +75,22 @@ export const partialValidators: Preconditions<Value, Value> = {
     ),
 
     'apply_url': _optional(_string
-    )
+    ),
+
+    'approved': _boolean
 
 };
 
 /**
- * validate a single Value against the rules for Post.
+ * validate a single Value against the rules for CandidatePost.
  */
-export const validate: Precondition<Value, Post> =
-    _and(_isRecord, _restrict<Value, Value, Post>(validators));
+export const validate: Precondition<Value, CandidatePost> =
+    _and(_isRecord, _restrict<Value, Value, CandidatePost>(validators));
 
 /**
- * validate a single Value against the rules for a partial Post.
+ * validate a single Value against the rules for a partial CandidatePost.
  */
-export const validatePartial: Precondition<Value, Partial<Post>> =
-    _and(_isRecord, _intersect<Value, Value, Post>(partialValidators));
+export const validatePartial: Precondition<Value, Partial<CandidatePost>> =
+    _and(_isRecord, _intersect<Value, Value, CandidatePost>(partialValidators));
 
 

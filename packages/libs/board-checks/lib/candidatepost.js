@@ -5,17 +5,16 @@ exports.checkPartial = exports.check = exports.partialChecks = exports.checks = 
 var async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
-var post_1 = require("@board/validation/lib/post");
+var candidatepost_1 = require("@board/validation/lib/candidatepost");
 var _1 = require("./");
 //@ts-ignore: 6133
-var _title = 'Post';
+var _title = 'CandidatePost';
 //@ts-ignore: 6133
 var _collection = 'posts';
 /**
- * checks for Post provided as a map.
+ * checks for CandidatePost provided as a map.
  */
 exports.checks = {
-    'approved': async_1.identity,
     'created_by': async_1.identity,
     'created_on': async_1.identity,
     'last_updated_on': async_1.identity,
@@ -26,13 +25,13 @@ exports.checks = {
     'company': async_1.identity,
     'company_email': async_1.identity,
     'company_logo': async_1.identity,
-    'apply_url': async_1.identity
+    'apply_url': async_1.identity,
+    'approved': async_1.identity
 };
 /**
- * partialChecks for Post provided as a map.
+ * partialChecks for CandidatePost provided as a map.
  */
 exports.partialChecks = {
-    'approved': async_1.identity,
     'created_by': async_1.identity,
     'created_on': async_1.identity,
     'last_updated_on': async_1.identity,
@@ -43,18 +42,19 @@ exports.partialChecks = {
     'company': async_1.identity,
     'company_email': async_1.identity,
     'company_logo': async_1.identity,
-    'apply_url': async_1.identity
+    'apply_url': async_1.identity,
+    'approved': async_1.identity
 };
 /**
- * check a Post value.
+ * check a CandidatePost value.
  */
 exports.check = function () {
-    return async_1.and(async_1.async(post_1.validate), record_1.restrict(exports.checks));
+    return async_1.and(async_1.async(candidatepost_1.validate), record_1.restrict(exports.checks));
 };
 /**
- * checkPartial a partial Post value.
+ * checkPartial a partial CandidatePost value.
  */
 exports.checkPartial = function () {
-    return async_1.and(async_1.async(post_1.validatePartial), record_1.intersect(exports.partialChecks));
+    return async_1.and(async_1.async(candidatepost_1.validatePartial), record_1.intersect(exports.partialChecks));
 };
-//# sourceMappingURL=post.js.map
+//# sourceMappingURL=candidatepost.js.map

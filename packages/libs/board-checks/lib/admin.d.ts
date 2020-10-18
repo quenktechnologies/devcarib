@@ -1,11 +1,19 @@
-import { Precondition } from '@quenk/preconditions/lib/async';
 import { Value } from '@quenk/noni/lib/data/jsonx';
+import { Precondition, Preconditions } from '@quenk/preconditions/lib/async';
 import { Admin } from '@board/types/lib/admin';
 /**
- * post check function for Admin types.
+ * checks for Admin provided as a map.
  */
-export declare const post: Precondition<Value, Admin>;
+export declare const checks: Preconditions<Value, Value>;
 /**
- * patch check function for Admin types.
+ * partialChecks for Admin provided as a map.
  */
-export declare const patch: Precondition<Value, Admin>;
+export declare const partialChecks: Preconditions<Value, Value>;
+/**
+ * check a Admin value.
+ */
+export declare const check: () => Precondition<Value, Admin>;
+/**
+ * checkPartial a partial Admin value.
+ */
+export declare const checkPartial: () => Precondition<Value, Partial<Admin>>;

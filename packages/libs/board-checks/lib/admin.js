@@ -1,23 +1,41 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.patch = exports.post = void 0;
-var _1 = require("./");
+exports.checkPartial = exports.check = exports.partialChecks = exports.checks = void 0;
+//@ts-ignore: 6133
 var async_1 = require("@quenk/preconditions/lib/async");
+//@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
 var admin_1 = require("@board/validation/lib/admin");
+//@ts-ignore: 6133
+var _title = 'Admin';
 /**
- * post check function for Admin types.
+ * checks for Admin provided as a map.
  */
-exports.post = async_1.and(async_1.async(admin_1.validate), record_1.restrict({
-    id: _1.inc('admins'),
-    name: async_1.identity,
-    email: async_1.and(async_1.identity, _1.unique('admins', 'email')),
-    password: _1.bcrypt,
-}));
+exports.checks = {
+    'id': async_1.identity,
+    'name': async_1.identity,
+    'email': async_1.identity,
+    'password': async_1.identity
+};
 /**
- * patch check function for Admin types.
+ * partialChecks for Admin provided as a map.
  */
-exports.patch = async_1.and(async_1.async(admin_1.validate), record_1.intersect({
-    password: _1.bcrypt,
-}));
+exports.partialChecks = {
+    'id': async_1.identity,
+    'name': async_1.identity,
+    'email': async_1.identity,
+    'password': async_1.identity
+};
+/**
+ * check a Admin value.
+ */
+exports.check = function () {
+    return async_1.and(async_1.async(admin_1.validate), record_1.restrict(exports.checks));
+};
+/**
+ * checkPartial a partial Admin value.
+ */
+exports.checkPartial = function () {
+    return async_1.and(async_1.async(admin_1.validatePartial), record_1.intersect(exports.partialChecks));
+};
 //# sourceMappingURL=admin.js.map

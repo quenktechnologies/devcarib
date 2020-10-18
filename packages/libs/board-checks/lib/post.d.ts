@@ -1,19 +1,19 @@
-import { Precondition } from '@quenk/preconditions/lib/async';
 import { Value } from '@quenk/noni/lib/data/jsonx';
+import { Precondition, Preconditions } from '@quenk/preconditions/lib/async';
 import { Post } from '@board/types/lib/post';
 /**
- * check function for new Post types.
+ * checks for Post provided as a map.
  */
-export declare const check: Precondition<Value, Post>;
+export declare const checks: Preconditions<Value, Value>;
 /**
- * checkPatch function for existing Post types.
+ * partialChecks for Post provided as a map.
  */
-export declare const checkPatch: Precondition<Value, Post>;
+export declare const partialChecks: Preconditions<Value, Value>;
 /**
- * admingCheckPost
+ * check a Post value.
  */
-export declare const adminCheckPost: Precondition<Value, Post>;
+export declare const check: () => Precondition<Value, Post>;
 /**
- * adminCheckPatch
+ * checkPartial a partial Post value.
  */
-export declare const adminCheckPatch: Precondition<Value, Post>;
+export declare const checkPartial: () => Precondition<Value, Partial<Post>>;

@@ -1,7 +1,7 @@
 
 
 /**
- * Post checks module.
+ * CandidatePost checks module.
  * AUTO GENERATED! DO NOT EDIT DIRECTLY! 
  */
 /** imports **/
@@ -35,21 +35,19 @@ import {
     map as _recordMap,
 } from '@quenk/preconditions/lib/async/record';
 
-import { Post } from '@board/types/lib/post';
-import { validate, validatePartial } from '@board/validation/lib/post';
+import { CandidatePost } from '@board/types/lib/candidatepost';
+import { validate, validatePartial } from '@board/validation/lib/candidatepost';
 import { inc, unique } from './';
 
 //@ts-ignore: 6133
-const _title = 'Post';
+const _title = 'CandidatePost';
 //@ts-ignore: 6133
 const _collection = 'posts';
 
 /**
- * checks for Post provided as a map.
+ * checks for CandidatePost provided as a map.
  */
 export const checks: Preconditions<Value, Value> = {
-    'approved': _identity
-    ,
     'created_by': _identity
     ,
     'created_on': _identity
@@ -71,15 +69,15 @@ export const checks: Preconditions<Value, Value> = {
     'company_logo': _identity
     ,
     'apply_url': _identity
+    ,
+    'approved': _identity
 
 };
 
 /**
- * partialChecks for Post provided as a map.
+ * partialChecks for CandidatePost provided as a map.
  */
 export const partialChecks: Preconditions<Value, Value> = {
-    'approved': _identity
-    ,
     'created_by': _identity
     ,
     'created_on': _identity
@@ -101,6 +99,8 @@ export const partialChecks: Preconditions<Value, Value> = {
     'company_logo': _identity
     ,
     'apply_url': _identity
+    ,
+    'approved': _identity
 
 };
 
@@ -108,16 +108,16 @@ export const partialChecks: Preconditions<Value, Value> = {
 
 
 /**
- * check a Post value.
+ * check a CandidatePost value.
  */
-export const check = (): Precondition<Value, Post> =>
-    _and<Value, Post, Post>(_async(validate),
+export const check = (): Precondition<Value, CandidatePost> =>
+    _and<Value, CandidatePost, CandidatePost>(_async(validate),
         _restrict(checks));
 
 /**
- * checkPartial a partial Post value.
+ * checkPartial a partial CandidatePost value.
  */
-export const checkPartial = (): Precondition<Value, Partial<Post>> =>
-    _and<Value, Post, Post>(_async(validatePartial),
+export const checkPartial = (): Precondition<Value, Partial<CandidatePost>> =>
+    _and<Value, CandidatePost, CandidatePost>(_async(validatePartial),
         _intersect(partialChecks));
 

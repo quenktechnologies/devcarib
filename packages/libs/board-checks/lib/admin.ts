@@ -1,38 +1,88 @@
-import { inc, unique, bcrypt } from './';
+
+
+/**
+ * Admin checks module.
+ * AUTO GENERATED! DO NOT EDIT DIRECTLY! 
+ */
+/** imports **/
+//@ts-ignore: 6133
+import { merge as _merge } from '@quenk/noni/lib/data/record';
+//@ts-ignore: 6133
+import { Value, Object } from '@quenk/noni/lib/data/jsonx';
+//@ts-ignore: 6133
 import {
     Precondition,
-    async,
-    and,
-    identity
+    Preconditions,
+    optional as _optional,
+    discard as _discard,
+    and as _and,
+    or as _or,
+    match as _match,
+    caseOf as _caseOf,
+    async as _async,
+    identity as _identity,
+    every as _every,
+    reject as _reject
 } from '@quenk/preconditions/lib/async';
-import { restrict, intersect } from '@quenk/preconditions/lib/async/record';
-import { Value } from '@quenk/noni/lib/data/jsonx';
+//@ts-ignore: 6133
+import {
+    map as _map
+} from '@quenk/preconditions/lib/async/array';
+//@ts-ignore: 6133
+import {
+    restrict as _restrict,
+    intersect as _intersect,
+    map as _recordMap,
+} from '@quenk/preconditions/lib/async/record';
 
 import { Admin } from '@board/types/lib/admin';
-import { validate } from '@board/validation/lib/admin';
+import { validate, validatePartial } from '@board/validation/lib/admin';
+
+//@ts-ignore: 6133
+const _title = 'Admin';
 
 /**
- * post check function for Admin types.
+ * checks for Admin provided as a map.
  */
-export const post: Precondition<Value, Admin> = and(
-    async(validate), restrict<Value, Value, Admin>({
+export const checks: Preconditions<Value, Value> = {
+    'id': _identity
+    ,
+    'name': _identity
+    ,
+    'email': _identity
+    ,
+    'password': _identity
 
-        id: inc('admins'),
-
-        name: identity,
-
-        email: and(identity, unique('admins', 'email')),
-
-        password: bcrypt,
-
-    }));
+};
 
 /**
- * patch check function for Admin types.
+ * partialChecks for Admin provided as a map.
  */
-export const patch: Precondition<Value, Admin> = and(
-    async(validate), intersect<Value, Value, Admin>({
+export const partialChecks: Preconditions<Value, Value> = {
+    'id': _identity
+    ,
+    'name': _identity
+    ,
+    'email': _identity
+    ,
+    'password': _identity
 
-        password: bcrypt,
+};
 
-    }));
+
+
+
+/**
+ * check a Admin value.
+ */
+export const check = (): Precondition<Value, Admin> =>
+    _and<Value, Admin, Admin>(_async(validate),
+        _restrict(checks));
+
+/**
+ * checkPartial a partial Admin value.
+ */
+export const checkPartial = (): Precondition<Value, Partial<Admin>> =>
+    _and<Value, Admin, Admin>(_async(validatePartial),
+        _intersect(partialChecks));
+
