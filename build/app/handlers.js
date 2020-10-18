@@ -9,7 +9,7 @@ const pool_1 = require("@quenk/tendril/lib/app/api/pool");
 const api_1 = require("@quenk/tendril/lib/app/api");
 const record_1 = require("@quenk/noni/lib/data/record");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
-const post_1 = require("@board/checks/lib/post");
+const candidatepost_1 = require("@board/checks/lib/candidatepost");
 exports.ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 /**
  * showIndex of the site.
@@ -100,7 +100,7 @@ exports.logout = (req) => api_1.doAction(function* () {
  * createPost saves the submitted post data in the database for approval later.
  */
 exports.createPost = (r) => api_1.doAction(function* () {
-    let eResult = yield control_1.fork(post_1.check(r.body));
+    let eResult = yield control_1.fork(candidatepost_1.check()(r.body));
     if (eResult.isRight()) {
         let data = eResult.takeRight();
         let db = yield getMain();

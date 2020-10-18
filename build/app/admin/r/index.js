@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.template = void 0;
 const handlers_1 = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
-exports.template = (_app) => ({ 'id': `r`, 'app': { 'dirs': { 'self': `/Users/genora/board/build/app/admin/r` }, 'routes': (_m) => {
+exports.template = (_app) => ({ 'id': `r`, 'app': { 'dirs': { 'self': `/build/app/admin/r` }, 'routes': (_m) => {
             return [{ method: 'post', path: '/admins', filters: [handlers_1.adminsCtrl.create] },
                 { method: 'get', path: '/admins', filters: [handlers_1.adminsCtrl.search] },
                 { method: 'get', path: '/admins/:id', filters: [handlers_1.adminsCtrl.get] },

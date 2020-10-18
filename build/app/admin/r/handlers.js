@@ -98,8 +98,8 @@ class AdminsController extends BaseController {
     constructor() {
         super(...arguments);
         this.messages = messages;
-        this.checkCreate = adminChecks.post;
-        this.checkUpdate = adminChecks.patch;
+        this.checkCreate = adminChecks.check();
+        this.checkUpdate = adminChecks.checkPartial();
     }
     getModel() {
         return api_1.doAction(function* () {
@@ -127,8 +127,8 @@ class PostsController extends BaseController {
     constructor() {
         super(...arguments);
         this.messages = messages;
-        this.checkCreate = post_1.adminCheckPost;
-        this.checkUpdate = post_1.adminCheckPatch;
+        this.checkCreate = post_1.check();
+        this.checkUpdate = post_1.checkPartial();
     }
     getModel() {
         return api_1.doAction(function* () {

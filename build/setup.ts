@@ -10,7 +10,7 @@ import {
 import { App } from '@quenk/tendril/lib/app';
 
 import { Settings } from '@board/types/lib/settings';
-import { post as checkAdmin } from '@board/checks/lib/admin';
+import {  check } from '@board/checks/lib/admin';
 
 export const ADMIN_EMAIL = 'ADMIN_EMAIL';
 export const ADMIN_PWD = 'ADMIN_PASSWORD';
@@ -52,7 +52,7 @@ export class Setup {
             if ((email == null) || (password == null))
                 return raise(new Error(E_NO_ADMIN_CREDS));
 
-            let eAdmin = yield checkAdmin({
+            let eAdmin = yield check()({
                 name,
                 email,
                 password,

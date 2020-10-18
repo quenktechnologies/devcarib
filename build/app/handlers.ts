@@ -19,7 +19,7 @@ import { Request } from '@quenk/tendril/lib/app/api/request';
 import { isRecord } from '@quenk/noni/lib/data/record';
 import { fromCallback } from '@quenk/noni/lib/control/monad/future';
 
-import { check as checkPost } from '@board/checks/lib/post';
+import { check  } from '@board/checks/lib/candidatepost';
 
 export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 
@@ -170,7 +170,7 @@ export const logout = (req: Request): Action<undefined> =>
 export const createPost = (r: Request): Action<undefined> =>
     doAction(function*() {
 
-        let eResult = yield fork(checkPost(r.body));
+        let eResult = yield fork(check()(r.body));
 
         if (eResult.isRight()) {
 

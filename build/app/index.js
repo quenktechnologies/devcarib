@@ -9,7 +9,7 @@ const events = require("../events");
 const setup = require("../setup");
 const handlers_1 = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
-exports.template = (_app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/Users/genora/board/build/app`,
+exports.template = (_app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/app`,
             'public': [`public`, `../../packages/extras/board-views/public`, `../../packages/apps/board-form-post/public`, `../../packages/apps/board-admin/public`] }, 'session': { 'enable': true, 'options': { 'secret': process.env['SESSION_SECRET'], 'name': `bscid` },
             'store': { 'provider': tendrilSessionMongodb.provider, 'options': { 'uri': process.env['MONGO_URL'] } } }, 'csrf': { 'token': { 'enable': true,
                 'send_cookie': true } },

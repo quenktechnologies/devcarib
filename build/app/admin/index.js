@@ -4,7 +4,7 @@ exports.template = void 0;
 const r = require("./r");
 const handlers_1 = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
-exports.template = (_app) => ({ 'id': `admin`, 'app': { 'dirs': { 'self': `/Users/genora/board/build/app/admin` },
+exports.template = (_app) => ({ 'id': `admin`, 'app': { 'dirs': { 'self': `/build/app/admin` },
         'modules': { 'r': r.template }, 'routes': (_m) => {
             return [{ method: 'get', path: '/', filters: [handlers_1.adminCtl.showIndex] },
                 { method: 'get', path: '/login', filters: [handlers_1.adminCtl.showLoginForm] },

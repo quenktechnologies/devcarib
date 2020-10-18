@@ -8,7 +8,7 @@ import {App as App} from '@quenk/tendril/lib/app';
 
 export const template = (_app:App) : Template<App> =>(
  {'id': `r`,
-'app': {'dirs': {'self': `/Users/genora/board/build/app/admin/r`},
+'app': {'dirs': {'self': `/build/app/admin/r`},
 'routes': (_m:Module) => {
 
 return [{ method: 'post',path: '/admins',filters: [adminsCtrl.create  ]}
