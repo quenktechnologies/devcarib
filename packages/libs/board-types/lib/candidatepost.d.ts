@@ -3,14 +3,13 @@ import * as _json from '@quenk/noni/lib/data/jsonx';
  * DO NOT EDIT DIRECTLY! Changes will be lost.
  */
 /**
- * Posts
+ * CandidatePosts
  */
-export interface Posts {
-    [key: string]: Post;
+export interface CandidatePosts {
+    [key: string]: CandidatePost;
 }
-export interface Post extends _json.Object {
+export interface CandidatePost extends _json.Object {
     [key: string]: _json.Value;
-    'approved'?: boolean;
     'created_by'?: {
         [key: string]: _json.Value;
         'id'?: number;
@@ -30,4 +29,5 @@ export interface Post extends _json.Object {
     'company_email'?: string;
     'company_logo'?: string;
     'apply_url'?: string;
+    'approved'?: boolean;
 }
