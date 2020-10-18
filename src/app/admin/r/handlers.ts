@@ -21,7 +21,7 @@ import { BaseModel } from '@quenk/dback-model-mongodb';
 
 import { Post } from '@board/types/lib/post';
 import { Admin } from '@board/types/lib/admin';
-import { adminCheckPost, adminCheckPatch } from '@board/checks/lib/post';
+import { check, checkPartial } from '@board/checks/lib/post';
 
 const messages = {
 
@@ -168,9 +168,9 @@ export class AdminsController extends BaseController<Post> {
 
     messages = messages;
 
-    checkCreate = adminChecks.post;
+    checkCreate = adminChecks.check();
 
-    checkUpdate = adminChecks.patch;
+    checkUpdate = adminChecks.checkPartial();
 
     getModel(): Action<AdminModel> {
 
@@ -215,9 +215,9 @@ export class PostsController extends BaseController<Post> {
 
     messages = messages;
 
-    checkCreate = adminCheckPost;
+    checkCreate = check();
 
-    checkUpdate = adminCheckPatch;
+    checkUpdate = checkPartial();
 
     getModel(): Action<PostModel> {
 
