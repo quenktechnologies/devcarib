@@ -27,6 +27,6 @@ export interface CandidatePost extends _json.Object {
         [key: string]: _json.Value
 
         'id'?: number, 'username'?: string
-    }, 'id'?: number, 'title'?: string, 'description'?: string, 'company'?: string, 'company_email'?: string, 'company_logo'?: string, 'apply_url'?: string, 'approved'?: boolean
+    }, 'id'?: number, 'title'?: string, 'description'?: string, 'description_html'?: string, 'company'?: string, 'company_email'?: string, 'company_logo'?: string, 'apply_url'?: string, 'approved'?: boolean
 }
 
