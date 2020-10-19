@@ -25,18 +25,18 @@
   Turns an array schema into a precondition. 
   
   @param {Schema} type
-  @param {Precondition} recordFn
+  @param {string} mode
 
 #}
-{% macro arrayType2Test(type, recordFun) %}
+{% macro arrayType2Test(type, mode) %}
 
   {% set content -%}
-    _map({{type2Test(type.items, recordFun)}})
+    _map({{type2Test(type.items, mode)}})
   {%- endset %}
 
-  {% if hasTest(type) -%}
+  {% if hasChecks(type,mode) -%}
    {% set content -%}
-   _and({{content}}, {{getTest(type)}})
+   _and({{content}}, _every<Value,Value>({{getChecks(type, mode)|join(',')}}))
    {%- endset %}
   {% endif %}
 
@@ -47,8 +47,10 @@
 {# turns an object schema into a record of preconditions
   
   @param {Schema} type
+  @param {string} mode  - Either "complete" or "partial".
+
 #}
-{% macro objectType2Test (type, recordFun) %}
+{% macro objectType2Test (type, mode) %}
 
   {% if isObject(type.additionalProperties) %}
 
@@ -60,10 +62,10 @@
   {% elseif isObject(type.properties) %}
 
     {%- set content -%}
-       _record<Value, Value, {{type.title}}>({
+      {{mode}}<Value, Value, {{type.title}}>({
         {% for key,value in type.properties %}
-          {% if (not value.readOnly) or hasTest(value)  %}
-            '{{key}}' : {{type2Test(value, recordFun)|trim}}{% if not loop.last %},{% endif %}
+          {% if (not value.readOnly) or hasCheck(value, mode)  %}
+            '{{key}}' : {{type2Test(value, mode)|trim}}{% if not loop.last %},{% endif %}
             {{"\n"}}
           {% endif %}
         {%- endfor -%}
@@ -76,10 +78,10 @@
 
   {% endif %}
 
-  {% if hasTest(type) -%}
+  {% if hasCheck(type, mode) -%}
 
    {% set content -%}
-    _and({{content}}, {{getTest(type)}})
+   _and({{content}}, _every<Value,Value>({{getChecks(type, mode)|join(',')}}))
    {%- endset %}
 
   {% endif %}
@@ -92,15 +94,15 @@
   
   turn a sum schema into a precondition 
   @param {Schema} type
-  @param {Precondition} recordFn
+  @param {string} mode
 
 #}
-{% macro sumType2Test (type, recordFn) %}
+{% macro sumType2Test (type, mode) %}
 
   {% if type.discriminator.type == 'rw' %}
 
     {%- set content -%}
-     {{type2Test(type.variants.write, recordFn)}}
+     {{type2Test(type.variants.write, mode)}}
     {%- endset -%}
 
   {% elseif type.discriminator.type == 'shape' %}
@@ -110,7 +112,7 @@
       {%- for key,variant in type.variants -%}
 
       {% set shape =  variant.discriminator %}
-      {% set validator =  type2Test(variant,recordFn) %}
+      {% set validator =  type2Test(variant,mode) %}
       _caseOf({{shape|dump}}, {{validator}}){% if not loop.last %},{% endif %}
 
       {%- endfor -%})
@@ -132,14 +134,15 @@
   turns any schema type into a validator 
 
   @param {Schema} type
-  @param {Precondition} recordFn
+  @param {string} mode
 
 #}
-{% macro anyType2Test(type) %}
+{% macro anyType2Test(type, mode) %}
 
-    {% if hasTest(type) -%}
+    {% if hasChecks(type, mode) -%}
 
-      {%- set content -%}{{getTest(type)}}{%- endset -%}
+      {%- set content -%}
+        _every<Value,Value>({{getChecks(type, mode)|join(',')}}){%- endset -%}
       {{ optional(type, content) | trim }}
 
     {%- else -%}
@@ -155,26 +158,26 @@
   turns a type into a precondition. 
   
   @param {Schema} type
-  @param {Precondition} recordFn
+  @param {string} mode  
 
 #}
-{% macro type2Test(type, recordFn="_restrict") %}
+{% macro type2Test(type, mode="complete") %}
 
   {%- if isArrayType(type) -%}
 
-    {{arrayType2Test(type,recordFn)}}
+    {{arrayType2Test(type, mode)}}
 
   {%- elseif isObjectType(type) -%}
     
-    {{objectType2Test(type,recordFn) | trim }}
+    {{objectType2Test(type, mode) | trim }}
 
   {%- elseif isSumType(type) -%}
 
-    {{sumType2Test(type,recordFn) | trim }}
+    {{sumType2Test(type, mode) | trim }}
     
   {%- else -%}
 
-    {{anyType2Test(type,recordFn) | trim }}
+    {{anyType2Test(type, mode) | trim }}
     
   {%- endif -%}
 

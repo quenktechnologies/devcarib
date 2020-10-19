@@ -15,24 +15,24 @@ var _string = preconditions_1.and(string_1.isString, string_1.trim);
  * validators for CandidatePost provided as a map.
  */
 exports.validators = {
-    'title': preconditions_1.and(_string, _1.textsmall),
-    'description': preconditions_1.and(_string, _1.textlarge),
-    'company': preconditions_1.and(_string, _1.name),
-    'company_email': preconditions_1.and(_string, _1.email),
-    'company_logo': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
-    'apply_url': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
+    'title': preconditions_1.and(_string, preconditions_1.every(_1.textsmall)),
+    'description': preconditions_1.and(_string, preconditions_1.every(_1.textlarge)),
+    'company': preconditions_1.and(_string, preconditions_1.every(_1.name)),
+    'company_email': preconditions_1.and(_string, preconditions_1.every(_1.email)),
+    'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
+    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
     'approved': boolean_1.isBoolean
 };
 /**
  * partialValidators for CandidatePost provided as a map.
  */
 exports.partialValidators = {
-    'title': preconditions_1.and(_string, _1.textsmall),
-    'description': preconditions_1.and(_string, _1.textlarge),
-    'company': preconditions_1.and(_string, _1.name),
-    'company_email': preconditions_1.and(_string, _1.email),
-    'company_logo': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
-    'apply_url': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
+    'title': preconditions_1.and(_string, preconditions_1.every(_1.textsmall)),
+    'description': preconditions_1.and(_string, preconditions_1.every(_1.textlarge)),
+    'company': preconditions_1.and(_string, preconditions_1.every(_1.name)),
+    'company_email': preconditions_1.and(_string, preconditions_1.every(_1.email)),
+    'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
+    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
     'approved': boolean_1.isBoolean
 };
 /**

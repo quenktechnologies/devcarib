@@ -2,12 +2,23 @@ import * as bcryptjs from 'bcryptjs';
 import * as uuid from 'uuid';
 import * as mongodb from 'mongodb';
 import * as moment from 'moment';
+import * as marked from 'marked';
+import * as sanitize from 'sanitize-html';
 
-import { Value } from '@quenk/noni/lib/data/jsonx';
-import { Future, fromCallback, pure } from '@quenk/noni/lib/control/monad/future';
+import { Object, Value } from '@quenk/noni/lib/data/jsonx';
+import {
+    Future,
+    fromCallback,
+    pure
+} from '@quenk/noni/lib/control/monad/future';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
 import { unsafeGet } from '@quenk/noni/lib/data/record/path';
-import { Result as SResult, succeed, fail } from '@quenk/preconditions/lib/result';
+import { isObject } from '@quenk/noni/lib/data/type';
+import {
+    Result as SResult,
+    succeed,
+    fail
+} from '@quenk/preconditions/lib/result';
 import { Precondition } from '@quenk/preconditions/lib/async';
 import {
     findOneAndUpdate, count
@@ -101,3 +112,33 @@ const getMain = (id: string): Future<mongodb.Db> =>
  */
 export const timestamp = (): Result<Value, Value> =>
     pure(succeed(<Value>moment.utc().toDate()));
+
+/**
+ * parseMarkdown parses the value of a property on a object as markdown
+ * and sets the result to the target destination.
+ */
+export const parseMarkdown =
+    (src: string, dest: string) =>
+        (value: Value): Result<Value, Value> => fromCallback(cb => {
+
+            if (!isObject(value)) return             cb(null, succeed(value));
+
+            let val = <Object>value;
+
+            if(val[src] == null) return cb(null, succeed(value));
+
+            let raw = marked(String(val[src]), { breaks: true, gfm: true });
+
+            val[dest] = sanitize(raw, {
+
+                allowedTags: [
+                    'b', 'i', 'em', 'strong', 'p', 'h1', 'h2', 'h3', 'h4', 'h5',
+                    'h6', 'div', 'span', 'ul', 'ol', 'li', 'blockquote', 'hr'
+                ],
+                allowedAttributes: {}
+
+            });
+
+            cb(null, succeed(val));
+
+        });

@@ -23,8 +23,8 @@ import { isArray as _isArray, map as _map } from '@quenk/preconditions/lib/array
 //@ts-ignore: 6133
 import {
     isRecord as _isRecord,
-    restrict as _restrict,
-    intersect as _intersect,
+    restrict as complete,
+    intersect as partial,
     map as _recordMap
 } from '@quenk/preconditions/lib/record';
 //@ts-ignore: 6133
@@ -49,18 +49,26 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
 export const validators: Preconditions<Value, Value> = {
     'approved': _boolean,
 
-    'title': _and(_string, textsmall),
+    'title': _and(_string,
+        _every<Value, Value>(textsmall)),
 
-    'description': _and(_string, textlarge),
+    'description': _and(_string,
+        _every<Value, Value>(textlarge)),
 
-    'company': _and(_string, name),
+    'company': _and(_string,
+        _every<Value, Value>(name)),
 
-    'company_email': _and(_string, email),
+    'company_email': _and(_string,
+        _every<Value, Value>(email)),
 
-    'company_logo': _optional(_and(_string, url)
+    'company_logo': _optional(_and(_string,
+        _every<Value, Value>(url))
+
     ),
 
-    'apply_url': _optional(_and(_string, url)
+    'apply_url': _optional(_and(_string,
+        _every<Value, Value>(url))
+
     )
 
 };
@@ -71,18 +79,26 @@ export const validators: Preconditions<Value, Value> = {
 export const partialValidators: Preconditions<Value, Value> = {
     'approved': _boolean,
 
-    'title': _and(_string, textsmall),
+    'title': _and(_string,
+        _every<Value, Value>(textsmall)),
 
-    'description': _and(_string, textlarge),
+    'description': _and(_string,
+        _every<Value, Value>(textlarge)),
 
-    'company': _and(_string, name),
+    'company': _and(_string,
+        _every<Value, Value>(name)),
 
-    'company_email': _and(_string, email),
+    'company_email': _and(_string,
+        _every<Value, Value>(email)),
 
-    'company_logo': _optional(_and(_string, url)
+    'company_logo': _optional(_and(_string,
+        _every<Value, Value>(url))
+
     ),
 
-    'apply_url': _optional(_and(_string, url)
+    'apply_url': _optional(_and(_string,
+        _every<Value, Value>(url))
+
     )
 
 };
@@ -91,12 +107,12 @@ export const partialValidators: Preconditions<Value, Value> = {
  * validate a single Value against the rules for Post.
  */
 export const validate: Precondition<Value, Post> =
-    _and(_isRecord, _restrict<Value, Value, Post>(validators));
+    _and(_isRecord, complete<Value, Value, Post>(validators));
 
 /**
  * validate a single Value against the rules for a partial Post.
  */
 export const validatePartial: Precondition<Value, Partial<Post>> =
-    _and(_isRecord, _intersect<Value, Value, Post>(partialValidators));
+    _and(_isRecord, partial<Value, Value, Post>(partialValidators));
 
 

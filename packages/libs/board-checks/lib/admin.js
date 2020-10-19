@@ -15,7 +15,7 @@ var _collection = 'admins';
  * checks for Admin provided as a map.
  */
 exports.checks = {
-    'id': async_1.every(_1.inc('counters.admin'), _1.unique('admins', 'id')),
+    'id': async_1.every(_1.inc('counters.admins'), _1.unique('admins', 'id')),
     'name': async_1.identity,
     'email': async_1.identity,
     'password': async_1.identity
@@ -24,7 +24,7 @@ exports.checks = {
  * partialChecks for Admin provided as a map.
  */
 exports.partialChecks = {
-    'id': async_1.every(_1.inc('counters.admin'), _1.unique('admins', 'id')),
+    'id': async_1.identity,
     'name': async_1.identity,
     'email': async_1.identity,
     'password': async_1.identity

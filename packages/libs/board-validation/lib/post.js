@@ -16,24 +16,24 @@ var _string = preconditions_1.and(string_1.isString, string_1.trim);
  */
 exports.validators = {
     'approved': boolean_1.isBoolean,
-    'title': preconditions_1.and(_string, _1.textsmall),
-    'description': preconditions_1.and(_string, _1.textlarge),
-    'company': preconditions_1.and(_string, _1.name),
-    'company_email': preconditions_1.and(_string, _1.email),
-    'company_logo': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
-    'apply_url': preconditions_1.optional(preconditions_1.and(_string, _1.url))
+    'title': preconditions_1.and(_string, preconditions_1.every(_1.textsmall)),
+    'description': preconditions_1.and(_string, preconditions_1.every(_1.textlarge)),
+    'company': preconditions_1.and(_string, preconditions_1.every(_1.name)),
+    'company_email': preconditions_1.and(_string, preconditions_1.every(_1.email)),
+    'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
+    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url)))
 };
 /**
  * partialValidators for Post provided as a map.
  */
 exports.partialValidators = {
     'approved': boolean_1.isBoolean,
-    'title': preconditions_1.and(_string, _1.textsmall),
-    'description': preconditions_1.and(_string, _1.textlarge),
-    'company': preconditions_1.and(_string, _1.name),
-    'company_email': preconditions_1.and(_string, _1.email),
-    'company_logo': preconditions_1.optional(preconditions_1.and(_string, _1.url)),
-    'apply_url': preconditions_1.optional(preconditions_1.and(_string, _1.url))
+    'title': preconditions_1.and(_string, preconditions_1.every(_1.textsmall)),
+    'description': preconditions_1.and(_string, preconditions_1.every(_1.textlarge)),
+    'company': preconditions_1.and(_string, preconditions_1.every(_1.name)),
+    'company_email': preconditions_1.and(_string, preconditions_1.every(_1.email)),
+    'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
+    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url)))
 };
 /**
  * validate a single Value against the rules for Post.

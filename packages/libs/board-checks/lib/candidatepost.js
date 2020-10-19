@@ -19,9 +19,10 @@ exports.checks = {
     'created_on': async_1.identity,
     'last_updated_on': async_1.identity,
     'last_updated_by': async_1.identity,
-    'id': async_1.every(_1.inc('counters.post'), _1.unique('posts', 'id')),
+    'id': async_1.every(_1.inc('counters.posts'), _1.unique('posts', 'id')),
     'title': async_1.identity,
     'description': async_1.identity,
+    'description_html': async_1.identity,
     'company': async_1.identity,
     'company_email': async_1.identity,
     'company_logo': async_1.identity,
@@ -36,9 +37,10 @@ exports.partialChecks = {
     'created_on': async_1.identity,
     'last_updated_on': async_1.identity,
     'last_updated_by': async_1.identity,
-    'id': async_1.every(_1.inc('counters.post'), _1.unique('posts', 'id')),
+    'id': async_1.identity,
     'title': async_1.identity,
     'description': async_1.identity,
+    'description_html': async_1.identity,
     'company': async_1.identity,
     'company_email': async_1.identity,
     'company_logo': async_1.identity,
@@ -49,12 +51,12 @@ exports.partialChecks = {
  * check a CandidatePost value.
  */
 exports.check = function () {
-    return async_1.and(async_1.async(candidatepost_1.validate), record_1.restrict(exports.checks));
+    return async_1.and(async_1.every(_1.parseMarkdown('description', 'description_html')), async_1.and(async_1.async(candidatepost_1.validate), record_1.restrict(exports.checks)));
 };
 /**
  * checkPartial a partial CandidatePost value.
  */
 exports.checkPartial = function () {
-    return async_1.and(async_1.async(candidatepost_1.validatePartial), record_1.intersect(exports.partialChecks));
+    return async_1.and(async_1.every(_1.parseMarkdown('description', 'description_html')), async_1.and(async_1.async(candidatepost_1.validatePartial), record_1.intersect(exports.partialChecks)));
 };
 //# sourceMappingURL=candidatepost.js.map

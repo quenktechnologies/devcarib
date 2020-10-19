@@ -1,4 +1,4 @@
-# Valdation
+# Validation
 
 This provides a module that generates preconditions for validation using 
 the [@quenk/dagen][1] tool.
@@ -8,8 +8,35 @@ for its declared type. Validation is not about ensuring data is fit for purpose,
 that should be done at the verification or check phase.
 
 This module generates a module for each of the data models defined in your
-projects's $SCHEMA_DIR/models. The generated module has a structure that looks
-like the following:
+project's $SCHEMA_DIR/models using the "validation" property.
+
+The syntax of that property is one of the following:
+
+```json
+{
+
+"validation": "@quenk/validation#myCheck"
+
+"validation": ["@quenk/validation#myCheckWithArgs", [1, "'two'", true]],
+
+"validation": [
+  
+  "@quenk/validation#myCheck"
+
+  ["@quenk/validation#myCheckWithArgs", [1, "'two'", true]],
+
+]
+
+}
+
+```
+
+The first example references a single validator using module pointer syntax.
+The second references a function that accepts three arguments to provide the
+validator and the final indicates how to specify multiple validators which will
+all be AND'd together.
+
+The generated module has a structure that looks like the following:
 
 ```typescript
 // A map of Preconditions that should be used to validate new data.

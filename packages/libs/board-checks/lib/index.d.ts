@@ -27,3 +27,8 @@ export declare const inc: (field: string, dbid?: string) => (_: Value) => Result
  * timestamp provides the current UTC datetime as a Date object.
  */
 export declare const timestamp: () => Result<Value, Value>;
+/**
+ * parseMarkdown parses the value of a property on a object as markdown
+ * and sets the result to the target destination.
+ */
+export declare const parseMarkdown: (src: string, dest: string) => (value: Value) => Result<Value, Value>;

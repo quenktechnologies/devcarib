@@ -13,17 +13,17 @@ var _string = preconditions_1.and(string_1.isString, string_1.trim);
  * validators for Admin provided as a map.
  */
 exports.validators = {
-    'name': preconditions_1.and(_string, _1.name),
-    'email': preconditions_1.and(_string, _1.email),
-    'password': preconditions_1.and(_string, _1.password)
+    'name': preconditions_1.and(_string, preconditions_1.every(_1.name)),
+    'email': preconditions_1.and(_string, preconditions_1.every(_1.email)),
+    'password': preconditions_1.and(_string, preconditions_1.every(_1.password))
 };
 /**
  * partialValidators for Admin provided as a map.
  */
 exports.partialValidators = {
-    'name': preconditions_1.and(_string, _1.name),
-    'email': preconditions_1.and(_string, _1.email),
-    'password': preconditions_1.and(_string, _1.password)
+    'name': preconditions_1.and(_string, preconditions_1.every(_1.name)),
+    'email': preconditions_1.and(_string, preconditions_1.every(_1.email)),
+    'password': preconditions_1.and(_string, preconditions_1.every(_1.password))
 };
 /**
  * validate a single Value against the rules for Admin.

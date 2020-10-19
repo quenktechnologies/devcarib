@@ -27,13 +27,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.SETTINGS_ID = void 0;
+exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.SETTINGS_ID = void 0;
 var bcryptjs = require("bcryptjs");
 var uuid = require("uuid");
 var moment = require("moment");
+var marked = require("marked");
+var sanitize = require("sanitize-html");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var monad_1 = require("@quenk/noni/lib/control/monad");
 var path_1 = require("@quenk/noni/lib/data/record/path");
+var type_1 = require("@quenk/noni/lib/data/type");
 var result_1 = require("@quenk/preconditions/lib/result");
 var collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
 var connection_1 = require("@quenk/tendril/lib/app/connection");
@@ -135,5 +138,27 @@ var getMain = function (id) {
  */
 exports.timestamp = function () {
     return future_1.pure(result_1.succeed(moment.utc().toDate()));
+};
+/**
+ * parseMarkdown parses the value of a property on a object as markdown
+ * and sets the result to the target destination.
+ */
+exports.parseMarkdown = function (src, dest) {
+    return function (value) { return future_1.fromCallback(function (cb) {
+        if (!type_1.isObject(value))
+            return cb(null, result_1.succeed(value));
+        var val = value;
+        if (val[src] == null)
+            return cb(null, result_1.succeed(value));
+        var raw = marked(String(val[src]), { breaks: true, gfm: true });
+        val[dest] = sanitize(raw, {
+            allowedTags: [
+                'b', 'i', 'em', 'strong', 'p', 'h1', 'h2', 'h3', 'h4', 'h5',
+                'h6', 'div', 'span', 'ul', 'ol', 'li', 'blockquote', 'hr'
+            ],
+            allowedAttributes: {}
+        });
+        cb(null, result_1.succeed(val));
+    }); };
 };
 //# sourceMappingURL=index.js.map

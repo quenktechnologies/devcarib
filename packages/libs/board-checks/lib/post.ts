@@ -30,14 +30,14 @@ import {
 } from '@quenk/preconditions/lib/async/array';
 //@ts-ignore: 6133
 import {
-    restrict as _restrict,
-    intersect as _intersect,
+    restrict as complete,
+    intersect as partial,
     map as _recordMap,
 } from '@quenk/preconditions/lib/async/record';
 
 import { Post } from '@board/types/lib/post';
 import { validate, validatePartial } from '@board/validation/lib/post';
-import { inc, unique } from './';
+import { parseMarkdown, inc, unique } from './';
 
 //@ts-ignore: 6133
 const _title = 'Post';
@@ -58,11 +58,13 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'last_updated_by': _identity
     ,
-    'id': _every<Value, Value>(inc('counters.post'), unique('posts', 'id'))
+    'id': _every<Value, Value>(inc('counters.posts'), unique('posts', 'id'))
     ,
     'title': _identity
     ,
     'description': _identity
+    ,
+    'description_html': _identity
     ,
     'company': _identity
     ,
@@ -88,11 +90,13 @@ export const partialChecks: Preconditions<Value, Value> = {
     ,
     'last_updated_by': _identity
     ,
-    'id': _every<Value, Value>(inc('counters.post'), unique('posts', 'id'))
+    'id': _identity
     ,
     'title': _identity
     ,
     'description': _identity
+    ,
+    'description_html': _identity
     ,
     'company': _identity
     ,
@@ -105,19 +109,19 @@ export const partialChecks: Preconditions<Value, Value> = {
 };
 
 
-
-
 /**
  * check a Post value.
  */
 export const check = (): Precondition<Value, Post> =>
-    _and<Value, Post, Post>(_async(validate),
-        _restrict(checks));
+    _and(_every<Value, Value>(parseMarkdown('description', 'description_html')),
+        _and<Value, Post, Post>(_async(validate),
+            complete(checks)));
 
 /**
  * checkPartial a partial Post value.
  */
 export const checkPartial = (): Precondition<Value, Partial<Post>> =>
-    _and<Value, Post, Post>(_async(validatePartial),
-        _intersect(partialChecks));
+    _and(_every<Value, Value>(parseMarkdown('description', 'description_html')),
+        _and<Value, Post, Post>(_async(validatePartial),
+            partial(partialChecks)));
 

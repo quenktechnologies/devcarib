@@ -23,8 +23,8 @@ import { isArray as _isArray, map as _map } from '@quenk/preconditions/lib/array
 //@ts-ignore: 6133
 import {
     isRecord as _isRecord,
-    restrict as _restrict,
-    intersect as _intersect,
+    restrict as complete,
+    intersect as partial,
     map as _recordMap
 } from '@quenk/preconditions/lib/record';
 //@ts-ignore: 6133
@@ -66,12 +66,12 @@ export const partialValidators: Preconditions<Value, Value> = {
  * validate a single Value against the rules for Login.
  */
 export const validate: Precondition<Value, Login> =
-    _and(_isRecord, _restrict<Value, Value, Login>(validators));
+    _and(_isRecord, complete<Value, Value, Login>(validators));
 
 /**
  * validate a single Value against the rules for a partial Login.
  */
 export const validatePartial: Precondition<Value, Partial<Login>> =
-    _and(_isRecord, _intersect<Value, Value, Login>(partialValidators));
+    _and(_isRecord, partial<Value, Value, Login>(partialValidators));
 
 

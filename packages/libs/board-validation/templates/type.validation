@@ -24,8 +24,8 @@ import { isArray as _isArray, map as _map } from '@quenk/preconditions/lib/array
 //@ts-ignore: 6133
 import {
 isRecord as _isRecord,
-restrict as _restrict,
-intersect as _intersect,
+restrict as complete,
+intersect as partial,
 map as _recordMap
 } from '@quenk/preconditions/lib/record';
 //@ts-ignore: 6133
@@ -59,8 +59,8 @@ _and(_isRecord, _recordMap<Value, Value, {{document.title}}>(
  */ 
 export const validators:Preconditions<Value, Value> = {
   {% for key,value in document.properties %}
-    {% if (not value.readOnly) or hasTest(value) %}
-      '{{key}}' : {{type2Test(value,"_restrict")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
+    {% if (not value.readOnly) or hasValidators(value) %}
+      '{{key}}' : {{type2Test(value, "complete")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
     {% endif %}
   {%- endfor -%}
 };
@@ -70,8 +70,8 @@ export const validators:Preconditions<Value, Value> = {
  */ 
 export const partialValidators:Preconditions<Value, Value> = {
   {% for key,value in document.properties %}
-    {% if (not value.readOnly) or hasTest(value) %}
-      '{{key}}' : {{type2Test(value,"_intersect")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
+    {% if (not value.readOnly) or hasValidators(value, 'partial') %}
+      '{{key}}' : {{type2Test(value,"partial")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
     {% endif %}
   {%- endfor -%}
 };
@@ -80,12 +80,12 @@ export const partialValidators:Preconditions<Value, Value> = {
  * validate a single Value against the rules for {{document.title}}.
  */
 export const validate : Precondition<Value, {{document.title}}> =
-_and(_isRecord, _restrict<Value, Value, {{document.title}}>(validators));
+_and(_isRecord, complete<Value, Value, {{document.title}}>(validators));
 
 /**
  * validate a single Value against the rules for a partial {{document.title}}.
  */
 export const validatePartial : Precondition<Value, Partial<{{document.title}}>> =
-_and(_isRecord, _intersect<Value, Value, {{document.title}}>(partialValidators));
+_and(_isRecord, partial<Value, Value, {{document.title}}>(partialValidators));
 
 {% endif %}

@@ -30,8 +30,8 @@ import {
 } from '@quenk/preconditions/lib/async/array';
 //@ts-ignore: 6133
 import {
-    restrict as _restrict,
-    intersect as _intersect,
+    restrict as complete,
+    intersect as partial,
     map as _recordMap,
 } from '@quenk/preconditions/lib/async/record';
 
@@ -48,7 +48,7 @@ const _collection = 'admins';
  * checks for Admin provided as a map.
  */
 export const checks: Preconditions<Value, Value> = {
-    'id': _every<Value, Value>(inc('counters.admin'), unique('admins', 'id'))
+    'id': _every<Value, Value>(inc('counters.admins'), unique('admins', 'id'))
     ,
     'name': _identity
     ,
@@ -62,7 +62,7 @@ export const checks: Preconditions<Value, Value> = {
  * partialChecks for Admin provided as a map.
  */
 export const partialChecks: Preconditions<Value, Value> = {
-    'id': _every<Value, Value>(inc('counters.admin'), unique('admins', 'id'))
+    'id': _identity
     ,
     'name': _identity
     ,
@@ -73,19 +73,17 @@ export const partialChecks: Preconditions<Value, Value> = {
 };
 
 
-
-
 /**
  * check a Admin value.
  */
 export const check = (): Precondition<Value, Admin> =>
     _and<Value, Admin, Admin>(_async(validate),
-        _restrict(checks));
+        complete(checks));
 
 /**
  * checkPartial a partial Admin value.
  */
 export const checkPartial = (): Precondition<Value, Partial<Admin>> =>
     _and<Value, Admin, Admin>(_async(validatePartial),
-        _intersect(partialChecks));
+        partial(partialChecks));
 

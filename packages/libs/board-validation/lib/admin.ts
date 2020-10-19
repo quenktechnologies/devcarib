@@ -23,8 +23,8 @@ import { isArray as _isArray, map as _map } from '@quenk/preconditions/lib/array
 //@ts-ignore: 6133
 import {
     isRecord as _isRecord,
-    restrict as _restrict,
-    intersect as _intersect,
+    restrict as complete,
+    intersect as partial,
     map as _recordMap
 } from '@quenk/preconditions/lib/record';
 //@ts-ignore: 6133
@@ -47,11 +47,14 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for Admin provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'name': _and(_string, name),
+    'name': _and(_string,
+        _every<Value, Value>(name)),
 
-    'email': _and(_string, email),
+    'email': _and(_string,
+        _every<Value, Value>(email)),
 
-    'password': _and(_string, password)
+    'password': _and(_string,
+        _every<Value, Value>(password))
 
 };
 
@@ -59,11 +62,14 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for Admin provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'name': _and(_string, name),
+    'name': _and(_string,
+        _every<Value, Value>(name)),
 
-    'email': _and(_string, email),
+    'email': _and(_string,
+        _every<Value, Value>(email)),
 
-    'password': _and(_string, password)
+    'password': _and(_string,
+        _every<Value, Value>(password))
 
 };
 
@@ -71,12 +77,12 @@ export const partialValidators: Preconditions<Value, Value> = {
  * validate a single Value against the rules for Admin.
  */
 export const validate: Precondition<Value, Admin> =
-    _and(_isRecord, _restrict<Value, Value, Admin>(validators));
+    _and(_isRecord, complete<Value, Value, Admin>(validators));
 
 /**
  * validate a single Value against the rules for a partial Admin.
  */
 export const validatePartial: Precondition<Value, Partial<Admin>> =
-    _and(_isRecord, _intersect<Value, Value, Admin>(partialValidators));
+    _and(_isRecord, partial<Value, Value, Admin>(partialValidators));
 
 

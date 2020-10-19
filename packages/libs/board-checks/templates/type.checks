@@ -35,8 +35,8 @@ map as _map
 } from '@quenk/preconditions/lib/async/array';
 //@ts-ignore: 6133
 import {
-restrict as _restrict,
-intersect as _intersect,
+restrict as complete,
+intersect as partial,
 map as _recordMap,
 } from '@quenk/preconditions/lib/async/record';
 
@@ -56,8 +56,8 @@ const _collection = '{{document.collection}}';
  */ 
 export const checks:Preconditions<Value, Value> = {
   {% for key,value in document.properties %}
-    '{{key}}':  {% if (not value.readOnly) or hasTest(value) %}
-                 {{type2Test(value, "_restrict")|trim}}
+    '{{key}}':  {% if (not value.readOnly) or hasChecks(value,"complete") %}
+                 {{type2Test(value, "complete")|trim}}
                 {% else %}
                   _identity
                   {% endif %}{% if not loop.last %},{% endif %}{{"\n"}}
@@ -69,8 +69,8 @@ export const checks:Preconditions<Value, Value> = {
  */ 
 export const partialChecks:Preconditions<Value, Value> = {
   {% for key,value in document.properties %}
-    '{{key}}':  {% if (not value.readOnly) or hasTest(value) %}
-                 {{type2Test(value, "_intersect")|trim}}
+    '{{key}}':  {% if (not value.readOnly) or hasChecks(value,"partial") %}
+                 {{type2Test(value, "partial")|trim}}
                 {% else %}
                   _identity
                   {% endif %}{% if not loop.last %},{% endif %}{{"\n"}}
@@ -83,24 +83,28 @@ export const partialChecks:Preconditions<Value, Value> = {
   {% endif %}
 {%- endset %}
 
-
-
 /**
  * check a {{document.title}} value.
  */
 export const check = ({{params}}) : Precondition<Value, {{document.title}}> => 
-  {% if hasTest(document) %}
-    _and({{ getTest(document) }},
+  {% if hasChecks(document,"complete") %}
+    _and(_every<Value,Value>({{getChecks(document,"complete") | join(',')}}),
      _and<Value, {{document.title}},{{document.title}}>(_async(validate),
-      _restrict(checks)));
+      complete(checks)));
   {% else %}
     _and<Value, {{document.title}},{{document.title}}>(_async(validate),
-      _restrict(checks));
+      complete(checks));
   {% endif %}
 
 /**
  * checkPartial a partial {{document.title}} value.
  */
  export const checkPartial = ({{params}}) : Precondition<Value, Partial<{{document.title}}>> => 
- _and<Value, {{document.title}},{{document.title}}>(_async(validatePartial), 
-   _intersect(partialChecks));
+  {% if hasChecks(document, "partial") %}
+    _and(_every<Value,Value>({{getChecks(document,"partial") | join(',')}}),
+     _and<Value, {{document.title}},{{document.title}}>(_async(validatePartial),
+      partial(partialChecks)));
+  {% else %}
+    _and<Value, {{document.title}},{{document.title}}>(_async(validatePartial), 
+   partial(partialChecks));  
+  {% endif %}
