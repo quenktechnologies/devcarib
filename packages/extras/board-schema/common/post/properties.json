@@ -6,9 +6,9 @@
 
         "readOnly": true,
 
-        "checks": [
+        "checks-complete": [
 
-            ["./#inc", ["'counters.post'"]],
+            ["./#inc", ["'counters.posts'"]],
 
             ["./#unique", ["'posts'", "'id'"]]
 
@@ -29,6 +29,14 @@
         "type": "string",
 
         "validation": "./#textlarge"
+
+    },
+
+    "description_html": {
+
+        "type": "string",
+
+        "readOnly": true
 
     },
 

@@ -26,9 +26,9 @@
 
             "readOnly": true,
 
-            "checks": [
+            "checks-complete": [
 
-                ["./#inc", ["'counters.admin'"]],
+                ["./#inc", ["'counters.admins'"]],
 
                 ["./#unique", ["'admins'", "'id'"]]
 

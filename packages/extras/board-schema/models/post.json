@@ -26,6 +26,10 @@
 
     },
 
+    "checks": [
+        ["./#parseMarkdown", ["'description'", "'description_html'"]]
+    ],
+
     "properties": {
 
         "$ref": [

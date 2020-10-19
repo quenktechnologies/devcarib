@@ -26,13 +26,17 @@
 
     },
 
+    "checks": [
+        ["./#parseMarkdown", ["'description'", "'description_html'"]]
+    ],
+
     "properties": {
 
         "$ref": [
 
-          "../common/models/properties.json",
+            "../common/models/properties.json",
 
-          "../common/post/properties.json"
+            "../common/post/properties.json"
 
         ]
 
