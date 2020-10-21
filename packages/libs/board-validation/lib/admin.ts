@@ -12,6 +12,7 @@ import { Value, Object } from '@quenk/noni/lib/data/jsonx';
 import {
     Precondition,
     Preconditions,
+    notNull as _notNull,
     optional as _optional,
     and as _and,
     every as _every,
@@ -47,14 +48,20 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for Admin provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'name': _and(_string,
-        _every<Value, Value>(name)),
+    'name': _and(_notNull, _and(_string,
+        _every<Value, Value>(name))
 
-    'email': _and(_string,
-        _every<Value, Value>(email)),
+    ),
 
-    'password': _and(_string,
+    'email': _and(_notNull, _and(_string,
+        _every<Value, Value>(email))
+
+    ),
+
+    'password': _and(_notNull, _and(_string,
         _every<Value, Value>(password))
+
+    )
 
 };
 
@@ -62,14 +69,20 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for Admin provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'name': _and(_string,
-        _every<Value, Value>(name)),
+    'name': _and(_notNull, _and(_string,
+        _every<Value, Value>(name))
 
-    'email': _and(_string,
-        _every<Value, Value>(email)),
+    ),
 
-    'password': _and(_string,
+    'email': _and(_notNull, _and(_string,
+        _every<Value, Value>(email))
+
+    ),
+
+    'password': _and(_notNull, _and(_string,
         _every<Value, Value>(password))
+
+    )
 
 };
 

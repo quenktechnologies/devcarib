@@ -13,6 +13,7 @@ import {Value, Object} from '@quenk/noni/lib/data/jsonx';
 import {
 Precondition,
 Preconditions,
+notNull as _notNull,
 optional as _optional,
 and as _and,
 every as _every,

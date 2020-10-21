@@ -6,8 +6,6 @@ import { Explanations } from '@quenk/preconditions/lib/result/failure';
 
 import { validate, validatePartial } from '../../lib/post';
 
-const { expected } = provider;
-
 /*
  * Validation tests for Post.
  */
@@ -15,143 +13,81 @@ describe('Post', () => {
 
     describe('validate', () => {
 
-        it('should pass valid data', () => {
+        for (let [name, spec] of Object.entries(provider.complete)) {
 
-            let data = provider.valid();
-            let result = validate(data);
+            it(name, () => {
 
-            assert(result.isRight()).true();
-            assert(result.takeRight()).equate(expected.valid);
+                let eresult = validate(spec.input());
 
-        })
+                if (spec.shouldFail) {
 
-        it('should fail invalid data', () => {
+                    assert(eresult.isLeft()).true();
 
-            let data = provider.invalid();
-            let result = validate(data);
+                    if (spec.expectedFailure) {
 
-            assert(result.isLeft()).true();
+                        let result = <Explanations>eresult.takeLeft().explain({});
+                        assert(result).equate(spec.expectedFailure(result));
 
-            assert(<Explanations>result.takeLeft().explain({}))
-                .equate(expected.invalid);
+                    }
 
-        })
+                } else {
 
-        it('should fail data lower than the lower bounds', () => {
+                    assert(eresult.isRight()).true();
 
-            let data = provider.lower();
-            let result = validate(data);
+                    if (spec.expectedValue) {
 
-            assert(result.isLeft()).true();
+                        let result = eresult.takeRight();
+                        assert(result).equate(spec.expectedValue(result));
 
-            assert(<Explanations>result.takeLeft().explain({}))
-                .equate(expected.lower);
+                    }
 
-        })
+                }
 
-        it('should fail data higher than the upper bounds', () => {
+            })
 
-            let data = provider.upper();
-            let result = validate(data);
-
-            assert(result.isLeft()).true();
-
-            assert(<Explanations>result.takeLeft().explain({})).equate(expected.upper);
-
-        })
-
-        it('should fail non-objects', () => {
-
-            let result = validate('');
-
-            assert(result.isLeft()).true();
-
-        })
+        }
 
     })
 
     describe('validatePartial', () => {
 
-        it('should pass valid data', () => {
+        for (let [name, spec] of Object.entries(provider.partial)) {
 
-            let data = provider.valid();
+            it(name, () => {
 
-            for (let key in data)
-                if (data.hasOwnProperty(key)) {
+                for (let [key, value] of Object.entries(spec.input())) {
 
-                    let result = validatePartial({ [key]: data[key] });
+                    let eresult = validatePartial({ [key]: value });
 
-                    assert(result.isRight()).true();
-                    assert(result.takeRight()[key]).equate(expected.valid[key]);
+                    if (spec.shouldFail) {
 
-                }
+                        assert(eresult.isLeft()).true();
 
-        })
+                        if (spec.expectedFailure) {
 
-        it('should fail invalid data', () => {
+                            let result = <Explanations>eresult.takeLeft().explain({});
+                            assert(result).equate(spec.expectedFailure(result));
 
-            let data = provider.invalid();
+                        } else {
 
-            for (let key in data)
-                if (data.hasOwnProperty(key)) {
+                            assert(eresult.isRight()).true();
 
-                    let result = validatePartial({ [key]: data[key] });
+                            if (spec.expectedValue) {
 
-                    assert(result.isLeft()).true();
-                    assert((<Explanations>result.takeLeft().explain({}))[key])
-                        .equate(expected.invalid[key]);
+                                let result = eresult.takeRight();
+                                assert(result).equate(spec.expectedValue(result));
 
-                }
+                            }
 
-        })
+                        }
 
-        it('should fail data lower than the lower bounds', () => {
-
-            let data = provider.lower();
-
-            for (let key in data)
-                if (data.hasOwnProperty(key)) {
-
-                    let result = validatePartial({ [key]: data[key] });
-
-                    assert(result.isLeft()).true();
-                    assert((<Explanations>result.takeLeft().explain({}))[key])
-                        .equate(expected.lower[key]);
+                    }
 
                 }
 
-        })
+            })
 
-        it('should fail data higher than the upper bounds', () => {
-
-            let data = provider.upper();
-
-            for (let key in data)
-                if (data.hasOwnProperty(key)) {
-
-                    let result = validatePartial({ [key]: data[key] });
-
-                    assert(result.isLeft()).true();
-                    assert((<Explanations>result.takeLeft().explain({}))[key])
-                        .equate(expected.upper[key]);
-
-                }
-
-        })
-
-    })
-
-    it('should fail non-objects', () => {
-
-        let result = validatePartial('');
-        assert(result.isLeft()).true();
-
-    })
-
-    it('should not fail empty objects', () => {
-
-        let result = validatePartial({});
-        assert(result.isRight()).true();
+        }
 
     })
 

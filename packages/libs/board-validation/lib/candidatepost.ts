@@ -12,6 +12,7 @@ import { Value, Object } from '@quenk/noni/lib/data/jsonx';
 import {
     Precondition,
     Preconditions,
+    notNull as _notNull,
     optional as _optional,
     and as _and,
     every as _every,
@@ -47,17 +48,25 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for CandidatePost provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'title': _and(_string,
-        _every<Value, Value>(textsmall)),
+    'title': _and(_notNull, _and(_string,
+        _every<Value, Value>(textsmall))
 
-    'description': _and(_string,
-        _every<Value, Value>(textlarge)),
+    ),
 
-    'company': _and(_string,
-        _every<Value, Value>(name)),
+    'description': _and(_notNull, _and(_string,
+        _every<Value, Value>(textlarge))
 
-    'company_email': _and(_string,
-        _every<Value, Value>(email)),
+    ),
+
+    'company': _and(_notNull, _and(_string,
+        _every<Value, Value>(name))
+
+    ),
+
+    'company_email': _and(_notNull, _and(_string,
+        _every<Value, Value>(email))
+
+    ),
 
     'company_logo': _optional(_and(_string,
         _every<Value, Value>(url))
@@ -69,7 +78,8 @@ export const validators: Preconditions<Value, Value> = {
 
     ),
 
-    'approved': _boolean
+    'approved': _and(_notNull, _boolean
+    )
 
 };
 
@@ -77,17 +87,25 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for CandidatePost provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'title': _and(_string,
-        _every<Value, Value>(textsmall)),
+    'title': _and(_notNull, _and(_string,
+        _every<Value, Value>(textsmall))
 
-    'description': _and(_string,
-        _every<Value, Value>(textlarge)),
+    ),
 
-    'company': _and(_string,
-        _every<Value, Value>(name)),
+    'description': _and(_notNull, _and(_string,
+        _every<Value, Value>(textlarge))
 
-    'company_email': _and(_string,
-        _every<Value, Value>(email)),
+    ),
+
+    'company': _and(_notNull, _and(_string,
+        _every<Value, Value>(name))
+
+    ),
+
+    'company_email': _and(_notNull, _and(_string,
+        _every<Value, Value>(email))
+
+    ),
 
     'company_logo': _optional(_and(_string,
         _every<Value, Value>(url))
@@ -99,7 +117,8 @@ export const partialValidators: Preconditions<Value, Value> = {
 
     ),
 
-    'approved': _boolean
+    'approved': _and(_notNull, _boolean
+    )
 
 };
 

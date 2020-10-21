@@ -16,7 +16,7 @@
       _optional({{content}})
     {%- endif %}
   {%- else -%}
-    {{content}}
+    _and(_notNull, {{content}})
   {%- endif -%}
 
 {% endmacro %}

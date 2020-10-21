@@ -12,15 +12,15 @@ var _string = preconditions_1.and(string_1.isString, string_1.trim);
  * validators for Login provided as a map.
  */
 exports.validators = {
-    'email': _string,
-    'password': _string
+    'email': preconditions_1.and(preconditions_1.notNull, _string),
+    'password': preconditions_1.and(preconditions_1.notNull, _string)
 };
 /**
  * partialValidators for Login provided as a map.
  */
 exports.partialValidators = {
-    'email': _string,
-    'password': _string
+    'email': preconditions_1.and(preconditions_1.notNull, _string),
+    'password': preconditions_1.and(preconditions_1.notNull, _string)
 };
 /**
  * validate a single Value against the rules for Login.
