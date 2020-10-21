@@ -63,9 +63,9 @@ export const complete: TestSuite = {
 
             return {
 
-                name: '$0M^inC()()L!',
+                name: '',
 
-                email: 'aw',
+                email: 'awz',
 
                 password: 'bark'
 
@@ -77,7 +77,7 @@ export const complete: TestSuite = {
 
             return {
 
-                name: 'matches',
+                name: 'notNull',
 
                 email: 'matches',
 
@@ -97,7 +97,7 @@ export const complete: TestSuite = {
 
             return {
 
-                name: 'e',
+                name: '',
 
                 email: 'aw',
 
@@ -111,7 +111,7 @@ export const complete: TestSuite = {
 
             return {
 
-                name: 'minLength',
+                name: 'notNull',
 
                 email: 'minLength',
 
@@ -203,9 +203,9 @@ export const partial: TestSuite = {
 
             return {
 
-                name: '$0M^inC()()L!',
+                name: '',
 
-                email: 'aw',
+                email: 'awe',
 
                 password: 'bark'
 
@@ -217,7 +217,7 @@ export const partial: TestSuite = {
 
             return swap(e, {
 
-                name: 'matches',
+                name: 'notNull',
 
                 email: 'matches',
 
@@ -237,9 +237,9 @@ export const partial: TestSuite = {
 
             return {
 
-                name: 'e',
+                name: '',
 
-                email: 'aw',
+                email: 'z',
 
                 password: 'bark'
 
@@ -251,7 +251,7 @@ export const partial: TestSuite = {
 
             return swap(e, {
 
-                name: 'minLength',
+                name: 'notNull',
 
                 email: 'minLength',
 
