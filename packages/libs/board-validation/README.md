@@ -54,27 +54,15 @@ export declare const validatePartial: Precondition<Value, Partial<T>>;
 
 ## Tests
 
-Tests are also generated as long as `document.test.disable` is not set to true.
-The tests check four things, valid data, invalid data, data below the lower 
-bounds and data above the upper bounds.
+Tests are also generated as long as `document.test.disabled` is not set to true.
+The test template generates a script that generates tests at runtime based
+on the `TestSuite` interface defined in `test/fixtures/test`.
 
-This is done for both full and partial data. The data for the testing must
-be provided by users in the `test/fixtures/data` folder. Each file should be
-named after the data model targeted and have the following format:
+For each data model a validation file is generated for, you should have a 
+corresponding file in `test/fixtures.data` that exports two `TestSuite`s.
 
-```typescript
-export declare const valid = () => Object;
-
-export declare const invalid = () => Object;
-
-export declare const lower = () => Object;
-
-export declare const upper = () => Object;
-
-export declare const expected = { [key: string]: Object };
-```
-
-The `expected` export is an object that must have a valid,invalid,lower and
-upper property. These are used in the tests.
+One named `complete` and one named `partial. There is a sample provided to get
+you started but you can just do `export const complete = {}` etc. if you need
+to skip writing the tests for now.
 
 [1]: https://github.com/quenktechnologies/dagen
