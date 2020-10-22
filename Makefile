@@ -80,3 +80,10 @@ include $(BOARD_ADMIN_DIR)/build.mk
 clean: 
 	rm -R $(PROJECT_BUILD_DIR) || true
 	rm -R $(BOARD_CLEAN_TARGETS) || true
+
+# Use to clear the node_modules cache and update to the latest version of the
+# project.
+.PHONY: bussdate
+bussdate:
+	rm -R node_modules || true
+	git pull && npm install
