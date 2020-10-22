@@ -39,7 +39,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { CandidatePost } from '@board/types/lib/candidatepost';
-import { textsmall, textlarge, name, email, url } from './';
+import { textsmall, minLength, textlarge, name, email, url } from './';
 
 const _string: Precondition<Value, string> = _and(_isString, _trim);
 
@@ -49,12 +49,12 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  */
 export const validators: Preconditions<Value, Value> = {
     'title': _and(_notNull, _and(_string,
-        _every<Value, Value>(textsmall))
+        _every<Value, Value>(textsmall, minLength(3)))
 
     ),
 
     'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge))
+        _every<Value, Value>(textlarge, minLength(3)))
 
     ),
 
@@ -78,7 +78,7 @@ export const validators: Preconditions<Value, Value> = {
 
     ),
 
-    'approved': _and(_notNull, _boolean
+    'approved': _optional(_boolean
     )
 
 };
@@ -88,12 +88,12 @@ export const validators: Preconditions<Value, Value> = {
  */
 export const partialValidators: Preconditions<Value, Value> = {
     'title': _and(_notNull, _and(_string,
-        _every<Value, Value>(textsmall))
+        _every<Value, Value>(textsmall, minLength(3)))
 
     ),
 
     'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge))
+        _every<Value, Value>(textlarge, minLength(3)))
 
     ),
 
@@ -117,7 +117,7 @@ export const partialValidators: Preconditions<Value, Value> = {
 
     ),
 
-    'approved': _and(_notNull, _boolean
+    'approved': _optional(_boolean
     )
 
 };

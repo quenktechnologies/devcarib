@@ -15,9 +15,9 @@ var _string = preconditions_1.and(string_1.isString, string_1.trim);
  * validators for Post provided as a map.
  */
 exports.validators = {
-    'approved': preconditions_1.and(preconditions_1.notNull, boolean_1.isBoolean),
-    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall))),
-    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge))),
+    'approved': preconditions_1.optional(boolean_1.isBoolean),
+    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall, _1.minLength(3)))),
+    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge, _1.minLength(3)))),
     'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.name))),
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
@@ -27,9 +27,9 @@ exports.validators = {
  * partialValidators for Post provided as a map.
  */
 exports.partialValidators = {
-    'approved': preconditions_1.and(preconditions_1.notNull, boolean_1.isBoolean),
-    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall))),
-    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge))),
+    'approved': preconditions_1.optional(boolean_1.isBoolean),
+    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall, _1.minLength(3)))),
+    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge, _1.minLength(3)))),
     'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.name))),
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),

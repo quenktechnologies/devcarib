@@ -20,7 +20,13 @@
 
         "type": "string",
 
-        "validation": "./#textsmall"
+        "validation": [
+
+            "./#textsmall",
+
+            ["./#minLength", [3]]
+
+        ]
 
     },
 
@@ -28,7 +34,13 @@
 
         "type": "string",
 
-        "validation": "./#textlarge"
+        "validation": [
+
+            "./#textlarge",
+
+            ["./#minLength", [3]]
+
+        ]
 
     },
 
@@ -78,7 +90,9 @@
 
     "approved": {
 
-        "type": "boolean"
+        "type": "boolean",
+
+        "optional": true
 
     }
 

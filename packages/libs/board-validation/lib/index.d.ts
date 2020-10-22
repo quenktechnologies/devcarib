@@ -30,3 +30,11 @@ export declare const textmedium: Precondition<Value, string>;
  * textlarge is 25K characters or less.
  */
 export declare const textlarge: Precondition<Value, string>;
+/**
+ * minLength for strings and array.
+ */
+export declare const minLength: (n: number) => Precondition<Value, Value>;
+/**
+ * maxLength for strings and array.
+ */
+export declare const maxLength: (n: number) => Precondition<Value, Value>;

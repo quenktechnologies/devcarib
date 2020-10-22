@@ -1,4 +1,5 @@
 import * as string from '@quenk/preconditions/lib/string';
+import * as array from '@quenk/preconditions/lib/array';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Precondition, and } from '@quenk/preconditions';
@@ -28,7 +29,7 @@ export const password: Precondition<Value, string> =
  * url must be a string of at least 7 characters and begin with http or https.
  */
 export const url: Precondition<Value, string> =
-    and(string.isString, and(string.minLength(7),
+    and(string.isString, and(and(string.minLength(7), string.maxLength(5000)),
         string.matches(/^(http|https):\/\//)));
 
 /**
@@ -48,3 +49,19 @@ export const textmedium: Precondition<Value, string> =
  */
 export const textlarge: Precondition<Value, string> =
     and(string.isString, and(string.minLength(0), string.maxLength(25 * 1000)));
+
+/**
+ * minLength for strings and array.
+ */
+export const minLength = (n: number): Precondition<Value, Value> =>
+    (value: Value) => Array.isArray(value) ?
+        array.min<Value>(n)(value) :
+        string.minLength(n)(<string>value);
+
+/**
+ * maxLength for strings and array.
+ */
+export const maxLength = (n: number): Precondition<Value, Value> =>
+    (value: Value) => Array.isArray(value) ?
+        array.max<Value>(n)(value) :
+        string.maxLength(n)(<string>value);

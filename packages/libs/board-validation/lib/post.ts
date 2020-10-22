@@ -39,7 +39,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Post } from '@board/types/lib/post';
-import { textsmall, textlarge, name, email, url } from './';
+import { textsmall, minLength, textlarge, name, email, url } from './';
 
 const _string: Precondition<Value, string> = _and(_isString, _trim);
 
@@ -48,16 +48,16 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for Post provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'approved': _and(_notNull, _boolean
+    'approved': _optional(_boolean
     ),
 
     'title': _and(_notNull, _and(_string,
-        _every<Value, Value>(textsmall))
+        _every<Value, Value>(textsmall, minLength(3)))
 
     ),
 
     'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge))
+        _every<Value, Value>(textlarge, minLength(3)))
 
     ),
 
@@ -87,16 +87,16 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for Post provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'approved': _and(_notNull, _boolean
+    'approved': _optional(_boolean
     ),
 
     'title': _and(_notNull, _and(_string,
-        _every<Value, Value>(textsmall))
+        _every<Value, Value>(textsmall, minLength(3)))
 
     ),
 
     'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge))
+        _every<Value, Value>(textlarge, minLength(3)))
 
     ),
 

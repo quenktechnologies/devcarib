@@ -15,25 +15,25 @@ var _string = preconditions_1.and(string_1.isString, string_1.trim);
  * validators for CandidatePost provided as a map.
  */
 exports.validators = {
-    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall))),
-    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge))),
+    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall, _1.minLength(3)))),
+    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge, _1.minLength(3)))),
     'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.name))),
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
     'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
-    'approved': preconditions_1.and(preconditions_1.notNull, boolean_1.isBoolean)
+    'approved': preconditions_1.optional(boolean_1.isBoolean)
 };
 /**
  * partialValidators for CandidatePost provided as a map.
  */
 exports.partialValidators = {
-    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall))),
-    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge))),
+    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall, _1.minLength(3)))),
+    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge, _1.minLength(3)))),
     'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.name))),
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
     'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
-    'approved': preconditions_1.and(preconditions_1.notNull, boolean_1.isBoolean)
+    'approved': preconditions_1.optional(boolean_1.isBoolean)
 };
 /**
  * validate a single Value against the rules for CandidatePost.

@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
+exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
 var string = require("@quenk/preconditions/lib/string");
+var array = require("@quenk/preconditions/lib/array");
 var preconditions_1 = require("@quenk/preconditions");
 /**
  * name must be a string and between 1-64 characters.
@@ -20,7 +21,7 @@ exports.password = preconditions_1.and(string.isString, preconditions_1.and(stri
 /**
  * url must be a string of at least 7 characters and begin with http or https.
  */
-exports.url = preconditions_1.and(string.isString, preconditions_1.and(string.minLength(7), string.matches(/^(http|https):\/\//)));
+exports.url = preconditions_1.and(string.isString, preconditions_1.and(preconditions_1.and(string.minLength(7), string.maxLength(5000)), string.matches(/^(http|https):\/\//)));
 /**
  * textsmall is 256 characters or less.
  */
@@ -33,4 +34,20 @@ exports.textmedium = preconditions_1.and(string.isString, preconditions_1.and(st
  * textlarge is 25K characters or less.
  */
 exports.textlarge = preconditions_1.and(string.isString, preconditions_1.and(string.minLength(0), string.maxLength(25 * 1000)));
+/**
+ * minLength for strings and array.
+ */
+exports.minLength = function (n) {
+    return function (value) { return Array.isArray(value) ?
+        array.min(n)(value) :
+        string.minLength(n)(value); };
+};
+/**
+ * maxLength for strings and array.
+ */
+exports.maxLength = function (n) {
+    return function (value) { return Array.isArray(value) ?
+        array.max(n)(value) :
+        string.maxLength(n)(value); };
+};
 //# sourceMappingURL=index.js.map
