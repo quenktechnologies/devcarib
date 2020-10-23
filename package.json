@@ -39,7 +39,7 @@
     "devDependencies": {
         "@quenk/dagen": "^1.9.6",
         "@quenk/dagen-commons": "^0.4.1",
-        "@quenk/dback-mongodb-testkit": "^1.0.5",
+        "@quenk/dback-mongodb-testkit": "^1.0.7",
         "@quenk/jhr": "^2.6.21",
         "@quenk/must": "^1.0.3",
         "@quenk/tdc": "^1.6.4",
