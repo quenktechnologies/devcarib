@@ -12,7 +12,7 @@ import { createAgent } from '@quenk/jhr/lib/browser';
 import { Response } from '@quenk/jhr/lib/response';
 
 import { Post } from '@board/types/lib/post';
-import { schema, validate } from '@board/validation/lib/post';
+import { validators, validate } from '@board/validation/lib/post';
 
 import { PostFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
@@ -89,11 +89,11 @@ export class PostFormApp {
 
                 let { name, value } = e;
 
-                if (schema.hasOwnProperty(name)) {
+                if (validators.hasOwnProperty(name)) {
 
                     this.values.post.data[name] = value;
 
-                    let eResult = schema[name](value);
+                    let eResult = validators[name](value);
 
                     if (eResult.isLeft()) {
 
