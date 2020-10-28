@@ -68,7 +68,7 @@ export class PostFormAppView  implements __wml.View {
 
        this.template = (__this:__wml.Registry) => {
 
-           return __this.node('form', <__wml.Attrs>{}, [
+           return __this.node('form', <__wml.Attrs>{'name': 'post-form'}, [
 
         __this.widget(new GridLayout({}, [
 

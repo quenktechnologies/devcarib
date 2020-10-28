@@ -37,6 +37,7 @@
         "uuid": "^8.1.0"
     },
     "devDependencies": {
+        "@quenk/crapaud": "0.0.1",
         "@quenk/dagen": "^1.9.6",
         "@quenk/dagen-commons": "^0.4.1",
         "@quenk/dback-mongodb-testkit": "^1.0.7",
@@ -50,6 +51,7 @@
         "@types/bcryptjs": "^2.4.2",
         "@types/dotenv": "^8.2.0",
         "@types/express-session": "^1.17.0",
+        "@types/json-stringify-safe": "^5.0.0",
         "@types/marked": "^1.1.0",
         "@types/mocha": "^7.0.2",
         "@types/mongodb": "^3.5.18",
@@ -61,6 +63,7 @@
         "@types/uuid": "^8.0.0",
         "browserify": "^16.5.1",
         "clean-css-cli": "^4.3.0",
+        "json-stringify-safe": "^5.0.1",
         "less": "^3.11.1",
         "less-plugin-js-vars": "^3.0.0",
         "mocha": "^8.1.2",
