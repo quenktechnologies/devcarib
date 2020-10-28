@@ -87,3 +87,16 @@ clean:
 bussdate:
 	rm -R node_modules || true
 	git pull && npm install
+
+.PHONY: crapaud
+crapaud: 
+	source .env
+	./node_modules/.bin/crapaud --test $(filter-out $@,$(MAKECMDGOALS))\
+	 --inject-mocha\
+	 http://localhost:$(PORT)
+
+# This is task intercepts unknown tasks allowing us to accept arguments in
+# the task above.
+.PHONY: %
+%:
+	@:

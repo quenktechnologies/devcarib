@@ -46,9 +46,9 @@ var PostFormApp = /** @class */ (function () {
                 errors: {},
                 onChange: timer_1.debounce(function (e) {
                     var name = e.name, value = e.value;
-                    if (post_1.schema.hasOwnProperty(name)) {
+                    if (post_1.validators.hasOwnProperty(name)) {
                         _this.values.post.data[name] = value;
-                        var eResult = post_1.schema[name](value);
+                        var eResult = post_1.validators[name](value);
                         if (eResult.isLeft()) {
                             var msg = eResult
                                 .takeLeft()
