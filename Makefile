@@ -88,12 +88,24 @@ bussdate:
 	rm -R node_modules || true
 	git pull && npm install
 
+# Shortcut for running a frontend test via crapaud.
 .PHONY: crapaud
 crapaud: 
 	source .env
 	./node_modules/.bin/crapaud --test $(filter-out $@,$(MAKECMDGOALS))\
 	 --inject-mocha\
 	 http://localhost:$(PORT)
+
+# Starts a development server for testing while working.
+.PHONY: devserver
+devserver:
+	./node_modules/.bin/node-supervisor -w build/ -- \
+	-r dotenv/config build/app/start.js
+
+# If mongod is installed, starts an instance using the folder .mongo
+.PHONY: mongoserver
+mongoserver: 
+	mongod --dbpath=.mongo
 
 # This is task intercepts unknown tasks allowing us to accept arguments in
 # the task above.
