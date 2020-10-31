@@ -67,6 +67,7 @@
         "less": "^3.11.1",
         "less-plugin-js-vars": "^3.0.0",
         "mocha": "^8.1.2",
+        "supervisor": "^0.12.0",
         "ts-node": "^8.10.1",
         "typescript": "^3.9.3",
         "typescript-formatter": "^7.2.2",
