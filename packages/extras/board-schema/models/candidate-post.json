@@ -14,7 +14,7 @@
 
     },
 
-    "validation:imports": {
+    "validators:imports": {
 
         "@board/types/lib/candidatepost": "CandidatePost"
 

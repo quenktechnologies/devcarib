@@ -4,7 +4,7 @@
 
     "title": "Login",
 
-    "validation:imports": {
+    "validators:imports": {
 
         "@board/types/lib/login": "Login"
 
