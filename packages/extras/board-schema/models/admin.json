@@ -6,7 +6,7 @@
 
     "collection": "admins",
 
-    "validation:imports": {
+    "validator:imports": {
 
         "@board/types/lib/admin": "Admin"
 
@@ -40,7 +40,7 @@
 
             "type": "string",
 
-            "validation": "./#name"
+            "validator": "./#name"
 
         },
 
@@ -48,7 +48,7 @@
 
             "type": "string",
 
-            "validation": "./#email"
+            "validator": "./#email"
 
         },
 
@@ -56,7 +56,7 @@
 
             "type": "string",
 
-            "validation": "./#password"
+            "validator": "./#password"
 
         }
 

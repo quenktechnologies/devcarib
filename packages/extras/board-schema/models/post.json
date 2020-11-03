@@ -14,7 +14,7 @@
 
     },
 
-    "validation:imports": {
+    "validator:imports": {
 
         "@board/types/lib/post": "Post"
 

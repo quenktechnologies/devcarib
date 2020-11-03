@@ -20,7 +20,7 @@
 
         "type": "string",
 
-        "validation": [
+        "validator": [
 
             "./#textsmall",
 
@@ -34,7 +34,7 @@
 
         "type": "string",
 
-        "validation": [
+        "validator": [
 
             "./#textlarge",
 
@@ -56,7 +56,7 @@
 
         "type": "string",
 
-        "validation": "./#name"
+        "validator": "./#name"
 
     },
 
@@ -64,7 +64,7 @@
 
         "type": "string",
 
-        "validation": "./#email"
+        "validator": "./#email"
 
     },
 
@@ -72,7 +72,7 @@
 
         "type": "string",
 
-        "validation": "./#url",
+        "validator": "./#url",
 
         "optional": true
 
@@ -82,7 +82,7 @@
 
         "type": "string",
 
-        "validation": "./#url",
+        "validator": "./#url",
 
         "optional": true
 
