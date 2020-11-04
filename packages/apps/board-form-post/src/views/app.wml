@@ -7,7 +7,7 @@
 
 {% view PostFormAppView (PostFormApp) %}
 
-<form name="post-form">
+<form name="create-post-form">
 
   <GridLayout>
 

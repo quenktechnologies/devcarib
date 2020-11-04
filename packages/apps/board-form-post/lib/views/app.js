@@ -39,7 +39,7 @@ var PostFormAppView = /** @class */ (function () {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.node('form', { 'name': 'post-form' }, [
+            return __this.node('form', { 'name': 'create-post-form' }, [
                 __this.widget(new grid_1.GridLayout({}, [
                     __this.widget(new grid_1.Row({}, [
                         __this.widget(new grid_1.Column({ ww: { 'span': 10, 'offset': 1 } }, [
