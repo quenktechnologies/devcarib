@@ -39,7 +39,6 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Post } from '@board/types/lib/post';
-import { textsmall, minLength, textlarge, name, email, url } from './';
 
 const _string: Precondition<Value, string> = _and(_isString, _trim);
 
@@ -51,34 +50,22 @@ export const validators: Preconditions<Value, Value> = {
     'approved': _optional(_boolean
     ),
 
-    'title': _and(_notNull, _and(_string,
-        _every<Value, Value>(textsmall, minLength(3)))
-
+    'title': _and(_notNull, _string
     ),
 
-    'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge, minLength(3)))
-
+    'description': _and(_notNull, _string
     ),
 
-    'company': _and(_notNull, _and(_string,
-        _every<Value, Value>(name))
-
+    'company': _and(_notNull, _string
     ),
 
-    'company_email': _and(_notNull, _and(_string,
-        _every<Value, Value>(email))
-
+    'company_email': _and(_notNull, _string
     ),
 
-    'company_logo': _optional(_and(_string,
-        _every<Value, Value>(url))
-
+    'company_logo': _optional(_string
     ),
 
-    'apply_url': _optional(_and(_string,
-        _every<Value, Value>(url))
-
+    'apply_url': _optional(_string
     )
 
 };
@@ -90,34 +77,22 @@ export const partialValidators: Preconditions<Value, Value> = {
     'approved': _optional(_boolean
     ),
 
-    'title': _and(_notNull, _and(_string,
-        _every<Value, Value>(textsmall, minLength(3)))
-
+    'title': _and(_notNull, _string
     ),
 
-    'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge, minLength(3)))
-
+    'description': _and(_notNull, _string
     ),
 
-    'company': _and(_notNull, _and(_string,
-        _every<Value, Value>(name))
-
+    'company': _and(_notNull, _string
     ),
 
-    'company_email': _and(_notNull, _and(_string,
-        _every<Value, Value>(email))
-
+    'company_email': _and(_notNull, _string
     ),
 
-    'company_logo': _optional(_and(_string,
-        _every<Value, Value>(url))
-
+    'company_logo': _optional(_string
     ),
 
-    'apply_url': _optional(_and(_string,
-        _every<Value, Value>(url))
-
+    'apply_url': _optional(_string
     )
 
 };

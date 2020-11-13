@@ -39,7 +39,6 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { CandidatePost } from '@board/types/lib/candidatepost';
-import { textsmall, minLength, textlarge, name, email, url } from './';
 
 const _string: Precondition<Value, string> = _and(_isString, _trim);
 
@@ -48,34 +47,22 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for CandidatePost provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'title': _and(_notNull, _and(_string,
-        _every<Value, Value>(textsmall, minLength(3)))
-
+    'title': _and(_notNull, _string
     ),
 
-    'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge, minLength(3)))
-
+    'description': _and(_notNull, _string
     ),
 
-    'company': _and(_notNull, _and(_string,
-        _every<Value, Value>(name))
-
+    'company': _and(_notNull, _string
     ),
 
-    'company_email': _and(_notNull, _and(_string,
-        _every<Value, Value>(email))
-
+    'company_email': _and(_notNull, _string
     ),
 
-    'company_logo': _optional(_and(_string,
-        _every<Value, Value>(url))
-
+    'company_logo': _optional(_string
     ),
 
-    'apply_url': _optional(_and(_string,
-        _every<Value, Value>(url))
-
+    'apply_url': _optional(_string
     ),
 
     'approved': _optional(_boolean
@@ -87,34 +74,22 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for CandidatePost provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'title': _and(_notNull, _and(_string,
-        _every<Value, Value>(textsmall, minLength(3)))
-
+    'title': _and(_notNull, _string
     ),
 
-    'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge, minLength(3)))
-
+    'description': _and(_notNull, _string
     ),
 
-    'company': _and(_notNull, _and(_string,
-        _every<Value, Value>(name))
-
+    'company': _and(_notNull, _string
     ),
 
-    'company_email': _and(_notNull, _and(_string,
-        _every<Value, Value>(email))
-
+    'company_email': _and(_notNull, _string
     ),
 
-    'company_logo': _optional(_and(_string,
-        _every<Value, Value>(url))
-
+    'company_logo': _optional(_string
     ),
 
-    'apply_url': _optional(_and(_string,
-        _every<Value, Value>(url))
-
+    'apply_url': _optional(_string
     ),
 
     'approved': _optional(_boolean

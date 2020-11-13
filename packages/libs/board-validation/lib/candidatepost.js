@@ -9,30 +9,29 @@ var record_1 = require("@quenk/preconditions/lib/record");
 var boolean_1 = require("@quenk/preconditions/lib/boolean");
 //@ts-ignore: 6133
 var string_1 = require("@quenk/preconditions/lib/string");
-var _1 = require("./");
 var _string = preconditions_1.and(string_1.isString, string_1.trim);
 /**
  * validators for CandidatePost provided as a map.
  */
 exports.validators = {
-    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall, _1.minLength(3)))),
-    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge, _1.minLength(3)))),
-    'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.name))),
-    'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.email))),
-    'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
-    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
+    'title': preconditions_1.and(preconditions_1.notNull, _string),
+    'description': preconditions_1.and(preconditions_1.notNull, _string),
+    'company': preconditions_1.and(preconditions_1.notNull, _string),
+    'company_email': preconditions_1.and(preconditions_1.notNull, _string),
+    'company_logo': preconditions_1.optional(_string),
+    'apply_url': preconditions_1.optional(_string),
     'approved': preconditions_1.optional(boolean_1.isBoolean)
 };
 /**
  * partialValidators for CandidatePost provided as a map.
  */
 exports.partialValidators = {
-    'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textsmall, _1.minLength(3)))),
-    'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.textlarge, _1.minLength(3)))),
-    'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.name))),
-    'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.email))),
-    'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
-    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(_1.url))),
+    'title': preconditions_1.and(preconditions_1.notNull, _string),
+    'description': preconditions_1.and(preconditions_1.notNull, _string),
+    'company': preconditions_1.and(preconditions_1.notNull, _string),
+    'company_email': preconditions_1.and(preconditions_1.notNull, _string),
+    'company_logo': preconditions_1.optional(_string),
+    'apply_url': preconditions_1.optional(_string),
     'approved': preconditions_1.optional(boolean_1.isBoolean)
 };
 /**

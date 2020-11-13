@@ -7,23 +7,22 @@ var preconditions_1 = require("@quenk/preconditions");
 var record_1 = require("@quenk/preconditions/lib/record");
 //@ts-ignore: 6133
 var string_1 = require("@quenk/preconditions/lib/string");
-var _1 = require("./");
 var _string = preconditions_1.and(string_1.isString, string_1.trim);
 /**
  * validators for Admin provided as a map.
  */
 exports.validators = {
-    'name': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.name))),
-    'email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.email))),
-    'password': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.password)))
+    'name': preconditions_1.and(preconditions_1.notNull, _string),
+    'email': preconditions_1.and(preconditions_1.notNull, _string),
+    'password': preconditions_1.and(preconditions_1.notNull, _string)
 };
 /**
  * partialValidators for Admin provided as a map.
  */
 exports.partialValidators = {
-    'name': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.name))),
-    'email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.email))),
-    'password': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(_1.password)))
+    'name': preconditions_1.and(preconditions_1.notNull, _string),
+    'email': preconditions_1.and(preconditions_1.notNull, _string),
+    'password': preconditions_1.and(preconditions_1.notNull, _string)
 };
 /**
  * validate a single Value against the rules for Admin.
