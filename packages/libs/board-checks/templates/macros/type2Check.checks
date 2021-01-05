@@ -31,7 +31,7 @@
 {% macro arrayType2Test(type, mode) %}
 
   {% set content -%}
-    _map({{type2Test(type.items, mode)}})
+    <Precondition<Value,Value>>_map({{type2Test(type.items, mode)}})
   {%- endset %}
 
   {% if hasChecks(type,mode) -%}
@@ -55,16 +55,16 @@
   {% if isObject(type.additionalProperties) %}
 
     {%- set content -%}
-       _recordMap<Value, Value, {{type.title}}>(
+       <Precondition<Value,Value>>_recordMap<Value, Value, {{type.title}}>(
        {{anyType2Test(type.additionalProperties)}})
     {%- endset -%}
 
   {% elseif isObject(type.properties) %}
 
     {%- set content -%}
-      {{mode}}<Value, Value, {{type.title}}>({
+      <Precondition<Value,Value>>{{mode}}<Value, Value, {{type.title}}>({
         {% for key,value in type.properties %}
-          {% if (not value.readOnly) or hasCheck(value, mode)  %}
+          {% if (not value.readOnly) or hasChecks(value, mode)  %}
             '{{key}}' : {{type2Test(value, mode)|trim}}{% if not loop.last %},{% endif %}
             {{"\n"}}
           {% endif %}
@@ -78,7 +78,7 @@
 
   {% endif %}
 
-  {% if hasCheck(type, mode) -%}
+  {% if hasChecks(type, mode) -%}
 
    {% set content -%}
    _and({{content}}, _every<Value,Value>({{getChecks(type, mode)|join(',')}}))

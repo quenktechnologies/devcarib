@@ -1,8 +1,9 @@
-{% from "macros/type2Test.validation" import type2Test,anyType2Test %}
+{% from "macros/type2Validator.validators" import type2Validator,anyType2Validator %}
 
 /**
- * {{document.title}} validator.
- * AUTO GENERATED! DO NOT EDIT DIRECTLY!
+ * {{document.title}} validators.
+
+ * AUTO GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
  /** imports **/
 //@ts-ignore: 6133
@@ -41,16 +42,22 @@ import {
 
 {{ imports2TS(document.imports) }}
 
+/**
+ * @private Used during template generation.
+ */
+export type DataType = {{document.title}};
+
+//@ts-ignore: 6133
 const _string:Precondition<Value, string> = _and(_isString, _trim);
 
-{% if document.additionalProperties %}
+{% if document.additionalProperties and (not document.properties) %}
 
 /**
  * validate a single Value against the rules for {{document.title}}.
  */
 export const validate : Precondition<Value, {{document.title}}> =
 _and(_isRecord, _recordMap<Value, Value, {{document.title}}>(
-  {{anyType2Test(document.additionalProperties)}}
+  {{anyType2Validator(document.additionalProperties)}}
 ));
 
 {% elseif document.properties %}
@@ -61,7 +68,7 @@ _and(_isRecord, _recordMap<Value, Value, {{document.title}}>(
 export const validators:Preconditions<Value, Value> = {
   {% for key,value in document.properties %}
     {% if (not value.readOnly) or hasValidators(value) %}
-      '{{key}}' : {{type2Test(value, "complete")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
+      '{{key}}' : {{type2Validator(value, "complete")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
     {% endif %}
   {%- endfor -%}
 };
@@ -72,7 +79,7 @@ export const validators:Preconditions<Value, Value> = {
 export const partialValidators:Preconditions<Value, Value> = {
   {% for key,value in document.properties %}
     {% if (not value.readOnly) or hasValidators(value, 'partial') %}
-      '{{key}}' : {{type2Test(value,"partial")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
+      '{{key}}' : {{type2Validator(value,"partial")|trim}}{% if not loop.last %},{% endif %}{{"\n"}}
     {% endif %}
   {%- endfor -%}
 };

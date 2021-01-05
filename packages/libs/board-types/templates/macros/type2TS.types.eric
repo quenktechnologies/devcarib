@@ -3,18 +3,15 @@
 
   {%- if type.type === 'array' -%}
 
-    ({{type2TS(type.items)|trim}})[]
+    {{type2TS(type.items)|trim}}[]
 
   {%- elseif type.type === 'object' -%}{
 
   [key:string]: _json.Value
 
-      {% if type.properties != null %}
-        {% for key,value in type.properties -%}
-          '{{key}}'? : {{type2TS(value)|trim}}{% if not loop.last %},{% endif %}
-        {% endfor %}
-      {% endif %}
-
+      {% for key,value in type.properties -%}
+        '{{key}}'? : {{type2TS(value)|trim}}{% if not loop.last %},{% endif %}
+      {% endfor %}
     }
 
   {%- elseif type.type === 'sum' -%}

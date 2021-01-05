@@ -11,7 +11,7 @@
 
   {%- if type.optional -%}
     {%- if isObjectType(type) -%}
-      _optional<any, {{type.title}}>({{content}})
+      _optional<Value, {{type.title}}>({{content}})
     {%- else -%}
       _optional({{content}})
     {%- endif %}
@@ -28,10 +28,10 @@
   @param {string} mode
 
 #}
-{% macro arrayType2Test(type, mode) %}
+{% macro arrayType2Validator(type, mode) %}
 
   {% set content -%}
-    _and(_isArray, _map({{type2Test(type.items, mode)}}))
+    _and(_isArray, _map({{type2Validator(type.items, mode)}}))
   {%- endset %}
 
   {% if hasValidators(type,mode) -%}
@@ -50,13 +50,13 @@
   @param {Schema} type
   @param {string} mode
 #}
-{% macro objectType2Test (type, mode) %}
+{% macro objectType2Validator (type, mode) %}
 
-  {% if isObject(type.additionalProperties) %}
+  {% if isObject(type.additionalProperties) and (not type.properties) %}
 
     {%- set content -%}
-      _and(_isRecord, _recordMap<Type, Type, {{type.title}}>(
-      {{anyType2Test(type.additionalProperties, mode)}}))
+      _and(_isRecord, _recordMap<Value, Value, {{type.title}}>(
+      {{anyType2Validator(type.additionalProperties, mode)}}))
     {%- endset -%}
 
   {% elseif isObject(type.properties) %}
@@ -65,7 +65,7 @@
       _and(_isRecord, {{mode}}<Value, Value, {{type.title}}>({
         {% for key,value in type.properties %}
           {% if (not value.readOnly) or hasValidators(value,mode)  %}
-            '{{key}}' : {{type2Test(value,mode)|trim}}{% if not loop.last %},{% endif %}
+            '{{key}}' : {{type2Validator(value,mode)|trim}}{% if not loop.last %},{% endif %}
             {{"\n"}}
           {% endif %}
         {%- endfor -%}
@@ -97,12 +97,12 @@
   @param {string} mode
 
 #}
-{% macro sumType2Test (type, mode) %}
+{% macro sumType2Validator (type, mode) %}
 
   {% if type.discriminator.type == 'rw' %}
 
     {%- set content -%}
-     {{type2Test(type.variants.write, mode)}}
+     {{type2Validator(type.variants.write, mode)}}
     {%- endset -%}
 
   {% elseif type.discriminator.type == 'shape' %}
@@ -112,7 +112,7 @@
       {%- for key,variant in type.variants -%}
 
       {% set shape =  variant.discriminator %}
-      {% set validator =  type2Test(variant, mode) %}
+      {% set validator =  type2Validator(variant, mode) %}
       _caseOf({{shape|dump}}, {{validator}}){% if not loop.last %},{% endif %}
 
       {%- endfor -%})
@@ -121,7 +121,7 @@
   {% else %}
 
     {% set json %}{{type|dump}}{% endset %}
-    {{ 'sumType2Test: Unknown discriminator type '+ 
+    {{ 'sumType2Validator: Unknown discriminator type '+ 
     type.discriminator.type+ ' in '+json | error }}
 
   {% endif %}
@@ -136,7 +136,7 @@
   @param {Schema} type
 
 #}
-{% macro anyType2Test(type,mode) %}
+{% macro anyType2Validator(type,mode) %}
 
     {%- set content -%}
       {% if hasValidators(type,mode) %}
@@ -164,23 +164,23 @@
   @param {string} mode
 
 #}
-{% macro type2Test(type, mode="complete") %}
+{% macro type2Validator(type, mode="complete") %}
 
   {%- if isArrayType(type) -%}
 
-    {{arrayType2Test(type, mode)}}
+    {{arrayType2Validator(type, mode)}}
 
   {%- elseif isObjectType(type) -%}
     
-    {{objectType2Test(type, mode) | trim }}
+    {{objectType2Validator(type, mode) | trim }}
 
   {%- elseif isSumType(type) -%}
 
-    {{sumType2Test(type, mode) | trim }}
+    {{sumType2Validator(type, mode) | trim }}
     
   {%- else -%}
 
-    {{anyType2Test(type,mode) | trim }}
+    {{anyType2Validator(type,mode) | trim }}
     
   {%- endif -%}
 

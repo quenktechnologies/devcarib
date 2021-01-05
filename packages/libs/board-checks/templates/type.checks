@@ -1,4 +1,4 @@
-{% from "macros/type2Test.checks" import type2Test %}
+{% from "macros/type2Check.checks" import type2Test %}
 
 {# Note: The document used with this template should have an import for a 
    "validate" and "validatePartial" function from the validation library.
@@ -52,6 +52,11 @@ const _collection = '{{document.collection}}';
 {% endif %}
 
 /**
+ * @private Used during template generation.
+ */
+export type DataType = {{document.title}};
+
+/**
  * checks for {{document.title}} provided as a map.
  */ 
 export const checks:Preconditions<Value, Value> = {
@@ -77,34 +82,28 @@ export const partialChecks:Preconditions<Value, Value> = {
   {%- endfor -%}
 };
 
-{% set params -%}
-  {% if isArray(document.parameters) %}
-    {{parameters2TS(document.parameters)}}
-  {% endif %}
-{%- endset %}
-
 /**
  * check a {{document.title}} value.
  */
-export const check = ({{params}}) : Precondition<Value, {{document.title}}> => 
+export const check: Precondition<Value, {{document.title}}> = 
   {% if hasChecks(document,"complete") %}
     _and(_every<Value,Value>({{getChecks(document,"complete") | join(',')}}),
      _and<Value, {{document.title}},{{document.title}}>(_async(validate),
       complete(checks)));
   {% else %}
-    _and<Value, {{document.title}},{{document.title}}>(_async(validate),
+    _and<Value, {{document.title}},{{document.title}}>(_async<Value, {{document.title}}>(validate),
       complete(checks));
   {% endif %}
 
 /**
  * checkPartial a partial {{document.title}} value.
  */
- export const checkPartial = ({{params}}) : Precondition<Value, Partial<{{document.title}}>> => 
+ export const checkPartial : Precondition<Value, Partial<{{document.title}}>> = 
   {% if hasChecks(document, "partial") %}
     _and(_every<Value,Value>({{getChecks(document,"partial") | join(',')}}),
      _and<Value, {{document.title}},{{document.title}}>(_async(validatePartial),
       partial(partialChecks)));
   {% else %}
-    _and<Value, {{document.title}},{{document.title}}>(_async(validatePartial), 
+    _and<Value, {{document.title}},{{document.title}}>(_async<Value,{{document.title}}>(validatePartial), 
    partial(partialChecks));  
   {% endif %}
