@@ -36,7 +36,7 @@ import {
 } from '@quenk/preconditions/lib/async/record';
 
 import { Admin } from '@board/types/lib/admin';
-import { validate, validatePartial } from '@board/validation/lib/admin';
+import { validate, validatePartial } from '@board/validators/lib/admin';
 import { inc, unique } from './';
 
 //@ts-ignore: 6133

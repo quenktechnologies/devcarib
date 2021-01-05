@@ -12,7 +12,7 @@ import { createAgent } from '@quenk/jhr/lib/browser';
 import { Response } from '@quenk/jhr/lib/response';
 
 import { Post } from '@board/types/lib/post';
-import { validators, validate } from '@board/validation/lib/post';
+import { validators, validate } from '@board/validators/lib/post';
 
 import { PostFormAppView } from './views/app';
 import { PreviewView } from './views/preview';

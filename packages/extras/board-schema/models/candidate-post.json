@@ -10,7 +10,7 @@
 
     "checks-complete:imports": {
 
-        "@board/validation/lib/candidatepost": "validate"
+        "@board/validators/lib/candidatepost": "validate"
 
     },
 
@@ -22,7 +22,7 @@
 
     "checks:imports": {
 
-        "@board/validation/lib/candidatepost": ["validate", "validatePartial"]
+        "@board/validators/lib/candidatepost": ["validate", "validatePartial"]
 
     },
 

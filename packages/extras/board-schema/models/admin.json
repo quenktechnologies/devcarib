@@ -14,7 +14,7 @@
 
     "checks:imports": {
 
-        "@board/validation/lib/admin": ["validate", "validatePartial"]
+        "@board/validators/lib/admin": ["validate", "validatePartial"]
 
     },
 

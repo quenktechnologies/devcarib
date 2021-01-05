@@ -36,7 +36,7 @@ import {
 } from '@quenk/preconditions/lib/async/record';
 
 import { CandidatePost } from '@board/types/lib/candidatepost';
-import { validate, validatePartial } from '@board/validation/lib/candidatepost';
+import { validate, validatePartial } from '@board/validators/lib/candidatepost';
 import { parseMarkdown, inc, unique } from './';
 
 //@ts-ignore: 6133

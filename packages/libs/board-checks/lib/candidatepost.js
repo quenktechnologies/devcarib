@@ -5,7 +5,7 @@ exports.checkPartial = exports.check = exports.partialChecks = exports.checks = 
 var async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
-var candidatepost_1 = require("@board/validation/lib/candidatepost");
+var candidatepost_1 = require("@board/validators/lib/candidatepost");
 var _1 = require("./");
 //@ts-ignore: 6133
 var _title = 'CandidatePost';
