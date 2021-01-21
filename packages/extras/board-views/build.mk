@@ -2,6 +2,9 @@
 # Requires:
 # 1. BOARD_VIEWS_DIR
 
+### Executables ###
+LESSC?=./node_modules/.bin/lessc
+
 ### Settings ###
 BOARD_VIEWS_JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
 BOARD_VIEWS_SRC_DIR:=$(BOARD_VIEWS_DIR)/views
