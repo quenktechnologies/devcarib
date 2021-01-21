@@ -12,7 +12,7 @@ const dotHandlers = require("./handlers");
 const module_1 = require("@quenk/tendril/lib/app/module");
 //@ts-ignore: 6133
 exports.template = ($app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/app`,
-            'public': [`public`, `../../packages/extras/board-views/public`, `../../packages/apps/board-form-post/public`, `../../packages/apps/board-admin/public`] }, 'session': { 'enable': true, 'options': { 'secret': process.env['SESSION_SECRET'], 'name': `bscid` },
+            'public': [`public`, `../../packages/extras/board-views/public`, `../../packages/frontend/board-form-post/public`, `../../packages/frontend/board-admin/public`] }, 'session': { 'enable': true, 'options': { 'secret': process.env['SESSION_SECRET'], 'name': `bscid` },
             'store': { 'provider': quenkTendrilSessionMongodb.provider, 'options': { 'uri': process.env['MONGO_URL'] } } }, 'csrf': { 'token': { 'enable': true,
                 'send_cookie': true } },
         'views': { 'provider': quenkTendrilShowNunjucks.show,

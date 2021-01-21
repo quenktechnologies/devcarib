@@ -36,8 +36,8 @@ app.dirs.public = [
 
   "public",
   "../../packages/extras/board-views/public",
-  "../../packages/apps/board-form-post/public",
-  "../../packages/apps/board-admin/public"
+  "../../packages/frontend/board-form-post/public",
+  "../../packages/frontend/board-admin/public"
 
 ]
 
