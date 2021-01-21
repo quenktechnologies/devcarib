@@ -1,10 +1,10 @@
 
-import * as provider from '../fixtures/data/candidatepost';
+import * as provider from '../fixtures/data/candidate-post';
 
 import { assert } from '@quenk/test/lib/assert';
 import { Explanations } from '@quenk/preconditions/lib/result/failure';
 
-import { validate, validatePartial } from '../../lib/candidatepost';
+import { validate, validatePartial } from '../../lib/candidate-post';
 
 /*
  * Validation tests for CandidatePost.

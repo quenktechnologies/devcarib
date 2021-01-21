@@ -1,7 +1,8 @@
 
 /**
- * CandidatePost validator.
- * AUTO GENERATED! DO NOT EDIT DIRECTLY!
+ * CandidatePost validators.
+
+ * AUTO GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
 /** imports **/
 //@ts-ignore: 6133
@@ -38,9 +39,15 @@ import {
     trim as _trim
 } from '@quenk/preconditions/lib/string';
 
-import { CandidatePost } from '@board/types/lib/candidatepost';
-import { textsmall, minLength, textlarge, name, email, url } from './';
+import { CandidatePost } from '@board/types/lib/candidate-post';
+import { textsmall, minLength, textlarge, name, email, url } from './validators';
 
+/**
+ * @private Used during template generation.
+ */
+export type DataType = CandidatePost;
+
+//@ts-ignore: 6133
 const _string: Precondition<Value, string> = _and(_isString, _trim);
 
 

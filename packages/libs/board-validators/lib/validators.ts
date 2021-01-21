@@ -65,3 +65,4 @@ export const maxLength = (n: number): Precondition<Value, Value> =>
     (value: Value) => Array.isArray(value) ?
         array.max<Value>(n)(value) :
         string.maxLength(n)(<string>value);
+

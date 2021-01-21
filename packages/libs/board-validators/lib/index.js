@@ -1,53 +1,38 @@
 "use strict";
+/** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
-var string = require("@quenk/preconditions/lib/string");
-var array = require("@quenk/preconditions/lib/array");
-var preconditions_1 = require("@quenk/preconditions");
+exports.getPartialValidatorsFor = exports.partialValidatorsAvailable = exports.getValidatorsFor = exports.validatorsAvailable = void 0;
+/** imports */
+var _post = require("./post");
+var _admin = require("./admin");
+var _candidatePost = require("./candidate-post");
+var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
- * name must be a string and between 1-64 characters.
- *
- * Todo: ensure proper case.
+ * validatorsAvailable from this module.
  */
-exports.name = preconditions_1.and(string.isString, preconditions_1.and(string.minLength(1), string.maxLength(64)));
-/**
- * email must be a string between 3-64 characters and contain "@".
- */
-exports.email = preconditions_1.and(string.isString, preconditions_1.and(preconditions_1.and(string.minLength(3), string.maxLength(64)), string.matches(/@/)));
-/**
- * password must be a string between 8-140 characters.
- */
-exports.password = preconditions_1.and(string.isString, preconditions_1.and(string.minLength(8), string.maxLength(140)));
-/**
- * url must be a string of at least 7 characters and begin with http or https.
- */
-exports.url = preconditions_1.and(string.isString, preconditions_1.and(preconditions_1.and(string.minLength(7), string.maxLength(5000)), string.matches(/^(http|https):\/\//)));
-/**
- * textsmall is 256 characters or less.
- */
-exports.textsmall = preconditions_1.and(string.isString, preconditions_1.and(string.minLength(0), string.maxLength(256)));
-/**
- * textmedium is 5000 characters or less.
- */
-exports.textmedium = preconditions_1.and(string.isString, preconditions_1.and(string.minLength(0), string.maxLength(5000)));
-/**
- * textlarge is 25K characters or less.
- */
-exports.textlarge = preconditions_1.and(string.isString, preconditions_1.and(string.minLength(0), string.maxLength(25 * 1000)));
-/**
- * minLength for strings and array.
- */
-exports.minLength = function (n) {
-    return function (value) { return Array.isArray(value) ?
-        array.min(n)(value) :
-        string.minLength(n)(value); };
+exports.validatorsAvailable = {
+    'post': _post.validate,
+    'admin': _admin.validate,
+    'candidate-post': _candidatePost.validate
 };
 /**
- * maxLength for strings and array.
+ * getValidatorsFor provides a validator from this module.
  */
-exports.maxLength = function (n) {
-    return function (value) { return Array.isArray(value) ?
-        array.max(n)(value) :
-        string.maxLength(n)(value); };
+exports.getValidatorsFor = function (name) {
+    return maybe_1.fromNullable(exports.validatorsAvailable[name]);
+};
+/**
+ * partialValidatorsAvailable from this module.
+ */
+exports.partialValidatorsAvailable = {
+    'post': _post.validatePartial,
+    'admin': _admin.validatePartial,
+    'candidate-post': _candidatePost.validatePartial
+};
+/**
+ * getPartialValidatorsFor provides a validator from this module.
+ */
+exports.getPartialValidatorsFor = function (name) {
+    return maybe_1.fromNullable(exports.partialValidatorsAvailable[name]);
 };
 //# sourceMappingURL=index.js.map

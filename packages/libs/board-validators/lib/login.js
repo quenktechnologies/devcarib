@@ -7,6 +7,7 @@ var preconditions_1 = require("@quenk/preconditions");
 var record_1 = require("@quenk/preconditions/lib/record");
 //@ts-ignore: 6133
 var string_1 = require("@quenk/preconditions/lib/string");
+//@ts-ignore: 6133
 var _string = preconditions_1.and(string_1.isString, string_1.trim);
 /**
  * validators for Login provided as a map.

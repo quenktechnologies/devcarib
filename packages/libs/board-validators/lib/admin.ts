@@ -1,7 +1,8 @@
 
 /**
- * Admin validator.
- * AUTO GENERATED! DO NOT EDIT DIRECTLY!
+ * Admin validators.
+
+ * AUTO GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
 /** imports **/
 //@ts-ignore: 6133
@@ -39,8 +40,14 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Admin } from '@board/types/lib/admin';
-import { name, email, password } from './';
+import { name, email, password } from './validators';
 
+/**
+ * @private Used during template generation.
+ */
+export type DataType = Admin;
+
+//@ts-ignore: 6133
 const _string: Precondition<Value, string> = _and(_isString, _trim);
 
 

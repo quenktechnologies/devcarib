@@ -2,6 +2,10 @@ import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Precondition, Preconditions } from '@quenk/preconditions';
 import { Post } from '@board/types/lib/post';
 /**
+ * @private Used during template generation.
+ */
+export declare type DataType = Post;
+/**
  * validators for Post provided as a map.
  */
 export declare const validators: Preconditions<Value, Value>;

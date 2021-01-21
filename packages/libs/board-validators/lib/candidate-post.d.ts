@@ -1,6 +1,10 @@
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Precondition, Preconditions } from '@quenk/preconditions';
-import { CandidatePost } from '@board/types/lib/candidatepost';
+import { CandidatePost } from '@board/types/lib/candidate-post';
+/**
+ * @private Used during template generation.
+ */
+export declare type DataType = CandidatePost;
 /**
  * validators for CandidatePost provided as a map.
  */

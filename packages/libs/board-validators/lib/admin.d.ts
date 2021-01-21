@@ -2,6 +2,10 @@ import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Precondition, Preconditions } from '@quenk/preconditions';
 import { Admin } from '@board/types/lib/admin';
 /**
+ * @private Used during template generation.
+ */
+export declare type DataType = Admin;
+/**
  * validators for Admin provided as a map.
  */
 export declare const validators: Preconditions<Value, Value>;

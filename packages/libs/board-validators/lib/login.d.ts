@@ -2,6 +2,10 @@ import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Precondition, Preconditions } from '@quenk/preconditions';
 import { Login } from '@board/types/lib/login';
 /**
+ * @private Used during template generation.
+ */
+export declare type DataType = Login;
+/**
  * validators for Login provided as a map.
  */
 export declare const validators: Preconditions<Value, Value>;

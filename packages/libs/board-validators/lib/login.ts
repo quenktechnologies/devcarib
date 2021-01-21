@@ -1,7 +1,8 @@
 
 /**
- * Login validator.
- * AUTO GENERATED! DO NOT EDIT DIRECTLY!
+ * Login validators.
+
+ * AUTO GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
 /** imports **/
 //@ts-ignore: 6133
@@ -40,6 +41,12 @@ import {
 
 import { Login } from '@board/types/lib/login';
 
+/**
+ * @private Used during template generation.
+ */
+export type DataType = Login;
+
+//@ts-ignore: 6133
 const _string: Precondition<Value, string> = _and(_isString, _trim);
 
 

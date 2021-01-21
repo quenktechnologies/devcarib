@@ -1,7 +1,8 @@
 
 /**
- * Post validator.
- * AUTO GENERATED! DO NOT EDIT DIRECTLY!
+ * Post validators.
+
+ * AUTO GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
 /** imports **/
 //@ts-ignore: 6133
@@ -39,8 +40,14 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Post } from '@board/types/lib/post';
-import { textsmall, minLength, textlarge, name, email, url } from './';
+import { textsmall, minLength, textlarge, name, email, url } from './validators';
 
+/**
+ * @private Used during template generation.
+ */
+export type DataType = Post;
+
+//@ts-ignore: 6133
 const _string: Precondition<Value, string> = _and(_isString, _trim);
 
 

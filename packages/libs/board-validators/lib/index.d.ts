@@ -1,40 +1,35 @@
+/** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
+/** imports */
+import * as _post from './post';
+import * as _admin from './admin';
+import * as _candidatePost from './candidate-post';
 import { Value } from '@quenk/noni/lib/data/jsonx';
+import { Maybe } from '@quenk/noni/lib/data/maybe';
 import { Precondition } from '@quenk/preconditions';
 /**
- * name must be a string and between 1-64 characters.
- *
- * Todo: ensure proper case.
+ * DataTypeUnion combines all the types of the validators found in this module
+ * into one.
  */
-export declare const name: Precondition<Value, string>;
+export declare type DataTypeUnion = _post.DataType | _admin.DataType | _candidatePost.DataType;
 /**
- * email must be a string between 3-64 characters and contain "@".
+ * Validators is a record of validators.
  */
-export declare const email: Precondition<Value, string>;
+export interface Validators {
+    [key: string]: Precondition<Value, DataTypeUnion>;
+}
 /**
- * password must be a string between 8-140 characters.
+ * validatorsAvailable from this module.
  */
-export declare const password: Precondition<Value, string>;
+export declare const validatorsAvailable: Validators;
 /**
- * url must be a string of at least 7 characters and begin with http or https.
+ * getValidatorsFor provides a validator from this module.
  */
-export declare const url: Precondition<Value, string>;
+export declare const getValidatorsFor: (name: string) => Maybe<Precondition<Value, DataTypeUnion>>;
 /**
- * textsmall is 256 characters or less.
+ * partialValidatorsAvailable from this module.
  */
-export declare const textsmall: Precondition<Value, string>;
+export declare const partialValidatorsAvailable: Validators;
 /**
- * textmedium is 5000 characters or less.
+ * getPartialValidatorsFor provides a validator from this module.
  */
-export declare const textmedium: Precondition<Value, string>;
-/**
- * textlarge is 25K characters or less.
- */
-export declare const textlarge: Precondition<Value, string>;
-/**
- * minLength for strings and array.
- */
-export declare const minLength: (n: number) => Precondition<Value, Value>;
-/**
- * maxLength for strings and array.
- */
-export declare const maxLength: (n: number) => Precondition<Value, Value>;
+export declare const getPartialValidatorsFor: (name: string) => Maybe<Precondition<Value, DataTypeUnion>>;

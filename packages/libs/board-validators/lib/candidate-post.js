@@ -13,35 +13,35 @@ var validators_1 = require("./validators");
 //@ts-ignore: 6133
 var _string = preconditions_1.and(string_1.isString, string_1.trim);
 /**
- * validators for Post provided as a map.
+ * validators for CandidatePost provided as a map.
  */
 exports.validators = {
-    'approved': preconditions_1.optional(boolean_1.isBoolean),
     'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall, validators_1.minLength(3)))),
     'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textlarge, validators_1.minLength(3)))),
     'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.name))),
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
-    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url)))
+    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
+    'approved': preconditions_1.optional(boolean_1.isBoolean)
 };
 /**
- * partialValidators for Post provided as a map.
+ * partialValidators for CandidatePost provided as a map.
  */
 exports.partialValidators = {
-    'approved': preconditions_1.optional(boolean_1.isBoolean),
     'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall, validators_1.minLength(3)))),
     'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textlarge, validators_1.minLength(3)))),
     'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.name))),
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
-    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url)))
+    'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
+    'approved': preconditions_1.optional(boolean_1.isBoolean)
 };
 /**
- * validate a single Value against the rules for Post.
+ * validate a single Value against the rules for CandidatePost.
  */
 exports.validate = preconditions_1.and(record_1.isRecord, record_1.restrict(exports.validators));
 /**
- * validate a single Value against the rules for a partial Post.
+ * validate a single Value against the rules for a partial CandidatePost.
  */
 exports.validatePartial = preconditions_1.and(record_1.isRecord, record_1.intersect(exports.partialValidators));
-//# sourceMappingURL=post.js.map
+//# sourceMappingURL=candidate-post.js.map
