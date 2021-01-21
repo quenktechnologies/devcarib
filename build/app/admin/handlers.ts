@@ -13,7 +13,7 @@ import { show, redirect } from '@quenk/tendril/lib/app/api/response';
 import { BaseModel } from '@quenk/dback-model-mongodb';
 
 import { Admin } from '@board/types/lib/admin';
-import { validate as validateLogin } from '@board/validation/lib/login';
+import { validate as validateLogin } from '@board/validators/lib/login';
 
 const ROUTE_INDEX = '/admin';
 const ROUTE_LOGIN = '/admin/login';

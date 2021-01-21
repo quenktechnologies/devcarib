@@ -1,34 +1,54 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.template = void 0;
-const tendrilConnectionMongodb = require("@quenk/tendril-connection-mongodb");
-const tendrilSessionMongodb = require("@quenk/tendril-session-mongodb");
-const tendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
-const admin = require("./admin");
-const events = require("../events");
-const setup = require("../setup");
-const handlers_1 = require("./handlers");
+const quenkTendrilConnectionMongodb = require("@quenk/tendril-connection-mongodb");
+const quenkTendrilSessionMongodb = require("@quenk/tendril-session-mongodb");
+const quenkTendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
+const dotAdmin = require("./admin");
+const dotdotEvents = require("../events");
+const dotdotSetup = require("../setup");
+const dotHandlers = require("./handlers");
+//@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
-exports.template = (_app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/app`,
+//@ts-ignore: 6133
+exports.template = ($app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/app`,
             'public': [`public`, `../../packages/extras/board-views/public`, `../../packages/apps/board-form-post/public`, `../../packages/apps/board-admin/public`] }, 'session': { 'enable': true, 'options': { 'secret': process.env['SESSION_SECRET'], 'name': `bscid` },
-            'store': { 'provider': tendrilSessionMongodb.provider, 'options': { 'uri': process.env['MONGO_URL'] } } }, 'csrf': { 'token': { 'enable': true,
+            'store': { 'provider': quenkTendrilSessionMongodb.provider, 'options': { 'uri': process.env['MONGO_URL'] } } }, 'csrf': { 'token': { 'enable': true,
                 'send_cookie': true } },
-        'views': { 'provider': tendrilShowNunjucks.show,
+        'views': { 'provider': quenkTendrilShowNunjucks.show,
             'options': [{ 'path': `packages/extras/board-views/views` }] }, 'log': { 'enable': true, 'format': process.env['LOG_FORMAT'] }, 'parsers': { 'body': { 'json': { 'enable': true } } },
         'middleware': { 'available': {},
             'enabled': [] },
-        'modules': { 'admin': admin.template },
-        'on': { 'connected': [events.connected, setup.run],
-            'started': events.started }, 'routes': (_m) => {
-            return [{ method: 'get', path: '/', filters: [handlers_1.showPosts] },
-                { method: 'get', path: '/post', filters: [handlers_1.showPostJobPage] },
-                { method: 'post', path: '/post', filters: [handlers_1.createPost] },
-                { method: 'get', path: '/posts/:id', filters: [handlers_1.showPost] }
-            ];
+        'modules': { 'admin': dotAdmin.template },
+        'on': { 'connected': [dotdotEvents.connected, dotdotSetup.run],
+            'started': dotdotEvents.started }, 'routes': //@ts-ignore: 6133
+        ($module) => {
+            let $routes = [];
+            $routes.push({
+                method: 'get',
+                path: '/',
+                filters: [dotHandlers.showPosts]
+            });
+            $routes.push({
+                method: 'get',
+                path: '/post',
+                filters: [dotHandlers.showPostJobPage]
+            });
+            $routes.push({
+                method: 'post',
+                path: '/post',
+                filters: [dotHandlers.createPost]
+            });
+            $routes.push({
+                method: 'get',
+                path: '/posts/:id',
+                filters: [dotHandlers.showPost]
+            });
+            return $routes;
         } },
     'create': 
     //@ts-ignore: 6133 
-    (_app) => new module_1.Module(_app),
+    (s) => new module_1.Module(s),
     'server': { 'port': process.env['PORT'], 'host': `0.0.0.0` },
-    'connections': { 'main': { 'connector': tendrilConnectionMongodb.connector, 'options': [process.env['MONGO_URL'], { 'useNewUrlParser': true }] } } });
+    'connections': { 'main': { 'connector': quenkTendrilConnectionMongodb.connector, 'options': [process.env['MONGO_URL'], { 'useNewUrlParser': true }] } } });
 //# sourceMappingURL=index.js.map

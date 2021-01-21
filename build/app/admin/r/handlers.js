@@ -6,10 +6,9 @@ const session = require("@quenk/tendril/lib/app/api/storage/session");
 const adminChecks = require("@board/checks/lib/admin");
 const type_1 = require("@quenk/noni/lib/data/type");
 const regex_1 = require("@quenk/noni/lib/data/string/regex");
-const api_1 = require("@quenk/tendril/lib/app/api");
-const pool_1 = require("@quenk/tendril/lib/app/api/pool");
-const control_1 = require("@quenk/tendril/lib/app/api/control");
 const response_1 = require("@quenk/tendril/lib/app/api/response");
+const api_1 = require("@quenk/tendril/lib/app/api");
+const control_1 = require("@quenk/tendril/lib/app/api/control");
 const dback_resource_mongodb_1 = require("@quenk/dback-resource-mongodb");
 const dback_model_mongodb_1 = require("@quenk/dback-model-mongodb");
 const post_1 = require("@board/checks/lib/post");
@@ -54,8 +53,10 @@ class BaseController extends dback_resource_mongodb_1.BaseResource {
     before(r) {
         return api_1.doAction(function* () {
             let madmin = yield session.get('admin');
-            if (madmin.isNothing())
-                return response_1.forbidden();
+            if (madmin.isNothing()) {
+                yield response_1.forbidden();
+                yield control_1.abort();
+            }
             return control_1.value(r);
         });
     }
@@ -68,7 +69,8 @@ class BaseController extends dback_resource_mongodb_1.BaseResource {
             let eBody = yield control_1.fork(that.checkCreate(r.body));
             if (eBody.isLeft()) {
                 let errors = eBody.takeLeft().explain(that.messages);
-                return response_1.conflict({ errors });
+                yield response_1.conflict({ errors });
+                yield control_1.abort();
             }
             r.body = eBody.takeRight();
             return control_1.value(r);
@@ -83,7 +85,8 @@ class BaseController extends dback_resource_mongodb_1.BaseResource {
             let eBody = yield control_1.fork(that.checkUpdate(r.body));
             if (eBody.isLeft()) {
                 let errors = eBody.takeLeft().explain(that.messages);
-                return response_1.conflict({ errors });
+                yield response_1.conflict({ errors });
+                yield control_1.abort();
             }
             r.body = eBody.takeRight();
             return control_1.value(r);
@@ -98,15 +101,13 @@ class AdminsController extends BaseController {
     constructor() {
         super(...arguments);
         this.messages = messages;
-        this.checkCreate = adminChecks.check();
-        this.checkUpdate = adminChecks.checkPartial();
+        this.checkCreate = adminChecks.check;
+        this.checkUpdate = adminChecks.checkPartial;
     }
-    getModel() {
-        return api_1.doAction(function* () {
-            let db = yield pool_1.checkout('main');
-            return control_1.value(AdminModel.getInstance(db));
-        });
+    getModel(db) {
+        return AdminModel.getInstance(db);
     }
+    ;
     beforeSearch(r) {
         return api_1.doAction(function* () {
             let qry = {};
@@ -114,7 +115,7 @@ class AdminsController extends BaseController {
                 let filter = { $regex: regex_1.escape(r.query.q), $options: 'i' };
                 qry = { email: filter };
             }
-            yield prs.set("resource.mongodb.search.query" /* query */, qry);
+            yield prs.set(`${dback_resource_mongodb_1.KEY_SEARCH_PARAMS}.query`, qry);
             return control_1.value(r);
         });
     }
@@ -127,14 +128,11 @@ class PostsController extends BaseController {
     constructor() {
         super(...arguments);
         this.messages = messages;
-        this.checkCreate = post_1.check();
-        this.checkUpdate = post_1.checkPartial();
+        this.checkCreate = post_1.check;
+        this.checkUpdate = post_1.checkPartial;
     }
-    getModel() {
-        return api_1.doAction(function* () {
-            let db = yield pool_1.checkout('main');
-            return control_1.value(PostModel.getInstance(db));
-        });
+    getModel(db) {
+        return PostModel.getInstance(db);
     }
     beforeSearch(r) {
         return api_1.doAction(function* () {
@@ -143,7 +141,7 @@ class PostsController extends BaseController {
                 let filter = { $regex: regex_1.escape(r.query.q), $options: 'i' };
                 qry = { $or: [{ title: filter }, { company: filter }] };
             }
-            yield prs.set("resource.mongodb.search.query" /* query */, qry);
+            yield prs.set(`${dback_resource_mongodb_1.KEY_SEARCH_PARAMS}.query`, qry);
             return control_1.value(r);
         });
     }
