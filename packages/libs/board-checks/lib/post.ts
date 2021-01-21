@@ -37,12 +37,17 @@ import {
 
 import { Post } from '@board/types/lib/post';
 import { validate, validatePartial } from '@board/validators/lib/post';
-import { parseMarkdown, inc, unique } from './';
+import { parseMarkdown, inc, unique } from './checks';
 
 //@ts-ignore: 6133
 const _title = 'Post';
 //@ts-ignore: 6133
 const _collection = 'posts';
+
+/**
+ * @private Used during template generation.
+ */
+export type DataType = Post;
 
 /**
  * checks for Post provided as a map.
@@ -108,11 +113,10 @@ export const partialChecks: Preconditions<Value, Value> = {
 
 };
 
-
 /**
  * check a Post value.
  */
-export const check = (): Precondition<Value, Post> =>
+export const check: Precondition<Value, Post> =
     _and(_every<Value, Value>(parseMarkdown('description', 'description_html')),
         _and<Value, Post, Post>(_async(validate),
             complete(checks)));
@@ -120,7 +124,7 @@ export const check = (): Precondition<Value, Post> =>
 /**
  * checkPartial a partial Post value.
  */
-export const checkPartial = (): Precondition<Value, Partial<Post>> =>
+export const checkPartial: Precondition<Value, Partial<Post>> =
     _and(_every<Value, Value>(parseMarkdown('description', 'description_html')),
         _and<Value, Post, Post>(_async(validatePartial),
             partial(partialChecks)));

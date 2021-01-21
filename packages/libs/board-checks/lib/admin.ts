@@ -37,12 +37,17 @@ import {
 
 import { Admin } from '@board/types/lib/admin';
 import { validate, validatePartial } from '@board/validators/lib/admin';
-import { inc, unique } from './';
+import { inc, unique } from './checks';
 
 //@ts-ignore: 6133
 const _title = 'Admin';
 //@ts-ignore: 6133
 const _collection = 'admins';
+
+/**
+ * @private Used during template generation.
+ */
+export type DataType = Admin;
 
 /**
  * checks for Admin provided as a map.
@@ -72,18 +77,17 @@ export const partialChecks: Preconditions<Value, Value> = {
 
 };
 
-
 /**
  * check a Admin value.
  */
-export const check = (): Precondition<Value, Admin> =>
-    _and<Value, Admin, Admin>(_async(validate),
+export const check: Precondition<Value, Admin> =
+    _and<Value, Admin, Admin>(_async<Value, Admin>(validate),
         complete(checks));
 
 /**
  * checkPartial a partial Admin value.
  */
-export const checkPartial = (): Precondition<Value, Partial<Admin>> =>
-    _and<Value, Admin, Admin>(_async(validatePartial),
+export const checkPartial: Precondition<Value, Partial<Admin>> =
+    _and<Value, Admin, Admin>(_async<Value, Admin>(validatePartial),
         partial(partialChecks));
 

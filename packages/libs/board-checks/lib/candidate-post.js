@@ -5,8 +5,8 @@ exports.checkPartial = exports.check = exports.partialChecks = exports.checks = 
 var async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
-var candidatepost_1 = require("@board/validators/lib/candidatepost");
-var _1 = require("./");
+var candidate_post_1 = require("@board/validators/lib/candidate-post");
+var checks_1 = require("./checks");
 //@ts-ignore: 6133
 var _title = 'CandidatePost';
 //@ts-ignore: 6133
@@ -19,7 +19,7 @@ exports.checks = {
     'created_on': async_1.identity,
     'last_updated_on': async_1.identity,
     'last_updated_by': async_1.identity,
-    'id': async_1.every(_1.inc('counters.posts'), _1.unique('posts', 'id')),
+    'id': async_1.every(checks_1.inc('counters.posts'), checks_1.unique('posts', 'id')),
     'title': async_1.identity,
     'description': async_1.identity,
     'description_html': async_1.identity,
@@ -50,13 +50,9 @@ exports.partialChecks = {
 /**
  * check a CandidatePost value.
  */
-exports.check = function () {
-    return async_1.and(async_1.every(_1.parseMarkdown('description', 'description_html')), async_1.and(async_1.async(candidatepost_1.validate), record_1.restrict(exports.checks)));
-};
+exports.check = async_1.and(async_1.every(checks_1.parseMarkdown('description', 'description_html')), async_1.and(async_1.async(candidate_post_1.validate), record_1.restrict(exports.checks)));
 /**
  * checkPartial a partial CandidatePost value.
  */
-exports.checkPartial = function () {
-    return async_1.and(async_1.every(_1.parseMarkdown('description', 'description_html')), async_1.and(async_1.async(candidatepost_1.validatePartial), record_1.intersect(exports.partialChecks)));
-};
-//# sourceMappingURL=candidatepost.js.map
+exports.checkPartial = async_1.and(async_1.every(checks_1.parseMarkdown('description', 'description_html')), async_1.and(async_1.async(candidate_post_1.validatePartial), record_1.intersect(exports.partialChecks)));
+//# sourceMappingURL=candidate-post.js.map

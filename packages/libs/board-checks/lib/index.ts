@@ -1,144 +1,65 @@
-import * as bcryptjs from 'bcryptjs';
-import * as uuid from 'uuid';
-import * as mongodb from 'mongodb';
-import * as moment from 'moment';
-import * as marked from 'marked';
-import * as sanitize from 'sanitize-html';
+/** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
-import { Object, Value } from '@quenk/noni/lib/data/jsonx';
-import {
-    Future,
-    fromCallback,
-    pure
-} from '@quenk/noni/lib/control/monad/future';
-import { DoFn, doN } from '@quenk/noni/lib/control/monad';
-import { unsafeGet } from '@quenk/noni/lib/data/record/path';
-import { isObject } from '@quenk/noni/lib/data/type';
-import {
-    Result as SResult,
-    succeed,
-    fail
-} from '@quenk/preconditions/lib/result';
+/** imports */
+import * as _post from './post';
+import * as _admin from './admin';
+import * as _candidatePost from './candidate-post';
+
+import { Value } from '@quenk/noni/lib/data/jsonx';
+import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
 import { Precondition } from '@quenk/preconditions/lib/async';
-import {
-    findOneAndUpdate, count
-} from '@quenk/safe-mongodb/lib/database/collection';
-import { getInstance } from '@quenk/tendril/lib/app/connection';
-
-export type Result<A, B> = Future<SResult<A, B>>;
-
-export const SETTINGS_ID = 'main';
 
 /**
- * bcrypt
+ * DataTypeUnion combines all the types of the validators found in this module
+ * into one.
  */
-export const bcrypt = (str: Value): Result<Value, Value> =>
-    doN(<DoFn<SResult<Value, Value>, Result<Value, Value>>>function*() {
+export type DataTypeUnion =
+    _post.DataType |
 
-        let salty = yield salt();
-        let salted = yield hash(String(str), salty);
-        return pure(succeed(salted));
+    _admin.DataType |
 
-    });
-
-const salt = (): Future<string> =>
-    fromCallback(cb => bcryptjs.genSalt(12, cb));
-
-const hash = (str: string, salt: string) =>
-    fromCallback(cb => bcryptjs.hash(str, salt, cb));
+    _candidatePost.DataType;
 
 /**
- * unique fails if the value specified for the field is already stored in the
- * database.
+ * Checks is a record of checks.
  */
-export const unique =
-    <A>(collection: string, field: string, dbid = 'main') =>
-        (value: A): Result<A, A> =>
-            doN(<DoFn<SResult<A, A>, Result<A, A>>>function*() {
+export interface Checks {
 
-                let db = yield getMain(dbid);
+    [key: string]: Precondition<Value, DataTypeUnion>
 
-                let n = yield count(db.collection(collection), {
-
-                    [field]: value
-
-                });
-
-                return pure((n > 0) ?
-                    fail<A, A>('unique', value, { value }) :
-                    succeed<A, A>(value));
-
-            });
+}
 
 /**
- * id generates the id number for a record.
+ * checksAvailable from this module.
  */
-export const id: Precondition<Value, Value> = () =>
-    pure(succeed(<Value>uuid.v4().split('-').join('')));
+export const checksAvailable: Checks = {
+
+    'post': <Precondition<Value, DataTypeUnion>>_post.check,
+    'admin': <Precondition<Value, DataTypeUnion>>_admin.check,
+    'candidate-post': <Precondition<Value, DataTypeUnion>>_candidatePost.check
+};
 
 /**
- * inc increments a counter stored in the database returning the value.
- *
- * This is used mostly for generationg sequential ids.
+ * getChecksFor provides a validator from this module.
  */
-export const inc =
-    (field: string, dbid = 'main') =>
-        (_: Value): Result<Value, Value> =>
-            doN(<DoFn<SResult<Value, Value>, Result<Value, Value>>>function*() {
-
-                let db = yield getMain(dbid);
-
-                let target = db.collection('settings');
-
-                let filter = { id: SETTINGS_ID };
-
-                let key = `counters.${field}`;
-
-                let update = { $inc: { [key]: 1 } };
-
-                let opts = { returnOriginal: false };
-
-                let r = yield findOneAndUpdate(target, filter, update, opts);
-
-                return pure(succeed(unsafeGet(key, r.value)));
-
-            });
-
-const getMain = (id: string): Future<mongodb.Db> =>
-    getInstance().get(id).get().checkout();
+export const getChecksFor =
+    (name: string): Maybe<Precondition<Value, DataTypeUnion>> =>
+        fromNullable(checksAvailable[name]);
 
 /**
- * timestamp provides the current UTC datetime as a Date object.
+ * partialChecksAvailable from this module.
  */
-export const timestamp = (): Result<Value, Value> =>
-    pure(succeed(<Value>moment.utc().toDate()));
+export const partialChecksAvailable: Checks = {
+
+    'post': <Precondition<Value, Partial<DataTypeUnion>>>_post.checkPartial,
+    'admin': <Precondition<Value, Partial<DataTypeUnion>>>_admin.checkPartial,
+    'candidate-post': <Precondition<Value, Partial<DataTypeUnion>>>_candidatePost.checkPartial
+};
 
 /**
- * parseMarkdown parses the value of a property on a object as markdown
- * and sets the result to the target destination.
+ * getPartialChecksFor provides a validator from this module.
  */
-export const parseMarkdown =
-    (src: string, dest: string) =>
-        (value: Value): Result<Value, Value> => fromCallback(cb => {
+export const getPartialChecksFor =
+    (name: string): Maybe<Precondition<Value, DataTypeUnion>> =>
+        fromNullable(partialChecksAvailable[name]);
 
-            if (!isObject(value)) return             cb(null, succeed(value));
-
-            let val = <Object>value;
-
-            if(val[src] == null) return cb(null, succeed(value));
-
-            let raw = marked(String(val[src]), { breaks: true, gfm: true });
-
-            val[dest] = sanitize(raw, {
-
-                allowedTags: [
-                    'b', 'i', 'em', 'strong', 'p', 'h1', 'h2', 'h3', 'h4', 'h5',
-                    'h6', 'div', 'span', 'ul', 'ol', 'li', 'blockquote', 'hr'
-                ],
-                allowedAttributes: {}
-
-            });
-
-            cb(null, succeed(val));
-
-        });

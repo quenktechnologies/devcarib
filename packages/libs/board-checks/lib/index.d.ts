@@ -1,34 +1,35 @@
+/** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
+/** imports */
+import * as _post from './post';
+import * as _admin from './admin';
+import * as _candidatePost from './candidate-post';
 import { Value } from '@quenk/noni/lib/data/jsonx';
-import { Future } from '@quenk/noni/lib/control/monad/future';
-import { Result as SResult } from '@quenk/preconditions/lib/result';
+import { Maybe } from '@quenk/noni/lib/data/maybe';
 import { Precondition } from '@quenk/preconditions/lib/async';
-export declare type Result<A, B> = Future<SResult<A, B>>;
-export declare const SETTINGS_ID = "main";
 /**
- * bcrypt
+ * DataTypeUnion combines all the types of the validators found in this module
+ * into one.
  */
-export declare const bcrypt: (str: Value) => Result<Value, Value>;
+export declare type DataTypeUnion = _post.DataType | _admin.DataType | _candidatePost.DataType;
 /**
- * unique fails if the value specified for the field is already stored in the
- * database.
+ * Checks is a record of checks.
  */
-export declare const unique: <A>(collection: string, field: string, dbid?: string) => (value: A) => Result<A, A>;
+export interface Checks {
+    [key: string]: Precondition<Value, DataTypeUnion>;
+}
 /**
- * id generates the id number for a record.
+ * checksAvailable from this module.
  */
-export declare const id: Precondition<Value, Value>;
+export declare const checksAvailable: Checks;
 /**
- * inc increments a counter stored in the database returning the value.
- *
- * This is used mostly for generationg sequential ids.
+ * getChecksFor provides a validator from this module.
  */
-export declare const inc: (field: string, dbid?: string) => (_: Value) => Result<Value, Value>;
+export declare const getChecksFor: (name: string) => Maybe<Precondition<Value, DataTypeUnion>>;
 /**
- * timestamp provides the current UTC datetime as a Date object.
+ * partialChecksAvailable from this module.
  */
-export declare const timestamp: () => Result<Value, Value>;
+export declare const partialChecksAvailable: Checks;
 /**
- * parseMarkdown parses the value of a property on a object as markdown
- * and sets the result to the target destination.
+ * getPartialChecksFor provides a validator from this module.
  */
-export declare const parseMarkdown: (src: string, dest: string) => (value: Value) => Result<Value, Value>;
+export declare const getPartialChecksFor: (name: string) => Maybe<Precondition<Value, DataTypeUnion>>;

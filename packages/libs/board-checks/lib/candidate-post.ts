@@ -35,14 +35,19 @@ import {
     map as _recordMap,
 } from '@quenk/preconditions/lib/async/record';
 
-import { CandidatePost } from '@board/types/lib/candidatepost';
-import { validate, validatePartial } from '@board/validators/lib/candidatepost';
-import { parseMarkdown, inc, unique } from './';
+import { CandidatePost } from '@board/types/lib/candidate-post';
+import { validate, validatePartial } from '@board/validators/lib/candidate-post';
+import { parseMarkdown, inc, unique } from './checks';
 
 //@ts-ignore: 6133
 const _title = 'CandidatePost';
 //@ts-ignore: 6133
 const _collection = 'posts';
+
+/**
+ * @private Used during template generation.
+ */
+export type DataType = CandidatePost;
 
 /**
  * checks for CandidatePost provided as a map.
@@ -108,11 +113,10 @@ export const partialChecks: Preconditions<Value, Value> = {
 
 };
 
-
 /**
  * check a CandidatePost value.
  */
-export const check = (): Precondition<Value, CandidatePost> =>
+export const check: Precondition<Value, CandidatePost> =
     _and(_every<Value, Value>(parseMarkdown('description', 'description_html')),
         _and<Value, CandidatePost, CandidatePost>(_async(validate),
             complete(checks)));
@@ -120,7 +124,7 @@ export const check = (): Precondition<Value, CandidatePost> =>
 /**
  * checkPartial a partial CandidatePost value.
  */
-export const checkPartial = (): Precondition<Value, Partial<CandidatePost>> =>
+export const checkPartial: Precondition<Value, Partial<CandidatePost>> =
     _and(_every<Value, Value>(parseMarkdown('description', 'description_html')),
         _and<Value, CandidatePost, CandidatePost>(_async(validatePartial),
             partial(partialChecks)));
