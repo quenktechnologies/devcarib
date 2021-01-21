@@ -41,6 +41,7 @@ BOARD_SCHEMA_DIR:=$(EXTRAS_PACKAGES_DIR)/board-schema
 BOARD_TYPES_DIR:=$(LIBS_PACKAGES_DIR)/board-types
 BOARD_VALIDATORS_DIR:=$(LIBS_PACKAGES_DIR)/board-validators
 BOARD_CHECKS_DIR:=$(LIBS_PACKAGES_DIR)/board-checks
+BOARD_WIDGETS_DIR:=$(LIBS_PACKAGES_DIR)/board-widgets
 BOARD_FORM_POST_DIR:=$(APPS_PACKAGES_DIR)/board-form-post
 BOARD_ADMIN_DIR:=$(APPS_PACKAGES_DIR)/board-admin
 BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
@@ -71,6 +72,7 @@ include $(BOARD_SCHEMA_DIR)/build.mk
 include $(BOARD_TYPES_DIR)/build.mk
 include $(BOARD_VALIDATORS_DIR)/build.mk
 include $(BOARD_CHECKS_DIR)/build.mk
+include $(BOARD_WIDGETS_DIR)/build.mk
 include $(BOARD_VIEWS_DIR)/build.mk
 include $(BOARD_FORM_POST_DIR)/build.mk
 include $(BOARD_ADMIN_DIR)/build.mk
