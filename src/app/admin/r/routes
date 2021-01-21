@@ -1,4 +1,5 @@
-%import adminsCtrl,postsCtl from "./handlers"
+%set adminsCtrl = ./handlers#adminsCtrl
+%set postsCtl = ./handlers#postsCtl
 
 -- Admins
 POST    /admins       adminsCtrl.create

@@ -1,4 +1,4 @@
-%import adminCtl from "./handlers"
+%set adminCtl = ./handlers#adminCtl
 
 GET     /               adminCtl.showIndex
 GET     /login          adminCtl.showLoginForm

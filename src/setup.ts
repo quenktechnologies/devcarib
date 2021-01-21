@@ -52,7 +52,7 @@ export class Setup {
             if ((email == null) || (password == null))
                 return raise(new Error(E_NO_ADMIN_CREDS));
 
-            let eAdmin = yield check()({
+            let eAdmin = yield check({
                 name,
                 email,
                 password,

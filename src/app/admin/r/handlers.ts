@@ -6,21 +6,24 @@ import * as adminChecks from '@board/checks/lib/admin';
 import { isString } from '@quenk/noni/lib/data/type';
 import { escape } from '@quenk/noni/lib/data/string/regex';
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
+
+import { conflict, forbidden } from '@quenk/tendril/lib/app/api/response';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
-import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import { value, fork } from '@quenk/tendril/lib/app/api/control';
-import { conflict, forbidden } from '@quenk/tendril/lib/app/api/response';
-import {
-    HookResult,
-    SearchKeys,
-    BaseResource
-} from '@quenk/dback-resource-mongodb';
+import { value, fork, abort } from '@quenk/tendril/lib/app/api/control';
+
 import { Precondition } from '@quenk/preconditions/lib/async';
+
+import {
+    BaseResource,
+    KEY_SEARCH_PARAMS
+} from '@quenk/dback-resource-mongodb';
+
 import { BaseModel } from '@quenk/dback-model-mongodb';
 
 import { Post } from '@board/types/lib/post';
 import { Admin } from '@board/types/lib/admin';
+
 import { check, checkPartial } from '@board/checks/lib/post';
 
 const messages = {
@@ -93,13 +96,19 @@ export abstract class BaseController<T extends Object>
     /**
      * before ensures the client has permission to access this api.
      */
-    before(r: Request): HookResult {
+    before(r: Request): Action<Request> {
 
-        return <HookResult>doAction(function*() {
+        return doAction(function*() {
 
             let madmin = yield session.get('admin');
 
-            if (madmin.isNothing()) return forbidden();
+            if (madmin.isNothing()) {
+
+                yield forbidden();
+
+                yield abort();
+
+            }
 
             return value(r);
 
@@ -110,18 +119,20 @@ export abstract class BaseController<T extends Object>
     /**
      * beforeCreate validates the request body before updating.
      */
-    beforeCreate(r: Request): HookResult {
+    beforeCreate(r: Request): Action<Request> {
 
         let that = this;
 
-        return <HookResult>doAction(function*() {
+        return doAction(function*() {
 
             let eBody = yield fork(that.checkCreate(r.body));
 
             if (eBody.isLeft()) {
 
                 let errors = eBody.takeLeft().explain(that.messages);
-                return conflict({ errors });
+
+                yield conflict({ errors });
+                yield abort();
 
             }
 
@@ -136,18 +147,20 @@ export abstract class BaseController<T extends Object>
     /**
      * beforeUpdate validates the request body before updating.
      */
-    beforeUpdate(r: Request): HookResult {
+    beforeUpdate(r: Request): Action<Request> {
 
         let that = this;
 
-        return <HookResult>doAction(function*() {
+        return doAction(function*() {
 
             let eBody = yield fork(that.checkUpdate(r.body));
 
             if (eBody.isLeft()) {
 
                 let errors = eBody.takeLeft().explain(that.messages);
-                return conflict({ errors });
+
+                yield conflict({ errors });
+                yield abort();
 
             }
 
@@ -168,21 +181,15 @@ export class AdminsController extends BaseController<Post> {
 
     messages = messages;
 
-    checkCreate = adminChecks.check();
+    checkCreate = adminChecks.check;
 
-    checkUpdate = adminChecks.checkPartial();
+    checkUpdate = adminChecks.checkPartial;
 
-    getModel(): Action<AdminModel> {
+    getModel(db: mongodb.Db): AdminModel {
 
-        return doAction(function*() {
+        return AdminModel.getInstance(db);
 
-            let db: mongodb.Db = yield checkout('main');
-
-            return value(AdminModel.getInstance(db));
-
-        });
-
-    }
+    };
 
     beforeSearch(r: Request): Action<Request> {
 
@@ -198,7 +205,7 @@ export class AdminsController extends BaseController<Post> {
 
             }
 
-            yield prs.set(SearchKeys.query, qry);
+            yield prs.set(`${KEY_SEARCH_PARAMS}.query`, qry);
 
             return value(r);
 
@@ -215,19 +222,13 @@ export class PostsController extends BaseController<Post> {
 
     messages = messages;
 
-    checkCreate = check();
+    checkCreate = check;
 
-    checkUpdate = checkPartial();
+    checkUpdate = checkPartial;
 
-    getModel(): Action<PostModel> {
+    getModel(db: mongodb.Db): PostModel {
 
-        return doAction(function*() {
-
-            let db: mongodb.Db = yield checkout('main');
-
-            return value(PostModel.getInstance(db));
-
-        });
+        return PostModel.getInstance(db);
 
     }
 
@@ -245,7 +246,7 @@ export class PostsController extends BaseController<Post> {
 
             }
 
-            yield prs.set(SearchKeys.query, qry);
+            yield prs.set(`${KEY_SEARCH_PARAMS}.query`, qry);
 
             return value(r);
 

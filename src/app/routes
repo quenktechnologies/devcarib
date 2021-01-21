@@ -1,13 +1,7 @@
-%import 
-        showPosts,
-        showPost,
-        showPostJobPage,
-        createPost
-from "./handlers"
 
-GET  /                    showPosts
+GET  /                    ./handlers#showPosts
 
-GET  /post                showPostJobPage 
-POST /post                createPost
+GET  /post                ./handlers#showPostJobPage 
+POST /post                ./handlers#createPost
 
-GET  /posts/:id           showPost
+GET  /posts/:id           ./handlers#showPost

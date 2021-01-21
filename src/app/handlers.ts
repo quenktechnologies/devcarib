@@ -5,7 +5,8 @@ import {
     insertOne,
     findOne,
     find
-} from '@quenk/safe-mongodb/lib/database/collection';
+} from '@quenk/noni-mongodb/lib/database/collection';
+
 import {
     show,
     redirect,
@@ -16,24 +17,13 @@ import { fork } from '@quenk/tendril/lib/app/api/control';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { Request } from '@quenk/tendril/lib/app/api/request';
+
 import { isRecord } from '@quenk/noni/lib/data/record';
 import { fromCallback } from '@quenk/noni/lib/control/monad/future';
 
-import { check  } from '@board/checks/lib/candidatepost';
+import { check } from '@board/checks/lib/candidate-post';
 
 export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
-
-/**
- * SessionRequest
- *
- * This interface is a temporary hack until tendril has better session
- * support.
- */
-interface SessionRequest extends Request {
-
-    session: any
-
-}
 
 /**
  * showIndex of the site.
@@ -43,27 +33,14 @@ interface SessionRequest extends Request {
  *
  * In a future iteration this will display recent job postings.
  */
-export const showIndex = (r: Request): Action<undefined> => {
-
-    let req = <SessionRequest>r;
-
-    if (req.session.user == null) {
-
-        return redirect('/login', 302);
-
-    } else {
-
-        return redirect('/dashboard', 302);
-
-    }
-
-}
+export const showIndex = (r: Request): Action<undefined> =>
+    redirect(r.session.exists('user') ? '/dashboard' : '/login', 302);
 
 /**
  * showLoginForm displays the user login form.
  */
 export const showLoginForm = (r: Request): Action<undefined> =>
-    show('login.html', (<SessionRequest>r).session);
+    show('login.html', { error: r.session.getOrElse('error', '') });
 
 /**
  * login attempts to authenticate a user so they can access the protected
@@ -81,15 +58,8 @@ export const showLoginForm = (r: Request): Action<undefined> =>
  * 6. If the comparisson fails, we redirect the user and tell them their attempt
  *    failed.
  */
-export const login = (req: Request): Action<undefined> =>
+export const login = (r: Request): Action<undefined> =>
     doAction(function*() {
-
-        //shut the compiler up.
-        let r = <SessionRequest>req;
-
-        //If a session does not exist, the user is probably not
-        //using our form so we reject the request.
-        if (r.session == null) return redirect('/login', 303);
 
         if (isRecord(r.body)) {
 
@@ -107,7 +77,7 @@ export const login = (req: Request): Action<undefined> =>
 
             if (mUser.isNothing()) {
 
-                r.session.error = ERROR_AUTH_FAILED;
+                r.session.set('error', ERROR_AUTH_FAILED);
 
                 return redirect('/login', 303);
 
@@ -120,15 +90,15 @@ export const login = (req: Request): Action<undefined> =>
             if (didMatch) {
 
                 //regenerate the session to start a fresh.
-                yield fork(fromCallback(cb => r.session.regenerate(cb)));
+                yield fork( r.session.regenerate());
 
-                r.session.user = user.id;
+                r.session.set('user', user.id);
 
                 return redirect('/dashboard', 303);
 
             } else {
 
-                r.session.error = ERROR_AUTH_FAILED;
+                r.session.set('error', ERROR_AUTH_FAILED);
 
                 return redirect('/login', 303);
 
@@ -136,7 +106,7 @@ export const login = (req: Request): Action<undefined> =>
 
         } else {
 
-            r.session.error = ERROR_AUTH_FAILED;
+            r.session.set('error', ERROR_AUTH_FAILED);
 
             return redirect('/login', 302);
 
@@ -152,13 +122,11 @@ const compare = (pwd: string, hash: string) =>
  *
  * This basically destroys the session so we no longer know who the user is.
  */
-export const logout = (req: Request): Action<undefined> =>
+export const logout = (r: Request): Action<undefined> =>
     doAction(function*() {
 
-        let r = <SessionRequest>req;
-
         if (r.session != null)
-            yield fork(fromCallback(cb => r.session.destroy(cb)));
+            yield fork(r.session.destroy());
 
         return redirect('/', 302);
 
@@ -170,7 +138,7 @@ export const logout = (req: Request): Action<undefined> =>
 export const createPost = (r: Request): Action<undefined> =>
     doAction(function*() {
 
-        let eResult = yield fork(check()(r.body));
+        let eResult = yield fork(check(r.body));
 
         if (eResult.isRight()) {
 
@@ -230,12 +198,13 @@ export const showPosts = (_: Request): Action<undefined> =>
 
         let qry = { approved: true };
 
-        let mResult = yield fork(
-            find(collection, qry, { sort: { created_at: -1 }, limit: 50 }));
+        let posts = yield fork(find(
+            collection,
+            qry,
+            { sort: { created_at: -1 },                 limit: 50 }
+        ));
 
-        let posts = mResult.isNothing() ? [] : mResult.get();
-
-        return show('index.html', { posts: posts });
+        return show('index.html', { posts  });
 
     });
 
