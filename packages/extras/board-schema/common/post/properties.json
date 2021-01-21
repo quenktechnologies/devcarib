@@ -8,9 +8,9 @@
 
         "checks-complete": [
 
-            ["./#inc", ["'counters.posts'"]],
+            ["./checks#inc", ["'counters.posts'"]],
 
-            ["./#unique", ["'posts'", "'id'"]]
+            ["./checks#unique", ["'posts'", "'id'"]]
 
         ]
 
@@ -20,11 +20,11 @@
 
         "type": "string",
 
-        "validation": [
+        "validators": [
 
-            "./#textsmall",
+            "./validators#textsmall",
 
-            ["./#minLength", [3]]
+            ["./validators#minLength", [3]]
 
         ]
 
@@ -34,11 +34,11 @@
 
         "type": "string",
 
-        "validation": [
+        "validators": [
 
-            "./#textlarge",
+            "./validators#textlarge",
 
-            ["./#minLength", [3]]
+            ["./validators#minLength", [3]]
 
         ]
 
@@ -56,7 +56,7 @@
 
         "type": "string",
 
-        "validation": "./#name"
+        "validators": "./validators#name"
 
     },
 
@@ -64,7 +64,7 @@
 
         "type": "string",
 
-        "validation": "./#email"
+        "validators": "./validators#email"
 
     },
 
@@ -72,7 +72,7 @@
 
         "type": "string",
 
-        "validation": "./#url",
+        "validators": "./validators#url",
 
         "optional": true
 
@@ -82,7 +82,7 @@
 
         "type": "string",
 
-        "validation": "./#url",
+        "validators": "./validators#url",
 
         "optional": true
 

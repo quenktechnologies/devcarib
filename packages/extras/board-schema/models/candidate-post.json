@@ -8,26 +8,20 @@
 
     "model.type": "ModelType",
 
-    "checks-complete:imports": {
+    "validators:imports": {
 
-        "@board/validators/lib/candidatepost": "validate"
-
-    },
-
-    "validation:imports": {
-
-        "@board/types/lib/candidatepost": "CandidatePost"
+        "@board/types/lib/candidate-post": "CandidatePost"
 
     },
 
     "checks:imports": {
 
-        "@board/validators/lib/candidatepost": ["validate", "validatePartial"]
+        "@board/validators/lib/candidate-post": ["validate", "validatePartial"]
 
     },
 
     "checks": [
-        ["./#parseMarkdown", ["'description'", "'description_html'"]]
+        ["./checks#parseMarkdown", ["'description'", "'description_html'"]]
     ],
 
     "properties": {

@@ -8,13 +8,7 @@
 
     "model.type": "ModelType",
 
-    "checks-complete:imports": {
-
-        "@board/validators/lib/post": "validate"
-
-    },
-
-    "validation:imports": {
+    "validators:imports": {
 
         "@board/types/lib/post": "Post"
 
@@ -27,7 +21,7 @@
     },
 
     "checks": [
-        ["./#parseMarkdown", ["'description'", "'description_html'"]]
+        ["./checks#parseMarkdown", ["'description'", "'description_html'"]]
     ],
 
     "properties": {
