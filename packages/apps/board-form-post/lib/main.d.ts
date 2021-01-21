@@ -2,7 +2,6 @@ import { View } from '@quenk/wml';
 import { Value } from '@quenk/noni/lib/data/json';
 import { Record } from '@quenk/noni/lib/data/record';
 import { Event } from '@quenk/wml-widgets/lib/control';
-import { Post } from '@board/types/lib/post';
 import { PostFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
 import { FinishView } from './views/finish';
@@ -29,7 +28,7 @@ export declare class PostFormApp {
     finishView: FinishView;
     values: {
         post: {
-            data: Post;
+            data: any;
             errors: Record<string>;
             onChange: import("@quenk/noni/lib/data/function").Function<Event<Value>, void>;
         };
