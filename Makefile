@@ -7,6 +7,7 @@ SHELL=/bin/bash -o pipefail
 ### Binaries. ###
 TDC?=$(HERE)/node_modules/.bin/tdc
 TSC?=$(HERE)/node_modules/.bin/tsc
+LESSC?=$(HERE)/node_modules/.bin/lessc
 WML?=$(HERE)/node_modules/.bin/wmlc
 MKDIRP?=mkdir -p
 FIND?=find

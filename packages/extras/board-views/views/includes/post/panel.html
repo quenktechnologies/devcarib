@@ -1,10 +1,12 @@
-<div class="ww-panel -default">
+<div class="ww-panel -default board-post-panel">
 
   <div class="ww-panel__body">
 
-    <h3><a href="/posts/{{post.id}}">{{post.title}}</a></h3>
+    <span class="board-post-panel__text -bold">{{post.company}}</span>
 
-    <p>{{post.company}}</p>
+    <span class="board-post-panel__text"> is looking for a</span> 
+
+    <a class="board-post-panel__link" href="/posts/{{post.id}}">{{post.title}}</a>.
 
   </div>
 
