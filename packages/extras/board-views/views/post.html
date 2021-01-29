@@ -8,81 +8,40 @@
 
   {{ header(false) }}
 
+  {% include "includes/post/header.html" %}
+
   <div id="main" class="ww-grid-layout">
 
-        <div class="ww-grid-layout__row">
+    <div class="ww-grid-layout__row">
 
-            <div class="ww-grid-layout__column -span8 -offset2">
+      <div class="ww-grid-layout__column -span12">
 
-              <div class="ww-grid-layout__row">
-                
-                <div class="ww-grid-layout__column -span12">
+        {{post.description_html | safe}}
 
-                  <a class="ww-link" href="/">&#x2190; Back to Listings</a>
+      </div>
 
-                 </div>
+    </div>
 
-              </div>
+    <div class="ww-grid-layout__row">
 
-                <div class="ww-grid-layout__row">
+      <div class="ww-grid-layout__column -span12">
 
-                    <div class="ww-grid-layout__column -span12">
+        <div class="post-footer-section">
 
-                      <div class="post-title-section">
+          {% if post.apply_url %}
 
-                        <h2 class="post-title">{{post.title}}</h2>
+            <a href="{{post.apply_url|escape}}"
+               class="ww-button -success -large post-apply-button"
+               target="_blank"> Apply</a>   
 
-                        {% if post.company_logo %}
-
-                          <img class="post-company-logo"
-                               src={{post.company_logo|escape}}
-                               alt="Company Logo" />
-
-                        {% endif %}
-
-                        <p class="post-company">{{post.company}}</p>
-
-                      </div>
-
-                    </div>
-
-                </div>
-
-                <div class="ww-grid-layout__row">
-
-                    <div class="ww-grid-layout__column -span12">
-
-                        {{post.description_html | safe}}
-
-                    </div>
-
-                </div>
-
-                <div class="ww-grid-layout__row">
-
-                    <div class="ww-grid-layout__column -span12">
-
-                      <div class="post-footer-section">
-
-                        {% if post.apply_url %}
-
-                          <a href="{{post.apply_url|escape}}" 
-                             class="ww-button -success -large post-apply-button"
-                             target="_blank">
-                            Apply</a>   
-
-                        {% endif %}
-
-                      </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+          {% endif %}
 
         </div>
 
-  </div>
+      </div>
+
+    </div>
+
+</div>
 
 {% endblock %}
