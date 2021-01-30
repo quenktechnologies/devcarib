@@ -1,0 +1,57 @@
+@import "@quenk/wml-widgets/lib/content/screen/less/screen";
+
+.board-common-header {
+
+  margin-top: 1em;
+  margin-bottom: 2em;
+  text-align: center;
+
+  .screen-not-small({
+    text-align:left;
+  });
+
+  & .board-logo {
+
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    font-size: 1.5em;
+    font-weight: 800;
+    letter-spacing: .2em;
+
+    & > a {
+
+      text-decoration: none;
+      color: #333;
+
+    }
+
+  }
+
+  & .board-nav {
+
+    display: flex;
+    justify-content: center;
+
+    .screen-not-small({
+
+      justify-content: flex-end;
+
+    });
+
+    & > .board-nav-list > li > a:hover, 
+    & > .board-nav-list > li > a:active {
+
+      background-color: none;
+      color: #fff;
+
+    }
+
+    & > .ww-button {
+
+      align-self: baseline;
+
+    }
+
+  }
+
+}
