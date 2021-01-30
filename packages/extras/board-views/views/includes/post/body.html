@@ -1,0 +1,29 @@
+<div id="main" class="ww-grid-layout">
+
+    <div class="ww-grid-layout__row">
+
+      <div class="ww-grid-layout__column -span8 -offset2">
+
+        <div class="ww-panel">
+
+          <div class="ww-panel__body">
+{{post.description_html | safe}}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="ww-grid-layout__row">
+
+      <div class="ww-grid-layout__column -span8 -offset2 -board-center">
+
+        {% include "includes/post/apply-button.html" %}
+
+      </div>
+
+    </div>
+
+</div>
