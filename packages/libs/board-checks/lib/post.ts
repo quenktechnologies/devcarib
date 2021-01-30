@@ -117,15 +117,16 @@ export const partialChecks: Preconditions<Value, Value> = {
  * check a Post value.
  */
 export const check: Precondition<Value, Post> =
-    _and(_every<Value, Value>(parseMarkdown('description', 'description_html')),
-        _and<Value, Post, Post>(_async(validate),
-            complete(checks)));
+    _and(_and<Value, Post, Post>(
+        _async(validate), complete(checks)),
+        _every<Post, Post>(parseMarkdown('description', 'description_html'))
+    );
 
 /**
  * checkPartial a partial Post value.
  */
 export const checkPartial: Precondition<Value, Partial<Post>> =
-    _and(_every<Value, Value>(parseMarkdown('description', 'description_html')),
-        _and<Value, Post, Post>(_async(validatePartial),
-            partial(partialChecks)));
+    _and(_and<Value, Post, Post>(_async(validatePartial),
+        partial(partialChecks)),
+        _every(parseMarkdown('description', 'description_html')));
 

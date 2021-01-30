@@ -119,13 +119,13 @@ export const timestamp = (): Result<Value, Value> =>
  */
 export const parseMarkdown =
     (src: string, dest: string) =>
-        (value: Value): Result<Value, Value> => fromCallback(cb => {
+        <T extends Object>(value: T): Result<T, T> => fromCallback(cb => {
 
-            if (!isObject(value)) return             cb(null, succeed(value));
+            if (!isObject(value)) return cb(null, succeed(value));
 
             let val = <Object>value;
 
-            if(val[src] == null) return cb(null, succeed(value));
+            if (val[src] == null) return cb(null, succeed(value));
 
             let raw = marked(String(val[src]), { breaks: true, gfm: true });
 
@@ -139,6 +139,6 @@ export const parseMarkdown =
 
             });
 
-            cb(null, succeed(val));
+            cb(null, succeed(<T>val));
 
         });

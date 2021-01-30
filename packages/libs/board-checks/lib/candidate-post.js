@@ -50,9 +50,9 @@ exports.partialChecks = {
 /**
  * check a CandidatePost value.
  */
-exports.check = async_1.and(async_1.every(checks_1.parseMarkdown('description', 'description_html')), async_1.and(async_1.async(candidate_post_1.validate), record_1.restrict(exports.checks)));
+exports.check = async_1.and(async_1.and(async_1.async(candidate_post_1.validate), record_1.restrict(exports.checks)), async_1.every(checks_1.parseMarkdown('description', 'description_html')));
 /**
  * checkPartial a partial CandidatePost value.
  */
-exports.checkPartial = async_1.and(async_1.every(checks_1.parseMarkdown('description', 'description_html')), async_1.and(async_1.async(candidate_post_1.validatePartial), record_1.intersect(exports.partialChecks)));
+exports.checkPartial = async_1.and(async_1.and(async_1.async(candidate_post_1.validatePartial), record_1.intersect(exports.partialChecks)), async_1.every(checks_1.parseMarkdown('description', 'description_html')));
 //# sourceMappingURL=candidate-post.js.map

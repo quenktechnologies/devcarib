@@ -87,9 +87,10 @@ export const partialChecks:Preconditions<Value, Value> = {
  */
 export const check: Precondition<Value, {{document.title}}> = 
   {% if hasChecks(document,"complete") %}
-    _and(_every<Value,Value>({{getChecks(document,"complete") | join(',')}}),
-     _and<Value, {{document.title}},{{document.title}}>(_async(validate),
-      complete(checks)));
+    _and(_and<Value, {{document.title}},{{document.title}}>(
+      _async(validate), complete(checks)),
+      _every<{{document.title}},{{document.title}}>({{getChecks(document,"complete") | join(',')}})
+     );
   {% else %}
     _and<Value, {{document.title}},{{document.title}}>(_async<Value, {{document.title}}>(validate),
       complete(checks));
@@ -100,9 +101,9 @@ export const check: Precondition<Value, {{document.title}}> =
  */
  export const checkPartial : Precondition<Value, Partial<{{document.title}}>> = 
   {% if hasChecks(document, "partial") %}
-    _and(_every<Value,Value>({{getChecks(document,"partial") | join(',')}}),
-     _and<Value, {{document.title}},{{document.title}}>(_async(validatePartial),
-      partial(partialChecks)));
+    _and(_and<Value, {{document.title}},{{document.title}}>(_async(validatePartial),
+      partial(partialChecks)),
+    _every({{getChecks(document,"partial") | join(',')}}));
   {% else %}
     _and<Value, {{document.title}},{{document.title}}>(_async<Value,{{document.title}}>(validatePartial), 
    partial(partialChecks));  

@@ -1,4 +1,4 @@
-import { Value } from '@quenk/noni/lib/data/jsonx';
+import { Object, Value } from '@quenk/noni/lib/data/jsonx';
 import { Future } from '@quenk/noni/lib/control/monad/future';
 import { Result as SResult } from '@quenk/preconditions/lib/result';
 import { Precondition } from '@quenk/preconditions/lib/async';
@@ -31,4 +31,4 @@ export declare const timestamp: () => Result<Value, Value>;
  * parseMarkdown parses the value of a property on a object as markdown
  * and sets the result to the target destination.
  */
-export declare const parseMarkdown: (src: string, dest: string) => (value: Value) => Result<Value, Value>;
+export declare const parseMarkdown: (src: string, dest: string) => <T extends Object>(value: T) => Result<T, T>;
