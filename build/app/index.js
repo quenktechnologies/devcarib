@@ -4,6 +4,7 @@ exports.template = void 0;
 const quenkTendrilConnectionMongodb = require("@quenk/tendril-connection-mongodb");
 const quenkTendrilSessionMongodb = require("@quenk/tendril-session-mongodb");
 const quenkTendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
+const dotdotFilters = require("../filters");
 const dotAdmin = require("./admin");
 const dotdotEvents = require("../events");
 const dotdotSetup = require("../setup");
@@ -16,7 +17,8 @@ exports.template = ($app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/ap
             'store': { 'provider': quenkTendrilSessionMongodb.provider, 'options': { 'uri': process.env['MONGO_URL'] } } }, 'csrf': { 'token': { 'enable': true,
                 'send_cookie': true } },
         'views': { 'provider': quenkTendrilShowNunjucks.show,
-            'options': [{ 'path': `packages/extras/board-views/views` }] }, 'log': { 'enable': true, 'format': process.env['LOG_FORMAT'] }, 'parsers': { 'body': { 'json': { 'enable': true } } },
+            'options': [{ 'path': `packages/extras/board-views/views`,
+                    'filters': { 'timestamp': dotdotFilters.timestamp } }] }, 'log': { 'enable': true, 'format': process.env['LOG_FORMAT'] }, 'parsers': { 'body': { 'json': { 'enable': true } } },
         'middleware': { 'available': {},
             'enabled': [] },
         'modules': { 'admin': dotAdmin.template },

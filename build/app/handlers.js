@@ -91,6 +91,7 @@ exports.createPost = (r) => api_1.doAction(function* () {
         let db = yield getMain();
         let collection = db.collection('posts');
         data.approved = false;
+        data.created_on = new Date();
         yield control_1.fork(collection_1.insertOne(collection, data));
         return response_1.created({ id: data.id });
     }

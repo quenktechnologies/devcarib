@@ -1,6 +1,7 @@
 import * as quenkTendrilConnectionMongodb from '@quenk/tendril-connection-mongodb'; 
 import * as quenkTendrilSessionMongodb from '@quenk/tendril-session-mongodb'; 
 import * as quenkTendrilShowNunjucks from '@quenk/tendril-show-nunjucks'; 
+import * as dotdotFilters from '../filters'; 
 import * as dotAdmin from './admin'; 
 import * as dotdotEvents from '../events'; 
 import * as dotdotSetup from '../setup'; 
@@ -34,7 +35,8 @@ export const template = ($app: App): Template => (
 'csrf': {'token': {'enable': true,
 'send_cookie': true}},
 'views': {'provider': quenkTendrilShowNunjucks.show,
-'options': [{'path': `packages/extras/board-views/views`}]},
+'options': [{'path': `packages/extras/board-views/views`,
+'filters': {'timestamp': dotdotFilters.timestamp}}]},
 'log': {'enable': true,
 'format': (<string>process.env['LOG_FORMAT'])},
 'parsers': {'body': {'json': {'enable': true}}},
