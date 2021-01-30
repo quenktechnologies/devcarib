@@ -24,7 +24,15 @@ app.csrf.token.send_cookie = true
 
 app.views.provider = @quenk/tendril-show-nunjucks#show
 
-app.views.options = [{path = "packages/extras/board-views/views"}]
+app.views.options = [
+    {
+
+      path = "packages/extras/board-views/views"
+
+      filters = {timestamp = ../filters#timestamp}
+
+    }
+]
 
 app.log.enable = true
 
