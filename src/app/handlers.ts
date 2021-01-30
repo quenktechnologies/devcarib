@@ -147,6 +147,7 @@ export const createPost = (r: Request): Action<undefined> =>
             let collection = db.collection('posts');
 
             data.approved = false;
+            data.created_on = new Date();
 
             yield fork(insertOne(collection, data));
 
