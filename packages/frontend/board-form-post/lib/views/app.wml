@@ -92,9 +92,25 @@
              <TextField
               wml:id="title"
               ww:name="title"
-              ww:label="Job Title*"
-              ww:placeholder="Software Engineer With Finance Background Needed"
+              ww:label="Post Title*"
+              ww:placeholder="Example: Software Engineer With Finance Background Needed"
               ww:value={{@values.post.data.title}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+        
+          <Column>
+
+            <TextField
+              wml:id="preview"
+              ww:name="preview"
+              ww:placeholder="Provide a brief summary here for the listings section"
+              ww:rows=5 
+              ww:value={{@values.post.data.preview}}
               ww:onChange={{@values.post.onChange}} />
 
           </Column>
@@ -108,7 +124,7 @@
             <TextField
               wml:id="description"
               ww:name="description"
-              ww:placeholder="Job Decription"
+              ww:placeholder="Provide full details of the job. Markdown is supported"
               ww:rows=12 
               ww:value={{@values.post.data.description}}
               ww:onChange={{@values.post.onChange}} />

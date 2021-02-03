@@ -65,7 +65,7 @@ var PostFormApp = /** @class */ (function () {
             },
             buttons: {
                 preview: {
-                    id: 'preview',
+                    id: 'preview-button',
                     click: function () { return _this.showPreview(); }
                 },
                 post: {

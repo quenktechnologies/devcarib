@@ -24,6 +24,7 @@ export interface CandidatePost extends _json.Object {
     };
     'id'?: number;
     'title'?: string;
+    'preview'?: string;
     'description'?: string;
     'description_html'?: string;
     'company'?: string;

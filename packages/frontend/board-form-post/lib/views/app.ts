@@ -127,20 +127,30 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Job Title*' ,'placeholder' : 'Software Engineer With Finance Background Needed' ,'value' : __context.values.post .data .title  ,'onChange' : __context.values.post .onChange   }}, [
+        __this.widget(new TextField({wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Post Title*' ,'placeholder' : 'Example: Software Engineer With Finance Background Needed' ,'value' : __context.values.post .data .title  ,'onChange' : __context.values.post .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Job Title*' ,'placeholder' : 'Software Engineer With Finance Background Needed' ,'value' : __context.values.post .data .title  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Post Title*' ,'placeholder' : 'Example: Software Engineer With Finance Background Needed' ,'value' : __context.values.post .data .title  ,'onChange' : __context.values.post .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Job Decription' ,'rows' : 12 ,'value' : __context.values.post .data .description  ,'onChange' : __context.values.post .onChange   }}, [
+        __this.widget(new TextField({wml : { 'id' : 'preview'  },ww : { 'name' : 'preview' ,'placeholder' : 'Provide a brief summary here for the listings section' ,'rows' : 5 ,'value' : __context.values.post .data .preview  ,'onChange' : __context.values.post .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Job Decription' ,'rows' : 12 ,'value' : __context.values.post .data .description  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'preview'  },ww : { 'name' : 'preview' ,'placeholder' : 'Provide a brief summary here for the listings section' ,'rows' : 5 ,'value' : __context.values.post .data .preview  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new TextField({wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Provide full details of the job. Markdown is supported' ,'rows' : 12 ,'value' : __context.values.post .data .description  ,'onChange' : __context.values.post .onChange   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Provide full details of the job. Markdown is supported' ,'rows' : 12 ,'value' : __context.values.post .data .description  ,'onChange' : __context.values.post .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{ww : { 'span' : 10 ,'offset' : 1  }})

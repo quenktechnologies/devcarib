@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Post } from '@board/types/lib/post';
-import { textsmall, minLength, textlarge, name, email, url } from './validators';
+import { textsmall, minLength, maxLength, textlarge, name, email, url } from './validators';
 
 /**
  * @private Used during template generation.
@@ -60,6 +60,11 @@ export const validators: Preconditions<Value, Value> = {
 
     'title': _and(_notNull, _and(_string,
         _every<Value, Value>(textsmall, minLength(3)))
+
+    ),
+
+    'preview': _and(_notNull, _and(_string,
+        _every<Value, Value>(minLength(1), maxLength(240)))
 
     ),
 
@@ -99,6 +104,11 @@ export const partialValidators: Preconditions<Value, Value> = {
 
     'title': _and(_notNull, _and(_string,
         _every<Value, Value>(textsmall, minLength(3)))
+
+    ),
+
+    'preview': _and(_notNull, _and(_string,
+        _every<Value, Value>(minLength(1), maxLength(240)))
 
     ),
 

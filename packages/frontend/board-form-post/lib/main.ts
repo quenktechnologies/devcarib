@@ -123,7 +123,7 @@ export class PostFormApp {
 
             preview: {
 
-                id: 'preview',
+                id: 'preview-button',
 
                 click: () => this.showPreview()
 

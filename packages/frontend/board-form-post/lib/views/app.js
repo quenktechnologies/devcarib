@@ -68,12 +68,17 @@ var PostFormAppView = /** @class */ (function () {
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'title' }, ww: { 'name': 'title', 'label': 'Job Title*', 'placeholder': 'Software Engineer With Finance Background Needed', 'value': __context.values.post.data.title, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'title' }, ww: { 'name': 'title', 'label': 'Job Title*', 'placeholder': 'Software Engineer With Finance Background Needed', 'value': __context.values.post.data.title, 'onChange': __context.values.post.onChange } })
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'title' }, ww: { 'name': 'title', 'label': 'Post Title*', 'placeholder': 'Example: Software Engineer With Finance Background Needed', 'value': __context.values.post.data.title, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'title' }, ww: { 'name': 'title', 'label': 'Post Title*', 'placeholder': 'Example: Software Engineer With Finance Background Needed', 'value': __context.values.post.data.title, 'onChange': __context.values.post.onChange } })
                                 ]), {})
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'description' }, ww: { 'name': 'description', 'placeholder': 'Job Decription', 'rows': 12, 'value': __context.values.post.data.description, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'description' }, ww: { 'name': 'description', 'placeholder': 'Job Decription', 'rows': 12, 'value': __context.values.post.data.description, 'onChange': __context.values.post.onChange } })
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'preview' }, ww: { 'name': 'preview', 'placeholder': 'Provide a brief summary here for the listings section', 'rows': 5, 'value': __context.values.post.data.preview, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'preview' }, ww: { 'name': 'preview', 'placeholder': 'Provide a brief summary here for the listings section', 'rows': 5, 'value': __context.values.post.data.preview, 'onChange': __context.values.post.onChange } })
+                                ]), {})
+                            ]), {}),
+                            __this.widget(new grid_1.Row({}, [
+                                __this.widget(new grid_1.Column({}, [
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'description' }, ww: { 'name': 'description', 'placeholder': 'Provide full details of the job. Markdown is supported', 'rows': 12, 'value': __context.values.post.data.description, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'description' }, ww: { 'name': 'description', 'placeholder': 'Provide full details of the job. Markdown is supported', 'rows': 12, 'value': __context.values.post.data.description, 'onChange': __context.values.post.onChange } })
                                 ]), {})
                             ]), {})
                         ]), { ww: { 'span': 10, 'offset': 1 } })
