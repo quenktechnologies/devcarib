@@ -1,5 +1,3 @@
-{% from "macros/header.html" import header %}
-
 {% extends "base.html" %} 
 
 {% block title %}
@@ -11,7 +9,7 @@
 {% endblock %}
 {% block body %}
 
-  {{ header(false) }}
+  {% include "includes/common/header.html" %}
 
   <div id="main"></div>
 
