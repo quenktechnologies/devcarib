@@ -7,10 +7,19 @@
         <div class="ww-panel">
 
           <div class="ww-panel__body">
-            <div class="board-post-timestamp">Posted {{post.created_on | timestamp}}</div>
+
+            <div class="board-post-timestamp">
+              Posted {{post.created_on | timestamp}}
+            </div>
+
+            <div class="board-post-preview">
+              {{post.preview}}
+            </div>
+
             <div class="board-post-html">
               {{post.description_html | safe}}
             </div>
+
           </div>
 
         </div>

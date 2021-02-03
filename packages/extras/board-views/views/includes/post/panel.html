@@ -2,11 +2,34 @@
 
   <div class="ww-panel__body">
 
-    <span class="board-post-panel__text -bold">{{post.company}}</span>
+    <div class="board-post-panel-header">
 
-    <span class="board-post-panel__text"> is looking for a</span> 
+      <h3 class="board-post-panel-header__title">
+        
+        <a href="/posts/{{post.id}}">{{post.title}}</a>
 
-    <a class="board-post-panel__link" href="/posts/{{post.id}}">{{post.title}}</a>.
+      </h3>
+
+      <span class="board-post-panel-header__text">
+
+          {{post.company}} - Posted {{post.created_on | timefromnow}}
+
+      </span>
+
+    </div>
+
+    <div class="board-post-panel-post-body">
+
+      <span class="board-post-panel-post-body__preview">
+
+          {{post.preview|truncate(240)}}
+
+      </span>
+
+      <a class="board-post-panel-post-body__more-link" 
+         href="/posts/{{post.id}}"> more</a>
+
+    </div>
 
   </div>
 

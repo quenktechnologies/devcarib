@@ -29,7 +29,13 @@ app.views.options = [
 
       path = "packages/extras/board-views/views"
 
-      filters = {timestamp = ../filters#timestamp}
+      filters = {
+
+          timestamp = ../filters#timestamp
+
+          timefromnow = ../filters#timefromnow
+
+        }
 
     }
 ]
