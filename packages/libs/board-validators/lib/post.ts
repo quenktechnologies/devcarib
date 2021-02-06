@@ -69,7 +69,7 @@ export const validators: Preconditions<Value, Value> = {
     ),
 
     'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge, minLength(3)))
+        _every<Value, Value>(textlarge, minLength(3), maxLength(6000)))
 
     ),
 
@@ -113,7 +113,7 @@ export const partialValidators: Preconditions<Value, Value> = {
     ),
 
     'description': _and(_notNull, _and(_string,
-        _every<Value, Value>(textlarge, minLength(3)))
+        _every<Value, Value>(textlarge, minLength(3), maxLength(6000)))
 
     ),
 

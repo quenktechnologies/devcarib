@@ -52,7 +52,9 @@
 
             "./validators#textlarge",
 
-            ["./validators#minLength", [3]]
+            ["./validators#minLength", [3]],
+
+            ["./validators#maxLength", [6000]]
 
         ]
 
