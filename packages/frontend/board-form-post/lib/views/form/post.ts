@@ -8,11 +8,11 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
-import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {PostFormView} from './form/post'; ;
-import {CompanyFormView} from './form/company'; ;
-import {PostFormApp} from '../main'; 
+import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
+import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
+import {DropList} from '@quenk/wml-widgets/lib/control/drop-list'; ;
+import {Checkbox} from '@quenk/wml-widgets/lib/control/checkbox'; ;
+import {PostFormApp} from '../../main'; 
 
 
 //@ts-ignore:6192
@@ -63,76 +63,99 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
-export class PostFormAppView  implements __wml.View {
+export class PostFormView  implements __wml.View {
 
    constructor(__context: PostFormApp) {
 
        this.template = (__this:__wml.Registry) => {
 
-           return __this.widget(new GridLayout({}, [
+           return __this.node('form', <__wml.Attrs>{'name': 'post-form','onsubmit': (e: Event ) => e.preventDefault(),'autocomplete': 'off'}, [
+
+        __this.widget(new Panel({}, [
+
+        __this.widget(new PanelBody({}, [
+
+        __this.widget(new GridLayout({}, [
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
-
-        __this.widget(new Row({}, [
-
         __this.widget(new Column({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'back-link-container'}, [
-
-        __this.widget(new Link({ww : { 'className' : 'back-link' ,'text' : '← Back to Listings' ,'href' : '/'  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Title*' ,'placeholder' : 'Example: Fintech Software Engineer Needed' ,'value' : __context.values.post .data .title  ,'onChange' : __context.values.post .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : 'back-link' ,'text' : '← Back to Listings' ,'href' : '/'  }})
-     ])
+     ]),<__wml.Attrs>{wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Title*' ,'placeholder' : 'Example: Fintech Software Engineer Needed' ,'value' : __context.values.post .data .title  ,'onChange' : __context.values.post .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
-        __this.widget(new Column({}, [
+        __this.widget(new Column({ww : { 'span' : 6  }}, [
 
-        __this.node('h3', <__wml.Attrs>{'class': 'board-post-form-heading'}, [
-
-        __document.createTextNode('Tell us about the job.')
-     ]),
-__this.registerView((new PostFormView(__context))).render()
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.node('h3', <__wml.Attrs>{'class': 'board-post-form-heading'}, [
-
-        __document.createTextNode('Tell us a little bit about the company hiring.')
-     ]),
-__this.registerView((new CompanyFormView(__context))).render()
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.node('div', <__wml.Attrs>{'class': 'preview-button-container'}, [
-
-        __this.widget(new Button({wml : { 'id' : __context.values.buttons .preview .id   },ww : { 'disabled' : true  ,'className' : 'preview-button -primary -large' ,'text' : 'Preview' ,'onClick' : __context.values.buttons .preview .click   }}, [
+        __this.widget(new TextField({wml : { 'id' : 'location'  },ww : { 'name' : 'location' ,'label' : 'Location*' ,'value' : __context.values.post .data .location  ,'onChange' : __context.values.post .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.buttons .preview .id   },ww : { 'disabled' : true  ,'className' : 'preview-button -primary -large' ,'text' : 'Preview' ,'onClick' : __context.values.buttons .preview .click   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'location'  },ww : { 'name' : 'location' ,'label' : 'Location*' ,'value' : __context.values.post .data .location  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
+__this.widget(new Column({ww : { 'span' : 6  }}, [
+
+        __this.node('label', <__wml.Attrs>{'class': 'ww-label'}, [
+
+        __document.createTextNode('Select A Job Type*')
      ]),
-__this.node('p', <__wml.Attrs>{'class': 'required-note'}, [
+__this.widget(new DropList({wml : { 'id' : 'type'  },ww : { 'className' : '-block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onChange   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'type'  },ww : { 'className' : '-block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{ww : { 'span' : 6  }})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new TextField({wml : { 'id' : 'apply_url'  },ww : { 'name' : 'apply_url' ,'label' : 'Apply Link' ,'placeholder' : 'Specify a url or email address applicants can use to apply' ,'value' : __context.values.post .data .apply_url  ,'onChange' : __context.values.post .onChange   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'apply_url'  },ww : { 'name' : 'apply_url' ,'label' : 'Apply Link' ,'placeholder' : 'Specify a url or email address applicants can use to apply' ,'value' : __context.values.post .data .apply_url  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
 
         __this.node('b', <__wml.Attrs>{}, [
 
-        __document.createTextNode('* indicates a field is required.')
+        __document.createTextNode('\u000a              Is this a remote position? \u000a              '),
+__this.widget(new Checkbox({ww : { 'name' : 'remote' ,'value' : __context.values.post .data .remote  ,'onChange' : __context.values.post .onChange   }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'name' : 'remote' ,'value' : __context.values.post .data .remote  ,'onChange' : __context.values.post .onChange   }})
      ])
-     ])
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new TextField({wml : { 'id' : 'preview'  },ww : { 'name' : 'preview' ,'placeholder' : 'Provide a brief summary here for the listings section' ,'rows' : 5 ,'value' : __context.values.post .data .preview  ,'onChange' : __context.values.post .onChange   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'preview'  },ww : { 'name' : 'preview' ,'placeholder' : 'Provide a brief summary here for the listings section' ,'rows' : 5 ,'value' : __context.values.post .data .preview  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new TextField({wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Provide full details of the job. Markdown is supported' ,'rows' : 12 ,'value' : __context.values.post .data .description  ,'onChange' : __context.values.post .onChange   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Provide full details of the job. Markdown is supported' ,'rows' : 12 ,'value' : __context.values.post .data .description  ,'onChange' : __context.values.post .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{});
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]);
 
        }
 

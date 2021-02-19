@@ -44,6 +44,16 @@ var PostFormApp = /** @class */ (function () {
             post: {
                 data: {},
                 errors: {},
+                type: {
+                    options: [
+                        { label: 'Full-Time', value: 'Full-Time' },
+                        { label: 'Part-Time', value: 'Part-Time' },
+                        { label: 'Contractor', value: 'Contractor' },
+                        { label: 'Co-Founder', value: 'Co-Founder' },
+                        { label: 'Contributor', value: 'Contributor' },
+                        { label: 'Volunteer', value: 'Volunteer' },
+                    ]
+                },
                 onChange: timer_1.debounce(function (e) {
                     var name = e.name, value = e.value;
                     if (post_1.validators.hasOwnProperty(name)) {

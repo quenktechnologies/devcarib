@@ -31,6 +31,12 @@ export declare class PostFormApp {
         post: {
             data: Post;
             errors: Record<string>;
+            type: {
+                options: {
+                    label: string;
+                    value: string;
+                }[];
+            };
             onChange: import("@quenk/noni/lib/data/function").Function<Event<Value>, void>;
         };
         buttons: {

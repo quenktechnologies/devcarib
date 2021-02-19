@@ -85,6 +85,21 @@ export class PostFormApp {
 
             errors: <Record<string>>{},
 
+            type: {
+
+                options: [
+
+                    {label:'Full-Time', value: 'Full-Time'},
+                    {label:'Part-Time', value: 'Part-Time'},
+                    {label:'Contractor', value: 'Contractor'},
+                    {label:'Co-Founder', value: 'Co-Founder'},
+                    {label:'Contributor', value: 'Contributor'},
+                    {label:'Volunteer', value: 'Volunteer'},
+
+                ]
+
+            },
+
             onChange: debounce((e: Event<Value>) => {
 
                 let { name, value } = e;
