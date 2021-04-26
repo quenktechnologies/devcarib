@@ -58,7 +58,7 @@
               ww:name="type"
               ww:value={{@values.post.data.type}}
               ww:options={{@values.post.type.options}}
-              ww:onSelect={{@values.post.onChange}} />
+              ww:onSelect={{@values.post.onSelect}} />
 
           </Column>
 
@@ -89,7 +89,7 @@
               <Checkbox 
                 ww:name="remote" 
                 ww:value={{@values.post.data.remote}}
-                ww:onChange={{@values.post.onChange}} />
+                ww:onChange={{@values.post.onSelect}} />
             </b> 
 
           </Column>

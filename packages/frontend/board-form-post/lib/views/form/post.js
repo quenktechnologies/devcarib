@@ -58,7 +58,7 @@ var PostFormView = /** @class */ (function () {
                                     __this.node('label', { 'class': 'ww-label' }, [
                                         __document.createTextNode('Select A Job Type*')
                                     ]),
-                                    __this.widget(new drop_list_1.DropList({ wml: { 'id': 'type' }, ww: { 'className': '-block', 'name': 'type', 'value': __context.values.post.data.type, 'options': __context.values.post.type.options, 'onSelect': __context.values.post.onChange } }, []), { wml: { 'id': 'type' }, ww: { 'className': '-block', 'name': 'type', 'value': __context.values.post.data.type, 'options': __context.values.post.type.options, 'onSelect': __context.values.post.onChange } })
+                                    __this.widget(new drop_list_1.DropList({ wml: { 'id': 'type' }, ww: { 'className': '-block', 'name': 'type', 'value': __context.values.post.data.type, 'options': __context.values.post.type.options, 'onSelect': __context.values.post.onSelect } }, []), { wml: { 'id': 'type' }, ww: { 'className': '-block', 'name': 'type', 'value': __context.values.post.data.type, 'options': __context.values.post.type.options, 'onSelect': __context.values.post.onSelect } })
                                 ]), { ww: { 'span': 6 } })
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
@@ -70,7 +70,7 @@ var PostFormView = /** @class */ (function () {
                                 __this.widget(new grid_1.Column({}, [
                                     __this.node('b', {}, [
                                         __document.createTextNode('\u000a              Is this a remote position? \u000a              '),
-                                        __this.widget(new checkbox_1.Checkbox({ ww: { 'name': 'remote', 'value': __context.values.post.data.remote, 'onChange': __context.values.post.onChange } }, []), { ww: { 'name': 'remote', 'value': __context.values.post.data.remote, 'onChange': __context.values.post.onChange } })
+                                        __this.widget(new checkbox_1.Checkbox({ ww: { 'name': 'remote', 'value': __context.values.post.data.remote, 'onChange': __context.values.post.onSelect } }, []), { ww: { 'name': 'remote', 'value': __context.values.post.data.remote, 'onChange': __context.values.post.onSelect } })
                                     ])
                                 ]), {})
                             ]), {}),

@@ -70,7 +70,7 @@ export const validators: Preconditions<Value, Value> = {
 
     ),
 
-    'remote': _and(_notNull, _boolean
+    'remote': _optional(_boolean
     ),
 
     'preview': _and(_notNull, _and(_string,
@@ -127,7 +127,7 @@ export const partialValidators: Preconditions<Value, Value> = {
 
     ),
 
-    'remote': _and(_notNull, _boolean
+    'remote': _optional(_boolean
     ),
 
     'preview': _and(_notNull, _and(_string,

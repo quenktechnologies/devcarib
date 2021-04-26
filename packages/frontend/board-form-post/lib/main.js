@@ -63,15 +63,22 @@ var PostFormApp = /** @class */ (function () {
                             var msg = eResult
                                 .takeLeft()
                                 .explain(messages, { name: name });
-                            _this.setControlErrorMessage(e.name, msg);
+                            _this.setControlErrorMessage(name, msg);
                         }
                         else {
-                            _this.values.post.data[e.name] = eResult.takeRight();
-                            _this.setControlOk(e.name);
+                            _this.values.post.data[name] = eResult.takeRight();
+                            _this.setControlOk(name);
                         }
                         _this.validatePost();
                     }
-                }, CHANGE_EVENT_DURATION)
+                    else {
+                        console.warn("Ignoring unknown field: \"" + name + "\"");
+                    }
+                }, CHANGE_EVENT_DURATION),
+                onSelect: function (e) {
+                    _this.values.post.data[e.name] = e.value;
+                    _this.validatePost();
+                }
             },
             buttons: {
                 preview: {
@@ -123,15 +130,12 @@ var PostFormApp = /** @class */ (function () {
      * If it is, the "preview" button will be enabled.
      */
     PostFormApp.prototype.validatePost = function () {
-        var state = post_1.validate(this.values.post.data).isRight();
-        var mbtn = util_1.getById(this.view, this.values.buttons.preview.id);
-        if (mbtn.isJust()) {
-            var btn = mbtn.get();
-            if (state)
-                btn.enable();
-            else
-                btn.disable();
-        }
+        var btn = util_1.getById(this.view, this.values.buttons.preview.id).get();
+        var eresult = post_1.validate(this.values.post.data);
+        if (eresult.isRight())
+            btn.enable();
+        else
+            btn.disable();
     };
     /**
      * showPreview switches to the preview screen.

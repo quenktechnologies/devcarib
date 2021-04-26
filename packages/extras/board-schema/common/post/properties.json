@@ -56,7 +56,9 @@
 
     "remote": {
 
-        "type": "boolean"
+        "type": "boolean",
+
+        "optional": true
 
     },
 

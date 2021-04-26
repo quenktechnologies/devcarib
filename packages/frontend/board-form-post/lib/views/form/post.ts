@@ -102,10 +102,10 @@ __this.widget(new Column({ww : { 'span' : 6  }}, [
 
         __document.createTextNode('Select A Job Type*')
      ]),
-__this.widget(new DropList({wml : { 'id' : 'type'  },ww : { 'className' : '-block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onChange   }}, [
+__this.widget(new DropList({wml : { 'id' : 'type'  },ww : { 'className' : '-block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onSelect   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'type'  },ww : { 'className' : '-block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'type'  },ww : { 'className' : '-block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onSelect   }})
      ]),<__wml.Attrs>{ww : { 'span' : 6  }})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -125,10 +125,10 @@ __this.widget(new Row({}, [
         __this.node('b', <__wml.Attrs>{}, [
 
         __document.createTextNode('\u000a              Is this a remote position? \u000a              '),
-__this.widget(new Checkbox({ww : { 'name' : 'remote' ,'value' : __context.values.post .data .remote  ,'onChange' : __context.values.post .onChange   }}, [
+__this.widget(new Checkbox({ww : { 'name' : 'remote' ,'value' : __context.values.post .data .remote  ,'onChange' : __context.values.post .onSelect   }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : 'remote' ,'value' : __context.values.post .data .remote  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{ww : { 'name' : 'remote' ,'value' : __context.values.post .data .remote  ,'onChange' : __context.values.post .onSelect   }})
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
