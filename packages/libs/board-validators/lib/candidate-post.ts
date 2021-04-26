@@ -60,6 +60,19 @@ export const validators: Preconditions<Value, Value> = {
 
     ),
 
+    'type': _and(_notNull, _and(_string,
+        _every<Value, Value>(textsmall))
+
+    ),
+
+    'location': _and(_notNull, _and(_string,
+        _every<Value, Value>(textsmall))
+
+    ),
+
+    'remote': _optional(_boolean
+    ),
+
     'preview': _and(_notNull, _and(_string,
         _every<Value, Value>(minLength(1), maxLength(240)))
 
@@ -102,6 +115,19 @@ export const partialValidators: Preconditions<Value, Value> = {
     'title': _and(_notNull, _and(_string,
         _every<Value, Value>(textsmall, minLength(3)))
 
+    ),
+
+    'type': _and(_notNull, _and(_string,
+        _every<Value, Value>(textsmall))
+
+    ),
+
+    'location': _and(_notNull, _and(_string,
+        _every<Value, Value>(textsmall))
+
+    ),
+
+    'remote': _optional(_boolean
     ),
 
     'preview': _and(_notNull, _and(_string,

@@ -8,11 +8,9 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
-import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {PostFormView} from './form/post'; ;
-import {CompanyFormView} from './form/company'; ;
-import {PostFormApp} from '../main'; 
+import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
+import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
+import {PostFormApp} from '../../main'; 
 
 
 //@ts-ignore:6192
@@ -63,76 +61,54 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
-export class PostFormAppView  implements __wml.View {
+export class CompanyFormView  implements __wml.View {
 
    constructor(__context: PostFormApp) {
 
        this.template = (__this:__wml.Registry) => {
 
-           return __this.widget(new GridLayout({}, [
+           return __this.node('form', <__wml.Attrs>{'name': 'company-form','onsubmit': (e: Event ) => e.preventDefault(),'autocomplete': 'off'}, [
+
+        __this.widget(new Panel({}, [
+
+        __this.widget(new PanelBody({}, [
+
+        __this.widget(new GridLayout({}, [
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
-
-        __this.widget(new Row({}, [
-
         __this.widget(new Column({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'back-link-container'}, [
-
-        __this.widget(new Link({ww : { 'className' : 'back-link' ,'text' : '← Back to Listings' ,'href' : '/'  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company Name*' ,'value' : __context.values.post .data .company  ,'onChange' : __context.values.post .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : 'back-link' ,'text' : '← Back to Listings' ,'href' : '/'  }})
-     ])
+     ]),<__wml.Attrs>{wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company Name*' ,'value' : __context.values.post .data .company  ,'onChange' : __context.values.post .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.node('h3', <__wml.Attrs>{'class': 'board-post-form-heading'}, [
-
-        __document.createTextNode('Tell us about the job.')
-     ]),
-__this.registerView((new PostFormView(__context))).render()
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.node('h3', <__wml.Attrs>{'class': 'board-post-form-heading'}, [
-
-        __document.createTextNode('Tell us a little bit about the company hiring.')
-     ]),
-__this.registerView((new CompanyFormView(__context))).render()
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.node('div', <__wml.Attrs>{'class': 'preview-button-container'}, [
-
-        __this.widget(new Button({wml : { 'id' : __context.values.buttons .preview .id   },ww : { 'disabled' : true  ,'className' : 'preview-button -primary -large' ,'text' : 'Preview' ,'onClick' : __context.values.buttons .preview .click   }}, [
+        __this.widget(new TextField({wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo' ,'placeholder' : 'Please provide a url to a png image with resolution 400 x 400' ,'value' : __context.values.post .data .company_logo  ,'onChange' : __context.values.post .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.buttons .preview .id   },ww : { 'disabled' : true  ,'className' : 'preview-button -primary -large' ,'text' : 'Preview' ,'onClick' : __context.values.buttons .preview .click   }})
-     ]),
-__this.node('p', <__wml.Attrs>{'class': 'required-note'}, [
+     ]),<__wml.Attrs>{wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo' ,'placeholder' : 'Please provide a url to a png image with resolution 400 x 400' ,'value' : __context.values.post .data .company_logo  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
 
-        __this.node('b', <__wml.Attrs>{}, [
+        __this.widget(new Column({}, [
 
-        __document.createTextNode('* indicates a field is required.')
-     ])
-     ])
+        __this.widget(new TextField({wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.values.post .data .company_email  ,'onChange' : __context.values.post .onChange   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.values.post .data .company_email  ,'onChange' : __context.values.post .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{});
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]);
 
        }
 

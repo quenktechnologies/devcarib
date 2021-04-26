@@ -1,163 +1,83 @@
-{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
+{% import (PostFormView) from "./form/post" %}
+{% import (CompanyFormView) from "./form/company" %}
 {% import (PostFormApp) from "../main" %}
 
 {% view PostFormAppView (PostFormApp) %}
 
-<form name="create-post-form">
+<GridLayout>
 
-  <GridLayout>
+  <Row>
 
-    <Row>
+    <Column ww:span=6 ww:offset=3>
 
-      <Column ww:span=10 ww:offset=1>
+      <Row>
 
-        <Row>
+        <Column>
 
-          <Column>
+          <div class="back-link-container">
 
-            <div class="back-link-container">
+            <Link
+              ww:className="back-link"
+              ww:text="← Back to Listings" 
+              ww:href="/" />
 
-              <Link
-                ww:className="back-link"
-                ww:text="← Back to Listings" 
-                ww:href="/" />
+          </div>
 
-            </div>
+        </Column>
 
-          </Column>
+      </Row>
 
-        </Row>
+      <Row>
 
-        <Row>
+        <Column>
 
-          <Column ww:span=6>
+          <h3 class="board-post-form-heading">Tell us about the job.</h4>
 
-            <TextField
-              wml:id="company"
-              ww:name="company"
-              ww:label="Company*"
-              ww:value={{@values.post.data.company}}
-              ww:onChange={{@values.post.onChange}} />
+          {{<PostFormView(@)>}}
 
-          </Column>
+        </Column>
 
-          <Column ww:span=6>
+      </Row>
 
-            <TextField
-              wml:id="company_email"
-              ww:name="company_email" 
-              ww:label="Email*"
-              ww:value={{@values.post.data.company_email}}
-              ww:onChange={{@values.post.onChange}} />
+      <Row>
 
-          </Column>
+        <Column>
 
-        </Row>
+          <h3 class="board-post-form-heading">Tell us a little bit about the company hiring.</h4>
 
-        <Row>
+          {{<CompanyFormView(@)>}}
 
-          <Column ww:span=6>
+        </Column>
 
-            <TextField
-              wml:id="company_logo"
-              ww:name="company_logo"
-              ww:label="Logo URL"
-              ww:placeholder="(Image should be 640x640)"
-              ww:value={{@values.post.data.company_logo}}
-              ww:onChange={{@values.post.onChange}} />
+      </Row>
 
-          </Column>
+      <Row>
 
-          <Column ww:span=6>
+        <Column>
 
-            <TextField
-              wml:id="apply_url"
-              ww:name="apply_url"
-              ww:label="Apply Link"
-              ww:value={{@values.post.data.apply_url}}
-              ww:onChange={{@values.post.onChange}} />
+          <div class="preview-button-container">
 
-          </Column>
+            <Button
+              wml:id={{@values.buttons.preview.id}}
+              ww:disabled=true
+              ww:className="preview-button -primary -large"
+              ww:text="Preview" 
+              ww:onClick={{@values.buttons.preview.click}} />
 
-        </Row>
+          </div>
 
-        <Row>
+          <p class="required-note"><b>* indicates a field is required.</b></p>
 
-          <Column>
-
-             <TextField
-              wml:id="title"
-              ww:name="title"
-              ww:label="Post Title*"
-              ww:placeholder="Example: Software Engineer With Finance Background Needed"
-              ww:value={{@values.post.data.title}}
-              ww:onChange={{@values.post.onChange}} />
-
-          </Column>
-
-        </Row>
-
-        <Row>
-        
-          <Column>
-
-            <TextField
-              wml:id="preview"
-              ww:name="preview"
-              ww:placeholder="Provide a brief summary here for the listings section"
-              ww:rows=5 
-              ww:value={{@values.post.data.preview}}
-              ww:onChange={{@values.post.onChange}} />
-
-          </Column>
-
-        </Row>
-
-        <Row>
-        
-          <Column>
-
-            <TextField
-              wml:id="description"
-              ww:name="description"
-              ww:placeholder="Provide full details of the job. Markdown is supported"
-              ww:rows=12 
-              ww:value={{@values.post.data.description}}
-              ww:onChange={{@values.post.onChange}} />
-
-          </Column>
-
-        </Row>
-
-      </Column>
+        </Column>
 
     </Row>
 
-    <Row>
+    </Column>
 
-      <Column>
+  </Row>
 
-        <div class="preview-button-container">
-
-          <Button
-           wml:id={{@values.buttons.preview.id}}
-           ww:disabled=true
-           ww:className="preview-button -primary -large"
-           ww:text="Preview" 
-           ww:onClick={{@values.buttons.preview.click}} />
-
-        </div>
-
-        <p class="required-note"><b>* indicates a field is required.</b></p>
-
-      </Column>
-
-    </Row>
-
-  </GridLayout>
-
-</form>
+</GridLayout>

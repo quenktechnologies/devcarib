@@ -1,0 +1,137 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+{% import (DropList) from "@quenk/wml-widgets/lib/control/drop-list" %}
+{% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
+
+{% import (PostFormApp) from "../../main" %}
+
+{% view PostFormView (PostFormApp) %}
+
+<form 
+  name="post-form"
+  onsubmit={{(e:Event) -> e.preventDefault() }}
+  autocomplete="off">
+
+  <Panel>
+
+    <PanelBody>
+
+      <GridLayout>
+
+        <Row>
+
+          <Column>
+
+             <TextField
+              wml:id="title"
+              ww:name="title"
+              ww:label="Title*"
+              ww:placeholder="Example: Fintech Software Engineer Needed"
+              ww:value={{@values.post.data.title}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column ww:span=6>
+
+             <TextField
+              wml:id="location"
+              ww:name="location"
+              ww:label="Location*"
+              ww:value={{@values.post.data.location}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+          <Column ww:span=6>
+
+            <label class="ww-label">Select A Job Type*</label>
+
+            <DropList
+              wml:id="type"
+              ww:className="-block"
+              ww:name="type"
+              ww:value={{@values.post.data.type}}
+              ww:options={{@values.post.type.options}}
+              ww:onSelect={{@values.post.onSelect}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column>
+
+            <TextField
+              wml:id="apply_url"
+              ww:name="apply_url"
+              ww:label="Apply Link"
+              ww:placeholder="Specify a url or email address applicants can use to apply"
+              ww:value={{@values.post.data.apply_url}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column>
+
+            <b>
+              Is this a remote position? 
+              <Checkbox 
+                ww:name="remote" 
+                ww:value={{@values.post.data.remote}}
+                ww:onChange={{@values.post.onSelect}} />
+            </b> 
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column>
+
+            <TextField
+              wml:id="preview"
+              ww:name="preview"
+              ww:placeholder="Provide a brief summary here for the listings section"
+              ww:rows=5 
+              ww:value={{@values.post.data.preview}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+        
+          <Column>
+
+            <TextField
+              wml:id="description"
+              ww:name="description"
+              ww:placeholder="Provide full details of the job. Markdown is supported"
+              ww:rows=12 
+              ww:value={{@values.post.data.description}}
+              ww:onChange={{@values.post.onChange}} />
+
+          </Column>
+
+        </Row>
+
+      </GridLayout>
+
+    </PanelBody>
+
+  </Panel>
+
+</form>

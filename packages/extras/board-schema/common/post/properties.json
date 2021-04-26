@@ -30,6 +30,38 @@
 
     },
 
+    "type": {
+
+        "type": "string",
+
+        "validators": [
+
+            "./validators#textsmall"
+
+        ]
+
+    },
+
+    "location": {
+
+        "type": "string",
+
+        "validators": [
+
+            "./validators#textsmall"
+
+        ]
+
+    },
+
+    "remote": {
+
+        "type": "boolean",
+
+        "optional": true
+
+    },
+
     "preview": {
 
         "type": "string",

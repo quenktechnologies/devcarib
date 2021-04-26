@@ -1,18 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostFormAppView = void 0;
+exports.CompanyFormView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-var button_1 = require("@quenk/wml-widgets/lib/control/button");
+var panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
 ;
-var link_1 = require("@quenk/wml-widgets/lib/content/link");
-;
-var post_1 = require("./form/post");
-;
-var company_1 = require("./form/company");
+var text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
 ;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
@@ -33,62 +29,44 @@ var __forOf = function (o, f, alt) {
             ret = ret.concat(f((o)[key], key, o));
     return ret.length === 0 ? alt() : ret;
 };
-var PostFormAppView = /** @class */ (function () {
-    function PostFormAppView(__context) {
+var CompanyFormView = /** @class */ (function () {
+    function CompanyFormView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.widget(new grid_1.GridLayout({}, [
-                __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
-                        __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({}, [
-                                __this.node('div', { 'class': 'back-link-container' }, [
-                                    __this.widget(new link_1.Link({ ww: { 'className': 'back-link', 'text': '← Back to Listings', 'href': '/' } }, []), { ww: { 'className': 'back-link', 'text': '← Back to Listings', 'href': '/' } })
-                                ])
-                            ]), {})
-                        ]), {}),
-                        __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({}, [
-                                __this.node('h3', { 'class': 'board-post-form-heading' }, [
-                                    __document.createTextNode('Tell us about the job.')
-                                ]),
-                                __this.registerView((new post_1.PostFormView(__context))).render()
-                            ]), {})
-                        ]), {}),
-                        __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({}, [
-                                __this.node('h3', { 'class': 'board-post-form-heading' }, [
-                                    __document.createTextNode('Tell us a little bit about the company hiring.')
-                                ]),
-                                __this.registerView((new company_1.CompanyFormView(__context))).render()
-                            ]), {})
-                        ]), {}),
-                        __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({}, [
-                                __this.node('div', { 'class': 'preview-button-container' }, [
-                                    __this.widget(new button_1.Button({ wml: { 'id': __context.values.buttons.preview.id }, ww: { 'disabled': true, 'className': 'preview-button -primary -large', 'text': 'Preview', 'onClick': __context.values.buttons.preview.click } }, []), { wml: { 'id': __context.values.buttons.preview.id }, ww: { 'disabled': true, 'className': 'preview-button -primary -large', 'text': 'Preview', 'onClick': __context.values.buttons.preview.click } })
-                                ]),
-                                __this.node('p', { 'class': 'required-note' }, [
-                                    __this.node('b', {}, [
-                                        __document.createTextNode('* indicates a field is required.')
-                                    ])
-                                ])
+            return __this.node('form', { 'name': 'company-form', 'onsubmit': function (e) { return e.preventDefault(); }, 'autocomplete': 'off' }, [
+                __this.widget(new panel_1.Panel({}, [
+                    __this.widget(new panel_1.PanelBody({}, [
+                        __this.widget(new grid_1.GridLayout({}, [
+                            __this.widget(new grid_1.Row({}, [
+                                __this.widget(new grid_1.Column({}, [
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company Name*', 'value': __context.values.post.data.company, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company Name*', 'value': __context.values.post.data.company, 'onChange': __context.values.post.onChange } })
+                                ]), {})
+                            ]), {}),
+                            __this.widget(new grid_1.Row({}, [
+                                __this.widget(new grid_1.Column({}, [
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo', 'placeholder': 'Please provide a url to a png image with resolution 400 x 400', 'value': __context.values.post.data.company_logo, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo', 'placeholder': 'Please provide a url to a png image with resolution 400 x 400', 'value': __context.values.post.data.company_logo, 'onChange': __context.values.post.onChange } })
+                                ]), {})
+                            ]), {}),
+                            __this.widget(new grid_1.Row({}, [
+                                __this.widget(new grid_1.Column({}, [
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_email' }, ww: { 'name': 'company_email', 'label': 'Email*', 'value': __context.values.post.data.company_email, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company_email' }, ww: { 'name': 'company_email', 'label': 'Email*', 'value': __context.values.post.data.company_email, 'onChange': __context.values.post.onChange } })
+                                ]), {})
                             ]), {})
                         ]), {})
-                    ]), { ww: { 'span': 6, 'offset': 3 } })
+                    ]), {})
                 ]), {})
-            ]), {});
+            ]);
         };
     }
-    PostFormAppView.prototype.registerView = function (v) {
+    CompanyFormView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    PostFormAppView.prototype.register = function (e, attrs) {
+    CompanyFormView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -104,7 +82,7 @@ var PostFormAppView = /** @class */ (function () {
         }
         return e;
     };
-    PostFormAppView.prototype.node = function (tag, attrs, children) {
+    CompanyFormView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -137,18 +115,18 @@ var PostFormAppView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    PostFormAppView.prototype.widget = function (w, attrs) {
+    CompanyFormView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    PostFormAppView.prototype.findById = function (id) {
+    CompanyFormView.prototype.findById = function (id) {
         var mW = maybe_1.fromNullable(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    PostFormAppView.prototype.findByGroup = function (name) {
+    CompanyFormView.prototype.findByGroup = function (name) {
         var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -156,7 +134,7 @@ var PostFormAppView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    PostFormAppView.prototype.invalidate = function () {
+    CompanyFormView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -165,7 +143,7 @@ var PostFormAppView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    PostFormAppView.prototype.render = function () {
+    CompanyFormView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -177,7 +155,7 @@ var PostFormAppView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return PostFormAppView;
+    return CompanyFormView;
 }());
-exports.PostFormAppView = PostFormAppView;
-//# sourceMappingURL=app.js.map
+exports.CompanyFormView = CompanyFormView;
+//# sourceMappingURL=company.js.map

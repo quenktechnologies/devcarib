@@ -85,6 +85,21 @@ export class PostFormApp {
 
             errors: <Record<string>>{},
 
+            type: {
+
+                options: [
+
+                    { label: 'Full-Time', value: 'Full-Time' },
+                    { label: 'Part-Time', value: 'Part-Time' },
+                    { label: 'Contractor', value: 'Contractor' },
+                    { label: 'Co-Founder', value: 'Co-Founder' },
+                    { label: 'Contributor', value: 'Contributor' },
+                    { label: 'Volunteer', value: 'Volunteer' },
+
+                ]
+
+            },
+
             onChange: debounce((e: Event<Value>) => {
 
                 let { name, value } = e;
@@ -101,21 +116,33 @@ export class PostFormApp {
                             .takeLeft()
                             .explain(messages, { name });
 
-                        this.setControlErrorMessage(e.name, msg);
+                        this.setControlErrorMessage(name, msg);
 
                     } else {
 
-                        this.values.post.data[e.name] = eResult.takeRight();
+                        this.values.post.data[name] = eResult.takeRight();
 
-                        this.setControlOk(e.name);
+                        this.setControlOk(name);
 
                     }
 
                     this.validatePost();
 
+                } else {
+
+                    console.warn(`Ignoring unknown field: "${name}"`);
+
                 }
 
-            }, CHANGE_EVENT_DURATION)
+            }, CHANGE_EVENT_DURATION),
+
+            onSelect: (e: Event<Value>) => {
+
+                this.values.post.data[e.name] = e.value;
+
+                this.validatePost();
+
+            }
 
         },
 
@@ -201,20 +228,15 @@ export class PostFormApp {
      */
     validatePost() {
 
-        let state = validate(this.values.post.data).isRight();
+        let btn = getById<Button<void>>(this.view,
+            this.values.buttons.preview.id).get();
 
-        let mbtn = getById<Button<void>>(this.view,
-            this.values.buttons.preview.id);
+        let eresult = validate(this.values.post.data);
 
-        if (mbtn.isJust()) {
-
-            let btn = mbtn.get();
-            if (state)
-                btn.enable();
-            else
-                btn.disable();
-
-        }
+        if (eresult.isRight())
+            btn.enable();
+        else
+            btn.disable();
 
     }
 

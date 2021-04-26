@@ -18,6 +18,9 @@ var _string = preconditions_1.and(string_1.isString, string_1.trim);
 exports.validators = {
     'approved': preconditions_1.optional(boolean_1.isBoolean),
     'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall, validators_1.minLength(3)))),
+    'type': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall))),
+    'location': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall))),
+    'remote': preconditions_1.optional(boolean_1.isBoolean),
     'preview': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.minLength(1), validators_1.maxLength(240)))),
     'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textlarge, validators_1.minLength(3), validators_1.maxLength(6000)))),
     'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.name))),
@@ -31,6 +34,9 @@ exports.validators = {
 exports.partialValidators = {
     'approved': preconditions_1.optional(boolean_1.isBoolean),
     'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall, validators_1.minLength(3)))),
+    'type': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall))),
+    'location': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall))),
+    'remote': preconditions_1.optional(boolean_1.isBoolean),
     'preview': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.minLength(1), validators_1.maxLength(240)))),
     'description': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textlarge, validators_1.minLength(3), validators_1.maxLength(6000)))),
     'company': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.name))),

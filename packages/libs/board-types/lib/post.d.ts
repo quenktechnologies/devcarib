@@ -25,6 +25,9 @@ export interface Post extends _json.Object {
     };
     'id'?: number;
     'title'?: string;
+    'type'?: string;
+    'location'?: string;
+    'remote'?: boolean;
     'preview'?: string;
     'description'?: string;
     'description_html'?: string;
