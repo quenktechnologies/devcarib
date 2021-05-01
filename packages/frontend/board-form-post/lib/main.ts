@@ -1,3 +1,5 @@
+import * as commonMark from '@board/common/lib/common-mark';
+
 import { View } from '@quenk/wml';
 import { Value, Object } from '@quenk/noni/lib/data/json';
 import { debounce } from '@quenk/noni/lib/control/timer';
@@ -146,6 +148,16 @@ export class PostFormApp {
 
         },
 
+        preview: {
+
+            csp: `default-src:'none'; style-src 'self'`,
+
+            sandbox: '',
+
+            srcdoc: ''
+
+        },
+
         buttons: {
 
             preview: {
@@ -245,6 +257,10 @@ export class PostFormApp {
      */
     showPreview(): void {
 
+        this.values.preview.srcdoc = previewTemplate(
+            commonMark.parse(<string>this.values.post.data.description)
+        );
+
         this.render(this.previewView);
 
     }
@@ -339,5 +355,25 @@ export class PostFormApp {
 
 export const escape = (str: string) =>
     str.replace(/[&"'<>]/g, t => escapeMap[t]);
+
+const previewTemplate = (html: string) => `
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Caribbean Developers">
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <title>Job Preview</title>
+</head>
+
+<body>
+ ${html}
+</body>
+
+</html>
+`;
 
 PostFormApp.create(<Node>document.getElementById('main')).run();

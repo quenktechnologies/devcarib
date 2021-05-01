@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.escape = exports.PostFormApp = void 0;
+var commonMark = require("@board/common/lib/common-mark");
 var timer_1 = require("@quenk/noni/lib/control/timer");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var util_1 = require("@quenk/wml-widgets/lib/util");
@@ -80,6 +81,11 @@ var PostFormApp = /** @class */ (function () {
                     _this.validatePost();
                 }
             },
+            preview: {
+                csp: "default-src:'none'; style-src 'self'",
+                sandbox: '',
+                srcdoc: ''
+            },
             buttons: {
                 preview: {
                     id: 'preview-button',
@@ -141,6 +147,7 @@ var PostFormApp = /** @class */ (function () {
      * showPreview switches to the preview screen.
      */
     PostFormApp.prototype.showPreview = function () {
+        this.values.preview.srcdoc = previewTemplate(commonMark.parse(this.values.post.data.description));
         this.render(this.previewView);
     };
     /**
@@ -206,5 +213,6 @@ exports.PostFormApp = PostFormApp;
 exports.escape = function (str) {
     return str.replace(/[&"'<>]/g, function (t) { return escapeMap[t]; });
 };
+var previewTemplate = function (html) { return "\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"author\" content=\"Caribbean Developers\">\n    <link rel=\"stylesheet\" href=\"/assets/css/site.css\">\n    <title>Job Preview</title>\n</head>\n\n<body>\n " + html + "\n</body>\n\n</html>\n"; };
 PostFormApp.create(document.getElementById('main')).run();
 //# sourceMappingURL=main.js.map

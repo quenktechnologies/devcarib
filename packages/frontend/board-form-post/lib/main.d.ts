@@ -40,6 +40,11 @@ export declare class PostFormApp {
             onChange: import("@quenk/noni/lib/data/function").Function<Event<Value>, void>;
             onSelect: (e: Event<Value>) => void;
         };
+        preview: {
+            csp: string;
+            sandbox: string;
+            srcdoc: string;
+        };
         buttons: {
             preview: {
                 id: string;

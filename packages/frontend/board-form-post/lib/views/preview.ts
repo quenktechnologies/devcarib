@@ -11,6 +11,7 @@ import {text} from '@quenk/wml-widgets'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
+import {Embed} from '@quenk/wml-widgets/lib/content/embed'; ;
 import {PostFormApp} from '../main'; 
 
 
@@ -98,14 +99,13 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.node('h3', <__wml.Attrs>{}, [
+        __this.widget(new Embed({ww : { 'className' : '-aspect-ratio-16x9'  }}, [
 
-        __document.createTextNode('Job Description')
-     ]),
-__this.node('p', <__wml.Attrs>{}, [
+        __this.node('iframe', <__wml.Attrs>{'id': 'preview-iframe','csp': __context.values.preview .csp ,'sandbox': __context.values.preview .sandbox ,'srcdoc': __context.values.preview .srcdoc }, [
 
-        text (__context.values.post .data .description )
+        
      ])
+     ]),<__wml.Attrs>{ww : { 'className' : '-aspect-ratio-16x9'  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
