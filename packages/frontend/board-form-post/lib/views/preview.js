@@ -12,6 +12,8 @@ var link_1 = require("@quenk/wml-widgets/lib/content/link");
 ;
 var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
+var embed_1 = require("@quenk/wml-widgets/lib/content/embed");
+;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -56,12 +58,9 @@ var PreviewView = /** @class */ (function () {
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('h3', {}, [
-                                    __document.createTextNode('Job Description')
-                                ]),
-                                __this.node('p', {}, [
-                                    wml_widgets_1.text(__context.values.post.data.description)
-                                ])
+                                __this.widget(new embed_1.Embed({ ww: { 'className': '-aspect-ratio-16x9' } }, [
+                                    __this.node('iframe', { 'id': 'preview-iframe', 'csp': __context.values.preview.csp, 'sandbox': __context.values.preview.sandbox, 'srcdoc': __context.values.preview.srcdoc }, [])
+                                ]), { ww: { 'className': '-aspect-ratio-16x9' } })
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [

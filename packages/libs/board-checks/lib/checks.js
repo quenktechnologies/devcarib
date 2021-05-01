@@ -31,8 +31,7 @@ exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.u
 var bcryptjs = require("bcryptjs");
 var uuid = require("uuid");
 var moment = require("moment");
-var marked = require("marked");
-var sanitize = require("sanitize-html");
+var commonMark = require("@board/common/lib/common-mark");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var monad_1 = require("@quenk/noni/lib/control/monad");
 var path_1 = require("@quenk/noni/lib/data/record/path");
@@ -150,14 +149,7 @@ exports.parseMarkdown = function (src, dest) {
         var val = value;
         if (val[src] == null)
             return cb(null, result_1.succeed(value));
-        var raw = marked(String(val[src]), { breaks: true, gfm: true });
-        val[dest] = sanitize(raw, {
-            allowedTags: [
-                'b', 'i', 'em', 'strong', 'p', 'h1', 'h2', 'h3', 'h4', 'h5',
-                'h6', 'div', 'span', 'ul', 'ol', 'li', 'blockquote', 'hr'
-            ],
-            allowedAttributes: {}
-        });
+        val[dest] = commonMark.parse(String(val[src]));
         cb(null, result_1.succeed(val));
     }); };
 };

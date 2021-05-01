@@ -2,6 +2,7 @@
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Embed) from "@quenk/wml-widgets/lib/content/embed" %}
 
 {% import (PostFormApp) from "../main" %}
 
@@ -37,9 +38,14 @@
 
         <Column>
 
-          <h3>Job Description</h3>
+          <Embed ww:className="-aspect-ratio-16x9">
 
-            <p>{{@values.post.data.description | text}}</p>
+            <iframe id="preview-iframe"
+              csp={{@values.preview.csp}} 
+              sandbox={{@values.preview.sandbox}}
+              srcdoc={{@values.preview.srcdoc}} />
+
+          </Embed>
 
         </Column>
 

@@ -2,8 +2,7 @@ import * as bcryptjs from 'bcryptjs';
 import * as uuid from 'uuid';
 import * as mongodb from 'mongodb';
 import * as moment from 'moment';
-import * as marked from 'marked';
-import * as sanitize from 'sanitize-html';
+import * as commonMark from '@board/common/lib/common-mark';
 
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
 import {
@@ -127,17 +126,7 @@ export const parseMarkdown =
 
             if (val[src] == null) return cb(null, succeed(value));
 
-            let raw = marked(String(val[src]), { breaks: true, gfm: true });
-
-            val[dest] = sanitize(raw, {
-
-                allowedTags: [
-                    'b', 'i', 'em', 'strong', 'p', 'h1', 'h2', 'h3', 'h4', 'h5',
-                    'h6', 'div', 'span', 'ul', 'ol', 'li', 'blockquote', 'hr'
-                ],
-                allowedAttributes: {}
-
-            });
+            val[dest] = commonMark.parse(String(val[src]));
 
             cb(null, succeed(<T>val));
 

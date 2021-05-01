@@ -11,6 +11,7 @@
     "license": "Apache-2.0",
     "dependencies": {
         "@board/checks": "file:packages/libs/board-checks",
+        "@board/common": "file:packages/libs/board-common",
         "@board/types": "file:packages/libs/board-types",
         "@board/validators": "file:packages/libs/board-validators",
         "@quenk/dback-model-mongodb": "^0.2.0",

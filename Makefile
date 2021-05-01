@@ -40,6 +40,7 @@ BOARD_SRC_DIRS:=
 # Configure the paths for your extra packages here.
 BOARD_SCHEMA_DIR:=$(EXTRAS_PACKAGES_DIR)/board-schema
 BOARD_TYPES_DIR:=$(LIBS_PACKAGES_DIR)/board-types
+BOARD_COMMON_DIR:=$(LIBS_PACKAGES_DIR)/board-common
 BOARD_VALIDATORS_DIR:=$(LIBS_PACKAGES_DIR)/board-validators
 BOARD_CHECKS_DIR:=$(LIBS_PACKAGES_DIR)/board-checks
 BOARD_WIDGETS_DIR:=$(LIBS_PACKAGES_DIR)/board-widgets
@@ -56,6 +57,7 @@ BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 		      $(BOARD_SCHEMA_DIR) \
 		      $(BOARD_TYPES_DIR)\
+		      $(BOARD_COMMON_DIR)\
 		      $(BOARD_VALIDATORS_DIR)\
 		      $(BOARD_CHECKS_DIR)\
 		      $(BOARD_VIEWS_DIR)\
@@ -71,6 +73,7 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 # Include *.mk files here.
 include $(BOARD_SCHEMA_DIR)/build.mk
 include $(BOARD_TYPES_DIR)/build.mk
+include $(BOARD_COMMON_DIR)/build.mk
 include $(BOARD_VALIDATORS_DIR)/build.mk
 include $(BOARD_CHECKS_DIR)/build.mk
 include $(BOARD_WIDGETS_DIR)/build.mk
