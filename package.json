@@ -20,7 +20,7 @@
         "@quenk/noni-mongodb": "^0.3.5",
         "@quenk/preconditions": "^5.4.3",
         "@quenk/safe-mongodb": "^0.3.2",
-        "@quenk/tendril": "^0.42.7",
+        "@quenk/tendril": "^0.42.9",
         "@quenk/tendril-connection-mongodb": "0.0.6",
         "@quenk/tendril-session-mongodb": "^0.2.1",
         "@quenk/tendril-show-nunjucks": "0.0.5",
