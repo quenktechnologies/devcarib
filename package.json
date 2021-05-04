@@ -1,6 +1,6 @@
 {
     "name": "@quenk/board",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "private": true,
     "description": "Job board for caribbean software developers.",
     "scripts": {
