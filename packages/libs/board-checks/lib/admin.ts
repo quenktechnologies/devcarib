@@ -37,7 +37,7 @@ import {
 
 import { Admin } from '@board/types/lib/admin';
 import { validate, validatePartial } from '@board/validators/lib/admin';
-import { inc, unique } from './checks';
+import { bcrypt, inc, unique } from './checks';
 
 //@ts-ignore: 6133
 const _title = 'Admin';
@@ -59,7 +59,7 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'email': _identity
     ,
-    'password': _identity
+    'password': _every<Value, Value>(bcrypt)
 
 };
 
@@ -73,7 +73,7 @@ export const partialChecks: Preconditions<Value, Value> = {
     ,
     'email': _identity
     ,
-    'password': _identity
+    'password': _every<Value, Value>(bcrypt)
 
 };
 

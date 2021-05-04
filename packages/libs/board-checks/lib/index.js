@@ -18,9 +18,10 @@ exports.checksAvailable = {
 /**
  * getChecksFor provides a validator from this module.
  */
-exports.getChecksFor = function (name) {
+var getChecksFor = function (name) {
     return maybe_1.fromNullable(exports.checksAvailable[name]);
 };
+exports.getChecksFor = getChecksFor;
 /**
  * partialChecksAvailable from this module.
  */
@@ -32,7 +33,8 @@ exports.partialChecksAvailable = {
 /**
  * getPartialChecksFor provides a validator from this module.
  */
-exports.getPartialChecksFor = function (name) {
+var getPartialChecksFor = function (name) {
     return maybe_1.fromNullable(exports.partialChecksAvailable[name]);
 };
+exports.getPartialChecksFor = getPartialChecksFor;
 //# sourceMappingURL=index.js.map

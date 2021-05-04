@@ -37,17 +37,19 @@ exports.textlarge = preconditions_1.and(string.isString, preconditions_1.and(str
 /**
  * minLength for strings and array.
  */
-exports.minLength = function (n) {
+var minLength = function (n) {
     return function (value) { return Array.isArray(value) ?
         array.min(n)(value) :
         string.minLength(n)(value); };
 };
+exports.minLength = minLength;
 /**
  * maxLength for strings and array.
  */
-exports.maxLength = function (n) {
+var maxLength = function (n) {
     return function (value) { return Array.isArray(value) ?
         array.max(n)(value) :
         string.maxLength(n)(value); };
 };
+exports.maxLength = maxLength;
 //# sourceMappingURL=validators.js.map

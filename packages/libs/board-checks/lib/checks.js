@@ -43,7 +43,7 @@ exports.SETTINGS_ID = 'main';
 /**
  * bcrypt
  */
-exports.bcrypt = function (str) {
+var bcrypt = function (str) {
     return monad_1.doN(function () {
         var salty, salted;
         return __generator(this, function (_a) {
@@ -59,6 +59,7 @@ exports.bcrypt = function (str) {
         });
     });
 };
+exports.bcrypt = bcrypt;
 var salt = function () {
     return future_1.fromCallback(function (cb) { return bcryptjs.genSalt(12, cb); });
 };
@@ -69,7 +70,7 @@ var hash = function (str, salt) {
  * unique fails if the value specified for the field is already stored in the
  * database.
  */
-exports.unique = function (collection, field, dbid) {
+var unique = function (collection, field, dbid) {
     if (dbid === void 0) { dbid = 'main'; }
     return function (value) {
         return monad_1.doN(function () {
@@ -93,18 +94,20 @@ exports.unique = function (collection, field, dbid) {
         });
     };
 };
+exports.unique = unique;
 /**
  * id generates the id number for a record.
  */
-exports.id = function () {
+var id = function () {
     return future_1.pure(result_1.succeed(uuid.v4().split('-').join('')));
 };
+exports.id = id;
 /**
  * inc increments a counter stored in the database returning the value.
  *
  * This is used mostly for generationg sequential ids.
  */
-exports.inc = function (field, dbid) {
+var inc = function (field, dbid) {
     if (dbid === void 0) { dbid = 'main'; }
     return function (_) {
         return monad_1.doN(function () {
@@ -129,20 +132,22 @@ exports.inc = function (field, dbid) {
         });
     };
 };
+exports.inc = inc;
 var getMain = function (id) {
     return connection_1.getInstance().get(id).get().checkout();
 };
 /**
  * timestamp provides the current UTC datetime as a Date object.
  */
-exports.timestamp = function () {
+var timestamp = function () {
     return future_1.pure(result_1.succeed(moment.utc().toDate()));
 };
+exports.timestamp = timestamp;
 /**
  * parseMarkdown parses the value of a property on a object as markdown
  * and sets the result to the target destination.
  */
-exports.parseMarkdown = function (src, dest) {
+var parseMarkdown = function (src, dest) {
     return function (value) { return future_1.fromCallback(function (cb) {
         if (!type_1.isObject(value))
             return cb(null, result_1.succeed(value));
@@ -153,4 +158,5 @@ exports.parseMarkdown = function (src, dest) {
         cb(null, result_1.succeed(val));
     }); };
 };
+exports.parseMarkdown = parseMarkdown;
 //# sourceMappingURL=checks.js.map

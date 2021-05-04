@@ -56,7 +56,9 @@
 
             "type": "string",
 
-            "validators": "./validators#password"
+            "validators": "./validators#password",
+
+            "checks": ["./checks#bcrypt"]
 
         }
 

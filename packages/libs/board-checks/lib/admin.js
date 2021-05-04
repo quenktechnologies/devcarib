@@ -18,7 +18,7 @@ exports.checks = {
     'id': async_1.every(checks_1.inc('counters.admins'), checks_1.unique('admins', 'id')),
     'name': async_1.identity,
     'email': async_1.identity,
-    'password': async_1.identity
+    'password': async_1.every(checks_1.bcrypt)
 };
 /**
  * partialChecks for Admin provided as a map.
@@ -27,7 +27,7 @@ exports.partialChecks = {
     'id': async_1.identity,
     'name': async_1.identity,
     'email': async_1.identity,
-    'password': async_1.identity
+    'password': async_1.every(checks_1.bcrypt)
 };
 /**
  * check a Admin value.

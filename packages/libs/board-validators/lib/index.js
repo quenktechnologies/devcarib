@@ -18,9 +18,10 @@ exports.validatorsAvailable = {
 /**
  * getValidatorsFor provides a validator from this module.
  */
-exports.getValidatorsFor = function (name) {
+var getValidatorsFor = function (name) {
     return maybe_1.fromNullable(exports.validatorsAvailable[name]);
 };
+exports.getValidatorsFor = getValidatorsFor;
 /**
  * partialValidatorsAvailable from this module.
  */
@@ -32,7 +33,8 @@ exports.partialValidatorsAvailable = {
 /**
  * getPartialValidatorsFor provides a validator from this module.
  */
-exports.getPartialValidatorsFor = function (name) {
+var getPartialValidatorsFor = function (name) {
     return maybe_1.fromNullable(exports.partialValidatorsAvailable[name]);
 };
+exports.getPartialValidatorsFor = getPartialValidatorsFor;
 //# sourceMappingURL=index.js.map
