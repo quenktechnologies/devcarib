@@ -5,7 +5,7 @@ const dotHandlers = require("./handlers");
 //@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
 //@ts-ignore: 6133
-exports.template = ($app) => ({ 'id': `r`, 'app': { 'dirs': { 'self': `/build/app/admin/r` }, 'routes': //@ts-ignore: 6133
+const template = ($app) => ({ 'id': `r`, 'app': { 'dirs': { 'self': `/build/app/admin/r` }, 'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];
             let adminsCtrl = dotHandlers.adminsCtrl;
@@ -65,4 +65,5 @@ exports.template = ($app) => ({ 'id': `r`, 'app': { 'dirs': { 'self': `/build/ap
     'create': 
     //@ts-ignore: 6133 
     (s) => new module_1.Module(s) });
+exports.template = template;
 //# sourceMappingURL=index.js.map

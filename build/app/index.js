@@ -12,7 +12,7 @@ const dotHandlers = require("./handlers");
 //@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
 //@ts-ignore: 6133
-exports.template = ($app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/app`,
+const template = ($app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/app`,
             'public': [`public`, `../../packages/extras/board-views/public`, `../../packages/frontend/board-form-post/public`, `../../packages/frontend/board-admin/public`] }, 'session': { 'enable': true, 'options': { 'secret': process.env['SESSION_SECRET'], 'name': `bscid` },
             'store': { 'provider': quenkTendrilSessionMongodb.provider, 'options': { 'uri': process.env['MONGO_URL'] } } }, 'csrf': { 'token': { 'enable': true,
                 'send_cookie': true } },
@@ -54,4 +54,5 @@ exports.template = ($app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/ap
     (s) => new module_1.Module(s),
     'server': { 'port': process.env['PORT'], 'host': `0.0.0.0` },
     'connections': { 'main': { 'connector': quenkTendrilConnectionMongodb.connector, 'options': [process.env['MONGO_URL'], { 'useNewUrlParser': true }] } } });
+exports.template = template;
 //# sourceMappingURL=index.js.map

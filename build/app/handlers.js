@@ -19,11 +19,13 @@ exports.ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
  *
  * In a future iteration this will display recent job postings.
  */
-exports.showIndex = (r) => response_1.redirect(r.session.exists('user') ? '/dashboard' : '/login', 302);
+const showIndex = (r) => response_1.redirect(r.session.exists('user') ? '/dashboard' : '/login', 302);
+exports.showIndex = showIndex;
 /**
  * showLoginForm displays the user login form.
  */
-exports.showLoginForm = (r) => response_1.show('login.html', { error: r.session.getOrElse('error', '') });
+const showLoginForm = (r) => response_1.show('login.html', { error: r.session.getOrElse('error', '') });
+exports.showLoginForm = showLoginForm;
 /**
  * login attempts to authenticate a user so they can access the protected
  * resources of the application.
@@ -40,7 +42,7 @@ exports.showLoginForm = (r) => response_1.show('login.html', { error: r.session.
  * 6. If the comparisson fails, we redirect the user and tell them their attempt
  *    failed.
  */
-exports.login = (r) => api_1.doAction(function* () {
+const login = (r) => api_1.doAction(function* () {
     if (record_1.isRecord(r.body)) {
         let email = r.body.email;
         let password = r.body.password;
@@ -70,21 +72,23 @@ exports.login = (r) => api_1.doAction(function* () {
         return response_1.redirect('/login', 302);
     }
 });
+exports.login = login;
 const compare = (pwd, hash) => future_1.fromCallback(cb => bcryptjs.compare(pwd, hash, cb));
 /**
  * logout the user from the application.
  *
  * This basically destroys the session so we no longer know who the user is.
  */
-exports.logout = (r) => api_1.doAction(function* () {
+const logout = (r) => api_1.doAction(function* () {
     if (r.session != null)
         yield control_1.fork(r.session.destroy());
     return response_1.redirect('/', 302);
 });
+exports.logout = logout;
 /**
  * createPost saves the submitted post data in the database for approval later.
  */
-exports.createPost = (r) => api_1.doAction(function* () {
+const createPost = (r) => api_1.doAction(function* () {
     let eResult = yield control_1.fork(candidate_post_1.check(r.body));
     if (eResult.isRight()) {
         let data = eResult.takeRight();
@@ -99,10 +103,11 @@ exports.createPost = (r) => api_1.doAction(function* () {
         return response_1.conflict({ errors: eResult.takeLeft().explain() });
     }
 });
+exports.createPost = createPost;
 /**
  * showPost displays a page for a single approved post.
  */
-exports.showPost = (r) => api_1.doAction(function* () {
+const showPost = (r) => api_1.doAction(function* () {
     let id = Number(r.params.id); //XXX: this could be done with a check.
     let db = yield getMain();
     let collection = db.collection('posts');
@@ -113,26 +118,29 @@ exports.showPost = (r) => api_1.doAction(function* () {
     else
         return response_1.show('post.html', { post: mResult.get() });
 });
+exports.showPost = showPost;
 /**
  * showPosts currently approved.
  *
  * This only shows the most recent 50 posts. In future we will refactor if
  * needed to show more.
  */
-exports.showPosts = (_) => api_1.doAction(function* () {
+const showPosts = (_) => api_1.doAction(function* () {
     let db = yield getMain();
     let collection = db.collection('posts');
     let qry = { approved: true };
     let posts = yield control_1.fork(collection_1.find(collection, qry, { sort: { created_at: -1 }, limit: 50 }));
     return response_1.show('index.html', { posts });
 });
+exports.showPosts = showPosts;
 /**
  * showPostJobPage displays the form for creating new posts on a new
  * page.
  */
-exports.showPostJobPage = (_) => api_1.doAction(function* () {
+const showPostJobPage = (_) => api_1.doAction(function* () {
     return response_1.show('post-form.html', {});
 });
+exports.showPostJobPage = showPostJobPage;
 //retrieves the main connection from the tendril pool.
 const getMain = () => pool_1.checkout('main');
 //# sourceMappingURL=handlers.js.map

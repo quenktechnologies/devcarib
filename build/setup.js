@@ -90,5 +90,6 @@ const connectionNotFoundErr = () => future_1.raise(new Error('setup: main connec
 /**
  * run
  */
-exports.run = (app) => new Setup(app).run();
+const run = (app) => new Setup(app).run();
+exports.run = run;
 //# sourceMappingURL=setup.js.map

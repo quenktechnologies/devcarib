@@ -5,9 +5,11 @@ const future_1 = require("@quenk/noni/lib/control/monad/future");
 /**
  * connected hook sample.
  */
-exports.connected = () => future_1.pure(console.info('board: Connections established.'));
+const connected = () => future_1.pure(console.info('board: Connections established.'));
+exports.connected = connected;
 /**
  * started hook sample
  */
-exports.started = () => future_1.pure(console.info('board: running'));
+const started = () => future_1.pure(console.info('board: running'));
+exports.started = started;
 //# sourceMappingURL=events.js.map
