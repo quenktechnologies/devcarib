@@ -9,18 +9,5 @@
     "test": "./node_modules/.bin/mocha --opts mocha.opts test"
   },
   "author": "Quenk Technologies Limited (https://quenk.com)",
-  "license": "Apache-2.0",
-  "xdevDependencies": {
-    "@quenk/test": "^2.1.1",
-    "@types/mocha": "^5.2.7",
-    "mocha": "^6.2.0",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3",
-    "typescript-formatter": "latest"
-  },
-  "xdependencies": {
-    "@quenk/dagen": "^1.9.0",
-    "@quenk/dagen-commons": "git+ssh://git@bitbucket.org/quenktechnologies/dagen-commons.git",
-    "@quenk/noni": "^1.29.1"
-  }
+  "license": "Apache-2.0"
 }
