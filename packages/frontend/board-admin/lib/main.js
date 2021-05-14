@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __generator = (this && this.__generator) || function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
@@ -31,12 +46,13 @@ exports.BoardAdmin = exports.ActionColumn = exports.ApprovedColumn = exports.Com
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var string_1 = require("@quenk/noni/lib/data/string");
 var function_1 = require("@quenk/noni/lib/data/function");
+var timer_1 = require("@quenk/noni/lib/control/timer");
+var app_1 = require("@quenk/jouvert/lib/app");
+var util_1 = require("@quenk/wml-widgets/lib/util");
 var browser_1 = require("@quenk/jhr/lib/browser");
-var app_1 = require("./views/app");
+var app_2 = require("./views/app");
 var columns_1 = require("./views/columns");
 var preview_1 = require("./views/dialog/preview");
-var timer_1 = require("@quenk/noni/lib/control/timer");
-var util_1 = require("@quenk/wml-widgets/lib/util");
 exports.ACTION_APPROVE = 'approve';
 exports.ACTION_REMOVE = 'remove';
 exports.ACTION_SHOW = 'show';
@@ -94,20 +110,21 @@ exports.ActionColumn = ActionColumn;
  * @param main    - The DOM node that the main application content will reside.
  * @param dialogs - The DOM node that will be used for dialogs.
  */
-var BoardAdmin = /** @class */ (function () {
+var BoardAdmin = /** @class */ (function (_super) {
+    __extends(BoardAdmin, _super);
     function BoardAdmin(main, dialogs) {
-        var _this = this;
-        this.main = main;
-        this.dialogs = dialogs;
+        var _this = _super.call(this) || this;
+        _this.main = main;
+        _this.dialogs = dialogs;
         /**
          * view is the WML content to display on the screen.
          */
-        this.view = new app_1.BoardAdminView(this);
+        _this.view = new app_2.BoardAdminView(_this);
         /**
          * values contains various bits of information used to generate
          * the view.
          */
-        this.values = {
+        _this.values = {
             header: {
                 links: {
                     Logout: function () { return _this.runFuture(_this.logout()); }
@@ -123,17 +140,18 @@ var BoardAdmin = /** @class */ (function () {
                 id: 'table',
                 data: [],
                 columns: [
-                    new TitleColumn(this),
+                    new TitleColumn(_this),
                     new CompanyColumn(),
                     new ApprovedColumn(),
-                    new ActionColumn(this)
+                    new ActionColumn(_this)
                 ]
             }
         };
-        this.onError = function (e) {
+        _this.onError = function (e) {
             console.error(e);
             alert('An error has occurred! Details have been logged to the console.');
         };
+        return _this;
     }
     BoardAdmin.create = function (main, dialogs) {
         return new BoardAdmin(main, dialogs);
@@ -319,7 +337,7 @@ var BoardAdmin = /** @class */ (function () {
         this.refresh();
     };
     return BoardAdmin;
-}());
+}(app_1.JApp));
 exports.BoardAdmin = BoardAdmin;
 var setView = function (node, view) {
     unsetView(node);

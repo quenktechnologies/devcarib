@@ -3,9 +3,17 @@ import { Object as JSONObject } from '@quenk/noni/lib/data/json';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { interpolate } from '@quenk/noni/lib/data/string';
 import { noop } from '@quenk/noni/lib/data/function';
+import { debounce } from '@quenk/noni/lib/control/timer';
+
+import { JApp } from '@quenk/jouvert/lib/app';
+
+import { View } from '@quenk/wml';
+
 import { Column, CellContext } from '@quenk/wml-widgets/lib/data/table';
 import { Event } from '@quenk/wml-widgets/lib/control';
-import { View } from '@quenk/wml';
+import { getById } from '@quenk/wml-widgets/lib/util';
+import { Updatable } from '@quenk/wml-widgets/lib/data/updatable';
+
 import { createAgent } from '@quenk/jhr/lib/browser';
 import { Ok } from '@quenk/jhr/lib/response';
 
@@ -14,9 +22,6 @@ import { Post } from '@board/types/lib/post';
 import { BoardAdminView } from './views/app';
 import { ActionColumnView, TitleColumnView } from './views/columns';
 import { PostPreviewView } from './views/dialog/preview';
-import { debounce } from '@quenk/noni/lib/control/timer';
-import { getById } from '@quenk/wml-widgets/lib/util';
-import { Updatable } from '@quenk/wml-widgets/lib/data/updatable';
 
 export const ACTION_APPROVE = 'approve';
 export const ACTION_REMOVE = 'remove';
@@ -110,11 +115,13 @@ export class ActionColumn implements Column<Value, Post> {
  * @param main    - The DOM node that the main application content will reside.
  * @param dialogs - The DOM node that will be used for dialogs.
  */
-export class BoardAdmin implements ColumnActionListener {
+export class BoardAdmin
+    extends JApp
+    implements ColumnActionListener {
 
     constructor(
         public main: Node,
-        public dialogs: Node) { }
+        public dialogs: Node) { super(); }
 
     /**
      * view is the WML content to display on the screen.
@@ -273,7 +280,7 @@ export class BoardAdmin implements ColumnActionListener {
     logout(): Future<void> {
 
         return confirm('Do you want to logout now?') ?
-               agent
+            agent
                 .post('/admin/logout', {})
                 .chain(() => {
 

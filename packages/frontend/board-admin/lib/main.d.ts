@@ -1,8 +1,9 @@
 import { Future } from '@quenk/noni/lib/control/monad/future';
 import { Value } from '@quenk/noni/lib/data/jsonx';
+import { JApp } from '@quenk/jouvert/lib/app';
+import { View } from '@quenk/wml';
 import { Column, CellContext } from '@quenk/wml-widgets/lib/data/table';
 import { Event } from '@quenk/wml-widgets/lib/control';
-import { View } from '@quenk/wml';
 import { Post } from '@board/types/lib/post';
 import { BoardAdminView } from './views/app';
 import { ActionColumnView, TitleColumnView } from './views/columns';
@@ -57,7 +58,7 @@ export declare class ActionColumn implements Column<Value, Post> {
  * @param main    - The DOM node that the main application content will reside.
  * @param dialogs - The DOM node that will be used for dialogs.
  */
-export declare class BoardAdmin implements ColumnActionListener {
+export declare class BoardAdmin extends JApp implements ColumnActionListener {
     main: Node;
     dialogs: Node;
     constructor(main: Node, dialogs: Node);
