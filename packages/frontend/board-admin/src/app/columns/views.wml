@@ -1,0 +1,76 @@
+{% import (DropDown) from "@quenk/wml-widgets/lib/control/drop-down" %}
+{% import (Menu) from "@quenk/wml-widgets/lib/menu/menu" %}
+{% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
+
+{% import (Post) from "@board/types/lib/post" %}
+
+{% contract TitleColumnViewCtx =
+
+  post: Post,
+
+  onClick: () -> Void
+
+%}
+
+{% view TitleColumnView (TitleColumnViewCtx) %}
+<td>
+
+  <Link
+    ww:text={{@post.title}}
+    ww:onClick={{@onClick}} />
+
+</td>
+
+{% contract ActionSpec =
+
+    text: String,
+
+    divider: Boolean,
+
+    onClick: (Post) -> Void
+
+%}
+
+{% contract ActionColumnViewCtx = 
+   
+   actions: ActionSpec[],
+
+   post: Post
+
+%}
+
+{% view ActionColumnView (ActionColumnViewCtx) %}
+<td>
+
+  <DropDown
+    ww:className="-left"
+    ww:buttonText="Action">
+
+    <Menu>
+
+      {% for spec in @actions %}
+
+        {% if spec.divider %}
+
+          <Item ww:divider=true />
+
+        {% endif %}
+
+        <Item>
+
+          <Link
+            ww:text={{spec.text}}
+            ww:onClick={{->spec.onClick(@post)}} />
+
+        </Item>
+
+      {% endfor %}
+
+    </Menu>
+
+  </DropDown>
+
+</td>
+
+
