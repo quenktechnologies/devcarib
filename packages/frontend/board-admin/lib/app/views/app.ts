@@ -13,7 +13,7 @@ import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
 import {Nav} from '@quenk/wml-widgets/lib/menu/nav'; ;
 import {Item} from '@quenk/wml-widgets/lib/menu/item'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {BoardAdmin} from '../main'; 
+import {BoardAdmin} from '../'; 
 
 
 //@ts-ignore:6192

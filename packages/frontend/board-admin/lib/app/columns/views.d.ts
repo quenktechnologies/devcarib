@@ -1,16 +1,12 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
 import { Post } from '@board/types/lib/post';
-export interface ActionColumnViewCtx {
-    approve: () => void;
-    remove: () => void;
-}
 export interface TitleColumnViewCtx {
     post: Post;
-    show: () => void;
+    onClick: () => void;
 }
-export declare class ActionColumnView implements __wml.View {
-    constructor(__context: ActionColumnViewCtx);
+export declare class TitleColumnView implements __wml.View {
+    constructor(__context: TitleColumnViewCtx);
     ids: {
         [key: string]: __wml.WMLElement;
     };
@@ -30,8 +26,17 @@ export declare class ActionColumnView implements __wml.View {
     invalidate(): void;
     render(): __wml.Content;
 }
-export declare class TitleColumnView implements __wml.View {
-    constructor(__context: TitleColumnViewCtx);
+export interface ActionSpec {
+    text: string;
+    divider: boolean;
+    onClick: ($0: Post) => void;
+}
+export interface ActionColumnViewCtx {
+    actions: (ActionSpec)[];
+    post: Post;
+}
+export declare class ActionColumnView implements __wml.View {
+    constructor(__context: ActionColumnViewCtx);
     ids: {
         [key: string]: __wml.WMLElement;
     };

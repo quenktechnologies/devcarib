@@ -1,6 +1,6 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-import { BoardAdmin } from '../main';
+import { BoardAdmin } from '../';
 export declare class BoardAdminView implements __wml.View {
     constructor(__context: BoardAdmin);
     ids: {

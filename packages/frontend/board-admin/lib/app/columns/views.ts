@@ -62,38 +62,20 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
-export interface ActionColumnViewCtx{approve : () => void,
-remove : () => void };
 export interface TitleColumnViewCtx{post : Post,
-show : () => void };
-export class ActionColumnView  implements __wml.View {
+onClick : () => void };
+export class TitleColumnView  implements __wml.View {
 
-   constructor(__context: ActionColumnViewCtx) {
+   constructor(__context: TitleColumnViewCtx) {
 
        this.template = (__this:__wml.Registry) => {
 
            return __this.node('td', <__wml.Attrs>{}, [
 
-        __this.widget(new DropDown({ww : { 'className' : '-left' ,'buttonText' : 'Action'  }}, [
-
-        __this.widget(new Menu({}, [
-
-        __this.widget(new Item({}, [
-
-        __this.widget(new Link({ww : { 'text' : 'Approve' ,'onClick' : __context.approve  }}, [
+        __this.widget(new Link({ww : { 'text' : __context.post.title  ,'onClick' : __context.onClick  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Approve' ,'onClick' : __context.approve  }})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Item({}, [
-
-        __this.widget(new Link({ww : { 'text' : 'Remove' ,'onClick' : __context.remove  }}, [
-
-        
-     ]),<__wml.Attrs>{ww : { 'text' : 'Remove' ,'onClick' : __context.remove  }})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'className' : '-left' ,'buttonText' : 'Action'  }})
+     ]),<__wml.Attrs>{ww : { 'text' : __context.post.title  ,'onClick' : __context.onClick  }})
      ]);
 
        }
@@ -262,18 +244,46 @@ __this.widget(new Item({}, [
    }
 
 };
-export class TitleColumnView  implements __wml.View {
+export interface ActionSpec{text : string,
+divider : boolean,
+onClick : ($0:Post) => void };
+export interface ActionColumnViewCtx{actions : (ActionSpec)[],
+post : Post };
+export class ActionColumnView  implements __wml.View {
 
-   constructor(__context: TitleColumnViewCtx) {
+   constructor(__context: ActionColumnViewCtx) {
 
        this.template = (__this:__wml.Registry) => {
 
            return __this.node('td', <__wml.Attrs>{}, [
 
-        __this.widget(new Link({ww : { 'text' : __context.post.title  ,'onClick' : __context.show  }}, [
+        __this.widget(new DropDown({ww : { 'className' : '-left' ,'buttonText' : 'Action'  }}, [
+
+        __this.widget(new Menu({}, [
+
+        ...__forIn (__context.actions, (spec , _$$i, _$$all)=> 
+([
+
+        ...(__if(spec.divider,
+   ()=> ([
+
+        __this.widget(new Item({ww : { 'divider' : true   }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : __context.post.title  ,'onClick' : __context.show  }})
+     ]),<__wml.Attrs>{ww : { 'divider' : true   }})
+     ]),
+   ()=> ([]))) ,
+__this.widget(new Item({}, [
+
+        __this.widget(new Link({ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.post)  }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.post)  }})
+     ]),<__wml.Attrs>{})
+     ]), 
+()=> ([]))
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{ww : { 'className' : '-left' ,'buttonText' : 'Action'  }})
      ]);
 
        }
