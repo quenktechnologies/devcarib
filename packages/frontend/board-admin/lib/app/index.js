@@ -47,6 +47,7 @@ var future_1 = require("@quenk/noni/lib/control/monad/future");
 var string_1 = require("@quenk/noni/lib/data/string");
 var function_1 = require("@quenk/noni/lib/data/function");
 var timer_1 = require("@quenk/noni/lib/control/timer");
+var dialog_1 = require("@quenk/jouvert/lib/app/service/dialog");
 var app_1 = require("@quenk/jouvert/lib/app");
 var util_1 = require("@quenk/wml-widgets/lib/util");
 var browser_1 = require("@quenk/jhr/lib/browser");
@@ -60,6 +61,25 @@ exports.RESOURCE_POSTS = '/admin/r/posts';
 exports.RESOURCE_POST = '/admin/r/posts/{id}';
 exports.TIME_SEARCH_DEBOUNCE = 500;
 var agent = browser_1.createAgent();
+/**
+ * DialogManager is responsible for the actual display and removal of dialog
+ * content.
+ */
+var DialogManager = /** @class */ (function () {
+    function DialogManager(node) {
+        this.node = node;
+    }
+    DialogManager.prototype.open = function (view) {
+        setView(this.node, view);
+    };
+    DialogManager.prototype.setView = function (view) {
+        setView(this.node, view);
+    };
+    DialogManager.prototype.close = function () {
+        unsetView(this.node);
+    };
+    return DialogManager;
+}());
 /**
  * BoardAdmin is the main class for the admin application.
  *
@@ -262,28 +282,16 @@ var BoardAdmin = /** @class */ (function (_super) {
      */
     BoardAdmin.prototype.showPost = function (data) {
         var _this = this;
-        this.showDialog(new preview_1.PostPreviewView({
+        this.tell('dialogs', new dialog_1.ShowDialogView(new preview_1.PostPreviewView({
             post: data,
-            close: function () { return _this.closeDialog(); }
-        }));
-    };
-    /**
-     * showDialog displays a View in the dialog area of the app's screen.
-     */
-    BoardAdmin.prototype.showDialog = function (view) {
-        setView(this.dialogs, view);
+            close: function () { return _this.tell('dialogs', new dialog_1.CloseDialog()); }
+        }), '$'));
     };
     /**
      * show a View on the application's screen.
      */
     BoardAdmin.prototype.show = function (view) {
         setView(this.main, view);
-    };
-    /**
-     * closeDialog removes a dialog from the app's screen.
-     */
-    BoardAdmin.prototype.closeDialog = function () {
-        unsetView(this.dialogs);
     };
     /**
      * refresh reloads and displays the application.
@@ -298,9 +306,28 @@ var BoardAdmin = /** @class */ (function (_super) {
         ft.fork(this.onError, function_1.noop);
     };
     /**
-     * run the application.
+     * tell a message to an actor in the system.
+     */
+    BoardAdmin.prototype.tell = function (addr, msg) {
+        this.vm.tell(addr, msg);
+        return this;
+    };
+    /**
+     * spawn a root child actor given its Template.
+     */
+    BoardAdmin.prototype.spawn = function (t) {
+        this.vm.spawn(t);
+        return this;
+    };
+    /**
+     * @override
      */
     BoardAdmin.prototype.run = function () {
+        var _this = this;
+        this.spawn({
+            id: 'dialogs',
+            create: function (s) { return new dialog_1.DialogService(new DialogManager(_this.dialogs), s); }
+        });
         this.show(this.view);
         this.refresh();
     };

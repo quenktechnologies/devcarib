@@ -5,7 +5,16 @@ import { interpolate } from '@quenk/noni/lib/data/string';
 import { noop } from '@quenk/noni/lib/data/function';
 import { debounce } from '@quenk/noni/lib/control/timer';
 
-import { JApp } from '@quenk/jouvert/lib/app';
+import { Address } from '@quenk/potoo/lib/actor/address';
+import { Message } from '@quenk/potoo/lib/actor/message';
+
+import {
+    CloseDialog,
+    DialogService,
+    ShowDialogView,
+    ViewDisplay
+} from '@quenk/jouvert/lib/app/service/dialog';
+import { JApp, Template } from '@quenk/jouvert/lib/app';
 
 import { View } from '@quenk/wml';
 
@@ -45,6 +54,34 @@ const agent = createAgent();
 export interface OkBody<D> {
 
     data: D
+
+}
+
+/**
+ * DialogManager is responsible for the actual display and removal of dialog
+ * content.
+ */
+class DialogManager implements ViewDisplay {
+
+    constructor(public node: Node) { }
+
+    open(view: View) {
+
+        setView(this.node, view);
+
+    }
+
+    setView(view: View) {
+
+        setView(this.node, view);
+
+    }
+
+    close() {
+
+        unsetView(this.node);
+
+    }
 
 }
 
@@ -317,22 +354,13 @@ export class BoardAdmin extends JApp {
      */
     showPost(data: Post): void {
 
-        this.showDialog(new PostPreviewView({
+        this.tell('dialogs', new ShowDialogView(new PostPreviewView({
 
             post: data,
 
-            close: () => this.closeDialog()
+            close: () => this.tell('dialogs', new CloseDialog())
 
-        }));
-
-    }
-
-    /**
-     * showDialog displays a View in the dialog area of the app's screen.
-     */
-    showDialog(view: View): void {
-
-        setView(this.dialogs, view);
+        }), '$'));
 
     }
 
@@ -342,15 +370,6 @@ export class BoardAdmin extends JApp {
     show(view: View): void {
 
         setView(this.main, view);
-
-    }
-
-    /**
-     * closeDialog removes a dialog from the app's screen.
-     */
-    closeDialog(): void {
-
-        unsetView(this.dialogs);
 
     }
 
@@ -373,9 +392,37 @@ export class BoardAdmin extends JApp {
     }
 
     /**
-     * run the application.
+     * tell a message to an actor in the system.
      */
-    run(): void {
+    tell(addr: Address, msg: Message): BoardAdmin {
+
+        this.vm.tell(addr, msg);
+        return this;
+
+    }
+
+    /**
+     * spawn a root child actor given its Template.
+     */
+    spawn(t: Template): BoardAdmin {
+
+        this.vm.spawn(t);
+        return this;
+
+    }
+
+    /**
+     * @override
+     */
+    run() {
+
+        this.spawn({
+
+            id: 'dialogs',
+
+            create: s => new DialogService(new DialogManager(this.dialogs), s)
+
+        });
 
         this.show(this.view);
         this.refresh();

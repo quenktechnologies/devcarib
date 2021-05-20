@@ -1,6 +1,8 @@
 import { Future } from '@quenk/noni/lib/control/monad/future';
 import { Value } from '@quenk/noni/lib/data/jsonx';
-import { JApp } from '@quenk/jouvert/lib/app';
+import { Address } from '@quenk/potoo/lib/actor/address';
+import { Message } from '@quenk/potoo/lib/actor/message';
+import { JApp, Template } from '@quenk/jouvert/lib/app';
 import { View } from '@quenk/wml';
 import { Column } from '@quenk/wml-widgets/lib/data/table';
 import { Event } from '@quenk/wml-widgets/lib/control';
@@ -86,17 +88,9 @@ export declare class BoardAdmin extends JApp {
      */
     showPost(data: Post): void;
     /**
-     * showDialog displays a View in the dialog area of the app's screen.
-     */
-    showDialog(view: View): void;
-    /**
      * show a View on the application's screen.
      */
     show(view: View): void;
-    /**
-     * closeDialog removes a dialog from the app's screen.
-     */
-    closeDialog(): void;
     /**
      * refresh reloads and displays the application.
      */
@@ -106,7 +100,15 @@ export declare class BoardAdmin extends JApp {
      */
     runFuture(ft: Future<void>): void;
     /**
-     * run the application.
+     * tell a message to an actor in the system.
+     */
+    tell(addr: Address, msg: Message): BoardAdmin;
+    /**
+     * spawn a root child actor given its Template.
+     */
+    spawn(t: Template): BoardAdmin;
+    /**
+     * @override
      */
     run(): void;
 }
