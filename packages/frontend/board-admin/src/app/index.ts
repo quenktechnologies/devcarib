@@ -1,6 +1,8 @@
+import * as api from './api';
+
 import { Future, pure, doFuture } from '@quenk/noni/lib/control/monad/future';
 import { Object as JSONObject } from '@quenk/noni/lib/data/json';
-import { Value } from '@quenk/noni/lib/data/jsonx';
+import { Value, Object } from '@quenk/noni/lib/data/jsonx';
 import { interpolate } from '@quenk/noni/lib/data/string';
 import { noop } from '@quenk/noni/lib/data/function';
 import { debounce } from '@quenk/noni/lib/control/timer';
@@ -14,7 +16,11 @@ import {
     ShowDialogView,
     ViewDisplay
 } from '@quenk/jouvert/lib/app/service/dialog';
+import { RemoteModelFactory } from '@quenk/jouvert/lib/app/remote/model/factory';
+import { AbstractCompleteHandler } from '@quenk/jouvert/lib/app/remote/callback';
 import { JApp, Template } from '@quenk/jouvert/lib/app';
+import { Result } from '@quenk/jouvert/lib/app/remote/model';
+import { Remote } from '@quenk/jouvert/lib/app/remote';
 
 import { View } from '@quenk/wml';
 
@@ -24,12 +30,13 @@ import { getById } from '@quenk/wml-widgets/lib/util';
 import { Updatable } from '@quenk/wml-widgets/lib/data/updatable';
 
 import { createAgent } from '@quenk/jhr/lib/browser';
-import { Ok } from '@quenk/jhr/lib/response';
+import { Response, Ok } from '@quenk/jhr/lib/response';
 
 import { Post } from '@board/types/lib/post';
 
 import { BoardAdminView } from './views/app';
 import { PostPreviewView } from './views/dialog/preview';
+import { PostEditViewCtx, PostEditView } from './views/dialog/edit';
 import {
     ActionColumn,
     ApprovedColumn,
@@ -86,6 +93,64 @@ class DialogManager implements ViewDisplay {
 }
 
 /**
+ * AfterOkExec is a CompleteHandler that simply invokes the passed function.
+ */
+class AfterOkExec<T extends Object> extends AbstractCompleteHandler<Result<T>> {
+
+    constructor(public handler: (r: Response<Result<T>>) => void) { super(); }
+
+    onComplete(r: Response<Result<T>>) {
+
+        if (r.code === 200)
+            this.handler(r);
+
+    }
+
+}
+
+/**
+ * PostEditViewCtxImpl provides the data and functions used in the dialog for
+ * editing posts.
+ */
+class PostEditViewCtxImpl implements PostEditViewCtx {
+
+    changes: Object = {};
+
+    /**
+     * @param post  The post being edited.
+     * @param app   The instance of BoardAdmin.
+     */
+    constructor(public post: Post, public app: BoardAdmin) { }
+
+    onChange = (e: Event<Value>) => {
+
+        this.changes[e.name] = e.value;
+
+    };
+
+    onSave = () => {
+
+        let posts = this.app.modelFactory.create(api.POST,
+            new AfterOkExec(() =>  {
+
+                this.app.tell('dialogs', new CloseDialog());
+               this.app.runFuture(this.app.loadInitialPosts());
+
+            }));
+
+        posts.update(<number>this.post.id, this.changes).fork();
+
+    };
+
+    onCancel = () => {
+
+        this.app.tell('dialogs', new CloseDialog());
+
+    };
+
+}
+
+/**
  * BoardAdmin is the main class for the admin application.
  *
  * @param main    - The DOM node that the main application content will reside.
@@ -101,6 +166,12 @@ export class BoardAdmin extends JApp {
      * view is the WML content to display on the screen.
      */
     view = new BoardAdminView(this);
+
+    /**
+     * modelFactory for producing RemoteModels on request.
+     */
+    modelFactory = RemoteModelFactory.getInstance(t => this.vm.spawn(<Template>t),
+        'remote.background');
 
     /**
      * values contains various bits of information used to generate
@@ -147,12 +218,29 @@ export class BoardAdmin extends JApp {
                 new ActionColumn([
                     {
 
+                        text: "View",
+
+                        divider: false,
+
+                        onClick: (data: Post) => this.showPost(data)
+                    },
+                    {
+
                         text: "Approve",
 
                         divider: false,
 
                         onClick: (data: Post) =>
                             this.runFuture(this.approvePost(<number>data.id))
+
+                    },
+                    {
+
+                        text: "Edit",
+
+                        divider: false,
+
+                        onClick: (data: Post) => this.editPost(data)
 
                     },
                     {
@@ -183,25 +271,6 @@ export class BoardAdmin extends JApp {
     static create(main: Node, dialogs: Node): BoardAdmin {
 
         return new BoardAdmin(main, dialogs);
-
-    }
-
-    onAction(name: string, data: Post) {
-
-        switch (name) {
-
-            case ACTION_APPROVE:
-                this.runFuture(this.approvePost(<number>data.id));
-                break;
-
-            case ACTION_REMOVE:
-                this.runFuture(this.removePost(<number>data.id));
-                break;
-
-            default:
-                break;
-
-        }
 
     }
 
@@ -284,6 +353,21 @@ export class BoardAdmin extends JApp {
     }
 
     /**
+     * showPost displays a single Post in a dialog.
+     */
+    showPost(data: Post): void {
+
+        this.tell('dialogs', new ShowDialogView(new PostPreviewView({
+
+            post: data,
+
+            close: () => this.tell('dialogs', new CloseDialog())
+
+        }), '$'));
+
+    }
+
+    /**
      * approvePost sets the approved flag on a post to true.
      *
      * Once this is done the post will show on the site.
@@ -319,6 +403,17 @@ export class BoardAdmin extends JApp {
     }
 
     /**
+     * editPost brings up the dialog editor to quickly edit the title and body
+     * of a post.
+     */
+    editPost(data: Post) {
+
+        this.tell('dialogs', new ShowDialogView(
+            new PostEditView(new PostEditViewCtxImpl(data, this)), '$'));
+
+    }
+
+    /**
      * removePost permenantly removes a post from the site.
      */
     removePost(id: number): Future<void> {
@@ -346,21 +441,6 @@ export class BoardAdmin extends JApp {
             return pure(<void>undefined);
 
         });
-
-    }
-
-    /**
-     * showPost displays a single Post in a dialog.
-     */
-    showPost(data: Post): void {
-
-        this.tell('dialogs', new ShowDialogView(new PostPreviewView({
-
-            post: data,
-
-            close: () => this.tell('dialogs', new CloseDialog())
-
-        }), '$'));
 
     }
 
@@ -421,6 +501,14 @@ export class BoardAdmin extends JApp {
             id: 'dialogs',
 
             create: s => new DialogService(new DialogManager(this.dialogs), s)
+
+        });
+
+        this.spawn({
+
+            id: 'remote.background',
+
+            create: () => new Remote(agent, this)
 
         });
 

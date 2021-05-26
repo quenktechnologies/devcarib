@@ -43,16 +43,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardAdmin = exports.TIME_SEARCH_DEBOUNCE = exports.RESOURCE_POST = exports.RESOURCE_POSTS = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
+var api = require("./api");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var string_1 = require("@quenk/noni/lib/data/string");
 var function_1 = require("@quenk/noni/lib/data/function");
 var timer_1 = require("@quenk/noni/lib/control/timer");
 var dialog_1 = require("@quenk/jouvert/lib/app/service/dialog");
+var factory_1 = require("@quenk/jouvert/lib/app/remote/model/factory");
+var callback_1 = require("@quenk/jouvert/lib/app/remote/callback");
 var app_1 = require("@quenk/jouvert/lib/app");
+var remote_1 = require("@quenk/jouvert/lib/app/remote");
 var util_1 = require("@quenk/wml-widgets/lib/util");
 var browser_1 = require("@quenk/jhr/lib/browser");
 var app_2 = require("./views/app");
 var preview_1 = require("./views/dialog/preview");
+var edit_1 = require("./views/dialog/edit");
 var columns_1 = require("./columns");
 exports.ACTION_APPROVE = 'approve';
 exports.ACTION_REMOVE = 'remove';
@@ -81,6 +86,52 @@ var DialogManager = /** @class */ (function () {
     return DialogManager;
 }());
 /**
+ * AfterOkExec is a CompleteHandler that simply invokes the passed function.
+ */
+var AfterOkExec = /** @class */ (function (_super) {
+    __extends(AfterOkExec, _super);
+    function AfterOkExec(handler) {
+        var _this = _super.call(this) || this;
+        _this.handler = handler;
+        return _this;
+    }
+    AfterOkExec.prototype.onComplete = function (r) {
+        if (r.code === 200)
+            this.handler(r);
+    };
+    return AfterOkExec;
+}(callback_1.AbstractCompleteHandler));
+/**
+ * PostEditViewCtxImpl provides the data and functions used in the dialog for
+ * editing posts.
+ */
+var PostEditViewCtxImpl = /** @class */ (function () {
+    /**
+     * @param post  The post being edited.
+     * @param app   The instance of BoardAdmin.
+     */
+    function PostEditViewCtxImpl(post, app) {
+        var _this = this;
+        this.post = post;
+        this.app = app;
+        this.changes = {};
+        this.onChange = function (e) {
+            _this.changes[e.name] = e.value;
+        };
+        this.onSave = function () {
+            var posts = _this.app.modelFactory.create(api.POST, new AfterOkExec(function () {
+                _this.app.tell('dialogs', new dialog_1.CloseDialog());
+                _this.app.runFuture(_this.app.loadInitialPosts());
+            }));
+            posts.update(_this.post.id, _this.changes).fork();
+        };
+        this.onCancel = function () {
+            _this.app.tell('dialogs', new dialog_1.CloseDialog());
+        };
+    }
+    return PostEditViewCtxImpl;
+}());
+/**
  * BoardAdmin is the main class for the admin application.
  *
  * @param main    - The DOM node that the main application content will reside.
@@ -96,6 +147,10 @@ var BoardAdmin = /** @class */ (function (_super) {
          * view is the WML content to display on the screen.
          */
         _this.view = new app_2.BoardAdminView(_this);
+        /**
+         * modelFactory for producing RemoteModels on request.
+         */
+        _this.modelFactory = factory_1.RemoteModelFactory.getInstance(function (t) { return _this.vm.spawn(t); }, 'remote.background');
         /**
          * values contains various bits of information used to generate
          * the view.
@@ -121,11 +176,21 @@ var BoardAdmin = /** @class */ (function (_super) {
                     new columns_1.ApprovedColumn(),
                     new columns_1.ActionColumn([
                         {
+                            text: "View",
+                            divider: false,
+                            onClick: function (data) { return _this.showPost(data); }
+                        },
+                        {
                             text: "Approve",
                             divider: false,
                             onClick: function (data) {
                                 return _this.runFuture(_this.approvePost(data.id));
                             }
+                        },
+                        {
+                            text: "Edit",
+                            divider: false,
+                            onClick: function (data) { return _this.editPost(data); }
                         },
                         {
                             text: "Remove",
@@ -146,18 +211,6 @@ var BoardAdmin = /** @class */ (function (_super) {
     }
     BoardAdmin.create = function (main, dialogs) {
         return new BoardAdmin(main, dialogs);
-    };
-    BoardAdmin.prototype.onAction = function (name, data) {
-        switch (name) {
-            case exports.ACTION_APPROVE:
-                this.runFuture(this.approvePost(data.id));
-                break;
-            case exports.ACTION_REMOVE:
-                this.runFuture(this.removePost(data.id));
-                break;
-            default:
-                break;
-        }
     };
     /**
      * searchPosts in the database.
@@ -223,6 +276,16 @@ var BoardAdmin = /** @class */ (function (_super) {
             future_1.pure(undefined);
     };
     /**
+     * showPost displays a single Post in a dialog.
+     */
+    BoardAdmin.prototype.showPost = function (data) {
+        var _this = this;
+        this.tell('dialogs', new dialog_1.ShowDialogView(new preview_1.PostPreviewView({
+            post: data,
+            close: function () { return _this.tell('dialogs', new dialog_1.CloseDialog()); }
+        }), '$'));
+    };
+    /**
      * approvePost sets the approved flag on a post to true.
      *
      * Once this is done the post will show on the site.
@@ -252,6 +315,13 @@ var BoardAdmin = /** @class */ (function (_super) {
         });
     };
     /**
+     * editPost brings up the dialog editor to quickly edit the title and body
+     * of a post.
+     */
+    BoardAdmin.prototype.editPost = function (data) {
+        this.tell('dialogs', new dialog_1.ShowDialogView(new edit_1.PostEditView(new PostEditViewCtxImpl(data, this)), '$'));
+    };
+    /**
      * removePost permenantly removes a post from the site.
      */
     BoardAdmin.prototype.removePost = function (id) {
@@ -276,16 +346,6 @@ var BoardAdmin = /** @class */ (function (_super) {
                 }
             });
         });
-    };
-    /**
-     * showPost displays a single Post in a dialog.
-     */
-    BoardAdmin.prototype.showPost = function (data) {
-        var _this = this;
-        this.tell('dialogs', new dialog_1.ShowDialogView(new preview_1.PostPreviewView({
-            post: data,
-            close: function () { return _this.tell('dialogs', new dialog_1.CloseDialog()); }
-        }), '$'));
     };
     /**
      * show a View on the application's screen.
@@ -327,6 +387,10 @@ var BoardAdmin = /** @class */ (function (_super) {
         this.spawn({
             id: 'dialogs',
             create: function (s) { return new dialog_1.DialogService(new DialogManager(_this.dialogs), s); }
+        });
+        this.spawn({
+            id: 'remote.background',
+            create: function () { return new remote_1.Remote(agent, _this); }
         });
         this.show(this.view);
         this.refresh();
