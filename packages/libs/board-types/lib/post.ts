@@ -27,6 +27,6 @@ export interface Post extends _json.Object {
         [key: string]: _json.Value
 
         'id'?: number, 'username'?: string
-    }, 'id'?: number, 'title'?: string, 'type'?: string, 'location'?: string, 'remote'?: boolean, 'preview'?: string, 'description'?: string, 'description_html'?: string, 'company'?: string, 'company_email'?: string, 'company_logo'?: string, 'apply_url'?: string
+    }, 'id'?: number, 'title'?: string, 'type'?: string, 'location'?: string, 'remote'?: boolean, 'description'?: string, 'description_html'?: string, 'company'?: string, 'company_email'?: string, 'company_logo'?: string, 'apply_url'?: string
 }
 

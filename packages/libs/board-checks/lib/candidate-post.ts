@@ -71,8 +71,6 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'remote': _identity
     ,
-    'preview': _identity
-    ,
     'description': _identity
     ,
     'description_html': _identity
@@ -110,8 +108,6 @@ export const partialChecks: Preconditions<Value, Value> = {
     'location': _identity
     ,
     'remote': _identity
-    ,
-    'preview': _identity
     ,
     'description': _identity
     ,

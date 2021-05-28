@@ -62,20 +62,6 @@
 
     },
 
-    "preview": {
-
-        "type": "string",
-
-        "validators": [
-
-            ["./validators#minLength", [1]],
-
-            ["./validators#maxLength", [240]]
-
-        ]
-
-    },
-
     "description": {
 
         "type": "string",
