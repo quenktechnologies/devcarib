@@ -10,11 +10,23 @@
 
       </h3>
 
-      <span class="board-post-panel-header__text">
+      <div class="board-post-panel-header__text">
 
-          {{post.company}} - Posted {{post.created_on | timefromnow}}
+          {{post.company}} - {{post.created_on | timefromnow}}
 
-      </span>
+      </div>
+
+      <div class="board-post-panel-header__meta">
+
+        {% if post.remote %}
+          <span class="ww-tag -default">Remote</span>
+        {% endif %}
+
+        {% if post.salary_range %}
+          <span>${{post.salary_range}}</span>
+        {% endif %}
+
+      </div>
 
     </div>
 

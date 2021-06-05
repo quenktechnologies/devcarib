@@ -82,7 +82,7 @@
 
         <Row>
 
-          <Column>
+          <Column ww:span=6>
 
             <b>
               Is this a remote position? 
@@ -94,19 +94,16 @@
 
           </Column>
 
-        </Row>
+          <Column ww:span=6>
 
-        <Row>
+            <b>Salary Range (USD\u002FMonthly)</b>
 
-          <Column>
-
-            <TextField
-              wml:id="preview"
-              ww:name="preview"
-              ww:placeholder="Provide a brief summary here for the listings section"
-              ww:rows=5 
-              ww:value={{@values.post.data.preview}}
-              ww:onChange={{@values.post.onChange}} />
+            <DropList
+             wml:id="salary_range"
+             ww:name="salary_range"
+             ww:options={{@values.post.salary_range.options}}
+             ww:value={{@values.post.data.salary_range}}
+             ww:onSelect={{@values.post.onChange}} />
 
           </Column>
 

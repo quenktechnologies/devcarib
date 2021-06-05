@@ -14,7 +14,10 @@ import { createAgent } from '@quenk/jhr/lib/browser';
 import { Response } from '@quenk/jhr/lib/response';
 
 import { Post } from '@board/types/lib/post';
+
 import { validators, validate } from '@board/validators/lib/post';
+
+import { ranges } from '@board/common/lib/data/post/salary-range';
 
 import { PostFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
@@ -99,6 +102,12 @@ export class PostFormApp {
                     { label: 'Volunteer', value: 'Volunteer' },
 
                 ]
+
+            },
+
+            salary_range: {
+
+                options: ranges.map(value => ({ label: value, value }))
 
             },
 
