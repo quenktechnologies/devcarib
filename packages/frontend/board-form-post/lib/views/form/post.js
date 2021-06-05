@@ -67,17 +67,18 @@ var PostFormView = /** @class */ (function () {
                                 ]), {})
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
-                                __this.widget(new grid_1.Column({}, [
+                                __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
                                     __this.node('b', {}, [
                                         __document.createTextNode('\u000a              Is this a remote position? \u000a              '),
                                         __this.widget(new checkbox_1.Checkbox({ ww: { 'name': 'remote', 'value': __context.values.post.data.remote, 'onChange': __context.values.post.onSelect } }, []), { ww: { 'name': 'remote', 'value': __context.values.post.data.remote, 'onChange': __context.values.post.onSelect } })
                                     ])
-                                ]), {})
-                            ]), {}),
-                            __this.widget(new grid_1.Row({}, [
-                                __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'preview' }, ww: { 'name': 'preview', 'placeholder': 'Provide a brief summary here for the listings section', 'rows': 5, 'value': __context.values.post.data.preview, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'preview' }, ww: { 'name': 'preview', 'placeholder': 'Provide a brief summary here for the listings section', 'rows': 5, 'value': __context.values.post.data.preview, 'onChange': __context.values.post.onChange } })
-                                ]), {})
+                                ]), { ww: { 'span': 6 } }),
+                                __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
+                                    __this.node('b', {}, [
+                                        __document.createTextNode('Salary Range (USD\u002FMonthly)')
+                                    ]),
+                                    __this.widget(new drop_list_1.DropList({ wml: { 'id': 'salary_range' }, ww: { 'name': 'salary_range', 'options': __context.values.post.salary_range.options, 'value': __context.values.post.data.salary_range, 'onSelect': __context.values.post.onChange } }, []), { wml: { 'id': 'salary_range' }, ww: { 'name': 'salary_range', 'options': __context.values.post.salary_range.options, 'value': __context.values.post.data.salary_range, 'onSelect': __context.values.post.onChange } })
+                                ]), { ww: { 'span': 6 } })
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [

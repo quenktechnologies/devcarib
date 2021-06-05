@@ -129,7 +129,7 @@ const showPosts = (_) => api_1.doAction(function* () {
     let db = yield getMain();
     let collection = db.collection('posts');
     let qry = { approved: true };
-    let posts = yield control_1.fork(collection_1.find(collection, qry, { sort: { created_at: -1 }, limit: 50 }));
+    let posts = yield control_1.fork(collection_1.find(collection, qry, { sort: { created_on: -1 }, limit: 50 }));
     return response_1.show('index.html', { posts });
 });
 exports.showPosts = showPosts;

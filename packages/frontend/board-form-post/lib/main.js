@@ -8,6 +8,7 @@ var util_1 = require("@quenk/wml-widgets/lib/util");
 var feedback_1 = require("@quenk/wml-widgets/lib/control/feedback");
 var browser_1 = require("@quenk/jhr/lib/browser");
 var post_1 = require("@board/validators/lib/post");
+var salary_range_1 = require("@board/common/lib/data/post/salary-range");
 var app_1 = require("./views/app");
 var preview_1 = require("./views/preview");
 var finish_1 = require("./views/finish");
@@ -54,6 +55,9 @@ var PostFormApp = /** @class */ (function () {
                         { label: 'Contributor', value: 'Contributor' },
                         { label: 'Volunteer', value: 'Volunteer' },
                     ]
+                },
+                salary_range: {
+                    options: salary_range_1.ranges.map(function (value) { return ({ label: value, value: value }); })
                 },
                 onChange: timer_1.debounce(function (e) {
                     var name = e.name, value = e.value;
@@ -210,9 +214,10 @@ var PostFormApp = /** @class */ (function () {
     return PostFormApp;
 }());
 exports.PostFormApp = PostFormApp;
-exports.escape = function (str) {
+var escape = function (str) {
     return str.replace(/[&"'<>]/g, function (t) { return escapeMap[t]; });
 };
+exports.escape = escape;
 var previewTemplate = function (html) { return "\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"author\" content=\"Caribbean Developers\">\n    <link rel=\"stylesheet\" href=\"/assets/css/site.css\">\n    <title>Job Preview</title>\n</head>\n\n<body>\n " + html + "\n</body>\n\n</html>\n"; };
 PostFormApp.create(document.getElementById('main')).run();
 //# sourceMappingURL=main.js.map

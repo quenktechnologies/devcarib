@@ -1,9 +1,9 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
 /** imports */
-import * as _post from './post';
 import * as _admin from './admin';
 import * as _candidatePost from './candidate-post';
+import * as _post from './post';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
@@ -14,11 +14,11 @@ import { Precondition } from '@quenk/preconditions';
  * into one.
  */
 export type DataTypeUnion =
-    _post.DataType |
-
     _admin.DataType |
 
-    _candidatePost.DataType;
+    _candidatePost.DataType |
+
+    _post.DataType;
 
 /**
  * Validators is a record of validators.
@@ -34,9 +34,9 @@ export interface Validators {
  */
 export const validatorsAvailable: Validators = {
 
-    'post': _post.validate,
     'admin': _admin.validate,
-    'candidate-post': _candidatePost.validate
+    'candidate-post': _candidatePost.validate,
+    'post': _post.validate
 };
 
 /**
@@ -51,9 +51,9 @@ export const getValidatorsFor =
  */
 export const partialValidatorsAvailable: Validators = {
 
-    'post': _post.validatePartial,
     'admin': _admin.validatePartial,
-    'candidate-post': _candidatePost.validatePartial
+    'candidate-post': _candidatePost.validatePartial,
+    'post': _post.validatePartial
 };
 
 /**

@@ -1,9 +1,9 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
 /** imports */
-import * as _post from './post';
 import * as _admin from './admin';
 import * as _candidatePost from './candidate-post';
+import * as _post from './post';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
@@ -14,11 +14,11 @@ import { Precondition } from '@quenk/preconditions/lib/async';
  * into one.
  */
 export type DataTypeUnion =
-    _post.DataType |
-
     _admin.DataType |
 
-    _candidatePost.DataType;
+    _candidatePost.DataType |
+
+    _post.DataType;
 
 /**
  * Checks is a record of checks.
@@ -34,9 +34,9 @@ export interface Checks {
  */
 export const checksAvailable: Checks = {
 
-    'post': <Precondition<Value, DataTypeUnion>>_post.check,
     'admin': <Precondition<Value, DataTypeUnion>>_admin.check,
-    'candidate-post': <Precondition<Value, DataTypeUnion>>_candidatePost.check
+    'candidate-post': <Precondition<Value, DataTypeUnion>>_candidatePost.check,
+    'post': <Precondition<Value, DataTypeUnion>>_post.check
 };
 
 /**
@@ -51,9 +51,9 @@ export const getChecksFor =
  */
 export const partialChecksAvailable: Checks = {
 
-    'post': <Precondition<Value, Partial<DataTypeUnion>>>_post.checkPartial,
     'admin': <Precondition<Value, Partial<DataTypeUnion>>>_admin.checkPartial,
-    'candidate-post': <Precondition<Value, Partial<DataTypeUnion>>>_candidatePost.checkPartial
+    'candidate-post': <Precondition<Value, Partial<DataTypeUnion>>>_candidatePost.checkPartial,
+    'post': <Precondition<Value, Partial<DataTypeUnion>>>_post.checkPartial
 };
 
 /**

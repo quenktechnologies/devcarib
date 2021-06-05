@@ -120,7 +120,7 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
-        __this.widget(new Column({}, [
+        __this.widget(new Column({ww : { 'span' : 6  }}, [
 
         __this.node('b', <__wml.Attrs>{}, [
 
@@ -130,17 +130,18 @@ __this.widget(new Checkbox({ww : { 'name' : 'remote' ,'value' : __context.values
         
      ]),<__wml.Attrs>{ww : { 'name' : 'remote' ,'value' : __context.values.post .data .remote  ,'onChange' : __context.values.post .onSelect   }})
      ])
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
+     ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
+__this.widget(new Column({ww : { 'span' : 6  }}, [
 
-        __this.widget(new Column({}, [
+        __this.node('b', <__wml.Attrs>{}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'preview'  },ww : { 'name' : 'preview' ,'placeholder' : 'Provide a brief summary here for the listings section' ,'rows' : 5 ,'value' : __context.values.post .data .preview  ,'onChange' : __context.values.post .onChange   }}, [
+        __document.createTextNode('Salary Range (USD\u002FMonthly)')
+     ]),
+__this.widget(new DropList({wml : { 'id' : 'salary_range'  },ww : { 'name' : 'salary_range' ,'options' : __context.values.post .salary_range .options  ,'value' : __context.values.post .data .salary_range  ,'onSelect' : __context.values.post .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'preview'  },ww : { 'name' : 'preview' ,'placeholder' : 'Provide a brief summary here for the listings section' ,'rows' : 5 ,'value' : __context.values.post .data .preview  ,'onChange' : __context.values.post .onChange   }})
-     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{wml : { 'id' : 'salary_range'  },ww : { 'name' : 'salary_range' ,'options' : __context.values.post .salary_range .options  ,'value' : __context.values.post .data .salary_range  ,'onSelect' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{ww : { 'span' : 6  }})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 

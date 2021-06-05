@@ -25,7 +25,8 @@ exports.validators = {
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
     'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
-    'approved': preconditions_1.optional(boolean_1.isBoolean)
+    'approved': preconditions_1.optional(boolean_1.isBoolean),
+    'salary_range': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.salaryRange)))
 };
 /**
  * partialValidators for CandidatePost provided as a map.
@@ -40,7 +41,8 @@ exports.partialValidators = {
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
     'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
-    'approved': preconditions_1.optional(boolean_1.isBoolean)
+    'approved': preconditions_1.optional(boolean_1.isBoolean),
+    'salary_range': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.salaryRange)))
 };
 /**
  * validate a single Value against the rules for CandidatePost.

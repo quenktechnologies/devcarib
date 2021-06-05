@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
+exports.salaryRange = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
 var string = require("@quenk/preconditions/lib/string");
 var array = require("@quenk/preconditions/lib/array");
 var preconditions_1 = require("@quenk/preconditions");
+var array_1 = require("@quenk/noni/lib/data/array");
+var result_1 = require("@quenk/preconditions/lib/result");
+var salary_range_1 = require("@board/common/lib/data/post/salary-range");
 /**
  * name must be a string and between 1-64 characters.
  *
@@ -52,4 +55,11 @@ var maxLength = function (n) {
         string.maxLength(n)(value); };
 };
 exports.maxLength = maxLength;
+/**
+ * salaryRange ensures the provided string is one of the salary range strings.
+ */
+var salaryRange = function (value) {
+    return array_1.contains(salary_range_1.ranges, value) ? result_1.succeed(value) : result_1.fail('invalid', { value: value });
+};
+exports.salaryRange = salaryRange;
 //# sourceMappingURL=validators.js.map

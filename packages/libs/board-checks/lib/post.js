@@ -30,7 +30,8 @@ exports.checks = {
     'company': async_1.identity,
     'company_email': async_1.identity,
     'company_logo': async_1.identity,
-    'apply_url': async_1.identity
+    'apply_url': async_1.identity,
+    'salary_range': async_1.identity
 };
 /**
  * partialChecks for Post provided as a map.
@@ -51,7 +52,8 @@ exports.partialChecks = {
     'company': async_1.identity,
     'company_email': async_1.identity,
     'company_logo': async_1.identity,
-    'apply_url': async_1.identity
+    'apply_url': async_1.identity,
+    'salary_range': async_1.identity
 };
 /**
  * check a Post value.

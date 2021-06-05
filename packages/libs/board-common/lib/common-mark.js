@@ -6,7 +6,7 @@ var sanitize = require("sanitize-html");
 /**
  * parse a string treating it as CommonMark giving the result back as HTML.
  */
-exports.parse = function (src) {
+var parse = function (src) {
     var raw = marked(String(src), { breaks: true, gfm: true });
     return sanitize(raw, {
         allowedTags: [
@@ -16,4 +16,5 @@ exports.parse = function (src) {
         allowedAttributes: {}
     });
 };
+exports.parse = parse;
 //# sourceMappingURL=common-mark.js.map

@@ -3,6 +3,11 @@ import * as array from '@quenk/preconditions/lib/array';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Precondition, and } from '@quenk/preconditions';
+import { contains } from '@quenk/noni/lib/data/array';
+
+import { succeed, fail } from '@quenk/preconditions/lib/result';
+
+import { ranges } from '@board/common/lib/data/post/salary-range';
 
 /**
  * name must be a string and between 1-64 characters.
@@ -66,3 +71,8 @@ export const maxLength = (n: number): Precondition<Value, Value> =>
         array.max<Value>(n)(value) :
         string.maxLength(n)(<string>value);
 
+/**
+ * salaryRange ensures the provided string is one of the salary range strings.
+ */
+export const salaryRange: Precondition<Value, Value> = (value: Value) =>
+    contains(ranges, value) ? succeed(value) : fail('invalid', { value })

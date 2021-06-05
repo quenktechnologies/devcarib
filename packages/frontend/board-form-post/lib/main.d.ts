@@ -37,6 +37,12 @@ export declare class PostFormApp {
                     value: string;
                 }[];
             };
+            salary_range: {
+                options: {
+                    label: string;
+                    value: string;
+                }[];
+            };
             onChange: import("@quenk/noni/lib/data/function").Function<Event<Value>, void>;
             onSelect: (e: Event<Value>) => void;
         };

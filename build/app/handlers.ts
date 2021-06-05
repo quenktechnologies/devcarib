@@ -90,7 +90,7 @@ export const login = (r: Request): Action<undefined> =>
             if (didMatch) {
 
                 //regenerate the session to start a fresh.
-                yield fork( r.session.regenerate());
+                yield fork(r.session.regenerate());
 
                 r.session.set('user', user.id);
 
@@ -202,10 +202,10 @@ export const showPosts = (_: Request): Action<undefined> =>
         let posts = yield fork(find(
             collection,
             qry,
-            { sort: { created_at: -1 },                 limit: 50 }
+            { sort: { created_on: -1 }, limit: 50 }
         ));
 
-        return show('index.html', { posts  });
+        return show('index.html', { posts });
 
     });
 

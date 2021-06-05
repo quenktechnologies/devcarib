@@ -84,6 +84,8 @@ export const checks: Preconditions<Value, Value> = {
     'apply_url': _identity
     ,
     'approved': _identity
+    ,
+    'salary_range': _identity
 
 };
 
@@ -122,6 +124,8 @@ export const partialChecks: Preconditions<Value, Value> = {
     'apply_url': _identity
     ,
     'approved': _identity
+    ,
+    'salary_range': _identity
 
 };
 

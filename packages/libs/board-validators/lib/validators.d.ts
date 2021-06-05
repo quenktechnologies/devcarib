@@ -38,3 +38,7 @@ export declare const minLength: (n: number) => Precondition<Value, Value>;
  * maxLength for strings and array.
  */
 export declare const maxLength: (n: number) => Precondition<Value, Value>;
+/**
+ * salaryRange ensures the provided string is one of the salary range strings.
+ */
+export declare const salaryRange: Precondition<Value, Value>;

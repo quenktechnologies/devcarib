@@ -34,4 +34,5 @@ export interface CandidatePost extends _json.Object {
     'company_logo'?: string;
     'apply_url'?: string;
     'approved'?: boolean;
+    'salary_range'?: string;
 }
