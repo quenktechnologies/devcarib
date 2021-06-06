@@ -32,6 +32,7 @@
 
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 
     .screen-not-small({
 
@@ -39,11 +40,20 @@
 
     });
 
-    & > .board-nav-list > li > a:hover, 
-    & > .board-nav-list > li > a:active {
+    /**
+     * Make the nav list expand on smaller screens to take up its own row.
+     */
+    & > .board-nav-list {
 
-      background-color: none;
-      color: #fff;
+      flex-grow: 1;
+      
+      & > li > a:hover, 
+      & > li > a:active {
+
+        background-color: none;
+        color: #fff;
+
+      }
 
     }
 
