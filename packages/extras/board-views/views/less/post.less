@@ -67,6 +67,58 @@
 
 }
 
+/**
+ * Styles the body part of a job post page.
+ */
+.board-post-body {
+
+  /**
+   * Wrapper for the post header content.
+   */
+  .ww-panel__header__content {
+
+    overflow: auto;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    align-content: space-between;
+
+    & > div {
+
+      margin-bottom: .5em;
+
+      .screen-not-small({
+
+        margin-bottom: 0;
+
+      });
+
+    }
+
+    /**
+     * Style the features tag to take up all available horizontal space
+     * on smaller screens.
+     */
+    & > .board-post-features {
+
+      flex-grow: 1;
+
+    }
+
+    /**
+     * On larger screens the time stamp will use the auto left margin trick to
+     * appear on the right of the post header.
+     */
+    & > .board-post-timestamp {
+
+      margin-left: auto;
+
+    }
+
+  }
+
+}
+
 .board-post-footer-section {
 
   margin-top: 2em;
@@ -84,15 +136,9 @@
 
 .board-post-timestamp {
 
-  margin-bottom: 1em;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align:right;
   font-size: 0.8em;
 
 }
-
-.board-post-panel-header__meta {
-  margin-top: .25em;
-}
-

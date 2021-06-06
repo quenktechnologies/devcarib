@@ -1,20 +1,28 @@
-<div id="main" class="ww-grid-layout">
+{% from "macros/post/features.html" import features %}
+
+<div id="main" class="ww-grid-layout board-post-body">
 
     <div class="ww-grid-layout__row">
 
       <div class="ww-grid-layout__column -span8 -offset2">
 
-        <div class="ww-panel">
+        <div class="ww-panel -default">
+
+          <div class="ww-panel__header">
+
+            <div class="ww-panel__header__content">
+
+              {{ features(post) }}
+
+              <div class="board-post-timestamp">
+                Posted {{post.created_on | timestamp}}
+              </div>
+
+            </div>
+
+          </div>
 
           <div class="ww-panel__body">
-
-            <div class="board-post-timestamp">
-              Posted {{post.created_on | timestamp}}
-            </div>
-
-            <div class="board-post-preview">
-              {{post.preview}}
-            </div>
 
             <div class="board-post-html">
               {{post.description_html | safe}}

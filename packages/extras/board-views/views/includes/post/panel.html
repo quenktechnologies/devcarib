@@ -1,3 +1,5 @@
+{% from "macros/post/features.html" import features %}
+
 <div class="ww-panel -default board-post-panel">
 
   <div class="ww-panel__body">
@@ -12,21 +14,16 @@
 
       <div class="board-post-panel-header__text">
 
-          {{post.company}} - {{post.created_on | timefromnow}}
+        <span class="board-post-panel-company">
+          {{post.company}}
+        </span> - 
+        <span class="board-post-panel-time">
+          {{post.created_on | timefromnow}}
+        </span>
 
       </div>
 
-      <div class="board-post-panel-header__meta">
-
-        {% if post.remote %}
-          <span class="ww-tag -default">Remote</span>
-        {% endif %}
-
-        {% if post.salary_range %}
-          <span>${{post.salary_range}}</span>
-        {% endif %}
-
-      </div>
+      {{ features(post) }}
 
     </div>
 
