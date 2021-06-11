@@ -38,7 +38,7 @@ BOARD_CLEAN_TARGETS:=
 BOARD_SRC_DIRS:=
 
 # Configure the paths for your extra packages here.
-BOARD_SCHEMA_DIR:=$(EXTRAS_PACKAGES_DIR)/board-schema
+include $(PACKAGES_DIR)/schema/variables.mk
 BOARD_TYPES_DIR:=$(LIBS_PACKAGES_DIR)/board-types
 BOARD_COMMON_DIR:=$(LIBS_PACKAGES_DIR)/board-common
 BOARD_VALIDATORS_DIR:=$(LIBS_PACKAGES_DIR)/board-validators
@@ -55,7 +55,7 @@ BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
-		      $(BOARD_SCHEMA_DIR) \
+		      $(PROJECT_SCHEMA_DIR) \
 		      $(BOARD_TYPES_DIR)\
 		      $(BOARD_COMMON_DIR)\
 		      $(BOARD_VALIDATORS_DIR)\
@@ -71,7 +71,7 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 	$(TOUCH) $(PROJECT_BUILD_DIR)
 
 # Include *.mk files here.
-include $(BOARD_SCHEMA_DIR)/build.mk
+include $(PROJECT_SCHEMA_DIR)/build.mk
 include $(BOARD_TYPES_DIR)/build.mk
 include $(BOARD_COMMON_DIR)/build.mk
 include $(BOARD_VALIDATORS_DIR)/build.mk
