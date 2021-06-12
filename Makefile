@@ -24,7 +24,7 @@ define EOL
 
 endef
 
-### Settings. ###
+### Settings ###
 PROJECT_SRC_DIR:=$(HERE)/src
 PROJECT_SRC_DIR_FILES:=$(shell $(FIND) $(PROJECT_SRC_DIR) -type f)
 PACKAGES_DIR:=$(HERE)/packages
@@ -39,14 +39,9 @@ BOARD_SRC_DIRS:=
 
 # Configure the paths for your extra packages here.
 include $(PACKAGES_DIR)/schema/variables.mk
-BOARD_TYPES_DIR:=$(LIBS_PACKAGES_DIR)/board-types
-BOARD_COMMON_DIR:=$(LIBS_PACKAGES_DIR)/board-common
-BOARD_VALIDATORS_DIR:=$(LIBS_PACKAGES_DIR)/board-validators
-BOARD_CHECKS_DIR:=$(LIBS_PACKAGES_DIR)/board-checks
-BOARD_WIDGETS_DIR:=$(LIBS_PACKAGES_DIR)/board-widgets
-BOARD_FORM_POST_DIR:=$(APPS_PACKAGES_DIR)/board-form-post
-BOARD_ADMIN_DIR:=$(APPS_PACKAGES_DIR)/board-admin
-BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
+include $(PACKAGES_DIR)/libs/variables.mk
+include $(PACKAGES_DIR)/frontends/variables.mk
+BOARD_VIEWS_DIR:=$(PACKAGES_DIR)/extras/board-views
 
 ### Dependency Graph ###
 
@@ -55,15 +50,10 @@ BOARD_VIEWS_DIR:=$(EXTRAS_PACKAGES_DIR)/board-views
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
-		      $(PROJECT_SCHEMA_DIR) \
-		      $(BOARD_TYPES_DIR)\
-		      $(BOARD_COMMON_DIR)\
-		      $(BOARD_VALIDATORS_DIR)\
-		      $(BOARD_CHECKS_DIR)\
-		      $(BOARD_VIEWS_DIR)\
-		      $(BOARD_FORM_POST_DIR)\
-		      $(BOARD_ADMIN_DIR)
-
+                      $(PROJECT_SCHEMA_DIR) \
+                      $(BOARD_LIBS_DIR)\
+                      $(BOARD_FRONTENDS_DIR)\
+                      $(BOARD_VIEWS_DIR)
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
 	$(TDC) $(PROJECT_BUILD_MAIN_DIR)
@@ -72,14 +62,9 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 
 # Include *.mk files here.
 include $(PROJECT_SCHEMA_DIR)/build.mk
-include $(BOARD_TYPES_DIR)/build.mk
-include $(BOARD_COMMON_DIR)/build.mk
-include $(BOARD_VALIDATORS_DIR)/build.mk
-include $(BOARD_CHECKS_DIR)/build.mk
-include $(BOARD_WIDGETS_DIR)/build.mk
+include $(BOARD_LIBS_DIR)/build.mk
+include $(BOARD_FRONTENDS_DIR)/build.mk
 include $(BOARD_VIEWS_DIR)/build.mk
-include $(BOARD_FORM_POST_DIR)/build.mk
-include $(BOARD_ADMIN_DIR)/build.mk
 
 # Remove the build application files.
 .PHONY: clean
