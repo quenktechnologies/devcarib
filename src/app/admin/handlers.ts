@@ -1,25 +1,30 @@
 import * as mongodb from 'mongodb';
 import * as moment from 'moment';
 import * as bcrypt from 'bcryptjs';
-import * as session from '@quenk/tendril/lib/app/api/storage/session';
 
 import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
+
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import {  fork } from '@quenk/tendril/lib/app/api/control';
-import { show, redirect } from '@quenk/tendril/lib/app/api/response';
+import { fork } from '@quenk/tendril/lib/app/api/control';
+import { redirect } from '@quenk/tendril/lib/app/api/response';
+
 import { BaseModel } from '@quenk/dback-model-mongodb';
 
+import { render } from '@quenk/tendril-show-wml';
+
 import { Admin } from '@board/types/lib/admin';
+
 import { validate as validateLogin } from '@board/validators/lib/login';
+
+import { IndexView } from '@board/views/lib/admin';
+import { LoginView } from '@board/views/lib/admin/login';
+import { Type } from '@quenk/noni/lib/data/type';
 
 const ROUTE_INDEX = '/admin';
 const ROUTE_LOGIN = '/admin/login';
-
-const VIEW_LOGIN = 'admin/login.html';
-const VIEW_INDEX = 'admin/index.html';
 
 const KEY_LOGIN_VIEW_CTX = 'loginCtx';
 
@@ -64,15 +69,15 @@ export class AdminController {
      *
      * Note: This is not a JSON endpoint!
      */
-    showIndex = (_: Request): Action<undefined> => {
+    showIndex = (r: Request): Action<undefined> => {
 
         return doAction<undefined>(function*() {
 
-            let muser = yield session.get('admin');
+            let muser = r.session.get('admin');
 
             if (muser.isJust()) {
 
-                return show(VIEW_INDEX);
+                return <Action<undefined>>render(new IndexView());
 
             } else {
 
@@ -87,12 +92,16 @@ export class AdminController {
     /**
      * showLoginForm renders the page with the login form.
      */
-    showLoginForm(_: Request): Action<undefined> {
+    showLoginForm(r: Request): Action<void> {
 
         return doAction(function*() {
 
-            let ctx = yield session.getOrElse(KEY_LOGIN_VIEW_CTX, {});
-            return show(VIEW_LOGIN, ctx);
+            // Type is used here until wml optional properties are sorted out.
+            let ctx = <Type>r.session.getOrElse(KEY_LOGIN_VIEW_CTX, {});
+
+            ctx.title = 'Caribbean Developers Job Board - Admin Login';
+
+            return render(new LoginView(ctx));
 
         });
 
@@ -108,7 +117,7 @@ export class AdminController {
             let elogin = validateLogin(req.body);
 
             if (elogin.isLeft())
-                return showAuthError({
+                return showAuthError(req, {
 
                     message: ERR_AUTH_INVALID,
 
@@ -125,20 +134,20 @@ export class AdminController {
             let [admin] = yield fork(model.search({ email }));
 
             if (admin == null)
-                return showAuthError(authFailedErr(email));
+                return showAuthError(req, authFailedErr(email));
 
             let matches = yield fork(comparePasswords(
                 <string>password, admin.password)
             );
 
             if (!matches)
-                return showAuthError(authFailedErr(email));
+                return showAuthError(req, authFailedErr(email));
 
             let change = { last_login: today() };
 
             yield fork(model.update(admin.id, change));
 
-            yield session.set('admin', { id: admin.id });
+            req.session.set('admin', { id: admin.id });
 
             return redirect(ROUTE_INDEX, 302);
 
@@ -149,11 +158,11 @@ export class AdminController {
     /**
      * logout the admin user.
      */
-    logout(_: Request): Action<undefined> {
+    logout(r: Request): Action<undefined> {
 
         return doAction(function*() {
 
-            yield session.destroy();
+            yield fork(r.session.destroy());
 
             return redirect(ROUTE_LOGIN, 302);
 
@@ -168,10 +177,10 @@ const authFailedErr = (email?: string) => ({
     errors: { message: ERR_AUTH_FAILED }
 })
 
-const showAuthError = (ctx: Object): Action<undefined> =>
+const showAuthError = (r: Request, ctx: Object): Action<undefined> =>
     doAction(function*() {
 
-        yield session.set(KEY_LOGIN_VIEW_CTX, ctx, { ttl: 1 });
+        r.session.setWithDescriptor(KEY_LOGIN_VIEW_CTX, ctx, { ttl: 1 });
         return redirect(ROUTE_LOGIN, 303);
 
     });
