@@ -1,0 +1,129 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+
+{% import (HeadView) from "./common/head" %}
+
+{% contract LoginViewContext =
+
+  title: String,
+
+  styles: String[],
+
+  errors.message?: String,
+
+  errors.email?: String,
+
+  errors.password?: String,
+
+  csrfToken: String,
+
+  email?: String
+
+%}
+
+{% view LoginView(LoginViewContext) %}
+<html lang="en" dir="ltr">
+
+  {{ <HeadView(@)> }}
+
+  <body>
+
+    <GridLayout ww:id="main">
+
+      <Row>
+
+        {% if (@errors??) &&  (@errors.message??) %}
+
+          <Column ww:span=6 ww:offset=3>
+
+            <div class="ww-alert -error" style="text-align:center">
+
+              {{ @errors.message | text }}
+
+            </div>
+
+          </Column>
+
+        {% endif %}
+
+        <Column ww:span=6 ww:offset=3>
+
+          <h3>Admin Login (You Should Not Be Here!)</h3>
+
+          <Panel>
+
+            <PanelBody>
+
+              <form autocomplete="off" action="/admin/login" method="POST">
+
+                <div class={{if (@errors ??) && (@errors.email??)
+                            then 
+                              "ww-text-field -error" 
+                            else 
+                              "ww-text-field" }}>
+                      
+                  <label class="ww-label">Email</label>
+
+                  <input name="email" 
+                         class="ww-text-input -block"
+                         value={{@email}}
+                         autocomplete="off" />
+
+                  <span class="ww-help">
+                      
+                    {% if (@errors??) && (@errors.email??) %}
+                      {{  @errors.email | text }}
+                    {% endif %}
+                          
+                  </span>
+
+                </div>
+                        
+                <div class={{ if (@errors??) && (@errors.password??)
+                              then
+                                "ww-text-field -error" 
+                              else "ww-text-field"
+                            }}>
+                
+                  <label class="ww-label">Password</label>
+
+                  <input name="password"
+                         class="ww-text-input -block" 
+                         autocomplete="off" 
+                         type="password" />
+
+                  <span class="ww-help">
+                              
+                      {% if (@errors??) && (@errors.password??) %}
+                         {{ @errors.password | text }}
+                      {% endif %}
+                          
+                  </span>
+
+                </div>
+
+                <input type="hidden" 
+                       name="_csrf" 
+                       value={{@csrfToken}} />
+
+                <Button
+                  ww:type="submit" 
+                  ww:className="-toolbar-compat -primary -block"
+                  ww:text="Login"/>
+
+              </form>
+
+            </PanelBody>
+
+          </Panel>
+
+        </Column>
+
+      </Row>
+
+    </GridLayout>
+            
+  </body>
+
+</html>

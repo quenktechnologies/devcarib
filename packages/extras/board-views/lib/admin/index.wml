@@ -1,0 +1,26 @@
+{% import (HeadView) from "./common/head" %}
+
+{% contract IndexViewContext =
+
+  title : String,
+
+  styles: String[]
+
+%}
+
+{% view IndexView(IndexViewContext) %}
+  <html>
+
+    {{ <HeadView(@)> }}
+
+    <body>
+      
+      <div id="dialogs"/>
+
+      <div id="main"/>
+
+      <script src="/assets/js/board-admin.js"/>
+
+    </body>
+
+  </html>
