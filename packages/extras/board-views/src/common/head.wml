@@ -1,6 +1,13 @@
 
-{# HeadView is the template for the <head> section of all admin pages. #}
-{% view HeadView where title:String, styles:String[]  %}
+{# HeadView contains the common markup for the <head> section of all pages. #}
+{% view HeadView where
+
+     {# title of the page. #}
+     title: String,
+
+     {# styles is a list of urls to css files to include. #}
+     styles?: String[]
+%}
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -24,8 +31,10 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
     <meta name="theme-color" content="#ffffff"/>
     <link rel="stylesheet" href="/assets/css/site.css"/> 
-    {% for style in @styles %}
-      <link rel="stylesheet" href={{style}} />
-    {% endfor %}
-    <title>@title</title>
+    {% if @styles?? %}
+      {% for style in @styles %}
+        <link rel="stylesheet" href={{style}} />
+      {% endfor %}
+    {% endif %}
+    <title>{{ @title | text }}</title>
 </head>

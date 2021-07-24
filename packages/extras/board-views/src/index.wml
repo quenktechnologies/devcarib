@@ -1,0 +1,71 @@
+{% import (Post) from "@board/types/lib/post" %}
+{% import (PostPanelView) from "@board/widgets/lib/post/panel" %}
+
+{% import (HeadView, HeadViewContext) from "./common/head" %}
+{% import (HeaderView) from "./common/header" %}
+
+{% view IndexView where :HeadViewContext, posts: Post[] %}
+  <html>
+
+    {{ <HeadView(@)> }}
+
+    <body>
+
+      {{ <HeaderView(@)> }}
+  
+        <section id="gayelle" class="ww-grid-layout">
+
+          <div class="ww-grid-layout__row">
+
+            <div class="ww-grid-layout__column -span12">
+            
+              <img class="logo-image"
+                   height="100"
+                   src="/assets/img/logo437x437.png" 
+                   alt="Caribbean Developers Logo" />
+
+              <h2>Hire Software Developers from the Caribbean region. </h2>
+
+              <a id="create-new-post-button"
+                 class="ww-button -primary -large"
+                 href="/post">Post A Job</a>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <div id="main" class="ww-grid-layout">
+
+        <div class="ww-grid-layout__row">
+
+          <div class="ww-grid-layout__column -span8 -offset2">
+
+            {% if @posts.length > 0 %}
+
+              {% for post in @posts %}
+
+                {{ <PostPanelView(post)> }}
+
+              {% endfor %}
+
+            {% else %}
+
+              <div class="board-no-posts">
+
+                There are currently no jobs posted. Please check again later!
+
+              </div>
+
+            {% endif %}
+
+          </div>
+
+      </div>
+
+    </div>
+
+    </body>
+
+  </html>

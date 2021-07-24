@@ -1,14 +1,7 @@
 {% import (HeadView) from "./common/head" %}
 
-{% contract IndexViewContext =
-
-  title : String,
-
-  styles: String[]
-
-%}
-
-{% view IndexView(IndexViewContext) %}
+{# IndexView provides the view for the admin index page. #}
+{% view IndexView where title:String, styles:String[] %}
   <html>
 
     {{ <HeadView(@)> }}
