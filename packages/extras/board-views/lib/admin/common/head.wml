@@ -1,12 +1,6 @@
-{% contract HeadViewContext =
-   
-   title: String,
 
-   styles: String[]
-
-%}
-  
-{% view HeadView(HeadViewContext) %}
+{# HeadView is the template for the <head> section of all admin pages. #}
+{% view HeadView where title:String, styles:String[]  %}
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>

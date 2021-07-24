@@ -1,0 +1,45 @@
+{% import (Post) from "@board/types/lib/post" %}
+
+{% import (timestamp) from "@board/widgets/lib/filters" %}
+
+{% import (PostFeaturesView) from "./features" %}
+
+{# PostBodyView is the view for the body content of a post profile page. #}
+{% view PostBodyView (Post) %}
+<div id="main" class="ww-grid-layout board-post-body">
+
+    <div class="ww-grid-layout__row">
+
+      <div class="ww-grid-layout__column -span8 -offset2">
+
+        <div class="ww-panel -default">
+
+          <div class="ww-panel__header">
+
+            <div class="ww-panel__header__content">
+
+              {{ <PostFeaturesView(@)> }}
+
+              <div class="board-post-timestamp">
+                Posted {{@created_on | timestamp | text }}
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="ww-panel__body">
+
+            <div class="board-post-html">
+              {{@description_html | unsafe }}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+</div>

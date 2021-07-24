@@ -7,11 +7,10 @@ LESSC?=./node_modules/.bin/lessc
 
 ### Settings ###
 BOARD_VIEWS_JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
-BOARD_VIEWS_VIEWS_DIR:=$(BOARD_VIEWS_DIR)/views
 BOARD_VIEWS_LIB_DIR:=$(BOARD_VIEWS_DIR)/lib
 BOARD_VIEWS_SRC_DIR:=$(BOARD_VIEWS_DIR)/src
 BOARD_VIEWS_SRC_DIR_FILES:=$(shell $(FIND) $(BOARD_VIEWS_SRC_DIR) -name \*.wml)
-BOARD_VIEWS_LESS_FILES:=$(shell $(FIND) $(BOARD_VIEWS_VIEWS_DIR) -name \*.less)
+BOARD_VIEWS_LESS_FILES:=$(shell $(FIND) $(BOARD_VIEWS_SRC_DIR) -name \*.less)
 BOARD_VIEWS_LESS_MAIN:=$(BOARD_VIEWS_DIR)/main.less
 BOARD_VIEWS_LESS_IMPORTS:=$(BOARD_VIEWS_DIR)/auto.less
 BOARD_VIEWS_PUBLIC_DIR:=$(BOARD_VIEWS_DIR)/public

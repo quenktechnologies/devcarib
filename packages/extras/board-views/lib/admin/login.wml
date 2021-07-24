@@ -4,8 +4,9 @@
 
 {% import (HeadView) from "./common/head" %}
 
-{% contract LoginViewContext =
-
+{# LoginView provides the view for the login page. #}
+{% view LoginView where
+ 
   title: String,
 
   styles: String[],
@@ -19,10 +20,7 @@
   csrfToken: String,
 
   email?: String
-
 %}
-
-{% view LoginView(LoginViewContext) %}
 <html lang="en" dir="ltr">
 
   {{ <HeadView(@)> }}

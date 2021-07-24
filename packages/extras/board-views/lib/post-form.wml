@@ -1,0 +1,29 @@
+{% import (HeadView, HeadViewContext) from "./common/head" %}
+{% import (HeaderView) from "./common/header" %}
+
+{# PostFormView is the view for the "new post" form page. #}
+{% view PostFormView (Object) %}
+
+  {% let headCtx:HeadViewContext = {
+
+    title = "Post a Job - Caribbean Developers Job Board",
+
+    styles = ["/home/master/Code/development/node/wml/lib"]
+
+  }%}
+
+  <html>
+
+    {{ <HeadView(headCtx)> }}
+
+    <body>
+
+      {{ <HeaderView(@)> }}
+
+      <div id="main"></div>
+
+      <script src="/assets/js/post-form.js"></script>
+
+    </body>
+
+  </html>

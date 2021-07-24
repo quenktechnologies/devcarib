@@ -1,0 +1,55 @@
+{% import (Post) from "@board/types/lib/post" %}
+
+{% import (PostApplyButtonView) from "./button/apply" %}
+
+{# PostHeaderView provides the header for post profile pages. #}
+{% view PostHeaderView (Post) %}
+<div id="post-header" class="ww-grid-layout board-post-header">
+
+  <div class="ww-grid-layout__row">
+
+    <div class="ww-grid-layout__column -span8 -offset2">
+
+      <div class="board-post-back-link">
+       
+        <a class="ww-link" href="/">{{ '&#x2190; See other posts' | unsafe }}</a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="ww-grid-layout__row">
+
+    <div class="ww-grid-layout__column -span8 -offset2 board-post-img-wrapper">
+
+      {% if @company_logo?? %}
+
+        <img class="board-post-company-logo"
+             src={{@company_logo}}
+             alt="Company Logo" />
+
+      {% endif %}
+
+      <h2 class="board-post-title">{{@title|text}}</h2>
+
+      <div class="board-post-line"></div>
+
+      <p class="board-post-company">{{@company|text}}</p>
+
+    </div>
+
+  </div>
+
+  <div class="ww-grid-layout__row">
+
+    <div class="ww-grid-layout__column -span8 -offset2 -board-center">
+
+      {{ <PostApplyButtonView(@)> }}
+
+    </div>
+
+  </div>
+
+</div>

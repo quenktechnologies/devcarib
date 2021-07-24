@@ -61,6 +61,8 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 // @ts-ignore 6192
 const text = __document.text;
 // @ts-ignore 6192
+const unsafe = __document.unsafe
+// @ts-ignore 6192
 const isSet = (value:any) => value != null
 export interface HeadViewContext{title : string,
 styles : (string)[]};
@@ -69,6 +71,8 @@ export class HeadView  implements __wml.View {
    constructor(__context: HeadViewContext) {
 
        this.template = (__this:__wml.Registry) => {
+
+       
 
            return __this.node('head', <__wml.Attrs>{}, [
 
@@ -247,6 +251,11 @@ __this.node('title', <__wml.Attrs>{}, [
            } else if (typeof value === 'boolean') {
 
              e.setAttribute(key, '');
+
+           } else if(!__document.isBrowser && 
+                     value instanceof __document.WMLDOMText) {
+
+             e.setAttribute(key, <any>value);
 
            }
 

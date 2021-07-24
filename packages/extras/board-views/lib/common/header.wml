@@ -1,0 +1,49 @@
+
+{% view HeaderView(Object) %}
+  <header class="ww-grid-layout board-common-header">
+
+    <div class="ww-grid-layout__row">
+
+      <div class="ww-grid-layout__column -span8 -offset2">
+
+        <div class="ww-grid-layout__row">
+
+          <div class="ww-grid-layout__column -span6">
+
+            <div class="board-logo"><a href="/">Caribbean Developers Job Board</a></div>
+
+          </div>
+
+          <div class="ww-grid-layout__column -span6">
+
+            <nav class="board-nav">
+
+              <ul class="ww-nav board-nav-list">
+
+                <li class="ww-menu-item">
+
+                  <a class="ww-link" href="/">Jobs</a>
+
+                </li>
+
+                <li class="ww-menu-item">
+
+                  <a class="ww-link" href="https://www.facebook.com/groups/devcarib">Forum</a>
+
+                </li>
+
+            </ul>
+
+            <a class="ww-button -error -large" href="/post">Post a Job</a>
+
+          </nav>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>

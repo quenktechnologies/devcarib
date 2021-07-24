@@ -6,6 +6,14 @@
 
     "version": "0.0.1",
 
-    "description": "Server side views for the board application"
+    "description": "Server side views for the board application",
+
+    "main": "lib/index.js",
+
+    "dependencies": {
+
+        "@quenk/wml": "^2.9.2"
+
+    }
 
 }

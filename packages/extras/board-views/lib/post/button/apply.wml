@@ -1,0 +1,11 @@
+{% import (Post) from "@board/types/lib/post" %}
+
+{% view PostApplyButtonView (Post) %}
+  <span>
+    {% if @apply_url?? %}
+      <a href={{@apply_url}}
+         class="ww-button -success -large board-post-apply-button"
+         target="_blank"> Apply</a>
+    {% endif %}
+  </span>
+
