@@ -4,12 +4,14 @@ import * as bcrypt from 'bcryptjs';
 
 import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
+import { Type } from '@quenk/noni/lib/data/type';
 
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
 import { fork } from '@quenk/tendril/lib/app/api/control';
 import { redirect } from '@quenk/tendril/lib/app/api/response';
+import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
 
 import { BaseModel } from '@quenk/dback-model-mongodb';
 
@@ -21,7 +23,6 @@ import { validate as validateLogin } from '@board/validators/lib/login';
 
 import { IndexView } from '@board/views/lib/admin';
 import { LoginView } from '@board/views/lib/admin/login';
-import { Type } from '@quenk/noni/lib/data/type';
 
 const ROUTE_INDEX = '/admin';
 const ROUTE_LOGIN = '/admin/login';
@@ -77,7 +78,13 @@ export class AdminController {
 
             if (muser.isJust()) {
 
-                return <Action<undefined>>render(new IndexView());
+                return <Action<undefined>>render(new IndexView({
+
+                    title: 'Caribbean Developers Job Board - Admin',
+
+                    styles: ['/assets/css/board-admin.css']
+
+                }));
 
             } else {
 
@@ -101,7 +108,17 @@ export class AdminController {
 
             ctx.title = 'Caribbean Developers Job Board - Admin Login';
 
-            return render(new LoginView(ctx));
+            ctx.styles = [];
+
+            return render(new LoginView({
+
+                title: 'Caribbean Developers Job Board - Admin Login',
+
+                styles: [],
+
+                csrfToken: <string>r.prs.getOrElse(PRS_CSRF_TOKEN, '')
+
+            }));
 
         });
 
