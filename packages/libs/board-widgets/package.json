@@ -3,6 +3,9 @@
     "name": "@board/widgets",
     "private": "true",
     "version": "0.0.1",
-    "main": "lib/index.js"
+    "main": "lib/index.js",
+    "dependencies": {
+        "moment": "^2.29.1"
+    }
 
 }
