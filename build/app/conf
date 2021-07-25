@@ -49,7 +49,7 @@ app.parsers.body.json.enable = true
 app.dirs.public = [
 
   "public",
-  "../../packages/extras/board-views/public",
+  "../../packages/libs/board-views/public",
   "../../packages/frontends/board-form-post/public",
   "../../packages/frontends/board-admin/public"
 

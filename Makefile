@@ -30,7 +30,6 @@ PROJECT_SRC_DIR_FILES:=$(shell $(FIND) $(PROJECT_SRC_DIR) -type f)
 PACKAGES_DIR:=$(HERE)/packages
 LIBS_PACKAGES_DIR:=$(PACKAGES_DIR)/libs
 APPS_PACKAGES_DIR:=$(PACKAGES_DIR)/frontend
-EXTRAS_PACKAGES_DIR:=$(PACKAGES_DIR)/extras
 PROJECT_BUILD_DIR:=$(HERE)/build
 PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/app
 
@@ -41,7 +40,6 @@ BOARD_SRC_DIRS:=
 include $(PACKAGES_DIR)/schema/variables.mk
 include $(PACKAGES_DIR)/libs/variables.mk
 include $(PACKAGES_DIR)/frontends/variables.mk
-BOARD_VIEWS_DIR:=$(PACKAGES_DIR)/extras/board-views
 
 ### Dependency Graph ###
 
