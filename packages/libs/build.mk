@@ -10,3 +10,4 @@ include $(BOARD_COMMON_DIR)/build.mk
 include $(BOARD_VALIDATORS_DIR)/build.mk
 include $(BOARD_CHECKS_DIR)/build.mk
 include $(BOARD_WIDGETS_DIR)/build.mk
+include $(BOARD_VIEWS_DIR)/build.mk
