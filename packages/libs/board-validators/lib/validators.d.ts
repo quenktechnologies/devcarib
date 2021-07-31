@@ -39,6 +39,12 @@ export declare const minLength: (n: number) => Precondition<Value, Value>;
  */
 export declare const maxLength: (n: number) => Precondition<Value, Value>;
 /**
- * salaryRange ensures the provided string is one of the salary range strings.
+ * currency ensures the provided string is one of the supported currency
+ * indicators.
  */
-export declare const salaryRange: Precondition<Value, Value>;
+export declare const currency: Precondition<Value, Value>;
+/**
+ * paymentFrequency is one of several period specifiers that indicate how
+ * often a payment will be made.
+ */
+export declare const paymentFrequency: Precondition<Value, Value>;

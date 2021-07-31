@@ -85,7 +85,11 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'apply_url': _identity
     ,
-    'salary_range': _identity
+    'payment_currency': _identity
+    ,
+    'payment_amount': _identity
+    ,
+    'payment_frequency': _identity
 
 };
 
@@ -125,7 +129,11 @@ export const partialChecks: Preconditions<Value, Value> = {
     ,
     'apply_url': _identity
     ,
-    'salary_range': _identity
+    'payment_currency': _identity
+    ,
+    'payment_amount': _identity
+    ,
+    'payment_frequency': _identity
 
 };
 

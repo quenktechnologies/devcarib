@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { CandidatePost } from '@board/types/lib/candidate-post';
-import { textsmall, minLength, textlarge, maxLength, name, email, url, salaryRange } from './validators';
+import { textsmall, minLength, textlarge, maxLength, name, email, url, currency, paymentFrequency } from './validators';
 
 /**
  * @private Used during template generation.
@@ -101,8 +101,16 @@ export const validators: Preconditions<Value, Value> = {
     'approved': _optional(_boolean
     ),
 
-    'salary_range': _optional(_and(_string,
-        _every<Value, Value>(salaryRange))
+    'payment_currency': _optional(_and(_string,
+        _every<Value, Value>(currency))
+
+    ),
+
+    'payment_amount': _optional(_number
+    ),
+
+    'payment_frequency': _optional(_and(_string,
+        _every<Value, Value>(paymentFrequency))
 
     )
 
@@ -158,8 +166,16 @@ export const partialValidators: Preconditions<Value, Value> = {
     'approved': _optional(_boolean
     ),
 
-    'salary_range': _optional(_and(_string,
-        _every<Value, Value>(salaryRange))
+    'payment_currency': _optional(_and(_string,
+        _every<Value, Value>(currency))
+
+    ),
+
+    'payment_amount': _optional(_number
+    ),
+
+    'payment_frequency': _optional(_and(_string,
+        _every<Value, Value>(paymentFrequency))
 
     )
 

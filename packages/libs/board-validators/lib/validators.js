@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.salaryRange = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
+exports.paymentFrequency = exports.currency = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
 var string = require("@quenk/preconditions/lib/string");
 var array = require("@quenk/preconditions/lib/array");
 var preconditions_1 = require("@quenk/preconditions");
 var array_1 = require("@quenk/noni/lib/data/array");
 var result_1 = require("@quenk/preconditions/lib/result");
-var salary_range_1 = require("@board/common/lib/data/post/salary-range");
+var currency_1 = require("@board/common/lib/data/currency");
+var payment_1 = require("@board/common/lib/data/payment");
 /**
  * name must be a string and between 1-64 characters.
  *
@@ -56,10 +57,23 @@ var maxLength = function (n) {
 };
 exports.maxLength = maxLength;
 /**
- * salaryRange ensures the provided string is one of the salary range strings.
+ * currency ensures the provided string is one of the supported currency
+ * indicators.
  */
-var salaryRange = function (value) {
-    return array_1.contains(salary_range_1.ranges, value) ? result_1.succeed(value) : result_1.fail('invalid', { value: value });
+var currency = function (value) {
+    return array_1.contains(currency_1.supportedCurrencies, value) ?
+        result_1.succeed(value) :
+        result_1.fail('invalid', { value: value });
 };
-exports.salaryRange = salaryRange;
+exports.currency = currency;
+/**
+ * paymentFrequency is one of several period specifiers that indicate how
+ * often a payment will be made.
+ */
+var paymentFrequency = function (value) {
+    return array_1.contains(payment_1.supportedPaymentFrequencies, value) ?
+        result_1.succeed(value) :
+        result_1.fail('invalid', { value: value });
+};
+exports.paymentFrequency = paymentFrequency;
 //# sourceMappingURL=validators.js.map

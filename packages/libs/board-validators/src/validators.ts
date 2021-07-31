@@ -7,7 +7,8 @@ import { contains } from '@quenk/noni/lib/data/array';
 
 import { succeed, fail } from '@quenk/preconditions/lib/result';
 
-import { ranges } from '@board/common/lib/data/post/salary-range';
+import { supportedCurrencies } from '@board/common/lib/data/currency';
+import { supportedPaymentFrequencies} from '@board/common/lib/data/payment';
 
 /**
  * name must be a string and between 1-64 characters.
@@ -72,7 +73,19 @@ export const maxLength = (n: number): Precondition<Value, Value> =>
         string.maxLength(n)(<string>value);
 
 /**
- * salaryRange ensures the provided string is one of the salary range strings.
+ * currency ensures the provided string is one of the supported currency
+ * indicators.
  */
-export const salaryRange: Precondition<Value, Value> = (value: Value) =>
-    contains(ranges, value) ? succeed(value) : fail('invalid', { value })
+export const currency: Precondition<Value, Value> = (value: Value) =>
+    contains(supportedCurrencies, value) ?
+        succeed(value) :
+        fail('invalid', { value })
+
+/**
+ * paymentFrequency is one of several period specifiers that indicate how
+ * often a payment will be made.
+ */
+export const paymentFrequency: Precondition<Value, Value> = (value: Value) =>
+    contains(supportedPaymentFrequencies, value) ?
+        succeed(value) :
+        fail('invalid', { value })

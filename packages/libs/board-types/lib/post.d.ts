@@ -34,5 +34,7 @@ export interface Post extends _json.Object {
     'company_email'?: string;
     'company_logo'?: string;
     'apply_url'?: string;
-    'salary_range'?: string;
+    'payment_currency'?: string;
+    'payment_amount'?: number;
+    'payment_frequency'?: string;
 }

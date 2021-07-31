@@ -130,11 +130,29 @@
 
     },
 
-    "salary_range": {
+    "payment_currency": {
 
         "type": "string",
 
-        "validators": "./validators#salaryRange",
+        "validators": "./validators#currency",
+
+        "optional": true
+
+    },
+
+    "payment_amount": {
+
+        "type": "number",
+
+        "optional": true
+
+    },
+
+    "payment_frequency": {
+
+        "type": "string",
+
+        "validators": "./validators#paymentFrequency",
 
         "optional": true
 
