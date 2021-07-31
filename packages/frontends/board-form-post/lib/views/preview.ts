@@ -7,7 +7,6 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {text} from '@quenk/wml-widgets'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
@@ -63,11 +62,19 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
+// @ts-ignore 6192
+const text = __document.text;
+// @ts-ignore 6192
+const unsafe = __document.unsafe
+// @ts-ignore 6192
+const isSet = (value:any) => value != null
 export class PreviewView  implements __wml.View {
 
    constructor(__context: PostFormApp) {
 
        this.template = (__this:__wml.Registry) => {
+
+       
 
            return __this.widget(new GridLayout({}, [
 
@@ -201,6 +208,11 @@ __this.widget(new Button({wml : { 'id' : __context.values.buttons .send .id   },
            } else if (typeof value === 'boolean') {
 
              e.setAttribute(key, '');
+
+           } else if(!__document.isBrowser && 
+                     value instanceof __document.WMLDOMText) {
+
+             e.setAttribute(key, <any>value);
 
            }
 

@@ -1,4 +1,3 @@
-{% import (text) from "@quenk/wml-widgets" %}
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}

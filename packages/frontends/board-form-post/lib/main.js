@@ -8,7 +8,7 @@ var util_1 = require("@quenk/wml-widgets/lib/util");
 var feedback_1 = require("@quenk/wml-widgets/lib/control/feedback");
 var browser_1 = require("@quenk/jhr/lib/browser");
 var post_1 = require("@board/validators/lib/post");
-var salary_range_1 = require("@board/common/lib/data/post/salary-range");
+var payment_1 = require("@board/common/lib/data/payment");
 var app_1 = require("./views/app");
 var preview_1 = require("./views/preview");
 var finish_1 = require("./views/finish");
@@ -44,7 +44,10 @@ var PostFormApp = /** @class */ (function () {
         this.finishView = new finish_1.FinishView(this);
         this.values = {
             post: {
-                data: {},
+                data: {
+                    payment_currency: "USD",
+                    payment_frequency: "Monthly"
+                },
                 errors: {},
                 type: {
                     options: [
@@ -56,8 +59,10 @@ var PostFormApp = /** @class */ (function () {
                         { label: 'Volunteer', value: 'Volunteer' },
                     ]
                 },
-                salary_range: {
-                    options: salary_range_1.ranges.map(function (value) { return ({ label: value, value: value }); })
+                payment_frequency: {
+                    options: payment_1.supportedPaymentFrequencies.map(function (value) {
+                        return ({ label: value, value: value });
+                    })
                 },
                 onChange: timer_1.debounce(function (e) {
                     var name = e.name, value = e.value;

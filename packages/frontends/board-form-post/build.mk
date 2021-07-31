@@ -52,7 +52,7 @@ $(BOARD_FORM_POST_JS_FILE): $(BOARD_FORM_POST_LIB_DIR)
 	$(BROWSERIFY) $(BOARD_FORM_POST_LIB_DIR)/main.js \
 	$(if $(findstring yes,$(DEBUG)),,|$(UGLIFYJS)) > $@
 
-$(BOARD_FORM_POST_LIB_DIR): $(BOARD_FORM_POST_SRC_FILES)
+$(BOARD_FORM_POST_LIB_DIR): $(BOARD_FORM_POST_SRC_FILES) $(BOARD_WIDGETS_DIR)
 	rm -R $@ 2> /dev/null || true 
 	mkdir $@
 	cp -R -u $(BOARD_FORM_POST_SRC_DIR)/* $@

@@ -12,6 +12,7 @@ import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
 import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
 import {DropList} from '@quenk/wml-widgets/lib/control/drop-list'; ;
 import {Checkbox} from '@quenk/wml-widgets/lib/control/checkbox'; ;
+import {CurrencyMoneyTextField} from '@board/widgets/lib/control/input/money'; ;
 import {PostFormApp} from '../../main'; 
 
 
@@ -63,11 +64,19 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
+// @ts-ignore 6192
+const text = __document.text;
+// @ts-ignore 6192
+const unsafe = __document.unsafe
+// @ts-ignore 6192
+const isSet = (value:any) => value != null
 export class PostFormView  implements __wml.View {
 
    constructor(__context: PostFormApp) {
 
        this.template = (__this:__wml.Registry) => {
+
+       
 
            return __this.node('form', <__wml.Attrs>{'name': 'post-form','onsubmit': (e: Event ) => e.preventDefault(),'autocomplete': 'off'}, [
 
@@ -120,7 +129,7 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 6  }}, [
+        __this.widget(new Column({}, [
 
         __this.node('b', <__wml.Attrs>{}, [
 
@@ -130,17 +139,39 @@ __this.widget(new Checkbox({ww : { 'name' : 'remote' ,'value' : __context.values
         
      ]),<__wml.Attrs>{ww : { 'name' : 'remote' ,'value' : __context.values.post .data .remote  ,'onChange' : __context.values.post .onSelect   }})
      ])
-     ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
-__this.widget(new Column({ww : { 'span' : 6  }}, [
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({ww : { 'span' : 6  }}, [
 
         __this.node('b', <__wml.Attrs>{}, [
 
-        __document.createTextNode('Salary Range (USD\u002FMonthly)')
+        __document.createTextNode('Payment')
      ]),
-__this.widget(new DropList({wml : { 'id' : 'salary_range'  },ww : { 'name' : 'salary_range' ,'options' : __context.values.post .salary_range .options  ,'value' : __context.values.post .data .salary_range  ,'onSelect' : __context.values.post .onChange   }}, [
+__this.widget(new CurrencyMoneyTextField({'names': [
+
+            'payment_currency',
+'payment_amount'
+            ],'onChange': __context.values.post .onChange }, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'salary_range'  },ww : { 'name' : 'salary_range' ,'options' : __context.values.post .salary_range .options  ,'value' : __context.values.post .data .salary_range  ,'onSelect' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{'names': [
+
+            'payment_currency',
+'payment_amount'
+            ],'onChange': __context.values.post .onChange })
+     ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
+__this.widget(new Column({ww : { 'span' : 6  }}, [
+
+        __this.node('label', <__wml.Attrs>{'class': 'ww-label'}, [
+
+        __document.createTextNode('Payment Frequency')
+     ]),
+__this.widget(new DropList({wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block' ,'name' : 'payment_frequency' ,'value' : __context.values.post .data .payment_frequency  ,'options' : __context.values.post .payment_frequency .options  ,'onSelect' : __context.values.post .onSelect   }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block' ,'name' : 'payment_frequency' ,'value' : __context.values.post .data .payment_frequency  ,'options' : __context.values.post .payment_frequency .options  ,'onSelect' : __context.values.post .onSelect   }})
      ]),<__wml.Attrs>{ww : { 'span' : 6  }})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -230,6 +261,11 @@ __this.widget(new Row({}, [
            } else if (typeof value === 'boolean') {
 
              e.setAttribute(key, '');
+
+           } else if(!__document.isBrowser && 
+                     value instanceof __document.WMLDOMText) {
+
+             e.setAttribute(key, <any>value);
 
            }
 

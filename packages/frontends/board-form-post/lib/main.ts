@@ -17,7 +17,7 @@ import { Post } from '@board/types/lib/post';
 
 import { validators, validate } from '@board/validators/lib/post';
 
-import { ranges } from '@board/common/lib/data/post/salary-range';
+import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
 
 import { PostFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
@@ -86,7 +86,13 @@ export class PostFormApp {
 
         post: {
 
-            data: <Post>{},
+            data: <Post>{
+
+                payment_currency: "USD",
+
+                payment_frequency: "Monthly"
+
+            },
 
             errors: <Record<string>>{},
 
@@ -105,9 +111,10 @@ export class PostFormApp {
 
             },
 
-            salary_range: {
+            payment_frequency: {
 
-                options: ranges.map(value => ({ label: value, value }))
+                options: supportedPaymentFrequencies.map(value =>
+                    ({ label: value, value }))
 
             },
 

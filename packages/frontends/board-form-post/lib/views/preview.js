@@ -4,8 +4,6 @@ exports.PreviewView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
-var wml_widgets_1 = require("@quenk/wml-widgets");
-;
 var button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
 var link_1 = require("@quenk/wml-widgets/lib/content/link");
@@ -33,6 +31,12 @@ var __forOf = function (o, f, alt) {
             ret = ret.concat(f((o)[key], key, o));
     return ret.length === 0 ? alt() : ret;
 };
+// @ts-ignore 6192
+var text = __document.text;
+// @ts-ignore 6192
+var unsafe = __document.unsafe;
+// @ts-ignore 6192
+var isSet = function (value) { return value != null; };
 var PreviewView = /** @class */ (function () {
     function PreviewView(__context) {
         this.ids = {};
@@ -47,7 +51,7 @@ var PreviewView = /** @class */ (function () {
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('h1', { 'class': 'post-title' }, [
-                                    wml_widgets_1.text(__context.values.post.data.title)
+                                    text(__context.values.post.data.title)
                                 ])
                             ]), {})
                         ]), {}),
@@ -110,6 +114,10 @@ var PreviewView = /** @class */ (function () {
             }
             else if (typeof value === 'boolean') {
                 e.setAttribute(key, '');
+            }
+            else if (!__document.isBrowser &&
+                value instanceof __document.WMLDOMText) {
+                e.setAttribute(key, value);
             }
         });
         children.forEach(function (c) {

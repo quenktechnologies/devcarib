@@ -4,6 +4,9 @@
 {% import (DropList) from "@quenk/wml-widgets/lib/control/drop-list" %}
 {% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
 
+{% import (CurrencyMoneyTextField) 
+   from "@board/widgets/lib/control/input/money" %}
+
 {% import (PostFormApp) from "../../main" %}
 
 {% view PostFormView (PostFormApp) %}
@@ -82,7 +85,7 @@
 
         <Row>
 
-          <Column ww:span=6>
+          <Column>
 
             <b>
               Is this a remote position? 
@@ -94,16 +97,31 @@
 
           </Column>
 
+        </Row>
+
+        <Row>
+
           <Column ww:span=6>
 
-            <b>Salary Range (USD\u002FMonthly)</b>
+            <b>Payment</b>
+
+            <CurrencyMoneyTextField
+              names=["payment_currency", "payment_amount"]
+              onChange={{@values.post.onChange}} />
+
+          </Column>
+
+          <Column ww:span=6>
+
+            <label class="ww-label">Payment Frequency</label>
 
             <DropList
-             wml:id="salary_range"
-             ww:name="salary_range"
-             ww:options={{@values.post.salary_range.options}}
-             ww:value={{@values.post.data.salary_range}}
-             ww:onSelect={{@values.post.onChange}} />
+              wml:id="payment_frequency"
+              ww:className="-block"
+              ww:name="payment_frequency"
+              ww:value={{@values.post.data.payment_frequency}}
+              ww:options={{@values.post.payment_frequency.options}}
+              ww:onSelect={{@values.post.onSelect}} />
 
           </Column>
 

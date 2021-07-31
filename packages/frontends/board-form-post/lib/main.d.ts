@@ -37,7 +37,7 @@ export declare class PostFormApp {
                     value: string;
                 }[];
             };
-            salary_range: {
+            payment_frequency: {
                 options: {
                     label: string;
                     value: string;

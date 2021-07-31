@@ -14,6 +14,8 @@ var drop_list_1 = require("@quenk/wml-widgets/lib/control/drop-list");
 ;
 var checkbox_1 = require("@quenk/wml-widgets/lib/control/checkbox");
 ;
+var money_1 = require("@board/widgets/lib/control/input/money");
+;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -33,6 +35,12 @@ var __forOf = function (o, f, alt) {
             ret = ret.concat(f((o)[key], key, o));
     return ret.length === 0 ? alt() : ret;
 };
+// @ts-ignore 6192
+var text = __document.text;
+// @ts-ignore 6192
+var unsafe = __document.unsafe;
+// @ts-ignore 6192
+var isSet = function (value) { return value != null; };
 var PostFormView = /** @class */ (function () {
     function PostFormView(__context) {
         this.ids = {};
@@ -67,17 +75,31 @@ var PostFormView = /** @class */ (function () {
                                 ]), {})
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
-                                __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
+                                __this.widget(new grid_1.Column({}, [
                                     __this.node('b', {}, [
                                         __document.createTextNode('\u000a              Is this a remote position? \u000a              '),
                                         __this.widget(new checkbox_1.Checkbox({ ww: { 'name': 'remote', 'value': __context.values.post.data.remote, 'onChange': __context.values.post.onSelect } }, []), { ww: { 'name': 'remote', 'value': __context.values.post.data.remote, 'onChange': __context.values.post.onSelect } })
                                     ])
-                                ]), { ww: { 'span': 6 } }),
+                                ]), {})
+                            ]), {}),
+                            __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
                                     __this.node('b', {}, [
-                                        __document.createTextNode('Salary Range (USD\u002FMonthly)')
+                                        __document.createTextNode('Payment')
                                     ]),
-                                    __this.widget(new drop_list_1.DropList({ wml: { 'id': 'salary_range' }, ww: { 'name': 'salary_range', 'options': __context.values.post.salary_range.options, 'value': __context.values.post.data.salary_range, 'onSelect': __context.values.post.onChange } }, []), { wml: { 'id': 'salary_range' }, ww: { 'name': 'salary_range', 'options': __context.values.post.salary_range.options, 'value': __context.values.post.data.salary_range, 'onSelect': __context.values.post.onChange } })
+                                    __this.widget(new money_1.CurrencyMoneyTextField({ 'names': [
+                                            'payment_currency',
+                                            'payment_amount'
+                                        ], 'onChange': __context.values.post.onChange }, []), { 'names': [
+                                            'payment_currency',
+                                            'payment_amount'
+                                        ], 'onChange': __context.values.post.onChange })
+                                ]), { ww: { 'span': 6 } }),
+                                __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
+                                    __this.node('label', { 'class': 'ww-label' }, [
+                                        __document.createTextNode('Payment Frequency')
+                                    ]),
+                                    __this.widget(new drop_list_1.DropList({ wml: { 'id': 'payment_frequency' }, ww: { 'className': '-block', 'name': 'payment_frequency', 'value': __context.values.post.data.payment_frequency, 'options': __context.values.post.payment_frequency.options, 'onSelect': __context.values.post.onSelect } }, []), { wml: { 'id': 'payment_frequency' }, ww: { 'className': '-block', 'name': 'payment_frequency', 'value': __context.values.post.data.payment_frequency, 'options': __context.values.post.payment_frequency.options, 'onSelect': __context.values.post.onSelect } })
                                 ]), { ww: { 'span': 6 } })
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
@@ -125,6 +147,10 @@ var PostFormView = /** @class */ (function () {
             }
             else if (typeof value === 'boolean') {
                 e.setAttribute(key, '');
+            }
+            else if (!__document.isBrowser &&
+                value instanceof __document.WMLDOMText) {
+                e.setAttribute(key, value);
             }
         });
         children.forEach(function (c) {
