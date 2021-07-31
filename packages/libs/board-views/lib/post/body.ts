@@ -96,7 +96,26 @@ text (timestamp (__context.created_on))
      ]),
 __this.node('div', <__wml.Attrs>{'class': 'ww-panel__body'}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'board-post-html'}, [
+        __this.node('div', <__wml.Attrs>{'class': 'board-post-salary'}, [
+
+        ...(((__context.payment_amount) != null) ?
+(()=>([
+
+        __this.node('span', <__wml.Attrs>{}, [
+
+        text (__context.payment_amount),
+__document.createTextNode('\u00a0'),
+__this.node('b', <__wml.Attrs>{}, [
+
+        text (__context.payment_currency),
+__document.createTextNode('\u002F'),
+text (__context.payment_frequency)
+     ])
+     ])
+     ]))() :
+(()=>([]))())
+     ]),
+__this.node('div', <__wml.Attrs>{'class': 'board-post-html'}, [
 
         unsafe (__context.description_html)
      ])

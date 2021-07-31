@@ -1,4 +1,9 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostBodyView = void 0;
 var __document = require("@quenk/wml/lib/dom");
@@ -55,6 +60,19 @@ var PostBodyView = /** @class */ (function () {
                                 ])
                             ]),
                             __this.node('div', { 'class': 'ww-panel__body' }, [
+                                __this.node('div', { 'class': 'board-post-salary' }, __spreadArray([], (((__context.payment_amount) != null) ?
+                                    (function () { return ([
+                                        __this.node('span', {}, [
+                                            text(__context.payment_amount),
+                                            __document.createTextNode('\u00a0'),
+                                            __this.node('b', {}, [
+                                                text(__context.payment_currency),
+                                                __document.createTextNode('\u002F'),
+                                                text(__context.payment_frequency)
+                                            ])
+                                        ])
+                                    ]); })() :
+                                    (function () { return ([]); })()))),
                                 __this.node('div', { 'class': 'board-post-html' }, [
                                     unsafe(__context.description_html)
                                 ])

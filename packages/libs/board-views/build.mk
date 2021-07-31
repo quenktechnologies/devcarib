@@ -19,7 +19,7 @@ BOARD_VIEWS_CSS_FILE:=$(BOARD_VIEWS_PUBLIC_DIR)/assets/css/site.css
 ### Graph ###
 $(BOARD_VIEWS_DIR): $(BOARD_VIEWS_LIB_DIR)\
                     $(BOARD_VIEWS_PUBLIC_DIR)\
-		    $(BOARD_WIDGETS_DIR)
+                    $(BOARD_WIDGETS_DIR)
 	touch $@
 
 $(BOARD_VIEWS_LIB_DIR): $(BOARD_VIEWS_SRC_DIR)
