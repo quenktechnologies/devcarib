@@ -2,7 +2,8 @@ $(BOARD_LIBS_DIR): $(BOARD_TYPES_DIR)\
                    $(BOARD_COMMON_DIR)\
 		   $(BOARD_VALIDATORS_DIR)\
 		   $(BOARD_CHECKS_DIR)\
-		   $(BOARD_WIDGETS_DIR)
+		   $(BOARD_WIDGETS_DIR)\
+                   $(BOARD_VIEWS_DIR)
 	touch $@
 
 include $(BOARD_TYPES_DIR)/build.mk

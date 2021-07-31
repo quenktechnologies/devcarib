@@ -62,7 +62,6 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 include $(PROJECT_SCHEMA_DIR)/build.mk
 include $(BOARD_LIBS_DIR)/build.mk
 include $(BOARD_FRONTENDS_DIR)/build.mk
-include $(BOARD_VIEWS_DIR)/build.mk
 
 # Remove the build application files.
 .PHONY: clean
