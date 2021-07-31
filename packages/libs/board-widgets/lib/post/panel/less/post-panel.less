@@ -1,3 +1,5 @@
+@import "@quenk/wml-widgets/lib/content/screen/less/screen";
+
 /**
  * Styles for the post panels displayed on the landing page.
  */
@@ -63,6 +65,39 @@
         }
 
       }
+
+    }
+
+  }
+
+}
+
+
+/**
+ * Styles the area that displays the tag list of features of a job post.
+ */
+.board-post-features {
+
+  & > .ww-tag {
+
+    // Put some space between wrapped tags.
+    margin-top: 1px;
+    font-size: .8em;
+
+    .screen-not-small({
+
+      // Remove that space on larger screens.
+      margin-top: 0;
+
+     });
+
+    /**
+     * Remove the left margin wml-widgets sets. It causes the tags to look
+     * weird when wrapped.
+     */
+    & + .ww-tag {
+
+      margin-left: 0px;
 
     }
 

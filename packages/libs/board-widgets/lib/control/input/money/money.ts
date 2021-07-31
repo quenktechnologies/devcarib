@@ -7,8 +7,10 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {Post} from '@board/types/lib/post'; ;
-import {truncate} from '../../filters'; 
+import {InputGroup,AddOn} from '@quenk/wml-widgets/lib/control/input-group'; ;
+import {TextInput} from '@quenk/wml-widgets/lib/control/text-input'; ;
+import {DropList} from '@quenk/wml-widgets/lib/control/drop-list'; ;
+import {CurrencyMoneyTextField} from './'; 
 
 
 //@ts-ignore:6192
@@ -65,54 +67,28 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class PostPanelFeaturesView  implements __wml.View {
+export class CurrencyMoneyTextFieldView  implements __wml.View {
 
-   constructor(__context: Post) {
+   constructor(__context: CurrencyMoneyTextField) {
 
        this.template = (__this:__wml.Registry) => {
 
        
 
-           return __this.node('div', <__wml.Attrs>{'class': 'board-post-features'}, [
+           return __this.widget(new InputGroup({}, [
 
-        ...((__context.type) ?
-(()=>([
+        __this.widget(new AddOn({'button': true }, [
 
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
+        __this.widget(new DropList({ww : { 'name' : __context.values.dropList .name  ,'options' : __context.values.dropList .options  ,'value' : __context.values.dropList .value  ,'onSelect' : __context.values.dropList .onSelect   }}, [
 
-        text (__context.type)
-     ])
-     ]))() :
-(()=>([]))()),
-...((__context.location) ?
-(()=>([
+        
+     ]),<__wml.Attrs>{ww : { 'name' : __context.values.dropList .name  ,'options' : __context.values.dropList .options  ,'value' : __context.values.dropList .value  ,'onSelect' : __context.values.dropList .onSelect   }})
+     ]),<__wml.Attrs>{'button': true }),
+__this.widget(new TextInput({ww : { 'name' : __context.values.input .name  ,'value' : __context.values.input .value  ,'type' : 'number' ,'min' : 0 ,'onChange' : __context.values.input .onChange   }}, [
 
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
-
-        text (truncate(60) (__context.location))
-     ])
-     ]))() :
-(()=>([]))()),
-...((__context.remote) ?
-(()=>([
-
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
-
-        __document.createTextNode('Remote')
-     ])
-     ]))() :
-(()=>([]))()),
-...((__context.salary_range) ?
-(()=>([
-
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
-
-        __document.createTextNode('$'),
-text (__context.salary_range)
-     ])
-     ]))() :
-(()=>([]))())
-     ]);
+        
+     ]),<__wml.Attrs>{ww : { 'name' : __context.values.input .name  ,'value' : __context.values.input .value  ,'type' : 'number' ,'min' : 0 ,'onChange' : __context.values.input .onChange   }})
+     ]),<__wml.Attrs>{});
 
        }
 

@@ -30,6 +30,8 @@ var __forOf = function (o, f, alt) {
 // @ts-ignore 6192
 var text = __document.text;
 // @ts-ignore 6192
+var unsafe = __document.unsafe;
+// @ts-ignore 6192
 var isSet = function (value) { return value != null; };
 var PostPanelView = /** @class */ (function () {
     function PostPanelView(__context) {
@@ -96,6 +98,10 @@ var PostPanelView = /** @class */ (function () {
             }
             else if (typeof value === 'boolean') {
                 e.setAttribute(key, '');
+            }
+            else if (!__document.isBrowser &&
+                value instanceof __document.WMLDOMText) {
+                e.setAttribute(key, value);
             }
         });
         children.forEach(function (c) {

@@ -1,4 +1,4 @@
-### Build the board-views package. ###
+### Build the board-widgets package. ###
 # Requires:
 # 1. BOARD_WIDGETS_DIR
 

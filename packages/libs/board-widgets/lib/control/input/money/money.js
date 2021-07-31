@@ -1,16 +1,15 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostPanelFeaturesView = void 0;
+exports.CurrencyMoneyTextFieldView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
+var input_group_1 = require("@quenk/wml-widgets/lib/control/input-group");
 ;
-var filters_1 = require("../../filters");
+var text_input_1 = require("@quenk/wml-widgets/lib/control/text-input");
+;
+var drop_list_1 = require("@quenk/wml-widgets/lib/control/drop-list");
+;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -36,47 +35,27 @@ var text = __document.text;
 var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
-var PostPanelFeaturesView = /** @class */ (function () {
-    function PostPanelFeaturesView(__context) {
+var CurrencyMoneyTextFieldView = /** @class */ (function () {
+    function CurrencyMoneyTextFieldView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.node('div', { 'class': 'board-post-features' }, __spreadArray(__spreadArray(__spreadArray(__spreadArray([], ((__context.type) ?
-                (function () { return ([
-                    __this.node('span', { 'class': 'ww-tag -default' }, [
-                        text(__context.type)
-                    ])
-                ]); })() :
-                (function () { return ([]); })())), ((__context.location) ?
-                (function () { return ([
-                    __this.node('span', { 'class': 'ww-tag -default' }, [
-                        text(filters_1.truncate(60)(__context.location))
-                    ])
-                ]); })() :
-                (function () { return ([]); })())), ((__context.remote) ?
-                (function () { return ([
-                    __this.node('span', { 'class': 'ww-tag -default' }, [
-                        __document.createTextNode('Remote')
-                    ])
-                ]); })() :
-                (function () { return ([]); })())), ((__context.salary_range) ?
-                (function () { return ([
-                    __this.node('span', { 'class': 'ww-tag -default' }, [
-                        __document.createTextNode('$'),
-                        text(__context.salary_range)
-                    ])
-                ]); })() :
-                (function () { return ([]); })())));
+            return __this.widget(new input_group_1.InputGroup({}, [
+                __this.widget(new input_group_1.AddOn({ 'button': true }, [
+                    __this.widget(new drop_list_1.DropList({ ww: { 'name': __context.values.dropList.name, 'options': __context.values.dropList.options, 'value': __context.values.dropList.value, 'onSelect': __context.values.dropList.onSelect } }, []), { ww: { 'name': __context.values.dropList.name, 'options': __context.values.dropList.options, 'value': __context.values.dropList.value, 'onSelect': __context.values.dropList.onSelect } })
+                ]), { 'button': true }),
+                __this.widget(new text_input_1.TextInput({ ww: { 'name': __context.values.input.name, 'value': __context.values.input.value, 'type': 'number', 'min': 0, 'onChange': __context.values.input.onChange } }, []), { ww: { 'name': __context.values.input.name, 'value': __context.values.input.value, 'type': 'number', 'min': 0, 'onChange': __context.values.input.onChange } })
+            ]), {});
         };
     }
-    PostPanelFeaturesView.prototype.registerView = function (v) {
+    CurrencyMoneyTextFieldView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    PostPanelFeaturesView.prototype.register = function (e, attrs) {
+    CurrencyMoneyTextFieldView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -92,7 +71,7 @@ var PostPanelFeaturesView = /** @class */ (function () {
         }
         return e;
     };
-    PostPanelFeaturesView.prototype.node = function (tag, attrs, children) {
+    CurrencyMoneyTextFieldView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -129,18 +108,18 @@ var PostPanelFeaturesView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    PostPanelFeaturesView.prototype.widget = function (w, attrs) {
+    CurrencyMoneyTextFieldView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    PostPanelFeaturesView.prototype.findById = function (id) {
+    CurrencyMoneyTextFieldView.prototype.findById = function (id) {
         var mW = maybe_1.fromNullable(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    PostPanelFeaturesView.prototype.findByGroup = function (name) {
+    CurrencyMoneyTextFieldView.prototype.findByGroup = function (name) {
         var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -148,7 +127,7 @@ var PostPanelFeaturesView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    PostPanelFeaturesView.prototype.invalidate = function () {
+    CurrencyMoneyTextFieldView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -157,7 +136,7 @@ var PostPanelFeaturesView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    PostPanelFeaturesView.prototype.render = function () {
+    CurrencyMoneyTextFieldView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -169,7 +148,7 @@ var PostPanelFeaturesView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return PostPanelFeaturesView;
+    return CurrencyMoneyTextFieldView;
 }());
-exports.PostPanelFeaturesView = PostPanelFeaturesView;
-//# sourceMappingURL=features.js.map
+exports.CurrencyMoneyTextFieldView = CurrencyMoneyTextFieldView;
+//# sourceMappingURL=money.js.map

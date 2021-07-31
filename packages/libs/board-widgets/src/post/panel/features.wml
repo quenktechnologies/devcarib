@@ -4,8 +4,8 @@
 
 {% view PostPanelFeaturesView (Post) %}
   <div class="board-post-features">
-    {% if @type %}
-      <span class="ww-tag -default">{{ @type | text }}</span>
+    {% if @["type"] %}
+      <span class="ww-tag -default">{{ @["type"] | text }}</span>
     {% endif %}
 
     {% if @location %}
