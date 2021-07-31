@@ -12,7 +12,6 @@
     "dependencies": {
         "@board/checks": "file:packages/libs/board-checks",
         "@board/common": "file:packages/libs/board-common",
-        "@board/form-post": "file:packages/frontend/board-admin",
         "@board/types": "file:packages/libs/board-types",
         "@board/validators": "file:packages/libs/board-validators",
         "@board/views": "file:packages/libs/board-views",
