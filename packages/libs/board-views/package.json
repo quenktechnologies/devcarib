@@ -12,7 +12,8 @@
 
     "dependencies": {
 
-        "@quenk/wml": "^2.9.2"
+        "@quenk/wml": "^2.9.2",
+        "@quenk/wml-widgets": "^1.27.15"
 
     }
 
