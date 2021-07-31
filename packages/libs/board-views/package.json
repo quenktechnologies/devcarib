@@ -14,7 +14,7 @@
 
         "@quenk/wml": "^2.9.2",
         "@quenk/wml-widgets": "^1.27.15",
-        "@board/widgets": "file:packages/libs/board-widgets"
+        "@board/widgets": "file:../board-widgets"
 
     }
 
