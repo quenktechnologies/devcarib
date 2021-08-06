@@ -1,3 +1,12 @@
+{# todo: inline when wml supports nested optional objects. #}
+{% context Meta where 
+   
+   property?: String, 
+
+   name?:String, 
+   
+   content?: String   
+%}
 
 {# HeadView contains the common markup for the <head> section of all pages. #}
 {% view HeadView where
@@ -6,7 +15,10 @@
      title: String,
 
      {# styles is a list of urls to css files to include. #}
-     styles?: String[]
+     styles?: String[],
+
+     {# meta is a list of meta tags to include. #}
+     meta?: Meta[]
 %}
   <head>
     <meta charset="utf-8" />
@@ -30,6 +42,13 @@
     <meta name="msapplication-TileColor" content="#218c8d"/>
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
     <meta name="theme-color" content="#218c8d"/>
+    {% if @meta?? %}
+      {% for meta in @meta %}
+        <meta property={{meta.property}} 
+              name={{meta.name}} 
+              content={{meta.content}} />
+      {% endfor %}
+    {% endif %}
     <link rel="stylesheet" href="/assets/css/site.css"/> 
     {% if @styles?? %}
       {% for style in @styles %}

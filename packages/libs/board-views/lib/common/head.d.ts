@@ -1,8 +1,14 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
+export interface Meta {
+    property?: string;
+    name?: string;
+    content?: string;
+}
 export interface HeadViewContext {
     title: string;
     styles?: (string)[];
+    meta?: (Meta)[];
 }
 export declare class HeadView implements __wml.View {
     constructor(__context: HeadViewContext);

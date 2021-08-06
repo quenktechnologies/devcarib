@@ -64,8 +64,12 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
+export interface Meta{property? : string,
+name? : string,
+content? : string};
 export interface HeadViewContext{title : string,
-styles? : (string)[]};
+styles? : (string)[],
+meta? : (Meta)[]};
 export class HeadView  implements __wml.View {
 
    constructor(__context: HeadViewContext) {
@@ -160,6 +164,20 @@ __this.node('meta', <__wml.Attrs>{'name': 'theme-color','content': '#218c8d'}, [
 
         
      ]),
+...(((__context.meta) != null) ?
+(()=>([
+
+        ...__forIn (__context.meta, (meta , _$$i, _$$all)=> 
+([
+
+        __this.node('meta', <__wml.Attrs>{'property': meta.property,'name': meta.name,'content': meta.content}, [
+
+        
+     ])
+     ]), 
+()=> ([]))
+     ]))() :
+(()=>([]))()),
 __this.node('link', <__wml.Attrs>{'rel': 'stylesheet','href': '/assets/css/site.css'}, [
 
         

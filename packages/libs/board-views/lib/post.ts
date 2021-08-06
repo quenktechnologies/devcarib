@@ -8,7 +8,7 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {Post} from '@board/types/lib/post'; ;
-import {HeadView,HeadViewContext} from './common/head'; ;
+import {Meta,HeadView,HeadViewContext} from './common/head'; ;
 import {HeaderView} from './common/header'; ;
 import {PostHeaderView} from './post/header'; ;
 import {PostBodyView} from './post/body'; 
@@ -68,7 +68,8 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export interface PostViewContext{post : Post};
+export interface PostViewContext{post : Post,
+meta? : (Meta)[]};
 export class PostView  implements __wml.View {
 
    constructor(__context: PostViewContext) {
@@ -77,7 +78,8 @@ export class PostView  implements __wml.View {
 
        let headCtx:HeadViewContext = {
  
-      'title' : String(__context.post.title )
+      'title' : String(__context.post.title ),
+'meta' : __context.meta
      }
 
            return __this.node('html', <__wml.Attrs>{}, [

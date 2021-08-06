@@ -47,7 +47,8 @@ var PostView = /** @class */ (function () {
         this.tree = __document.createElement('div');
         this.template = function (__this) {
             var headCtx = {
-                'title': String(__context.post.title)
+                'title': String(__context.post.title),
+                'meta': __context.meta
             };
             return __this.node('html', {}, [
                 __this.registerView((new head_1.HeadView(headCtx))).render(),

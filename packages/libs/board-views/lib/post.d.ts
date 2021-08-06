@@ -1,8 +1,10 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
 import { Post } from '@board/types/lib/post';
+import { Meta } from './common/head';
 export interface PostViewContext {
     post: Post;
+    meta?: (Meta)[];
 }
 export declare class PostView implements __wml.View {
     constructor(__context: PostViewContext);

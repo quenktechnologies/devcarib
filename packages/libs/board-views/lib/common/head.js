@@ -35,6 +35,7 @@ var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
 ;
+;
 var HeadView = /** @class */ (function () {
     function HeadView(__context) {
         this.ids = {};
@@ -43,7 +44,7 @@ var HeadView = /** @class */ (function () {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.node('head', {}, __spreadArray(__spreadArray([
+            return __this.node('head', {}, __spreadArray(__spreadArray(__spreadArray(__spreadArray([
                 __this.node('meta', { 'charset': 'utf-8' }, []),
                 __this.node('meta', { 'http-equiv': 'X-UA-Compatible', 'content': unsafe('IE=edge') }, []),
                 __this.node('meta', { 'name': 'viewport', 'content': unsafe('width=device-width, initial-scale=1.0') }, []),
@@ -64,9 +65,16 @@ var HeadView = /** @class */ (function () {
                 __this.node('link', { 'rel': 'manifest', 'href': '/manifest.json' }, []),
                 __this.node('meta', { 'name': 'msapplication-TileColor', 'content': '#218c8d' }, []),
                 __this.node('meta', { 'name': 'msapplication-TileImage', 'content': '/ms-icon-144x144.png' }, []),
-                __this.node('meta', { 'name': 'theme-color', 'content': '#218c8d' }, []),
+                __this.node('meta', { 'name': 'theme-color', 'content': '#218c8d' }, [])
+            ], (((__context.meta) != null) ?
+                (function () { return (__spreadArray([], __forIn(__context.meta, function (meta, _$$i, _$$all) {
+                    return ([
+                        __this.node('meta', { 'property': meta.property, 'name': meta.name, 'content': meta.content }, [])
+                    ]);
+                }, function () { return ([]); }))); })() :
+                (function () { return ([]); })())), [
                 __this.node('link', { 'rel': 'stylesheet', 'href': '/assets/css/site.css' }, [])
-            ], (((__context.styles) != null) ?
+            ]), (((__context.styles) != null) ?
                 (function () { return (__spreadArray([], __forIn(__context.styles, function (style, _$$i, _$$all) {
                     return ([
                         __this.node('link', { 'rel': 'stylesheet', 'href': style }, [])
