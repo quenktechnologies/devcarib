@@ -103,12 +103,29 @@ export const showPost = (r: Request): Action<undefined> =>
 
         let mResult = yield fork(findOne(collection, qry));
 
-        if (mResult.isNothing())
+        if (mResult.isNothing()) {
             return <Action<undefined>>render(new NotFoundErrorView({}), 404);
-        else
+        } else {
+
+            let post = mResult.get();
+
             return <Action<undefined>>render(new PostView({
-                post: mResult.get()
+                post,
+
+                // TODO: Move this to a library function
+                meta: [
+                    {
+                        property: 'og:site_name',
+                        content: 'Caribbean Developers'
+                    },
+                    { property: 'og:type', content: 'article' },
+                    { property: 'og:image', content: "https://jobs.caribbeandevelopers.org/ogimg.png" },
+                    { property: 'og:title', content: post.title },
+                    { property: 'og:description', content: post.type}
+                ]
             }));
+
+        }
 
     })
 

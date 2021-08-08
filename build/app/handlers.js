@@ -61,12 +61,26 @@ const showPost = (r) => api_1.doAction(function* () {
     let collection = db.collection('posts');
     let qry = { id, approved: true };
     let mResult = yield control_1.fork(collection_1.findOne(collection, qry));
-    if (mResult.isNothing())
+    if (mResult.isNothing()) {
         return tendril_show_wml_1.render(new _404_1.NotFoundErrorView({}), 404);
-    else
+    }
+    else {
+        let post = mResult.get();
         return tendril_show_wml_1.render(new post_1.PostView({
-            post: mResult.get()
+            post,
+            // TODO: Move this to a library function
+            meta: [
+                {
+                    property: 'og:site_name',
+                    content: 'Caribbean Developers'
+                },
+                { property: 'og:type', content: 'article' },
+                { property: 'og:image', content: "https://jobs.caribbeandevelopers.org/ogimg.png" },
+                { property: 'og:title', content: post.title },
+                { property: 'og:description', content: post.type }
+            ]
         }));
+    }
 });
 exports.showPost = showPost;
 //retrieves the main connection from the tendril pool.
