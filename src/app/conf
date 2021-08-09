@@ -65,6 +65,14 @@ app.modules = {
 
 }
 
+children = {
+
+  clock = ../tasks#clock
+
+  clearExpiredJobs = ../tasks#clearExpiredJobs
+
+}
+
 app.on.connected = [
 
   ../events#connected,

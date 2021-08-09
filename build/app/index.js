@@ -6,6 +6,7 @@ const quenkTendrilSessionMongodb = require("@quenk/tendril-session-mongodb");
 const quenkTendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
 const dotdotFilters = require("../filters");
 const dotAdmin = require("./admin");
+const dotdotTasks = require("../tasks");
 const dotdotEvents = require("../events");
 const dotdotSetup = require("../setup");
 const dotHandlers = require("./handlers");
@@ -53,6 +54,7 @@ const template = ($app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/app`
     //@ts-ignore: 6133 
     (s) => new module_1.Module(s),
     'server': { 'port': process.env['PORT'], 'host': `0.0.0.0` },
-    'connections': { 'main': { 'connector': quenkTendrilConnectionMongodb.connector, 'options': [process.env['MONGO_URL'], { 'useNewUrlParser': true }] } } });
+    'connections': { 'main': { 'connector': quenkTendrilConnectionMongodb.connector, 'options': [process.env['MONGO_URL'], { 'useNewUrlParser': true }] } }, 'children': { 'clock': dotdotTasks.clock,
+        'clearExpiredJobs': dotdotTasks.clearExpiredJobs } });
 exports.template = template;
 //# sourceMappingURL=index.js.map

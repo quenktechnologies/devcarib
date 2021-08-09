@@ -3,6 +3,7 @@ import * as quenkTendrilSessionMongodb from '@quenk/tendril-session-mongodb';
 import * as quenkTendrilShowNunjucks from '@quenk/tendril-show-nunjucks'; 
 import * as dotdotFilters from '../filters'; 
 import * as dotAdmin from './admin'; 
+import * as dotdotTasks from '../tasks'; 
 import * as dotdotEvents from '../events'; 
 import * as dotdotSetup from '../setup'; 
 import * as dotHandlers from './handlers'; 
@@ -78,4 +79,6 @@ return $routes;
 'server': {'port': (<string>process.env['PORT']),
 'host': `0.0.0.0`},
 'connections': {'main': {'connector': quenkTendrilConnectionMongodb.connector,
-'options': [(<string>process.env['MONGO_URL']),{'useNewUrlParser': true}]}}})
+'options': [(<string>process.env['MONGO_URL']),{'useNewUrlParser': true}]}},
+'children': {'clock': dotdotTasks.clock,
+'clearExpiredJobs': dotdotTasks.clearExpiredJobs}})
