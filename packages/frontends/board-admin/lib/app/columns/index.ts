@@ -47,13 +47,13 @@ export class CompanyColumn implements Column<Value, Post> {
 }
 
 /**
- * ApprovedColumn displays the approval status of the post.
+ * StatusColumn displays the approval status of the post.
  */
-export class ApprovedColumn implements Column<Value, Post> {
+export class StatusColumn implements Column<Value, Post> {
 
-    name = 'approved';
+    name = 'status';
 
-    heading = 'Approved?';
+    heading = 'Status';
 
 }
 

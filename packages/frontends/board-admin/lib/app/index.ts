@@ -40,7 +40,7 @@ import { PostPreviewView } from './views/dialog/preview';
 import { PostEditViewCtx, PostEditView } from './views/dialog/edit';
 import {
     ActionColumn,
-    ApprovedColumn,
+    StatusColumn,
     TitleColumn,
     CompanyColumn
 } from './columns';
@@ -132,10 +132,10 @@ class PostEditViewCtxImpl implements PostEditViewCtx {
     onSave = () => {
 
         let posts = this.app.modelFactory.create(api.POST,
-            new AfterOkExec(() =>  {
+            new AfterOkExec(() => {
 
                 this.app.tell('dialogs', new CloseDialog());
-               this.app.runFuture(this.app.loadInitialPosts());
+                this.app.runFuture(this.app.loadInitialPosts());
 
             }));
 
@@ -214,7 +214,7 @@ export class BoardAdmin extends JApp {
 
                 new CompanyColumn(),
 
-                new ApprovedColumn(),
+                new StatusColumn(),
 
                 new ActionColumn([
                     {

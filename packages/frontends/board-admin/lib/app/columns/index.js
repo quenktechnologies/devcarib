@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ActionColumn = exports.ApprovedColumn = exports.CompanyColumn = exports.TitleColumn = void 0;
+exports.ActionColumn = exports.StatusColumn = exports.CompanyColumn = exports.TitleColumn = void 0;
 var views_1 = require("./views");
 /**
  * TitleColumn displays the title of the post.
@@ -31,16 +31,16 @@ var CompanyColumn = /** @class */ (function () {
 }());
 exports.CompanyColumn = CompanyColumn;
 /**
- * ApprovedColumn displays the approval status of the post.
+ * StatusColumn displays the approval status of the post.
  */
-var ApprovedColumn = /** @class */ (function () {
-    function ApprovedColumn() {
-        this.name = 'approved';
-        this.heading = 'Approved?';
+var StatusColumn = /** @class */ (function () {
+    function StatusColumn() {
+        this.name = 'status';
+        this.heading = 'Status';
     }
-    return ApprovedColumn;
+    return StatusColumn;
 }());
-exports.ApprovedColumn = ApprovedColumn;
+exports.StatusColumn = StatusColumn;
 /**
  * ActionColumn displays a drop-down menu with actions that can be taken on a
  * single post.

@@ -26,9 +26,9 @@ export declare class CompanyColumn implements Column<Value, Post> {
     heading: string;
 }
 /**
- * ApprovedColumn displays the approval status of the post.
+ * StatusColumn displays the approval status of the post.
  */
-export declare class ApprovedColumn implements Column<Value, Post> {
+export declare class StatusColumn implements Column<Value, Post> {
     name: string;
     heading: string;
 }

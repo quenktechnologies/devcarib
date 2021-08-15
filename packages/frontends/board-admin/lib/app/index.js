@@ -174,7 +174,7 @@ var BoardAdmin = /** @class */ (function (_super) {
                 columns: [
                     new columns_1.TitleColumn(function (post) { return _this.showPost(post); }),
                     new columns_1.CompanyColumn(),
-                    new columns_1.ApprovedColumn(),
+                    new columns_1.StatusColumn(),
                     new columns_1.ActionColumn([
                         {
                             text: "View",
