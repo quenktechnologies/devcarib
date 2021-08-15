@@ -1,4 +1,5 @@
-import { Record, merge } from '@quenk/noni/lib/data/record';
+import { Record, rmerge } from '@quenk/noni/lib/data/record';
+import { Object } from '@quenk/noni/lib/data/json';
 
 import { System } from '@quenk/potoo/lib/actor/system';
 import { Case } from '@quenk/potoo/lib/actor/resident/case';
@@ -57,6 +58,28 @@ export class Finished {
 }
 
 /**
+ * TaskClockConf is the configuration object for the TaskClock.
+ */
+export interface TaskClockConf extends Object {
+
+    /**
+     * rate or clock rate is used for the setInterval() call.
+     */
+    rate: Milliseconds,
+
+    /**
+     * log is the address of an actor to send log messages to.
+     */
+    log: Address,
+
+    /**
+     * time configuration.
+     */
+    time: TimeConf
+
+}
+
+/**
  * TimeConf is a map of interval names to multiples of the TaskClock counter.
  *
  * These intervals are multiples of the number of times the clock has "ticked".
@@ -65,25 +88,33 @@ export class Finished {
  */
 export interface TimeConf extends Record<number> { }
 
-const defaultTimeConf: TimeConf = {
+const defaultConf: TaskClockConf = {
 
-    'freq.high': 1,
+    rate: 1000,
 
-    'freq.mid': 30,
+    log: 'log',
 
-    'freq.low': 60,
+    time: {
 
-    'minute': 60,
+        'freq.high': 1,
 
-    'minute.five': 60 * 5,
+        'freq.mid': 30,
 
-    'minute.fifteen': 60 * 15,
+        'freq.low': 60,
 
-    'hour.half': 60 * 30,
+        'minute': 60,
 
-    'hour': 60 * 60,
+        'minute.five': 60 * 5,
 
-    'daily': 60 * 60 * 24
+        'minute.fifteen': 60 * 15,
+
+        'hour.half': 60 * 30,
+
+        'hour': 60 * 60,
+
+        'daily': 60 * 60 * 24
+
+    }
 
 };
 
@@ -133,16 +164,14 @@ export class TaskClock extends Immutable<Message> {
 
     constructor(
         public system: System,
-        public unit: Milliseconds,
-        public conf: TimeConf) { super(system); }
+        public conf: TaskClockConf) { super(system); }
 
     static create(
         system: System,
-        unit: Milliseconds,
-        conf: TimeConf = {}
+        conf: Partial<TaskClockConf> = {}
     ): TaskClock {
 
-        return new TaskClock(system, unit, merge(defaultTimeConf, conf));
+        return new TaskClock(system, <TaskClockConf>rmerge(defaultConf, conf));
 
     }
 
@@ -156,6 +185,12 @@ export class TaskClock extends Immutable<Message> {
 
     ];
 
+    log(msg: string) {
+
+        this.tell(this.conf.log, `[${this.self}]: ${msg}`);
+
+    }
+
     /**
      * register an actor with the TaskClock.
      *
@@ -163,12 +198,21 @@ export class TaskClock extends Immutable<Message> {
      */
     register(s: Subscribe) {
 
-        if (this.conf[s.interval] &&
+        if (this.conf.time[s.interval] &&
             !this.targets.find(t => t.actor === s.actor)) {
-            this.targets.push(new TargetInfo(s.actor, this.conf[s.interval]));
+
+            let info = new TargetInfo(s.actor, this.conf.time[s.interval]);
+
+            this.targets.push(info);
+
+            this.log(`Registering actor=${s.actor} for interval=${s.interval}` +
+                ` (every ${info.step}) clock-rate=${this.conf.rate}ms.`);
+
         } else {
-            console.warn(`Actor "${s.actor}" ` +
+
+            this.log(`Actor "${s.actor}" ` +
                 `specified unknown interval ${s.interval}!`);
+
         }
 
     }
@@ -182,13 +226,27 @@ export class TaskClock extends Immutable<Message> {
 
         this.targets.forEach(target => {
 
-            if (((this.counter % target.step) === 0) && !target.busy) {
+            if ((this.counter % target.step) === 0) {
 
-                target.busy = true;
+                if (target.busy) {
 
-                target.counter = target.counter + 1;
+                    this.log(`Actor ${target.actor} is busy, ` +
+                        `ticks-sent=${target.counter} ` +
+                        `global-ticks=${this.counter}`);
 
-                this.tell(target.actor, new Tick(this.self()));
+                } else {
+
+                    target.busy = true;
+
+                    target.counter = target.counter + 1;
+
+                    this.log(`Notifying actor ${target.actor} ` +
+                        `ticks-sent=${target.counter} ` +
+                        `global-ticks=${this.counter}`);
+
+                    this.tell(target.actor, new Tick(this.self()));
+
+                }
 
             }
 
@@ -213,7 +271,8 @@ export class TaskClock extends Immutable<Message> {
 
     run() {
 
-        setInterval(() => this.tell(this.self(), new Publish()), this.unit);
+        setInterval(() => this.tell(this.self(), new Publish()),
+            this.conf.rate);
 
     }
 

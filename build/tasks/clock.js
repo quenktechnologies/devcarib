@@ -42,16 +42,20 @@ class Finished {
     }
 }
 exports.Finished = Finished;
-const defaultTimeConf = {
-    'freq.high': 1,
-    'freq.mid': 30,
-    'freq.low': 60,
-    'minute': 60,
-    'minute.five': 60 * 5,
-    'minute.fifteen': 60 * 15,
-    'hour.half': 60 * 30,
-    'hour': 60 * 60,
-    'daily': 60 * 60 * 24
+const defaultConf = {
+    rate: 1000,
+    log: 'log',
+    time: {
+        'freq.high': 1,
+        'freq.mid': 30,
+        'freq.low': 60,
+        'minute': 60,
+        'minute.five': 60 * 5,
+        'minute.fifteen': 60 * 15,
+        'hour.half': 60 * 30,
+        'hour': 60 * 60,
+        'daily': 60 * 60 * 24
+    }
 };
 /**
  * TargetInfo contains the meta data needed to track and notify actors
@@ -91,10 +95,9 @@ exports.TargetInfo = TargetInfo;
  * active. Use Finished for this.
  */
 class TaskClock extends resident_1.Immutable {
-    constructor(system, unit, conf) {
+    constructor(system, conf) {
         super(system);
         this.system = system;
-        this.unit = unit;
         this.conf = conf;
         this.targets = [];
         this.counter = 0;
@@ -104,8 +107,11 @@ class TaskClock extends resident_1.Immutable {
             new case_1.Case(Finished, (f) => this.actorFinished(f.actor))
         ];
     }
-    static create(system, unit, conf = {}) {
-        return new TaskClock(system, unit, record_1.merge(defaultTimeConf, conf));
+    static create(system, conf = {}) {
+        return new TaskClock(system, record_1.rmerge(defaultConf, conf));
+    }
+    log(msg) {
+        this.tell(this.conf.log, `[${this.self}]: ${msg}`);
     }
     /**
      * register an actor with the TaskClock.
@@ -113,12 +119,15 @@ class TaskClock extends resident_1.Immutable {
      * Duplicates will be ignored.
      */
     register(s) {
-        if (this.conf[s.interval] &&
+        if (this.conf.time[s.interval] &&
             !this.targets.find(t => t.actor === s.actor)) {
-            this.targets.push(new TargetInfo(s.actor, this.conf[s.interval]));
+            let info = new TargetInfo(s.actor, this.conf.time[s.interval]);
+            this.targets.push(info);
+            this.log(`Registering actor=${s.actor} for interval=${s.interval}` +
+                ` (every ${info.step}) clock-rate=${this.conf.rate}ms.`);
         }
         else {
-            console.warn(`Actor "${s.actor}" ` +
+            this.log(`Actor "${s.actor}" ` +
                 `specified unknown interval ${s.interval}!`);
         }
     }
@@ -128,10 +137,20 @@ class TaskClock extends resident_1.Immutable {
     publish() {
         this.counter = this.counter + 1;
         this.targets.forEach(target => {
-            if (((this.counter % target.step) === 0) && !target.busy) {
-                target.busy = true;
-                target.counter = target.counter + 1;
-                this.tell(target.actor, new Tick(this.self()));
+            if ((this.counter % target.step) === 0) {
+                if (target.busy) {
+                    this.log(`Actor ${target.actor} is busy, ` +
+                        `ticks-sent=${target.counter} ` +
+                        `global-ticks=${this.counter}`);
+                }
+                else {
+                    target.busy = true;
+                    target.counter = target.counter + 1;
+                    this.log(`Notifying actor ${target.actor} ` +
+                        `ticks-sent=${target.counter} ` +
+                        `global-ticks=${this.counter}`);
+                    this.tell(target.actor, new Tick(this.self()));
+                }
             }
         });
     }
@@ -146,7 +165,7 @@ class TaskClock extends resident_1.Immutable {
         });
     }
     run() {
-        setInterval(() => this.tell(this.self(), new Publish()), this.unit);
+        setInterval(() => this.tell(this.self(), new Publish()), this.conf.rate);
     }
 }
 exports.TaskClock = TaskClock;
