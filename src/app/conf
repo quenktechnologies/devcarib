@@ -67,7 +67,9 @@ app.modules = {
 
 children = {
 
-  clock = ../tasks#clock
+  clock = ../services#clock
+
+  log = ../services#log
 
   clearExpiredJobs = ../tasks#clearExpiredJobs
 
