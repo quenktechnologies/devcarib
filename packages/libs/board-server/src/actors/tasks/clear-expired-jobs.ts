@@ -47,8 +47,10 @@ export class ClearExpiredJobsTask extends Immutable<Message> {
 
             let posts = db.collection('posts');
 
+            // TODO: Remove magic string.
             yield liftP(() =>
-                posts.deleteMany({ created_on: { $lt: threshold } }));
+                posts.updateMany({ created_on: { $lt: threshold } },
+                    { $set: { status: 'archived' } }));
 
             self.tell(clock, new Finished(self.self()));
 

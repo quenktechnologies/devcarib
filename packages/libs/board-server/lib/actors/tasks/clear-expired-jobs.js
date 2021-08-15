@@ -81,10 +81,12 @@ var ClearExpiredJobsTask = /** @class */ (function (_super) {
                     case 1:
                         db = _a.sent();
                         posts = db.collection('posts');
+                        // TODO: Remove magic string.
                         return [4 /*yield*/, future_1.liftP(function () {
-                                return posts.deleteMany({ created_on: { $lt: threshold } });
+                                return posts.updateMany({ created_on: { $lt: threshold } }, { $set: { status: 'archived' } });
                             })];
                     case 2:
+                        // TODO: Remove magic string.
                         _a.sent();
                         self.tell(clock, new clock_1.Finished(self.self()));
                         return [2 /*return*/, future_1.pure(undefined)];
