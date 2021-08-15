@@ -1,6 +1,5 @@
 {% import (toString) from "@quenk/noni/lib/data/type" %}
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
-{% import (text) from "@quenk/wml-widgets" %}
 
 {% import (Modal,ModalHeader,ModalBody,ModalFooter)
   from "@quenk/wml-widgets/lib/dialog/modal" %}
@@ -9,13 +8,7 @@
 
 {% import (Post) from "@board/types/lib/post" %}
 
-{% contract PostPreviewViewCtx =
-
-  post: Post,
-
-  close: () -> Void
-
-%}
+{% context PostPreviewViewCtx where post: Post, close: () -> Void %}
 
 {% view PostPreviewView (PostPreviewViewCtx) %}
 <Modal ww:className="-large">

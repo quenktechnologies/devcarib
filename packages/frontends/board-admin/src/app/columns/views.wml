@@ -5,13 +5,7 @@
 
 {% import (Post) from "@board/types/lib/post" %}
 
-{% contract TitleColumnViewCtx =
-
-  post: Post,
-
-  onClick: () -> Void
-
-%}
+{% context TitleColumnViewCtx where post: Post, onClick: () -> Void %}
 
 {% view TitleColumnView (TitleColumnViewCtx) %}
 <td>
@@ -22,7 +16,7 @@
 
 </td>
 
-{% contract ActionSpec =
+{% context ActionSpec where
 
     text: String,
 
@@ -32,7 +26,7 @@
 
 %}
 
-{% contract ActionColumnViewCtx = 
+{% context ActionColumnViewCtx where
    
    actions: ActionSpec[],
 

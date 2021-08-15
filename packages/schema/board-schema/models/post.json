@@ -34,9 +34,11 @@
 
         ],
 
-        "approved": {
+        "status": {
 
-            "type": "boolean"
+            "type": "string",
+
+            "validators": "./validators#jobStatus"
 
         }
 

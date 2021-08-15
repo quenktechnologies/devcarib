@@ -8,7 +8,8 @@ import { contains } from '@quenk/noni/lib/data/array';
 import { succeed, fail } from '@quenk/preconditions/lib/result';
 
 import { supportedCurrencies } from '@board/common/lib/data/currency';
-import { supportedPaymentFrequencies} from '@board/common/lib/data/payment';
+import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
+import { jobStatuses } from '@board/common/lib/data/job';
 
 /**
  * name must be a string and between 1-64 characters.
@@ -87,5 +88,13 @@ export const currency: Precondition<Value, Value> = (value: Value) =>
  */
 export const paymentFrequency: Precondition<Value, Value> = (value: Value) =>
     contains(supportedPaymentFrequencies, value) ?
+        succeed(value) :
+        fail('invalid', { value })
+
+/**
+ * jobStatus must be one of the predefined job posting statuses.
+ */
+export const jobStatus: Precondition<Value, Value> = (value: Value) =>
+    contains(jobStatuses, value) ?
         succeed(value) :
         fail('invalid', { value })

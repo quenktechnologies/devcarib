@@ -1,3 +1,4 @@
+import * as jobStatus from '@board/common/lib/data/job';
 import * as api from './api';
 
 import { Future, pure, doFuture } from '@quenk/noni/lib/control/monad/future';
@@ -380,7 +381,7 @@ export class BoardAdmin extends JApp {
 
             let path = interpolate(RESOURCE_POST, { id });
 
-            let change = { approved: true };
+            let change = { status: jobStatus.JOB_STATUS_ACTIVE };
 
             let r = yield agent.patch(path, change);
 
