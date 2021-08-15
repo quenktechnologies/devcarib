@@ -14,7 +14,6 @@ import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
 import {Event} from '@quenk/wml-widgets/lib/control'; ;
-import {text} from '@quenk/wml-widgets'; ;
 import {Post} from '@board/types/lib/post'; 
 
 
@@ -66,15 +65,23 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
+// @ts-ignore 6192
+const text = __document.text;
+// @ts-ignore 6192
+const unsafe = __document.unsafe
+// @ts-ignore 6192
+const isSet = (value:any) => value != null
 export interface PostEditViewCtx{post : Post,
 onChange : ($0:Event<Value  > ) => void,
 onSave : () => void,
-onCancel : () => void };
+onCancel : () => void};
 export class PostEditView  implements __wml.View {
 
    constructor(__context: PostEditViewCtx) {
 
        this.template = (__this:__wml.Registry) => {
+
+       
 
            return __this.widget(new Modal({ww : { 'className' : '-large'  }}, [
 
@@ -193,6 +200,11 @@ __this.widget(new Button({ww : { 'className' : '-primary' ,'onClick' : __context
            } else if (typeof value === 'boolean') {
 
              e.setAttribute(key, '');
+
+           } else if(!__document.isBrowser && 
+                     value instanceof __document.WMLDOMText) {
+
+             e.setAttribute(key, <any>value);
 
            }
 

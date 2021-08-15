@@ -18,7 +18,7 @@ var _string = preconditions_1.and(string_1.isString, string_1.trim);
  * validators for Post provided as a map.
  */
 exports.validators = {
-    'approved': preconditions_1.optional(boolean_1.isBoolean),
+    'status': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.jobStatus))),
     'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall, validators_1.minLength(3)))),
     'type': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall))),
     'location': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall))),
@@ -28,6 +28,7 @@ exports.validators = {
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
     'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
+    'approved': preconditions_1.optional(boolean_1.isBoolean),
     'payment_currency': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.currency))),
     'payment_amount': preconditions_1.optional(number_1.toNumber),
     'payment_frequency': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.paymentFrequency)))
@@ -36,7 +37,7 @@ exports.validators = {
  * partialValidators for Post provided as a map.
  */
 exports.partialValidators = {
-    'approved': preconditions_1.optional(boolean_1.isBoolean),
+    'status': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.jobStatus))),
     'title': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall, validators_1.minLength(3)))),
     'type': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall))),
     'location': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.textsmall))),
@@ -46,6 +47,7 @@ exports.partialValidators = {
     'company_email': preconditions_1.and(preconditions_1.notNull, preconditions_1.and(_string, preconditions_1.every(validators_1.email))),
     'company_logo': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
     'apply_url': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.url))),
+    'approved': preconditions_1.optional(boolean_1.isBoolean),
     'payment_currency': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.currency))),
     'payment_amount': preconditions_1.optional(number_1.toNumber),
     'payment_frequency': preconditions_1.optional(preconditions_1.and(_string, preconditions_1.every(validators_1.paymentFrequency)))

@@ -43,6 +43,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardAdmin = exports.TIME_SEARCH_DEBOUNCE = exports.RESOURCE_POST = exports.RESOURCE_POSTS = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
+var jobStatus = require("@board/common/lib/data/job");
 var api = require("./api");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var string_1 = require("@quenk/noni/lib/data/string");
@@ -298,7 +299,7 @@ var BoardAdmin = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         path = string_1.interpolate(exports.RESOURCE_POST, { id: id });
-                        change = { approved: true };
+                        change = { status: jobStatus.JOB_STATUS_ACTIVE };
                         return [4 /*yield*/, agent.patch(path, change)];
                     case 1:
                         r = _a.sent();

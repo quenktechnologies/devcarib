@@ -64,11 +64,19 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
+// @ts-ignore 6192
+const text = __document.text;
+// @ts-ignore 6192
+const unsafe = __document.unsafe
+// @ts-ignore 6192
+const isSet = (value:any) => value != null
 export class BoardAdminView  implements __wml.View {
 
    constructor(__context: BoardAdmin) {
 
        this.template = (__this:__wml.Registry) => {
+
+       
 
            return __this.widget(new GridLayout({}, [
 
@@ -197,6 +205,11 @@ __this.widget(new Row({}, [
            } else if (typeof value === 'boolean') {
 
              e.setAttribute(key, '');
+
+           } else if(!__document.isBrowser && 
+                     value instanceof __document.WMLDOMText) {
+
+             e.setAttribute(key, <any>value);
 
            }
 

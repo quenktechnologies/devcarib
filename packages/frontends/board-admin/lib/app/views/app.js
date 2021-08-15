@@ -40,6 +40,12 @@ var __forOf = function (o, f, alt) {
             ret = ret.concat(f((o)[key], key, o));
     return ret.length === 0 ? alt() : ret;
 };
+// @ts-ignore 6192
+var text = __document.text;
+// @ts-ignore 6192
+var unsafe = __document.unsafe;
+// @ts-ignore 6192
+var isSet = function (value) { return value != null; };
 var BoardAdminView = /** @class */ (function () {
     function BoardAdminView(__context) {
         this.ids = {};
@@ -114,6 +120,10 @@ var BoardAdminView = /** @class */ (function () {
             }
             else if (typeof value === 'boolean') {
                 e.setAttribute(key, '');
+            }
+            else if (!__document.isBrowser &&
+                value instanceof __document.WMLDOMText) {
+                e.setAttribute(key, value);
             }
         });
         children.forEach(function (c) {

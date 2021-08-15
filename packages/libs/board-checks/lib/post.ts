@@ -53,7 +53,7 @@ export type DataType = Post;
  * checks for Post provided as a map.
  */
 export const checks: Preconditions<Value, Value> = {
-    'approved': _identity
+    'status': _identity
     ,
     'created_by': _identity
     ,
@@ -85,6 +85,8 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'apply_url': _identity
     ,
+    'approved': _identity
+    ,
     'payment_currency': _identity
     ,
     'payment_amount': _identity
@@ -97,7 +99,7 @@ export const checks: Preconditions<Value, Value> = {
  * partialChecks for Post provided as a map.
  */
 export const partialChecks: Preconditions<Value, Value> = {
-    'approved': _identity
+    'status': _identity
     ,
     'created_by': _identity
     ,
@@ -128,6 +130,8 @@ export const partialChecks: Preconditions<Value, Value> = {
     'company_logo': _identity
     ,
     'apply_url': _identity
+    ,
+    'approved': _identity
     ,
     'payment_currency': _identity
     ,

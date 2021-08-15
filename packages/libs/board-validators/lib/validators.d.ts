@@ -48,3 +48,7 @@ export declare const currency: Precondition<Value, Value>;
  * often a payment will be made.
  */
 export declare const paymentFrequency: Precondition<Value, Value>;
+/**
+ * jobStatus must be one of the predefined job posting statuses.
+ */
+export declare const jobStatus: Precondition<Value, Value>;

@@ -9,7 +9,6 @@ fromArray as __fromArray
 from '@quenk/noni/lib/data/maybe';
 import {toString} from '@quenk/noni/lib/data/type'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {text} from '@quenk/wml-widgets'; ;
 import {Modal,ModalHeader,ModalBody,ModalFooter} from '@quenk/wml-widgets/lib/dialog/modal'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {Post} from '@board/types/lib/post'; 
@@ -63,13 +62,21 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
+// @ts-ignore 6192
+const text = __document.text;
+// @ts-ignore 6192
+const unsafe = __document.unsafe
+// @ts-ignore 6192
+const isSet = (value:any) => value != null
 export interface PostPreviewViewCtx{post : Post,
-close : () => void };
+close : () => void};
 export class PostPreviewView  implements __wml.View {
 
    constructor(__context: PostPreviewViewCtx) {
 
        this.template = (__this:__wml.Registry) => {
+
+       
 
            return __this.widget(new Modal({ww : { 'className' : '-large'  }}, [
 
@@ -181,6 +188,11 @@ __this.widget(new ModalFooter({}, [
            } else if (typeof value === 'boolean') {
 
              e.setAttribute(key, '');
+
+           } else if(!__document.isBrowser && 
+                     value instanceof __document.WMLDOMText) {
+
+             e.setAttribute(key, <any>value);
 
            }
 

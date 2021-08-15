@@ -10,7 +10,7 @@ export interface Posts {
 }
 export interface Post extends _json.Object {
     [key: string]: _json.Value;
-    'approved'?: boolean;
+    'status'?: string;
     'created_by'?: {
         [key: string]: _json.Value;
         'id'?: number;
@@ -34,6 +34,7 @@ export interface Post extends _json.Object {
     'company_email'?: string;
     'company_logo'?: string;
     'apply_url'?: string;
+    'approved'?: boolean;
     'payment_currency'?: string;
     'payment_amount'?: number;
     'payment_frequency'?: string;

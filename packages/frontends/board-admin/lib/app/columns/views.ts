@@ -62,13 +62,21 @@ const __forOf = <A>(o:__Record<A>, f:__ForOfBody<A>,alt:__ForAlt) : __wml.Conten
 }
 
 
+// @ts-ignore 6192
+const text = __document.text;
+// @ts-ignore 6192
+const unsafe = __document.unsafe
+// @ts-ignore 6192
+const isSet = (value:any) => value != null
 export interface TitleColumnViewCtx{post : Post,
-onClick : () => void };
+onClick : () => void};
 export class TitleColumnView  implements __wml.View {
 
    constructor(__context: TitleColumnViewCtx) {
 
        this.template = (__this:__wml.Registry) => {
+
+       
 
            return __this.node('td', <__wml.Attrs>{}, [
 
@@ -150,6 +158,11 @@ export class TitleColumnView  implements __wml.View {
            } else if (typeof value === 'boolean') {
 
              e.setAttribute(key, '');
+
+           } else if(!__document.isBrowser && 
+                     value instanceof __document.WMLDOMText) {
+
+             e.setAttribute(key, <any>value);
 
            }
 
@@ -246,14 +259,16 @@ export class TitleColumnView  implements __wml.View {
 };
 export interface ActionSpec{text : string,
 divider : boolean,
-onClick : ($0:Post) => void };
+onClick : ($0:Post) => void};
 export interface ActionColumnViewCtx{actions : (ActionSpec)[],
-post : Post };
+post : Post};
 export class ActionColumnView  implements __wml.View {
 
    constructor(__context: ActionColumnViewCtx) {
 
        this.template = (__this:__wml.Registry) => {
+
+       
 
            return __this.node('td', <__wml.Attrs>{}, [
 
@@ -264,15 +279,15 @@ export class ActionColumnView  implements __wml.View {
         ...__forIn (__context.actions, (spec , _$$i, _$$all)=> 
 ([
 
-        ...(__if(spec.divider,
-   ()=> ([
+        ...((spec.divider) ?
+(()=>([
 
         __this.widget(new Item({ww : { 'divider' : true   }}, [
 
         
      ]),<__wml.Attrs>{ww : { 'divider' : true   }})
-     ]),
-   ()=> ([]))) ,
+     ]))() :
+(()=>([]))()),
 __this.widget(new Item({}, [
 
         __this.widget(new Link({ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.post)  }}, [
@@ -358,6 +373,11 @@ __this.widget(new Item({}, [
            } else if (typeof value === 'boolean') {
 
              e.setAttribute(key, '');
+
+           } else if(!__document.isBrowser && 
+                     value instanceof __document.WMLDOMText) {
+
+             e.setAttribute(key, <any>value);
 
            }
 

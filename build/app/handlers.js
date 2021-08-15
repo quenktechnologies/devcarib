@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.showPost = exports.createPost = exports.showPostJobPage = exports.showPosts = exports.ERROR_AUTH_FAILED = void 0;
+const jobStatus = require("@board/common/lib/data/job");
 const collection_1 = require("@quenk/noni-mongodb/lib/database/collection");
 const response_1 = require("@quenk/tendril/lib/app/api/response");
 const control_1 = require("@quenk/tendril/lib/app/api/control");
@@ -22,7 +23,7 @@ exports.ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 const showPosts = (_) => api_1.doAction(function* () {
     let db = yield getMain();
     let collection = db.collection('posts');
-    let qry = { approved: true };
+    let qry = { status: jobStatus.JOB_STATUS_ACTIVE };
     let posts = yield control_1.fork(collection_1.find(collection, qry, { sort: { created_on: -1 }, limit: 50 }));
     return tendril_show_wml_1.render(new views_1.IndexView({ posts }));
 });
@@ -42,7 +43,7 @@ const createPost = (r) => api_1.doAction(function* () {
         let data = eResult.takeRight();
         let db = yield getMain();
         let collection = db.collection('posts');
-        data.approved = false;
+        data.status = jobStatus.JOB_STATUS_NEW;
         data.created_on = new Date();
         yield control_1.fork(collection_1.insertOne(collection, data));
         return response_1.created({ id: data.id });
@@ -59,7 +60,7 @@ const showPost = (r) => api_1.doAction(function* () {
     let id = Number(r.params.id); //XXX: this could be done with a check.
     let db = yield getMain();
     let collection = db.collection('posts');
-    let qry = { id, approved: true };
+    let qry = { id, status: jobStatus.JOB_STATUS_ACTIVE };
     let mResult = yield control_1.fork(collection_1.findOne(collection, qry));
     if (mResult.isNothing()) {
         return tendril_show_wml_1.render(new _404_1.NotFoundErrorView({}), 404);

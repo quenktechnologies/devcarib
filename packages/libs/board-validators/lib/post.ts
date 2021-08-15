@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Post } from '@board/types/lib/post';
-import { textsmall, minLength, textlarge, maxLength, name, email, url, currency, paymentFrequency } from './validators';
+import { jobStatus, textsmall, minLength, textlarge, maxLength, name, email, url, currency, paymentFrequency } from './validators';
 
 /**
  * @private Used during template generation.
@@ -55,7 +55,9 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for Post provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'approved': _optional(_boolean
+    'status': _and(_notNull, _and(_string,
+        _every<Value, Value>(jobStatus))
+
     ),
 
     'title': _and(_notNull, _and(_string,
@@ -99,6 +101,9 @@ export const validators: Preconditions<Value, Value> = {
     'apply_url': _optional(_and(_string,
         _every<Value, Value>(url))
 
+    ),
+
+    'approved': _optional(_boolean
     ),
 
     'payment_currency': _optional(_and(_string,
@@ -120,7 +125,9 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for Post provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'approved': _optional(_boolean
+    'status': _and(_notNull, _and(_string,
+        _every<Value, Value>(jobStatus))
+
     ),
 
     'title': _and(_notNull, _and(_string,
@@ -164,6 +171,9 @@ export const partialValidators: Preconditions<Value, Value> = {
     'apply_url': _optional(_and(_string,
         _every<Value, Value>(url))
 
+    ),
+
+    'approved': _optional(_boolean
     ),
 
     'payment_currency': _optional(_and(_string,

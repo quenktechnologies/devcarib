@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.paymentFrequency = exports.currency = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
+exports.jobStatus = exports.paymentFrequency = exports.currency = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
 var string = require("@quenk/preconditions/lib/string");
 var array = require("@quenk/preconditions/lib/array");
 var preconditions_1 = require("@quenk/preconditions");
@@ -8,6 +8,7 @@ var array_1 = require("@quenk/noni/lib/data/array");
 var result_1 = require("@quenk/preconditions/lib/result");
 var currency_1 = require("@board/common/lib/data/currency");
 var payment_1 = require("@board/common/lib/data/payment");
+var job_1 = require("@board/common/lib/data/job");
 /**
  * name must be a string and between 1-64 characters.
  *
@@ -76,4 +77,13 @@ var paymentFrequency = function (value) {
         result_1.fail('invalid', { value: value });
 };
 exports.paymentFrequency = paymentFrequency;
+/**
+ * jobStatus must be one of the predefined job posting statuses.
+ */
+var jobStatus = function (value) {
+    return array_1.contains(job_1.jobStatuses, value) ?
+        result_1.succeed(value) :
+        result_1.fail('invalid', { value: value });
+};
+exports.jobStatus = jobStatus;
 //# sourceMappingURL=validators.js.map

@@ -16,8 +16,6 @@ var button_1 = require("@quenk/wml-widgets/lib/control/button");
 var text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
 ;
 ;
-var wml_widgets_1 = require("@quenk/wml-widgets");
-;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -37,6 +35,12 @@ var __forOf = function (o, f, alt) {
             ret = ret.concat(f((o)[key], key, o));
     return ret.length === 0 ? alt() : ret;
 };
+// @ts-ignore 6192
+var text = __document.text;
+// @ts-ignore 6192
+var unsafe = __document.unsafe;
+// @ts-ignore 6192
+var isSet = function (value) { return value != null; };
 ;
 var PostEditView = /** @class */ (function () {
     function PostEditView(__context) {
@@ -48,7 +52,7 @@ var PostEditView = /** @class */ (function () {
         this.template = function (__this) {
             return __this.widget(new modal_1.Modal({ ww: { 'className': '-large' } }, [
                 __this.widget(new modal_1.ModalHeader({}, [
-                    wml_widgets_1.text(type_1.toString(__context.post.company))
+                    text(type_1.toString(__context.post.company))
                 ]), {}),
                 __this.widget(new modal_1.ModalBody({}, [
                     __this.widget(new grid_1.GridLayout({}, [
@@ -105,6 +109,10 @@ var PostEditView = /** @class */ (function () {
             }
             else if (typeof value === 'boolean') {
                 e.setAttribute(key, '');
+            }
+            else if (!__document.isBrowser &&
+                value instanceof __document.WMLDOMText) {
+                e.setAttribute(key, value);
             }
         });
         children.forEach(function (c) {

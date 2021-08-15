@@ -1,4 +1,5 @@
 import * as mongodb from 'mongodb';
+import * as jobStatus from '@board/common/lib/data/job';
 
 import {
     insertOne,
@@ -39,7 +40,7 @@ export const showPosts = (_: Request): Action<undefined> =>
 
         let collection = db.collection('posts');
 
-        let qry = { approved: true };
+        let qry = { status: jobStatus.JOB_STATUS_ACTIVE };
 
         let posts = yield fork(find(
             collection,
@@ -72,7 +73,7 @@ export const createPost = (r: Request): Action<undefined> =>
             let db = yield getMain();
             let collection = db.collection('posts');
 
-            data.approved = false;
+            data.status = jobStatus.JOB_STATUS_NEW;
             data.created_on = new Date();
 
             yield fork(insertOne(collection, data));
@@ -99,7 +100,7 @@ export const showPost = (r: Request): Action<undefined> =>
 
         let collection = db.collection('posts');
 
-        let qry = { id, approved: true };
+        let qry = { id, status: jobStatus.JOB_STATUS_ACTIVE };
 
         let mResult = yield fork(findOne(collection, qry));
 

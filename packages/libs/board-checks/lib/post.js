@@ -15,7 +15,7 @@ var _collection = 'posts';
  * checks for Post provided as a map.
  */
 exports.checks = {
-    'approved': async_1.identity,
+    'status': async_1.identity,
     'created_by': async_1.identity,
     'created_on': async_1.identity,
     'last_updated_on': async_1.identity,
@@ -31,6 +31,7 @@ exports.checks = {
     'company_email': async_1.identity,
     'company_logo': async_1.identity,
     'apply_url': async_1.identity,
+    'approved': async_1.identity,
     'payment_currency': async_1.identity,
     'payment_amount': async_1.identity,
     'payment_frequency': async_1.identity
@@ -39,7 +40,7 @@ exports.checks = {
  * partialChecks for Post provided as a map.
  */
 exports.partialChecks = {
-    'approved': async_1.identity,
+    'status': async_1.identity,
     'created_by': async_1.identity,
     'created_on': async_1.identity,
     'last_updated_on': async_1.identity,
@@ -55,6 +56,7 @@ exports.partialChecks = {
     'company_email': async_1.identity,
     'company_logo': async_1.identity,
     'apply_url': async_1.identity,
+    'approved': async_1.identity,
     'payment_currency': async_1.identity,
     'payment_amount': async_1.identity,
     'payment_frequency': async_1.identity

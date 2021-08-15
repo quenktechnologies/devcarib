@@ -36,6 +36,12 @@ var __forOf = function (o, f, alt) {
             ret = ret.concat(f((o)[key], key, o));
     return ret.length === 0 ? alt() : ret;
 };
+// @ts-ignore 6192
+var text = __document.text;
+// @ts-ignore 6192
+var unsafe = __document.unsafe;
+// @ts-ignore 6192
+var isSet = function (value) { return value != null; };
 ;
 var TitleColumnView = /** @class */ (function () {
     function TitleColumnView(__context) {
@@ -84,6 +90,10 @@ var TitleColumnView = /** @class */ (function () {
             }
             else if (typeof value === 'boolean') {
                 e.setAttribute(key, '');
+            }
+            else if (!__document.isBrowser &&
+                value instanceof __document.WMLDOMText) {
+                e.setAttribute(key, value);
             }
         });
         children.forEach(function (c) {
@@ -160,9 +170,11 @@ var ActionColumnView = /** @class */ (function () {
             return __this.node('td', {}, [
                 __this.widget(new drop_down_1.DropDown({ ww: { 'className': '-left', 'buttonText': 'Action' } }, [
                     __this.widget(new menu_1.Menu({}, __spreadArray([], __forIn(__context.actions, function (spec, _$$i, _$$all) {
-                        return (__spreadArray(__spreadArray([], (__if(spec.divider, function () { return ([
-                            __this.widget(new item_1.Item({ ww: { 'divider': true } }, []), { ww: { 'divider': true } })
-                        ]); }, function () { return ([]); }))), [
+                        return (__spreadArray(__spreadArray([], ((spec.divider) ?
+                            (function () { return ([
+                                __this.widget(new item_1.Item({ ww: { 'divider': true } }, []), { ww: { 'divider': true } })
+                            ]); })() :
+                            (function () { return ([]); })())), [
                             __this.widget(new item_1.Item({}, [
                                 __this.widget(new link_1.Link({ ww: { 'text': spec.text, 'onClick': function () { return spec.onClick(__context.post); } } }, []), { ww: { 'text': spec.text, 'onClick': function () { return spec.onClick(__context.post); } } })
                             ]), {})
@@ -206,6 +218,10 @@ var ActionColumnView = /** @class */ (function () {
             }
             else if (typeof value === 'boolean') {
                 e.setAttribute(key, '');
+            }
+            else if (!__document.isBrowser &&
+                value instanceof __document.WMLDOMText) {
+                e.setAttribute(key, value);
             }
         });
         children.forEach(function (c) {

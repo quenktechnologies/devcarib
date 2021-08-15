@@ -8,8 +8,6 @@ var type_1 = require("@quenk/noni/lib/data/type");
 ;
 var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-var wml_widgets_1 = require("@quenk/wml-widgets");
-;
 var modal_1 = require("@quenk/wml-widgets/lib/dialog/modal");
 ;
 var button_1 = require("@quenk/wml-widgets/lib/control/button");
@@ -33,6 +31,12 @@ var __forOf = function (o, f, alt) {
             ret = ret.concat(f((o)[key], key, o));
     return ret.length === 0 ? alt() : ret;
 };
+// @ts-ignore 6192
+var text = __document.text;
+// @ts-ignore 6192
+var unsafe = __document.unsafe;
+// @ts-ignore 6192
+var isSet = function (value) { return value != null; };
 ;
 var PostPreviewView = /** @class */ (function () {
     function PostPreviewView(__context) {
@@ -44,20 +48,20 @@ var PostPreviewView = /** @class */ (function () {
         this.template = function (__this) {
             return __this.widget(new modal_1.Modal({ ww: { 'className': '-large' } }, [
                 __this.widget(new modal_1.ModalHeader({}, [
-                    wml_widgets_1.text(type_1.toString(__context.post.company))
+                    text(type_1.toString(__context.post.company))
                 ]), {}),
                 __this.widget(new modal_1.ModalBody({}, [
                     __this.widget(new grid_1.GridLayout({}, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('h1', {}, [
-                                    wml_widgets_1.text(type_1.toString(__context.post.title))
+                                    text(type_1.toString(__context.post.title))
                                 ])
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                wml_widgets_1.text(type_1.toString(__context.post.description))
+                                text(type_1.toString(__context.post.description))
                             ]), {})
                         ]), {})
                     ]), {})
@@ -102,6 +106,10 @@ var PostPreviewView = /** @class */ (function () {
             }
             else if (typeof value === 'boolean') {
                 e.setAttribute(key, '');
+            }
+            else if (!__document.isBrowser &&
+                value instanceof __document.WMLDOMText) {
+                e.setAttribute(key, value);
             }
         });
         children.forEach(function (c) {
