@@ -100,9 +100,16 @@ exports.Error = Error;
  */
 var Logger = /** @class */ (function (_super) {
     __extends(Logger, _super);
-    function Logger() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.receive = [new case_1.Case(Message, function (m) { return _this.logMessage(m); })];
+    function Logger(level, system) {
+        var _this = _super.call(this, system) || this;
+        _this.level = level;
+        _this.system = system;
+        _this.receive = [
+            new case_1.Case(Message, function (m) {
+                if (m.level <= _this.level)
+                    _this.logMessage(m);
+            })
+        ];
         return _this;
     }
     Logger.prototype.run = function () { };

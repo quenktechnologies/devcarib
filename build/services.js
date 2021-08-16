@@ -13,16 +13,17 @@ exports.clock = {
 exports.log = {
     id: 'log',
     create: (s) => {
+        let level = Number(process.env.BOARD_LOG_LEVEL || log_1.LOG_LEVEL_INFO);
         switch (process.env.BOARD_LOG_SINK) {
             case 'db':
                 return mongodb_1.MongoDbLogger.create(s, () => future_1.doFuture(function* () {
                     let db = yield connection_1.unsafeGetUserConnection('main');
                     return future_1.pure(db.collection('log'));
-                }));
+                }), { level });
             case 'console':
-                return new log_1.ConsoleLogger(s);
+                return new log_1.ConsoleLogger(level, s);
             default:
-                return new log_1.NoLogger(s);
+                return new log_1.NoLogger(level, s);
         }
     }
 };

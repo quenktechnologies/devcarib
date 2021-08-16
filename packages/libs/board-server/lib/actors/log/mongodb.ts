@@ -9,7 +9,7 @@ import { System } from '@quenk/potoo/lib/actor/system';
 
 import { insertMany } from '@quenk/noni-mongodb/lib/database/collection';
 
-import { Message, Logger } from './';
+import { LogLevel,Message, Logger, LOG_LEVEL_WARN } from './';
 
 /**
  * CollectionProvider is a function that provides an instance of the collection
@@ -23,6 +23,11 @@ export type CollectionProvider = () => Future<mongodb.Collection>;
 export interface MongoDbLoggerConf {
 
     /**
+     * level for logging.
+     */
+    level: LogLevel,
+
+    /**
      * interval at which to actually persist messages.
      *
      * Messages are not saved immediately to avoid overwhelming the database.
@@ -31,7 +36,13 @@ export interface MongoDbLoggerConf {
 
 }
 
-const defaultConf: MongoDbLoggerConf = { interval: 10000 };
+const defaultConf: MongoDbLoggerConf = {
+
+    level: LOG_LEVEL_WARN,
+
+    interval: 10000
+
+};
 
 /**
  * MongoDbLogger implementation.
@@ -41,7 +52,7 @@ export class MongoDbLogger extends Logger {
     constructor(
         public system: System,
         public collection: CollectionProvider,
-        public conf: MongoDbLoggerConf) { super(system); }
+        public conf: MongoDbLoggerConf) { super(conf.level, system); }
 
     buffer: Message[] = [];
 

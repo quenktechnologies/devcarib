@@ -1,6 +1,7 @@
 import { Case } from '@quenk/potoo/lib/actor/resident/case';
 import { Immutable } from '@quenk/potoo/lib/actor/resident';
 import { Address } from '@quenk/potoo/lib/actor/address';
+import { System } from '@quenk/potoo/lib/actor/system';
 
 export const LOG_LEVEL_DEBUG = 7;
 export const LOG_LEVEL_INFO = 6;
@@ -81,7 +82,22 @@ export class Error extends Message {
  */
 export abstract class Logger extends Immutable<Message> {
 
-    receive = [new Case(Message, (m: Message) => this.logMessage(m))];
+    constructor(public level: LogLevel, public system: System) {
+
+            super(system);
+
+    }
+
+    receive = [
+
+        new Case(Message, (m: Message) => {
+
+            if (m.level <= this.level)
+                this.logMessage(m);
+
+        })
+
+    ];
 
     /**
      * logMessage is overridden by implementations to do the actual log
@@ -98,7 +114,7 @@ export abstract class Logger extends Immutable<Message> {
  */
 export class NoLogger extends Logger {
 
-    logMessage() {}
+    logMessage() { }
 }
 
 /**

@@ -48,14 +48,17 @@ var array_1 = require("@quenk/noni/lib/data/array");
 var record_1 = require("@quenk/noni/lib/data/record");
 var collection_1 = require("@quenk/noni-mongodb/lib/database/collection");
 var _1 = require("./");
-var defaultConf = { interval: 10000 };
+var defaultConf = {
+    level: _1.LOG_LEVEL_WARN,
+    interval: 10000
+};
 /**
  * MongoDbLogger implementation.
  */
 var MongoDbLogger = /** @class */ (function (_super) {
     __extends(MongoDbLogger, _super);
     function MongoDbLogger(system, collection, conf) {
-        var _this = _super.call(this, system) || this;
+        var _this = _super.call(this, conf.level, system) || this;
         _this.system = system;
         _this.collection = collection;
         _this.conf = conf;

@@ -1,6 +1,7 @@
 import { Case } from '@quenk/potoo/lib/actor/resident/case';
 import { Immutable } from '@quenk/potoo/lib/actor/resident';
 import { Address } from '@quenk/potoo/lib/actor/address';
+import { System } from '@quenk/potoo/lib/actor/system';
 export declare const LOG_LEVEL_DEBUG = 7;
 export declare const LOG_LEVEL_INFO = 6;
 export declare const LOG_LEVEL_WARN = 4;
@@ -59,6 +60,9 @@ export declare class Error extends Message {
  * at a future point.
  */
 export declare abstract class Logger extends Immutable<Message> {
+    level: LogLevel;
+    system: System;
+    constructor(level: LogLevel, system: System);
     receive: Case<{
         level: unknown;
         actor: unknown;

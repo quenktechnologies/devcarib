@@ -2,7 +2,7 @@ import * as mongodb from 'mongodb';
 import { Future } from '@quenk/noni/lib/control/monad/future';
 import { Milliseconds } from '@quenk/noni/lib/control/time';
 import { System } from '@quenk/potoo/lib/actor/system';
-import { Message, Logger } from './';
+import { LogLevel, Message, Logger } from './';
 /**
  * CollectionProvider is a function that provides an instance of the collection
  * we write messages to.
@@ -12,6 +12,10 @@ export declare type CollectionProvider = () => Future<mongodb.Collection>;
  * MongoDbLoggerConf holds configuration options for the MongoDbLogger.
  */
 export interface MongoDbLoggerConf {
+    /**
+     * level for logging.
+     */
+    level: LogLevel;
     /**
      * interval at which to actually persist messages.
      *
