@@ -18,6 +18,7 @@ import { Post } from '@board/types/lib/post';
 import { validators, validate } from '@board/validators/lib/post';
 
 import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
+import { JOB_STATUS_NEW } from '@board/common/lib/data/job';
 
 import { PostFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
@@ -33,7 +34,7 @@ export type WMLId = string;
  */
 export type Message = string;
 
-const CHANGE_EVENT_DURATION = 250;
+const DELAY_POST_VALIDATION = 250;
 
 const messages = {
 
@@ -90,7 +91,10 @@ export class PostFormApp {
 
                 payment_currency: "USD",
 
-                payment_frequency: "Monthly"
+                payment_frequency: "Monthly",
+
+                status: JOB_STATUS_NEW
+
 
             },
 
@@ -118,7 +122,7 @@ export class PostFormApp {
 
             },
 
-            onChange: debounce((e: Event<Value>) => {
+            onChange: (e: Event<Value>) => {
 
                 let { name, value } = e;
 
@@ -144,7 +148,7 @@ export class PostFormApp {
 
                     }
 
-                    this.validatePost();
+                    this.delayedValidatePost(undefined);
 
                 } else {
 
@@ -152,7 +156,7 @@ export class PostFormApp {
 
                 }
 
-            }, CHANGE_EVENT_DURATION),
+            },
 
             onSelect: (e: Event<Value>) => {
 
@@ -201,6 +205,9 @@ export class PostFormApp {
         }
 
     };
+
+    delayedValidatePost =
+        debounce(() => this.validatePost(), DELAY_POST_VALIDATION);
 
     static create(node: Node): PostFormApp {
 
