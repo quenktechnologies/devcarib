@@ -111,10 +111,10 @@ __this.widget(new Column({ww : { 'span' : 6  }}, [
 
         __document.createTextNode('Select A Job Type*')
      ]),
-__this.widget(new DropList({wml : { 'id' : 'type'  },ww : { 'className' : '-block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onSelect   }}, [
+__this.widget(new DropList({wml : { 'id' : 'type'  },ww : { 'className' : 'board-job-type-dropdown -block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onSelect   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'type'  },ww : { 'className' : '-block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onSelect   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'type'  },ww : { 'className' : 'board-job-type-dropdown -block' ,'name' : 'type' ,'value' : __context.values.post .data .type  ,'options' : __context.values.post .type .options  ,'onSelect' : __context.values.post .onSelect   }})
      ]),<__wml.Attrs>{ww : { 'span' : 6  }})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -168,10 +168,10 @@ __this.widget(new Column({ww : { 'span' : 6  }}, [
 
         __document.createTextNode('Payment Frequency')
      ]),
-__this.widget(new DropList({wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block' ,'name' : 'payment_frequency' ,'value' : __context.values.post .data .payment_frequency  ,'options' : __context.values.post .payment_frequency .options  ,'onSelect' : __context.values.post .onSelect   }}, [
+__this.widget(new DropList({wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block board-job-payment-frequency' ,'name' : 'payment_frequency' ,'value' : __context.values.post .data .payment_frequency  ,'options' : __context.values.post .payment_frequency .options  ,'onSelect' : __context.values.post .onSelect   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block' ,'name' : 'payment_frequency' ,'value' : __context.values.post .data .payment_frequency  ,'options' : __context.values.post .payment_frequency .options  ,'onSelect' : __context.values.post .onSelect   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block board-job-payment-frequency' ,'name' : 'payment_frequency' ,'value' : __context.values.post .data .payment_frequency  ,'options' : __context.values.post .payment_frequency .options  ,'onSelect' : __context.values.post .onSelect   }})
      ]),<__wml.Attrs>{ww : { 'span' : 6  }})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [

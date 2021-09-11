@@ -57,7 +57,7 @@
 
             <DropList
               wml:id="type"
-              ww:className="-block"
+              ww:className="board-job-type-dropdown -block"
               ww:name="type"
               ww:value={{@values.post.data.type}}
               ww:options={{@values.post.type.options}}
@@ -117,7 +117,7 @@
 
             <DropList
               wml:id="payment_frequency"
-              ww:className="-block"
+              ww:className="-block board-job-payment-frequency"
               ww:name="payment_frequency"
               ww:value={{@values.post.data.payment_frequency}}
               ww:options={{@values.post.payment_frequency.options}}

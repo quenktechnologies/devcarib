@@ -6,7 +6,7 @@
 {% import (CurrencyMoneyTextField) from "./" %}
 
 {% view CurrencyMoneyTextFieldView (CurrencyMoneyTextField) %}
- <InputGroup>
+ <InputGroup className="board-currency-money-text-field">
 
   <AddOn button=true>
     

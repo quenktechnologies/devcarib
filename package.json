@@ -48,7 +48,7 @@
         "@quenk/jhr": "^2.6.21",
         "@quenk/must": "^1.0.3",
         "@quenk/tdc": "^2.0.8",
-        "@quenk/test": "^2.4.0",
+        "@quenk/test": "^2.5.0",
         "@quenk/wml": "^2.9.2",
         "@quenk/wml-widgets": "^1.27.15",
         "@types/bcrypt": "^3.0.0",

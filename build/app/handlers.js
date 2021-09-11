@@ -43,6 +43,9 @@ const createPost = (r) => api_1.doAction(function* () {
         let data = eResult.takeRight();
         let db = yield getMain();
         let collection = db.collection('posts');
+        // XXX: This is important to prevent the user from being able to
+        // set the status. In the future we should split out the
+        // validation for post again.
         data.status = jobStatus.JOB_STATUS_NEW;
         data.created_on = new Date();
         yield control_1.fork(collection_1.insertOne(collection, data));

@@ -64,8 +64,6 @@ const escapeMap: Record<string> = {
 
 }
 
-const agent = createAgent();
-
 /**
  * PostFormApp provides the JS form used to create new forms.
  *
@@ -82,6 +80,8 @@ export class PostFormApp {
     previewView = new PreviewView(this);
 
     finishView = new FinishView(this);
+
+ agent = createAgent();
 
     values = {
 
@@ -318,7 +318,8 @@ export class PostFormApp {
         if (mButton.isJust())
             mButton.get().disable();
 
-        agent
+        this
+             .agent
             .post('/post', this.values.post.data)
             .chain((r: Response<Object>) => {
 
@@ -399,4 +400,5 @@ const previewTemplate = (html: string) => `
 </html>
 `;
 
-PostFormApp.create(<Node>document.getElementById('main')).run();
+window.postFormApp = PostFormApp.create(<Node>document.getElementById('main'));
+window.postFormApp.run();

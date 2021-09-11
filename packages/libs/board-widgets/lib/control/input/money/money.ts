@@ -75,7 +75,7 @@ export class CurrencyMoneyTextFieldView  implements __wml.View {
 
        
 
-           return __this.widget(new InputGroup({}, [
+           return __this.widget(new InputGroup({'className': 'board-currency-money-text-field'}, [
 
         __this.widget(new AddOn({'button': true }, [
 
@@ -88,7 +88,7 @@ __this.widget(new TextInput({ww : { 'name' : __context.values.input .name  ,'val
 
         
      ]),<__wml.Attrs>{ww : { 'name' : __context.values.input .name  ,'value' : __context.values.input .value  ,'type' : 'number' ,'min' : 0 ,'onChange' : __context.values.input .onChange   }})
-     ]),<__wml.Attrs>{});
+     ]),<__wml.Attrs>{'className': 'board-currency-money-text-field'});
 
        }
 

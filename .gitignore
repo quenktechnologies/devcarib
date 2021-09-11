@@ -26,6 +26,7 @@ node_modules
 
 # Ignore .env configuration files
 .env
+.env-test
 
 # Ignore .DS_Store files on OS X
 .DS_Store

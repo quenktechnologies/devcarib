@@ -9,10 +9,11 @@ var feedback_1 = require("@quenk/wml-widgets/lib/control/feedback");
 var browser_1 = require("@quenk/jhr/lib/browser");
 var post_1 = require("@board/validators/lib/post");
 var payment_1 = require("@board/common/lib/data/payment");
+var job_1 = require("@board/common/lib/data/job");
 var app_1 = require("./views/app");
 var preview_1 = require("./views/preview");
 var finish_1 = require("./views/finish");
-var CHANGE_EVENT_DURATION = 250;
+var DELAY_POST_VALIDATION = 250;
 var messages = {
     notNull: '{name} is required.',
     minLength: '{name} must be at least {target} characters.',
@@ -27,7 +28,6 @@ var escapeMap = {
     '<': '&lt;',
     '>': '&gt;'
 };
-var agent = browser_1.createAgent();
 /**
  * PostFormApp provides the JS form used to create new forms.
  *
@@ -42,11 +42,13 @@ var PostFormApp = /** @class */ (function () {
         this.view = new app_1.PostFormAppView(this);
         this.previewView = new preview_1.PreviewView(this);
         this.finishView = new finish_1.FinishView(this);
+        this.agent = browser_1.createAgent();
         this.values = {
             post: {
                 data: {
                     payment_currency: "USD",
-                    payment_frequency: "Monthly"
+                    payment_frequency: "Monthly",
+                    status: job_1.JOB_STATUS_NEW
                 },
                 errors: {},
                 type: {
@@ -64,7 +66,7 @@ var PostFormApp = /** @class */ (function () {
                         return ({ label: value, value: value });
                     })
                 },
-                onChange: timer_1.debounce(function (e) {
+                onChange: function (e) {
                     var name = e.name, value = e.value;
                     if (post_1.validators.hasOwnProperty(name)) {
                         _this.values.post.data[name] = value;
@@ -79,12 +81,12 @@ var PostFormApp = /** @class */ (function () {
                             _this.values.post.data[name] = eResult.takeRight();
                             _this.setControlOk(name);
                         }
-                        _this.validatePost();
+                        _this.delayedValidatePost(undefined);
                     }
                     else {
                         console.warn("Ignoring unknown field: \"" + name + "\"");
                     }
-                }, CHANGE_EVENT_DURATION),
+                },
                 onSelect: function (e) {
                     _this.values.post.data[e.name] = e.value;
                     _this.validatePost();
@@ -109,6 +111,7 @@ var PostFormApp = /** @class */ (function () {
                 }
             }
         };
+        this.delayedValidatePost = timer_1.debounce(function () { return _this.validatePost(); }, DELAY_POST_VALIDATION);
     }
     PostFormApp.create = function (node) {
         return new PostFormApp(node);
@@ -180,7 +183,8 @@ var PostFormApp = /** @class */ (function () {
         var mButton = util_1.getById(this.previewView, this.values.buttons.send.id);
         if (mButton.isJust())
             mButton.get().disable();
-        agent
+        this
+            .agent
             .post('/post', this.values.post.data)
             .chain(function (r) {
             if (r.code === 401) {
@@ -224,5 +228,6 @@ var escape = function (str) {
 };
 exports.escape = escape;
 var previewTemplate = function (html) { return "\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"author\" content=\"Caribbean Developers\">\n    <link rel=\"stylesheet\" href=\"/assets/css/site.css\">\n    <title>Job Preview</title>\n</head>\n\n<body>\n " + html + "\n</body>\n\n</html>\n"; };
-PostFormApp.create(document.getElementById('main')).run();
+window.postFormApp = PostFormApp.create(document.getElementById('main'));
+window.postFormApp.run();
 //# sourceMappingURL=main.js.map

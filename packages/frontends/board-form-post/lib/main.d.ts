@@ -1,5 +1,5 @@
 import { View } from '@quenk/wml';
-import { Value } from '@quenk/noni/lib/data/json';
+import { Value, Object } from '@quenk/noni/lib/data/json';
 import { Record } from '@quenk/noni/lib/data/record';
 import { Event } from '@quenk/wml-widgets/lib/control';
 import { Post } from '@board/types/lib/post';
@@ -27,6 +27,7 @@ export declare class PostFormApp {
     view: PostFormAppView;
     previewView: PreviewView;
     finishView: FinishView;
+    agent: import("@quenk/jhr/lib/agent").Agent<object, Object>;
     values: {
         post: {
             data: Post;
@@ -43,7 +44,7 @@ export declare class PostFormApp {
                     value: string;
                 }[];
             };
-            onChange: import("@quenk/noni/lib/data/function").Function<Event<Value>, void>;
+            onChange: (e: Event<Value>) => void;
             onSelect: (e: Event<Value>) => void;
         };
         preview: {
@@ -65,6 +66,7 @@ export declare class PostFormApp {
             };
         };
     };
+    delayedValidatePost: import("@quenk/noni/lib/data/function").Function<unknown, void>;
     static create(node: Node): PostFormApp;
     /**
      * setControlErrorMessages updates a control to have an error message.

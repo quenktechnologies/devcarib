@@ -43,12 +43,12 @@ var CurrencyMoneyTextFieldView = /** @class */ (function () {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.widget(new input_group_1.InputGroup({}, [
+            return __this.widget(new input_group_1.InputGroup({ 'className': 'board-currency-money-text-field' }, [
                 __this.widget(new input_group_1.AddOn({ 'button': true }, [
                     __this.widget(new drop_list_1.DropList({ ww: { 'name': __context.values.dropList.name, 'options': __context.values.dropList.options, 'value': __context.values.dropList.value, 'onSelect': __context.values.dropList.onSelect } }, []), { ww: { 'name': __context.values.dropList.name, 'options': __context.values.dropList.options, 'value': __context.values.dropList.value, 'onSelect': __context.values.dropList.onSelect } })
                 ]), { 'button': true }),
                 __this.widget(new text_input_1.TextInput({ ww: { 'name': __context.values.input.name, 'value': __context.values.input.value, 'type': 'number', 'min': 0, 'onChange': __context.values.input.onChange } }, []), { ww: { 'name': __context.values.input.name, 'value': __context.values.input.value, 'type': 'number', 'min': 0, 'onChange': __context.values.input.onChange } })
-            ]), {});
+            ]), { 'className': 'board-currency-money-text-field' });
         };
     }
     CurrencyMoneyTextFieldView.prototype.registerView = function (v) {
