@@ -83,4 +83,5 @@ return $routes;
 'options': [(<string>process.env['MONGO_URL']),{'useNewUrlParser': true}]}},
 'children': {'clock': dotdotServices.clock,
 'log': dotdotServices.log,
+'mail': dotdotServices.mail,
 'clearExpiredJobs': dotdotTasks.clearExpiredJobs}})

@@ -71,6 +71,8 @@ children = {
 
   log = ../services#log
 
+  mail = ../services#mail
+
   clearExpiredJobs = ../tasks#clearExpiredJobs
 
 }

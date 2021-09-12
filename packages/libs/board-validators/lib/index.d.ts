@@ -2,6 +2,7 @@
 /** imports */
 import * as _admin from './admin';
 import * as _candidatePost from './candidate-post';
+import * as _mailMessage from './mail-message';
 import * as _post from './post';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe } from '@quenk/noni/lib/data/maybe';
@@ -10,7 +11,7 @@ import { Precondition } from '@quenk/preconditions';
  * DataTypeUnion combines all the types of the validators found in this module
  * into one.
  */
-export declare type DataTypeUnion = _admin.DataType | _candidatePost.DataType | _post.DataType;
+export declare type DataTypeUnion = _admin.DataType | _candidatePost.DataType | _mailMessage.DataType | _post.DataType;
 /**
  * Validators is a record of validators.
  */

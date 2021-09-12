@@ -5,6 +5,7 @@ exports.getPartialValidatorsFor = exports.partialValidatorsAvailable = exports.g
 /** imports */
 var _admin = require("./admin");
 var _candidatePost = require("./candidate-post");
+var _mailMessage = require("./mail-message");
 var _post = require("./post");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
@@ -13,6 +14,7 @@ var maybe_1 = require("@quenk/noni/lib/data/maybe");
 exports.validatorsAvailable = {
     'admin': _admin.validate,
     'candidate-post': _candidatePost.validate,
+    'mail-message': _mailMessage.validate,
     'post': _post.validate
 };
 /**
@@ -28,6 +30,7 @@ exports.getValidatorsFor = getValidatorsFor;
 exports.partialValidatorsAvailable = {
     'admin': _admin.validatePartial,
     'candidate-post': _candidatePost.validatePartial,
+    'mail-message': _mailMessage.validatePartial,
     'post': _post.validatePartial
 };
 /**

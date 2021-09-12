@@ -3,6 +3,7 @@
 /** imports */
 import * as _admin from './admin';
 import * as _candidatePost from './candidate-post';
+import * as _mailMessage from './mail-message';
 import * as _post from './post';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
@@ -17,6 +18,8 @@ export type DataTypeUnion =
     _admin.DataType |
 
     _candidatePost.DataType |
+
+    _mailMessage.DataType |
 
     _post.DataType;
 
@@ -36,6 +39,7 @@ export const checksAvailable: Checks = {
 
     'admin': <Precondition<Value, DataTypeUnion>>_admin.check,
     'candidate-post': <Precondition<Value, DataTypeUnion>>_candidatePost.check,
+    'mail-message': <Precondition<Value, DataTypeUnion>>_mailMessage.check,
     'post': <Precondition<Value, DataTypeUnion>>_post.check
 };
 
@@ -53,6 +57,7 @@ export const partialChecksAvailable: Checks = {
 
     'admin': <Precondition<Value, Partial<DataTypeUnion>>>_admin.checkPartial,
     'candidate-post': <Precondition<Value, Partial<DataTypeUnion>>>_candidatePost.checkPartial,
+    'mail-message': <Precondition<Value, Partial<DataTypeUnion>>>_mailMessage.checkPartial,
     'post': <Precondition<Value, Partial<DataTypeUnion>>>_post.checkPartial
 };
 

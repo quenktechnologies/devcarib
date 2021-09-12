@@ -13,6 +13,7 @@ import {
 } from '@quenk/tendril/lib/app/api/response';
 import { fork } from '@quenk/tendril/lib/app/api/control';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
+import { tell } from '@quenk/tendril/lib/app/api/control/actor';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 
@@ -24,6 +25,8 @@ import { NotFoundErrorView } from '@board/views/lib/error/404';
 import { PostFormView } from '@board/views/lib/post-form';
 import { PostView } from '@board/views/lib/post';
 import { IndexView } from '@board/views';
+
+import { OutgoingMessage } from '@board/server/lib/actors/mail/server';
 
 export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 
@@ -82,6 +85,12 @@ export const createPost = (r: Request): Action<undefined> =>
 
             yield fork(insertOne(collection, data));
 
+            if (process.env.ADMIN_EMAIL)
+                yield tell('/mail', new OutgoingMessage(process.env.ADMIN_EMAIL,
+                    'New post', 'Someone posted *a new job* to board!'));
+
+
+
             return created({ id: data.id });
 
         } else {
@@ -126,7 +135,7 @@ export const showPost = (r: Request): Action<undefined> =>
                     { property: 'og:type', content: 'article' },
                     { property: 'og:image', content: "https://jobs.caribbeandevelopers.org/ogimg.png" },
                     { property: 'og:title', content: post.title },
-                    { property: 'og:description', content: post.type}
+                    { property: 'og:description', content: post.type }
                 ]
             }));
 

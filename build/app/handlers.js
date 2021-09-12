@@ -6,6 +6,7 @@ const collection_1 = require("@quenk/noni-mongodb/lib/database/collection");
 const response_1 = require("@quenk/tendril/lib/app/api/response");
 const control_1 = require("@quenk/tendril/lib/app/api/control");
 const pool_1 = require("@quenk/tendril/lib/app/api/pool");
+const actor_1 = require("@quenk/tendril/lib/app/api/control/actor");
 const api_1 = require("@quenk/tendril/lib/app/api");
 const tendril_show_wml_1 = require("@quenk/tendril-show-wml");
 const candidate_post_1 = require("@board/checks/lib/candidate-post");
@@ -13,6 +14,7 @@ const _404_1 = require("@board/views/lib/error/404");
 const post_form_1 = require("@board/views/lib/post-form");
 const post_1 = require("@board/views/lib/post");
 const views_1 = require("@board/views");
+const server_1 = require("@board/server/lib/actors/mail/server");
 exports.ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 /**
  * showPosts currently approved.
@@ -49,6 +51,8 @@ const createPost = (r) => api_1.doAction(function* () {
         data.status = jobStatus.JOB_STATUS_NEW;
         data.created_on = new Date();
         yield control_1.fork(collection_1.insertOne(collection, data));
+        if (process.env.ADMIN_EMAIL)
+            yield actor_1.tell('/mail', new server_1.OutgoingMessage(process.env.ADMIN_EMAIL, 'New post', 'Someone posted *a new job* to board!'));
         return response_1.created({ id: data.id });
     }
     else {

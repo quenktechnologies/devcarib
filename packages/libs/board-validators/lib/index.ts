@@ -3,6 +3,7 @@
 /** imports */
 import * as _admin from './admin';
 import * as _candidatePost from './candidate-post';
+import * as _mailMessage from './mail-message';
 import * as _post from './post';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
@@ -17,6 +18,8 @@ export type DataTypeUnion =
     _admin.DataType |
 
     _candidatePost.DataType |
+
+    _mailMessage.DataType |
 
     _post.DataType;
 
@@ -36,6 +39,7 @@ export const validatorsAvailable: Validators = {
 
     'admin': _admin.validate,
     'candidate-post': _candidatePost.validate,
+    'mail-message': _mailMessage.validate,
     'post': _post.validate
 };
 
@@ -53,6 +57,7 @@ export const partialValidatorsAvailable: Validators = {
 
     'admin': _admin.validatePartial,
     'candidate-post': _candidatePost.validatePartial,
+    'mail-message': _mailMessage.validatePartial,
     'post': _post.validatePartial
 };
 

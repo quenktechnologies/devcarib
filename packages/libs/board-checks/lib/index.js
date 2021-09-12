@@ -5,6 +5,7 @@ exports.getPartialChecksFor = exports.partialChecksAvailable = exports.getChecks
 /** imports */
 var _admin = require("./admin");
 var _candidatePost = require("./candidate-post");
+var _mailMessage = require("./mail-message");
 var _post = require("./post");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
@@ -13,6 +14,7 @@ var maybe_1 = require("@quenk/noni/lib/data/maybe");
 exports.checksAvailable = {
     'admin': _admin.check,
     'candidate-post': _candidatePost.check,
+    'mail-message': _mailMessage.check,
     'post': _post.check
 };
 /**
@@ -28,6 +30,7 @@ exports.getChecksFor = getChecksFor;
 exports.partialChecksAvailable = {
     'admin': _admin.checkPartial,
     'candidate-post': _candidatePost.checkPartial,
+    'mail-message': _mailMessage.checkPartial,
     'post': _post.checkPartial
 };
 /**

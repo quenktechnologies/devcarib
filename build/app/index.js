@@ -57,6 +57,7 @@ const template = ($app) => ({ 'id': `/`, 'app': { 'dirs': { 'self': `/build/app`
     'server': { 'port': process.env['PORT'], 'host': `0.0.0.0` },
     'connections': { 'main': { 'connector': quenkTendrilConnectionMongodb.connector, 'options': [process.env['MONGO_URL'], { 'useNewUrlParser': true }] } }, 'children': { 'clock': dotdotServices.clock,
         'log': dotdotServices.log,
+        'mail': dotdotServices.mail,
         'clearExpiredJobs': dotdotTasks.clearExpiredJobs } });
 exports.template = template;
 //# sourceMappingURL=index.js.map
