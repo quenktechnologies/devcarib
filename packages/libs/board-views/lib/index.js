@@ -10,7 +10,7 @@ var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 ;
-var panel_1 = require("@board/widgets/lib/job/panel");
+var preview_panel_1 = require("@board/widgets/lib/job/preview-panel");
 ;
 var head_1 = require("./common/head");
 ;
@@ -64,7 +64,7 @@ var IndexView = /** @class */ (function () {
                                     __document.createTextNode('Hire Software Developers from the Caribbean region. ')
                                 ]),
                                 __this.node('a', { 'id': 'create-new-job-button', 'class': 'ww-button -primary -large', 'href': '/jobs/post' }, [
-                                    __document.createTextNode('Job A Job')
+                                    __document.createTextNode('Post A Job')
                                 ])
                             ])
                         ])
@@ -73,7 +73,7 @@ var IndexView = /** @class */ (function () {
                         __this.node('div', { 'class': 'ww-grid-layout__row' }, [
                             __this.node('div', { 'class': 'ww-grid-layout__column -span8 -offset2' }, __spreadArray([], __forIn(__context.jobs, function (job, _$$i, _$$all) {
                                 return ([
-                                    __this.registerView((new panel_1.JobPanelView(job))).render()
+                                    __this.registerView((new preview_panel_1.JobPreviewPanelView(job))).render()
                                 ]);
                             }, function () { return ([
                                 __this.node('div', { 'class': 'board-no-jobs' }, [

@@ -5,12 +5,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
     return to;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobPanelFeaturesView = void 0;
+exports.JobFeaturesView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 ;
-var filters_1 = require("../../filters");
+var filters_1 = require("@board/widgets/lib/filters");
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -36,33 +36,33 @@ var text = __document.text;
 var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
-var JobPanelFeaturesView = /** @class */ (function () {
-    function JobPanelFeaturesView(__context) {
+var JobFeaturesView = /** @class */ (function () {
+    function JobFeaturesView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.node('div', { 'class': 'board-job-features' }, __spreadArray(__spreadArray(__spreadArray(__spreadArray([], ((__context.type) ?
+            return __this.node('div', { 'class': 'board-job-features' }, __spreadArray(__spreadArray(__spreadArray(__spreadArray([], (((__context.type) != null) ?
                 (function () { return ([
                     __this.node('span', { 'class': 'ww-tag -default' }, [
                         text(__context.type)
                     ])
                 ]); })() :
-                (function () { return ([]); })())), ((__context.location) ?
+                (function () { return ([]); })())), (((__context.location) != null) ?
                 (function () { return ([
                     __this.node('span', { 'class': 'ww-tag -default' }, [
                         text(filters_1.truncate(60)(__context.location))
                     ])
                 ]); })() :
-                (function () { return ([]); })())), ((__context.remote) ?
+                (function () { return ([]); })())), (((__context.remote) != null) ?
                 (function () { return ([
                     __this.node('span', { 'class': 'ww-tag -default' }, [
                         __document.createTextNode('Remote')
                     ])
                 ]); })() :
-                (function () { return ([]); })())), ((__context.salary_range) ?
+                (function () { return ([]); })())), (((__context.salary_range) != null) ?
                 (function () { return ([
                     __this.node('span', { 'class': 'ww-tag -default' }, [
                         __document.createTextNode('$'),
@@ -72,11 +72,11 @@ var JobPanelFeaturesView = /** @class */ (function () {
                 (function () { return ([]); })())));
         };
     }
-    JobPanelFeaturesView.prototype.registerView = function (v) {
+    JobFeaturesView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    JobPanelFeaturesView.prototype.register = function (e, attrs) {
+    JobFeaturesView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -92,7 +92,7 @@ var JobPanelFeaturesView = /** @class */ (function () {
         }
         return e;
     };
-    JobPanelFeaturesView.prototype.node = function (tag, attrs, children) {
+    JobFeaturesView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -129,18 +129,18 @@ var JobPanelFeaturesView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    JobPanelFeaturesView.prototype.widget = function (w, attrs) {
+    JobFeaturesView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    JobPanelFeaturesView.prototype.findById = function (id) {
+    JobFeaturesView.prototype.findById = function (id) {
         var mW = maybe_1.fromNullable(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    JobPanelFeaturesView.prototype.findByGroup = function (name) {
+    JobFeaturesView.prototype.findByGroup = function (name) {
         var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -148,7 +148,7 @@ var JobPanelFeaturesView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    JobPanelFeaturesView.prototype.invalidate = function () {
+    JobFeaturesView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -157,7 +157,7 @@ var JobPanelFeaturesView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    JobPanelFeaturesView.prototype.render = function () {
+    JobFeaturesView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -169,7 +169,7 @@ var JobPanelFeaturesView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return JobPanelFeaturesView;
+    return JobFeaturesView;
 }());
-exports.JobPanelFeaturesView = JobPanelFeaturesView;
+exports.JobFeaturesView = JobFeaturesView;
 //# sourceMappingURL=features.js.map

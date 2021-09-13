@@ -1,24 +1,32 @@
-import * as __wml from '@quenk/wml';
-import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
+import { Component } from '@quenk/wml';
+import { HTMLElementAttrs } from '@quenk/wml-widgets';
 import { Job } from '@board/types/lib/job';
-export declare class JobPanelView implements __wml.View {
-    constructor(__context: Job);
-    ids: {
-        [key: string]: __wml.WMLElement;
+import { JobPanelView } from './panel';
+/**
+ * JobPanelAttrs for the JobPanel
+ */
+export interface JobPanelAttrs extends HTMLElementAttrs {
+    /**
+     * job to display in the panel.
+     */
+    job: Job;
+    /**
+     * raw if true, will display the raw unescape html of the job.
+     */
+    raw?: boolean;
+}
+/**
+ * JobPanel displays detailed information about a job on the job's profile
+ * page or preview.
+ */
+export declare class JobPanel extends Component<JobPanelAttrs> {
+    view: JobPanelView;
+    values: {
+        data: Job;
+        raw: boolean | undefined;
     };
-    groups: {
-        [key: string]: __wml.WMLElement[];
-    };
-    views: __wml.View[];
-    widgets: __wml.Widget[];
-    tree: Node;
-    template: __wml.Template;
-    registerView(v: __wml.View): __wml.View;
-    register(e: __wml.WMLElement, attrs: __wml.Attributes<any>): __wml.WMLElement;
-    node(tag: string, attrs: __wml.Attrs, children: __wml.Content[]): __wml.Content;
-    widget(w: __wml.Widget, attrs: __wml.Attrs): __wml.Content;
-    findById<E extends __wml.WMLElement>(id: string): __Maybe<E>;
-    findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]>;
-    invalidate(): void;
-    render(): __wml.Content;
+    /**
+     * setContent allows the content displayed in the JobPanel to be displayed.
+     */
+    setContent(html: string): void;
 }

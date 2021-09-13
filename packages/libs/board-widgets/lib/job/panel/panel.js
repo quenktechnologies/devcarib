@@ -1,11 +1,20 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobBodyView = void 0;
+exports.JobPanelView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
+var panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
 ;
-var panel_1 = require("@board/widgets/lib/job/panel");
+var filters_1 = require("@board/widgets/lib/filters");
+;
+var features_1 = require("./features");
+;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -31,28 +40,54 @@ var text = __document.text;
 var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
-var JobBodyView = /** @class */ (function () {
-    function JobBodyView(__context) {
+var JobPanelView = /** @class */ (function () {
+    function JobPanelView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.node('div', { 'id': 'main', 'class': 'ww-grid-layout board-job-body' }, [
-                __this.node('div', { 'class': 'ww-grid-layout__row' }, [
-                    __this.node('div', { 'class': 'ww-grid-layout__column -span8 -offset2' }, [
-                        __this.widget(new panel_1.JobPanel({ 'job': __context, 'raw': true }, []), { 'job': __context, 'raw': true })
+            return __this.widget(new panel_1.Panel({}, [
+                __this.widget(new panel_1.PanelHeader({}, [
+                    __this.node('div', { 'class': 'ww-panel__header__content' }, [
+                        __this.registerView((new features_1.JobFeaturesView(__context.values.data))).render(),
+                        __this.node('div', { 'class': 'board-job-timestamp' }, [
+                            __document.createTextNode('\u000a        Posted '),
+                            text(filters_1.timestamp(__context.values.data.created_on))
+                        ])
                     ])
-                ])
-            ]);
+                ]), {}),
+                __this.widget(new panel_1.PanelBody({}, [
+                    __this.node('div', { 'class': 'board-job-salary' }, __spreadArray([], (((__context.values.data.payment_amount) != null) ?
+                        (function () { return ([
+                            __this.node('span', {}, [
+                                text(__context.values.data.payment_amount),
+                                __document.createTextNode('\u00a0'),
+                                __this.node('b', {}, [
+                                    text(__context.values.data.payment_currency),
+                                    __document.createTextNode('\u002F'),
+                                    text(__context.values.data.payment_frequency)
+                                ])
+                            ])
+                        ]); })() :
+                        (function () { return ([]); })()))),
+                    __this.node('div', { wml: { 'id': 'content' }, 'class': 'board-job-html' }, __spreadArray([], ((__context.values.raw) ?
+                        (function () { return ([
+                            unsafe(__context.values.data.description_html)
+                        ]); })() :
+                        (function () { return ([
+                            text(__context.values.data.description_html)
+                        ]); })())))
+                ]), {})
+            ]), {});
         };
     }
-    JobBodyView.prototype.registerView = function (v) {
+    JobPanelView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    JobBodyView.prototype.register = function (e, attrs) {
+    JobPanelView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -68,7 +103,7 @@ var JobBodyView = /** @class */ (function () {
         }
         return e;
     };
-    JobBodyView.prototype.node = function (tag, attrs, children) {
+    JobPanelView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -105,18 +140,18 @@ var JobBodyView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    JobBodyView.prototype.widget = function (w, attrs) {
+    JobPanelView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    JobBodyView.prototype.findById = function (id) {
+    JobPanelView.prototype.findById = function (id) {
         var mW = maybe_1.fromNullable(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    JobBodyView.prototype.findByGroup = function (name) {
+    JobPanelView.prototype.findByGroup = function (name) {
         var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -124,7 +159,7 @@ var JobBodyView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    JobBodyView.prototype.invalidate = function () {
+    JobPanelView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -133,7 +168,7 @@ var JobBodyView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    JobBodyView.prototype.render = function () {
+    JobPanelView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -145,7 +180,7 @@ var JobBodyView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return JobBodyView;
+    return JobPanelView;
 }());
-exports.JobBodyView = JobBodyView;
-//# sourceMappingURL=body.js.map
+exports.JobPanelView = JobPanelView;
+//# sourceMappingURL=panel.js.map

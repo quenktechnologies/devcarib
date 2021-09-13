@@ -1,167 +1,48 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobPanelView = void 0;
-var __document = require("@quenk/wml/lib/dom");
-//@ts-ignore: 6192
-var maybe_1 = require("@quenk/noni/lib/data/maybe");
-;
-var filters_1 = require("../../filters");
-;
-var features_1 = require("./features");
-//@ts-ignore:6192
-var __if = function (__expr, __conseq, __alt) {
-    return (__expr) ? __conseq() : __alt ? __alt() : [];
-};
-//@ts-ignore:6192
-var __forIn = function (list, f, alt) {
-    var ret = [];
-    for (var i = 0; i < list.length; i++)
-        ret = ret.concat(f(list[i], i, list));
-    return ret.length === 0 ? alt() : ret;
-};
-//@ts-ignore:6192
-var __forOf = function (o, f, alt) {
-    var ret = [];
-    for (var key in o)
-        if (o.hasOwnProperty(key))
-            ret = ret.concat(f((o)[key], key, o));
-    return ret.length === 0 ? alt() : ret;
-};
-// @ts-ignore 6192
-var text = __document.text;
-// @ts-ignore 6192
-var unsafe = __document.unsafe;
-// @ts-ignore 6192
-var isSet = function (value) { return value != null; };
-var JobPanelView = /** @class */ (function () {
-    function JobPanelView(__context) {
-        this.ids = {};
-        this.groups = {};
-        this.views = [];
-        this.widgets = [];
-        this.tree = __document.createElement('div');
-        this.template = function (__this) {
-            return __this.node('div', { 'class': 'ww-panel -default board-job-panel' }, [
-                __this.node('div', { 'class': 'ww-panel__body' }, [
-                    __this.node('div', { 'class': 'board-job-panel-header' }, [
-                        __this.node('h3', { 'class': 'board-job-panel-header__title' }, [
-                            __this.node('a', { 'href': ('/jobs/' + __context.id) }, [
-                                text(__context.title)
-                            ])
-                        ]),
-                        __this.node('div', { 'class': 'board-job-panel-header__text' }, [
-                            __this.node('span', { 'class': 'board-job-panel-company' }, [
-                                text(__context.company)
-                            ]),
-                            __document.createTextNode(' - \u000a        '),
-                            __this.node('span', { 'class': 'board-job-panel-time' }, [
-                                text(filters_1.timefromnow(__context.created_on))
-                            ])
-                        ]),
-                        __this.registerView((new features_1.JobPanelFeaturesView(__context))).render()
-                    ])
-                ])
-            ]);
+exports.JobPanel = void 0;
+var wml_1 = require("@quenk/wml");
+var panel_1 = require("./panel");
+/**
+ * JobPanel displays detailed information about a job on the job's profile
+ * page or preview.
+ */
+var JobPanel = /** @class */ (function (_super) {
+    __extends(JobPanel, _super);
+    function JobPanel() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.view = new panel_1.JobPanelView(_this);
+        _this.values = {
+            data: _this.attrs.job,
+            raw: _this.attrs.raw
         };
+        return _this;
     }
-    JobPanelView.prototype.registerView = function (v) {
-        this.views.push(v);
-        return v;
+    /**
+     * setContent allows the content displayed in the JobPanel to be displayed.
+     */
+    JobPanel.prototype.setContent = function (html) {
+        var mcontent = this.view.findById('content');
+        if (mcontent.isJust())
+            mcontent.get().innerHTML = html;
+        console.error("---> ", mcontent.get().innerHTML);
     };
-    JobPanelView.prototype.register = function (e, attrs) {
-        var attrsMap = attrs;
-        if (attrsMap.wml) {
-            var _a = attrsMap.wml, id = _a.id, group = _a.group;
-            if (id != null) {
-                if (this.ids.hasOwnProperty(id))
-                    throw new Error("Duplicate id '" + id + "' detected!");
-                this.ids[id] = e;
-            }
-            if (group != null) {
-                this.groups[group] = this.groups[group] || [];
-                this.groups[group].push(e);
-            }
-        }
-        return e;
-    };
-    JobPanelView.prototype.node = function (tag, attrs, children) {
-        var e = __document.createElement(tag);
-        Object.keys(attrs).forEach(function (key) {
-            var value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(function (c) {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    var tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError("Can not adopt child " + c + " of type " + typeof c);
-            }
-        });
-        this.register(e, attrs);
-        return e;
-    };
-    JobPanelView.prototype.widget = function (w, attrs) {
-        this.register(w, attrs);
-        this.widgets.push(w);
-        return w.render();
-    };
-    JobPanelView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
-    };
-    JobPanelView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
-    };
-    JobPanelView.prototype.invalidate = function () {
-        var tree = this.tree;
-        var parent = tree.parentNode;
-        if (tree == null)
-            return console.warn('invalidate(): ' + 'Missing DOM tree!');
-        if (tree.parentNode == null)
-            throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
-        parent.replaceChild(this.render(), tree);
-    };
-    JobPanelView.prototype.render = function () {
-        this.ids = {};
-        this.widgets.forEach(function (w) { return w.removed(); });
-        this.widgets = [];
-        this.views = [];
-        this.tree = this.template(this);
-        this.ids['root'] = (this.ids['root']) ?
-            this.ids['root'] :
-            this.tree;
-        this.widgets.forEach(function (w) { return w.rendered(); });
-        return this.tree;
-    };
-    return JobPanelView;
-}());
-exports.JobPanelView = JobPanelView;
+    return JobPanel;
+}(wml_1.Component));
+exports.JobPanel = JobPanel;
 //# sourceMappingURL=index.js.map

@@ -8,7 +8,7 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {Job} from '@board/types/lib/job'; ;
-import {truncate} from '../../filters'; 
+import {truncate} from '@board/widgets/lib/filters'; 
 
 
 //@ts-ignore:6192
@@ -65,7 +65,7 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class JobPanelFeaturesView  implements __wml.View {
+export class JobFeaturesView  implements __wml.View {
 
    constructor(__context: Job) {
 
@@ -75,7 +75,7 @@ export class JobPanelFeaturesView  implements __wml.View {
 
            return __this.node('div', <__wml.Attrs>{'class': 'board-job-features'}, [
 
-        ...((__context.type) ?
+        ...(((__context.type) != null) ?
 (()=>([
 
         __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
@@ -84,7 +84,7 @@ export class JobPanelFeaturesView  implements __wml.View {
      ])
      ]))() :
 (()=>([]))()),
-...((__context.location) ?
+...(((__context.location) != null) ?
 (()=>([
 
         __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
@@ -93,7 +93,7 @@ export class JobPanelFeaturesView  implements __wml.View {
      ])
      ]))() :
 (()=>([]))()),
-...((__context.remote) ?
+...(((__context.remote) != null) ?
 (()=>([
 
         __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
@@ -102,7 +102,7 @@ export class JobPanelFeaturesView  implements __wml.View {
      ])
      ]))() :
 (()=>([]))()),
-...((__context.salary_range) ?
+...(((__context.salary_range) != null) ?
 (()=>([
 
         __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [

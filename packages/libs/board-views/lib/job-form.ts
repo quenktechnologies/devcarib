@@ -76,7 +76,7 @@ export class JobFormView  implements __wml.View {
       'title' : 'Job a Job - Caribbean Developers Job Board',
 'styles' : [
 
-            '/home/master/Code/development/node/wml/lib'
+            '/assets/css/job-form.css'
             ]
      }
 

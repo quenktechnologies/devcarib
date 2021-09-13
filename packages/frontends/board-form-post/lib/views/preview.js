@@ -6,11 +6,9 @@ var __document = require("@quenk/wml/lib/dom");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 var button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
-var link_1 = require("@quenk/wml-widgets/lib/content/link");
-;
 var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-var embed_1 = require("@quenk/wml-widgets/lib/content/embed");
+var panel_1 = require("@board/widgets/lib/job/panel");
 ;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
@@ -50,27 +48,20 @@ var PreviewView = /** @class */ (function () {
                     __this.widget(new grid_1.Column({ ww: { 'span': 8, 'offset': 2 } }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('h1', { 'class': 'job-title' }, [
+                                __this.node('h1', { 'class': 'job-title -board-center' }, [
                                     text(__context.values.job.data.title)
                                 ])
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('dl', { 'class': 'ww-description-list ww-property-list -horizontal' }, [])
-                            ]), {})
-                        ]), {}),
-                        __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({}, [
-                                __this.widget(new embed_1.Embed({ ww: { 'className': '-aspect-ratio-16x9' } }, [
-                                    __this.node('iframe', { 'id': 'preview-iframe', 'csp': __context.values.preview.csp, 'sandbox': __context.values.preview.sandbox, 'srcdoc': __context.values.preview.srcdoc }, [])
-                                ]), { ww: { 'className': '-aspect-ratio-16x9' } })
+                                __this.widget(new panel_1.JobPanel({ wml: { 'id': 'panel' }, 'job': __context.values.job.data, 'raw': true }, []), { wml: { 'id': 'panel' }, 'job': __context.values.job.data, 'raw': true })
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('div', { 'class': 'action-container' }, [
-                                    __this.widget(new link_1.Link({ ww: { 'text': 'Back', 'onClick': __context.values.buttons.job.click } }, []), { ww: { 'text': 'Back', 'onClick': __context.values.buttons.job.click } }),
+                                    __this.widget(new button_1.Button({ ww: { 'className': 'back-button -default -large', 'text': 'Back', 'onClick': __context.values.buttons.job.click } }, []), { ww: { 'className': 'back-button -default -large', 'text': 'Back', 'onClick': __context.values.buttons.job.click } }),
                                     __this.widget(new button_1.Button({ wml: { 'id': __context.values.buttons.send.id }, ww: { 'className': 'send-button -primary -large', 'text': 'Post', 'onClick': __context.values.buttons.send.click } }, []), { wml: { 'id': __context.values.buttons.send.id }, ww: { 'className': 'send-button -primary -large', 'text': 'Post', 'onClick': __context.values.buttons.send.click } })
                                 ])
                             ]), {})

@@ -8,7 +8,7 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {Job} from '@board/types/lib/job'; ;
-import {JobPanelView} from '@board/widgets/lib/job/panel'; ;
+import {JobPreviewPanelView} from '@board/widgets/lib/job/preview-panel'; ;
 import {HeadView,HeadViewContext} from './common/head'; ;
 import {HeaderView} from './common/header'; 
 
@@ -101,7 +101,7 @@ __this.node('h2', <__wml.Attrs>{}, [
      ]),
 __this.node('a', <__wml.Attrs>{'id': 'create-new-job-button','class': 'ww-button -primary -large','href': '/jobs/post'}, [
 
-        __document.createTextNode('Job A Job')
+        __document.createTextNode('Post A Job')
      ])
      ])
      ])
@@ -115,7 +115,7 @@ __this.node('div', <__wml.Attrs>{'id': 'main','class': 'ww-grid-layout'}, [
         ...__forIn (__context.jobs, (job , _$$i, _$$all)=> 
 ([
 
-        __this.registerView((new JobPanelView(job))).render()
+        __this.registerView((new JobPreviewPanelView(job))).render()
      ]), 
 ()=> ([
 

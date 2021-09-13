@@ -159,8 +159,10 @@ var JobFormApp = /** @class */ (function () {
      * showPreview switches to the preview screen.
      */
     JobFormApp.prototype.showPreview = function () {
-        this.values.preview.srcdoc = previewTemplate(commonMark.parse(this.values.job.data.description));
         this.render(this.previewView);
+        var mPanel = this.previewView.findById('panel');
+        if (mPanel.isJust())
+            mPanel.get().setContent(commonMark.parse(this.values.job.data.description));
     };
     /**
      * showJob switches to the job screen.
@@ -227,7 +229,6 @@ var escape = function (str) {
     return str.replace(/[&"'<>]/g, function (t) { return escapeMap[t]; });
 };
 exports.escape = escape;
-var previewTemplate = function (html) { return "\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"author\" content=\"Caribbean Developers\">\n    <link rel=\"stylesheet\" href=\"/assets/css/site.css\">\n    <title>Job Preview</title>\n</head>\n\n<body>\n " + html + "\n</body>\n\n</html>\n"; };
 window.jobFormApp = JobFormApp.create(document.getElementById('main'));
 window.jobFormApp.run();
 //# sourceMappingURL=main.js.map

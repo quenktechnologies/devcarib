@@ -43,7 +43,7 @@ var JobFormView = /** @class */ (function () {
             var headCtx = {
                 'title': 'Job a Job - Caribbean Developers Job Board',
                 'styles': [
-                    '/home/master/Code/development/node/wml/lib'
+                    '/assets/css/job-form.css'
                 ]
             };
             return __this.node('html', {}, [

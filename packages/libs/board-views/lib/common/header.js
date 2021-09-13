@@ -44,7 +44,7 @@ var HeaderView = /** @class */ (function () {
                             __this.node('div', { 'class': 'ww-grid-layout__column -span6' }, [
                                 __this.node('div', { 'class': 'board-logo' }, [
                                     __this.node('a', { 'href': '/' }, [
-                                        __document.createTextNode('Caribbean Developers Job Board')
+                                        __document.createTextNode('Caribbean Developers')
                                     ])
                                 ])
                             ]),
@@ -61,9 +61,6 @@ var HeaderView = /** @class */ (function () {
                                                 __document.createTextNode('Forum')
                                             ])
                                         ])
-                                    ]),
-                                    __this.node('a', { 'class': 'ww-button -error -large', 'href': '/jobs/post' }, [
-                                        __document.createTextNode('Post a Job')
                                     ])
                                 ])
                             ])

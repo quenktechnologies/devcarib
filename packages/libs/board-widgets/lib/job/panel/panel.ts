@@ -7,7 +7,10 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-
+import {Panel,PanelHeader,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
+import {timestamp} from '@board/widgets/lib/filters'; ;
+import {JobFeaturesView} from './features'; ;
+import {JobPanel} from '.'; 
 
 
 //@ts-ignore:6192
@@ -64,59 +67,63 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class HeaderView  implements __wml.View {
+export class JobPanelView  implements __wml.View {
 
-   constructor(__context: object) {
+   constructor(__context: JobPanel) {
 
        this.template = (__this:__wml.Registry) => {
 
        
 
-           return __this.node('header', <__wml.Attrs>{'class': 'ww-grid-layout board-common-header'}, [
+           return __this.widget(new Panel({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__row'}, [
+        __this.widget(new PanelHeader({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__column -span8 -offset2'}, [
+        __this.node('div', <__wml.Attrs>{'class': 'ww-panel__header__content'}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__row'}, [
+        __this.registerView((new JobFeaturesView(__context.values.data ))).render(),
+__this.node('div', <__wml.Attrs>{'class': 'board-job-timestamp'}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__column -span6'}, [
-
-        __this.node('div', <__wml.Attrs>{'class': 'board-logo'}, [
-
-        __this.node('a', <__wml.Attrs>{'href': '/'}, [
-
-        __document.createTextNode('Caribbean Developers')
+        __document.createTextNode('\u000a        Posted '),
+text (timestamp (__context.values.data .created_on ))
      ])
      ])
+     ]),<__wml.Attrs>{}),
+__this.widget(new PanelBody({}, [
+
+        __this.node('div', <__wml.Attrs>{'class': 'board-job-salary'}, [
+
+        ...(((__context.values.data .payment_amount ) != null) ?
+(()=>([
+
+        __this.node('span', <__wml.Attrs>{}, [
+
+        text (__context.values.data .payment_amount ),
+__document.createTextNode('\u00a0'),
+__this.node('b', <__wml.Attrs>{}, [
+
+        text (__context.values.data .payment_currency ),
+__document.createTextNode('\u002F'),
+text (__context.values.data .payment_frequency )
+     ])
+     ])
+     ]))() :
+(()=>([]))())
      ]),
-__this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__column -span6'}, [
+__this.node('div', <__wml.Attrs>{wml : { 'id' : 'content'  },'class': 'board-job-html'}, [
 
-        __this.node('nav', <__wml.Attrs>{'class': 'board-nav'}, [
+        ...((__context.values.raw ) ?
+(()=>([
 
-        __this.node('ul', <__wml.Attrs>{'class': 'ww-nav board-nav-list'}, [
+        unsafe (__context.values.data .description_html )
+     ]))() :
+(()=>([
 
-        __this.node('li', <__wml.Attrs>{'class': 'ww-menu-item'}, [
-
-        __this.node('a', <__wml.Attrs>{'class': 'ww-link','href': '/'}, [
-
-        __document.createTextNode('Jobs')
+        text (__context.values.data .description_html )
+     ]))())
      ])
-     ]),
-__this.node('li', <__wml.Attrs>{'class': 'ww-menu-item'}, [
-
-        __this.node('a', <__wml.Attrs>{'class': 'ww-link','href': 'https://www.facebook.com/groups/devcarib'}, [
-
-        __document.createTextNode('Forum')
-     ])
-     ])
-     ])
-     ])
-     ])
-     ])
-     ])
-     ])
-     ]);
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{});
 
        }
 

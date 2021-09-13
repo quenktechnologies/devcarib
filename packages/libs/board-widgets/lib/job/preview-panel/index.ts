@@ -8,7 +8,8 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {Job} from '@board/types/lib/job'; ;
-import {truncate} from '@board/widgets/lib/filters'; 
+import {timefromnow} from '../../filters'; ;
+import {JobFeaturesView} from '../panel/features'; 
 
 
 //@ts-ignore:6192
@@ -65,7 +66,7 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class JobFeaturesView  implements __wml.View {
+export class JobPreviewPanelView  implements __wml.View {
 
    constructor(__context: Job) {
 
@@ -73,45 +74,34 @@ export class JobFeaturesView  implements __wml.View {
 
        
 
-           return __this.node('div', <__wml.Attrs>{'class': 'board-job-features'}, [
+           return __this.node('div', <__wml.Attrs>{'class': 'ww-panel -default board-job-preview-panel'}, [
 
-        ...(((__context.type) != null) ?
-(()=>([
+        __this.node('div', <__wml.Attrs>{'class': 'ww-panel__body'}, [
 
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
+        __this.node('div', <__wml.Attrs>{'class': 'board-job-preview-panel-header'}, [
 
-        text (__context.type)
+        __this.node('h3', <__wml.Attrs>{'class': 'board-job-preview-panel-header__title'}, [
+
+        __this.node('a', <__wml.Attrs>{'href': ('/jobs/' + __context.id)}, [
+
+        text (__context.title)
      ])
-     ]))() :
-(()=>([]))()),
-...(((__context.location) != null) ?
-(()=>([
+     ]),
+__this.node('div', <__wml.Attrs>{'class': 'board-job-preview-panel-header__text'}, [
 
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
+        __this.node('span', <__wml.Attrs>{'class': 'board-job-preview-panel-company'}, [
 
-        text (truncate(60) (__context.location))
+        text (__context.company)
+     ]),
+__document.createTextNode(' - \u000a        '),
+__this.node('span', <__wml.Attrs>{'class': 'board-job-preview-panel-time'}, [
+
+        text (timefromnow (__context.created_on))
      ])
-     ]))() :
-(()=>([]))()),
-...(((__context.remote) != null) ?
-(()=>([
-
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
-
-        __document.createTextNode('Remote')
+     ]),
+__this.registerView((new JobFeaturesView(__context))).render()
      ])
-     ]))() :
-(()=>([]))()),
-...(((__context.salary_range) != null) ?
-(()=>([
-
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
-
-        __document.createTextNode('$'),
-text (__context.salary_range)
      ])
-     ]))() :
-(()=>([]))())
      ]);
 
        }

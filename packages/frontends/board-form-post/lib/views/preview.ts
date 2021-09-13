@@ -8,9 +8,8 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
-import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {Embed} from '@quenk/wml-widgets/lib/content/embed'; ;
+import {JobPanel} from '@board/widgets/lib/job/panel'; ;
 import {JobFormApp} from '../main'; 
 
 
@@ -86,7 +85,7 @@ export class PreviewView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.node('h1', <__wml.Attrs>{'class': 'job-title'}, [
+        __this.node('h1', <__wml.Attrs>{'class': 'job-title -board-center'}, [
 
         text (__context.values.job .data .title )
      ])
@@ -96,23 +95,10 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.node('dl', <__wml.Attrs>{'class': 'ww-description-list ww-property-list -horizontal'}, [
+        __this.widget(new JobPanel({wml : { 'id' : 'panel'  },'job': __context.values.job .data ,'raw': true }, [
 
         
-     ])
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.widget(new Embed({ww : { 'className' : '-aspect-ratio-16x9'  }}, [
-
-        __this.node('iframe', <__wml.Attrs>{'id': 'preview-iframe','csp': __context.values.preview .csp ,'sandbox': __context.values.preview .sandbox ,'srcdoc': __context.values.preview .srcdoc }, [
-
-        
-     ])
-     ]),<__wml.Attrs>{ww : { 'className' : '-aspect-ratio-16x9'  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'panel'  },'job': __context.values.job .data ,'raw': true })
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -121,10 +107,10 @@ __this.widget(new Row({}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'action-container'}, [
 
-        __this.widget(new Link({ww : { 'text' : 'Back' ,'onClick' : __context.values.buttons .job .click   }}, [
+        __this.widget(new Button({ww : { 'className' : 'back-button -default -large' ,'text' : 'Back' ,'onClick' : __context.values.buttons .job .click   }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Back' ,'onClick' : __context.values.buttons .job .click   }}),
+     ]),<__wml.Attrs>{ww : { 'className' : 'back-button -default -large' ,'text' : 'Back' ,'onClick' : __context.values.buttons .job .click   }}),
 __this.widget(new Button({wml : { 'id' : __context.values.buttons .send .id   },ww : { 'className' : 'send-button -primary -large' ,'text' : 'Post' ,'onClick' : __context.values.buttons .send .click   }}, [
 
         
