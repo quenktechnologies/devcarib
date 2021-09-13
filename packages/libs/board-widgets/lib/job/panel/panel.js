@@ -11,7 +11,7 @@ var __document = require("@quenk/wml/lib/dom");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 var panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
 ;
-var filters_1 = require("@board/widgets/lib/filters");
+var filters_1 = require("../../filters");
 ;
 var features_1 = require("./features");
 ;

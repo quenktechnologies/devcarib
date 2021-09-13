@@ -8,7 +8,7 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {Job} from '@board/types/lib/job'; ;
-import {truncate} from '@board/widgets/lib/filters'; 
+import {truncate} from '../../filters'; 
 
 
 //@ts-ignore:6192

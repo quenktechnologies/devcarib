@@ -10,7 +10,7 @@ var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 ;
-var filters_1 = require("@board/widgets/lib/filters");
+var filters_1 = require("../../filters");
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];

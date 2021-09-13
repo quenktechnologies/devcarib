@@ -8,7 +8,7 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {Panel,PanelHeader,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
-import {timestamp} from '@board/widgets/lib/filters'; ;
+import {timestamp} from '../../filters'; ;
 import {JobFeaturesView} from './features'; ;
 import {JobPanel} from '.'; 
 
