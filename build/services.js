@@ -38,7 +38,7 @@ exports.log = {
 };
 exports.mail = {
     id: 'mail',
-    create: (s) => process.env.BOARD_MAIL_ENABLED ?
+    create: (s) => process.env.BOARD_MAIL_ENABLED === 'yes' ?
         server_1.MailServer.create(s, {
             host: process.env.BOARD_MAIL_HOST,
             port: 465,

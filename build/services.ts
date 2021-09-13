@@ -67,7 +67,7 @@ export const mail = {
 
     id: 'mail',
 
-    create: (s: System) => process.env.BOARD_MAIL_ENABLED ?
+    create: (s: System) => process.env.BOARD_MAIL_ENABLED === 'yes' ?
         MailServer.create(s, {
 
             host: <string>process.env.BOARD_MAIL_HOST,
@@ -81,6 +81,6 @@ export const mail = {
             maxMessagesSent: 5
 
         }) :
-    new NullActor(s)
+        new NullActor(s)
 
 }
