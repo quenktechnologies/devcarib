@@ -40,7 +40,6 @@ var JobPanel = /** @class */ (function (_super) {
         var mcontent = this.view.findById('content');
         if (mcontent.isJust())
             mcontent.get().innerHTML = html;
-        console.error("---> ", mcontent.get().innerHTML);
     };
     return JobPanel;
 }(wml_1.Component));

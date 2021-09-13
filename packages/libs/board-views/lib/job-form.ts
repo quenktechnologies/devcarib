@@ -73,7 +73,7 @@ export class JobFormView  implements __wml.View {
 
        let headCtx:HeadViewContext = {
  
-      'title' : 'Job a Job - Caribbean Developers Job Board',
+      'title' : 'Post a Job - Caribbean Developers',
 'styles' : [
 
             '/assets/css/job-form.css'

@@ -324,7 +324,7 @@ export class JobFormApp {
 
         this
             .agent
-            .post('/job', this.values.job.data)
+            .post('/jobs/post', this.values.job.data)
             .chain((r: Response<Object>) => {
 
                 if (r.code === 401) {

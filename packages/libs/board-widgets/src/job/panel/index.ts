@@ -49,8 +49,6 @@ export class JobPanel extends Component<JobPanelAttrs> {
         if (mcontent.isJust())
             mcontent.get().innerHTML = html;
 
-        console.error("---> ", mcontent.get().innerHTML);
-
     }
 
 }

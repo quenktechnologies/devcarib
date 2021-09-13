@@ -187,7 +187,7 @@ var JobFormApp = /** @class */ (function () {
             mButton.get().disable();
         this
             .agent
-            .post('/job', this.values.job.data)
+            .post('/jobs/post', this.values.job.data)
             .chain(function (r) {
             if (r.code === 401) {
                 _this.values.job.errors = r.body.errors;

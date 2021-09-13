@@ -41,7 +41,7 @@ var JobFormView = /** @class */ (function () {
         this.tree = __document.createElement('div');
         this.template = function (__this) {
             var headCtx = {
-                'title': 'Job a Job - Caribbean Developers Job Board',
+                'title': 'Post a Job - Caribbean Developers',
                 'styles': [
                     '/assets/css/job-form.css'
                 ]
