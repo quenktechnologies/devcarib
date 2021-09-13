@@ -20,6 +20,8 @@ import { validators, validate } from '@board/validators/lib/job';
 import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
 import { JOB_STATUS_NEW } from '@board/common/lib/data/job';
 
+import { JobPanel } from '@board/widgets/lib/job/panel';
+
 import { JobFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
 import { FinishView } from './views/finish';
@@ -280,11 +282,13 @@ export class JobFormApp {
      */
     showPreview(): void {
 
-        this.values.preview.srcdoc = previewTemplate(
-            commonMark.parse(<string>this.values.job.data.description)
-        );
-
         this.render(this.previewView);
+
+        let mPanel = this.previewView.findById<JobPanel>('panel');
+
+        if (mPanel.isJust())
+            mPanel.get().setContent(
+                commonMark.parse(<string>this.values.job.data.description))
 
     }
 
@@ -379,26 +383,6 @@ export class JobFormApp {
 
 export const escape = (str: string) =>
     str.replace(/[&"'<>]/g, t => escapeMap[t]);
-
-const previewTemplate = (html: string) => `
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Caribbean Developers">
-    <link rel="stylesheet" href="/assets/css/site.css">
-    <title>Job Preview</title>
-</head>
-
-<body>
- ${html}
-</body>
-
-</html>
-`;
 
 window.jobFormApp = JobFormApp.create(<Node>document.getElementById('main'));
 window.jobFormApp.run();

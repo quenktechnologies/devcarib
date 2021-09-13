@@ -1,5 +1,5 @@
 {% import (Job) from "@board/types/lib/job" %}
-{% import (JobPanelView) from "@board/widgets/lib/job/panel" %}
+{% import (JobPreviewPanelView) from "@board/widgets/lib/job/preview-panel" %}
 
 {% import (HeadView, HeadViewContext) from "./common/head" %}
 {% import (HeaderView) from "./common/header" %}
@@ -37,7 +37,7 @@
 
               <a id="create-new-job-button"
                  class="ww-button -primary -large"
-                 href="/jobs/post">Job A Job</a>
+                 href="/jobs/post">Post A Job</a>
 
             </div>
 
@@ -53,7 +53,7 @@
 
             {% for job in @jobs %}
 
-                {{ <JobPanelView(job)> }}
+                {{ <JobPreviewPanelView(job)> }}
 
             {% else %}
 
