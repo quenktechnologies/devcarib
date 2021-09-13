@@ -10,9 +10,9 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {PostFormView} from './form/post'; ;
+import {JobFormView} from './form/job'; ;
 import {CompanyFormView} from './form/company'; ;
-import {PostFormApp} from '../main'; 
+import {JobFormApp} from '../main'; 
 
 
 //@ts-ignore:6192
@@ -69,9 +69,9 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class PostFormAppView  implements __wml.View {
+export class JobFormAppView  implements __wml.View {
 
-   constructor(__context: PostFormApp) {
+   constructor(__context: JobFormApp) {
 
        this.template = (__this:__wml.Registry) => {
 
@@ -100,18 +100,18 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.node('h3', <__wml.Attrs>{'class': 'board-post-form-heading'}, [
+        __this.node('h3', <__wml.Attrs>{'class': 'board-job-form-heading'}, [
 
         __document.createTextNode('Tell us about the job.')
      ]),
-__this.registerView((new PostFormView(__context))).render()
+__this.registerView((new JobFormView(__context))).render()
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.node('h3', <__wml.Attrs>{'class': 'board-post-form-heading'}, [
+        __this.node('h3', <__wml.Attrs>{'class': 'board-job-form-heading'}, [
 
         __document.createTextNode('Tell us a little bit about the company hiring.')
      ]),

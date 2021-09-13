@@ -14,7 +14,7 @@ import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
 import {Event} from '@quenk/wml-widgets/lib/control'; ;
-import {Post} from '@board/types/lib/post'; 
+import {Job} from '@board/types/lib/job'; 
 
 
 //@ts-ignore:6192
@@ -71,13 +71,13 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export interface PostEditViewCtx{post : Post,
+export interface JobEditViewCtx{job : Job,
 onChange : ($0:Event<Value  > ) => void,
 onSave : () => void,
 onCancel : () => void};
-export class PostEditView  implements __wml.View {
+export class JobEditView  implements __wml.View {
 
-   constructor(__context: PostEditViewCtx) {
+   constructor(__context: JobEditViewCtx) {
 
        this.template = (__this:__wml.Registry) => {
 
@@ -87,7 +87,7 @@ export class PostEditView  implements __wml.View {
 
         __this.widget(new ModalHeader({}, [
 
-        text (toString(__context.post.company ))
+        text (toString(__context.job.company ))
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalBody({}, [
 
@@ -97,20 +97,20 @@ __this.widget(new ModalBody({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({ww : { 'name' : 'title' ,'value' : __context.post.title  ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({ww : { 'name' : 'title' ,'value' : __context.job.title  ,'onChange' : __context.onChange  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : 'title' ,'value' : __context.post.title  ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{ww : { 'name' : 'title' ,'value' : __context.job.title  ,'onChange' : __context.onChange  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({ww : { 'rows' : 15 ,'name' : 'description' ,'value' : __context.post.description  ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({ww : { 'rows' : 15 ,'name' : 'description' ,'value' : __context.job.description  ,'onChange' : __context.onChange  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'rows' : 15 ,'name' : 'description' ,'value' : __context.post.description  ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{ww : { 'rows' : 15 ,'name' : 'description' ,'value' : __context.job.description  ,'onChange' : __context.onChange  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})

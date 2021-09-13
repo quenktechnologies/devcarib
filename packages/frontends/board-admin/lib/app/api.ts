@@ -1,5 +1,5 @@
 /**
  * This module holds constants for the XHR endpoints of board-admin.
  */
-export const POSTS = '/admin/r/posts';
-export const POST = '/admin/r/posts/{id}';
+export const JOBS = '/admin/r/jobs';
+export const JOB = '/admin/r/jobs/{id}';

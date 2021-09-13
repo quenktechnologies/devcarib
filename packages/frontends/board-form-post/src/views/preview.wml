@@ -3,9 +3,9 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (Embed) from "@quenk/wml-widgets/lib/content/embed" %}
 
-{% import (PostFormApp) from "../main" %}
+{% import (JobFormApp) from "../main" %}
 
-{% view PreviewView (PostFormApp) %}
+{% view PreviewView (JobFormApp) %}
 <GridLayout>
 
   <Row>
@@ -16,7 +16,7 @@
 
         <Column>
 
-          <h1 class="post-title">{{@values.post.data.title | text }}</h1>
+          <h1 class="job-title">{{@values.job.data.title | text }}</h1>
 
         </Column>
 
@@ -58,7 +58,7 @@
 
             <Link
               ww:text="Back" 
-              ww:onClick={{@values.buttons.post.click}} />
+              ww:onClick={{@values.buttons.job.click}} />
           
             <Button
              wml:id={{@values.buttons.send.id}}

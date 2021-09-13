@@ -8,11 +8,11 @@
 {% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
 {% import (Event) from "@quenk/wml-widgets/lib/control" %}
 
-{% import (Post) from "@board/types/lib/post" %}
+{% import (Job) from "@board/types/lib/job" %}
 
-{% context PostEditViewCtx where
+{% context JobEditViewCtx where
 
-  post: Post,
+  job: Job,
 
   onChange: (Event[Value]) -> Void,
 
@@ -22,10 +22,10 @@
 
 %}
 
-{% view PostEditView (PostEditViewCtx) %}
+{% view JobEditView (JobEditViewCtx) %}
 <Modal ww:className="-large">
 
-  <ModalHeader>{{toString(@post.company) | text }}</ModalHeader>
+  <ModalHeader>{{toString(@job.company) | text }}</ModalHeader>
 
   <ModalBody>
 
@@ -37,7 +37,7 @@
 
           <TextField
             ww:name="title"
-            ww:value={{@post.title}}
+            ww:value={{@job.title}}
             ww:onChange={{@onChange}} />
 
         </Column>
@@ -51,7 +51,7 @@
           <TextField
             ww:rows=15
             ww:name="description"
-            ww:value={{@post.description}}
+            ww:value={{@job.description}}
             ww:onChange={{@onChange}} />
 
           </Column>

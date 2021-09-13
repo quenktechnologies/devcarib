@@ -4,18 +4,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPartialChecksFor = exports.partialChecksAvailable = exports.getChecksFor = exports.checksAvailable = void 0;
 /** imports */
 var _admin = require("./admin");
-var _candidatePost = require("./candidate-post");
+var _job = require("./job");
 var _mailMessage = require("./mail-message");
-var _post = require("./post");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
  * checksAvailable from this module.
  */
 exports.checksAvailable = {
     'admin': _admin.check,
-    'candidate-post': _candidatePost.check,
-    'mail-message': _mailMessage.check,
-    'post': _post.check
+    'job': _job.check,
+    'mail-message': _mailMessage.check
 };
 /**
  * getChecksFor provides a validator from this module.
@@ -29,9 +27,8 @@ exports.getChecksFor = getChecksFor;
  */
 exports.partialChecksAvailable = {
     'admin': _admin.checkPartial,
-    'candidate-post': _candidatePost.checkPartial,
-    'mail-message': _mailMessage.checkPartial,
-    'post': _post.checkPartial
+    'job': _job.checkPartial,
+    'mail-message': _mailMessage.checkPartial
 };
 /**
  * getPartialChecksFor provides a validator from this module.

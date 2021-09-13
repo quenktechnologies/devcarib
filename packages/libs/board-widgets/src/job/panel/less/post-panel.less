@@ -1,0 +1,106 @@
+@import "@quenk/wml-widgets/lib/content/screen/less/screen";
+
+/**
+ * Styles for the job panels displayed on the landing page.
+ */
+.board-job-panel {
+
+  & > .ww-panel__body {
+
+    padding: 1em 2em;
+
+    /**
+     * The design of the panel has changed from the intial direction, this needs
+     * to be refactored.
+     */
+    & > .board-job-panel-header {
+
+      & > .board-job-panel-header__title {
+
+        margin: 0;
+        margin-bottom: 0.2em;
+        font-weight: 650;
+        font-size: 1.2em;
+        color: #2d5f8a;
+
+      }
+
+      & > .board-job-panel-header__title > a {
+
+        &:link, &:visited, &:active {
+
+          text-decoration: none;
+          color: #2d5f8a;
+
+        }
+
+      }
+
+      & > .board-job--panel-header__text {
+
+        font-weight: 350;
+        font-size: 0.9em;
+        letter-spacing: 0.1em;
+        margin-bottom: .5em;
+
+      }
+
+    }
+
+    & > .board-job-panel-job-body {
+
+      & > .board-job-panel-job-body__more-link {
+
+        &:link, &:visited, &:active {
+
+          text-decoration: none;
+          color: #337ab7;
+
+        }
+
+        &:hover {
+
+          color: #2d5f8a;
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+
+/**
+ * Styles the area that displays the tag list of features of a job post.
+ */
+.board-job-features {
+
+  & > .ww-tag {
+
+    // Put some space between wrapped tags.
+    margin-top: 1px;
+    font-size: .8em;
+
+    .screen-not-small({
+
+      // Remove that space on larger screens.
+      margin-top: 0;
+
+     });
+
+    /**
+     * Remove the left margin wml-widgets sets. It causes the tags to look
+     * weird when wrapped.
+     */
+    & + .ww-tag {
+
+      margin-left: 0px;
+
+    }
+
+  }
+
+}

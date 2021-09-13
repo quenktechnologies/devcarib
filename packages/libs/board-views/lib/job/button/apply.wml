@@ -1,0 +1,11 @@
+{% import (Job) from "@board/types/lib/job" %}
+
+{% view JobApplyButtonView (Job) %}
+  <span>
+    {% if @apply_url?? %}
+      <a href={{@apply_url}}
+         class="ww-button -success -large board-job-apply-button"
+         target="_blank"> Apply</a>
+    {% endif %}
+  </span>
+

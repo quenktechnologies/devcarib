@@ -33,11 +33,11 @@ import { Updatable } from '@quenk/wml-widgets/lib/data/updatable';
 import { createAgent } from '@quenk/jhr/lib/browser';
 import { Response, Ok } from '@quenk/jhr/lib/response';
 
-import { Post } from '@board/types/lib/post';
+import { Job } from '@board/types/lib/job';
 
 import { BoardAdminView } from './views/app';
-import { PostPreviewView } from './views/dialog/preview';
-import { PostEditViewCtx, PostEditView } from './views/dialog/edit';
+import { JobPreviewView } from './views/dialog/preview';
+import { JobEditViewCtx, JobEditView } from './views/dialog/edit';
 import {
     ActionColumn,
     StatusColumn,
@@ -49,8 +49,8 @@ export const ACTION_APPROVE = 'approve';
 export const ACTION_REMOVE = 'remove';
 export const ACTION_SHOW = 'show';
 
-export const RESOURCE_POSTS = '/admin/r/posts';
-export const RESOURCE_POST = '/admin/r/posts/{id}';
+export const RESOURCE_JOBS = '/admin/r/jobs';
+export const RESOURCE_JOB = '/admin/r/jobs/{id}';
 
 export const TIME_SEARCH_DEBOUNCE = 500;
 
@@ -110,18 +110,18 @@ class AfterOkExec<T extends Object> extends AbstractCompleteHandler<Result<T>> {
 }
 
 /**
- * PostEditViewCtxImpl provides the data and functions used in the dialog for
- * editing posts.
+ * JobEditViewCtxImpl provides the data and functions used in the dialog for
+ * editing jobs.
  */
-class PostEditViewCtxImpl implements PostEditViewCtx {
+class JobEditViewCtxImpl implements JobEditViewCtx {
 
     changes: Object = {};
 
     /**
-     * @param post  The post being edited.
+     * @param job  The job being edited.
      * @param app   The instance of BoardAdmin.
      */
-    constructor(public post: Post, public app: BoardAdmin) { }
+    constructor(public job: Job, public app: BoardAdmin) { }
 
     onChange = (e: Event<Value>) => {
 
@@ -131,15 +131,15 @@ class PostEditViewCtxImpl implements PostEditViewCtx {
 
     onSave = () => {
 
-        let posts = this.app.modelFactory.create(api.POST,
+        let jobs = this.app.modelFactory.create(api.JOB,
             new AfterOkExec(() => {
 
                 this.app.tell('dialogs', new CloseDialog());
-                this.app.runFuture(this.app.loadInitialPosts());
+                this.app.runFuture(this.app.loadInitialJobs());
 
             }));
 
-        posts.update(<number>this.post.id, this.changes).fork();
+        jobs.update(<number>this.job.id, this.changes).fork();
 
     };
 
@@ -196,7 +196,7 @@ export class BoardAdmin extends JApp {
 
                 let qry = e.value === '' ? {} : { q: e.value };
 
-                this.runFuture(this.searchPosts(qry));
+                this.runFuture(this.searchJobs(qry));
 
             }, TIME_SEARCH_DEBOUNCE)
 
@@ -206,11 +206,11 @@ export class BoardAdmin extends JApp {
 
             id: 'table',
 
-            data: <Post[]>[],
+            data: <Job[]>[],
 
-            columns: <Column<Value, Post>[]>[
+            columns: <Column<Value, Job>[]>[
 
-                new TitleColumn(post => this.showPost(post)),
+                new TitleColumn(job => this.showJob(job)),
 
                 new CompanyColumn(),
 
@@ -223,7 +223,7 @@ export class BoardAdmin extends JApp {
 
                         divider: false,
 
-                        onClick: (data: Post) => this.showPost(data)
+                        onClick: (data: Job) => this.showJob(data)
                     },
                     {
 
@@ -231,8 +231,8 @@ export class BoardAdmin extends JApp {
 
                         divider: false,
 
-                        onClick: (data: Post) =>
-                            this.runFuture(this.approvePost(<number>data.id))
+                        onClick: (data: Job) =>
+                            this.runFuture(this.approveJob(<number>data.id))
 
                     },
                     {
@@ -241,7 +241,7 @@ export class BoardAdmin extends JApp {
 
                         divider: false,
 
-                        onClick: (data: Post) => this.editPost(data)
+                        onClick: (data: Job) => this.editJob(data)
 
                     },
                     {
@@ -249,8 +249,8 @@ export class BoardAdmin extends JApp {
 
                         divider: true,
 
-                        onClick: (data: Post) =>
-                            this.runFuture(this.removePost(<number>data.id))
+                        onClick: (data: Job) =>
+                            this.runFuture(this.removeJob(<number>data.id))
 
                     }
 
@@ -276,23 +276,23 @@ export class BoardAdmin extends JApp {
     }
 
     /**
-     * searchPosts in the database.
+     * searchJobs in the database.
      *
-     * Differs from loadPosts() by updating only the table, not the whole
+     * Differs from loadJobs() by updating only the table, not the whole
      * view on success.
      *
      * @param qry - The query object to include in the GET request.
      */
-    searchPosts(qry: object = {}): Future<void> {
+    searchJobs(qry: object = {}): Future<void> {
 
         let that = this;
 
         return doFuture<void>(function*() {
 
-            let r: Ok<OkBody<Post[]>> =
-                yield agent.get(RESOURCE_POSTS, <JSONObject>qry);
+            let r: Ok<OkBody<Job[]>> =
+                yield agent.get(RESOURCE_JOBS, <JSONObject>qry);
 
-            let mtable = getById<Updatable<Post>>(
+            let mtable = getById<Updatable<Job>>(
                 that.view,
                 that.values.table.id
             );
@@ -307,20 +307,20 @@ export class BoardAdmin extends JApp {
     }
 
     /**
-     * loadInitialPosts from the database into the table.
+     * loadInitialJobs from the database into the table.
      */
-    loadInitialPosts(): Future<void> {
+    loadInitialJobs(): Future<void> {
 
         let that = this;
 
         return doFuture<void>(function*() {
 
-            let r: Ok<OkBody<Post[]>> =
-                yield agent.get(RESOURCE_POSTS);
+            let r: Ok<OkBody<Job[]>> =
+                yield agent.get(RESOURCE_JOBS);
 
             if (r.code !== 200) {
 
-                alert('Could not load posts!');
+                alert('Could not load jobs!');
 
             } else {
 
@@ -354,13 +354,13 @@ export class BoardAdmin extends JApp {
     }
 
     /**
-     * showPost displays a single Post in a dialog.
+     * showJob displays a single Job in a dialog.
      */
-    showPost(data: Post): void {
+    showJob(data: Job): void {
 
-        this.tell('dialogs', new ShowDialogView(new PostPreviewView({
+        this.tell('dialogs', new ShowDialogView(new JobPreviewView({
 
-            post: data,
+            job: data,
 
             close: () => this.tell('dialogs', new CloseDialog())
 
@@ -369,17 +369,17 @@ export class BoardAdmin extends JApp {
     }
 
     /**
-     * approvePost sets the approved flag on a post to true.
+     * approveJob sets the approved flag on a job to true.
      *
-     * Once this is done the post will show on the site.
+     * Once this is done the job will show on the site.
      */
-    approvePost(id: number): Future<void> {
+    approveJob(id: number): Future<void> {
 
         let that = this;
 
         return doFuture<void>(function*() {
 
-            let path = interpolate(RESOURCE_POST, { id });
+            let path = interpolate(RESOURCE_JOB, { id });
 
             let change = { status: jobStatus.JOB_STATUS_ACTIVE };
 
@@ -387,7 +387,7 @@ export class BoardAdmin extends JApp {
 
             if (r.code == 200) {
 
-                alert('Post approved!');
+                alert('Job approved!');
 
                 that.refresh();
 
@@ -404,32 +404,32 @@ export class BoardAdmin extends JApp {
     }
 
     /**
-     * editPost brings up the dialog editor to quickly edit the title and body
-     * of a post.
+     * editJob brings up the dialog editor to quickly edit the title and body
+     * of a job.
      */
-    editPost(data: Post) {
+    editJob(data: Job) {
 
         this.tell('dialogs', new ShowDialogView(
-            new PostEditView(new PostEditViewCtxImpl(data, this)), '$'));
+            new JobEditView(new JobEditViewCtxImpl(data, this)), '$'));
 
     }
 
     /**
-     * removePost permenantly removes a post from the site.
+     * removeJob permenantly removes a job from the site.
      */
-    removePost(id: number): Future<void> {
+    removeJob(id: number): Future<void> {
 
         let that = this;
 
         return doFuture<void>(function*() {
 
-            let path = interpolate(RESOURCE_POST, { id });
+            let path = interpolate(RESOURCE_JOB, { id });
 
             let r = yield agent.delete(path);
 
             if (r.code == 200) {
 
-                alert('Post removed!');
+                alert('Job removed!');
 
                 that.refresh();
 
@@ -459,7 +459,7 @@ export class BoardAdmin extends JApp {
      */
     refresh(): void {
 
-        this.runFuture(this.loadInitialPosts());
+        this.runFuture(this.loadInitialJobs());
 
     }
 

@@ -21,10 +21,10 @@ import {
 
 import { BaseModel } from '@quenk/dback-model-mongodb';
 
-import { Post } from '@board/types/lib/post';
+import { Job } from '@board/types/lib/job';
 import { Admin } from '@board/types/lib/admin';
 
-import { check, checkPartial } from '@board/checks/lib/post';
+import { check, checkPartial } from '@board/checks/lib/job';
 
 const messages = {
 
@@ -39,7 +39,7 @@ const messages = {
 /**
  * PostModel
  */
-export class PostModel extends BaseModel<Post> {
+export class PostModel extends BaseModel<Job> {
 
     id = 'id';
 
@@ -177,7 +177,7 @@ export abstract class BaseController<T extends Object>
 /**
  * AdminsController provides the handlers for the /admin/r/admins routes.
  */
-export class AdminsController extends BaseController<Post> {
+export class AdminsController extends BaseController<Job> {
 
     messages = messages;
 
@@ -216,9 +216,9 @@ export class AdminsController extends BaseController<Post> {
 }
 
 /**
- * PostsController provides the handlers for the /admin/r/posts routes.
+ * JobsController provides the handlers for the /admin/r/jobs routes.
  */
-export class PostsController extends BaseController<Post> {
+export class JobsController extends BaseController<Job> {
 
     messages = messages;
 
@@ -256,5 +256,5 @@ export class PostsController extends BaseController<Post> {
 
 }
 
-export const postsCtl = new PostsController();
+export const jobCtrl = new JobsController();
 export const adminsCtrl = new AdminsController();

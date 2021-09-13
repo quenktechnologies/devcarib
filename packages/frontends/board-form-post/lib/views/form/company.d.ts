@@ -1,8 +1,8 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-import { PostFormApp } from '../../main';
+import { JobFormApp } from '../../main';
 export declare class CompanyFormView implements __wml.View {
-    constructor(__context: PostFormApp);
+    constructor(__context: JobFormApp);
     ids: {
         [key: string]: __wml.WMLElement;
     };

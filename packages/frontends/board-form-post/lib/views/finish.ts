@@ -9,7 +9,7 @@ fromArray as __fromArray
 from '@quenk/noni/lib/data/maybe';
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {PostFormApp} from '../main'; 
+import {JobFormApp} from '../main'; 
 
 
 //@ts-ignore:6192
@@ -68,7 +68,7 @@ const unsafe = __document.unsafe
 const isSet = (value:any) => value != null
 export class FinishView  implements __wml.View {
 
-   constructor(__context: PostFormApp) {
+   constructor(__context: JobFormApp) {
 
        this.template = (__this:__wml.Registry) => {
 
@@ -84,7 +84,7 @@ export class FinishView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.node('h1', <__wml.Attrs>{'class': 'post-title'}, [
+        __this.node('h1', <__wml.Attrs>{'class': 'job-title'}, [
 
         __document.createTextNode('Success !')
      ])
@@ -96,7 +96,7 @@ __this.widget(new Row({}, [
 
         __this.node('p', <__wml.Attrs>{}, [
 
-        __document.createTextNode('\u000a            Your job posting has been saved and is waiting approval.\u000a            Approval usually takes up to 48 hours so check back later to see\u000a            it in the listings.\u000a\u000a            If we need any more information we will contact you via the email\u000a            you supplied.\u000a          ')
+        __document.createTextNode('\u000a            Your job jobing has been saved and is waiting approval.\u000a            Approval usually takes up to 48 hours so check back later to see\u000a            it in the listings.\u000a\u000a            If we need any more information we will contact you via the email\u000a            you supplied.\u000a          ')
      ]),
 __this.node('p', <__wml.Attrs>{}, [
 

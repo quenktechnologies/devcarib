@@ -107,7 +107,7 @@ __this.widget(new Row({}, [
 
         __this.node('h1', <__wml.Attrs>{}, [
 
-        __document.createTextNode('Manage Posts')
+        __document.createTextNode('Manage Jobs')
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),

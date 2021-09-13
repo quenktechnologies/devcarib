@@ -2,15 +2,15 @@ import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Event } from '@quenk/wml-widgets/lib/control';
-import { Post } from '@board/types/lib/post';
-export interface PostEditViewCtx {
-    post: Post;
+import { Job } from '@board/types/lib/job';
+export interface JobEditViewCtx {
+    job: Job;
     onChange: ($0: Event<Value>) => void;
     onSave: () => void;
     onCancel: () => void;
 }
-export declare class PostEditView implements __wml.View {
-    constructor(__context: PostEditViewCtx);
+export declare class JobEditView implements __wml.View {
+    constructor(__context: JobEditViewCtx);
     ids: {
         [key: string]: __wml.WMLElement;
     };

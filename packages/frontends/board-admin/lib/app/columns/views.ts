@@ -11,7 +11,7 @@ import {DropDown} from '@quenk/wml-widgets/lib/control/drop-down'; ;
 import {Menu} from '@quenk/wml-widgets/lib/menu/menu'; ;
 import {Item} from '@quenk/wml-widgets/lib/menu/item'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {Post} from '@board/types/lib/post'; 
+import {Job} from '@board/types/lib/job'; 
 
 
 //@ts-ignore:6192
@@ -68,7 +68,7 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export interface TitleColumnViewCtx{post : Post,
+export interface TitleColumnViewCtx{job : Job,
 onClick : () => void};
 export class TitleColumnView  implements __wml.View {
 
@@ -80,10 +80,10 @@ export class TitleColumnView  implements __wml.View {
 
            return __this.node('td', <__wml.Attrs>{}, [
 
-        __this.widget(new Link({ww : { 'text' : __context.post.title  ,'onClick' : __context.onClick  }}, [
+        __this.widget(new Link({ww : { 'text' : __context.job.title  ,'onClick' : __context.onClick  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : __context.post.title  ,'onClick' : __context.onClick  }})
+     ]),<__wml.Attrs>{ww : { 'text' : __context.job.title  ,'onClick' : __context.onClick  }})
      ]);
 
        }
@@ -259,9 +259,9 @@ export class TitleColumnView  implements __wml.View {
 };
 export interface ActionSpec{text : string,
 divider : boolean,
-onClick : ($0:Post) => void};
+onClick : ($0:Job) => void};
 export interface ActionColumnViewCtx{actions : (ActionSpec)[],
-post : Post};
+job : Job};
 export class ActionColumnView  implements __wml.View {
 
    constructor(__context: ActionColumnViewCtx) {
@@ -290,10 +290,10 @@ export class ActionColumnView  implements __wml.View {
 (()=>([]))()),
 __this.widget(new Item({}, [
 
-        __this.widget(new Link({ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.post)  }}, [
+        __this.widget(new Link({ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.job)  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.post)  }})
+     ]),<__wml.Attrs>{ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.job)  }})
      ]),<__wml.Attrs>{})
      ]), 
 ()=> ([]))

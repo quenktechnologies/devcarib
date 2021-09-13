@@ -2,9 +2,8 @@
 
 /** imports */
 import * as _admin from './admin';
-import * as _candidatePost from './candidate-post';
+import * as _job from './job';
 import * as _mailMessage from './mail-message';
-import * as _post from './post';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
@@ -17,11 +16,9 @@ import { Precondition } from '@quenk/preconditions';
 export type DataTypeUnion =
     _admin.DataType |
 
-    _candidatePost.DataType |
+    _job.DataType |
 
-    _mailMessage.DataType |
-
-    _post.DataType;
+    _mailMessage.DataType;
 
 /**
  * Validators is a record of validators.
@@ -38,9 +35,8 @@ export interface Validators {
 export const validatorsAvailable: Validators = {
 
     'admin': _admin.validate,
-    'candidate-post': _candidatePost.validate,
-    'mail-message': _mailMessage.validate,
-    'post': _post.validate
+    'job': _job.validate,
+    'mail-message': _mailMessage.validate
 };
 
 /**
@@ -56,9 +52,8 @@ export const getValidatorsFor =
 export const partialValidatorsAvailable: Validators = {
 
     'admin': _admin.validatePartial,
-    'candidate-post': _candidatePost.validatePartial,
-    'mail-message': _mailMessage.validatePartial,
-    'post': _post.validatePartial
+    'job': _job.validatePartial,
+    'mail-message': _mailMessage.validatePartial
 };
 
 /**

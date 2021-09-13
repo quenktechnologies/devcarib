@@ -1,7 +1,7 @@
 
-GET  /                    ./handlers#showPosts
+GET  /                   ./handlers#showJobs
 
-GET  /post                ./handlers#showPostJobPage 
-POST /post                ./handlers#createPost
+GET  /jobs/post          ./handlers#showJobJobPage 
+POST /jobs/post          ./handlers#createJob
 
-GET  /posts/:id           ./handlers#showPost
+GET  /jobs/:id           ./handlers#showJob

@@ -49,17 +49,17 @@ var CompanyFormView = /** @class */ (function () {
                         __this.widget(new grid_1.GridLayout({}, [
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company Name*', 'value': __context.values.post.data.company, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company Name*', 'value': __context.values.post.data.company, 'onChange': __context.values.post.onChange } })
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company Name*', 'value': __context.values.job.data.company, 'onChange': __context.values.job.onChange } }, []), { wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company Name*', 'value': __context.values.job.data.company, 'onChange': __context.values.job.onChange } })
                                 ]), {})
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo', 'placeholder': 'Please provide a url to a png image with resolution 400 x 400', 'value': __context.values.post.data.company_logo, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo', 'placeholder': 'Please provide a url to a png image with resolution 400 x 400', 'value': __context.values.post.data.company_logo, 'onChange': __context.values.post.onChange } })
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo', 'placeholder': 'Please provide a url to a png image with resolution 400 x 400', 'value': __context.values.job.data.company_logo, 'onChange': __context.values.job.onChange } }, []), { wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo', 'placeholder': 'Please provide a url to a png image with resolution 400 x 400', 'value': __context.values.job.data.company_logo, 'onChange': __context.values.job.onChange } })
                                 ]), {})
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_email' }, ww: { 'name': 'company_email', 'label': 'Email*', 'value': __context.values.post.data.company_email, 'onChange': __context.values.post.onChange } }, []), { wml: { 'id': 'company_email' }, ww: { 'name': 'company_email', 'label': 'Email*', 'value': __context.values.post.data.company_email, 'onChange': __context.values.post.onChange } })
+                                    __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_email' }, ww: { 'name': 'company_email', 'label': 'Email*', 'value': __context.values.job.data.company_email, 'onChange': __context.values.job.onChange } }, []), { wml: { 'id': 'company_email' }, ww: { 'name': 'company_email', 'label': 'Email*', 'value': __context.values.job.data.company_email, 'onChange': __context.values.job.onChange } })
                                 ]), {})
                             ]), {})
                         ]), {})

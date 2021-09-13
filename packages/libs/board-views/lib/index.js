@@ -10,7 +10,7 @@ var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 ;
-var panel_1 = require("@board/widgets/lib/post/panel");
+var panel_1 = require("@board/widgets/lib/job/panel");
 ;
 var head_1 = require("./common/head");
 ;
@@ -63,21 +63,21 @@ var IndexView = /** @class */ (function () {
                                 __this.node('h2', {}, [
                                     __document.createTextNode('Hire Software Developers from the Caribbean region. ')
                                 ]),
-                                __this.node('a', { 'id': 'create-new-post-button', 'class': 'ww-button -primary -large', 'href': '/post' }, [
-                                    __document.createTextNode('Post A Job')
+                                __this.node('a', { 'id': 'create-new-job-button', 'class': 'ww-button -primary -large', 'href': '/jobs/post' }, [
+                                    __document.createTextNode('Job A Job')
                                 ])
                             ])
                         ])
                     ]),
                     __this.node('div', { 'id': 'main', 'class': 'ww-grid-layout' }, [
                         __this.node('div', { 'class': 'ww-grid-layout__row' }, [
-                            __this.node('div', { 'class': 'ww-grid-layout__column -span8 -offset2' }, __spreadArray([], __forIn(__context.posts, function (post, _$$i, _$$all) {
+                            __this.node('div', { 'class': 'ww-grid-layout__column -span8 -offset2' }, __spreadArray([], __forIn(__context.jobs, function (job, _$$i, _$$all) {
                                 return ([
-                                    __this.registerView((new panel_1.PostPanelView(post))).render()
+                                    __this.registerView((new panel_1.JobPanelView(job))).render()
                                 ]);
                             }, function () { return ([
-                                __this.node('div', { 'class': 'board-no-posts' }, [
-                                    __document.createTextNode('\u000a\u000a                There are currently no jobs posted. Please check again later!\u000a\u000a              ')
+                                __this.node('div', { 'class': 'board-no-jobs' }, [
+                                    __document.createTextNode('\u000a\u000a                There are currently no jobs jobed. Please check again later!\u000a\u000a              ')
                                 ])
                             ]); })))
                         ])

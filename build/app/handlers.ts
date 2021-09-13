@@ -19,11 +19,11 @@ import { Request } from '@quenk/tendril/lib/app/api/request';
 
 import { render } from '@quenk/tendril-show-wml';
 
-import { check } from '@board/checks/lib/candidate-post';
+import { check } from '@board/checks/lib/job';
 
 import { NotFoundErrorView } from '@board/views/lib/error/404';
-import { PostFormView } from '@board/views/lib/post-form';
-import { PostView } from '@board/views/lib/post';
+import { JobFormView } from '@board/views/lib/job-form';
+import { JobView } from '@board/views/lib/job';
 import { IndexView } from '@board/views';
 
 import { OutgoingMessage } from '@board/server/lib/actors/mail/server';
@@ -31,41 +31,41 @@ import { OutgoingMessage } from '@board/server/lib/actors/mail/server';
 export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 
 /**
- * showPosts currently approved.
+ * showJobs currently approved.
  *
- * This only shows the most recent 50 posts. In future we will refactor if
+ * This only shows the most recent 50 jobs. In future we will refactor if
  * needed to show more.
  */
-export const showPosts = (_: Request): Action<undefined> =>
+export const showJobs = (_: Request): Action<undefined> =>
     doAction(function*() {
 
         let db = yield getMain();
 
-        let collection = db.collection('posts');
+        let collection = db.collection('jobs');
 
         let qry = { status: jobStatus.JOB_STATUS_ACTIVE };
 
-        let posts = yield fork(find(
+        let jobs = yield fork(find(
             collection,
             qry,
             { sort: { created_on: -1 }, limit: 50 }
         ));
 
-        return <Action<undefined>>render(new IndexView({ posts }));
+        return <Action<undefined>>render(new IndexView({ jobs }));
 
     });
 
 /**
- * showPostJobPage displays the form for creating new posts on a new
+ * showJobJobPage displays the form for creating new jobs on a new
  * page.
  */
-export const showPostJobPage = (_: Request): Action<undefined> =>
-    <Action<undefined>>render(new PostFormView({}));
+export const showJobJobPage = (_: Request): Action<undefined> =>
+    <Action<undefined>>render(new JobFormView({}));
 
 /**
- * createPost saves the submitted post data in the database for approval later.
+ * createJob saves the submitted job data in the database for approval later.
  */
-export const createPost = (r: Request): Action<undefined> =>
+export const createJob = (r: Request): Action<undefined> =>
     doAction(function*() {
 
         let eResult = yield fork(check(r.body));
@@ -74,11 +74,11 @@ export const createPost = (r: Request): Action<undefined> =>
 
             let data = eResult.takeRight();
             let db = yield getMain();
-            let collection = db.collection('posts');
+            let collection = db.collection('jobs');
 
             // XXX: This is important to prevent the user from being able to
             // set the status. In the future we should split out the
-            // validation for post again.
+            // validation for job again.
             data.status = jobStatus.JOB_STATUS_NEW;
 
             data.created_on = new Date();
@@ -87,7 +87,7 @@ export const createPost = (r: Request): Action<undefined> =>
 
             if (process.env.ADMIN_EMAIL)
                 yield tell('/mail', new OutgoingMessage(process.env.ADMIN_EMAIL,
-                    'New post', 'Someone posted *a new job* to board!'));
+                    'New job', 'Someone jobed *a new job* to board!'));
 
 
 
@@ -102,16 +102,16 @@ export const createPost = (r: Request): Action<undefined> =>
     })
 
 /**
- * showPost displays a page for a single approved post.
+ * showJob displays a page for a single approved job.
  */
-export const showPost = (r: Request): Action<undefined> =>
+export const showJob = (r: Request): Action<undefined> =>
     doAction(function*() {
 
         let id = Number(r.params.id); //XXX: this could be done with a check.
 
         let db = yield getMain();
 
-        let collection = db.collection('posts');
+        let collection = db.collection('jobs');
 
         let qry = { id, status: jobStatus.JOB_STATUS_ACTIVE };
 
@@ -121,10 +121,10 @@ export const showPost = (r: Request): Action<undefined> =>
             return <Action<undefined>>render(new NotFoundErrorView({}), 404);
         } else {
 
-            let post = mResult.get();
+            let job = mResult.get();
 
-            return <Action<undefined>>render(new PostView({
-                post,
+            return <Action<undefined>>render(new JobView({
+                job,
 
                 // TODO: Move this to a library function
                 meta: [
@@ -134,8 +134,8 @@ export const showPost = (r: Request): Action<undefined> =>
                     },
                     { property: 'og:type', content: 'article' },
                     { property: 'og:image', content: "https://jobs.caribbeandevelopers.org/ogimg.png" },
-                    { property: 'og:title', content: post.title },
-                    { property: 'og:description', content: post.type }
+                    { property: 'og:title', content: job.title },
+                    { property: 'og:description', content: job.type }
                 ]
             }));
 

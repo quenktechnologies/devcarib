@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostPreviewView = void 0;
+exports.JobPreviewView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -38,8 +38,8 @@ var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
 ;
-var PostPreviewView = /** @class */ (function () {
-    function PostPreviewView(__context) {
+var JobPreviewView = /** @class */ (function () {
+    function JobPreviewView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
@@ -48,20 +48,20 @@ var PostPreviewView = /** @class */ (function () {
         this.template = function (__this) {
             return __this.widget(new modal_1.Modal({ ww: { 'className': '-large' } }, [
                 __this.widget(new modal_1.ModalHeader({}, [
-                    text(type_1.toString(__context.post.company))
+                    text(type_1.toString(__context.job.company))
                 ]), {}),
                 __this.widget(new modal_1.ModalBody({}, [
                     __this.widget(new grid_1.GridLayout({}, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('h1', {}, [
-                                    text(type_1.toString(__context.post.title))
+                                    text(type_1.toString(__context.job.title))
                                 ])
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                text(type_1.toString(__context.post.description))
+                                text(type_1.toString(__context.job.description))
                             ]), {})
                         ]), {})
                     ]), {})
@@ -72,11 +72,11 @@ var PostPreviewView = /** @class */ (function () {
             ]), { ww: { 'className': '-large' } });
         };
     }
-    PostPreviewView.prototype.registerView = function (v) {
+    JobPreviewView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    PostPreviewView.prototype.register = function (e, attrs) {
+    JobPreviewView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -92,7 +92,7 @@ var PostPreviewView = /** @class */ (function () {
         }
         return e;
     };
-    PostPreviewView.prototype.node = function (tag, attrs, children) {
+    JobPreviewView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -129,18 +129,18 @@ var PostPreviewView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    PostPreviewView.prototype.widget = function (w, attrs) {
+    JobPreviewView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    PostPreviewView.prototype.findById = function (id) {
+    JobPreviewView.prototype.findById = function (id) {
         var mW = maybe_1.fromNullable(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    PostPreviewView.prototype.findByGroup = function (name) {
+    JobPreviewView.prototype.findByGroup = function (name) {
         var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -148,7 +148,7 @@ var PostPreviewView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    PostPreviewView.prototype.invalidate = function () {
+    JobPreviewView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -157,7 +157,7 @@ var PostPreviewView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    PostPreviewView.prototype.render = function () {
+    JobPreviewView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -169,7 +169,7 @@ var PostPreviewView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return PostPreviewView;
+    return JobPreviewView;
 }());
-exports.PostPreviewView = PostPreviewView;
+exports.JobPreviewView = JobPreviewView;
 //# sourceMappingURL=preview.js.map

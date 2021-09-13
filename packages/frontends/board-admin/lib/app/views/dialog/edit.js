@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostEditView = void 0;
+exports.JobEditView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -42,8 +42,8 @@ var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
 ;
-var PostEditView = /** @class */ (function () {
-    function PostEditView(__context) {
+var JobEditView = /** @class */ (function () {
+    function JobEditView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
@@ -52,18 +52,18 @@ var PostEditView = /** @class */ (function () {
         this.template = function (__this) {
             return __this.widget(new modal_1.Modal({ ww: { 'className': '-large' } }, [
                 __this.widget(new modal_1.ModalHeader({}, [
-                    text(type_1.toString(__context.post.company))
+                    text(type_1.toString(__context.job.company))
                 ]), {}),
                 __this.widget(new modal_1.ModalBody({}, [
                     __this.widget(new grid_1.GridLayout({}, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new text_field_1.TextField({ ww: { 'name': 'title', 'value': __context.post.title, 'onChange': __context.onChange } }, []), { ww: { 'name': 'title', 'value': __context.post.title, 'onChange': __context.onChange } })
+                                __this.widget(new text_field_1.TextField({ ww: { 'name': 'title', 'value': __context.job.title, 'onChange': __context.onChange } }, []), { ww: { 'name': 'title', 'value': __context.job.title, 'onChange': __context.onChange } })
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new text_field_1.TextField({ ww: { 'rows': 15, 'name': 'description', 'value': __context.post.description, 'onChange': __context.onChange } }, []), { ww: { 'rows': 15, 'name': 'description', 'value': __context.post.description, 'onChange': __context.onChange } })
+                                __this.widget(new text_field_1.TextField({ ww: { 'rows': 15, 'name': 'description', 'value': __context.job.description, 'onChange': __context.onChange } }, []), { ww: { 'rows': 15, 'name': 'description', 'value': __context.job.description, 'onChange': __context.onChange } })
                             ]), {})
                         ]), {})
                     ]), {})
@@ -75,11 +75,11 @@ var PostEditView = /** @class */ (function () {
             ]), { ww: { 'className': '-large' } });
         };
     }
-    PostEditView.prototype.registerView = function (v) {
+    JobEditView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    PostEditView.prototype.register = function (e, attrs) {
+    JobEditView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -95,7 +95,7 @@ var PostEditView = /** @class */ (function () {
         }
         return e;
     };
-    PostEditView.prototype.node = function (tag, attrs, children) {
+    JobEditView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -132,18 +132,18 @@ var PostEditView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    PostEditView.prototype.widget = function (w, attrs) {
+    JobEditView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    PostEditView.prototype.findById = function (id) {
+    JobEditView.prototype.findById = function (id) {
         var mW = maybe_1.fromNullable(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    PostEditView.prototype.findByGroup = function (name) {
+    JobEditView.prototype.findByGroup = function (name) {
         var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -151,7 +151,7 @@ var PostEditView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    PostEditView.prototype.invalidate = function () {
+    JobEditView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -160,7 +160,7 @@ var PostEditView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    PostEditView.prototype.render = function () {
+    JobEditView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -172,7 +172,7 @@ var PostEditView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return PostEditView;
+    return JobEditView;
 }());
-exports.PostEditView = PostEditView;
+exports.JobEditView = JobEditView;
 //# sourceMappingURL=edit.js.map

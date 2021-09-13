@@ -1,0 +1,55 @@
+{% import (Job) from "@board/types/lib/job" %}
+
+{% import (JobApplyButtonView) from "./button/apply" %}
+
+{# JobHeaderView provides the header for job profile pages. #}
+{% view JobHeaderView (Job) %}
+<div id="job-header" class="ww-grid-layout board-job-header">
+
+  <div class="ww-grid-layout__row">
+
+    <div class="ww-grid-layout__column -span8 -offset2">
+
+      <div class="board-job-back-link">
+       
+        <a class="ww-link" href="/">{{ '&#x2190; See other jobs' | unsafe }}</a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="ww-grid-layout__row">
+
+    <div class="ww-grid-layout__column -span8 -offset2 board-job-img-wrapper">
+
+      {% if @company_logo?? %}
+
+        <img class="board-job-company-logo"
+             src={{@company_logo}}
+             alt="Company Logo" />
+
+      {% endif %}
+
+      <h2 class="board-job-title">{{@title|text}}</h2>
+
+      <div class="board-job-line"></div>
+
+      <p class="board-job-company">{{@company|text}}</p>
+
+    </div>
+
+  </div>
+
+  <div class="ww-grid-layout__row">
+
+    <div class="ww-grid-layout__column -span8 -offset2 -board-center">
+
+      {{ <JobApplyButtonView(@)> }}
+
+    </div>
+
+  </div>
+
+</div>

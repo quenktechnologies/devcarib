@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostFormAppView = void 0;
+exports.JobFormAppView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -10,7 +10,7 @@ var button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
 var link_1 = require("@quenk/wml-widgets/lib/content/link");
 ;
-var post_1 = require("./form/post");
+var job_1 = require("./form/job");
 ;
 var company_1 = require("./form/company");
 ;
@@ -39,8 +39,8 @@ var text = __document.text;
 var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
-var PostFormAppView = /** @class */ (function () {
-    function PostFormAppView(__context) {
+var JobFormAppView = /** @class */ (function () {
+    function JobFormAppView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
@@ -59,15 +59,15 @@ var PostFormAppView = /** @class */ (function () {
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('h3', { 'class': 'board-post-form-heading' }, [
+                                __this.node('h3', { 'class': 'board-job-form-heading' }, [
                                     __document.createTextNode('Tell us about the job.')
                                 ]),
-                                __this.registerView((new post_1.PostFormView(__context))).render()
+                                __this.registerView((new job_1.JobFormView(__context))).render()
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('h3', { 'class': 'board-post-form-heading' }, [
+                                __this.node('h3', { 'class': 'board-job-form-heading' }, [
                                     __document.createTextNode('Tell us a little bit about the company hiring.')
                                 ]),
                                 __this.registerView((new company_1.CompanyFormView(__context))).render()
@@ -90,11 +90,11 @@ var PostFormAppView = /** @class */ (function () {
             ]), {});
         };
     }
-    PostFormAppView.prototype.registerView = function (v) {
+    JobFormAppView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    PostFormAppView.prototype.register = function (e, attrs) {
+    JobFormAppView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -110,7 +110,7 @@ var PostFormAppView = /** @class */ (function () {
         }
         return e;
     };
-    PostFormAppView.prototype.node = function (tag, attrs, children) {
+    JobFormAppView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -147,18 +147,18 @@ var PostFormAppView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    PostFormAppView.prototype.widget = function (w, attrs) {
+    JobFormAppView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    PostFormAppView.prototype.findById = function (id) {
+    JobFormAppView.prototype.findById = function (id) {
         var mW = maybe_1.fromNullable(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    PostFormAppView.prototype.findByGroup = function (name) {
+    JobFormAppView.prototype.findByGroup = function (name) {
         var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -166,7 +166,7 @@ var PostFormAppView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    PostFormAppView.prototype.invalidate = function () {
+    JobFormAppView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -175,7 +175,7 @@ var PostFormAppView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    PostFormAppView.prototype.render = function () {
+    JobFormAppView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -187,7 +187,7 @@ var PostFormAppView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return PostFormAppView;
+    return JobFormAppView;
 }());
-exports.PostFormAppView = PostFormAppView;
+exports.JobFormAppView = JobFormAppView;
 //# sourceMappingURL=app.js.map

@@ -1,0 +1,36 @@
+{% import (Job) from "@board/types/lib/job" %}
+
+{% import (timefromnow) from "../../filters" %}
+{% import (JobPanelFeaturesView) from "./features" %}
+
+{% view JobPanelView (Job) %}
+<div class="ww-panel -default board-job-panel">
+
+  <div class="ww-panel__body">
+
+    <div class="board-job-panel-header">
+
+      <h3 class="board-job-panel-header__title">
+        
+        <a href={{ "/jobs/" +  @id }}>{{ @title | text }}</a>
+
+      </h3>
+
+      <div class="board-job-panel-header__text">
+
+        <span class="board-job-panel-company">
+          {{ @company | text }}
+        </span> - 
+        <span class="board-job-panel-time">
+          {{ @created_on | timefromnow | text }}
+        </span>
+
+      </div>
+
+      {{ <JobPanelFeaturesView(@)> }}
+
+    </div>
+
+  </div>
+
+</div>

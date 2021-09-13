@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ActionColumn = exports.StatusColumn = exports.CompanyColumn = exports.TitleColumn = void 0;
 var views_1 = require("./views");
 /**
- * TitleColumn displays the title of the post.
+ * TitleColumn displays the title of the job.
  */
 var TitleColumn = /** @class */ (function () {
     function TitleColumn(action) {
@@ -12,7 +12,7 @@ var TitleColumn = /** @class */ (function () {
         this.name = 'title';
         this.heading = 'Title';
         this.cellFragment = function (c) { return new views_1.TitleColumnView({
-            post: c.datum,
+            job: c.datum,
             onClick: function () { return _this.action(c.datum); }
         }); };
     }
@@ -31,7 +31,7 @@ var CompanyColumn = /** @class */ (function () {
 }());
 exports.CompanyColumn = CompanyColumn;
 /**
- * StatusColumn displays the approval status of the post.
+ * StatusColumn displays the approval status of the job.
  */
 var StatusColumn = /** @class */ (function () {
     function StatusColumn() {
@@ -43,7 +43,7 @@ var StatusColumn = /** @class */ (function () {
 exports.StatusColumn = StatusColumn;
 /**
  * ActionColumn displays a drop-down menu with actions that can be taken on a
- * single post.
+ * single job.
  */
 var ActionColumn = /** @class */ (function () {
     function ActionColumn(actions) {
@@ -53,7 +53,7 @@ var ActionColumn = /** @class */ (function () {
         this.heading = 'Actions';
         this.cellFragment = function (c) { return new views_1.ActionColumnView({
             actions: _this.actions,
-            post: c.datum
+            job: c.datum
         }); };
     }
     return ActionColumn;

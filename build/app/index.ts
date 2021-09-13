@@ -56,22 +56,22 @@ let $routes:$RouteConf[] = [];
 $routes.push({
 method:'get',
 path:'/',
-filters:[dotHandlers.showPosts]});
+filters:[dotHandlers.showJobs]});
 
 $routes.push({
 method:'get',
-path:'/post',
-filters:[dotHandlers.showPostJobPage]});
+path:'/jobs/post',
+filters:[dotHandlers.showJobJobPage]});
 
 $routes.push({
 method:'post',
-path:'/post',
-filters:[dotHandlers.createPost]});
+path:'/jobs/post',
+filters:[dotHandlers.createJob]});
 
 $routes.push({
 method:'get',
-path:'/posts/:id',
-filters:[dotHandlers.showPost]});
+path:'/jobs/:id',
+filters:[dotHandlers.showJob]});
 return $routes;
 }},
 'create': 

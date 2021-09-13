@@ -2,22 +2,22 @@ import { Value } from '@quenk/noni/lib/data/jsonx';
 
 import { Column, CellContext } from '@quenk/wml-widgets/lib/data/table';
 
-import { Post } from '@board/types/lib/post';
+import { Job } from '@board/types/lib/job';
 
 import { TitleColumnView, ActionSpec, ActionColumnView } from './views';
 
 export { ActionSpec }
 
 /**
- * TitleColumnAction is a function invoked when the title of a post is clicked
+ * TitleColumnAction is a function invoked when the title of a job is clicked
  * on.
  */
-export type TitleColumnAction = (p: Post) => void;
+export type TitleColumnAction = (p: Job) => void;
 
 /**
- * TitleColumn displays the title of the post.
+ * TitleColumn displays the title of the job.
  */
-export class TitleColumn implements Column<Value, Post> {
+export class TitleColumn implements Column<Value, Job> {
 
     constructor(public action: TitleColumnAction) { }
 
@@ -25,9 +25,9 @@ export class TitleColumn implements Column<Value, Post> {
 
     heading = 'Title';
 
-    cellFragment = (c: CellContext<Value, Post>) => new TitleColumnView({
+    cellFragment = (c: CellContext<Value, Job>) => new TitleColumnView({
 
-        post: c.datum,
+        job: c.datum,
 
         onClick: () => this.action(c.datum)
 
@@ -38,7 +38,7 @@ export class TitleColumn implements Column<Value, Post> {
 /**
  * CompanyColumn displays the company name.
  */
-export class CompanyColumn implements Column<Value, Post> {
+export class CompanyColumn implements Column<Value, Job> {
 
     name = 'company';
 
@@ -47,9 +47,9 @@ export class CompanyColumn implements Column<Value, Post> {
 }
 
 /**
- * StatusColumn displays the approval status of the post.
+ * StatusColumn displays the approval status of the job.
  */
-export class StatusColumn implements Column<Value, Post> {
+export class StatusColumn implements Column<Value, Job> {
 
     name = 'status';
 
@@ -59,9 +59,9 @@ export class StatusColumn implements Column<Value, Post> {
 
 /**
  * ActionColumn displays a drop-down menu with actions that can be taken on a
- * single post.
+ * single job.
  */
-export class ActionColumn implements Column<Value, Post> {
+export class ActionColumn implements Column<Value, Job> {
 
     constructor(public actions: ActionSpec[]) { }
 
@@ -69,11 +69,11 @@ export class ActionColumn implements Column<Value, Post> {
 
     heading = 'Actions';
 
-    cellFragment = (c: CellContext<Value, Post>) => new ActionColumnView({
+    cellFragment = (c: CellContext<Value, Job>) => new ActionColumnView({
 
         actions: this.actions,
 
-        post: c.datum
+        job: c.datum
 
     });
 

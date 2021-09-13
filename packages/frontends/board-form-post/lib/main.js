@@ -1,19 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.escape = exports.PostFormApp = void 0;
+exports.escape = exports.JobFormApp = void 0;
 var commonMark = require("@board/common/lib/common-mark");
 var timer_1 = require("@quenk/noni/lib/control/timer");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var util_1 = require("@quenk/wml-widgets/lib/util");
 var feedback_1 = require("@quenk/wml-widgets/lib/control/feedback");
 var browser_1 = require("@quenk/jhr/lib/browser");
-var post_1 = require("@board/validators/lib/post");
+var job_1 = require("@board/validators/lib/job");
 var payment_1 = require("@board/common/lib/data/payment");
-var job_1 = require("@board/common/lib/data/job");
+var job_2 = require("@board/common/lib/data/job");
 var app_1 = require("./views/app");
 var preview_1 = require("./views/preview");
 var finish_1 = require("./views/finish");
-var DELAY_POST_VALIDATION = 250;
+var DELAY_job_VALIDATION = 250;
 var messages = {
     notNull: '{name} is required.',
     minLength: '{name} must be at least {target} characters.',
@@ -29,26 +29,26 @@ var escapeMap = {
     '>': '&gt;'
 };
 /**
- * PostFormApp provides the JS form used to create new forms.
+ * JobFormApp provides the JS form used to create new forms.
  *
  * The JS impementation of this form was done as a feeble attempt to disuade
  * abuse. Additional measures should be put in place if the board's popularity
  * grows.
  */
-var PostFormApp = /** @class */ (function () {
-    function PostFormApp(node) {
+var JobFormApp = /** @class */ (function () {
+    function JobFormApp(node) {
         var _this = this;
         this.node = node;
-        this.view = new app_1.PostFormAppView(this);
+        this.view = new app_1.JobFormAppView(this);
         this.previewView = new preview_1.PreviewView(this);
         this.finishView = new finish_1.FinishView(this);
         this.agent = browser_1.createAgent();
         this.values = {
-            post: {
+            job: {
                 data: {
                     payment_currency: "USD",
                     payment_frequency: "Monthly",
-                    status: job_1.JOB_STATUS_NEW
+                    status: job_2.JOB_STATUS_NEW
                 },
                 errors: {},
                 type: {
@@ -68,9 +68,9 @@ var PostFormApp = /** @class */ (function () {
                 },
                 onChange: function (e) {
                     var name = e.name, value = e.value;
-                    if (post_1.validators.hasOwnProperty(name)) {
-                        _this.values.post.data[name] = value;
-                        var eResult = post_1.validators[name](value);
+                    if (job_1.validators.hasOwnProperty(name)) {
+                        _this.values.job.data[name] = value;
+                        var eResult = job_1.validators[name](value);
                         if (eResult.isLeft()) {
                             var msg = eResult
                                 .takeLeft()
@@ -78,18 +78,18 @@ var PostFormApp = /** @class */ (function () {
                             _this.setControlErrorMessage(name, msg);
                         }
                         else {
-                            _this.values.post.data[name] = eResult.takeRight();
+                            _this.values.job.data[name] = eResult.takeRight();
                             _this.setControlOk(name);
                         }
-                        _this.delayedValidatePost(undefined);
+                        _this.delayedValidateJob(undefined);
                     }
                     else {
                         console.warn("Ignoring unknown field: \"" + name + "\"");
                     }
                 },
                 onSelect: function (e) {
-                    _this.values.post.data[e.name] = e.value;
-                    _this.validatePost();
+                    _this.values.job.data[e.name] = e.value;
+                    _this.validateJob();
                 }
             },
             preview: {
@@ -102,8 +102,8 @@ var PostFormApp = /** @class */ (function () {
                     id: 'preview-button',
                     click: function () { return _this.showPreview(); }
                 },
-                post: {
-                    click: function () { return _this.showPost(); }
+                job: {
+                    click: function () { return _this.showJob(); }
                 },
                 send: {
                     id: 'send',
@@ -111,17 +111,17 @@ var PostFormApp = /** @class */ (function () {
                 }
             }
         };
-        this.delayedValidatePost = timer_1.debounce(function () { return _this.validatePost(); }, DELAY_POST_VALIDATION);
+        this.delayedValidateJob = timer_1.debounce(function () { return _this.validateJob(); }, DELAY_job_VALIDATION);
     }
-    PostFormApp.create = function (node) {
-        return new PostFormApp(node);
+    JobFormApp.create = function (node) {
+        return new JobFormApp(node);
     };
     /**
      * setControlErrorMessages updates a control to have an error message.
      *
      * The control will be switched into the "error" validation state.
      */
-    PostFormApp.prototype.setControlErrorMessage = function (id, msg) {
+    JobFormApp.prototype.setControlErrorMessage = function (id, msg) {
         var mCtl = util_1.getById(this.view, id);
         if (mCtl.isJust()) {
             var ctl = mCtl.get();
@@ -133,7 +133,7 @@ var PostFormApp = /** @class */ (function () {
      * setControlOk gives the user visual feedback when a control's value is
      * valid.
      */
-    PostFormApp.prototype.setControlOk = function (id) {
+    JobFormApp.prototype.setControlOk = function (id) {
         var mCtl = util_1.getById(this.view, id);
         if (mCtl.isJust()) {
             var ctl = mCtl.get();
@@ -142,14 +142,14 @@ var PostFormApp = /** @class */ (function () {
         }
     };
     /**
-     * validatePost tests whether the data entered into the form so far is
+     * validateJob tests whether the data entered into the form so far is
      * valid.
      *
      * If it is, the "preview" button will be enabled.
      */
-    PostFormApp.prototype.validatePost = function () {
+    JobFormApp.prototype.validateJob = function () {
         var btn = util_1.getById(this.view, this.values.buttons.preview.id).get();
-        var eresult = post_1.validate(this.values.post.data);
+        var eresult = job_1.validate(this.values.job.data);
         if (eresult.isRight())
             btn.enable();
         else
@@ -158,37 +158,37 @@ var PostFormApp = /** @class */ (function () {
     /**
      * showPreview switches to the preview screen.
      */
-    PostFormApp.prototype.showPreview = function () {
-        this.values.preview.srcdoc = previewTemplate(commonMark.parse(this.values.post.data.description));
+    JobFormApp.prototype.showPreview = function () {
+        this.values.preview.srcdoc = previewTemplate(commonMark.parse(this.values.job.data.description));
         this.render(this.previewView);
     };
     /**
-     * showPost switches to the post screen.
+     * showJob switches to the job screen.
      */
-    PostFormApp.prototype.showPost = function () {
+    JobFormApp.prototype.showJob = function () {
         this.render(this.view);
-        this.validatePost();
+        this.validateJob();
     };
     /**
      * showFinished shows the finished views.
      */
-    PostFormApp.prototype.showFinished = function () {
+    JobFormApp.prototype.showFinished = function () {
         this.render(this.finishView);
     };
     /**
      * send the data to the backend.
      */
-    PostFormApp.prototype.send = function () {
+    JobFormApp.prototype.send = function () {
         var _this = this;
         var mButton = util_1.getById(this.previewView, this.values.buttons.send.id);
         if (mButton.isJust())
             mButton.get().disable();
         this
             .agent
-            .post('/post', this.values.post.data)
+            .post('/job', this.values.job.data)
             .chain(function (r) {
             if (r.code === 401) {
-                _this.values.post.errors = r.body.errors;
+                _this.values.job.errors = r.body.errors;
                 _this.view.invalidate();
             }
             else if (r.code === 201) {
@@ -208,26 +208,26 @@ var PostFormApp = /** @class */ (function () {
     /**
      * run the application.
      */
-    PostFormApp.prototype.run = function () {
+    JobFormApp.prototype.run = function () {
         this.render(this.view);
     };
     /**
      * render a view of the application to the screen.
      */
-    PostFormApp.prototype.render = function (view) {
+    JobFormApp.prototype.render = function (view) {
         while (this.node.firstChild != null)
             this.node.removeChild(this.node.firstChild);
         this.node.appendChild(view.render());
         window.scroll(0, 0);
     };
-    return PostFormApp;
+    return JobFormApp;
 }());
-exports.PostFormApp = PostFormApp;
+exports.JobFormApp = JobFormApp;
 var escape = function (str) {
     return str.replace(/[&"'<>]/g, function (t) { return escapeMap[t]; });
 };
 exports.escape = escape;
 var previewTemplate = function (html) { return "\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"author\" content=\"Caribbean Developers\">\n    <link rel=\"stylesheet\" href=\"/assets/css/site.css\">\n    <title>Job Preview</title>\n</head>\n\n<body>\n " + html + "\n</body>\n\n</html>\n"; };
-window.postFormApp = PostFormApp.create(document.getElementById('main'));
-window.postFormApp.run();
+window.jobFormApp = JobFormApp.create(document.getElementById('main'));
+window.jobFormApp.run();
 //# sourceMappingURL=main.js.map

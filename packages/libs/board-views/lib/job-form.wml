@@ -1,0 +1,29 @@
+{% import (HeadView, HeadViewContext) from "./common/head" %}
+{% import (HeaderView) from "./common/header" %}
+
+{# JobFormView is the view for the "new job" form page. #}
+{% view JobFormView (Object) %}
+
+  {% let headCtx:HeadViewContext = {
+
+    title = "Job a Job - Caribbean Developers Job Board",
+
+    styles = ["/home/master/Code/development/node/wml/lib"]
+
+  }%}
+
+  <html>
+
+    {{ <HeadView(headCtx)> }}
+
+    <body>
+
+      {{ <HeaderView(@)> }}
+
+      <div id="main"></div>
+
+      <script src="/assets/js/job-form.js"></script>
+
+    </body>
+
+  </html>

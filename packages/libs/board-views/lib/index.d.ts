@@ -1,8 +1,8 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-import { Post } from '@board/types/lib/post';
+import { Job } from '@board/types/lib/job';
 export interface IndexViewContext {
-    posts: (Post)[];
+    jobs: (Job)[];
 }
 export declare class IndexView implements __wml.View {
     constructor(__context: IndexViewContext);

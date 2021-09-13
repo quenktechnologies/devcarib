@@ -7,8 +7,8 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {Post} from '@board/types/lib/post'; ;
-import {PostPanelView} from '@board/widgets/lib/post/panel'; ;
+import {Job} from '@board/types/lib/job'; ;
+import {JobPanelView} from '@board/widgets/lib/job/panel'; ;
 import {HeadView,HeadViewContext} from './common/head'; ;
 import {HeaderView} from './common/header'; 
 
@@ -67,7 +67,7 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export interface IndexViewContext{posts : (Post)[]};
+export interface IndexViewContext{jobs : (Job)[]};
 export class IndexView  implements __wml.View {
 
    constructor(__context: IndexViewContext) {
@@ -99,9 +99,9 @@ __this.node('h2', <__wml.Attrs>{}, [
 
         __document.createTextNode('Hire Software Developers from the Caribbean region. ')
      ]),
-__this.node('a', <__wml.Attrs>{'id': 'create-new-post-button','class': 'ww-button -primary -large','href': '/post'}, [
+__this.node('a', <__wml.Attrs>{'id': 'create-new-job-button','class': 'ww-button -primary -large','href': '/jobs/post'}, [
 
-        __document.createTextNode('Post A Job')
+        __document.createTextNode('Job A Job')
      ])
      ])
      ])
@@ -112,16 +112,16 @@ __this.node('div', <__wml.Attrs>{'id': 'main','class': 'ww-grid-layout'}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__column -span8 -offset2'}, [
 
-        ...__forIn (__context.posts, (post , _$$i, _$$all)=> 
+        ...__forIn (__context.jobs, (job , _$$i, _$$all)=> 
 ([
 
-        __this.registerView((new PostPanelView(post))).render()
+        __this.registerView((new JobPanelView(job))).render()
      ]), 
 ()=> ([
 
-        __this.node('div', <__wml.Attrs>{'class': 'board-no-posts'}, [
+        __this.node('div', <__wml.Attrs>{'class': 'board-no-jobs'}, [
 
-        __document.createTextNode('\u000a\u000a                There are currently no jobs posted. Please check again later!\u000a\u000a              ')
+        __document.createTextNode('\u000a\u000a                There are currently no jobs jobed. Please check again later!\u000a\u000a              ')
      ])
      ]))
      ])

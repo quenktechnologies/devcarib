@@ -10,7 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
 import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
-import {PostFormApp} from '../../main'; 
+import {JobFormApp} from '../../main'; 
 
 
 //@ts-ignore:6192
@@ -69,7 +69,7 @@ const unsafe = __document.unsafe
 const isSet = (value:any) => value != null
 export class CompanyFormView  implements __wml.View {
 
-   constructor(__context: PostFormApp) {
+   constructor(__context: JobFormApp) {
 
        this.template = (__this:__wml.Registry) => {
 
@@ -87,30 +87,30 @@ export class CompanyFormView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company Name*' ,'value' : __context.values.post .data .company  ,'onChange' : __context.values.post .onChange   }}, [
+        __this.widget(new TextField({wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company Name*' ,'value' : __context.values.job .data .company  ,'onChange' : __context.values.job .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company Name*' ,'value' : __context.values.post .data .company  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company Name*' ,'value' : __context.values.job .data .company  ,'onChange' : __context.values.job .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo' ,'placeholder' : 'Please provide a url to a png image with resolution 400 x 400' ,'value' : __context.values.post .data .company_logo  ,'onChange' : __context.values.post .onChange   }}, [
+        __this.widget(new TextField({wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo' ,'placeholder' : 'Please provide a url to a png image with resolution 400 x 400' ,'value' : __context.values.job .data .company_logo  ,'onChange' : __context.values.job .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo' ,'placeholder' : 'Please provide a url to a png image with resolution 400 x 400' ,'value' : __context.values.post .data .company_logo  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo' ,'placeholder' : 'Please provide a url to a png image with resolution 400 x 400' ,'value' : __context.values.job .data .company_logo  ,'onChange' : __context.values.job .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.values.post .data .company_email  ,'onChange' : __context.values.post .onChange   }}, [
+        __this.widget(new TextField({wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.values.job .data .company_email  ,'onChange' : __context.values.job .onChange   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.values.post .data .company_email  ,'onChange' : __context.values.post .onChange   }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.values.job .data .company_email  ,'onChange' : __context.values.job .onChange   }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})

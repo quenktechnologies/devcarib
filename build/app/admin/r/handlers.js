@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.adminsCtrl = exports.postsCtl = exports.PostsController = exports.AdminsController = exports.BaseController = exports.AdminModel = exports.PostModel = void 0;
+exports.adminsCtrl = exports.jobCtrl = exports.JobsController = exports.AdminsController = exports.BaseController = exports.AdminModel = exports.PostModel = void 0;
 const prs = require("@quenk/tendril/lib/app/api/storage/prs");
 const session = require("@quenk/tendril/lib/app/api/storage/session");
 const adminChecks = require("@board/checks/lib/admin");
@@ -11,7 +11,7 @@ const api_1 = require("@quenk/tendril/lib/app/api");
 const control_1 = require("@quenk/tendril/lib/app/api/control");
 const dback_resource_mongodb_1 = require("@quenk/dback-resource-mongodb");
 const dback_model_mongodb_1 = require("@quenk/dback-model-mongodb");
-const post_1 = require("@board/checks/lib/post");
+const job_1 = require("@board/checks/lib/job");
 const messages = {
     minLength: '{$key} must be {target} or more characters!',
     maxLength: '{$key} must be less than {target} characters!',
@@ -122,14 +122,14 @@ class AdminsController extends BaseController {
 }
 exports.AdminsController = AdminsController;
 /**
- * PostsController provides the handlers for the /admin/r/posts routes.
+ * JobsController provides the handlers for the /admin/r/jobs routes.
  */
-class PostsController extends BaseController {
+class JobsController extends BaseController {
     constructor() {
         super(...arguments);
         this.messages = messages;
-        this.checkCreate = post_1.check;
-        this.checkUpdate = post_1.checkPartial;
+        this.checkCreate = job_1.check;
+        this.checkUpdate = job_1.checkPartial;
     }
     getModel(db) {
         return PostModel.getInstance(db);
@@ -146,7 +146,7 @@ class PostsController extends BaseController {
         });
     }
 }
-exports.PostsController = PostsController;
-exports.postsCtl = new PostsController();
+exports.JobsController = JobsController;
+exports.jobCtrl = new JobsController();
 exports.adminsCtrl = new AdminsController();
 //# sourceMappingURL=handlers.js.map

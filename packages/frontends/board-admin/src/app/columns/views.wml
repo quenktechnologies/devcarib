@@ -3,15 +3,15 @@
 {% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
-{% import (Post) from "@board/types/lib/post" %}
+{% import (Job) from "@board/types/lib/job" %}
 
-{% context TitleColumnViewCtx where post: Post, onClick: () -> Void %}
+{% context TitleColumnViewCtx where job: Job, onClick: () -> Void %}
 
 {% view TitleColumnView (TitleColumnViewCtx) %}
 <td>
 
   <Link
-    ww:text={{@post.title}}
+    ww:text={{@job.title}}
     ww:onClick={{@onClick}} />
 
 </td>
@@ -22,7 +22,7 @@
 
     divider: Boolean,
 
-    onClick: (Post) -> Void
+    onClick: (Job) -> Void
 
 %}
 
@@ -30,7 +30,7 @@
    
    actions: ActionSpec[],
 
-   post: Post
+   job: Job
 
 %}
 
@@ -55,7 +55,7 @@
 
           <Link
             ww:text={{spec.text}}
-            ww:onClick={{->spec.onClick(@post)}} />
+            ww:onClick={{->spec.onClick(@job)}} />
 
         </Item>
 

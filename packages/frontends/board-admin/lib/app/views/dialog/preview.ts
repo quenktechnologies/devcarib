@@ -11,7 +11,7 @@ import {toString} from '@quenk/noni/lib/data/type'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Modal,ModalHeader,ModalBody,ModalFooter} from '@quenk/wml-widgets/lib/dialog/modal'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
-import {Post} from '@board/types/lib/post'; 
+import {Job} from '@board/types/lib/job'; 
 
 
 //@ts-ignore:6192
@@ -68,11 +68,11 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export interface PostPreviewViewCtx{post : Post,
+export interface JobPreviewViewCtx{job : Job,
 close : () => void};
-export class PostPreviewView  implements __wml.View {
+export class JobPreviewView  implements __wml.View {
 
-   constructor(__context: PostPreviewViewCtx) {
+   constructor(__context: JobPreviewViewCtx) {
 
        this.template = (__this:__wml.Registry) => {
 
@@ -82,7 +82,7 @@ export class PostPreviewView  implements __wml.View {
 
         __this.widget(new ModalHeader({}, [
 
-        text (toString(__context.post.company ))
+        text (toString(__context.job.company ))
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalBody({}, [
 
@@ -94,7 +94,7 @@ __this.widget(new ModalBody({}, [
 
         __this.node('h1', <__wml.Attrs>{}, [
 
-        text (toString(__context.post.title ))
+        text (toString(__context.job.title ))
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
@@ -102,7 +102,7 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        text (toString(__context.post.description ))
+        text (toString(__context.job.description ))
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})

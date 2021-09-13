@@ -62,7 +62,7 @@ var HeaderView = /** @class */ (function () {
                                             ])
                                         ])
                                     ]),
-                                    __this.node('a', { 'class': 'ww-button -error -large', 'href': '/post' }, [
+                                    __this.node('a', { 'class': 'ww-button -error -large', 'href': '/jobs/post' }, [
                                         __document.createTextNode('Post a Job')
                                     ])
                                 ])

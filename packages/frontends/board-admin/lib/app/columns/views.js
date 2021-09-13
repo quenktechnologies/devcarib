@@ -52,7 +52,7 @@ var TitleColumnView = /** @class */ (function () {
         this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('td', {}, [
-                __this.widget(new link_1.Link({ ww: { 'text': __context.post.title, 'onClick': __context.onClick } }, []), { ww: { 'text': __context.post.title, 'onClick': __context.onClick } })
+                __this.widget(new link_1.Link({ ww: { 'text': __context.job.title, 'onClick': __context.onClick } }, []), { ww: { 'text': __context.job.title, 'onClick': __context.onClick } })
             ]);
         };
     }
@@ -176,7 +176,7 @@ var ActionColumnView = /** @class */ (function () {
                             ]); })() :
                             (function () { return ([]); })())), [
                             __this.widget(new item_1.Item({}, [
-                                __this.widget(new link_1.Link({ ww: { 'text': spec.text, 'onClick': function () { return spec.onClick(__context.post); } } }, []), { ww: { 'text': spec.text, 'onClick': function () { return spec.onClick(__context.post); } } })
+                                __this.widget(new link_1.Link({ ww: { 'text': spec.text, 'onClick': function () { return spec.onClick(__context.job); } } }, []), { ww: { 'text': spec.text, 'onClick': function () { return spec.onClick(__context.job); } } })
                             ]), {})
                         ]));
                     }, function () { return ([]); }))), {})

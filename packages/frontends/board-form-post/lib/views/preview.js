@@ -50,8 +50,8 @@ var PreviewView = /** @class */ (function () {
                     __this.widget(new grid_1.Column({ ww: { 'span': 8, 'offset': 2 } }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('h1', { 'class': 'post-title' }, [
-                                    text(__context.values.post.data.title)
+                                __this.node('h1', { 'class': 'job-title' }, [
+                                    text(__context.values.job.data.title)
                                 ])
                             ]), {})
                         ]), {}),
@@ -70,7 +70,7 @@ var PreviewView = /** @class */ (function () {
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('div', { 'class': 'action-container' }, [
-                                    __this.widget(new link_1.Link({ ww: { 'text': 'Back', 'onClick': __context.values.buttons.post.click } }, []), { ww: { 'text': 'Back', 'onClick': __context.values.buttons.post.click } }),
+                                    __this.widget(new link_1.Link({ ww: { 'text': 'Back', 'onClick': __context.values.buttons.job.click } }, []), { ww: { 'text': 'Back', 'onClick': __context.values.buttons.job.click } }),
                                     __this.widget(new button_1.Button({ wml: { 'id': __context.values.buttons.send.id }, ww: { 'className': 'send-button -primary -large', 'text': 'Post', 'onClick': __context.values.buttons.send.click } }, []), { wml: { 'id': __context.values.buttons.send.id }, ww: { 'className': 'send-button -primary -large', 'text': 'Post', 'onClick': __context.values.buttons.send.click } })
                                 ])
                             ]), {})

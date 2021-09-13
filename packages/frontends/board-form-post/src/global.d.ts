@@ -1,6 +1,6 @@
 
 interface Window {
 
-    postFormApp: any
+    jobFormApp: any
 
 }

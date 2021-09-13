@@ -24,7 +24,7 @@ export const template = ($app: App): Template => (
 
 let $routes:$RouteConf[] = [];
 let adminsCtrl = dotHandlers.adminsCtrl;
-let postsCtl = dotHandlers.postsCtl;
+let jobCtrl = dotHandlers.jobCtrl;
 
 $routes.push({
 method:'post',
@@ -53,28 +53,28 @@ filters:[adminsCtrl.remove.bind(adminsCtrl)]});
 
 $routes.push({
 method:'post',
-path:'/posts',
-filters:[postsCtl.create.bind(postsCtl)]});
+path:'/jobs',
+filters:[jobCtrl.create.bind(jobCtrl)]});
 
 $routes.push({
 method:'get',
-path:'/posts',
-filters:[postsCtl.search.bind(postsCtl)]});
+path:'/jobs',
+filters:[jobCtrl.search.bind(jobCtrl)]});
 
 $routes.push({
 method:'patch',
-path:'/posts/:id',
-filters:[postsCtl.update.bind(postsCtl)]});
+path:'/jobs/:id',
+filters:[jobCtrl.update.bind(jobCtrl)]});
 
 $routes.push({
 method:'get',
-path:'/posts/:id',
-filters:[postsCtl.get.bind(postsCtl)]});
+path:'/jobs/:id',
+filters:[jobCtrl.get.bind(jobCtrl)]});
 
 $routes.push({
 method:'delete',
-path:'/posts/:id',
-filters:[postsCtl.remove.bind(postsCtl)]});
+path:'/jobs/:id',
+filters:[jobCtrl.remove.bind(jobCtrl)]});
 return $routes;
 }},
 'create': 

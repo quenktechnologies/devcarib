@@ -34,7 +34,7 @@
 
             </ul>
 
-            <a class="ww-button -error -large" href="/post">Post a Job</a>
+            <a class="ww-button -error -large" href="/jobs/post">Post a Job</a>
 
           </nav>
 

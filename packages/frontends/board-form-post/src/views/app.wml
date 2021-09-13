@@ -2,11 +2,11 @@
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
-{% import (PostFormView) from "./form/post" %}
+{% import (JobFormView) from "./form/job" %}
 {% import (CompanyFormView) from "./form/company" %}
-{% import (PostFormApp) from "../main" %}
+{% import (JobFormApp) from "../main" %}
 
-{% view PostFormAppView (PostFormApp) %}
+{% view JobFormAppView (JobFormApp) %}
 
 <GridLayout>
 
@@ -35,9 +35,9 @@
 
         <Column>
 
-          <h3 class="board-post-form-heading">Tell us about the job.</h4>
+          <h3 class="board-job-form-heading">Tell us about the job.</h4>
 
-          {{<PostFormView(@)>}}
+          {{<JobFormView(@)>}}
 
         </Column>
 
@@ -47,7 +47,7 @@
 
         <Column>
 
-          <h3 class="board-post-form-heading">Tell us a little bit about the company hiring.</h4>
+          <h3 class="board-job-form-heading">Tell us a little bit about the company hiring.</h4>
 
           {{<CompanyFormView(@)>}}
 

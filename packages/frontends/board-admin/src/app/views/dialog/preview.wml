@@ -6,14 +6,14 @@
 
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
 
-{% import (Post) from "@board/types/lib/post" %}
+{% import (Job) from "@board/types/lib/job" %}
 
-{% context PostPreviewViewCtx where post: Post, close: () -> Void %}
+{% context JobPreviewViewCtx where job: Job, close: () -> Void %}
 
-{% view PostPreviewView (PostPreviewViewCtx) %}
+{% view JobPreviewView (JobPreviewViewCtx) %}
 <Modal ww:className="-large">
 
-  <ModalHeader>{{toString(@post.company) | text }}</ModalHeader>
+  <ModalHeader>{{toString(@job.company) | text }}</ModalHeader>
 
   <ModalBody>
 
@@ -23,7 +23,7 @@
 
         <Column>
 
-          <h1>{{toString(@post.title) | text }}</h1>
+          <h1>{{toString(@job.title) | text }}</h1>
 
         </Column>
 
@@ -33,7 +33,7 @@
 
         <Column>
 
-          {{toString(@post.description) | text }}
+          {{toString(@job.description) | text }}
 
           </Column>
 

@@ -42,7 +42,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BoardAdmin = exports.TIME_SEARCH_DEBOUNCE = exports.RESOURCE_POST = exports.RESOURCE_POSTS = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
+exports.BoardAdmin = exports.TIME_SEARCH_DEBOUNCE = exports.RESOURCE_JOB = exports.RESOURCE_JOBS = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
 var jobStatus = require("@board/common/lib/data/job");
 var api = require("./api");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
@@ -63,8 +63,8 @@ var columns_1 = require("./columns");
 exports.ACTION_APPROVE = 'approve';
 exports.ACTION_REMOVE = 'remove';
 exports.ACTION_SHOW = 'show';
-exports.RESOURCE_POSTS = '/admin/r/posts';
-exports.RESOURCE_POST = '/admin/r/posts/{id}';
+exports.RESOURCE_JOBS = '/admin/r/jobs';
+exports.RESOURCE_JOB = '/admin/r/jobs/{id}';
 exports.TIME_SEARCH_DEBOUNCE = 500;
 var agent = browser_1.createAgent();
 /**
@@ -103,34 +103,34 @@ var AfterOkExec = /** @class */ (function (_super) {
     return AfterOkExec;
 }(callback_1.AbstractCompleteHandler));
 /**
- * PostEditViewCtxImpl provides the data and functions used in the dialog for
- * editing posts.
+ * JobEditViewCtxImpl provides the data and functions used in the dialog for
+ * editing jobs.
  */
-var PostEditViewCtxImpl = /** @class */ (function () {
+var JobEditViewCtxImpl = /** @class */ (function () {
     /**
-     * @param post  The post being edited.
+     * @param job  The job being edited.
      * @param app   The instance of BoardAdmin.
      */
-    function PostEditViewCtxImpl(post, app) {
+    function JobEditViewCtxImpl(job, app) {
         var _this = this;
-        this.post = post;
+        this.job = job;
         this.app = app;
         this.changes = {};
         this.onChange = function (e) {
             _this.changes[e.name] = e.value;
         };
         this.onSave = function () {
-            var posts = _this.app.modelFactory.create(api.POST, new AfterOkExec(function () {
+            var jobs = _this.app.modelFactory.create(api.JOB, new AfterOkExec(function () {
                 _this.app.tell('dialogs', new dialog_1.CloseDialog());
-                _this.app.runFuture(_this.app.loadInitialPosts());
+                _this.app.runFuture(_this.app.loadInitialJobs());
             }));
-            posts.update(_this.post.id, _this.changes).fork();
+            jobs.update(_this.job.id, _this.changes).fork();
         };
         this.onCancel = function () {
             _this.app.tell('dialogs', new dialog_1.CloseDialog());
         };
     }
-    return PostEditViewCtxImpl;
+    return JobEditViewCtxImpl;
 }());
 /**
  * BoardAdmin is the main class for the admin application.
@@ -165,39 +165,39 @@ var BoardAdmin = /** @class */ (function (_super) {
             search: {
                 onChange: timer_1.debounce(function (e) {
                     var qry = e.value === '' ? {} : { q: e.value };
-                    _this.runFuture(_this.searchPosts(qry));
+                    _this.runFuture(_this.searchJobs(qry));
                 }, exports.TIME_SEARCH_DEBOUNCE)
             },
             table: {
                 id: 'table',
                 data: [],
                 columns: [
-                    new columns_1.TitleColumn(function (post) { return _this.showPost(post); }),
+                    new columns_1.TitleColumn(function (job) { return _this.showJob(job); }),
                     new columns_1.CompanyColumn(),
                     new columns_1.StatusColumn(),
                     new columns_1.ActionColumn([
                         {
                             text: "View",
                             divider: false,
-                            onClick: function (data) { return _this.showPost(data); }
+                            onClick: function (data) { return _this.showJob(data); }
                         },
                         {
                             text: "Approve",
                             divider: false,
                             onClick: function (data) {
-                                return _this.runFuture(_this.approvePost(data.id));
+                                return _this.runFuture(_this.approveJob(data.id));
                             }
                         },
                         {
                             text: "Edit",
                             divider: false,
-                            onClick: function (data) { return _this.editPost(data); }
+                            onClick: function (data) { return _this.editJob(data); }
                         },
                         {
                             text: "Remove",
                             divider: true,
                             onClick: function (data) {
-                                return _this.runFuture(_this.removePost(data.id));
+                                return _this.runFuture(_this.removeJob(data.id));
                             }
                         }
                     ])
@@ -214,21 +214,21 @@ var BoardAdmin = /** @class */ (function (_super) {
         return new BoardAdmin(main, dialogs);
     };
     /**
-     * searchPosts in the database.
+     * searchJobs in the database.
      *
-     * Differs from loadPosts() by updating only the table, not the whole
+     * Differs from loadJobs() by updating only the table, not the whole
      * view on success.
      *
      * @param qry - The query object to include in the GET request.
      */
-    BoardAdmin.prototype.searchPosts = function (qry) {
+    BoardAdmin.prototype.searchJobs = function (qry) {
         if (qry === void 0) { qry = {}; }
         var that = this;
         return future_1.doFuture(function () {
             var r, mtable;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, agent.get(exports.RESOURCE_POSTS, qry)];
+                    case 0: return [4 /*yield*/, agent.get(exports.RESOURCE_JOBS, qry)];
                     case 1:
                         r = _a.sent();
                         mtable = util_1.getById(that.view, that.values.table.id);
@@ -240,19 +240,19 @@ var BoardAdmin = /** @class */ (function (_super) {
         });
     };
     /**
-     * loadInitialPosts from the database into the table.
+     * loadInitialJobs from the database into the table.
      */
-    BoardAdmin.prototype.loadInitialPosts = function () {
+    BoardAdmin.prototype.loadInitialJobs = function () {
         var that = this;
         return future_1.doFuture(function () {
             var r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, agent.get(exports.RESOURCE_POSTS)];
+                    case 0: return [4 /*yield*/, agent.get(exports.RESOURCE_JOBS)];
                     case 1:
                         r = _a.sent();
                         if (r.code !== 200) {
-                            alert('Could not load posts!');
+                            alert('Could not load jobs!');
                         }
                         else {
                             that.values.table.data = r.body.data;
@@ -277,34 +277,34 @@ var BoardAdmin = /** @class */ (function (_super) {
             future_1.pure(undefined);
     };
     /**
-     * showPost displays a single Post in a dialog.
+     * showJob displays a single Job in a dialog.
      */
-    BoardAdmin.prototype.showPost = function (data) {
+    BoardAdmin.prototype.showJob = function (data) {
         var _this = this;
-        this.tell('dialogs', new dialog_1.ShowDialogView(new preview_1.PostPreviewView({
-            post: data,
+        this.tell('dialogs', new dialog_1.ShowDialogView(new preview_1.JobPreviewView({
+            job: data,
             close: function () { return _this.tell('dialogs', new dialog_1.CloseDialog()); }
         }), '$'));
     };
     /**
-     * approvePost sets the approved flag on a post to true.
+     * approveJob sets the approved flag on a job to true.
      *
-     * Once this is done the post will show on the site.
+     * Once this is done the job will show on the site.
      */
-    BoardAdmin.prototype.approvePost = function (id) {
+    BoardAdmin.prototype.approveJob = function (id) {
         var that = this;
         return future_1.doFuture(function () {
             var path, change, r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        path = string_1.interpolate(exports.RESOURCE_POST, { id: id });
+                        path = string_1.interpolate(exports.RESOURCE_JOB, { id: id });
                         change = { status: jobStatus.JOB_STATUS_ACTIVE };
                         return [4 /*yield*/, agent.patch(path, change)];
                     case 1:
                         r = _a.sent();
                         if (r.code == 200) {
-                            alert('Post approved!');
+                            alert('Job approved!');
                             that.refresh();
                         }
                         else {
@@ -316,28 +316,28 @@ var BoardAdmin = /** @class */ (function (_super) {
         });
     };
     /**
-     * editPost brings up the dialog editor to quickly edit the title and body
-     * of a post.
+     * editJob brings up the dialog editor to quickly edit the title and body
+     * of a job.
      */
-    BoardAdmin.prototype.editPost = function (data) {
-        this.tell('dialogs', new dialog_1.ShowDialogView(new edit_1.PostEditView(new PostEditViewCtxImpl(data, this)), '$'));
+    BoardAdmin.prototype.editJob = function (data) {
+        this.tell('dialogs', new dialog_1.ShowDialogView(new edit_1.JobEditView(new JobEditViewCtxImpl(data, this)), '$'));
     };
     /**
-     * removePost permenantly removes a post from the site.
+     * removeJob permenantly removes a job from the site.
      */
-    BoardAdmin.prototype.removePost = function (id) {
+    BoardAdmin.prototype.removeJob = function (id) {
         var that = this;
         return future_1.doFuture(function () {
             var path, r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        path = string_1.interpolate(exports.RESOURCE_POST, { id: id });
+                        path = string_1.interpolate(exports.RESOURCE_JOB, { id: id });
                         return [4 /*yield*/, agent.delete(path)];
                     case 1:
                         r = _a.sent();
                         if (r.code == 200) {
-                            alert('Post removed!');
+                            alert('Job removed!');
                             that.refresh();
                         }
                         else {
@@ -358,7 +358,7 @@ var BoardAdmin = /** @class */ (function (_super) {
      * refresh reloads and displays the application.
      */
     BoardAdmin.prototype.refresh = function () {
-        this.runFuture(this.loadInitialPosts());
+        this.runFuture(this.loadInitialJobs());
     };
     /**
      * runFuture is used to execute async work wrapped in the Future type.

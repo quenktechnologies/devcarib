@@ -111,7 +111,7 @@ __this.node('li', <__wml.Attrs>{'class': 'ww-menu-item'}, [
      ])
      ])
      ]),
-__this.node('a', <__wml.Attrs>{'class': 'ww-button -error -large','href': '/post'}, [
+__this.node('a', <__wml.Attrs>{'class': 'ww-button -error -large','href': '/jobs/post'}, [
 
         __document.createTextNode('Post a Job')
      ])

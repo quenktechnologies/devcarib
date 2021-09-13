@@ -1,0 +1,152 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+{% import (DropList) from "@quenk/wml-widgets/lib/control/drop-list" %}
+{% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
+
+{% import (CurrencyMoneyTextField) 
+   from "@board/widgets/lib/control/input/money" %}
+
+{% import (JobFormApp) from "../../main" %}
+
+{% view JobFormView (JobFormApp) %}
+
+<form 
+  name="job-form"
+  onsubmit={{(e:Event) -> e.preventDefault() }}
+  autocomplete="off">
+
+  <Panel>
+
+    <PanelBody>
+
+      <GridLayout>
+
+        <Row>
+
+          <Column>
+
+             <TextField
+              wml:id="title"
+              ww:name="title"
+              ww:label="Title*"
+              ww:placeholder="Example: Fintech Software Engineer Needed"
+              ww:value={{@values.job.data.title}}
+              ww:onChange={{@values.job.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column ww:span=6>
+
+             <TextField
+              wml:id="location"
+              ww:name="location"
+              ww:label="Location*"
+              ww:value={{@values.job.data.location}}
+              ww:onChange={{@values.job.onChange}} />
+
+          </Column>
+
+          <Column ww:span=6>
+
+            <label class="ww-label">Select A Job Type*</label>
+
+            <DropList
+              wml:id="type"
+              ww:className="board-job-type-dropdown -block"
+              ww:name="type"
+              ww:value={{@values.job.data.type}}
+              ww:options={{@values.job.type.options}}
+              ww:onSelect={{@values.job.onSelect}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column>
+
+            <TextField
+              wml:id="apply_url"
+              ww:name="apply_url"
+              ww:label="Apply Link"
+              ww:placeholder="Specify a url or email address applicants can use to apply"
+              ww:value={{@values.job.data.apply_url}}
+              ww:onChange={{@values.job.onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column>
+
+            <b>
+              Is this a remote position? 
+              <Checkbox 
+                ww:name="remote" 
+                ww:value={{@values.job.data.remote}}
+                ww:onChange={{@values.job.onSelect}} />
+            </b> 
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column ww:span=6>
+
+            <b>Payment</b>
+
+            <CurrencyMoneyTextField
+              names=["payment_currency", "payment_amount"]
+              onChange={{@values.job.onChange}} />
+
+          </Column>
+
+          <Column ww:span=6>
+
+            <label class="ww-label">Payment Frequency</label>
+
+            <DropList
+              wml:id="payment_frequency"
+              ww:className="-block board-job-payment-frequency"
+              ww:name="payment_frequency"
+              ww:value={{@values.job.data.payment_frequency}}
+              ww:options={{@values.job.payment_frequency.options}}
+              ww:onSelect={{@values.job.onSelect}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+        
+          <Column>
+
+            <TextField
+              wml:id="description"
+              ww:name="description"
+              ww:placeholder="Provide full details of the job. Markdown is supported"
+              ww:rows=12 
+              ww:value={{@values.job.data.description}}
+              ww:onChange={{@values.job.onChange}} />
+
+          </Column>
+
+        </Row>
+
+      </GridLayout>
+
+    </PanelBody>
+
+  </Panel>
+
+</form>

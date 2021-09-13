@@ -11,7 +11,7 @@ import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Embed} from '@quenk/wml-widgets/lib/content/embed'; ;
-import {PostFormApp} from '../main'; 
+import {JobFormApp} from '../main'; 
 
 
 //@ts-ignore:6192
@@ -70,7 +70,7 @@ const unsafe = __document.unsafe
 const isSet = (value:any) => value != null
 export class PreviewView  implements __wml.View {
 
-   constructor(__context: PostFormApp) {
+   constructor(__context: JobFormApp) {
 
        this.template = (__this:__wml.Registry) => {
 
@@ -86,9 +86,9 @@ export class PreviewView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.node('h1', <__wml.Attrs>{'class': 'post-title'}, [
+        __this.node('h1', <__wml.Attrs>{'class': 'job-title'}, [
 
-        text (__context.values.post .data .title )
+        text (__context.values.job .data .title )
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
@@ -121,10 +121,10 @@ __this.widget(new Row({}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'action-container'}, [
 
-        __this.widget(new Link({ww : { 'text' : 'Back' ,'onClick' : __context.values.buttons .post .click   }}, [
+        __this.widget(new Link({ww : { 'text' : 'Back' ,'onClick' : __context.values.buttons .job .click   }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Back' ,'onClick' : __context.values.buttons .post .click   }}),
+     ]),<__wml.Attrs>{ww : { 'text' : 'Back' ,'onClick' : __context.values.buttons .job .click   }}),
 __this.widget(new Button({wml : { 'id' : __context.values.buttons .send .id   },ww : { 'className' : 'send-button -primary -large' ,'text' : 'Post' ,'onClick' : __context.values.buttons .send .click   }}, [
 
         

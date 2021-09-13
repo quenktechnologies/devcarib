@@ -1,8 +1,8 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-import { Post } from '@board/types/lib/post';
+import { Job } from '@board/types/lib/job';
 export interface TitleColumnViewCtx {
-    post: Post;
+    job: Job;
     onClick: () => void;
 }
 export declare class TitleColumnView implements __wml.View {
@@ -29,11 +29,11 @@ export declare class TitleColumnView implements __wml.View {
 export interface ActionSpec {
     text: string;
     divider: boolean;
-    onClick: ($0: Post) => void;
+    onClick: ($0: Job) => void;
 }
 export interface ActionColumnViewCtx {
     actions: (ActionSpec)[];
-    post: Post;
+    job: Job;
 }
 export declare class ActionColumnView implements __wml.View {
     constructor(__context: ActionColumnViewCtx);

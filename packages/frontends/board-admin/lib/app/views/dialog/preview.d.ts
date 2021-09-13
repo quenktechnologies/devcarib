@@ -1,12 +1,12 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-import { Post } from '@board/types/lib/post';
-export interface PostPreviewViewCtx {
-    post: Post;
+import { Job } from '@board/types/lib/job';
+export interface JobPreviewViewCtx {
+    job: Job;
     close: () => void;
 }
-export declare class PostPreviewView implements __wml.View {
-    constructor(__context: PostPreviewViewCtx);
+export declare class JobPreviewView implements __wml.View {
+    constructor(__context: JobPreviewViewCtx);
     ids: {
         [key: string]: __wml.WMLElement;
     };

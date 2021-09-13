@@ -46,7 +46,7 @@ var FinishView = /** @class */ (function () {
                     __this.widget(new grid_1.Column({ ww: { 'span': 8, 'offset': 2 } }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('h1', { 'class': 'post-title' }, [
+                                __this.node('h1', { 'class': 'job-title' }, [
                                     __document.createTextNode('Success !')
                                 ])
                             ]), {})
@@ -54,7 +54,7 @@ var FinishView = /** @class */ (function () {
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('p', {}, [
-                                    __document.createTextNode('\u000a            Your job posting has been saved and is waiting approval.\u000a            Approval usually takes up to 48 hours so check back later to see\u000a            it in the listings.\u000a\u000a            If we need any more information we will contact you via the email\u000a            you supplied.\u000a          ')
+                                    __document.createTextNode('\u000a            Your job jobing has been saved and is waiting approval.\u000a            Approval usually takes up to 48 hours so check back later to see\u000a            it in the listings.\u000a\u000a            If we need any more information we will contact you via the email\u000a            you supplied.\u000a          ')
                                 ]),
                                 __this.node('p', {}, [
                                     __document.createTextNode('Thanks for choosing Caribbean Developers!')

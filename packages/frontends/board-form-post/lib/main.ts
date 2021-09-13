@@ -13,14 +13,14 @@ import { Button } from '@quenk/wml-widgets/lib/control/button';
 import { createAgent } from '@quenk/jhr/lib/browser';
 import { Response } from '@quenk/jhr/lib/response';
 
-import { Post } from '@board/types/lib/post';
+import { Job } from '@board/types/lib/job';
 
-import { validators, validate } from '@board/validators/lib/post';
+import { validators, validate } from '@board/validators/lib/job';
 
 import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
 import { JOB_STATUS_NEW } from '@board/common/lib/data/job';
 
-import { PostFormAppView } from './views/app';
+import { JobFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
 import { FinishView } from './views/finish';
 
@@ -34,7 +34,7 @@ export type WMLId = string;
  */
 export type Message = string;
 
-const DELAY_POST_VALIDATION = 250;
+const DELAY_job_VALIDATION = 250;
 
 const messages = {
 
@@ -65,29 +65,29 @@ const escapeMap: Record<string> = {
 }
 
 /**
- * PostFormApp provides the JS form used to create new forms.
+ * JobFormApp provides the JS form used to create new forms.
  *
  * The JS impementation of this form was done as a feeble attempt to disuade
  * abuse. Additional measures should be put in place if the board's popularity
  * grows.
  */
-export class PostFormApp {
+export class JobFormApp {
 
     constructor(public node: Node) { }
 
-    view = new PostFormAppView(this);
+    view = new JobFormAppView(this);
 
     previewView = new PreviewView(this);
 
     finishView = new FinishView(this);
 
- agent = createAgent();
+    agent = createAgent();
 
     values = {
 
-        post: {
+        job: {
 
-            data: <Post>{
+            data: <Job>{
 
                 payment_currency: "USD",
 
@@ -128,7 +128,7 @@ export class PostFormApp {
 
                 if (validators.hasOwnProperty(name)) {
 
-                    this.values.post.data[name] = value;
+                    this.values.job.data[name] = value;
 
                     let eResult = validators[name](value);
 
@@ -142,13 +142,13 @@ export class PostFormApp {
 
                     } else {
 
-                        this.values.post.data[name] = eResult.takeRight();
+                        this.values.job.data[name] = eResult.takeRight();
 
                         this.setControlOk(name);
 
                     }
 
-                    this.delayedValidatePost(undefined);
+                    this.delayedValidateJob(undefined);
 
                 } else {
 
@@ -160,9 +160,9 @@ export class PostFormApp {
 
             onSelect: (e: Event<Value>) => {
 
-                this.values.post.data[e.name] = e.value;
+                this.values.job.data[e.name] = e.value;
 
-                this.validatePost();
+                this.validateJob();
 
             }
 
@@ -188,9 +188,9 @@ export class PostFormApp {
 
             },
 
-            post: {
+            job: {
 
-                click: () => this.showPost()
+                click: () => this.showJob()
 
             },
 
@@ -206,12 +206,12 @@ export class PostFormApp {
 
     };
 
-    delayedValidatePost =
-        debounce(() => this.validatePost(), DELAY_POST_VALIDATION);
+    delayedValidateJob =
+        debounce(() => this.validateJob(), DELAY_job_VALIDATION);
 
-    static create(node: Node): PostFormApp {
+    static create(node: Node): JobFormApp {
 
-        return new PostFormApp(node);
+        return new JobFormApp(node);
 
     }
 
@@ -256,17 +256,17 @@ export class PostFormApp {
     }
 
     /**
-     * validatePost tests whether the data entered into the form so far is
+     * validateJob tests whether the data entered into the form so far is
      * valid.
      *
      * If it is, the "preview" button will be enabled.
      */
-    validatePost() {
+    validateJob() {
 
         let btn = getById<Button<void>>(this.view,
             this.values.buttons.preview.id).get();
 
-        let eresult = validate(this.values.post.data);
+        let eresult = validate(this.values.job.data);
 
         if (eresult.isRight())
             btn.enable();
@@ -281,7 +281,7 @@ export class PostFormApp {
     showPreview(): void {
 
         this.values.preview.srcdoc = previewTemplate(
-            commonMark.parse(<string>this.values.post.data.description)
+            commonMark.parse(<string>this.values.job.data.description)
         );
 
         this.render(this.previewView);
@@ -289,12 +289,12 @@ export class PostFormApp {
     }
 
     /**
-     * showPost switches to the post screen.
+     * showJob switches to the job screen.
      */
-    showPost(): void {
+    showJob(): void {
 
         this.render(this.view);
-        this.validatePost();
+        this.validateJob();
 
     }
 
@@ -319,13 +319,13 @@ export class PostFormApp {
             mButton.get().disable();
 
         this
-             .agent
-            .post('/post', this.values.post.data)
+            .agent
+            .post('/job', this.values.job.data)
             .chain((r: Response<Object>) => {
 
                 if (r.code === 401) {
 
-                    this.values.post.errors = <Record<string>>r.body.errors;
+                    this.values.job.errors = <Record<string>>r.body.errors;
 
                     this.view.invalidate();
 
@@ -400,5 +400,5 @@ const previewTemplate = (html: string) => `
 </html>
 `;
 
-window.postFormApp = PostFormApp.create(<Node>document.getElementById('main'));
-window.postFormApp.run();
+window.jobFormApp = JobFormApp.create(<Node>document.getElementById('main'));
+window.jobFormApp.run();

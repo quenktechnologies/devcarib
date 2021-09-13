@@ -69,7 +69,7 @@ var BoardAdminView = /** @class */ (function () {
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
                         __this.node('h1', {}, [
-                            __document.createTextNode('Manage Posts')
+                            __document.createTextNode('Manage Jobs')
                         ])
                     ]), {})
                 ]), {}),

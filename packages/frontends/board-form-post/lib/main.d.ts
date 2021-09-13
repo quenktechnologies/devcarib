@@ -2,8 +2,8 @@ import { View } from '@quenk/wml';
 import { Value, Object } from '@quenk/noni/lib/data/json';
 import { Record } from '@quenk/noni/lib/data/record';
 import { Event } from '@quenk/wml-widgets/lib/control';
-import { Post } from '@board/types/lib/post';
-import { PostFormAppView } from './views/app';
+import { Job } from '@board/types/lib/job';
+import { JobFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
 import { FinishView } from './views/finish';
 /**
@@ -15,22 +15,22 @@ export declare type WMLId = string;
  */
 export declare type Message = string;
 /**
- * PostFormApp provides the JS form used to create new forms.
+ * JobFormApp provides the JS form used to create new forms.
  *
  * The JS impementation of this form was done as a feeble attempt to disuade
  * abuse. Additional measures should be put in place if the board's popularity
  * grows.
  */
-export declare class PostFormApp {
+export declare class JobFormApp {
     node: Node;
     constructor(node: Node);
-    view: PostFormAppView;
+    view: JobFormAppView;
     previewView: PreviewView;
     finishView: FinishView;
     agent: import("@quenk/jhr/lib/agent").Agent<object, Object>;
     values: {
-        post: {
-            data: Post;
+        job: {
+            data: Job;
             errors: Record<string>;
             type: {
                 options: {
@@ -57,7 +57,7 @@ export declare class PostFormApp {
                 id: string;
                 click: () => void;
             };
-            post: {
+            job: {
                 click: () => void;
             };
             send: {
@@ -66,8 +66,8 @@ export declare class PostFormApp {
             };
         };
     };
-    delayedValidatePost: import("@quenk/noni/lib/data/function").Function<unknown, void>;
-    static create(node: Node): PostFormApp;
+    delayedValidateJob: import("@quenk/noni/lib/data/function").Function<unknown, void>;
+    static create(node: Node): JobFormApp;
     /**
      * setControlErrorMessages updates a control to have an error message.
      *
@@ -80,20 +80,20 @@ export declare class PostFormApp {
      */
     setControlOk(id: WMLId): void;
     /**
-     * validatePost tests whether the data entered into the form so far is
+     * validateJob tests whether the data entered into the form so far is
      * valid.
      *
      * If it is, the "preview" button will be enabled.
      */
-    validatePost(): void;
+    validateJob(): void;
     /**
      * showPreview switches to the preview screen.
      */
     showPreview(): void;
     /**
-     * showPost switches to the post screen.
+     * showJob switches to the job screen.
      */
-    showPost(): void;
+    showJob(): void;
     /**
      * showFinished shows the finished views.
      */

@@ -1,11 +1,11 @@
-{% import (Post) from "@board/types/lib/post" %}
-{% import (PostPanelView) from "@board/widgets/lib/post/panel" %}
+{% import (Job) from "@board/types/lib/job" %}
+{% import (JobPanelView) from "@board/widgets/lib/job/panel" %}
 
 {% import (HeadView, HeadViewContext) from "./common/head" %}
 {% import (HeaderView) from "./common/header" %}
 
 {# IndexView is the view for the main page of the site. #}
-{% view IndexView where posts: Post[] %}
+{% view IndexView where jobs: Job[] %}
 
   {% let headCtx:HeadViewContext = {
    
@@ -35,9 +35,9 @@
 
               <h2>Hire Software Developers from the Caribbean region. </h2>
 
-              <a id="create-new-post-button"
+              <a id="create-new-job-button"
                  class="ww-button -primary -large"
-                 href="/post">Post A Job</a>
+                 href="/jobs/post">Job A Job</a>
 
             </div>
 
@@ -51,15 +51,15 @@
 
           <div class="ww-grid-layout__column -span8 -offset2">
 
-            {% for post in @posts %}
+            {% for job in @jobs %}
 
-                {{ <PostPanelView(post)> }}
+                {{ <JobPanelView(job)> }}
 
             {% else %}
 
-              <div class="board-no-posts">
+              <div class="board-no-jobs">
 
-                There are currently no jobs posted. Please check again later!
+                There are currently no jobs jobed. Please check again later!
 
               </div>
 

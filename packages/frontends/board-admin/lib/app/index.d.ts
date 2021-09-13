@@ -7,13 +7,13 @@ import { JApp, Template } from '@quenk/jouvert/lib/app';
 import { View } from '@quenk/wml';
 import { Column } from '@quenk/wml-widgets/lib/data/table';
 import { Event } from '@quenk/wml-widgets/lib/control';
-import { Post } from '@board/types/lib/post';
+import { Job } from '@board/types/lib/job';
 import { BoardAdminView } from './views/app';
 export declare const ACTION_APPROVE = "approve";
 export declare const ACTION_REMOVE = "remove";
 export declare const ACTION_SHOW = "show";
-export declare const RESOURCE_POSTS = "/admin/r/posts";
-export declare const RESOURCE_POST = "/admin/r/posts/{id}";
+export declare const RESOURCE_JOBS = "/admin/r/jobs";
+export declare const RESOURCE_JOB = "/admin/r/jobs/{id}";
 export declare const TIME_SEARCH_DEBOUNCE = 500;
 /**
  * OkBody is the format we expect to receive our request results in.
@@ -54,48 +54,48 @@ export declare class BoardAdmin extends JApp {
         };
         table: {
             id: string;
-            data: Post[];
-            columns: Column<Value, Post>[];
+            data: Job[];
+            columns: Column<Value, Job>[];
         };
     };
     onError: (e: Error) => void;
     static create(main: Node, dialogs: Node): BoardAdmin;
     /**
-     * searchPosts in the database.
+     * searchJobs in the database.
      *
-     * Differs from loadPosts() by updating only the table, not the whole
+     * Differs from loadJobs() by updating only the table, not the whole
      * view on success.
      *
      * @param qry - The query object to include in the GET request.
      */
-    searchPosts(qry?: object): Future<void>;
+    searchJobs(qry?: object): Future<void>;
     /**
-     * loadInitialPosts from the database into the table.
+     * loadInitialJobs from the database into the table.
      */
-    loadInitialPosts(): Future<void>;
+    loadInitialJobs(): Future<void>;
     /**
      * logout the user from the application.
      */
     logout(): Future<void>;
     /**
-     * showPost displays a single Post in a dialog.
+     * showJob displays a single Job in a dialog.
      */
-    showPost(data: Post): void;
+    showJob(data: Job): void;
     /**
-     * approvePost sets the approved flag on a post to true.
+     * approveJob sets the approved flag on a job to true.
      *
-     * Once this is done the post will show on the site.
+     * Once this is done the job will show on the site.
      */
-    approvePost(id: number): Future<void>;
+    approveJob(id: number): Future<void>;
     /**
-     * editPost brings up the dialog editor to quickly edit the title and body
-     * of a post.
+     * editJob brings up the dialog editor to quickly edit the title and body
+     * of a job.
      */
-    editPost(data: Post): void;
+    editJob(data: Job): void;
     /**
-     * removePost permenantly removes a post from the site.
+     * removeJob permenantly removes a job from the site.
      */
-    removePost(id: number): Future<void>;
+    removeJob(id: number): Future<void>;
     /**
      * show a View on the application's screen.
      */

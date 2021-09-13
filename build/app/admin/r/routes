@@ -1,5 +1,5 @@
 %set adminsCtrl = ./handlers#adminsCtrl
-%set postsCtl = ./handlers#postsCtl
+%set jobCtrl = ./handlers#jobCtrl
 
 -- Admins
 POST    /admins       adminsCtrl.create
@@ -10,9 +10,9 @@ PATCH   /admins/:id   adminsCtrl.update
 DELETE  /admins/:id   adminsCtrl.remove
 
 -- Posts
-POST    /posts        postsCtl.create
-GET     /posts        postsCtl.search
+POST    /jobs        jobCtrl.create
+GET     /jobs        jobCtrl.search
 
-PATCH   /posts/:id    postsCtl.update
-GET     /posts/:id    postsCtl.get
-DELETE  /posts/:id    postsCtl.remove
+PATCH   /jobs/:id    jobCtrl.update
+GET     /jobs/:id    jobCtrl.get
+DELETE  /jobs/:id    jobCtrl.remove
