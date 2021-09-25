@@ -3,14 +3,14 @@ import * as mongodb from 'mongodb';
 import { System } from '@quenk/potoo/lib/actor/system';
 import { Immutable } from '@quenk/potoo/lib/actor/resident';
 
-import { TaskClock } from '@board/server/lib/actors/task/clock';
-import { MongoDbLogger } from '@board/server/lib/actors/log/mongodb';
+import { TaskClock } from '@devcarib/server/lib/actors/task/clock';
+import { MongoDbLogger } from '@devcarib/server/lib/actors/log/mongodb';
 import {
     LOG_LEVEL_INFO,
     ConsoleLogger,
     NoLogger
-} from '@board/server/lib/actors/log';
-import { MailServer } from '@board/server/lib/actors/mail/server';
+} from '@devcarib/server/lib/actors/log';
+import { MailServer } from '@devcarib/server/lib/actors/mail/server';
 
 import { doFuture, pure } from '@quenk/noni/lib/control/monad/future';
 
