@@ -1,0 +1,39 @@
+{% from "macros/type2TS.types" import type2TS %}
+
+{% macro definitions(defs) %}
+
+    {% for k,v in defs %}
+
+      {% set types = set(k, v, types) %}
+
+      {%- if v.skip %}
+         
+         {{''}} 
+         {# crude hack needed for x-validation #}
+
+      {%- else -%}
+
+        {%- if v.definitions -%}
+
+          {{definitions(v.definitions)}}
+
+        {%- endif -%}
+
+        {% if not v.import %}
+
+          {%- if v.type === 'object' -%}
+
+            export interface {{k}} {{type2TS(v)}} {{EOL}}{{EOL}}
+
+          {%- else -%}
+
+           export type {{k}} = {{type2TS(v)}}; {{EOL}}{{EOL}}
+
+        {%- endif -%}
+        {% endif %}
+
+      {% endif %}
+
+    {% endfor %}
+
+{% endmacro %}

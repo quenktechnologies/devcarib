@@ -1,0 +1,4 @@
+$(CONVERSE_PACKAGES_DIR): $(CONVERSE_LIBS_DIR)
+	touch $@
+
+include $(CONVERSE_LIBS_DIR)/build.mk

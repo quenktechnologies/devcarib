@@ -1,0 +1,3 @@
+[submodule "packages/hcis-schema"]
+	path = packages/hcis-schema
+	url = git@bitbucket.org:quenk-technologies-consulting/hcis-schema.git

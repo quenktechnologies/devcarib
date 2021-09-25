@@ -1,0 +1,119 @@
+{
+
+    "title": "User",
+
+    "type": "object",
+
+    "collection": "users",
+
+    "model.type": "ModelType",
+
+    "models:imports": {
+
+        "$ref": "./common/imports.json",
+
+        "@converse/types/lib/user": {
+
+            "User": "ModelType"
+
+        },
+
+        "@quenk/safe-mongodb/lib/database/collection": {
+
+            "populate": "populate",
+
+            "populateN": "populateN"
+
+        }
+
+    },
+
+    "validation:imports": {
+
+        "@converse/types/lib/user": "User"
+
+    },
+
+    "checks:imports": {
+
+        "@converse/validators/lib/user": ["validate", "validatePartial"]
+
+    },
+
+    "properties": {
+
+        "id": {
+
+            "type": "number",
+
+            "filterAs": ["number", "numbers"],
+
+            "readOnly": true,
+
+            "checks": [
+
+                ["@devcarib/common-checks#unique", ["_collection", "'id'"]]
+
+            ]
+
+        },
+
+        "name": {
+
+            "type": "string",
+
+            "filterAs": "matchci",
+
+            "validation": "@converse/validators#name"
+
+        },
+
+        "username": {
+
+            "type": "string",
+
+            "filterAs": "matchci",
+
+            "validation": "@converse/validators#username",
+
+            "checks": [
+
+                ["@devcarib/common-checks#unique", ["_collection", "'username'"]]
+
+            ]
+
+        },
+
+        "password": {
+
+            "type": "string",
+
+            "fields:hidden": true,
+
+            "validation": ["@converse/validators#password"],
+
+            "checks": "@devcarib/common-checks#bcrypt"
+
+        },
+
+        "status": {
+
+            "type": "number",
+
+            "filterAs": ["number", "numbers"]
+
+        },
+
+        "last_login": {
+
+            "type": "string",
+
+            "filterAs": "date",
+
+            "readOnly": true
+
+        }
+
+    }
+
+}

@@ -1,0 +1,6 @@
+%set userCtrl = WebController()
+
+GET  /               userCtrl.onIndex
+GET  /login          userCtrl.onLoginForm
+POST /login          userCtrl.onLoginFormSubmit
+POST /logout         userCtrl.onLogout

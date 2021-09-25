@@ -1,0 +1,184 @@
+{#
+
+  optional
+
+  Makes a precondition optional.
+  @param {Schema} type
+  @param {Output} content
+
+#}
+{% macro optional (type, content) %}
+
+  {%- if type.optional -%}
+    {%- if isObjectType(type) -%}
+      _optional<any, {{type.title}}>({{content}})
+    {%- else -%}
+      _optional({{content}})
+    {%- endif %}
+  {%- else -%}
+    {{content}}
+  {%- endif -%}
+
+{% endmacro %}
+
+{# 
+  Turns an array schema into a precondition. 
+  
+  @param {Schema} type
+  @param {string} mode
+
+#}
+{% macro arrayType2Test(type, mode) %}
+
+  {% set content -%}
+    <Precondition<Value,Value>>_map({{type2Test(type.items, mode)}})
+  {%- endset %}
+
+  {% if hasChecks(type,mode) -%}
+   {% set content -%}
+   _and({{content}}, _every<Value,Value>({{getChecks(type, mode)|join(',')}}))
+   {%- endset %}
+  {% endif %}
+
+  {{optional(type, content)}}
+
+{% endmacro %}
+
+{# turns an object schema into a record of preconditions
+  
+  @param {Schema} type
+  @param {string} mode  - Either "complete" or "partial".
+
+#}
+{% macro objectType2Test (type, mode) %}
+
+  {% if isObject(type.additionalProperties) %}
+
+    {%- set content -%}
+       <Precondition<Value,Value>>_recordMap<Value, Value, {{type.title}}>(
+       {{anyType2Test(type.additionalProperties)}})
+    {%- endset -%}
+
+  {% elseif isObject(type.properties) %}
+
+    {%- set content -%}
+      <Precondition<Value,Value>>{{mode}}<Value, Value, {{type.title}}>({
+        {% for key,value in type.properties %}
+          {% if (not value.readOnly) or hasChecks(value, mode)  %}
+            '{{key}}' : {{type2Test(value, mode)|trim}}{% if not loop.last %},{% endif %}
+            {{"\n"}}
+          {% endif %}
+        {%- endfor -%}
+      })
+    {%- endset -%}
+
+  {% else %}
+
+    {%- set content -%}_reject('not configured'){% endset %}
+
+  {% endif %}
+
+  {% if hasChecks(type, mode) -%}
+
+   {% set content -%}
+   _and({{content}}, _every<Value,Value>({{getChecks(type, mode)|join(',')}}))
+   {%- endset %}
+
+  {% endif %}
+
+  {{ optional(type, content) }}
+
+{% endmacro %}
+
+{# 
+  
+  turn a sum schema into a precondition 
+  @param {Schema} type
+  @param {string} mode
+
+#}
+{% macro sumType2Test (type, mode) %}
+
+  {% if type.discriminator.type == 'rw' %}
+
+    {%- set content -%}
+     {{type2Test(type.variants.write, mode)}}
+    {%- endset -%}
+
+  {% elseif type.discriminator.type == 'shape' %}
+
+    {%- set content -%}
+    _match(
+      {%- for key,variant in type.variants -%}
+
+      {% set shape =  variant.discriminator %}
+      {% set validator =  type2Test(variant,mode) %}
+      _caseOf({{shape|dump}}, {{validator}}){% if not loop.last %},{% endif %}
+
+      {%- endfor -%})
+    {% endset %}
+
+  {% else %}
+
+    {% set json %}{{type|dump}}{% endset %}
+    {{ 'sumType2Test: Unknown discriminator type '+ 
+    type.discriminator.type+ ' in '+json | error }}
+
+  {% endif %}
+
+  {{ optional(type,content) | trim}}
+
+{% endmacro %}
+
+{#
+  turns any schema type into a validator 
+
+  @param {Schema} type
+  @param {string} mode
+
+#}
+{% macro anyType2Test(type, mode) %}
+
+    {% if hasChecks(type, mode) -%}
+
+      {%- set content -%}
+        _every<Value,Value>({{getChecks(type, mode)|join(',')}}){%- endset -%}
+      {{ optional(type, content) | trim }}
+
+    {%- else -%}
+
+      _identity
+
+    {%- endif -%}
+
+{% endmacro %}
+
+{# 
+ 
+  turns a type into a precondition. 
+  
+  @param {Schema} type
+  @param {string} mode  
+
+#}
+{% macro type2Test(type, mode="complete") %}
+
+  {%- if isArrayType(type) -%}
+
+    {{arrayType2Test(type, mode)}}
+
+  {%- elseif isObjectType(type) -%}
+    
+    {{objectType2Test(type, mode) | trim }}
+
+  {%- elseif isSumType(type) -%}
+
+    {{sumType2Test(type, mode) | trim }}
+    
+  {%- else -%}
+
+    {{anyType2Test(type, mode) | trim }}
+    
+  {%- endif -%}
+
+{% endmacro %}

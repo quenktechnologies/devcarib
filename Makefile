@@ -28,7 +28,9 @@ endef
 PROJECT_SRC_DIR:=$(HERE)/src
 PROJECT_SRC_DIR_FILES:=$(shell $(FIND) $(PROJECT_SRC_DIR) -type f)
 PACKAGES_DIR:=$(HERE)/packages
+APPS_DIR:=$(HERE)/apps
 LIBS_PACKAGES_DIR:=$(PACKAGES_DIR)/libs
+PACKAGES_LIBS_DIR:=$(LIBS_PACKAGES_DIR)
 APPS_PACKAGES_DIR:=$(PACKAGES_DIR)/frontend
 PROJECT_BUILD_DIR:=$(HERE)/build
 PROJECT_BUILD_MAIN_DIR:=$(PROJECT_BUILD_DIR)/app
@@ -40,6 +42,7 @@ BOARD_SRC_DIRS:=
 include $(PACKAGES_DIR)/schema/variables.mk
 include $(PACKAGES_DIR)/libs/variables.mk
 include $(PACKAGES_DIR)/frontends/variables.mk
+include $(APPS_DIR)/converse/variables.mk
 
 ### Dependency Graph ###
 
@@ -51,7 +54,9 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
                       $(PROJECT_SCHEMA_DIR) \
                       $(BOARD_LIBS_DIR)\
                       $(BOARD_FRONTENDS_DIR)\
-                      $(BOARD_VIEWS_DIR)
+                      $(BOARD_VIEWS_DIR)\
+		      $(CONVERSE_DIR)
+	rm -R $@ || true
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
 	$(TDC) $(PROJECT_BUILD_MAIN_DIR)
@@ -62,6 +67,7 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 include $(PROJECT_SCHEMA_DIR)/build.mk
 include $(BOARD_LIBS_DIR)/build.mk
 include $(BOARD_FRONTENDS_DIR)/build.mk
+include $(APPS_DIR)/converse/build.mk
 
 # Remove the build application files.
 .PHONY: clean
