@@ -34,8 +34,8 @@ PACKAGES_LIBS_DIR:=$(LIBS_PACKAGES_DIR)
 APPS_PACKAGES_DIR:=$(PACKAGES_DIR)/frontend
 PROJECT_BUILD_DIR:=$(HERE)/build
 
-BOARD_CLEAN_TARGETS:=
-BOARD_SRC_DIRS:=
+CLEAN_TARGETS:=
+SRC_DIRS:=
 
 # Configure the paths for your extra packages here.
 include $(PACKAGES_DIR)/schema/variables.mk
@@ -72,36 +72,15 @@ include $(APPS_DIR)/build.mk
 .PHONY: clean
 clean: 
 	rm -R $(PROJECT_BUILD_DIR) || true
-	rm -R $(BOARD_CLEAN_TARGETS) || true
-
-# Use to clear the node_modules cache and update to the latest version of the
-# project.
-.PHONY: bussdate
-bussdate:
-	rm -R node_modules || true
-	git pull && npm install
-
-# Shortcut for running a frontend test via crapaud.
-.PHONY: crapaud
-crapaud: 
-	source .env
-	./node_modules/.bin/crapaud --test $(filter-out $@,$(MAKECMDGOALS))\
-	 --inject-mocha\
-	 http://localhost:$(PORT)
+	rm -R $(CLEAN_TARGETS) || true
 
 # Starts a development server for testing while working.
 .PHONY: devserver
 devserver:
 	./node_modules/.bin/node-supervisor -w build/ -- \
-	-r dotenv/config build/app/start.js
+	-r dotenv/config build/start.js
 
 # If mongod is installed, starts an instance using the folder .mongo
 .PHONY: mongoserver
 mongoserver: 
 	mongod --dbpath=.mongo
-
-# This is task intercepts unknown tasks allowing us to accept arguments in
-# the task above.
-.PHONY: %
-%:
-	@:

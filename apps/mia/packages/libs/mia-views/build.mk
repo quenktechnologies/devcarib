@@ -1,25 +1,7 @@
-### Build the board-views package. ###
-# Requires:
-# 1. MIA_VIEWS_DIR
+### Builds mia-views ##
 
-### Executables ###
-LESSC?=./node_modules/.bin/lessc
-
-### Settings ###
-MIA_VIEWS_JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
-MIA_VIEWS_LIB_DIR:=$(MIA_VIEWS_DIR)/lib
-MIA_VIEWS_SRC_DIR:=$(MIA_VIEWS_DIR)/src
-MIA_VIEWS_SRC_DIR_FILES:=$(shell $(FIND) $(MIA_VIEWS_SRC_DIR) -name \*.wml)
-MIA_VIEWS_LESS_FILES:=$(shell $(FIND) $(MIA_VIEWS_SRC_DIR) -name \*.less)
-MIA_VIEWS_LESS_MAIN:=$(MIA_VIEWS_DIR)/main.less
-MIA_VIEWS_LESS_IMPORTS:=$(MIA_VIEWS_DIR)/auto.less
-MIA_VIEWS_PUBLIC_DIR:=$(MIA_VIEWS_DIR)/public
-MIA_VIEWS_CSS_FILE:=$(MIA_VIEWS_PUBLIC_DIR)/assets/css/site.css
-
-### Graph ###
 $(MIA_VIEWS_DIR): $(MIA_VIEWS_LIB_DIR)\
-                    $(MIA_VIEWS_PUBLIC_DIR)\
-                    $(MIA_WIDGETS_DIR)
+                  $(MIA_VIEWS_PUBLIC_DIR)
 	touch $@
 
 $(MIA_VIEWS_LIB_DIR): $(MIA_VIEWS_SRC_DIR)
@@ -35,9 +17,9 @@ $(MIA_VIEWS_SRC_DIR): $(MIA_VIEWS_SRC_DIR_FILES)
 $(MIA_VIEWS_PUBLIC_DIR): $(MIA_VIEWS_CSS_FILE)
 	touch $@
 
-$(MIA_VIEWS_CSS_FILE): $(MIA_WIDGETS_LESS_IMPORTS_FILE) \
-			 $(MIA_VIEWS_LESS_IMPORTS) \
-			 $(MIA_VIEWS_LESS_MAIN)
+$(MIA_VIEWS_CSS_FILE): $(DEVCARIB_WIDGETS_DIR) \
+		       $(MIA_VIEWS_LESS_IMPORTS) \
+		       $(MIA_VIEWS_LESS_MAIN)
 	mkdir -p $(dir $@)
 	rm -R $@ || true
 	$(LESSC) --source-map-less-inline \

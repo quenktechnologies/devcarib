@@ -1,7 +1,4 @@
-### Builds converse-models ###
-# The following variables must be set (in addition to variables.mk):
-# 1. MIA_SCHEMA_MODELS_DIR
-# 2. MIA_SCHEMA_DIR_FILE
+### Builds mia-models ###
 
 $(MIA_MODELS_DIR): $(MIA_MODELS_LIB_DIR)
 	touch $@

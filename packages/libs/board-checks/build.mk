@@ -27,12 +27,12 @@ BOARD_CHECKS_MODEL_FILES_NAMES=$(notdir $(basename \
 					$(BOARD_CHECKS_MODEL_FILES)))
 
 # Hook into clean task.
-BOARD_CLEAN_TARGETS:=$(BOARD_CLEAN_TARGETS) $(BOARD_CHECKS_LIB_DIR)
+CLEAN_TARGETS:=$(CLEAN_TARGETS) $(BOARD_CHECKS_LIB_DIR)
 
 # Add our sources to the list of total project sources.
-BOARD_SRC_DIRS:=$(BOARD_SRC_DIRS)\
-               $(BOARD_CHECKS_SRC_DIR)\
-	       $(BOARD_CHECKS_TEMPLATE_DIR)
+SRC_DIRS:=$(SRC_DIRS)\
+          $(BOARD_CHECKS_SRC_DIR)\
+          $(BOARD_CHECKS_TEMPLATE_DIR)
 
 ### Graph ###
 

@@ -1,4 +1,4 @@
-MIA_MODELS_DIR:=$(MIA_LIBS_DIR)/converse-models
+MIA_MODELS_DIR:=$(MIA_LIBS_DIR)/mia-models
 MIA_MODELS_SRC_DIR:=$(MIA_MODELS_DIR)/src
 MIA_MODELS_SRC_DIR_FILES:=$(shell find $(MIA_MODELS_SRC_DIR) -type f)
 MIA_MODELS_LIB_DIR:=$(MIA_MODELS_DIR)/lib
@@ -16,3 +16,5 @@ MIA_MODELS_CHECKS_DIR_FILES:=$(shell find $(MIA_MODELS_CHECKS_DIR) -type f)
 # This is the name of all the files in the model dir without extensions.
 MIA_MODELS_MODEL_NAMES=$(notdir $(basename $(wildcard \
 			 $(MIA_SCHEMA_MODELS_DIR)/*.json)))
+
+CLEAN_TARGETS:=$(CLEAN_TARGETS) $(MIA_MODELS_LIB_DIR)
