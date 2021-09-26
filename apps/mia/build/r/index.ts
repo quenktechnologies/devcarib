@@ -17,7 +17,7 @@ import {App as App} from '@quenk/tendril/lib/app';
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
  {'id': `r`,
-'app': {'dirs': {'self': `/apps/mia/build/app/r`},
+'app': {'dirs': {'self': `/apps/mia/build/r`},
 'routes': //@ts-ignore: 6133
 ($module:Module) => {
 

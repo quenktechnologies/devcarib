@@ -31,9 +31,9 @@ app.views.options = [
 
       filters = {
 
-          timestamp = ../filters#timestamp
+          timestamp = ./filters#timestamp
 
-          timefromnow = ../filters#timefromnow
+          timefromnow = ./filters#timefromnow
 
         }
 
@@ -49,9 +49,9 @@ app.parsers.body.json.enable = true
 app.dirs.public = [
 
   "public",
-  "../../packages/libs/board-views/public",
-  "../../packages/frontends/board-form-post/public",
-  "../../packages/frontends/board-admin/public"
+  "../packages/libs/board-views/public",
+  "../packages/frontends/board-form-post/public",
+  "../packages/frontends/board-admin/public"
 
 ]
 
@@ -61,30 +61,30 @@ app.middleware.enabled = []
 
 app.modules = {
 
-  admin = ../../apps/mia/build/app#template
+  admin = ../apps/mia/build#template
 
-  converse = ../../apps/converse/build/app#template
+  converse = ../apps/converse/build#template
 
 }
 
 children = {
 
-  clock = ../services#clock
+  clock = ./services#clock
 
-  log = ../services#log
+  log = ./services#log
 
-  mail = ../services#mail
+  mail = ./services#mail
 
-  clearExpiredJobs = ../tasks#clearExpiredJobs
+  clearExpiredJobs = ./tasks#clearExpiredJobs
 
 }
 
 app.on.connected = [
 
-  ../events#connected,
+  ./events#connected,
 
-  ../setup#run
+  ./setup#run
 
 ]
 
-app.on.started = ../events#started
+app.on.started = ./events#started

@@ -5,7 +5,7 @@ $(MIA_BUILD_DIR): $(MIA_SRC_DIR) $(MIA_PACKAGES_DIR)
 	rm -R $@ || true
 	mkdir -p $@
 	cp -R -u $(MIA_SRC_DIR)/* $@
-	$(TDC) $(MIA_BUILD_MAIN_DIR)
+	$(TDC) $(MIA_BUILD_DIR)
 	$(TSC) -p $@
 	touch $(MIA_BUILD_DIR)
 

@@ -106,7 +106,7 @@ const showAuthError = (r, ctx) => api_1.doAction(function* () {
 const comparePasswords = (pwd1, pwd2) => future_1.fromCallback(cb => bcrypt.compare(pwd1, pwd2, cb));
 const today = () => moment.utc().toDate();
 //@ts-ignore: 6133
-const template = ($app) => ({ 'id': `converse`, 'app': { 'dirs': { 'self': `/apps/converse/build/app` }, 'routes': //@ts-ignore: 6133
+const template = ($app) => ({ 'id': `converse`, 'app': { 'dirs': { 'self': `/apps/converse/build` }, 'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];
             let userCtrl = new WebController();

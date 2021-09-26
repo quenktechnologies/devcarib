@@ -5,7 +5,7 @@ $(CONVERSE_BUILD_DIR): $(CONVERSE_SRC_DIR) $(CONVERSE_PACKAGES_DIR)
 	rm -R $@ || true
 	mkdir -p $@
 	cp -R -u $(CONVERSE_SRC_DIR)/* $@
-	$(TDC) $(CONVERSE_BUILD_MAIN_DIR)
+	$(TDC) $(CONVERSE_BUILD_DIR)
 	$(TSC) -p $@
 	touch $(CONVERSE_BUILD_DIR)
 

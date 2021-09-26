@@ -132,7 +132,7 @@ const showAuthError = (r, ctx) => api_1.doAction(function* () {
 const comparePasswords = (pwd1, pwd2) => future_1.fromCallback(cb => bcrypt.compare(pwd1, pwd2, cb));
 const today = () => moment.utc().toDate();
 //@ts-ignore: 6133
-const template = ($app) => ({ 'id': `admin`, 'app': { 'dirs': { 'self': `/apps/mia/build/app` },
+const template = ($app) => ({ 'id': `admin`, 'app': { 'dirs': { 'self': `/apps/mia/build` },
         'modules': { 'r': dotR.template }, 'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];

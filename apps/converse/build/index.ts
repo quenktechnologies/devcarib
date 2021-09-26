@@ -1,4 +1,4 @@
-import * as dotR from './r'; 
+
 //@ts-ignore: 6133
 import {System} from '@quenk/potoo/lib/actor/system';
 //@ts-ignore: 6133
@@ -15,40 +15,37 @@ import {App as App} from '@quenk/tendril/lib/app';
 
 
 
-import * as mongodb from 'mongodb';
+
 import * as moment from 'moment';
 import * as bcrypt from 'bcryptjs';
 
 import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
-import { Type } from '@quenk/noni/lib/data/type';
 
-//@ts-ignore: 2300
+// @ts-ignore: 2300
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
 import { fork } from '@quenk/tendril/lib/app/api/control';
 import { redirect } from '@quenk/tendril/lib/app/api/response';
-import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
-
-import { BaseModel } from '@quenk/dback-model-mongodb';
 
 import { render } from '@quenk/tendril-show-wml';
+import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
 
-import { Admin } from '@board/types/lib/admin';
+import { validate as validateLogin } from '@converse/validators/lib/login';
 
-import { validate as validateLogin } from '@board/validators/lib/login';
+import { LoginView } from '@converse/views/lib/login';
+import { IndexView } from '@converse/views';
 
-import { IndexView } from '@board/views/lib/admin';
-import { LoginView } from '@board/views/lib/admin/login';
+import { UserModel } from '@converse/models/lib/user';
+import { merge } from '@quenk/noni/lib/data/record';
 
-const ROUTE_INDEX = '/admin';
-const ROUTE_LOGIN = '/admin/login';
+const ROUTE_INDEX = '/';
+const ROUTE_LOGIN = '/converse/login';
 
 const KEY_LOGIN_VIEW_CTX = 'loginCtx';
 
-const ERR_AUTH_FAILED = 'Email or password is invalid!';
-const ERR_AUTH_INVALID = 'Correct the below error(s) before continuing.';
+const ERR_AUTH_FAILED = 'Email or password is incorrect.';
 
 const messages = {
 
@@ -61,48 +58,25 @@ const messages = {
 }
 
 /**
- * AdminModel
+ * WebController serves the UI for web requests.
  */
-export class AdminModel extends BaseModel<Admin> {
-
-    id = 'id';
-
-    static getInstance(db: mongodb.Db): AdminModel {
-
-        return new AdminModel(db, db.collection('admins'));
-
-    }
-
-}
-
-/**
- * AdminController serves the UI for the admin section.
- *
- * All the routes here should only be accessible to authenticated admin level
- * users!
- */
-export class AdminController {
+export class WebController {
 
     /**
-     * showIndex displays the admin app page to the user.
+     * onIndex renders the index page to the user.
      *
-     * Note: This is not a JSON endpoint!
+     * If a user session cannot be detected, the user is redirected to the
+     * login page.
      */
-    showIndex = (r: Request): Action<undefined> => {
+    onIndex(r: Request): Action<undefined> {
 
         return doAction<undefined>(function*() {
 
-            let muser = r.session.get('admin');
+            let muser = r.session.get('user');
 
             if (muser.isJust()) {
 
-                return <Action<undefined>>render(new IndexView({
-
-                    title: 'Caribbean Developers Job Board - Admin',
-
-                    styles: ['/assets/css/board-admin.css']
-
-                }));
+                return <Action<undefined>>render(new IndexView({}));
 
             } else {
 
@@ -115,37 +89,26 @@ export class AdminController {
     }
 
     /**
-     * showLoginForm renders the page with the login form.
+     * onLoginForm renders the login page.
      */
-    showLoginForm(r: Request): Action<void> {
+    onLoginForm(r: Request): Action<void> {
 
         return doAction(function*() {
 
-            // Type is used here until wml optional properties are sorted out.
-            let ctx = <Type>r.session.getOrElse(KEY_LOGIN_VIEW_CTX, {});
+            let ctx = r.session.getOrElse(KEY_LOGIN_VIEW_CTX, {});
 
-            ctx.title = 'Caribbean Developers Job Board - Admin Login';
-
-            ctx.styles = [];
-
-            return render(new LoginView({
-
-                title: 'Caribbean Developers Job Board - Admin Login',
-
-                styles: [],
-
+            return render(new LoginView(merge(<object>ctx, {
                 csrfToken: <string>r.prs.getOrElse(PRS_CSRF_TOKEN, '')
-
-            }));
+            })));
 
         });
 
     }
 
     /**
-     * authenticate the admin user.
+     * onLoginFormSubmit handles the authentication atempt.
      */
-    authenticate(req: Request): Action<undefined> {
+    onLoginFormSubmit(req: Request): Action<undefined> {
 
         return doAction(function*() {
 
@@ -154,7 +117,7 @@ export class AdminController {
             if (elogin.isLeft())
                 return showAuthError(req, {
 
-                    message: ERR_AUTH_INVALID,
+                    message: ERR_AUTH_FAILED,
 
                     errors: elogin.takeLeft().explain(messages)
 
@@ -164,15 +127,15 @@ export class AdminController {
 
             let db = yield checkout('main');
 
-            let model = AdminModel.getInstance(db);
+            let model = UserModel.getInstance(db);
 
-            let [admin] = yield fork(model.search({ email }));
+            let [user] = yield fork(model.search({ email }));
 
-            if (admin == null)
+            if (user == null)
                 return showAuthError(req, authFailedErr(email));
 
             let matches = yield fork(comparePasswords(
-                <string>password, admin.password)
+                <string>password, user.password)
             );
 
             if (!matches)
@@ -180,9 +143,9 @@ export class AdminController {
 
             let change = { last_login: today() };
 
-            yield fork(model.update(admin.id, change));
+            yield fork(model.update(user.id, change));
 
-            req.session.set('admin', { id: admin.id });
+            req.session.set('user', { id: user.id });
 
             return redirect(ROUTE_INDEX, 302);
 
@@ -191,9 +154,9 @@ export class AdminController {
     }
 
     /**
-     * logout the admin user.
+     * onLogout is called when the user logs out.
      */
-    logout(r: Request): Action<undefined> {
+    onLogout(r: Request): Action<undefined> {
 
         return doAction(function*() {
 
@@ -227,34 +190,33 @@ const today = () => moment.utc().toDate();
 
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
- {'id': `admin`,
-'app': {'dirs': {'self': `/apps/mia/build/app`},
-'modules': {'r': dotR.template},
+ {'id': `converse`,
+'app': {'dirs': {'self': `/apps/converse/build`},
 'routes': //@ts-ignore: 6133
 ($module:Module) => {
 
 let $routes:$RouteConf[] = [];
-let adminCtl = new AdminController();
+let userCtrl = new WebController();
 
 $routes.push({
 method:'get',
 path:'/',
-filters:[adminCtl.showIndex.bind(adminCtl)]});
+filters:[userCtrl.onIndex.bind(userCtrl)]});
 
 $routes.push({
 method:'get',
 path:'/login',
-filters:[adminCtl.showLoginForm.bind(adminCtl)]});
+filters:[userCtrl.onLoginForm.bind(userCtrl)]});
 
 $routes.push({
 method:'post',
 path:'/login',
-filters:[adminCtl.authenticate.bind(adminCtl)]});
+filters:[userCtrl.onLoginFormSubmit.bind(userCtrl)]});
 
 $routes.push({
 method:'post',
 path:'/logout',
-filters:[adminCtl.logout.bind(adminCtl)]});
+filters:[userCtrl.onLogout.bind(userCtrl)]});
 return $routes;
 }},
 'create': 

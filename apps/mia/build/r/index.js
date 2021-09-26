@@ -5,7 +5,7 @@ const dotHandlers = require("./handlers");
 //@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
 //@ts-ignore: 6133
-const template = ($app) => ({ 'id': `r`, 'app': { 'dirs': { 'self': `/apps/mia/build/app/r` }, 'routes': //@ts-ignore: 6133
+const template = ($app) => ({ 'id': `r`, 'app': { 'dirs': { 'self': `/apps/mia/build/r` }, 'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];
             let adminsCtrl = dotHandlers.adminsCtrl;
