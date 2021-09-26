@@ -3,6 +3,13 @@
     "name": "@board/form-post",
     "private": "true",
     "version": "0.0.1",
-    "main": "lib/index.js"
+    "main": "lib/index.js",
+    "dependencies": {
+
+        "@quenk/wml": "^2.9.2",
+        "@quenk/wml-widgets": "^1.27.15",
+        "@devcarib/widgets": "file:../board-widgets"
+
+    }
 
 }

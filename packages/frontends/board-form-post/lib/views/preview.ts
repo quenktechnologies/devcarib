@@ -9,7 +9,7 @@ fromArray as __fromArray
 from '@quenk/noni/lib/data/maybe';
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {JobPanel} from '@board/widgets/lib/job/panel'; ;
+import {JobPanel} from '@devcarib/widgets/lib/job/panel'; ;
 import {JobFormApp} from '../main'; 
 
 

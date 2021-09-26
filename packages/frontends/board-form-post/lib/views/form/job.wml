@@ -5,7 +5,7 @@
 {% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
 
 {% import (CurrencyMoneyTextField) 
-   from "@board/widgets/lib/control/input/money" %}
+   from "@devcarib/widgets/lib/control/input/money" %}
 
 {% import (JobFormApp) from "../../main" %}
 

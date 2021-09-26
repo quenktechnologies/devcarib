@@ -3,4 +3,3 @@ $(APPS_DIR): $(CONVERSE_DIR) $(MIA_DIR)
 
 include $(CONVERSE_DIR)/build.mk
 include $(MIA_DIR)/build.mk
-

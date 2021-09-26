@@ -8,7 +8,7 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {Job} from '@board/types/lib/job'; ;
-import {JobPreviewPanelView} from '@board/widgets/lib/job/preview-panel'; ;
+import {JobPreviewPanelView} from '@devcarib/widgets/lib/job/preview-panel'; ;
 import {HeadView,HeadViewContext} from './common/head'; ;
 import {HeaderView} from './common/header'; 
 

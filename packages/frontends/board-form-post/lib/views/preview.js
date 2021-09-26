@@ -8,7 +8,7 @@ var button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
 var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-var panel_1 = require("@board/widgets/lib/job/panel");
+var panel_1 = require("@devcarib/widgets/lib/job/panel");
 ;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {

@@ -20,7 +20,7 @@ import { validators, validate } from '@board/validators/lib/job';
 import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
 import { JOB_STATUS_NEW } from '@board/common/lib/data/job';
 
-import { JobPanel } from '@board/widgets/lib/job/panel';
+import { JobPanel } from '@devcarib/widgets/lib/job/panel';
 
 import { JobFormAppView } from './views/app';
 import { PreviewView } from './views/preview';

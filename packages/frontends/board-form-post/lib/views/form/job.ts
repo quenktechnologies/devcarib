@@ -12,7 +12,7 @@ import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
 import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
 import {DropList} from '@quenk/wml-widgets/lib/control/drop-list'; ;
 import {Checkbox} from '@quenk/wml-widgets/lib/control/checkbox'; ;
-import {CurrencyMoneyTextField} from '@board/widgets/lib/control/input/money'; ;
+import {CurrencyMoneyTextField} from '@devcarib/widgets/lib/control/input/money'; ;
 import {JobFormApp} from '../../main'; 
 
 

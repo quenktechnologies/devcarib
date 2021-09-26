@@ -1,6 +1,6 @@
 {% import (Job) from "@board/types/lib/job" %}
 
-{% import (JobPanel) from "@board/widgets/lib/job/panel" %}
+{% import (JobPanel) from "@devcarib/widgets/lib/job/panel" %}
 
 {# JobBodyView is the view for the body content of a job profile page. #}
 {% view JobBodyView (Job) %}

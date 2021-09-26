@@ -1,11 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobBodyView = void 0;
+exports.ErrorView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
+var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-var panel_1 = require("@devcarib/widgets/lib/job/panel");
+var well_1 = require("@quenk/wml-widgets/lib/layout/well");
+;
+var head_1 = require("./common/head");
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -31,28 +34,41 @@ var text = __document.text;
 var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
-var JobBodyView = /** @class */ (function () {
-    function JobBodyView(__context) {
+var ErrorView = /** @class */ (function () {
+    function ErrorView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.node('div', { 'id': 'main', 'class': 'ww-grid-layout board-job-body' }, [
-                __this.node('div', { 'class': 'ww-grid-layout__row' }, [
-                    __this.node('div', { 'class': 'ww-grid-layout__column -span8 -offset2' }, [
-                        __this.widget(new panel_1.JobPanel({ 'job': __context, 'raw': true }, []), { 'job': __context, 'raw': true })
-                    ])
+            return __this.node('html', {}, [
+                __this.registerView((new head_1.HeadView({
+                    'title': 'Something went wrong'
+                }))).render(),
+                __this.node('body', { 'class': 'devcarib-error-page' }, [
+                    __this.widget(new grid_1.GridLayout({}, [
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({ ww: { 'span': 8, 'offset': 2 } }, [
+                                __this.widget(new well_1.Well({ ww: { 'className': 'devcarib-error-page-message' } }, [
+                                    __document.createTextNode('\u000a\u000a              Your request could not be completed. This may or not be our\u000a              fault. Either way please re-try your request or click \u000a              '),
+                                    __this.node('a', { 'href': '/' }, [
+                                        __document.createTextNode('here')
+                                    ]),
+                                    __document.createTextNode(' to return to the main page.\u000a\u000a            ')
+                                ]), { ww: { 'className': 'devcarib-error-page-message' } })
+                            ]), { ww: { 'span': 8, 'offset': 2 } })
+                        ]), {})
+                    ]), {})
                 ])
             ]);
         };
     }
-    JobBodyView.prototype.registerView = function (v) {
+    ErrorView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    JobBodyView.prototype.register = function (e, attrs) {
+    ErrorView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -68,7 +84,7 @@ var JobBodyView = /** @class */ (function () {
         }
         return e;
     };
-    JobBodyView.prototype.node = function (tag, attrs, children) {
+    ErrorView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -105,18 +121,18 @@ var JobBodyView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    JobBodyView.prototype.widget = function (w, attrs) {
+    ErrorView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    JobBodyView.prototype.findById = function (id) {
+    ErrorView.prototype.findById = function (id) {
         var mW = maybe_1.fromNullable(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    JobBodyView.prototype.findByGroup = function (name) {
+    ErrorView.prototype.findByGroup = function (name) {
         var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -124,7 +140,7 @@ var JobBodyView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    JobBodyView.prototype.invalidate = function () {
+    ErrorView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -133,7 +149,7 @@ var JobBodyView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    JobBodyView.prototype.render = function () {
+    ErrorView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -145,7 +161,7 @@ var JobBodyView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return JobBodyView;
+    return ErrorView;
 }());
-exports.JobBodyView = JobBodyView;
-//# sourceMappingURL=body.js.map
+exports.ErrorView = ErrorView;
+//# sourceMappingURL=error.js.map

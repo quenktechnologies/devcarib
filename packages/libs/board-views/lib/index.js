@@ -10,7 +10,7 @@ var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 ;
-var preview_panel_1 = require("@board/widgets/lib/job/preview-panel");
+var preview_panel_1 = require("@devcarib/widgets/lib/job/preview-panel");
 ;
 var head_1 = require("./common/head");
 ;

@@ -14,7 +14,7 @@ var drop_list_1 = require("@quenk/wml-widgets/lib/control/drop-list");
 ;
 var checkbox_1 = require("@quenk/wml-widgets/lib/control/checkbox");
 ;
-var money_1 = require("@board/widgets/lib/control/input/money");
+var money_1 = require("@devcarib/widgets/lib/control/input/money");
 ;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {

@@ -7,8 +7,9 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {Job} from '@board/types/lib/job'; ;
-import {JobPanel} from '@devcarib/widgets/lib/job/panel'; 
+import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
+import {Well} from '@quenk/wml-widgets/lib/layout/well'; ;
+import {HeadView} from './common/head'; 
 
 
 //@ts-ignore:6192
@@ -65,25 +66,40 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class JobBodyView  implements __wml.View {
+export class ErrorView  implements __wml.View {
 
-   constructor(__context: Job) {
+   constructor(__context: object) {
 
        this.template = (__this:__wml.Registry) => {
 
        
 
-           return __this.node('div', <__wml.Attrs>{'id': 'main','class': 'ww-grid-layout board-job-body'}, [
+           return __this.node('html', <__wml.Attrs>{}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__row'}, [
+        __this.registerView((new HeadView({
+ 
+      'title' : 'Something went wrong'
+     }))).render(),
+__this.node('body', <__wml.Attrs>{'class': 'devcarib-error-page'}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__column -span8 -offset2'}, [
+        __this.widget(new GridLayout({}, [
 
-        __this.widget(new JobPanel({'job': __context,'raw': true }, [
+        __this.widget(new Row({}, [
 
-        
-     ]),<__wml.Attrs>{'job': __context,'raw': true })
-     ])
+        __this.widget(new Column({ww : { 'span' : 8 ,'offset' : 2  }}, [
+
+        __this.widget(new Well({ww : { 'className' : 'devcarib-error-page-message'  }}, [
+
+        __document.createTextNode('\u000a\u000a              Your request could not be completed. This may or not be our\u000a              fault. Either way please re-try your request or click \u000a              '),
+__this.node('a', <__wml.Attrs>{'href': '/'}, [
+
+        __document.createTextNode('here')
+     ]),
+__document.createTextNode(' to return to the main page.\u000a\u000a            ')
+     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-error-page-message'  }})
+     ]),<__wml.Attrs>{ww : { 'span' : 8 ,'offset' : 2  }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
      ])
      ]);
 
