@@ -1,0 +1,9 @@
+{
+  "name": "@board/types",
+  "private": true,
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "author": "Quenk Technologies Limited (https://quenk.com)",
+  "license": "Apache-2.0"
+}

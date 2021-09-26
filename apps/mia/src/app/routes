@@ -1,0 +1,6 @@
+%set adminCtl = AdminController()
+
+GET     /               adminCtl.showIndex
+GET     /login          adminCtl.showLoginForm
+POST    /login          adminCtl.authenticate
+POST    /logout         adminCtl.logout

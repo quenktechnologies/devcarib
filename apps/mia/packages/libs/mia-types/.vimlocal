@@ -1,0 +1,4 @@
+autocmd BufWritePost,FileWritePost src/* :VimuxRunCommand "clear;make --warn-undefined-variables -j 4"
+autocmd BufWritePost,FileWritePost packages/* :VimuxRunCommand "clear;make --warn-undefined-variables -j4"
+
+

@@ -61,7 +61,9 @@ app.middleware.enabled = []
 
 app.modules = {
 
-  admin = ./admin#template
+  admin = ../../apps/mia/build/app#template
+
+  converse = ../../apps/converse/build/app#template
 
 }
 

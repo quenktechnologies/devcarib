@@ -1,0 +1,21 @@
+{
+
+    "name": "@board/views",
+
+    "private": "true",
+
+    "version": "0.0.1",
+
+    "description": "Server side views for the board application",
+
+    "main": "lib/index.js",
+
+    "dependencies": {
+
+        "@quenk/wml": "^2.9.2",
+        "@quenk/wml-widgets": "^1.27.15",
+        "@board/widgets": "file:../board-widgets"
+
+    }
+
+}

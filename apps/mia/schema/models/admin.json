@@ -1,0 +1,67 @@
+{
+
+    "type": "object",
+
+    "title": "Admin",
+
+    "collection": "admins",
+
+    "validators:imports": {
+
+        "@board/types/lib/admin": "Admin"
+
+    },
+
+    "checks:imports": {
+
+        "@board/validators/lib/admin": ["validate", "validatePartial"]
+
+    },
+
+    "properties": {
+
+        "id": {
+
+            "type": "number",
+
+            "readOnly": true,
+
+            "checks-complete": [
+
+                ["@devcarib/common-checks#inc", ["'counters.admins'"]],
+
+                ["@devcarib/common-checks#unique", ["'admins'", "'id'"]]
+
+            ]
+
+        },
+
+        "name": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#name"
+
+        },
+
+        "email": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#email"
+
+        },
+
+        "password": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#password",
+
+            "checks": ["@devcarib/common-checks#bcrypt"]
+
+        }
+
+    }
+
+}

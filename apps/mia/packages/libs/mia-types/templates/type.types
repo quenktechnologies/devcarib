@@ -1,0 +1,36 @@
+{% from "macros/type2TS.types" import type2TS %}
+{% from "macros/imports.types" import imports %}
+{% from "macros/definitions.types" import definitions %}
+import * as _json from '@quenk/noni/lib/data/jsonx';
+
+/**
+ * DO NOT EDIT DIRECTLY! Changes will be lost.
+ */
+{%- set types = {} -%}
+
+{% if document.definitions -%}
+
+  {{ definitions(context.document.definitions) }}
+
+{%- endif %}
+
+/**
+ * {{document.title}}s
+ */ 
+export interface {{document.title}}s {
+
+[key:string] : {{document.title}}
+
+}
+
+{% if document.description %}
+/**
+ * {{document.description}} 
+ */
+{% endif %}
+
+{% if document.type === 'object' %}
+export interface {{document.title}} extends _json.Object {{type2TS(document)}}
+{% elseif document.type === 'sum' %}
+export type {{document.title}} = {{type2TS(document) | trim }};
+{% endif %}

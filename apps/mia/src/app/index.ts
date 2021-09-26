@@ -1,3 +1,4 @@
+/* tdc-output-imports */
 import * as mongodb from 'mongodb';
 import * as moment from 'moment';
 import * as bcrypt from 'bcryptjs';
@@ -6,6 +7,7 @@ import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
 import { Type } from '@quenk/noni/lib/data/type';
 
+//@ts-ignore: 2300
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { checkout } from '@quenk/tendril/lib/app/api/pool';
@@ -207,4 +209,4 @@ const comparePasswords = (pwd1: string, pwd2: string): Future<boolean> =>
 
 const today = () => moment.utc().toDate();
 
-export const adminCtl = new AdminController();
+/* tdc-output-exports */

@@ -1,0 +1,56 @@
+{
+
+    "type": "object",
+
+    "properties": {
+
+        "imports": {
+
+            "type": "object",
+
+            "optional": true,
+
+            "additionalProperties": {
+
+                "type": "sum",
+
+                "variant": {
+
+                    "qualified": {
+
+                        "type": "string"
+
+                    },
+                    "members": {
+
+                        "type": "array",
+
+                        "items": {
+
+                            "type": "string"
+
+                        }
+
+                    },
+                    "aliased": {
+
+                      "type": "object",
+
+                      "additionalProperties": {
+
+                        "type": "string"
+
+                      }
+
+                    }
+
+
+                }
+
+            }
+
+        }
+
+    }
+
+}

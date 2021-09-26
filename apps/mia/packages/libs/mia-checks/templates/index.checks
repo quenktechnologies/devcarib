@@ -1,0 +1,64 @@
+/** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
+
+/** imports */
+{% for name in document.names.split(" ") %}
+  import * as _{{name|camelcase}} from './{{name|modulecase}}';
+{% endfor %}
+
+import {Value} from '@quenk/noni/lib/data/jsonx';
+import {Maybe,fromNullable} from '@quenk/noni/lib/data/maybe';
+import {Precondition} from '@quenk/preconditions/lib/async';
+
+/**
+ * DataTypeUnion combines all the types of the validators found in this module
+ * into one.
+ */
+export type DataTypeUnion =
+  {% for name in document.names.split(" ") %}
+    _{{name|camelcase}}.DataType {% if loop.last %};{% else %}{{"|\n"}}{%endif %}  
+  {% endfor %}
+
+/**
+ * Checks is a record of checks.
+ */
+export interface Checks {
+
+  [key:string] : Precondition<Value, DataTypeUnion>
+
+}
+
+/**
+ * checksAvailable from this module.
+ */
+export const checksAvailable:Checks = {
+
+  {% for name in document.names.split(" ") %}
+    '{{name}}': <Precondition<Value, DataTypeUnion>>_{{name|camelcase}}.check{% if not loop.last %}{{",\n"}}{% endif %}
+  {% endfor %}
+
+};
+
+/**
+ * getChecksFor provides a validator from this module.
+ */
+export const getChecksFor = 
+ (name:string) : Maybe<Precondition<Value, DataTypeUnion>> => 
+ fromNullable(checksAvailable[name]);
+
+/**
+ * partialChecksAvailable from this module.
+ */
+export const partialChecksAvailable:Checks = {
+
+  {% for name in document.names.split(" ") %}
+    '{{name}}': <Precondition<Value, Partial<DataTypeUnion>>>_{{name|camelcase}}.checkPartial{% if not loop.last %}{{",\n"}}{% endif %}
+  {% endfor %}
+
+};
+
+/**
+ * getPartialChecksFor provides a validator from this module.
+ */
+export const getPartialChecksFor = 
+(name:string) : Maybe<Precondition<Value, DataTypeUnion>> => 
+ fromNullable(partialChecksAvailable[name]);

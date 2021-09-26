@@ -1,0 +1,64 @@
+/** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
+
+/** imports */
+{% for name in document.names.split(" ") %}
+  import * as _{{name|camelcase}} from './{{name|modulecase}}';
+{% endfor %}
+
+import {Value} from '@quenk/noni/lib/data/jsonx';
+import {Maybe,fromNullable} from '@quenk/noni/lib/data/maybe';
+import {Precondition} from '@quenk/preconditions';
+
+/**
+ * DataTypeUnion combines all the types of the validators found in this module
+ * into one.
+ */
+export type DataTypeUnion =
+  {% for name in document.names.split(" ") %}
+    _{{name|camelcase}}.DataType {% if loop.last %};{% else %}{{"|\n"}}{%endif %}  
+  {% endfor %}
+
+/**
+ * Validators is a record of validators.
+ */
+export interface Validators {
+
+  [key:string] : Precondition<Value, DataTypeUnion>
+
+}
+
+/**
+ * validatorsAvailable from this module.
+ */
+export const validatorsAvailable:Validators = {
+
+  {% for name in document.names.split(" ") %}
+    '{{name}}': _{{name|camelcase}}.validate{% if not loop.last %}{{",\n"}}{% endif %}
+  {% endfor %}
+
+};
+
+/**
+ * getValidatorsFor provides a validator from this module.
+ */
+export const getValidatorsFor = 
+ (name:string) : Maybe<Precondition<Value, DataTypeUnion>> => 
+ fromNullable(validatorsAvailable[name]);
+
+/**
+ * partialValidatorsAvailable from this module.
+ */
+export const partialValidatorsAvailable:Validators = {
+
+  {% for name in document.names.split(" ") %}
+    '{{name}}': _{{name|camelcase}}.validatePartial{% if not loop.last %}{{",\n"}}{% endif %}
+  {% endfor %}
+
+};
+
+/**
+ * getPartialValidatorsFor provides a validator from this module.
+ */
+export const getPartialValidatorsFor = 
+ (name:string) : Maybe<Precondition<Value, DataTypeUnion>> => 
+ fromNullable(partialValidatorsAvailable[name]);

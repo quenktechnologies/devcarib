@@ -42,7 +42,7 @@ BOARD_SRC_DIRS:=
 include $(PACKAGES_DIR)/schema/variables.mk
 include $(PACKAGES_DIR)/libs/variables.mk
 include $(PACKAGES_DIR)/frontends/variables.mk
-include $(APPS_DIR)/converse/variables.mk
+include $(APPS_DIR)/variables.mk
 
 ### Dependency Graph ###
 
@@ -55,7 +55,7 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
                       $(BOARD_LIBS_DIR)\
                       $(BOARD_FRONTENDS_DIR)\
                       $(BOARD_VIEWS_DIR)\
-		      $(CONVERSE_DIR)
+		      $(APPS_DIR)
 	rm -R $@ || true
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
@@ -67,7 +67,7 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 include $(PROJECT_SCHEMA_DIR)/build.mk
 include $(BOARD_LIBS_DIR)/build.mk
 include $(BOARD_FRONTENDS_DIR)/build.mk
-include $(APPS_DIR)/converse/build.mk
+include $(APPS_DIR)/build.mk
 
 # Remove the build application files.
 .PHONY: clean

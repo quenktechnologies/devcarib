@@ -1,4 +1,4 @@
-%set adminCtl = ./handlers#adminCtl
+%set adminCtl = AdminController()
 
 GET     /               adminCtl.showIndex
 GET     /login          adminCtl.showLoginForm
