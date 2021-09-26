@@ -94,9 +94,9 @@ $(BOARD_VALIDATORS_TEST_DIR): $(BOARD_VALIDATORS_UNIT_TEST_DIR)
 	touch $@
 
 $(BOARD_VALIDATORS_UNIT_TEST_DIR): $(BOARD_VALIDATORS_LIB_DIR) \
-                                  $(BOARD_VALIDATORS_TEMPLATE_DIR_FILES)
+                                   $(BOARD_VALIDATORS_TEMPLATE_DIR_FILES)
 	rm -R $@ || true
-	mkdir -p $@
+	mkdir -p $@ $(BOARD_VALIDATORS_EXTRA_TEST_DIR) 
 	
 	$(foreach d,$(BOARD_VALIDATORS_SRC_FILES),\
 	 $(eval name=$(notdir $(basename $(d)))) \
