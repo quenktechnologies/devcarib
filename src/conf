@@ -51,7 +51,8 @@ app.dirs.public = [
   "public",
   "../packages/libs/board-views/public",
   "../packages/frontends/board-form-post/public",
-  "../packages/frontends/board-admin/public"
+  "../apps/mia/frontend/public",
+  "../apps/mia/packages/libs/mia-views/public"
 
 ]
 
