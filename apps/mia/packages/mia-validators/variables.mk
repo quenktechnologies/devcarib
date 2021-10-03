@@ -1,5 +1,5 @@
 
-MIA_VALIDATORS_DIR:=$(MIA_LIBS_DIR)/mia-validators
+MIA_VALIDATORS_DIR:=$(MIA_PACKAGES_DIR)/mia-validators
 MIA_VALIDATORS_PLUGIN?=node_modules/@quenk/dagen-commons/lib/plugins/validation
 MIA_VALIDATORS_SRC_DIR:=$(MIA_VALIDATORS_DIR)/src
 MIA_VALIDATORS_SRC_DIR_FILES:=$(shell find $(MIA_VALIDATORS_SRC_DIR) -type f)

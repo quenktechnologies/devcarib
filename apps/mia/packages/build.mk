@@ -1,8 +1,8 @@
-$(MIA_LIBS_DIR): $(MIA_TYPES_DIR)\
-	         $(MIA_VALIDATORS_DIR)\
-	         $(MIA_CHECKS_DIR)\
-	         $(MIA_VIEWS_DIR)\
-	         $(MIA_MODELS_DIR)
+$(MIA_PACKAGES_DIR): $(MIA_TYPES_DIR)\
+	             $(MIA_VALIDATORS_DIR)\
+	             $(MIA_CHECKS_DIR)\
+	             $(MIA_VIEWS_DIR)\
+	             $(MIA_MODELS_DIR)
 	touch $@
 
 include $(MIA_TYPES_DIR)/build.mk

@@ -30,17 +30,21 @@ PROJECT_SRC_DIR_FILES:=$(shell $(FIND) $(PROJECT_SRC_DIR) -type f)
 PACKAGES_DIR:=$(HERE)/packages
 APPS_DIR:=$(HERE)/apps
 LIBS_PACKAGES_DIR:=$(PACKAGES_DIR)/libs
-PACKAGES_LIBS_DIR:=$(LIBS_PACKAGES_DIR)
 APPS_PACKAGES_DIR:=$(PACKAGES_DIR)/frontend
 PROJECT_BUILD_DIR:=$(HERE)/build
+
+# To be moved elsewhere when the project is renamed.
+BOARD_DIR:=$(HERE)
+BOARD_FRONTENDS_DIR:=$(BOARD_DIR)/frontends
+BOARD_PACKAGES_DIR:=$(BOARD_DIR)/packages
 
 CLEAN_TARGETS:=
 SRC_DIRS:=
 
 # Configure the paths for your extra packages here.
-include $(PACKAGES_DIR)/schema/variables.mk
-include $(PACKAGES_DIR)/libs/variables.mk
-include $(PACKAGES_DIR)/frontends/variables.mk
+include $(HERE)/schema/variables.mk
+include $(PACKAGES_DIR)/variables.mk
+include $(BOARD_FRONTENDS_DIR)/variables.mk
 include $(APPS_DIR)/variables.mk
 
 ### Dependency Graph ###
@@ -50,8 +54,8 @@ include $(APPS_DIR)/variables.mk
 # The whole application gets built to here.
 # Remember to add a dependency here for each of your extra packages.
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
-                      $(PROJECT_SCHEMA_DIR) \
-                      $(BOARD_LIBS_DIR)\
+                      $(BOARD_SCHEMA_DIR) \
+                      $(BOARD_PACKAGES_DIR)\
                       $(BOARD_FRONTENDS_DIR)\
                       $(BOARD_VIEWS_DIR)\
 		      $(APPS_DIR)
@@ -63,8 +67,8 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 	$(TOUCH) $(PROJECT_BUILD_DIR)
 
 # Include *.mk files here.
-include $(PROJECT_SCHEMA_DIR)/build.mk
-include $(BOARD_LIBS_DIR)/build.mk
+include $(BOARD_SCHEMA_DIR)/build.mk
+include $(BOARD_PACKAGES_DIR)/build.mk
 include $(BOARD_FRONTENDS_DIR)/build.mk
 include $(APPS_DIR)/build.mk
 

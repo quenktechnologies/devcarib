@@ -12,6 +12,6 @@
     "license": "Apache-2.0",
     "dependencies": {
         "@quenk/jouvert": "^0.10.31",
-        "@mia/models": "file:./packages/libs/mia-models"
+        "@mia/models": "file:./packages/mia-models"
     }
 }

@@ -5,6 +5,7 @@
     "version": "0.0.1",
     "main": "lib/index.js",
     "dependencies": {
-        "moment": "^2.29.1"
+        "moment": "^2.29.1",
+        "@quenk/wml-widgets": "^1.28.0"
     }
 }

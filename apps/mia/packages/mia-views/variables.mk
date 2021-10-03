@@ -1,4 +1,4 @@
-MIA_VIEWS_DIR:=$(MIA_LIBS_DIR)/mia-views
+MIA_VIEWS_DIR:=$(MIA_PACKAGES_DIR)/mia-views
 MIA_VIEWS_JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
 MIA_VIEWS_LIB_DIR:=$(MIA_VIEWS_DIR)/lib
 MIA_VIEWS_SRC_DIR:=$(MIA_VIEWS_DIR)/src
