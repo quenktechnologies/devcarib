@@ -7,7 +7,7 @@ import * as _json from '@quenk/noni/lib/data/jsonx';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 //@ts-ignore: 6133
 import {Module} from '@quenk/tendril/lib/app/module';
-//@ts-ignore: 2300
+//@ts-ignore: 6133
 import {Request} from '@quenk/tendril/lib/app/api/request;'
 //@ts-ignore: 6133
 import {RouteConf as $RouteConf} from '@quenk/tendril/lib/app/module';

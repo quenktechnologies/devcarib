@@ -37,13 +37,13 @@ class WebController {
      * login page.
      */
     onIndex(r) {
-        return api_1.doAction(function* () {
+        return (0, api_1.doAction)(function* () {
             let muser = r.session.get('user');
             if (muser.isJust()) {
-                return tendril_show_wml_1.render(new views_1.IndexView({}));
+                return (0, tendril_show_wml_1.render)(new views_1.IndexView({}));
             }
             else {
-                return response_1.redirect(ROUTE_LOGIN, 301);
+                return (0, response_1.redirect)(ROUTE_LOGIN, 301);
             }
         });
     }
@@ -51,9 +51,9 @@ class WebController {
      * onLoginForm renders the login page.
      */
     onLoginForm(r) {
-        return api_1.doAction(function* () {
+        return (0, api_1.doAction)(function* () {
             let ctx = r.session.getOrElse(KEY_LOGIN_VIEW_CTX, {});
-            return tendril_show_wml_1.render(new login_2.LoginView(record_1.merge(ctx, {
+            return (0, tendril_show_wml_1.render)(new login_2.LoginView((0, record_1.merge)(ctx, {
                 csrfToken: r.prs.getOrElse(csrf_token_1.PRS_CSRF_TOKEN, '')
             })));
         });
@@ -62,35 +62,35 @@ class WebController {
      * onLoginFormSubmit handles the authentication atempt.
      */
     onLoginFormSubmit(req) {
-        return api_1.doAction(function* () {
-            let elogin = login_1.validate(req.body);
+        return (0, api_1.doAction)(function* () {
+            let elogin = (0, login_1.validate)(req.body);
             if (elogin.isLeft())
                 return showAuthError(req, {
                     message: ERR_AUTH_FAILED,
                     errors: elogin.takeLeft().explain(messages)
                 });
             let { email, password } = elogin.takeRight();
-            let db = yield pool_1.checkout('main');
+            let db = yield (0, pool_1.checkout)('main');
             let model = user_1.UserModel.getInstance(db);
-            let [user] = yield control_1.fork(model.search({ email }));
+            let [user] = yield (0, control_1.fork)(model.search({ email }));
             if (user == null)
                 return showAuthError(req, authFailedErr(email));
-            let matches = yield control_1.fork(comparePasswords(password, user.password));
+            let matches = yield (0, control_1.fork)(comparePasswords(password, user.password));
             if (!matches)
                 return showAuthError(req, authFailedErr(email));
             let change = { last_login: today() };
-            yield control_1.fork(model.update(user.id, change));
+            yield (0, control_1.fork)(model.update(user.id, change));
             req.session.set('user', { id: user.id });
-            return response_1.redirect(ROUTE_INDEX, 302);
+            return (0, response_1.redirect)(ROUTE_INDEX, 302);
         });
     }
     /**
      * onLogout is called when the user logs out.
      */
     onLogout(r) {
-        return api_1.doAction(function* () {
-            yield control_1.fork(r.session.destroy());
-            return response_1.redirect(ROUTE_LOGIN, 302);
+        return (0, api_1.doAction)(function* () {
+            yield (0, control_1.fork)(r.session.destroy());
+            return (0, response_1.redirect)(ROUTE_LOGIN, 302);
         });
     }
 }
@@ -99,14 +99,16 @@ const authFailedErr = (email) => ({
     email,
     errors: { message: ERR_AUTH_FAILED }
 });
-const showAuthError = (r, ctx) => api_1.doAction(function* () {
+const showAuthError = (r, ctx) => (0, api_1.doAction)(function* () {
     r.session.setWithDescriptor(KEY_LOGIN_VIEW_CTX, ctx, { ttl: 1 });
-    return response_1.redirect(ROUTE_LOGIN, 303);
+    return (0, response_1.redirect)(ROUTE_LOGIN, 303);
 });
-const comparePasswords = (pwd1, pwd2) => future_1.fromCallback(cb => bcrypt.compare(pwd1, pwd2, cb));
+const comparePasswords = (pwd1, pwd2) => (0, future_1.fromCallback)(cb => bcrypt.compare(pwd1, pwd2, cb));
 const today = () => moment.utc().toDate();
 //@ts-ignore: 6133
-const template = ($app) => ({ 'id': `converse`, 'app': { 'dirs': { 'self': `/apps/converse/build` }, 'routes': //@ts-ignore: 6133
+const template = ($app) => ({ 'id': `converse`,
+    'app': { 'dirs': { 'self': `/apps/converse/build` },
+        'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];
             let userCtrl = new WebController();
