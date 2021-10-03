@@ -1,0 +1,83 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
+
+{% import (JobFormView) from "./form/job" %}
+{% import (CompanyFormView) from "./form/company" %}
+{% import (JobFormApp) from "../main" %}
+
+{% view JobFormAppView (JobFormApp) %}
+
+<GridLayout>
+
+  <Row>
+
+    <Column ww:span=6 ww:offset=3>
+
+      <Row>
+
+        <Column>
+
+          <div class="back-link-container">
+
+            <Link
+              ww:className="back-link"
+              ww:text="← Back to Listings" 
+              ww:href="/" />
+
+          </div>
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <h3 class="board-job-form-heading">Tell us about the job.</h4>
+
+          {{<JobFormView(@)>}}
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <h3 class="board-job-form-heading">Tell us a little bit about the company hiring.</h4>
+
+          {{<CompanyFormView(@)>}}
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <div class="preview-button-container">
+
+            <Button
+              wml:id={{@values.buttons.preview.id}}
+              ww:disabled=true
+              ww:className="preview-button -primary -large"
+              ww:text="Preview" 
+              ww:onClick={{@values.buttons.preview.click}} />
+
+          </div>
+
+          <p class="required-note"><b>* indicates a field is required.</b></p>
+
+        </Column>
+
+    </Row>
+
+    </Column>
+
+  </Row>
+
+</GridLayout>

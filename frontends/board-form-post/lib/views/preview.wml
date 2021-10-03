@@ -1,0 +1,65 @@
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+
+{% import (JobPanel) from "@devcarib/widgets/lib/job/panel" %}
+
+{% import (JobFormApp) from "../main" %}
+
+{% view PreviewView (JobFormApp) %}
+<GridLayout>
+
+  <Row>
+
+    <Column ww:span=8 ww:offset=2>
+
+      <Row>
+
+        <Column>
+
+          <h1 class="job-title -board-center">{{@values.job.data.title | text }}</h1>
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <JobPanel 
+            wml:id="panel"
+            job={{@values.job.data}} 
+            raw=true />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <div class="action-container">
+
+            <Button
+             ww:className="back-button -default -large"
+             ww:text="Back" 
+             ww:onClick={{@values.buttons.job.click}} />
+
+            <Button
+             wml:id={{@values.buttons.send.id}}
+             ww:className="send-button -primary -large"
+             ww:text="Post" 
+             ww:onClick={{@values.buttons.send.click}} />
+
+          </div>
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+  </Row>
+
+</GridLayout>
