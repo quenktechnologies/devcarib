@@ -19,12 +19,12 @@ import { BaseModel } from '@quenk/dback-model-mongodb';
 
 import { render } from '@quenk/tendril-show-wml';
 
-import { Admin } from '@board/types/lib/admin';
+import { Admin } from '@mia/types/lib/admin';
 
-import { validate as validateLogin } from '@board/validators/lib/login';
+import { validate as validateLogin } from '@mia/validators/lib/login';
 
-import { IndexView } from '@board/views/lib/admin';
-import { LoginView } from '@board/views/lib/admin/login';
+import { IndexView } from '@mia/views';
+import { LoginView } from '@mia/views/lib/login';
 
 const ROUTE_INDEX = '/admin';
 const ROUTE_LOGIN = '/admin/login';
@@ -33,6 +33,8 @@ const KEY_LOGIN_VIEW_CTX = 'loginCtx';
 
 const ERR_AUTH_FAILED = 'Email or password is invalid!';
 const ERR_AUTH_INVALID = 'Correct the below error(s) before continuing.';
+
+const TITLE = 'Mia';
 
 const messages = {
 
@@ -80,13 +82,8 @@ export class AdminController {
 
             if (muser.isJust()) {
 
-                return <Action<undefined>>render(new IndexView({
-
-                    title: 'Caribbean Developers Job Board - Admin',
-
-                    styles: ['/assets/css/board-admin.css']
-
-                }));
+                return <Action<undefined>>render(
+                    new IndexView({ title: TITLE }));
 
             } else {
 

@@ -5,3 +5,10 @@ app.modules = {
   r = ./r#template
 
 }
+
+app.dirs.public = [
+
+  "../public",
+  "../frontend/public"
+
+]

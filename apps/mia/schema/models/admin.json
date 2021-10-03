@@ -6,15 +6,37 @@
 
     "collection": "admins",
 
+    "model.type": "ModelType",
+
+    "models:imports": {
+
+        "$ref": "./common/imports.json",
+
+        "@mia/types/lib/admin": {
+
+            "Admin": "ModelType"
+
+        },
+
+        "@quenk/safe-mongodb/lib/database/collection": {
+
+            "populate": "populate",
+
+            "populateN": "populateN"
+
+        }
+
+    },
+
     "validators:imports": {
 
-        "@board/types/lib/admin": "Admin"
+        "@mia/types/lib/admin": "Admin"
 
     },
 
     "checks:imports": {
 
-        "@board/validators/lib/admin": ["validate", "validatePartial"]
+        "@mia/validators/lib/admin": ["validate", "validatePartial"]
 
     },
 

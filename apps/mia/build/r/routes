@@ -1,5 +1,5 @@
-%set adminsCtrl = ./handlers#adminsCtrl
-%set jobCtrl = ./handlers#jobCtrl
+%set adminsCtrl = AdminsController()
+%set jobCtrl = JobsController()
 
 -- Admins
 POST    /admins       adminsCtrl.create
@@ -9,7 +9,7 @@ GET     /admins/:id   adminsCtrl.get
 PATCH   /admins/:id   adminsCtrl.update
 DELETE  /admins/:id   adminsCtrl.remove
 
--- Posts
+-- Jobs
 POST    /jobs        jobCtrl.create
 GET     /jobs        jobCtrl.search
 

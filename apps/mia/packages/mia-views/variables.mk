@@ -1,0 +1,16 @@
+MIA_VIEWS_DIR:=$(MIA_LIBS_DIR)/mia-views
+MIA_VIEWS_JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
+MIA_VIEWS_LIB_DIR:=$(MIA_VIEWS_DIR)/lib
+MIA_VIEWS_SRC_DIR:=$(MIA_VIEWS_DIR)/src
+MIA_VIEWS_SRC_DIR_FILES:=$(shell $(FIND) $(MIA_VIEWS_SRC_DIR) -name \*.wml)
+MIA_VIEWS_LESS_FILES:=$(shell $(FIND) $(MIA_VIEWS_SRC_DIR) -name \*.less)
+MIA_VIEWS_LESS_MAIN:=$(MIA_VIEWS_DIR)/main.less
+MIA_VIEWS_LESS_IMPORTS:=$(MIA_VIEWS_DIR)/auto.less
+MIA_VIEWS_PUBLIC_DIR:=$(MIA_VIEWS_DIR)/public
+MIA_VIEWS_CSS_FILE:=$(MIA_VIEWS_PUBLIC_DIR)/mia/assets/css/site.css
+
+CLEAN_TARGETS:=$(CLEAN_TARGETS)\
+	       $(MIA_VIEWS_LIB_DIR)\
+	       $(MIA_VIEWS_LESS_IMPORTS)\
+	       $(MIA_VIEWS_CSS_FILE)
+

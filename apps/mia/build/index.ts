@@ -7,7 +7,7 @@ import * as _json from '@quenk/noni/lib/data/jsonx';
 import {Template} from '@quenk/tendril/lib/app/module/template';
 //@ts-ignore: 6133
 import {Module} from '@quenk/tendril/lib/app/module';
-//@ts-ignore: 2300
+//@ts-ignore: 6133
 import {Request} from '@quenk/tendril/lib/app/api/request;'
 //@ts-ignore: 6133
 import {RouteConf as $RouteConf} from '@quenk/tendril/lib/app/module';
@@ -35,12 +35,12 @@ import { BaseModel } from '@quenk/dback-model-mongodb';
 
 import { render } from '@quenk/tendril-show-wml';
 
-import { Admin } from '@board/types/lib/admin';
+import { Admin } from '@mia/types/lib/admin';
 
-import { validate as validateLogin } from '@board/validators/lib/login';
+import { validate as validateLogin } from '@mia/validators/lib/login';
 
-import { IndexView } from '@board/views/lib/admin';
-import { LoginView } from '@board/views/lib/admin/login';
+import { IndexView } from '@mia/views';
+import { LoginView } from '@mia/views/lib/login';
 
 const ROUTE_INDEX = '/admin';
 const ROUTE_LOGIN = '/admin/login';
@@ -49,6 +49,8 @@ const KEY_LOGIN_VIEW_CTX = 'loginCtx';
 
 const ERR_AUTH_FAILED = 'Email or password is invalid!';
 const ERR_AUTH_INVALID = 'Correct the below error(s) before continuing.';
+
+const TITLE = 'Mia';
 
 const messages = {
 
@@ -96,13 +98,8 @@ export class AdminController {
 
             if (muser.isJust()) {
 
-                return <Action<undefined>>render(new IndexView({
-
-                    title: 'Caribbean Developers Job Board - Admin',
-
-                    styles: ['/assets/css/board-admin.css']
-
-                }));
+                return <Action<undefined>>render(
+                    new IndexView({ title: TITLE }));
 
             } else {
 
@@ -228,7 +225,8 @@ const today = () => moment.utc().toDate();
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
  {'id': `admin`,
-'app': {'dirs': {'self': `/apps/mia/build`},
+'app': {'dirs': {'self': `/apps/mia/build`,
+'public': [`../public`,`../frontend/public`]},
 'modules': {'r': dotR.template},
 'routes': //@ts-ignore: 6133
 ($module:Module) => {

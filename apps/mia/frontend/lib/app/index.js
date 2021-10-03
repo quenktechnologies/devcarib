@@ -66,7 +66,7 @@ exports.ACTION_SHOW = 'show';
 exports.RESOURCE_JOBS = '/admin/r/jobs';
 exports.RESOURCE_JOB = '/admin/r/jobs/{id}';
 exports.TIME_SEARCH_DEBOUNCE = 500;
-var agent = browser_1.createAgent();
+var agent = (0, browser_1.createAgent)();
 /**
  * DialogManager is responsible for the actual display and removal of dialog
  * content.
@@ -163,7 +163,7 @@ var BoardAdmin = /** @class */ (function (_super) {
                 }
             },
             search: {
-                onChange: timer_1.debounce(function (e) {
+                onChange: (0, timer_1.debounce)(function (e) {
                     var qry = e.value === '' ? {} : { q: e.value };
                     _this.runFuture(_this.searchJobs(qry));
                 }, exports.TIME_SEARCH_DEBOUNCE)
@@ -224,17 +224,17 @@ var BoardAdmin = /** @class */ (function (_super) {
     BoardAdmin.prototype.searchJobs = function (qry) {
         if (qry === void 0) { qry = {}; }
         var that = this;
-        return future_1.doFuture(function () {
+        return (0, future_1.doFuture)(function () {
             var r, mtable;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, agent.get(exports.RESOURCE_JOBS, qry)];
                     case 1:
                         r = _a.sent();
-                        mtable = util_1.getById(that.view, that.values.table.id);
+                        mtable = (0, util_1.getById)(that.view, that.values.table.id);
                         if (mtable.isJust())
                             mtable.get().update((r.code === 200) ? r.body.data : []);
-                        return [2 /*return*/, future_1.pure(undefined)];
+                        return [2 /*return*/, (0, future_1.pure)(undefined)];
                 }
             });
         });
@@ -244,7 +244,7 @@ var BoardAdmin = /** @class */ (function (_super) {
      */
     BoardAdmin.prototype.loadInitialJobs = function () {
         var that = this;
-        return future_1.doFuture(function () {
+        return (0, future_1.doFuture)(function () {
             var r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -258,7 +258,7 @@ var BoardAdmin = /** @class */ (function (_super) {
                             that.values.table.data = r.body.data;
                             that.view.invalidate();
                         }
-                        return [2 /*return*/, future_1.pure(undefined)];
+                        return [2 /*return*/, (0, future_1.pure)(undefined)];
                 }
             });
         });
@@ -272,9 +272,9 @@ var BoardAdmin = /** @class */ (function (_super) {
                 .post('/admin/logout', {})
                 .chain(function () {
                 window.location.href = '/admin';
-                return future_1.pure(undefined);
+                return (0, future_1.pure)(undefined);
             }) :
-            future_1.pure(undefined);
+            (0, future_1.pure)(undefined);
     };
     /**
      * showJob displays a single Job in a dialog.
@@ -293,12 +293,12 @@ var BoardAdmin = /** @class */ (function (_super) {
      */
     BoardAdmin.prototype.approveJob = function (id) {
         var that = this;
-        return future_1.doFuture(function () {
+        return (0, future_1.doFuture)(function () {
             var path, change, r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        path = string_1.interpolate(exports.RESOURCE_JOB, { id: id });
+                        path = (0, string_1.interpolate)(exports.RESOURCE_JOB, { id: id });
                         change = { status: jobStatus.JOB_STATUS_ACTIVE };
                         return [4 /*yield*/, agent.patch(path, change)];
                     case 1:
@@ -310,7 +310,7 @@ var BoardAdmin = /** @class */ (function (_super) {
                         else {
                             alert('Could not complete request!');
                         }
-                        return [2 /*return*/, future_1.pure(undefined)];
+                        return [2 /*return*/, (0, future_1.pure)(undefined)];
                 }
             });
         });
@@ -327,12 +327,12 @@ var BoardAdmin = /** @class */ (function (_super) {
      */
     BoardAdmin.prototype.removeJob = function (id) {
         var that = this;
-        return future_1.doFuture(function () {
+        return (0, future_1.doFuture)(function () {
             var path, r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        path = string_1.interpolate(exports.RESOURCE_JOB, { id: id });
+                        path = (0, string_1.interpolate)(exports.RESOURCE_JOB, { id: id });
                         return [4 /*yield*/, agent.delete(path)];
                     case 1:
                         r = _a.sent();
@@ -343,7 +343,7 @@ var BoardAdmin = /** @class */ (function (_super) {
                         else {
                             alert('Could not complete request!');
                         }
-                        return [2 /*return*/, future_1.pure(undefined)];
+                        return [2 /*return*/, (0, future_1.pure)(undefined)];
                 }
             });
         });

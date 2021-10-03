@@ -1,8 +1,12 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ActionColumnView = exports.TitleColumnView = void 0;
@@ -119,13 +123,13 @@ var TitleColumnView = /** @class */ (function () {
         return w.render();
     };
     TitleColumnView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
+        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
     TitleColumnView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
         return this.views.reduce(function (p, c) {
@@ -174,12 +178,12 @@ var ActionColumnView = /** @class */ (function () {
                             (function () { return ([
                                 __this.widget(new item_1.Item({ ww: { 'divider': true } }, []), { ww: { 'divider': true } })
                             ]); })() :
-                            (function () { return ([]); })())), [
+                            (function () { return ([]); })()), true), [
                             __this.widget(new item_1.Item({}, [
                                 __this.widget(new link_1.Link({ ww: { 'text': spec.text, 'onClick': function () { return spec.onClick(__context.job); } } }, []), { ww: { 'text': spec.text, 'onClick': function () { return spec.onClick(__context.job); } } })
                             ]), {})
-                        ]));
-                    }, function () { return ([]); }))), {})
+                        ], false));
+                    }, function () { return ([]); }), true)), {})
                 ]), { ww: { 'className': '-left', 'buttonText': 'Action' } })
             ]);
         };
@@ -247,13 +251,13 @@ var ActionColumnView = /** @class */ (function () {
         return w.render();
     };
     ActionColumnView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
+        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
     ActionColumnView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
         return this.views.reduce(function (p, c) {

@@ -6,3 +6,4 @@ MIA_PACKAGES_DIR:=$(MIA_DIR)/packages
 
 include $(MIA_DIR)/schema/variables.mk
 include $(MIA_PACKAGES_DIR)/variables.mk
+include $(MIA_DIR)/frontend/variables.mk

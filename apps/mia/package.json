@@ -1,0 +1,17 @@
+{
+    "name": "@mia",
+    "private": true,
+    "version": "0.1.0",
+    "description": "Admin dashboard for devcarib",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "test": "./node_modules/.bin/mocha --opts mocha.opts test"
+    },
+    "author": "Quenk Technologies Limited (https://quenk.com)",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "@quenk/jouvert": "^0.10.31",
+        "@mia/models": "file:./packages/libs/mia-models"
+    }
+}

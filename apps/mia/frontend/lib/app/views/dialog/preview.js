@@ -48,20 +48,20 @@ var JobPreviewView = /** @class */ (function () {
         this.template = function (__this) {
             return __this.widget(new modal_1.Modal({ ww: { 'className': '-large' } }, [
                 __this.widget(new modal_1.ModalHeader({}, [
-                    text(type_1.toString(__context.job.company))
+                    text((0, type_1.toString)(__context.job.company))
                 ]), {}),
                 __this.widget(new modal_1.ModalBody({}, [
                     __this.widget(new grid_1.GridLayout({}, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('h1', {}, [
-                                    text(type_1.toString(__context.job.title))
+                                    text((0, type_1.toString)(__context.job.title))
                                 ])
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                text(type_1.toString(__context.job.description))
+                                text((0, type_1.toString)(__context.job.description))
                             ]), {})
                         ]), {})
                     ]), {})
@@ -135,13 +135,13 @@ var JobPreviewView = /** @class */ (function () {
         return w.render();
     };
     JobPreviewView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
+        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
     JobPreviewView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
         return this.views.reduce(function (p, c) {

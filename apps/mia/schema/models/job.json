@@ -1,0 +1,219 @@
+{
+
+    "title": "Job",
+
+    "type": "object",
+
+    "collection": "jobs",
+
+    "model.type": "ModelType",
+
+    "models:imports": {
+
+        "$ref": "./common/imports.json",
+
+        "@mia/types/lib/job": {
+
+            "Job": "ModelType"
+
+        },
+
+        "@quenk/safe-mongodb/lib/database/collection": {
+
+            "populate": "populate",
+
+            "populateN": "populateN"
+
+        }
+
+    },
+
+    "validators:imports": {
+
+        "@mia/types/lib/job": "Job"
+
+    },
+
+    "checks:imports": {
+
+        "@mia/validators/lib/job": ["validate", "validatePartial"]
+
+    },
+
+    "checks": [
+        ["@devcarib/common-checks#parseMarkdown", ["'description'", "'description_html'"]]
+    ],
+
+    "properties": {
+
+        "id": {
+
+            "type": "number",
+
+            "readOnly": true,
+
+            "checks-complete": [
+
+                ["@devcarib/common-checks#inc", ["'counters.jobs'"]],
+
+                ["@devcarib/common-checks#unique", ["'jobs'", "'id'"]]
+
+            ]
+
+        },
+
+        "$ref": "./common/properties.json",
+
+        "title": {
+
+            "type": "string",
+
+            "validators": [
+
+                "@devcarib/common-validators#textsmall",
+
+                ["@devcarib/common-validators#minLength", [3]]
+
+            ]
+
+        },
+
+        "type": {
+
+            "type": "string",
+
+            "validators": [
+
+                "@devcarib/common-validators#textsmall"
+
+            ]
+
+        },
+
+        "location": {
+
+            "type": "string",
+
+            "validators": [
+
+                "@devcarib/common-validators#textsmall"
+
+            ]
+
+        },
+
+        "remote": {
+
+            "type": "boolean",
+
+            "optional": true
+
+        },
+
+        "description": {
+
+            "type": "string",
+
+            "validators": [
+
+                "@devcarib/common-validators#textlarge",
+
+                ["@devcarib/common-validators#minLength", [3]],
+
+                ["@devcarib/common-validators#maxLength", [6000]]
+
+            ]
+
+        },
+
+        "description_html": {
+
+            "type": "string",
+
+            "readOnly": true
+
+        },
+
+        "company": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#name"
+
+        },
+
+        "company_email": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#email"
+
+        },
+
+        "company_logo": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#url",
+
+            "optional": true
+
+        },
+
+        "apply_url": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#url",
+
+            "optional": true
+
+        },
+
+        "approved": {
+
+            "type": "boolean",
+
+            "optional": true
+
+        },
+
+        "payment_currency": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#currency",
+
+            "optional": true
+
+        },
+
+        "payment_amount": {
+
+            "type": "number",
+
+            "optional": true
+
+        },
+
+        "payment_frequency": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#paymentFrequency",
+
+            "optional": true
+
+        },
+
+        "status": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common-validators#jobStatus"
+
+        }
+
+    }
+
+}

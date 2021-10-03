@@ -1,8 +1,12 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardAdminView = void 0;
@@ -63,7 +67,7 @@ var BoardAdminView = /** @class */ (function () {
                                     __this.widget(new link_1.Link({ ww: { 'text': text, 'onClick': handler } }, []), { ww: { 'text': text, 'onClick': handler } })
                                 ]), {})
                             ]);
-                        }, function () { return ([]); }))), {})
+                        }, function () { return ([]); }), true)), {})
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
@@ -149,13 +153,13 @@ var BoardAdminView = /** @class */ (function () {
         return w.render();
     };
     BoardAdminView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
+        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
     BoardAdminView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
+        var mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
         return this.views.reduce(function (p, c) {
