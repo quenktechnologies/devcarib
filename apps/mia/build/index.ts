@@ -226,7 +226,7 @@ const today = () => moment.utc().toDate();
 export const template = ($app: App): Template => (
  {'id': `admin`,
 'app': {'dirs': {'self': `/apps/mia/build`,
-'public': [`../public`,`../frontend/public`]},
+'public': [`../public`,`../frontend/public`,`../packages/mia-views/public`]},
 'modules': {'r': dotR.template},
 'routes': //@ts-ignore: 6133
 ($module:Module) => {

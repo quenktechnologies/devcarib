@@ -9,6 +9,7 @@ app.modules = {
 app.dirs.public = [
 
   "../public",
-  "../frontend/public"
+  "../frontend/public",
+  "../packages/mia-views/public"
 
 ]
