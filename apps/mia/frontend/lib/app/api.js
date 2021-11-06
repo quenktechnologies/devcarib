@@ -4,6 +4,6 @@ exports.JOB = exports.JOBS = void 0;
 /**
  * This module holds constants for the XHR endpoints of board-admin.
  */
-exports.JOBS = '/admin/r/jobs';
-exports.JOB = '/admin/r/jobs/{id}';
+exports.JOBS = '/mia/r/jobs';
+exports.JOB = '/mia/r/jobs/{id}';
 //# sourceMappingURL=api.js.map

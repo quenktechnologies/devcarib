@@ -42,8 +42,8 @@ import { validate as validateLogin } from '@mia/validators/lib/login';
 import { IndexView } from '@mia/views';
 import { LoginView } from '@mia/views/lib/login';
 
-const ROUTE_INDEX = '/admin';
-const ROUTE_LOGIN = '/admin/login';
+const ROUTE_INDEX = '/mia';
+const ROUTE_LOGIN = '/mia/login';
 
 const KEY_LOGIN_VIEW_CTX = 'loginCtx';
 
@@ -224,7 +224,7 @@ const today = () => moment.utc().toDate();
 
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
- {'id': `admin`,
+ {'id': `mia`,
 'app': {'dirs': {'self': `/apps/mia/build`,
 'public': [`../public`,`../frontend/public`,`../packages/mia-views/public`]},
 'modules': {'r': dotR.template},
@@ -232,27 +232,27 @@ export const template = ($app: App): Template => (
 ($module:Module) => {
 
 let $routes:$RouteConf[] = [];
-let adminCtl = new AdminController();
+let miaCtrl = new AdminController();
 
 $routes.push({
 method:'get',
 path:'/',
-filters:[adminCtl.showIndex.bind(adminCtl)]});
+filters:[miaCtrl.showIndex.bind(miaCtrl)]});
 
 $routes.push({
 method:'get',
 path:'/login',
-filters:[adminCtl.showLoginForm.bind(adminCtl)]});
+filters:[miaCtrl.showLoginForm.bind(miaCtrl)]});
 
 $routes.push({
 method:'post',
 path:'/login',
-filters:[adminCtl.authenticate.bind(adminCtl)]});
+filters:[miaCtrl.authenticate.bind(miaCtrl)]});
 
 $routes.push({
 method:'post',
 path:'/logout',
-filters:[adminCtl.logout.bind(adminCtl)]});
+filters:[miaCtrl.logout.bind(miaCtrl)]});
 return $routes;
 }},
 'create': 

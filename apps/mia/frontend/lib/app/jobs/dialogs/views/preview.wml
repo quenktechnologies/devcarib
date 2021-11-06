@@ -1,0 +1,49 @@
+{% import (toString) from "@quenk/noni/lib/data/type" %}
+
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Modal,ModalHeader,ModalBody,ModalFooter)
+  from "@quenk/wml-widgets/lib/dialog/modal" %}
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+
+{% import (JobPreviewDialog) from "../preview" %}
+
+{% view JobPreviewDialogView (JobPreviewDialog) %}
+<Modal ww:className="-large">
+
+  <ModalHeader>{{toString(@job.company) | text }}</ModalHeader>
+
+  <ModalBody>
+
+    <GridLayout>
+
+      <Row>
+
+        <Column>
+
+          <h1>{{toString(@job.title) | text }}</h1>
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          {{toString(@job.description) | text }}
+
+          </Column>
+
+      </Row>
+
+      </GridLayout>
+
+      </ModalBody>
+
+<ModalFooter>
+
+  <Button ww:onClick={{@values.close}} ww:text="Close" />
+
+</ModalFooter>
+
+</Modal>

@@ -17,8 +17,8 @@ const tendril_show_wml_1 = require("@quenk/tendril-show-wml");
 const login_1 = require("@mia/validators/lib/login");
 const views_1 = require("@mia/views");
 const login_2 = require("@mia/views/lib/login");
-const ROUTE_INDEX = '/admin';
-const ROUTE_LOGIN = '/admin/login';
+const ROUTE_INDEX = '/mia';
+const ROUTE_LOGIN = '/mia/login';
 const KEY_LOGIN_VIEW_CTX = 'loginCtx';
 const ERR_AUTH_FAILED = 'Email or password is invalid!';
 const ERR_AUTH_INVALID = 'Correct the below error(s) before continuing.';
@@ -130,33 +130,33 @@ const showAuthError = (r, ctx) => (0, api_1.doAction)(function* () {
 const comparePasswords = (pwd1, pwd2) => (0, future_1.fromCallback)(cb => bcrypt.compare(pwd1, pwd2, cb));
 const today = () => moment.utc().toDate();
 //@ts-ignore: 6133
-const template = ($app) => ({ 'id': `admin`,
+const template = ($app) => ({ 'id': `mia`,
     'app': { 'dirs': { 'self': `/apps/mia/build`,
             'public': [`../public`, `../frontend/public`, `../packages/mia-views/public`] },
         'modules': { 'r': dotR.template },
         'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];
-            let adminCtl = new AdminController();
+            let miaCtrl = new AdminController();
             $routes.push({
                 method: 'get',
                 path: '/',
-                filters: [adminCtl.showIndex.bind(adminCtl)]
+                filters: [miaCtrl.showIndex.bind(miaCtrl)]
             });
             $routes.push({
                 method: 'get',
                 path: '/login',
-                filters: [adminCtl.showLoginForm.bind(adminCtl)]
+                filters: [miaCtrl.showLoginForm.bind(miaCtrl)]
             });
             $routes.push({
                 method: 'post',
                 path: '/login',
-                filters: [adminCtl.authenticate.bind(adminCtl)]
+                filters: [miaCtrl.authenticate.bind(miaCtrl)]
             });
             $routes.push({
                 method: 'post',
                 path: '/logout',
-                filters: [adminCtl.logout.bind(adminCtl)]
+                filters: [miaCtrl.logout.bind(miaCtrl)]
             });
             return $routes;
         } },

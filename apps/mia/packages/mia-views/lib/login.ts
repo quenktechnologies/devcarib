@@ -107,13 +107,13 @@ __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
 
         __this.node('h3', <__wml.Attrs>{}, [
 
-        __document.createTextNode('Admin Login (You Should Not Be Here!)')
+        __document.createTextNode('Mia Login')
      ]),
 __this.widget(new Panel({}, [
 
         __this.widget(new PanelBody({}, [
 
-        __this.node('form', <__wml.Attrs>{'autocomplete': 'off','action': '/admin/login','method': 'POST'}, [
+        __this.node('form', <__wml.Attrs>{'autocomplete': 'off','action': '/mia/login','method': 'POST'}, [
 
         __this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.email ) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
 

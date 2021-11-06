@@ -1,8 +1,8 @@
-import {BoardAdmin} from './app';
+import { Mia } from './app';
 
 // Create and run the app. Note that it will crash if the DOM nodes below are
 // missing.
-BoardAdmin.create(
-    <Node>document.getElementById('main'),
-    <Node>document.getElementById('dialogs')
+Mia.create(
+    <HTMLElement>document.getElementById('main'),
+    <HTMLElement>document.getElementById('dialogs')
 ).run();

@@ -26,8 +26,8 @@ import { validate as validateLogin } from '@mia/validators/lib/login';
 import { IndexView } from '@mia/views';
 import { LoginView } from '@mia/views/lib/login';
 
-const ROUTE_INDEX = '/admin';
-const ROUTE_LOGIN = '/admin/login';
+const ROUTE_INDEX = '/mia';
+const ROUTE_LOGIN = '/mia/login';
 
 const KEY_LOGIN_VIEW_CTX = 'loginCtx';
 

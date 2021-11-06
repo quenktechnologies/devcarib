@@ -1,6 +1,6 @@
-%set adminCtl = AdminController()
+%set miaCtrl = AdminController()
 
-GET     /               adminCtl.showIndex
-GET     /login          adminCtl.showLoginForm
-POST    /login          adminCtl.authenticate
-POST    /logout         adminCtl.logout
+GET     /               miaCtrl.showIndex
+GET     /login          miaCtrl.showLoginForm
+POST    /login          miaCtrl.authenticate
+POST    /logout         miaCtrl.logout

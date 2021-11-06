@@ -47,13 +47,13 @@
 
         <Column ww:span=6 ww:offset=3>
 
-          <h3>Admin Login (You Should Not Be Here!)</h3>
+          <h3>Mia Login</h3>
 
           <Panel>
 
             <PanelBody>
 
-              <form autocomplete="off" action="/admin/login" method="POST">
+              <form autocomplete="off" action="/mia/login" method="POST">
 
                 <div class={{if (@errors ??) && (@errors.email??)
                             then 

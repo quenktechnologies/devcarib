@@ -69,11 +69,11 @@ var LoginView = /** @class */ (function () {
                             (function () { return ([]); })()), true), [
                             __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
                                 __this.node('h3', {}, [
-                                    __document.createTextNode('Admin Login (You Should Not Be Here!)')
+                                    __document.createTextNode('Mia Login')
                                 ]),
                                 __this.widget(new panel_1.Panel({}, [
                                     __this.widget(new panel_1.PanelBody({}, [
-                                        __this.node('form', { 'autocomplete': 'off', 'action': '/admin/login', 'method': 'POST' }, [
+                                        __this.node('form', { 'autocomplete': 'off', 'action': '/mia/login', 'method': 'POST' }, [
                                             __this.node('div', { 'class': (((__context.errors) != null && (__context.errors.email) != null)) ? 'ww-text-field -error' : 'ww-text-field' }, [
                                                 __this.node('label', { 'class': 'ww-label' }, [
                                                     __document.createTextNode('Email')

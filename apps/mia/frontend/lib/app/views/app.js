@@ -1,29 +1,12 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BoardAdminView = void 0;
+exports.MiaView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
-var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
+var action_bar_1 = require("@quenk/wml-widgets/lib/layout/action-bar");
 ;
-var table_1 = require("@quenk/wml-widgets/lib/data/table");
-;
-var text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
-;
-var nav_1 = require("@quenk/wml-widgets/lib/menu/nav");
-;
-var item_1 = require("@quenk/wml-widgets/lib/menu/item");
-;
-var link_1 = require("@quenk/wml-widgets/lib/content/link");
+var main_1 = require("@quenk/wml-widgets/lib/layout/main");
 ;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
@@ -50,51 +33,25 @@ var text = __document.text;
 var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
-var BoardAdminView = /** @class */ (function () {
-    function BoardAdminView(__context) {
+var MiaView = /** @class */ (function () {
+    function MiaView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.widget(new grid_1.GridLayout({}, [
-                __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({}, [
-                        __this.widget(new nav_1.Nav({}, __spreadArray([], __forOf(__context.values.header.links, function (handler, text, _$$all) {
-                            return ([
-                                __this.widget(new item_1.Item({}, [
-                                    __this.widget(new link_1.Link({ ww: { 'text': text, 'onClick': handler } }, []), { ww: { 'text': text, 'onClick': handler } })
-                                ]), {})
-                            ]);
-                        }, function () { return ([]); }), true)), {})
-                    ]), {})
-                ]), {}),
-                __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({}, [
-                        __this.node('h1', {}, [
-                            __document.createTextNode('Manage Jobs')
-                        ])
-                    ]), {})
-                ]), {}),
-                __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ ww: { 'placeholder': 'Search', 'onChange': __context.values.search.onChange } }, []), { ww: { 'placeholder': 'Search', 'onChange': __context.values.search.onChange } })
-                    ]), {})
-                ]), {}),
-                __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({}, [
-                        __this.widget(new table_1.DataTable({ wml: { 'id': __context.values.table.id }, ww: { 'data': __context.values.table.data, 'columns': __context.values.table.columns } }, []), { wml: { 'id': __context.values.table.id }, ww: { 'data': __context.values.table.data, 'columns': __context.values.table.columns } })
-                    ]), {})
-                ]), {})
-            ]), {});
+            return __this.node('main', { wml: { 'id': 'main' } }, [
+                __this.widget(new action_bar_1.ActionBar({ wml: { 'id': 'navbar' }, ww: { 'className': 'mia-navbar-bar' } }, []), { wml: { 'id': 'navbar' }, ww: { 'className': 'mia-navbar-bar' } }),
+                __this.widget(new main_1.MainLayout({ wml: { 'id': 'content' }, ww: { 'className': 'mia-content' } }, []), { wml: { 'id': 'content' }, ww: { 'className': 'mia-content' } })
+            ]);
         };
     }
-    BoardAdminView.prototype.registerView = function (v) {
+    MiaView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    BoardAdminView.prototype.register = function (e, attrs) {
+    MiaView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -110,7 +67,7 @@ var BoardAdminView = /** @class */ (function () {
         }
         return e;
     };
-    BoardAdminView.prototype.node = function (tag, attrs, children) {
+    MiaView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -147,18 +104,18 @@ var BoardAdminView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    BoardAdminView.prototype.widget = function (w, attrs) {
+    MiaView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    BoardAdminView.prototype.findById = function (id) {
+    MiaView.prototype.findById = function (id) {
         var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    BoardAdminView.prototype.findByGroup = function (name) {
+    MiaView.prototype.findByGroup = function (name) {
         var mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -166,7 +123,7 @@ var BoardAdminView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    BoardAdminView.prototype.invalidate = function () {
+    MiaView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -175,7 +132,7 @@ var BoardAdminView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    BoardAdminView.prototype.render = function () {
+    MiaView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -187,7 +144,7 @@ var BoardAdminView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return BoardAdminView;
+    return MiaView;
 }());
-exports.BoardAdminView = BoardAdminView;
+exports.MiaView = MiaView;
 //# sourceMappingURL=app.js.map

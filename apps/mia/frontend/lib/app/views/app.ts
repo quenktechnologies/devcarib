@@ -7,13 +7,9 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {DataTable} from '@quenk/wml-widgets/lib/data/table'; ;
-import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
-import {Nav} from '@quenk/wml-widgets/lib/menu/nav'; ;
-import {Item} from '@quenk/wml-widgets/lib/menu/item'; ;
-import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {BoardAdmin} from '../'; 
+import {ActionBar} from '@quenk/wml-widgets/lib/layout/action-bar'; ;
+import {MainLayout} from '@quenk/wml-widgets/lib/layout/main'; ;
+import {Mia} from '../'; 
 
 
 //@ts-ignore:6192
@@ -70,68 +66,25 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class BoardAdminView  implements __wml.View {
+export class MiaView  implements __wml.View {
 
-   constructor(__context: BoardAdmin) {
+   constructor(__context: Mia) {
 
        this.template = (__this:__wml.Registry) => {
 
        
 
-           return __this.widget(new GridLayout({}, [
+           return __this.node('main', <__wml.Attrs>{wml : { 'id' : 'main'  }}, [
 
-        __this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.widget(new Nav({}, [
-
-        ...__forOf (__context.values.header .links , (handler , text , _$$all) => 
-       ([
-
-        __this.widget(new Item({}, [
-
-        __this.widget(new Link({ww : { 'text' : text ,'onClick' : handler  }}, [
+        __this.widget(new ActionBar({wml : { 'id' : 'navbar'  },ww : { 'className' : 'mia-navbar-bar'  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : text ,'onClick' : handler  }})
-     ]),<__wml.Attrs>{})
-     ]), 
-    ()=> ([]))
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.node('h1', <__wml.Attrs>{}, [
-
-        __document.createTextNode('Manage Jobs')
-     ])
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.widget(new TextField({ww : { 'placeholder' : 'Search' ,'onChange' : __context.values.search .onChange   }}, [
+     ]),<__wml.Attrs>{wml : { 'id' : 'navbar'  },ww : { 'className' : 'mia-navbar-bar'  }}),
+__this.widget(new MainLayout({wml : { 'id' : 'content'  },ww : { 'className' : 'mia-content'  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'placeholder' : 'Search' ,'onChange' : __context.values.search .onChange   }})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.widget(new DataTable({wml : { 'id' : __context.values.table .id   },ww : { 'data' : __context.values.table .data  ,'columns' : __context.values.table .columns   }}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.table .id   },ww : { 'data' : __context.values.table .data  ,'columns' : __context.values.table .columns   }})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{});
+     ]),<__wml.Attrs>{wml : { 'id' : 'content'  },ww : { 'className' : 'mia-content'  }})
+     ]);
 
        }
 

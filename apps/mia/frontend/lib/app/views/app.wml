@@ -1,73 +1,14 @@
-{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
-{% import (DataTable) from "@quenk/wml-widgets/lib/data/table" %}
-{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
-{% import (Nav) from "@quenk/wml-widgets/lib/menu/nav" %}
-{% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
-{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
+{% import (ActionBar) from "@quenk/wml-widgets/lib/layout/action-bar" %}
+{% import (MainLayout) from "@quenk/wml-widgets/lib/layout/main" %}
 
-{% import (BoardAdmin) from "../" %}
+{% import (Mia) from "../" %}
 
-{% view BoardAdminView (BoardAdmin) %}
+{% view MiaView(Mia) %}
 
-<GridLayout>
+  <main wml:id="main">
 
-  <Row>
+    <ActionBar wml:id="navbar" ww:className="mia-navbar-bar" />
 
-    <Column>
+    <MainLayout wml:id="content" ww:className="mia-content" />
 
-      <Nav>
-
-        {% for handler,text of @values.header.links %}
-
-          <Item>
-
-            <Link 
-              ww:text={{text}}
-              ww:onClick={{handler}} />
-
-          </Item>
-
-        {% endfor %}
-
-      </Nav>
-
-    </Column>
-
-  </Row>
-
-  <Row>
-
-    <Column>
-
-      <h1>Manage Jobs</h1>
-
-    </Column>
-
-  </Row>
-
-  <Row>
-
-    <Column>
-
-      <TextField
-        ww:placeholder="Search"
-        ww:onChange={{@values.search.onChange}} />
-
-    </Column>
-
-  </Row>
-
-  <Row>
-
-    <Column>
-
-      <DataTable
-       wml:id={{@values.table.id}}
-       ww:data={{@values.table.data}}
-       ww:columns={{@values.table.columns}} />
-
-    </Column>
-
-  </Row>
-
-</GridLayout>
+  </main>
