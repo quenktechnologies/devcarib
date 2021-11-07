@@ -160,10 +160,6 @@ __this.node('meta', <__wml.Attrs>{'name': 'theme-color','content': '#ffffff'}, [
 
         
      ]),
-__this.node('link', <__wml.Attrs>{'rel': 'stylesheet','href': '/mia/assets/css/site.css'}, [
-
-        
-     ]),
 ...((__context.styles) ?
 (()=>([
 

@@ -37,6 +37,11 @@ var JobPreviewDialog = /** @class */ (function (_super) {
         _this.values = {
             job: _this.job,
             changes: {},
+            frame: {
+                id: 'iframe',
+                className: 'mia-preview-frame',
+                content: getPreview(_this.job)
+            },
             onChange: function (e) {
                 _this.values.changes[e.name] = e.value;
             },
@@ -54,4 +59,8 @@ var JobPreviewDialog = /** @class */ (function (_super) {
     return JobPreviewDialog;
 }(confirm_1.ConfirmDialog));
 exports.JobPreviewDialog = JobPreviewDialog;
+var getPreview = function (_a) {
+    var description_html = _a.description_html, title = _a.title;
+    return "\n<!DOCTYPE html>\n    <html>\n        <head>\n            <meta charset=\"utf-8\">\n            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n            <link rel=\"stylesheet\" href=\"/assets/css/site.css\">\n            <title>" + title + "</title>\n        </head>\n        <body>\n            <div class=\"ww-grid-layout board-job-body\">\n                " + description_html + "\n            </div>\n        </body>\n    </html>\n";
+};
 //# sourceMappingURL=preview.js.map

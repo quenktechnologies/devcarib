@@ -12,6 +12,8 @@ var modal_1 = require("@quenk/wml-widgets/lib/dialog/modal");
 ;
 var button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
+var features_1 = require("@devcarib/widgets/lib/job/panel/features");
+;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -60,7 +62,12 @@ var JobPreviewDialogView = /** @class */ (function () {
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                text((0, type_1.toString)(__context.job.description))
+                                __this.registerView((new features_1.JobFeaturesView(__context.job))).render()
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.node('iframe', { wml: { 'id': __context.values.frame.id }, 'class': __context.values.frame.className, 'srcdoc': __context.values.frame.content, 'sandbox': '', 'allow': '' }, [])
                             ]), {})
                         ]), {})
                     ]), {})

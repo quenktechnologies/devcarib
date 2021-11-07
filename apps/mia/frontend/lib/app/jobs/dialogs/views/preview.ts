@@ -11,6 +11,7 @@ import {toString} from '@quenk/noni/lib/data/type'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Modal,ModalHeader,ModalBody,ModalFooter} from '@quenk/wml-widgets/lib/dialog/modal'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
+import {JobFeaturesView} from '@devcarib/widgets/lib/job/panel/features'; ;
 import {JobPreviewDialog} from '../preview'; 
 
 
@@ -100,7 +101,17 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        text (toString(__context.job.description ))
+        __this.registerView((new JobFeaturesView(__context.job))).render()
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.node('iframe', <__wml.Attrs>{wml : { 'id' : __context.values.frame .id   },'class': __context.values.frame .className ,'srcdoc': __context.values.frame .content ,'sandbox': '','allow': ''}, [
+
+        
+     ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})

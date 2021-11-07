@@ -49,10 +49,8 @@ app.parsers.body.json.enable = true
 app.dirs.public = [
 
   "public",
-  "../packages/libs/board-views/public",
-  "../packages/frontends/board-form-post/public",
-  "../apps/mia/frontend/public",
-  "../apps/mia/packages/libs/mia-views/public"
+  "../packages/board-views/public",
+  "../packages/frontends/board-form-post/public"
 
 ]
 
@@ -62,7 +60,7 @@ app.middleware.enabled = []
 
 app.modules = {
 
-  admin = ../apps/mia/build#template
+  mia = ../apps/mia/build#template
 
   converse = ../apps/converse/build#template
 

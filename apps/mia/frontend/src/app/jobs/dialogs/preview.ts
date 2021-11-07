@@ -43,6 +43,16 @@ export class JobPreviewDialog extends ConfirmDialog<void> {
 
         changes: <Partial<Job>>{},
 
+        frame: {
+
+            id: 'iframe',
+
+            className: 'mia-preview-frame',
+
+            content: getPreview(this.job)
+
+        },
+
         onChange: (e: Event<Value>) => {
 
             this.values.changes[e.name] = e.value;
@@ -64,3 +74,20 @@ export class JobPreviewDialog extends ConfirmDialog<void> {
     };
 
 }
+
+const getPreview = ({ description_html, title }: Job) => `
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="/assets/css/site.css">
+            <title>${title}</title>
+        </head>
+        <body>
+            <div class="ww-grid-layout board-job-body">
+                ${description_html}
+            </div>
+        </body>
+    </html>
+`;

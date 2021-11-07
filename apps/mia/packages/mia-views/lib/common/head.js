@@ -68,8 +68,7 @@ var HeadView = /** @class */ (function () {
                 __this.node('link', { 'rel': 'manifest', 'href': '/manifest.json' }, []),
                 __this.node('meta', { 'name': 'msapplication-TileColor', 'content': '#ffffff' }, []),
                 __this.node('meta', { 'name': 'msapplication-TileImage', 'content': '/ms-icon-144x144.png' }, []),
-                __this.node('meta', { 'name': 'theme-color', 'content': '#ffffff' }, []),
-                __this.node('link', { 'rel': 'stylesheet', 'href': '/mia/assets/css/site.css' }, [])
+                __this.node('meta', { 'name': 'theme-color', 'content': '#ffffff' }, [])
             ], ((__context.styles) ?
                 (function () { return (__spreadArray([], __forIn(__context.styles, function (style, _$$i, _$$all) {
                     return ([

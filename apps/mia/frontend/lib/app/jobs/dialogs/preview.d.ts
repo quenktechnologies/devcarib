@@ -16,6 +16,11 @@ export declare class JobPreviewDialog extends ConfirmDialog<void> {
     values: {
         job: Job;
         changes: Partial<Job>;
+        frame: {
+            id: string;
+            className: string;
+            content: string;
+        };
         onChange: (e: Event<Value>) => void;
         save: () => void;
         close: () => void;
