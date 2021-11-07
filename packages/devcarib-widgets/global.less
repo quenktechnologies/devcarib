@@ -1,0 +1,52 @@
+@import "@quenk/wml-widgets/widgets";
+@import "@devcarib/widgets/imports";
+
+* {
+
+  box-sizing: border-box;
+  &:before, &:after{
+    box-sizing: border-box;
+  }
+
+}
+
+html,body{
+
+  margin: 0;
+  height: 100%;
+
+}
+
+body{
+
+  min-height: 900px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  font-size: 14px;
+  color: #555555;
+  background-color: #f2f4f6;
+
+}
+
+#main {
+
+  margin-top: 2em;
+
+}
+
+/* Utility classes */
+
+/**
+ * Used to center align text.
+ */
+.-devcarib-center {
+
+  text-align: center;
+
+}
+
+/**
+ * Add a bottom margin of 2em to a block element.
+ */
+.-devcarib-margin-bottom-2 {
+   margin-bottom: 2em;
+}
