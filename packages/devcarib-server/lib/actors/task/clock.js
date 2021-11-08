@@ -127,16 +127,19 @@ var TaskClock = /** @class */ (function (_super) {
         _this.conf = conf;
         _this.targets = [];
         _this.counter = 0;
-        _this.receive = [
-            new case_1.Case(Subscribe, function (s) { return _this.register(s); }),
-            new case_1.Case(Publish, function () { return _this.publish(); }),
-            new case_1.Case(Finished, function (f) { return _this.actorFinished(f.actor); })
-        ];
         return _this;
     }
     TaskClock.create = function (system, conf) {
         if (conf === void 0) { conf = {}; }
         return new TaskClock(system, (0, record_1.rmerge)(defaultConf, conf));
+    };
+    TaskClock.prototype.receive = function () {
+        var _this = this;
+        return [
+            new case_1.Case(Subscribe, function (s) { return _this.register(s); }),
+            new case_1.Case(Publish, function () { return _this.publish(); }),
+            new case_1.Case(Finished, function (f) { return _this.actorFinished(f.actor); })
+        ];
     };
     TaskClock.prototype.log = function (msg) {
         this.tell(this.conf.log, new log_1.Info(this.self(), msg));

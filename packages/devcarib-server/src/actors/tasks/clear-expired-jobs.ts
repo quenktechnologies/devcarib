@@ -23,11 +23,15 @@ export type Message
  */
 export class ClearExpiredJobsTask extends Immutable<Message> {
 
-    receive = [
+    receive() {
+
+        return  [
 
         new Case(Tick, (t: Tick) => this.clear(t.src))
 
     ];
+
+    }
 
     /**
      * clear the expired job postings.

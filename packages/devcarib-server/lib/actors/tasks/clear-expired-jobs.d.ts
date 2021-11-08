@@ -8,7 +8,7 @@ export declare type Message = Tick;
  * ago from the database.
  */
 export declare class ClearExpiredJobsTask extends Immutable<Message> {
-    receive: Case<{
+    receive(): Case<{
         src: unknown;
     }>[];
     /**

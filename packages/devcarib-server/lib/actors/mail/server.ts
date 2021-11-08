@@ -79,13 +79,17 @@ export class MailServer extends Immutable<Message>{
         public transport: mailer.Transporter,
         public options: MailServerOptions) { super(system); }
 
-    receive = <Case<Message>[]>[
+    receive() {
+
+        return  <Case<Message>[]>[
 
         new Case(OutgoingMessage, (m: OutgoingMessage) => this.queueMessage(m)),
 
         new Case(Tick, (t: Tick) => this.dispatch(t.src))
 
     ];
+
+    }
 
     static create(s: System, options: MailServerOptions) {
 

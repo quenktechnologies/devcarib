@@ -88,7 +88,9 @@ export abstract class Logger extends Immutable<Message> {
 
     }
 
-    receive = [
+    receive() {
+
+        return  [
 
         new Case(Message, (m: Message) => {
 
@@ -98,6 +100,8 @@ export abstract class Logger extends Immutable<Message> {
         })
 
     ];
+
+    }
 
     /**
      * logMessage is overridden by implementations to do the actual log

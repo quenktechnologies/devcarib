@@ -173,7 +173,9 @@ export class TaskClock extends Immutable<Message> {
 
     }
 
-    receive = <Case<Message>[]>[
+    receive() {
+
+        return  <Case<Message>[]>[
 
         new Case(Subscribe, (s: Subscribe) => this.register(s)),
 
@@ -182,6 +184,8 @@ export class TaskClock extends Immutable<Message> {
         new Case(Finished, (f: Finished) => this.actorFinished(f.actor))
 
     ];
+
+    }
 
     log(msg: string) {
 

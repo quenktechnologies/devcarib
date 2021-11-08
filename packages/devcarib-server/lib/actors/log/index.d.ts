@@ -63,7 +63,7 @@ export declare abstract class Logger extends Immutable<Message> {
     level: LogLevel;
     system: System;
     constructor(level: LogLevel, system: System);
-    receive: Case<{
+    receive(): Case<{
         level: unknown;
         actor: unknown;
         text: unknown;

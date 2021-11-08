@@ -75,12 +75,15 @@ var MailServer = /** @class */ (function (_super) {
         _this.system = system;
         _this.transport = transport;
         _this.options = options;
-        _this.receive = [
+        return _this;
+    }
+    MailServer.prototype.receive = function () {
+        var _this = this;
+        return [
             new case_1.Case(OutgoingMessage, function (m) { return _this.queueMessage(m); }),
             new case_1.Case(clock_1.Tick, function (t) { return _this.dispatch(t.src); })
         ];
-        return _this;
-    }
+    };
     MailServer.create = function (s, options) {
         return new MailServer(s, mailer.createTransport({
             host: options.host,

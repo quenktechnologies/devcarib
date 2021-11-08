@@ -104,14 +104,17 @@ var Logger = /** @class */ (function (_super) {
         var _this = _super.call(this, system) || this;
         _this.level = level;
         _this.system = system;
-        _this.receive = [
+        return _this;
+    }
+    Logger.prototype.receive = function () {
+        var _this = this;
+        return [
             new case_1.Case(Message, function (m) {
                 if (m.level <= _this.level)
                     _this.logMessage(m);
             })
         ];
-        return _this;
-    }
+    };
     Logger.prototype.run = function () { };
     return Logger;
 }(resident_1.Immutable));

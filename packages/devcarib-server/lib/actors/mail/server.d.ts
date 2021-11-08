@@ -52,7 +52,7 @@ export declare class MailServer extends Immutable<Message> {
     transport: mailer.Transporter;
     options: MailServerOptions;
     constructor(system: System, transport: mailer.Transporter, options: MailServerOptions);
-    receive: Case<Message>[];
+    receive(): Case<Message>[];
     static create(s: System, options: MailServerOptions): MailServer;
     /**
      * queueMessage for dispatch later.

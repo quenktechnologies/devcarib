@@ -57,12 +57,14 @@ var POST_EXPIRE_MONTHS = 3;
 var ClearExpiredJobsTask = /** @class */ (function (_super) {
     __extends(ClearExpiredJobsTask, _super);
     function ClearExpiredJobsTask() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.receive = [
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ClearExpiredJobsTask.prototype.receive = function () {
+        var _this = this;
+        return [
             new case_1.Case(clock_1.Tick, function (t) { return _this.clear(t.src); })
         ];
-        return _this;
-    }
+    };
     /**
      * clear the expired job postings.
      */

@@ -16,13 +16,7 @@ import { doFuture, pure } from '@quenk/noni/lib/control/monad/future';
 
 import { unsafeGetUserConnection } from '@quenk/tendril/lib/app/connection';
 
-class NullActor extends Immutable<void>{
-
-    receive = [];
-
-    run() { }
-
-}
+class NullActor extends Immutable<void>{}
 
 export const clock = {
 

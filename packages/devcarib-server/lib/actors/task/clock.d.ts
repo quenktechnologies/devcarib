@@ -113,7 +113,7 @@ export declare class TaskClock extends Immutable<Message> {
     counter: number;
     constructor(system: System, conf: TaskClockConf);
     static create(system: System, conf?: Partial<TaskClockConf>): TaskClock;
-    receive: Case<Message>[];
+    receive(): Case<Message>[];
     log(msg: string): void;
     /**
      * register an actor with the TaskClock.
