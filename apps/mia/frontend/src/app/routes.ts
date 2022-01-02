@@ -8,15 +8,16 @@ import { ACTION_IGNORE, ACTION_RAISE } from '@quenk/potoo/lib/actor/template';
 
 import { Request } from '@quenk/frontend-routers/lib/hash';
 
-import { JobsManager } from './jobs/manager';
-import { Mia } from './';
+//import { JobsManager } from './jobs/manager';
+//import { Mia } from './';
 
 let ignoredErrors = ['ClientError', 'ServerError'];
 
 const trap = (e: Err) => contains(ignoredErrors, e.message) ?
     ACTION_IGNORE : ACTION_RAISE;
 
-export const routes: RoutingTable<Request> = {
+export const routes: RoutingTable<Request> = {};
+export const xroutes: RoutingTable<Request> = {
 
     '/': {
 
@@ -24,7 +25,7 @@ export const routes: RoutingTable<Request> = {
 
         trap,
 
-        create: (s: System, _, r: Resume<Request>) => new JobsManager(<Mia>s, r)
+        create: (s: System, _, r: Resume<Request>) => <any>({ s, r })//new JobsManager(<Mia>s, r)
 
     }
 

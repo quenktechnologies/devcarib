@@ -12,7 +12,6 @@ import {
 } from '@quenk/jouvert/lib/app/form/active';
 import { Show } from '@quenk/jouvert/lib/app/service/view';
 
-
 import { Mia } from '../';
 
 /**
@@ -23,20 +22,20 @@ export abstract class MiaForm<T extends Object, M>
     AbstractActiveForm<T, M> {
 
     constructor(
-        public system: Mia,
+        public app: Mia,
         public owner: Address,
-        public display: Address,
-        public value: Partial<T> = {}) { super(owner, system, value); }
+        public value: Partial<T> = {},
+        public display: Address) { super(app, owner, value); }
 
     abstract view: View;
 
-    name = this.self();
+    name = '?';
 
     validateStrategy: NoStrategy<T> = new NoStrategy(this);
 
     run() {
 
-        this.tell(this.display, new Show(this.name,this.view, this.self()));
+        this.tell(this.display, new Show(this.name, this.view, this.self()));
 
     }
 

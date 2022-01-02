@@ -33,25 +33,16 @@ export const TIME_SEARCH_DEBOUNCE = 500;
 const agent = createAgent();
 
 /**
- * OkBody is the format we expect to receive our request results in.
- */
-export interface OkBody<D> {
-
-    data: D
-
-}
-
-/**
  * Mia is the main class for the admin application.
  *
- * @param main    - The DOM node that the main application content will reside.
- * @param dialogs - The DOM node that will be used for dialogs.
+ * @param appNode    - The DOM node for the base application content (layout).
+ * @param dialogNode - The DOM node that will be used for dialogs.
  */
 export class Mia extends DApplication {
 
     constructor(
-        public main: HTMLElement,
-        public dialogs: HTMLElement) { super(main); }
+        public appNode: HTMLElement,
+        public dialogNode: HTMLElement) { super(appNode); }
 
     /**
      * view is the WML content to display on the screen.
@@ -63,6 +54,9 @@ export class Mia extends DApplication {
      */
     modelFactory = RemoteModelFactory.getInstance(this, 'remote.background');
 
+    /**
+     * router for various application views.
+     */
     router = new HashRouter(window, {});
 
     /**
@@ -73,9 +67,14 @@ export class Mia extends DApplication {
 
         header: {
 
+            /**
+             * links for the main navigation area.
+             */
             links: {
 
-                Logout: () => this.runFuture(this.logout())
+                'Jobs': '/jobs',
+
+                'Logout': '/logout'// () => this.runFuture(this.logout())
 
             }
 
@@ -90,9 +89,9 @@ export class Mia extends DApplication {
 
     }
 
-    static create(main: HTMLElement, dialogs: HTMLElement): Mia {
+    static create(appNode: HTMLElement, dialogNode: HTMLElement): Mia {
 
-        return new Mia(main, dialogs);
+        return new Mia(appNode, dialogNode);
 
     }
 
@@ -134,14 +133,24 @@ export class Mia extends DApplication {
 
     }
 
+    /**
+     * run puts up the applications base view and spawns all the needed service
+     * actors for routing, remote requests etc.
+     */
     run() {
+
+        let viewDelegate = new HTMLElementViewDelegate(this.appNode);
+
+        viewDelegate.set(this.view);
+
+        let content = this.view.findById<HTMLElement>('content').get();
 
         this.spawn({
 
             id: 'views',
 
-            create: () => new ViewService(
-                new HTMLElementViewDelegate(this.main), this)
+            create: () =>
+                new ViewService(new HTMLElementViewDelegate(content), this)
 
         });
 
@@ -150,7 +159,7 @@ export class Mia extends DApplication {
             id: 'dialogs',
 
             create: () => new ViewService(
-                new HTMLElementViewDelegate(this.dialogs), this)
+                new HTMLElementViewDelegate(this.dialogNode), this)
 
         });
 
