@@ -1,8 +1,8 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-import { JobPreviewDialog } from '../preview';
-export declare class JobPreviewDialogView implements __wml.View {
-    constructor(__context: JobPreviewDialog);
+import { JobEditDialog } from '../';
+export declare class JobEditDialogView implements __wml.View {
+    constructor(__context: JobEditDialog);
     ids: {
         [key: string]: __wml.WMLElement;
     };

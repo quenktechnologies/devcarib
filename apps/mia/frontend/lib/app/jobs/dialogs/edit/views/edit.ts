@@ -7,12 +7,10 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {toString} from '@quenk/noni/lib/data/type'; ;
-import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Modal,ModalHeader,ModalBody,ModalFooter} from '@quenk/wml-widgets/lib/dialog/modal'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
-import {JobFeaturesView} from '@devcarib/widgets/lib/job/panel/features'; ;
-import {JobPreviewDialog} from '../preview'; 
+import {JobEditDialog} from '../'; ;
+import {JobEditDialogFormView} from './form'; 
 
 
 //@ts-ignore:6192
@@ -69,9 +67,9 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class JobPreviewDialogView  implements __wml.View {
+export class JobEditDialogView  implements __wml.View {
 
-   constructor(__context: JobPreviewDialog) {
+   constructor(__context: JobEditDialog) {
 
        this.template = (__this:__wml.Registry) => {
 
@@ -81,47 +79,22 @@ export class JobPreviewDialogView  implements __wml.View {
 
         __this.widget(new ModalHeader({}, [
 
-        text (toString(__context.job.company ))
+        __document.createTextNode('Edit Job')
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalBody({}, [
 
-        __this.widget(new GridLayout({}, [
-
-        __this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.node('h1', <__wml.Attrs>{}, [
-
-        text (toString(__context.job.title ))
-     ])
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.registerView((new JobFeaturesView(__context.job))).render()
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.node('iframe', <__wml.Attrs>{wml : { 'id' : __context.values.frame .id   },'class': __context.values.frame .className ,'srcdoc': __context.values.frame .content ,'sandbox': '','allow': ''}, [
-
-        
-     ])
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
+        __this.registerView((new JobEditDialogFormView(__context))).render()
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalFooter({}, [
 
         __this.widget(new Button({ww : { 'onClick' : __context.values.close  ,'text' : 'Close'  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.close  ,'text' : 'Close'  }})
+     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.close  ,'text' : 'Close'  }}),
+__this.widget(new Button({ww : { 'onClick' : __context.values.save  ,'text' : 'Save'  }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.save  ,'text' : 'Save'  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{ww : { 'className' : '-large'  }});
 

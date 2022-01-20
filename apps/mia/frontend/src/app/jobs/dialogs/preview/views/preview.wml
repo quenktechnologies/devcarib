@@ -1,0 +1,68 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Modal,ModalHeader,ModalBody,ModalFooter)
+  from "@quenk/wml-widgets/lib/dialog/modal" %}
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+
+{% import (JobFeaturesView) from "@devcarib/widgets/lib/job/panel/features" %}
+
+{% import (JobPreviewDialog) from "../" %}
+
+{% view JobPreviewDialogView (JobPreviewDialog) %}
+<Modal ww:className="-large">
+
+  <ModalHeader>{{@values.data.company | text }}</ModalHeader>
+
+  <ModalBody>
+
+    <GridLayout>
+
+      <Row>
+
+        <Column>
+
+          <h1>{{@values.data.title | text }}</h1>
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          {{<JobFeaturesView(@values.data)>}}
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+         <iframe wml:id={{@values.frame.id}}
+                 class={{@values.frame.className}}
+                 srcdoc={{@values.frame.content}} 
+                 sandbox=""
+                 allow="" />
+
+        </Column>
+
+      </Row>
+
+    </GridLayout>
+
+  </ModalBody>
+
+<ModalFooter>
+
+  <Button ww:className="-primary"
+          ww:onClick={{@values.edit}} 
+          ww:text="Edit" />
+
+  <Button ww:onClick={{@values.close}} 
+          ww:text="Close" />
+
+</ModalFooter>
+
+</Modal>

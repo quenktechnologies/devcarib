@@ -1,5 +1,3 @@
-{% import (toString) from "@quenk/noni/lib/data/type" %}
-
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (Modal,ModalHeader,ModalBody,ModalFooter)
   from "@quenk/wml-widgets/lib/dialog/modal" %}
@@ -7,12 +5,12 @@
 
 {% import (JobFeaturesView) from "@devcarib/widgets/lib/job/panel/features" %}
 
-{% import (JobPreviewDialog) from "../preview" %}
+{% import (JobPreviewDialog) from "../" %}
 
 {% view JobPreviewDialogView (JobPreviewDialog) %}
 <Modal ww:className="-large">
 
-  <ModalHeader>{{toString(@job.company) | text }}</ModalHeader>
+  <ModalHeader>{{@values.data.company | text }}</ModalHeader>
 
   <ModalBody>
 
@@ -22,7 +20,7 @@
 
         <Column>
 
-          <h1>{{toString(@job.title) | text }}</h1>
+          <h1>{{@values.data.title | text }}</h1>
 
         </Column>
 
@@ -32,7 +30,7 @@
 
         <Column>
 
-          {{<JobFeaturesView(@job)>}}
+          {{<JobFeaturesView(@values.data)>}}
 
         </Column>
 
@@ -58,7 +56,12 @@
 
 <ModalFooter>
 
-  <Button ww:onClick={{@values.close}} ww:text="Close" />
+  <Button ww:className="-primary"
+          ww:onClick={{@values.edit}} 
+          ww:text="Edit" />
+
+  <Button ww:onClick={{@values.close}} 
+          ww:text="Close" />
 
 </ModalFooter>
 

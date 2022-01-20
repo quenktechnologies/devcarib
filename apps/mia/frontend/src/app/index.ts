@@ -1,18 +1,22 @@
-import { Future, pure } from '@quenk/noni/lib/control/monad/future';
 import { noop } from '@quenk/noni/lib/data/function';
+import { Record } from '@quenk/noni/lib/data/record';
+import { Object } from '@quenk/noni/lib/data/jsonx';
+import { Future, pure } from '@quenk/noni/lib/control/monad/future';
 
 import { Address } from '@quenk/potoo/lib/actor/address';
 import { Message } from '@quenk/potoo/lib/actor/message';
 
 import {
-    ViewService,
+    Display,
     HTMLElementViewDelegate,
-} from '@quenk/jouvert/lib/app/service/view';
-import { RemoteModelFactory } from '@quenk/jouvert/lib/app/remote/model/factory';
-import { Director } from '@quenk/jouvert/lib/app/director';
+    WMLLayoutViewDelegate
+} from '@quenk/jouvert/lib/app/service/display';
+import { CompleteHandlerSpec, RemoteModelFactory } from '@quenk/jouvert/lib/app/remote/model/factory';
+import { Director } from '@quenk/jouvert/lib/app/service/director';
 import { Remote } from '@quenk/jouvert/lib/app/remote';
+import { Jouvert, Template } from '@quenk/jouvert';
 
-import { DApplication } from '@quenk/dfront/lib/app';
+import { MainLayout } from '@quenk/wml-widgets/lib/layout/main';
 
 import { HashRouter } from '@quenk/frontend-routers/lib/hash';
 
@@ -30,6 +34,8 @@ export const RESOURCE_JOB = '/admin/r/jobs/{id}';
 
 export const TIME_SEARCH_DEBOUNCE = 500;
 
+const REMOTE_BACKGROUD = 'remote.background';
+
 const agent = createAgent();
 
 /**
@@ -38,11 +44,11 @@ const agent = createAgent();
  * @param appNode    - The DOM node for the base application content (layout).
  * @param dialogNode - The DOM node that will be used for dialogs.
  */
-export class Mia extends DApplication {
+export class Mia extends Jouvert {
 
     constructor(
         public appNode: HTMLElement,
-        public dialogNode: HTMLElement) { super(appNode); }
+        public dialogNode: HTMLElement) { super({ log: { level: 1000, logger: console } }); }
 
     /**
      * view is the WML content to display on the screen.
@@ -50,14 +56,19 @@ export class Mia extends DApplication {
     view = new MiaView(this);
 
     /**
-     * modelFactory for producing RemoteModels on request.
-     */
-    modelFactory = RemoteModelFactory.getInstance(this, 'remote.background');
-
-    /**
      * router for various application views.
      */
     router = new HashRouter(window, {});
+
+    /**
+     * services map used to look up service actors.
+     */
+    services: Record<Address> = {};
+
+    get models() {
+        return RemoteModelFactory
+            .getInstance(this, this.services[REMOTE_BACKGROUD]);
+    }
 
     /**
      * values contains various bits of information used to generate
@@ -74,9 +85,9 @@ export class Mia extends DApplication {
 
                 'Jobs': '/jobs',
 
-                'Logout': '/logout'// () => this.runFuture(this.logout())
+            },
 
-            }
+            logout: () => this.runFuture(this.logout())
 
         },
 
@@ -92,6 +103,15 @@ export class Mia extends DApplication {
     static create(appNode: HTMLElement, dialogNode: HTMLElement): Mia {
 
         return new Mia(appNode, dialogNode);
+
+    }
+
+    /**
+     * getModel provides a RemoteModel instance for the specified path.
+     */
+    getModel<T extends Object>(path: string, handler?: CompleteHandlerSpec<T>) {
+
+        return this.models.create(path, handler);
 
     }
 
@@ -123,6 +143,18 @@ export class Mia extends DApplication {
     }
 
     /**
+     * Any actor spawned by the app directly's address is stored in the services
+     * map.
+     */
+    spawn(t: Template): Address {
+
+        let addr = super.spawn(t);
+        this.services[<string>t.id] = addr;
+        return addr;
+
+    }
+
+    /**
      * tell a message to an actor in the system.
      */
     tell(addr: Address, msg: Message): Mia {
@@ -139,18 +171,18 @@ export class Mia extends DApplication {
      */
     run() {
 
+        // TODO: Replace this with library calls once available.
         let viewDelegate = new HTMLElementViewDelegate(this.appNode);
 
         viewDelegate.set(this.view);
-
-        let content = this.view.findById<HTMLElement>('content').get();
 
         this.spawn({
 
             id: 'views',
 
-            create: () =>
-                new ViewService(new HTMLElementViewDelegate(content), this)
+            create: () => new Display(new WMLLayoutViewDelegate(
+                this.view.findById<MainLayout>('content').get()),
+                this)
 
         });
 
@@ -158,7 +190,7 @@ export class Mia extends DApplication {
 
             id: 'dialogs',
 
-            create: () => new ViewService(
+            create: () => new Display(
                 new HTMLElementViewDelegate(this.dialogNode), this)
 
         });

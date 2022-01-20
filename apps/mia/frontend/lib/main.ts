@@ -2,7 +2,9 @@ import { Mia } from './app';
 
 // Create and run the app. Note that it will crash if the DOM nodes below are
 // missing.
-Mia.create(
-    <HTMLElement>document.getElementById('main'),
+window.system = Mia.create(
+    <HTMLElement>document.getElementById('app'),
     <HTMLElement>document.getElementById('dialogs')
-).run();
+);
+
+window.system.run();

@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var app_1 = require("./app");
+const app_1 = require("./app");
 // Create and run the app. Note that it will crash if the DOM nodes below are
 // missing.
-app_1.Mia.create(document.getElementById('main'), document.getElementById('dialogs')).run();
+window.system = app_1.Mia.create(document.getElementById('app'), document.getElementById('dialogs'));
+window.system.run();
 //# sourceMappingURL=main.js.map

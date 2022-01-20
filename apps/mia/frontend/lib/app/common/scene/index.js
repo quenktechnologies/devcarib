@@ -1,34 +1,18 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MiaScene = void 0;
-var scene_1 = require("@quenk/dfront/lib/app/scene");
+const main_1 = require("@quenk/jouvert/lib/app/scene/main");
 /**
- * MiaScene
+ * MiaScene is the base class for all mia AppScenes.
+ *
+ * This definition exists to specify the app property.
  */
-var MiaScene = /** @class */ (function (_super) {
-    __extends(MiaScene, _super);
-    function MiaScene(app, resume) {
-        var _this = _super.call(this, resume, app) || this;
-        _this.app = app;
-        _this.resume = resume;
-        return _this;
+class MiaScene extends main_1.MainScene {
+    constructor(app, resume) {
+        super(app, resume);
+        this.app = app;
+        this.resume = resume;
     }
-    return MiaScene;
-}(scene_1.DScene));
+}
 exports.MiaScene = MiaScene;
 //# sourceMappingURL=index.js.map

@@ -7,7 +7,10 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {ActionBar} from '@quenk/wml-widgets/lib/layout/action-bar'; ;
+import {NavBar} from '@quenk/wml-widgets/lib/layout/nav-bar'; ;
+import {Nav} from '@quenk/wml-widgets/lib/menu/nav'; ;
+import {Item} from '@quenk/wml-widgets/lib/menu/item'; ;
+import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {MainLayout} from '@quenk/wml-widgets/lib/layout/main'; ;
 import {Mia} from '../'; 
 
@@ -74,12 +77,21 @@ export class MiaView  implements __wml.View {
 
        
 
-           return __this.node('main', <__wml.Attrs>{wml : { 'id' : 'main'  }}, [
+           return __this.node('div', <__wml.Attrs>{wml : { 'id' : 'main'  }}, [
 
-        __this.widget(new ActionBar({wml : { 'id' : 'navbar'  },ww : { 'className' : 'mia-navbar-bar'  }}, [
+        __this.widget(new NavBar({'className': 'mia-navbar-bar','links': __context.values.header .links }, [
+
+        __this.widget(new Nav({ww : { 'className' : 'mia-logout'  }}, [
+
+        __this.widget(new Item({}, [
+
+        __this.widget(new Link({ww : { 'text' : 'Logout' ,'onClick' : __context.values.header .logout   }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'navbar'  },ww : { 'className' : 'mia-navbar-bar'  }}),
+     ]),<__wml.Attrs>{ww : { 'text' : 'Logout' ,'onClick' : __context.values.header .logout   }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{ww : { 'className' : 'mia-logout'  }})
+     ]),<__wml.Attrs>{'className': 'mia-navbar-bar','links': __context.values.header .links }),
 __this.widget(new MainLayout({wml : { 'id' : 'content'  },ww : { 'className' : 'mia-content'  }}, [
 
         
