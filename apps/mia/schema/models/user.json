@@ -1,0 +1,125 @@
+{
+
+    "title": "User",
+
+    "type": "object",
+
+    "collection": "users",
+
+    "model.type": "ModelType",
+
+    "models:imports": {
+
+        "$ref": "./common/imports.json",
+
+        "@mia/types/lib/user": {
+
+            "User": "ModelType"
+
+        },
+
+        "@quenk/safe-mongodb/lib/database/collection": {
+
+            "populate": "populate",
+
+            "populateN": "populateN"
+
+        }
+
+    },
+
+    "validation:imports": {
+
+        "@mia/types/lib/user": "User"
+
+    },
+
+    "checks:imports": {
+
+        "@mia/validators/lib/user": ["validate", "validatePartial"]
+
+    },
+
+    "checks": [
+
+        ["@devcarib/common-checks#inc", ["'users'"]]
+
+    ],
+
+    "properties": {
+
+        "id": {
+
+            "type": "number",
+
+            "filterAs": ["number", "numbers"],
+
+            "readOnly": true,
+
+            "checks": [
+
+                ["@devcarib/common-checks#unique", ["_collection", "'id'"]]
+
+            ]
+
+        },
+
+        "name": {
+
+            "type": "string",
+
+            "filterAs": "matchci",
+
+            "validation": "@devcarib/common-validators#name"
+
+        },
+
+        "username": {
+
+            "type": "string",
+
+            "filterAs": "matchci",
+
+            "validation": "@devcarib/common-validators#username",
+
+            "checks": [
+
+                ["@devcarib/common-checks#unique", ["_collection", "'username'"]]
+
+            ]
+
+        },
+
+        "password": {
+
+            "type": "string",
+
+            "fields:hidden": true,
+
+            "validation": ["@devcarib/common-validators#password"],
+
+            "checks": "@devcarib/common-checks#bcrypt"
+
+        },
+
+        "status": {
+
+            "type": "number",
+
+            "filterAs": ["number", "numbers"]
+
+        },
+
+        "last_login": {
+
+            "type": "string",
+
+            "filterAs": "date",
+
+            "readOnly": true
+
+        }
+
+    }
+
+}

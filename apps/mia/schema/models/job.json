@@ -41,7 +41,10 @@
     },
 
     "checks": [
-        ["@devcarib/common-checks#parseMarkdown", ["'description'", "'description_html'"]]
+
+        ["@devcarib/common-checks#parseMarkdown", ["'description'", "'description_html'"]],
+
+        ["@devcarib/common-checks#inc", ["'users'"]]
     ],
 
     "properties": {
@@ -53,8 +56,6 @@
             "readOnly": true,
 
             "checks-complete": [
-
-                ["@devcarib/common-checks#inc", ["'counters.jobs'"]],
 
                 ["@devcarib/common-checks#unique", ["'jobs'", "'id'"]]
 

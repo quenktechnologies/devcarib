@@ -40,6 +40,12 @@
 
     },
 
+    "checks": [
+
+        ["@devcarib/common-checks#inc", ["'users'"]]
+
+    ],
+
     "properties": {
 
         "id": {
@@ -49,8 +55,6 @@
             "readOnly": true,
 
             "checks-complete": [
-
-                ["@devcarib/common-checks#inc", ["'counters.admins'"]],
 
                 ["@devcarib/common-checks#unique", ["'admins'", "'id'"]]
 
