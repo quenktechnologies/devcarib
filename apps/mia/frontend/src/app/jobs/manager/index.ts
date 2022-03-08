@@ -4,19 +4,23 @@ import * as api from '../../api';
 import {
     Future,
     pure,
-    doFuture,
-    voidPure
+    doFuture
 } from '@quenk/noni/lib/control/monad/future';
 import { Value, Object } from '@quenk/noni/lib/data/jsonx';
 import { interpolate } from '@quenk/noni/lib/data/string';
-import { noop } from '@quenk/noni/lib/data/function';
 import { debounce } from '@quenk/noni/lib/control/timer';
 
-import { Updatable } from '@quenk/wml-widgets/lib/data/updatable';
 import { Column } from '@quenk/wml-widgets/lib/data/table';
 import { Event } from '@quenk/wml-widgets/lib/control';
 
-import { createAgent } from '@quenk/jhr/lib/browser';
+import {
+    AfterSearchSetData,
+    AfterSearchShowData,
+    AfterSearchSetPagination,
+    ShiftingOnComplete,
+    AfterSearchUpdateWidget
+} from '@quenk/jouvert/lib/app/scene/remote/handlers';
+
 
 import { Job } from '@board/types/lib/job';
 
@@ -28,53 +32,19 @@ import {
 } from '../columns';
 import { JobPreviewDialog } from '../dialogs/preview';
 import { MiaManager } from '../../common/scene/manager';
+import { EditJobDialog } from '../dialogs/edit';
 import { JobsManagerView } from './views/jobs';
-import { JobEditDialog } from '../dialogs/edit';
-
-export const ACTION_APPROVE = 'approve';
-export const ACTION_REMOVE = 'remove';
-export const ACTION_SHOW = 'show';
 
 export const TIME_SEARCH_DEBOUNCE = 500;
 
-const agent = createAgent();
-
 /**
- * Messages handled by the JobsManager.
+ * JobsManager provides the screen for managing job posts.
  */
-export type Messages
-    = ShowEditor<Job>
-    ;
-
-/**
- * OkBody is the format we expect to receive our request results in.
- */
-export interface OkBody<D> {
-
-    data: D
-
-}
-
-/**
- * ShowEditor instructs the Manager to display an editor for the target data.
- */
-export class ShowEditor<D> {
-
-    constructor(public data: D) { }
-
-}
-
-/**
- * JobsManager provides the screen for managing job posts created within
- * the system.
- */
-export class JobsManager extends MiaManager<Messages> {
+export class JobsManager extends MiaManager<Job, void> {
 
     name = 'jobs';
 
     view = new JobsManagerView(this);
-
-    jobsModel = this.app.getModel(api.JOBS);
 
     values = {
 
@@ -93,6 +63,10 @@ export class JobsManager extends MiaManager<Messages> {
         table: {
 
             id: 'table',
+
+            title: 'Jobs',
+
+            add: ()=> {},
 
             data: <Job[]>[],
 
@@ -142,7 +116,7 @@ export class JobsManager extends MiaManager<Messages> {
                         divider: false,
 
                         onClick: (data: Job) =>
-                            this.runFuture(this.approveJob(<number>data.id))
+                            this.wait(this.approveJob(<number>data.id))
 
                     },
                     {
@@ -160,7 +134,7 @@ export class JobsManager extends MiaManager<Messages> {
                         divider: true,
 
                         onClick: (data: Job) =>
-                            this.runFuture(this.removeJob(<number>data.id))
+                            this.wait(this.removeJob(<number>data.id))
 
                     }
 
@@ -172,12 +146,21 @@ export class JobsManager extends MiaManager<Messages> {
 
     }
 
-    onError = (e: Error) => {
+    model = this.app.getModel(api.JOBS, [
 
-        console.error(e);
-        alert('An error has occurred! Details have been logged to the console.');
+        new AfterSearchSetData(this.values.table),
 
-    }
+        new AfterSearchSetPagination(this.values.table),
+
+        new ShiftingOnComplete([
+
+            new AfterSearchShowData(this),
+
+            new AfterSearchUpdateWidget(this.view, this.values.table.id)
+
+        ])
+
+    ]);
 
     /**
      * search for job postings that match the specified query criteria.
@@ -185,24 +168,9 @@ export class JobsManager extends MiaManager<Messages> {
      * The first time this method is called, results will populate and display
      * the view. Subsequent calls will only update the already displated table.
      */
-    search(qry: object): Future<void> {
+    search(qry: Object): Future<Job[]> {
 
-        let that = this;
-
-        return doFuture(function*() {
-
-            let jobs = yield that.jobsModel.search(<Object>qry);
-
-            that.values.table.data = jobs;
-
-            let mtable =
-                that.view.findById<Updatable<Job>>(that.values.table.id);
-
-            if (mtable.isJust()) mtable.get().update(jobs);
-
-            return voidPure;
-
-        });
+        return this.model.search(qry);
 
     }
 
@@ -231,7 +199,7 @@ export class JobsManager extends MiaManager<Messages> {
 
             let change = { status: jobStatus.JOB_STATUS_ACTIVE };
 
-            let r = yield agent.patch(path, change);
+            let r = yield that.model.update(path, change);
 
             if (r.code == 200) {
 
@@ -257,7 +225,13 @@ export class JobsManager extends MiaManager<Messages> {
      */
     editJob(job: Job) {
 
-        this.spawn(() => new JobEditDialog(this.app, this.self(), job));
+        this.spawn(() => {
+
+            (<any>window).x = new EditJobDialog(this.app, this.self(), job);
+
+            return (<any>window).x;
+
+        });
 
     }
 
@@ -272,7 +246,7 @@ export class JobsManager extends MiaManager<Messages> {
 
             let path = interpolate(api.JOB, { id });
 
-            let r = yield agent.delete(path);
+            let r = yield that.model.remove(path);
 
             if (r.code == 200) {
 
@@ -292,28 +266,9 @@ export class JobsManager extends MiaManager<Messages> {
 
     }
 
-    /**
-     * runFuture is used to execute async work wrapped in the Future type.
-     */
-    runFuture<T>(ft: Future<T>): void {
-
-        ft.fork(this.onError, noop);
-
-    }
-
     run() {
 
-        let that = this;
-
-        return doFuture(function*() {
-
-            yield that.search({});
-            console.error('show trime');
-            that.show();
-
-            return voidPure;
-
-        });
+        return this.search({});
 
     }
 

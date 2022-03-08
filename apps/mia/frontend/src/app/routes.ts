@@ -9,6 +9,7 @@ import { ACTION_IGNORE, ACTION_RAISE } from '@quenk/potoo/lib/actor/template';
 import { Request } from '@quenk/frontend-routers/lib/hash';
 
 import { JobsManager } from './jobs/manager';
+import { UsersManager } from './users/manager';
 import { Mia } from './';
 
 let ignoredErrors = ['ClientError', 'ServerError'];
@@ -17,7 +18,6 @@ const trap = (e: Err) => contains(ignoredErrors, e.message) ?
     ACTION_IGNORE : ACTION_RAISE;
 
 export const routes: RoutingTable<Request> = {
-
     '/': {
 
         id: 'dashboard',
@@ -26,6 +26,28 @@ export const routes: RoutingTable<Request> = {
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new JobsManager(<Mia>s, r)
+
+    },
+
+    '/jobs': {
+
+        id: 'dashboard',
+
+        trap,
+
+        create: (s: System, _: object, r: Resume<Request>) =>
+            new JobsManager(<Mia>s, r)
+
+    },
+
+    '/users': {
+
+        id: 'users',
+
+        trap,
+
+        create: (s: System, _: object, r: Resume<Request>) =>
+            new UsersManager(<Mia>s, r)
 
     }
 

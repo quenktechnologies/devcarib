@@ -1,27 +1,51 @@
-{% import (Modal, ModalHeader, ModalBody, ModalFooter)
-   from "@quenk/wml-widgets/lib/dialog/modal" %}
-{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
 
-{% import (JobEditDialog) from "../" %}
-{% import (JobEditDialogFormView) from "./form" %}
+{% import (JobFormJobFieldsView) 
+   from "@devcarib/widgets/lib/job/form/fields/job" %}
+{% import (JobFormCompanyFieldsView) 
+   from "@devcarib/widgets/lib/job/form/fields/company" %}
 
-{% view JobEditDialogView (JobEditDialog) %}
-<Modal ww:className="-large">
+{% import (EditJobDialog) from "../" %}
 
-  <ModalHeader>Edit Job</ModalHeader>
+{% view EditJobDialogView (EditJobDialog) %}
+<GridLayout>
 
-  <ModalBody>
+  <Row>
 
-    {{<JobEditDialogFormView(@)>}}
+    <Column>
 
-  </ModalBody>
+      <Panel>
 
-<ModalFooter>
+        <PanelBody>
 
-  <Button ww:onClick={{@values.close}} ww:text="Close" />
+          {{<JobFormJobFieldsView(@values)>}}
+      
+        </PanelBody>
 
-  <Button ww:onClick={{@values.save}} ww:text="Save" />
+      </Panel>
 
-</ModalFooter>
+    </Column>
 
-</Modal>
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <Panel>
+
+        <PanelBody>
+
+          {{<JobFormCompanyFieldsView(@values)>}}
+      
+        </PanelBody>
+
+      </Panel>
+
+    </Column>
+
+  </Row>
+
+</GridLayout>
+
