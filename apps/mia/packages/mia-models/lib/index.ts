@@ -4,6 +4,7 @@
 import * as mongo from 'mongodb';
 import * as _admin from './admin';
 import * as _job from './job';
+import * as _user from './user';
 
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
 import { Model } from '@quenk/dback-model-mongodb';
@@ -15,7 +16,9 @@ import { Model } from '@quenk/dback-model-mongodb';
 export type DataTypeUnion =
     _admin.DataType |
 
-    _job.DataType;
+    _job.DataType |
+
+    _user.DataType;
 
 /**
  * ModelGetter is a function that provides an instance of a Model.
@@ -37,7 +40,8 @@ export interface Models {
 export const modelsAvailable: Models = {
 
     'admin': <ModelGetter>_admin.ModelImpl.getInstance,
-    'job': <ModelGetter>_job.ModelImpl.getInstance
+    'job': <ModelGetter>_job.ModelImpl.getInstance,
+    'user': <ModelGetter>_user.ModelImpl.getInstance
 };
 
 /**
