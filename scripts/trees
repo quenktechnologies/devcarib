@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+IGNORE=
+
+# $1 - dirname
+# $2 - args
+doPush() {
+  parent=$(dirname $1)
+  target=$(basename $1)
+
+  echo "Pushing to remote $target from $parent/$target"
+ 
+  if ! [[ "$target" =~ "$IGNORE" ]]; then
+    git subtree push -P $parent/$target $target master $2
+  fi
+}
+
+# $1 - dirname
+# $2 - args
+doPull() {
+  parent=$(dirname $1)
+  target=$(basename $1)
+
+  echo "Pulling into $target located at $parent/$target"
+
+  if ! [[ "$target" =~ "$IGNORE" ]]; then
+    git subtree pull -P $parent/$target $target master --squash -m "chore: sync with upstream" $2
+  fi
+}
+
+# $1 - func
+# $2 - dirname
+# $3 - args
+run() {
+  name=$(basename $2)
+  if [[ "$name" == "$2" ]]; then
+    for tree in $(ls $2)
+    do
+      $1 "$2/$tree" $3
+    done
+  else
+    $1 $2 $3
+  fi
+}
+
+# #1 push|pull
+# #2 dirname
+# #3 args
+main() {
+  if [[ "$#" -lt 2 ]]; then
+    echo "Usage: $0 push|pull <dirname> <args>?"
+    exit 1;
+  fi
+
+  if [[ "$1" == "push" ]]; then
+    run doPush $2 $3
+  elif [[ "$1" == "pull" ]]; then
+    run doPull $2 $3
+  else
+    echo "Unknown command: '$1'!"
+  fi
+}
+
+main $1 $2 $3
