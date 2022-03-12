@@ -2,6 +2,7 @@
 
 {# IndexView provides the view for the admin index page. #}
 {% view IndexView where title:String, styles?:String[] %}
+
   <html>
 
     {{ <HeadView({title=@title, styles=["/mia/assets/css/mia.css"]})> }}
@@ -10,7 +11,7 @@
       
       <div id="dialogs"/>
 
-      <div id="main"/>
+      <main id="app"/>
 
       <script src="/mia/assets/js/mia.js"/>
 

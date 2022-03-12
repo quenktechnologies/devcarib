@@ -80,15 +80,11 @@ export class HeadView  implements __wml.View {
 
         
      ]),
-__this.node('meta', <__wml.Attrs>{'http-equiv': 'X-UA-Compatible','content': 'IE=edge'}, [
+__this.node('meta', <__wml.Attrs>{'http-equiv': 'X-UA-Compatible','content': unsafe ('IE=edge')}, [
 
         
      ]),
-__this.node('meta', <__wml.Attrs>{'name': 'viewport','content': 'width=device-width, initial-scale=1.0'}, [
-
-        
-     ]),
-__this.node('meta', <__wml.Attrs>{'name': 'author','content': 'Caribbean Developers'}, [
+__this.node('meta', <__wml.Attrs>{'name': 'viewport','content': unsafe ('width=device-width, initial-scale=1.0')}, [
 
         
      ]),

@@ -90,7 +90,7 @@ __this.node('body', <__wml.Attrs>{}, [
 
         
      ]),
-__this.node('div', <__wml.Attrs>{'id': 'main'}, [
+__this.node('main', <__wml.Attrs>{'id': 'app'}, [
 
         
      ]),

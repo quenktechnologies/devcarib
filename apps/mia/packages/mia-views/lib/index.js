@@ -48,7 +48,7 @@ var IndexView = /** @class */ (function () {
                 }))).render(),
                 __this.node('body', {}, [
                     __this.node('div', { 'id': 'dialogs' }, []),
-                    __this.node('div', { 'id': 'main' }, []),
+                    __this.node('main', { 'id': 'app' }, []),
                     __this.node('script', { 'src': '/mia/assets/js/mia.js' }, [])
                 ])
             ]);
@@ -64,7 +64,7 @@ var IndexView = /** @class */ (function () {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
             if (id != null) {
                 if (this.ids.hasOwnProperty(id))
-                    throw new Error("Duplicate id '" + id + "' detected!");
+                    throw new Error("Duplicate id '".concat(id, "' detected!"));
                 this.ids[id] = e;
             }
             if (group != null) {
@@ -105,7 +105,7 @@ var IndexView = /** @class */ (function () {
                     e.appendChild(c);
                     break;
                 default:
-                    throw new TypeError("Can not adopt child " + c + " of type " + typeof c);
+                    throw new TypeError("Can not adopt child ".concat(c, " of type ").concat(typeof c));
             }
         });
         this.register(e, attrs);

@@ -49,9 +49,8 @@ var HeadView = /** @class */ (function () {
         this.template = function (__this) {
             return __this.node('head', {}, __spreadArray(__spreadArray([
                 __this.node('meta', { 'charset': 'utf-8' }, []),
-                __this.node('meta', { 'http-equiv': 'X-UA-Compatible', 'content': 'IE=edge' }, []),
-                __this.node('meta', { 'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0' }, []),
-                __this.node('meta', { 'name': 'author', 'content': 'Caribbean Developers' }, []),
+                __this.node('meta', { 'http-equiv': 'X-UA-Compatible', 'content': unsafe('IE=edge') }, []),
+                __this.node('meta', { 'name': 'viewport', 'content': unsafe('width=device-width, initial-scale=1.0') }, []),
                 __this.node('link', { 'rel': 'apple-touch-icon', 'sizes': '57x57', 'href': '/apple-icon-57x57.png' }, []),
                 __this.node('link', { 'rel': 'apple-touch-icon', 'sizes': '60x60', 'href': '/apple-icon-60x60.png' }, []),
                 __this.node('link', { 'rel': 'apple-touch-icon', 'sizes': '72x72', 'href': '/apple-icon-72x72.png' }, []),
@@ -92,7 +91,7 @@ var HeadView = /** @class */ (function () {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
             if (id != null) {
                 if (this.ids.hasOwnProperty(id))
-                    throw new Error("Duplicate id '" + id + "' detected!");
+                    throw new Error("Duplicate id '".concat(id, "' detected!"));
                 this.ids[id] = e;
             }
             if (group != null) {
@@ -133,7 +132,7 @@ var HeadView = /** @class */ (function () {
                     e.appendChild(c);
                     break;
                 default:
-                    throw new TypeError("Can not adopt child " + c + " of type " + typeof c);
+                    throw new TypeError("Can not adopt child ".concat(c, " of type ").concat(typeof c));
             }
         });
         this.register(e, attrs);
