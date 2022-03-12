@@ -3,8 +3,8 @@ import { Milliseconds } from '@quenk/noni/lib/control/time';
 import { Object } from '@quenk/noni/lib/data/json';
 
 import { System } from '@quenk/potoo/lib/actor/system';
-import { Case } from '@quenk/potoo/lib/actor/resident/case';
-import { Immutable } from '@quenk/potoo/lib/actor/resident';
+import { Case, caseOf } from '@quenk/potoo/lib/actor/resident/case';
+import { Immutable } from '@quenk/potoo/lib/actor/resident/immutable';
 import { Address } from '@quenk/potoo/lib/actor/address';
 
 import { Info } from '../log';
@@ -175,15 +175,15 @@ export class TaskClock extends Immutable<Message> {
 
     receive() {
 
-        return  <Case<Message>[]>[
+        return <Case<Message>[]>[
 
-        new Case(Subscribe, (s: Subscribe) => this.register(s)),
+            caseOf(Subscribe, (s: Subscribe) => this.register(s)),
 
-        new Case(Publish, () => this.publish()),
+            caseOf(Publish, () => this.publish()),
 
-        new Case(Finished, (f: Finished) => this.actorFinished(f.actor))
+            caseOf(Finished, (f: Finished) => this.actorFinished(f.actor))
 
-    ];
+        ];
 
     }
 

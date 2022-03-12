@@ -3,7 +3,7 @@ import { Milliseconds } from '@quenk/noni/lib/control/time';
 import { Object } from '@quenk/noni/lib/data/json';
 import { System } from '@quenk/potoo/lib/actor/system';
 import { Case } from '@quenk/potoo/lib/actor/resident/case';
-import { Immutable } from '@quenk/potoo/lib/actor/resident';
+import { Immutable } from '@quenk/potoo/lib/actor/resident/immutable';
 import { Address } from '@quenk/potoo/lib/actor/address';
 /**
  * Interval is an identifier expanded by the TaskClock into a predefined

@@ -1,5 +1,5 @@
-import { Case } from '@quenk/potoo/lib/actor/resident/case';
-import { Immutable } from '@quenk/potoo/lib/actor/resident';
+import { caseOf } from '@quenk/potoo/lib/actor/resident/case';
+import { Immutable } from '@quenk/potoo/lib/actor/resident/immutable';
 import { Address } from '@quenk/potoo/lib/actor/address';
 import { System } from '@quenk/potoo/lib/actor/system';
 
@@ -92,7 +92,7 @@ export abstract class Logger extends Immutable<Message> {
 
         return  [
 
-        new Case(Message, (m: Message) => {
+        caseOf(Message, (m: Message) => {
 
             if (m.level <= this.level)
                 this.logMessage(m);

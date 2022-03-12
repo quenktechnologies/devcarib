@@ -3,8 +3,8 @@ import * as moment from 'moment';
 
 import { doFuture, liftP, pure } from '@quenk/noni/lib/control/monad/future';
 
-import { Immutable } from '@quenk/potoo/lib/actor/resident';
-import { Case } from '@quenk/potoo/lib/actor/resident/case';
+import { Immutable } from '@quenk/potoo/lib/actor/resident/immutable';
+import { caseOf } from '@quenk/potoo/lib/actor/resident/case';
 import { Address } from '@quenk/potoo/lib/actor/address';
 
 import { unsafeGetUserConnection } from '@quenk/tendril/lib/app/connection';
@@ -25,11 +25,11 @@ export class ClearExpiredJobsTask extends Immutable<Message> {
 
     receive() {
 
-        return  [
+        return [
 
-        new Case(Tick, (t: Tick) => this.clear(t.src))
+            caseOf(Tick, (t: Tick) => this.clear(t.src))
 
-    ];
+        ];
 
     }
 

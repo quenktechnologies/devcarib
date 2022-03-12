@@ -4,8 +4,8 @@ import * as mailer from 'nodemailer';
 
 import { doFuture, liftP, parallel, pure } from '@quenk/noni/lib/control/monad/future';
 
-import { Immutable } from '@quenk/potoo/lib/actor/resident';
-import { Case } from '@quenk/potoo/lib/actor/resident/case';
+import { Immutable } from '@quenk/potoo/lib/actor/resident/immutable';
+import { Case, caseOf } from '@quenk/potoo/lib/actor/resident/case';
 import { Address } from '@quenk/potoo/lib/actor/address';
 import { System } from '@quenk/potoo/lib/actor/system';
 
@@ -81,13 +81,13 @@ export class MailServer extends Immutable<Message>{
 
     receive() {
 
-        return  <Case<Message>[]>[
+        return <Case<Message>[]>[
 
-        new Case(OutgoingMessage, (m: OutgoingMessage) => this.queueMessage(m)),
+            caseOf(OutgoingMessage, (m: OutgoingMessage) => this.queueMessage(m)),
 
-        new Case(Tick, (t: Tick) => this.dispatch(t.src))
+            caseOf(Tick, (t: Tick) => this.dispatch(t.src))
 
-    ];
+        ];
 
     }
 

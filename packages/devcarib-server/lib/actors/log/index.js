@@ -1,23 +1,8 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConsoleLogger = exports.NoLogger = exports.Logger = exports.Error = exports.Warn = exports.Info = exports.Debug = exports.Message = exports.LOG_LEVEL_ERROR = exports.LOG_LEVEL_WARN = exports.LOG_LEVEL_INFO = exports.LOG_LEVEL_DEBUG = void 0;
-var case_1 = require("@quenk/potoo/lib/actor/resident/case");
-var resident_1 = require("@quenk/potoo/lib/actor/resident");
+const case_1 = require("@quenk/potoo/lib/actor/resident/case");
+const immutable_1 = require("@quenk/potoo/lib/actor/resident/immutable");
 exports.LOG_LEVEL_DEBUG = 7;
 exports.LOG_LEVEL_INFO = 6;
 exports.LOG_LEVEL_WARN = 4;
@@ -26,70 +11,57 @@ exports.LOG_LEVEL_ERROR = 1;
  * Message indicates a message we want stored to the log along with some meta
  * data.
  */
-var Message = /** @class */ (function () {
-    function Message(level, actor, text) {
+class Message {
+    constructor(level, actor, text) {
         this.level = level;
         this.actor = actor;
         this.text = text;
     }
-    return Message;
-}());
+}
 exports.Message = Message;
 /**
  * Debug log message constructor.
  */
-var Debug = /** @class */ (function (_super) {
-    __extends(Debug, _super);
-    function Debug(actor, text) {
-        var _this = _super.call(this, exports.LOG_LEVEL_DEBUG, actor, text) || this;
-        _this.actor = actor;
-        _this.text = text;
-        return _this;
+class Debug extends Message {
+    constructor(actor, text) {
+        super(exports.LOG_LEVEL_DEBUG, actor, text);
+        this.actor = actor;
+        this.text = text;
     }
-    return Debug;
-}(Message));
+}
 exports.Debug = Debug;
 /**
  * Info log message constructor.
  */
-var Info = /** @class */ (function (_super) {
-    __extends(Info, _super);
-    function Info(actor, text) {
-        var _this = _super.call(this, exports.LOG_LEVEL_INFO, actor, text) || this;
-        _this.actor = actor;
-        _this.text = text;
-        return _this;
+class Info extends Message {
+    constructor(actor, text) {
+        super(exports.LOG_LEVEL_INFO, actor, text);
+        this.actor = actor;
+        this.text = text;
     }
-    return Info;
-}(Message));
+}
 exports.Info = Info;
 /**
  * Warn log message constructor.
  */
-var Warn = /** @class */ (function (_super) {
-    __extends(Warn, _super);
-    function Warn(actor, text) {
-        var _this = _super.call(this, exports.LOG_LEVEL_WARN, actor, text) || this;
-        _this.actor = actor;
-        _this.text = text;
-        return _this;
+class Warn extends Message {
+    constructor(actor, text) {
+        super(exports.LOG_LEVEL_WARN, actor, text);
+        this.actor = actor;
+        this.text = text;
     }
-    return Warn;
-}(Message));
+}
 exports.Warn = Warn;
 /**
  * Error log message constructor.
  */
-var Error = /** @class */ (function (_super) {
-    __extends(Error, _super);
-    function Error(actor, text) {
-        var _this = _super.call(this, exports.LOG_LEVEL_ERROR, actor, text) || this;
-        _this.actor = actor;
-        _this.text = text;
-        return _this;
+class Error extends Message {
+    constructor(actor, text) {
+        super(exports.LOG_LEVEL_ERROR, actor, text);
+        this.actor = actor;
+        this.text = text;
     }
-    return Error;
-}(Message));
+}
 exports.Error = Error;
 /**
  * Logger provides an actor for storing structured log messages to a source.
@@ -98,49 +70,36 @@ exports.Error = Error;
  * activities of job or service type actors in a way that can be reviewed
  * at a future point.
  */
-var Logger = /** @class */ (function (_super) {
-    __extends(Logger, _super);
-    function Logger(level, system) {
-        var _this = _super.call(this, system) || this;
-        _this.level = level;
-        _this.system = system;
-        return _this;
+class Logger extends immutable_1.Immutable {
+    constructor(level, system) {
+        super(system);
+        this.level = level;
+        this.system = system;
     }
-    Logger.prototype.receive = function () {
-        var _this = this;
+    receive() {
         return [
-            new case_1.Case(Message, function (m) {
-                if (m.level <= _this.level)
-                    _this.logMessage(m);
+            (0, case_1.caseOf)(Message, (m) => {
+                if (m.level <= this.level)
+                    this.logMessage(m);
             })
         ];
-    };
-    Logger.prototype.run = function () { };
-    return Logger;
-}(resident_1.Immutable));
+    }
+    run() { }
+}
 exports.Logger = Logger;
 /**
  * NoLogger does not log any messages it receives.
  */
-var NoLogger = /** @class */ (function (_super) {
-    __extends(NoLogger, _super);
-    function NoLogger() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    NoLogger.prototype.logMessage = function () { };
-    return NoLogger;
-}(Logger));
+class NoLogger extends Logger {
+    logMessage() { }
+}
 exports.NoLogger = NoLogger;
 /**
  * ConsoleLogger is a Logger implementation that uses the console.
  */
-var ConsoleLogger = /** @class */ (function (_super) {
-    __extends(ConsoleLogger, _super);
-    function ConsoleLogger() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ConsoleLogger.prototype.logMessage = function (m) {
-        var msg = "[" + m.actor + "] " + m.text;
+class ConsoleLogger extends Logger {
+    logMessage(m) {
+        let msg = `[${m.actor}] ${m.text}`;
         switch (m.level) {
             case exports.LOG_LEVEL_INFO:
                 console.info(msg);
@@ -157,8 +116,7 @@ var ConsoleLogger = /** @class */ (function (_super) {
             default:
                 break;
         }
-    };
-    return ConsoleLogger;
-}(Logger));
+    }
+}
 exports.ConsoleLogger = ConsoleLogger;
 //# sourceMappingURL=index.js.map

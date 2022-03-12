@@ -1,5 +1,5 @@
 import * as mailer from 'nodemailer';
-import { Immutable } from '@quenk/potoo/lib/actor/resident';
+import { Immutable } from '@quenk/potoo/lib/actor/resident/immutable';
 import { Case } from '@quenk/potoo/lib/actor/resident/case';
 import { Address } from '@quenk/potoo/lib/actor/address';
 import { System } from '@quenk/potoo/lib/actor/system';

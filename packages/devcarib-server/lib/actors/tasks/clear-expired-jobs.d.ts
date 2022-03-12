@@ -1,5 +1,4 @@
-import { Immutable } from '@quenk/potoo/lib/actor/resident';
-import { Case } from '@quenk/potoo/lib/actor/resident/case';
+import { Immutable } from '@quenk/potoo/lib/actor/resident/immutable';
 import { Address } from '@quenk/potoo/lib/actor/address';
 import { Tick } from '../task/clock';
 export declare type Message = Tick;
@@ -8,9 +7,7 @@ export declare type Message = Tick;
  * ago from the database.
  */
 export declare class ClearExpiredJobsTask extends Immutable<Message> {
-    receive(): Case<{
-        src: unknown;
-    }>[];
+    receive(): import("@quenk/potoo/lib/actor/resident/case").Case<import("@quenk/noni/lib/data/type").Pattern<Tick>>[];
     /**
      * clear the expired job postings.
      */
