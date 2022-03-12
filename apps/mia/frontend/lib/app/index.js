@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Mia = exports.TIME_SEARCH_DEBOUNCE = exports.RESOURCE_JOB = exports.RESOURCE_JOBS = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
+exports.Mia = void 0;
 const function_1 = require("@quenk/noni/lib/data/function");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const display_1 = require("@quenk/jouvert/lib/app/service/display");
@@ -12,12 +12,6 @@ const hash_1 = require("@quenk/frontend-routers/lib/hash");
 const browser_1 = require("@quenk/jhr/lib/browser");
 const app_1 = require("./views/app");
 const routes_1 = require("./routes");
-exports.ACTION_APPROVE = 'approve';
-exports.ACTION_REMOVE = 'remove';
-exports.ACTION_SHOW = 'show';
-exports.RESOURCE_JOBS = '/admin/r/jobs';
-exports.RESOURCE_JOB = '/admin/r/jobs/{id}';
-exports.TIME_SEARCH_DEBOUNCE = 500;
 const REMOTE_BACKGROUD = 'remote.background';
 const agent = (0, browser_1.createAgent)();
 /**
@@ -53,7 +47,8 @@ class Mia extends jouvert_1.Jouvert {
                  * links for the main navigation area.
                  */
                 links: {
-                    'Jobs': '/jobs',
+                    'Jobs': '#/jobs',
+                    'Users': '#/users'
                 },
                 logout: () => this.runFuture(this.logout())
             },

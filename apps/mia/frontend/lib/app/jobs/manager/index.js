@@ -1,42 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobsManager = exports.ShowEditor = exports.TIME_SEARCH_DEBOUNCE = exports.ACTION_SHOW = exports.ACTION_REMOVE = exports.ACTION_APPROVE = void 0;
+exports.JobsManager = exports.TIME_SEARCH_DEBOUNCE = void 0;
 const jobStatus = require("@board/common/lib/data/job");
 const api = require("../../api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const string_1 = require("@quenk/noni/lib/data/string");
-const function_1 = require("@quenk/noni/lib/data/function");
 const timer_1 = require("@quenk/noni/lib/control/timer");
-const browser_1 = require("@quenk/jhr/lib/browser");
+const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
 const columns_1 = require("../columns");
 const preview_1 = require("../dialogs/preview");
 const manager_1 = require("../../common/scene/manager");
-const jobs_1 = require("./views/jobs");
 const edit_1 = require("../dialogs/edit");
-exports.ACTION_APPROVE = 'approve';
-exports.ACTION_REMOVE = 'remove';
-exports.ACTION_SHOW = 'show';
+const jobs_1 = require("./views/jobs");
 exports.TIME_SEARCH_DEBOUNCE = 500;
-const agent = (0, browser_1.createAgent)();
 /**
- * ShowEditor instructs the Manager to display an editor for the target data.
- */
-class ShowEditor {
-    constructor(data) {
-        this.data = data;
-    }
-}
-exports.ShowEditor = ShowEditor;
-/**
- * JobsManager provides the screen for managing job posts created within
- * the system.
+ * JobsManager provides the screen for managing job posts.
  */
 class JobsManager extends manager_1.MiaManager {
     constructor() {
         super(...arguments);
         this.name = 'jobs';
         this.view = new jobs_1.JobsManagerView(this);
-        this.jobsModel = this.app.getModel(api.JOBS);
         this.values = {
             search: {
                 onChange: (0, timer_1.debounce)((e) => {
@@ -46,6 +30,8 @@ class JobsManager extends manager_1.MiaManager {
             },
             table: {
                 id: 'table',
+                title: 'Jobs',
+                add: () => { },
                 data: [],
                 pagination: {
                     current: {
@@ -71,7 +57,7 @@ class JobsManager extends manager_1.MiaManager {
                         {
                             text: "Approve",
                             divider: false,
-                            onClick: (data) => this.runFuture(this.approveJob(data.id))
+                            onClick: (data) => this.wait(this.approveJob(data.id))
                         },
                         {
                             text: "Edit",
@@ -81,16 +67,20 @@ class JobsManager extends manager_1.MiaManager {
                         {
                             text: "Remove",
                             divider: true,
-                            onClick: (data) => this.runFuture(this.removeJob(data.id))
+                            onClick: (data) => this.wait(this.removeJob(data.id))
                         }
                     ])
                 ]
             }
         };
-        this.onError = (e) => {
-            console.error(e);
-            alert('An error has occurred! Details have been logged to the console.');
-        };
+        this.model = this.app.getModel(api.JOBS, [
+            new handlers_1.AfterSearchSetData(this.values.table),
+            new handlers_1.AfterSearchSetPagination(this.values.table),
+            new handlers_1.ShiftingOnComplete([
+                new handlers_1.AfterSearchShowData(this),
+                new handlers_1.AfterSearchUpdateWidget(this.view, this.values.table.id)
+            ])
+        ]);
     }
     /**
      * search for job postings that match the specified query criteria.
@@ -99,15 +89,7 @@ class JobsManager extends manager_1.MiaManager {
      * the view. Subsequent calls will only update the already displated table.
      */
     search(qry) {
-        let that = this;
-        return (0, future_1.doFuture)(function* () {
-            let jobs = yield that.jobsModel.search(qry);
-            that.values.table.data = jobs;
-            let mtable = that.view.findById(that.values.table.id);
-            if (mtable.isJust())
-                mtable.get().update(jobs);
-            return future_1.voidPure;
-        });
+        return this.model.search(qry);
     }
     /**
      * showJob displays a single Job in a dialog.
@@ -125,7 +107,7 @@ class JobsManager extends manager_1.MiaManager {
         return (0, future_1.doFuture)(function* () {
             let path = (0, string_1.interpolate)(api.JOB, { id });
             let change = { status: jobStatus.JOB_STATUS_ACTIVE };
-            let r = yield agent.patch(path, change);
+            let r = yield that.model.update(path, change);
             if (r.code == 200) {
                 alert('Job approved!');
                 that.reload();
@@ -141,7 +123,10 @@ class JobsManager extends manager_1.MiaManager {
      * of a job.
      */
     editJob(job) {
-        this.spawn(() => new edit_1.JobEditDialog(this.app, this.self(), job));
+        this.spawn(() => {
+            window.x = new edit_1.EditJobDialog(this.app, this.self(), job);
+            return window.x;
+        });
     }
     /**
      * removeJob permenantly removes a job from the site.
@@ -150,7 +135,7 @@ class JobsManager extends manager_1.MiaManager {
         let that = this;
         return (0, future_1.doFuture)(function* () {
             let path = (0, string_1.interpolate)(api.JOB, { id });
-            let r = yield agent.delete(path);
+            let r = yield that.model.remove(path);
             if (r.code == 200) {
                 alert('Job removed!');
                 that.reload();
@@ -161,20 +146,8 @@ class JobsManager extends manager_1.MiaManager {
             return (0, future_1.pure)(undefined);
         });
     }
-    /**
-     * runFuture is used to execute async work wrapped in the Future type.
-     */
-    runFuture(ft) {
-        ft.fork(this.onError, function_1.noop);
-    }
     run() {
-        let that = this;
-        return (0, future_1.doFuture)(function* () {
-            yield that.search({});
-            console.error('show trime');
-            that.show();
-            return future_1.voidPure;
-        });
+        return this.search({});
     }
 }
 exports.JobsManager = JobsManager;

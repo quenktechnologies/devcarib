@@ -10,6 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {DataTable} from '@quenk/wml-widgets/lib/data/table'; ;
 import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
+import {ManagerHeader} from '../../../common/scene/manager/views/header'; ;
 import {JobsManager} from '../'; 
 
 
@@ -81,10 +82,7 @@ export class JobsManagerView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.node('h1', <__wml.Attrs>{}, [
-
-        __document.createTextNode('Manage Jobs')
-     ])
+        __this.registerView((new ManagerHeader(__context.values.table ))).render()
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [

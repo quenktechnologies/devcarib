@@ -11,7 +11,10 @@ import {
     HTMLElementViewDelegate,
     WMLLayoutViewDelegate
 } from '@quenk/jouvert/lib/app/service/display';
-import { CompleteHandlerSpec, RemoteModelFactory } from '@quenk/jouvert/lib/app/remote/model/factory';
+import {
+    CompleteHandlerSpec,
+    RemoteModelFactory
+} from '@quenk/jouvert/lib/app/remote/model/factory';
 import { Director } from '@quenk/jouvert/lib/app/service/director';
 import { Remote } from '@quenk/jouvert/lib/app/remote';
 import { Jouvert, Template } from '@quenk/jouvert';
@@ -24,15 +27,6 @@ import { createAgent } from '@quenk/jhr/lib/browser';
 
 import { MiaView } from './views/app';
 import { routes } from './routes';
-
-export const ACTION_APPROVE = 'approve';
-export const ACTION_REMOVE = 'remove';
-export const ACTION_SHOW = 'show';
-
-export const RESOURCE_JOBS = '/admin/r/jobs';
-export const RESOURCE_JOB = '/admin/r/jobs/{id}';
-
-export const TIME_SEARCH_DEBOUNCE = 500;
 
 const REMOTE_BACKGROUD = 'remote.background';
 
@@ -83,7 +77,9 @@ export class Mia extends Jouvert {
              */
             links: {
 
-                'Jobs': '/jobs',
+                'Jobs': '#/jobs',
+
+                'Users': '#/users'
 
             },
 

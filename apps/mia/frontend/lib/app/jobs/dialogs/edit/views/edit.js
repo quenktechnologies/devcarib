@@ -1,15 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobEditDialogView = void 0;
+exports.EditJobDialogView = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
-const modal_1 = require("@quenk/wml-widgets/lib/dialog/modal");
+const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-const button_1 = require("@quenk/wml-widgets/lib/control/button");
+const panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
 ;
+const job_1 = require("@devcarib/widgets/lib/job/form/fields/job");
 ;
-const form_1 = require("./form");
+const company_1 = require("@devcarib/widgets/lib/job/form/fields/company");
+;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -33,7 +35,7 @@ const text = __document.text;
 const unsafe = __document.unsafe;
 // @ts-ignore 6192
 const isSet = (value) => value != null;
-class JobEditDialogView {
+class EditJobDialogView {
     constructor(__context) {
         this.ids = {};
         this.groups = {};
@@ -41,18 +43,26 @@ class JobEditDialogView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.widget(new modal_1.Modal({ ww: { 'className': '-large' } }, [
-                __this.widget(new modal_1.ModalHeader({}, [
-                    __document.createTextNode('Edit Job')
+            return __this.widget(new grid_1.GridLayout({}, [
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new panel_1.Panel({}, [
+                            __this.widget(new panel_1.PanelBody({}, [
+                                __this.registerView((new job_1.JobFormJobFieldsView(__context.values))).render()
+                            ]), {})
+                        ]), {})
+                    ]), {})
                 ]), {}),
-                __this.widget(new modal_1.ModalBody({}, [
-                    __this.registerView((new form_1.JobEditDialogFormView(__context))).render()
-                ]), {}),
-                __this.widget(new modal_1.ModalFooter({}, [
-                    __this.widget(new button_1.Button({ ww: { 'onClick': __context.values.close, 'text': 'Close' } }, []), { ww: { 'onClick': __context.values.close, 'text': 'Close' } }),
-                    __this.widget(new button_1.Button({ ww: { 'onClick': __context.values.save, 'text': 'Save' } }, []), { ww: { 'onClick': __context.values.save, 'text': 'Save' } })
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new panel_1.Panel({}, [
+                            __this.widget(new panel_1.PanelBody({}, [
+                                __this.registerView((new company_1.JobFormCompanyFieldsView(__context.values))).render()
+                            ]), {})
+                        ]), {})
+                    ]), {})
                 ]), {})
-            ]), { ww: { 'className': '-large' } });
+            ]), {});
         };
     }
     registerView(v) {
@@ -149,5 +159,5 @@ class JobEditDialogView {
         return this.tree;
     }
 }
-exports.JobEditDialogView = JobEditDialogView;
+exports.EditJobDialogView = EditJobDialogView;
 //# sourceMappingURL=edit.js.map

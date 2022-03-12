@@ -7,10 +7,11 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {Modal,ModalHeader,ModalBody,ModalFooter} from '@quenk/wml-widgets/lib/dialog/modal'; ;
-import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
-import {JobEditDialog} from '../'; ;
-import {JobEditDialogFormView} from './form'; 
+import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
+import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
+import {JobFormJobFieldsView} from '@devcarib/widgets/lib/job/form/fields/job'; ;
+import {JobFormCompanyFieldsView} from '@devcarib/widgets/lib/job/form/fields/company'; ;
+import {EditJobDialog} from '../'; 
 
 
 //@ts-ignore:6192
@@ -67,36 +68,43 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class JobEditDialogView  implements __wml.View {
+export class EditJobDialogView  implements __wml.View {
 
-   constructor(__context: JobEditDialog) {
+   constructor(__context: EditJobDialog) {
 
        this.template = (__this:__wml.Registry) => {
 
        
 
-           return __this.widget(new Modal({ww : { 'className' : '-large'  }}, [
+           return __this.widget(new GridLayout({}, [
 
-        __this.widget(new ModalHeader({}, [
+        __this.widget(new Row({}, [
 
-        __document.createTextNode('Edit Job')
-     ]),<__wml.Attrs>{}),
-__this.widget(new ModalBody({}, [
+        __this.widget(new Column({}, [
 
-        __this.registerView((new JobEditDialogFormView(__context))).render()
-     ]),<__wml.Attrs>{}),
-__this.widget(new ModalFooter({}, [
+        __this.widget(new Panel({}, [
 
-        __this.widget(new Button({ww : { 'onClick' : __context.values.close  ,'text' : 'Close'  }}, [
+        __this.widget(new PanelBody({}, [
 
-        
-     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.close  ,'text' : 'Close'  }}),
-__this.widget(new Button({ww : { 'onClick' : __context.values.save  ,'text' : 'Save'  }}, [
-
-        
-     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.save  ,'text' : 'Save'  }})
+        __this.registerView((new JobFormJobFieldsView(__context.values))).render()
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'className' : '-large'  }});
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new Panel({}, [
+
+        __this.widget(new PanelBody({}, [
+
+        __this.registerView((new JobFormCompanyFieldsView(__context.values))).render()
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{});
 
        }
 

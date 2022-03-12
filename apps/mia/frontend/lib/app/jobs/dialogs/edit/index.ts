@@ -1,11 +1,7 @@
 import * as api from '../../../api';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
-import { doFuture, voidPure } from '@quenk/noni/lib/control/monad/future';
 import { Record } from '@quenk/noni/lib/data/record';
-
-import { SaveOk } from '@quenk/jouvert/lib/app/scene/form';
-import { Close, Show } from '@quenk/jouvert/lib/app/service/display';
 
 import { Event } from '@quenk/wml-widgets/lib/control';
 
@@ -13,19 +9,24 @@ import { Job } from '@board/types/lib/job';
 
 import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
 
-import { MiaFormScene } from '../../../common/scene/form';
-import { JobEditDialogView } from './views/edit';
+import {
+    MiaFormDialog,
+    MIA_FORM_MODE_UPDATE
+} from '../../../common/scene/dialog/form';
+import { EditJobDialogView } from './views/edit';
 
 /**
- * JobEditDialog provides an editor for a job in a dialog.
+ * EditJobDialog provides an editor for a job in a dialog.
  */
-export class JobEditDialog extends MiaFormScene<Job, void> {
+export class EditJobDialog extends MiaFormDialog<Job, void> {
 
     name = 'Job Edit Dialog';
 
-    view = new JobEditDialogView(this);
+    view = new EditJobDialogView(this);
 
-    jobModel = this.app.getModel(api.JOB);
+    model = this.app.getModel(api.JOB);
+
+    mode = MIA_FORM_MODE_UPDATE;
 
     values = {
 
@@ -82,47 +83,5 @@ export class JobEditDialog extends MiaFormScene<Job, void> {
         }
 
     };
-
-    onSaveOk() {
-
-        this.close();
-
-    }
-
-    close() {
-
-        this.tell(this.app.services.dialogs, new Close(this.self()));
-
-    }
-
-    save() {
-
-        let that = this;
-
-        return doFuture(function*() {
-
-            yield that.jobModel.update(
-                <number>that.value.id,
-                that.getModifiedValues()
-            );
-
-            that.tell(that.self(), new SaveOk());
-
-            return voidPure;
-
-        }).fork();
-
-    }
-
-    /**
-     * show is overriden here to always send content to the dialog service as
-     * this actor is intended for a modal.
-     */
-    show() {
-
-        this.tell(this.app.services.dialogs,
-            new Show(this.name, this.view, this.self()));
-
-    }
 
 }

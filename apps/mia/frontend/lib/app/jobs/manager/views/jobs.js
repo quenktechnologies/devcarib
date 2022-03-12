@@ -10,6 +10,8 @@ const table_1 = require("@quenk/wml-widgets/lib/data/table");
 ;
 const text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
 ;
+const header_1 = require("../../../common/scene/manager/views/header");
+;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -44,9 +46,7 @@ class JobsManagerView {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.node('h1', {}, [
-                            __document.createTextNode('Manage Jobs')
-                        ])
+                        __this.registerView((new header_1.ManagerHeader(__context.values.table))).render()
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [

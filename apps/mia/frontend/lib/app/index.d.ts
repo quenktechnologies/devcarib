@@ -7,12 +7,6 @@ import { CompleteHandlerSpec, RemoteModelFactory } from '@quenk/jouvert/lib/app/
 import { Jouvert, Template } from '@quenk/jouvert';
 import { HashRouter } from '@quenk/frontend-routers/lib/hash';
 import { MiaView } from './views/app';
-export declare const ACTION_APPROVE = "approve";
-export declare const ACTION_REMOVE = "remove";
-export declare const ACTION_SHOW = "show";
-export declare const RESOURCE_JOBS = "/admin/r/jobs";
-export declare const RESOURCE_JOB = "/admin/r/jobs/{id}";
-export declare const TIME_SEARCH_DEBOUNCE = 500;
 /**
  * Mia is the main class for the admin application.
  *
@@ -47,6 +41,7 @@ export declare class Mia extends Jouvert {
              */
             links: {
                 Jobs: string;
+                Users: string;
             };
             logout: () => void;
         };

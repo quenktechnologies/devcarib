@@ -5,41 +5,21 @@ import { Event } from '@quenk/wml-widgets/lib/control';
 import { Job } from '@board/types/lib/job';
 import { MiaManager } from '../../common/scene/manager';
 import { JobsManagerView } from './views/jobs';
-export declare const ACTION_APPROVE = "approve";
-export declare const ACTION_REMOVE = "remove";
-export declare const ACTION_SHOW = "show";
 export declare const TIME_SEARCH_DEBOUNCE = 500;
 /**
- * Messages handled by the JobsManager.
+ * JobsManager provides the screen for managing job posts.
  */
-export declare type Messages = ShowEditor<Job>;
-/**
- * OkBody is the format we expect to receive our request results in.
- */
-export interface OkBody<D> {
-    data: D;
-}
-/**
- * ShowEditor instructs the Manager to display an editor for the target data.
- */
-export declare class ShowEditor<D> {
-    data: D;
-    constructor(data: D);
-}
-/**
- * JobsManager provides the screen for managing job posts created within
- * the system.
- */
-export declare class JobsManager extends MiaManager<Messages> {
+export declare class JobsManager extends MiaManager<Job, void> {
     name: string;
     view: JobsManagerView;
-    jobsModel: import("@quenk/jouvert/lib/app/remote/model").RemoteModel<Object>;
     values: {
         search: {
             onChange: import("@quenk/noni/lib/data/function").Function<Event<Value>, void>;
         };
         table: {
             id: string;
+            title: string;
+            add: () => void;
             data: Job[];
             pagination: {
                 current: {
@@ -55,14 +35,14 @@ export declare class JobsManager extends MiaManager<Messages> {
             columns: Column<Value, Job>[];
         };
     };
-    onError: (e: Error) => void;
+    model: import("@quenk/jouvert/lib/app/remote/model").RemoteModel<Object>;
     /**
      * search for job postings that match the specified query criteria.
      *
      * The first time this method is called, results will populate and display
      * the view. Subsequent calls will only update the already displated table.
      */
-    search(qry: object): Future<void>;
+    search(qry: Object): Future<Job[]>;
     /**
      * showJob displays a single Job in a dialog.
      */
@@ -82,9 +62,5 @@ export declare class JobsManager extends MiaManager<Messages> {
      * removeJob permenantly removes a job from the site.
      */
     removeJob(id: number): Future<void>;
-    /**
-     * runFuture is used to execute async work wrapped in the Future type.
-     */
-    runFuture<T>(ft: Future<T>): void;
-    run(): Future<void>;
+    run(): Future<Job[]>;
 }

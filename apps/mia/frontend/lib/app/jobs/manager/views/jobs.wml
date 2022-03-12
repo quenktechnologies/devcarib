@@ -2,6 +2,7 @@
 {% import (DataTable) from "@quenk/wml-widgets/lib/data/table" %}
 {% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
 
+{% import (ManagerHeader) from "../../../common/scene/manager/views/header" %}
 {% import (JobsManager) from "../" %}
 
 {% view JobsManagerView (JobsManager) %}
@@ -12,7 +13,7 @@
 
     <Column>
 
-      <h1>Manage Jobs</h1>
+      {{ <ManagerHeader(@values.table)> }}
 
     </Column>
 

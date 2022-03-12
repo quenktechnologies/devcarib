@@ -9,19 +9,24 @@ import { Job } from '@board/types/lib/job';
 
 import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
 
-import { EditFormDialog } from '../../../common/scene/dialog/form';
+import {
+    MiaFormDialog,
+    MIA_FORM_MODE_UPDATE
+} from '../../../common/scene/dialog/form';
 import { EditJobDialogView } from './views/edit';
 
 /**
  * EditJobDialog provides an editor for a job in a dialog.
  */
-export class EditJobDialog extends EditFormDialog<Job, void> {
+export class EditJobDialog extends MiaFormDialog<Job, void> {
 
     name = 'Job Edit Dialog';
 
     view = new EditJobDialogView(this);
 
     model = this.app.getModel(api.JOB);
+
+    mode = MIA_FORM_MODE_UPDATE;
 
     values = {
 
