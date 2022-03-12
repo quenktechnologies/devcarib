@@ -5,13 +5,15 @@ exports.getPartialValidatorsFor = exports.partialValidatorsAvailable = exports.g
 /** imports */
 var _admin = require("./admin");
 var _job = require("./job");
+var _user = require("./user");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
  * validatorsAvailable from this module.
  */
 exports.validatorsAvailable = {
     'admin': _admin.validate,
-    'job': _job.validate
+    'job': _job.validate,
+    'user': _user.validate
 };
 /**
  * getValidatorsFor provides a validator from this module.
@@ -25,7 +27,8 @@ exports.getValidatorsFor = getValidatorsFor;
  */
 exports.partialValidatorsAvailable = {
     'admin': _admin.validatePartial,
-    'job': _job.validatePartial
+    'job': _job.validatePartial,
+    'user': _user.validatePartial
 };
 /**
  * getPartialValidatorsFor provides a validator from this module.

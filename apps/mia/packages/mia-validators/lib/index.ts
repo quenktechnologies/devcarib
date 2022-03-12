@@ -3,6 +3,7 @@
 /** imports */
 import * as _admin from './admin';
 import * as _job from './job';
+import * as _user from './user';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
@@ -15,7 +16,9 @@ import { Precondition } from '@quenk/preconditions';
 export type DataTypeUnion =
     _admin.DataType |
 
-    _job.DataType;
+    _job.DataType |
+
+    _user.DataType;
 
 /**
  * Validators is a record of validators.
@@ -32,7 +35,8 @@ export interface Validators {
 export const validatorsAvailable: Validators = {
 
     'admin': _admin.validate,
-    'job': _job.validate
+    'job': _job.validate,
+    'user': _user.validate
 };
 
 /**
@@ -48,7 +52,8 @@ export const getValidatorsFor =
 export const partialValidatorsAvailable: Validators = {
 
     'admin': _admin.validatePartial,
-    'job': _job.validatePartial
+    'job': _job.validatePartial,
+    'user': _user.validatePartial
 };
 
 /**
