@@ -28,7 +28,7 @@ exports.timefromnow = timefromnow;
  */
 var truncate = function (limit) { return function (str) {
     if (str === void 0) { str = ''; }
-    return (str.length > limit) ? str.substr(0, limit) + "..." : str;
+    return (str.length > limit) ? "".concat(str.substr(0, limit), "...") : str;
 }; };
 exports.truncate = truncate;
 //# sourceMappingURL=filters.js.map

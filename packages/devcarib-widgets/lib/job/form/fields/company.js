@@ -1,23 +1,14 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobPanelView = void 0;
+exports.JobFormCompanyFieldsView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
-var panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
 ;
-var filters_1 = require("../../filters");
 ;
-var features_1 = require("./features");
+var grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
+;
+var text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
 ;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
@@ -44,54 +35,39 @@ var text = __document.text;
 var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
-var JobPanelView = /** @class */ (function () {
-    function JobPanelView(__context) {
+;
+var JobFormCompanyFieldsView = /** @class */ (function () {
+    function JobFormCompanyFieldsView(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.widget(new panel_1.Panel({}, [
-                __this.widget(new panel_1.PanelHeader({}, [
-                    __this.node('div', { 'class': 'ww-panel__header__content' }, [
-                        __this.registerView((new features_1.JobFeaturesView(__context.values.data))).render(),
-                        __this.node('div', { 'class': 'board-job-timestamp' }, [
-                            __document.createTextNode('\u000a        Posted '),
-                            text((0, filters_1.timestamp)(__context.values.data.created_on))
-                        ])
-                    ])
+            return __this.widget(new grid_1.GridLayout({}, [
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company Name*', 'value': __context.data.company, 'onChange': __context.onChange } }, []), { wml: { 'id': 'company' }, ww: { 'name': 'company', 'label': 'Company Name*', 'value': __context.data.company, 'onChange': __context.onChange } })
+                    ]), {})
                 ]), {}),
-                __this.widget(new panel_1.PanelBody({}, [
-                    __this.node('div', { 'class': 'board-job-salary' }, __spreadArray([], (((__context.values.data.payment_amount) != null) ?
-                        (function () { return ([
-                            __this.node('span', {}, [
-                                text(__context.values.data.payment_amount),
-                                __document.createTextNode('\u00a0'),
-                                __this.node('b', {}, [
-                                    text(__context.values.data.payment_currency),
-                                    __document.createTextNode('\u002F'),
-                                    text(__context.values.data.payment_frequency)
-                                ])
-                            ])
-                        ]); })() :
-                        (function () { return ([]); })()), true)),
-                    __this.node('div', { wml: { 'id': 'content' }, 'class': 'board-job-html' }, __spreadArray([], ((__context.values.raw) ?
-                        (function () { return ([
-                            unsafe(__context.values.data.description_html)
-                        ]); })() :
-                        (function () { return ([
-                            text(__context.values.data.description_html)
-                        ]); })()), true))
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo', 'placeholder': 'Please provide a url to a png image with resolution 400 x 400', 'value': __context.data.company_logo, 'onChange': __context.onChange } }, []), { wml: { 'id': 'company_logo' }, ww: { 'name': 'company_logo', 'label': 'Logo', 'placeholder': 'Please provide a url to a png image with resolution 400 x 400', 'value': __context.data.company_logo, 'onChange': __context.onChange } })
+                    ]), {})
+                ]), {}),
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'company_email' }, ww: { 'name': 'company_email', 'label': 'Email*', 'value': __context.data.company_email, 'onChange': __context.onChange } }, []), { wml: { 'id': 'company_email' }, ww: { 'name': 'company_email', 'label': 'Email*', 'value': __context.data.company_email, 'onChange': __context.onChange } })
+                    ]), {})
                 ]), {})
             ]), {});
         };
     }
-    JobPanelView.prototype.registerView = function (v) {
+    JobFormCompanyFieldsView.prototype.registerView = function (v) {
         this.views.push(v);
         return v;
     };
-    JobPanelView.prototype.register = function (e, attrs) {
+    JobFormCompanyFieldsView.prototype.register = function (e, attrs) {
         var attrsMap = attrs;
         if (attrsMap.wml) {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
@@ -107,7 +83,7 @@ var JobPanelView = /** @class */ (function () {
         }
         return e;
     };
-    JobPanelView.prototype.node = function (tag, attrs, children) {
+    JobFormCompanyFieldsView.prototype.node = function (tag, attrs, children) {
         var e = __document.createElement(tag);
         Object.keys(attrs).forEach(function (key) {
             var value = attrs[key];
@@ -144,18 +120,18 @@ var JobPanelView = /** @class */ (function () {
         this.register(e, attrs);
         return e;
     };
-    JobPanelView.prototype.widget = function (w, attrs) {
+    JobFormCompanyFieldsView.prototype.widget = function (w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
     };
-    JobPanelView.prototype.findById = function (id) {
+    JobFormCompanyFieldsView.prototype.findById = function (id) {
         var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    JobPanelView.prototype.findByGroup = function (name) {
+    JobFormCompanyFieldsView.prototype.findByGroup = function (name) {
         var mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
@@ -163,7 +139,7 @@ var JobPanelView = /** @class */ (function () {
             return p.isJust() ? p : c.findByGroup(name);
         }, mGroup);
     };
-    JobPanelView.prototype.invalidate = function () {
+    JobFormCompanyFieldsView.prototype.invalidate = function () {
         var tree = this.tree;
         var parent = tree.parentNode;
         if (tree == null)
@@ -172,7 +148,7 @@ var JobPanelView = /** @class */ (function () {
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
     };
-    JobPanelView.prototype.render = function () {
+    JobFormCompanyFieldsView.prototype.render = function () {
         this.ids = {};
         this.widgets.forEach(function (w) { return w.removed(); });
         this.widgets = [];
@@ -184,7 +160,7 @@ var JobPanelView = /** @class */ (function () {
         this.widgets.forEach(function (w) { return w.rendered(); });
         return this.tree;
     };
-    return JobPanelView;
+    return JobFormCompanyFieldsView;
 }());
-exports.JobPanelView = JobPanelView;
-//# sourceMappingURL=panel.js.map
+exports.JobFormCompanyFieldsView = JobFormCompanyFieldsView;
+//# sourceMappingURL=company.js.map

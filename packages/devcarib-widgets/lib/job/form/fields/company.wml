@@ -1,0 +1,65 @@
+{% import (Value) from "@quenk/noni/lib/data/jsonx" %}
+
+{% import (Event) from "@quenk/wml-widgets/lib/control" %}
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+
+{% import (Job) from "@board/types/lib/job" %}
+
+{% context JobFormContext where 
+
+   data: Job,
+
+   onChange: Event[Value] -> Void
+%}
+
+{% view JobFormCompanyFieldsView (JobFormContext) %}
+<GridLayout>
+
+        <Row>
+
+          <Column>
+
+            <TextField
+              wml:id="company"
+              ww:name="company"
+              ww:label="Company Name*"
+              ww:value={{@data.company}}
+              ww:onChange={{@onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column>
+
+            <TextField
+              wml:id="company_logo"
+              ww:name="company_logo"
+              ww:label="Logo"
+              ww:placeholder="Please provide a url to a png image with resolution 400 x 400"
+              ww:value={{@data.company_logo}}
+              ww:onChange={{@onChange}} />
+
+          </Column>
+
+        </Row>
+
+        <Row>
+
+          <Column>
+
+            <TextField
+              wml:id="company_email"
+              ww:name="company_email" 
+              ww:label="Email*"
+              ww:value={{@data.company_email}}
+              ww:onChange={{@onChange}} />
+
+          </Column>
+
+        </Row>
+
+      </GridLayout>
