@@ -5,13 +5,15 @@ exports.getPartialChecksFor = exports.partialChecksAvailable = exports.getChecks
 /** imports */
 var _admin = require("./admin");
 var _job = require("./job");
+var _user = require("./user");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
  * checksAvailable from this module.
  */
 exports.checksAvailable = {
     'admin': _admin.check,
-    'job': _job.check
+    'job': _job.check,
+    'user': _user.check
 };
 /**
  * getChecksFor provides a validator from this module.
@@ -25,7 +27,8 @@ exports.getChecksFor = getChecksFor;
  */
 exports.partialChecksAvailable = {
     'admin': _admin.checkPartial,
-    'job': _job.checkPartial
+    'job': _job.checkPartial,
+    'user': _user.checkPartial
 };
 /**
  * getPartialChecksFor provides a validator from this module.

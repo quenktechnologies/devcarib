@@ -3,6 +3,7 @@
 /** imports */
 import * as _admin from './admin';
 import * as _job from './job';
+import * as _user from './user';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
@@ -15,7 +16,9 @@ import { Precondition } from '@quenk/preconditions/lib/async';
 export type DataTypeUnion =
     _admin.DataType |
 
-    _job.DataType;
+    _job.DataType |
+
+    _user.DataType;
 
 /**
  * Checks is a record of checks.
@@ -32,7 +35,8 @@ export interface Checks {
 export const checksAvailable: Checks = {
 
     'admin': <Precondition<Value, DataTypeUnion>>_admin.check,
-    'job': <Precondition<Value, DataTypeUnion>>_job.check
+    'job': <Precondition<Value, DataTypeUnion>>_job.check,
+    'user': <Precondition<Value, DataTypeUnion>>_user.check
 };
 
 /**
@@ -48,7 +52,8 @@ export const getChecksFor =
 export const partialChecksAvailable: Checks = {
 
     'admin': <Precondition<Value, Partial<DataTypeUnion>>>_admin.checkPartial,
-    'job': <Precondition<Value, Partial<DataTypeUnion>>>_job.checkPartial
+    'job': <Precondition<Value, Partial<DataTypeUnion>>>_job.checkPartial,
+    'user': <Precondition<Value, Partial<DataTypeUnion>>>_user.checkPartial
 };
 
 /**

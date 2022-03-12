@@ -53,7 +53,7 @@ export type DataType = Job;
  * checks for Job provided as a map.
  */
 export const checks: Preconditions<Value, Value> = {
-    'id': _every<Value, Value>(inc('counters.jobs'), unique('jobs', 'id'))
+    'id': _every<Value, Value>(unique('jobs', 'id'))
     ,
     'title': _identity
     ,
@@ -147,7 +147,7 @@ export const partialChecks: Preconditions<Value, Value> = {
 export const check: Precondition<Value, Job> =
     _and(_and<Value, Job, Job>(
         _async(validate), complete(checks)),
-        _every<Job, Job>(parseMarkdown('description', 'description_html'))
+        _every<Job, Job>(parseMarkdown('description', 'description_html'), inc('users'))
     );
 
 /**
@@ -156,5 +156,5 @@ export const check: Precondition<Value, Job> =
 export const checkPartial: Precondition<Value, Partial<Job>> =
     _and(_and<Value, Job, Job>(_async(validatePartial),
         partial(partialChecks)),
-        _every(parseMarkdown('description', 'description_html')));
+        _every(parseMarkdown('description', 'description_html'), inc('users')));
 

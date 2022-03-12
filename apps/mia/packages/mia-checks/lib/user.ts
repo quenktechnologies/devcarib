@@ -1,7 +1,7 @@
 
 
 /**
- * Admin checks module.
+ * User checks module.
  * AUTO GENERATED! DO NOT EDIT DIRECTLY! 
  */
 /** imports **/
@@ -35,62 +35,70 @@ import {
     map as _recordMap,
 } from '@quenk/preconditions/lib/async/record';
 
-import { Admin } from '@mia/types/lib/admin';
-import { validate, validatePartial } from '@mia/validators/lib/admin';
-import { inc, bcrypt, unique } from '@devcarib/common-checks';
+import { User } from '@mia/types/lib/user';
+import { validate, validatePartial } from '@mia/validators/lib/user';
+import { inc, unique, bcrypt } from '@devcarib/common-checks';
 
 //@ts-ignore: 6133
-const _title = 'Admin';
+const _title = 'User';
 //@ts-ignore: 6133
-const _collection = 'admins';
+const _collection = 'users';
 
 /**
  * @private Used during template generation.
  */
-export type DataType = Admin;
+export type DataType = User;
 
 /**
- * checks for Admin provided as a map.
+ * checks for User provided as a map.
  */
 export const checks: Preconditions<Value, Value> = {
-    'id': _every<Value, Value>(unique('admins', 'id'))
+    'id': _every<Value, Value>(unique(_collection, 'id'))
     ,
     'name': _identity
     ,
-    'email': _identity
+    'username': _every<Value, Value>(unique(_collection, 'username'))
     ,
     'password': _every<Value, Value>(bcrypt)
+    ,
+    'status': _identity
+    ,
+    'last_login': _identity
 
 };
 
 /**
- * partialChecks for Admin provided as a map.
+ * partialChecks for User provided as a map.
  */
 export const partialChecks: Preconditions<Value, Value> = {
-    'id': _identity
+    'id': _every<Value, Value>(unique(_collection, 'id'))
     ,
     'name': _identity
     ,
-    'email': _identity
+    'username': _every<Value, Value>(unique(_collection, 'username'))
     ,
     'password': _every<Value, Value>(bcrypt)
+    ,
+    'status': _identity
+    ,
+    'last_login': _identity
 
 };
 
 /**
- * check a Admin value.
+ * check a User value.
  */
-export const check: Precondition<Value, Admin> =
-    _and(_and<Value, Admin, Admin>(
+export const check: Precondition<Value, User> =
+    _and(_and<Value, User, User>(
         _async(validate), complete(checks)),
-        _every<Admin, Admin>(inc('users'))
+        _every<User, User>(inc('users'))
     );
 
 /**
- * checkPartial a partial Admin value.
+ * checkPartial a partial User value.
  */
-export const checkPartial: Precondition<Value, Partial<Admin>> =
-    _and(_and<Value, Admin, Admin>(_async(validatePartial),
+export const checkPartial: Precondition<Value, Partial<User>> =
+    _and(_and<Value, User, User>(_async(validatePartial),
         partial(partialChecks)),
         _every(inc('users')));
 

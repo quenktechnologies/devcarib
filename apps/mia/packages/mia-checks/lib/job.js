@@ -15,7 +15,7 @@ var _collection = 'jobs';
  * checks for Job provided as a map.
  */
 exports.checks = {
-    'id': (0, async_1.every)((0, common_checks_1.inc)('counters.jobs'), (0, common_checks_1.unique)('jobs', 'id')),
+    'id': (0, async_1.every)((0, common_checks_1.unique)('jobs', 'id')),
     'title': async_1.identity,
     'type': async_1.identity,
     'location': async_1.identity,
@@ -64,9 +64,9 @@ exports.partialChecks = {
 /**
  * check a Job value.
  */
-exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, common_checks_1.parseMarkdown)('description', 'description_html')));
+exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, common_checks_1.parseMarkdown)('description', 'description_html'), (0, common_checks_1.inc)('users')));
 /**
  * checkPartial a partial Job value.
  */
-exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, common_checks_1.parseMarkdown)('description', 'description_html')));
+exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, common_checks_1.parseMarkdown)('description', 'description_html'), (0, common_checks_1.inc)('users')));
 //# sourceMappingURL=job.js.map
