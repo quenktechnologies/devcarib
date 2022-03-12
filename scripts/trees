@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-IGNORE=
+IGNORE=board-views
 
 # $1 - dirname
 # $2 - args
@@ -24,7 +24,6 @@ doPull() {
   target=$(basename $1)
 
   echo "Pulling into $target located at $parent/$target"
-
   if ! [[ "$target" =~ "$IGNORE" ]]; then
     git subtree pull -P $parent/$target $target master --squash -m "chore: sync with upstream" $2
   fi
