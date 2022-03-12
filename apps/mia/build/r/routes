@@ -1,18 +1,27 @@
 %set adminsCtrl = AdminsController()
-%set jobCtrl = JobsController()
+%set jobsCtrl = JobsController()
+%set usersCtrl = UsersController()
 
 -- Admins
-POST    /admins       adminsCtrl.create
-GET     /admins       adminsCtrl.search
+POST    /admins      adminsCtrl.create
+GET     /admins      adminsCtrl.search
 
-GET     /admins/:id   adminsCtrl.get
-PATCH   /admins/:id   adminsCtrl.update
-DELETE  /admins/:id   adminsCtrl.remove
+GET     /admins/:id  adminsCtrl.get
+PATCH   /admins/:id  adminsCtrl.update
+DELETE  /admins/:id  adminsCtrl.remove
 
 -- Jobs
-POST    /jobs        jobCtrl.create
-GET     /jobs        jobCtrl.search
+POST    /jobs        jobsCtrl.create
+GET     /jobs        jobsCtrl.search
 
-PATCH   /jobs/:id    jobCtrl.update
-GET     /jobs/:id    jobCtrl.get
-DELETE  /jobs/:id    jobCtrl.remove
+PATCH   /jobs/:id    jobsCtrl.update
+GET     /jobs/:id    jobsCtrl.get
+DELETE  /jobs/:id    jobsCtrl.remove
+
+-- Users
+POST    /users        usersCtrl.create
+GET     /users        usersCtrl.search
+
+PATCH   /users/:id    usersCtrl.update
+GET     /users/:id    usersCtrl.get
+DELETE  /users/:id    usersCtrl.remove

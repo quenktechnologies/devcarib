@@ -19,10 +19,12 @@ import * as mongodb from 'mongodb';
 import * as prs from '@quenk/tendril/lib/app/api/storage/prs';
 import * as session from '@quenk/tendril/lib/app/api/storage/session';
 import * as adminChecks from '@mia/checks/lib/admin';
+import * as usersChecks from '@mia/checks/lib/user';
 
 import { isString } from '@quenk/noni/lib/data/type';
 import { escape } from '@quenk/noni/lib/data/string/regex';
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
+import { Future, pure } from '@quenk/noni/lib/control/monad/future';
 
 import { conflict, forbidden } from '@quenk/tendril/lib/app/api/response';
 /* @ts-ignore: 2300 */
@@ -38,10 +40,11 @@ import {
 } from '@quenk/dback-resource-mongodb';
 
 import { Job } from '@mia/types/lib/job';
+import { User } from '@mia/types/lib/user';
 
-import { JobModel } from '@mia/models/lib/job';
 import { AdminModel } from '@mia/models/lib/admin';
-
+import { JobModel } from '@mia/models/lib/job';
+import { UserModel } from '@mia/models/lib/user';
 
 import { check, checkPartial } from '@mia/checks/lib/job';
 
@@ -121,15 +124,28 @@ export abstract class BaseController<T extends Object>
                 let errors = eBody.takeLeft().explain(that.messages);
 
                 yield conflict({ errors });
+
                 yield abort();
 
-            }
+            } else {
 
-            r.body = eBody.takeRight();
+                r.body = yield fork(that.afterCreateChecked(eBody.takeRight()));
+
+            }
 
             return value(r);
 
         });
+
+    }
+
+    /**
+     * afterCreateChecked is a hook that allows the validated and check data
+     * to be modified one last time before it used to create a new record.
+     */
+    afterCreateChecked(data: T): Future<T> {
+
+        return pure(data);
 
     }
 
@@ -245,6 +261,47 @@ export class JobsController extends BaseController<Job> {
 
 }
 
+/**
+ * UsersController for the users endpoint.
+ */
+export class UsersController extends BaseController<User> {
+
+    messages = messages;
+
+    checkCreate = usersChecks.check;
+
+    checkUpdate = usersChecks.checkPartial;
+
+    getModel(db: mongodb.Db): UserModel {
+
+        return UserModel.getInstance(db);
+
+    }
+
+    beforeSearch(r: Request): Action<Request> {
+
+        return doAction(function*() {
+
+            let qry: Object = {};
+
+            if (isString(r.query.q)) {
+
+                let filter = { $regex: escape(r.query.q), $options: 'i' };
+
+                qry = { username: filter };
+
+            }
+
+            yield prs.set(`${KEY_SEARCH_PARAMS}.query`, qry);
+
+            return value(r);
+
+        });
+
+    }
+
+}
+
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
  {'id': `r`,
@@ -254,7 +311,8 @@ export const template = ($app: App): Template => (
 
 let $routes:$RouteConf[] = [];
 let adminsCtrl = new AdminsController();
-let jobCtrl = new JobsController();
+let jobsCtrl = new JobsController();
+let usersCtrl = new UsersController();
 
 $routes.push({
 method:'post',
@@ -284,27 +342,52 @@ filters:[adminsCtrl.remove.bind(adminsCtrl)]});
 $routes.push({
 method:'post',
 path:'/jobs',
-filters:[jobCtrl.create.bind(jobCtrl)]});
+filters:[jobsCtrl.create.bind(jobsCtrl)]});
 
 $routes.push({
 method:'get',
 path:'/jobs',
-filters:[jobCtrl.search.bind(jobCtrl)]});
+filters:[jobsCtrl.search.bind(jobsCtrl)]});
 
 $routes.push({
 method:'patch',
 path:'/jobs/:id',
-filters:[jobCtrl.update.bind(jobCtrl)]});
+filters:[jobsCtrl.update.bind(jobsCtrl)]});
 
 $routes.push({
 method:'get',
 path:'/jobs/:id',
-filters:[jobCtrl.get.bind(jobCtrl)]});
+filters:[jobsCtrl.get.bind(jobsCtrl)]});
 
 $routes.push({
 method:'delete',
 path:'/jobs/:id',
-filters:[jobCtrl.remove.bind(jobCtrl)]});
+filters:[jobsCtrl.remove.bind(jobsCtrl)]});
+
+$routes.push({
+method:'post',
+path:'/users',
+filters:[usersCtrl.create.bind(usersCtrl)]});
+
+$routes.push({
+method:'get',
+path:'/users',
+filters:[usersCtrl.search.bind(usersCtrl)]});
+
+$routes.push({
+method:'patch',
+path:'/users/:id',
+filters:[usersCtrl.update.bind(usersCtrl)]});
+
+$routes.push({
+method:'get',
+path:'/users/:id',
+filters:[usersCtrl.get.bind(usersCtrl)]});
+
+$routes.push({
+method:'delete',
+path:'/users/:id',
+filters:[usersCtrl.remove.bind(usersCtrl)]});
 return $routes;
 }},
 'create': 
