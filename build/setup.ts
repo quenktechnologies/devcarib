@@ -10,7 +10,7 @@ import {
 import { App } from '@quenk/tendril/lib/app';
 
 import { Settings } from '@board/types/lib/settings';
-import {  check } from '@board/checks/lib/admin';
+import { check } from '@mia/checks/lib/admin';
 
 export const ADMIN_EMAIL = 'ADMIN_EMAIL';
 export const ADMIN_PWD = 'ADMIN_PASSWORD';
@@ -42,6 +42,7 @@ export class Setup {
     }
 
     installAdminUser(db: mongo.Db): Future<void> {
+        // TODO: Move to mia
 
         return doN(<DoFn<void, Future<void>>>function*() {
 

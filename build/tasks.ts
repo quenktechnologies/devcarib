@@ -2,7 +2,7 @@ import { System } from '@quenk/potoo/lib/actor/system';
 
 import {
     ClearExpiredJobsTask
-} from '@board/server/lib/actors/tasks/clear-expired-jobs';
+} from '@devcarib/server/lib/actors/tasks/clear-expired-jobs';
 
 export const clearExpiredJobs = {
 

@@ -1,12 +1,13 @@
 import * as quenkTendrilConnectionMongodb from '@quenk/tendril-connection-mongodb'; 
 import * as quenkTendrilSessionMongodb from '@quenk/tendril-session-mongodb'; 
 import * as quenkTendrilShowNunjucks from '@quenk/tendril-show-nunjucks'; 
-import * as dotdotFilters from '../filters'; 
-import * as dotAdmin from './admin'; 
-import * as dotdotServices from '../services'; 
-import * as dotdotTasks from '../tasks'; 
-import * as dotdotEvents from '../events'; 
-import * as dotdotSetup from '../setup'; 
+import * as dotFilters from './filters'; 
+import * as dotdotAppsMiaBuild from '../apps/mia/build'; 
+import * as dotdotAppsConverseBuild from '../apps/converse/build'; 
+import * as dotServices from './services'; 
+import * as dotTasks from './tasks'; 
+import * as dotEvents from './events'; 
+import * as dotSetup from './setup'; 
 import * as dotHandlers from './handlers'; 
 //@ts-ignore: 6133
 import {System} from '@quenk/potoo/lib/actor/system';
@@ -23,12 +24,11 @@ import {RouteConf as $RouteConf} from '@quenk/tendril/lib/app/module';
 import {App as App} from '@quenk/tendril/lib/app';
 
 
-
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
  {'id': `/`,
-'app': {'dirs': {'self': `/build/app`,
-'public': [`public`,`../../packages/libs/board-views/public`,`../../packages/frontends/board-form-post/public`,`../../packages/frontends/board-admin/public`]},
+'app': {'dirs': {'self': `/build`,
+'public': [`public`,`../packages/board-views/public`,`../frontends/board-form-post/public`]},
 'session': {'enable': true,
 'options': {'secret': (<string>process.env['SESSION_SECRET']),
 'name': `bscid`},
@@ -38,16 +38,17 @@ export const template = ($app: App): Template => (
 'send_cookie': true}},
 'views': {'provider': quenkTendrilShowNunjucks.show,
 'options': [{'path': `packages/extras/board-views/views`,
-'filters': {'timestamp': dotdotFilters.timestamp,
-'timefromnow': dotdotFilters.timefromnow}}]},
+'filters': {'timestamp': dotFilters.timestamp,
+'timefromnow': dotFilters.timefromnow}}]},
 'log': {'enable': true,
 'format': (<string>process.env['LOG_FORMAT'])},
 'parsers': {'body': {'json': {'enable': true}}},
 'middleware': {'available': {},
 'enabled': []},
-'modules': {'admin': dotAdmin.template},
-'on': {'connected': [dotdotEvents.connected,dotdotSetup.run],
-'started': dotdotEvents.started},
+'modules': {'mia': dotdotAppsMiaBuild.template,
+'converse': dotdotAppsConverseBuild.template},
+'on': {'connected': [dotEvents.connected,dotSetup.run],
+'started': dotEvents.started},
 'routes': //@ts-ignore: 6133
 ($module:Module) => {
 
@@ -81,7 +82,7 @@ return $routes;
 'host': `0.0.0.0`},
 'connections': {'main': {'connector': quenkTendrilConnectionMongodb.connector,
 'options': [(<string>process.env['MONGO_URL']),{'useNewUrlParser': true}]}},
-'children': {'clock': dotdotServices.clock,
-'log': dotdotServices.log,
-'mail': dotdotServices.mail,
-'clearExpiredJobs': dotdotTasks.clearExpiredJobs}})
+'children': {'clock': dotServices.clock,
+'log': dotServices.log,
+'mail': dotServices.mail,
+'clearExpiredJobs': dotTasks.clearExpiredJobs}})

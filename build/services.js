@@ -1,19 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mail = exports.log = exports.clock = void 0;
-const resident_1 = require("@quenk/potoo/lib/actor/resident");
-const clock_1 = require("@board/server/lib/actors/task/clock");
-const mongodb_1 = require("@board/server/lib/actors/log/mongodb");
-const log_1 = require("@board/server/lib/actors/log");
-const server_1 = require("@board/server/lib/actors/mail/server");
+const immutable_1 = require("@quenk/potoo/lib/actor/resident/immutable");
+const clock_1 = require("@devcarib/server/lib/actors/task/clock");
+const mongodb_1 = require("@devcarib/server/lib/actors/log/mongodb");
+const log_1 = require("@devcarib/server/lib/actors/log");
+const server_1 = require("@devcarib/server/lib/actors/mail/server");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const connection_1 = require("@quenk/tendril/lib/app/connection");
-class NullActor extends resident_1.Immutable {
-    constructor() {
-        super(...arguments);
-        this.receive = [];
-    }
-    run() { }
+class NullActor extends immutable_1.Immutable {
 }
 exports.clock = {
     id: 'clock',
@@ -25,9 +20,9 @@ exports.log = {
         let level = Number(process.env.BOARD_LOG_LEVEL || log_1.LOG_LEVEL_INFO);
         switch (process.env.BOARD_LOG_SINK) {
             case 'db':
-                return mongodb_1.MongoDbLogger.create(s, () => future_1.doFuture(function* () {
-                    let db = yield connection_1.unsafeGetUserConnection('main');
-                    return future_1.pure(db.collection('log'));
+                return mongodb_1.MongoDbLogger.create(s, () => (0, future_1.doFuture)(function* () {
+                    let db = yield (0, connection_1.unsafeGetUserConnection)('main');
+                    return (0, future_1.pure)(db.collection('log'));
                 }), { level });
             case 'console':
                 return new log_1.ConsoleLogger(level, s);

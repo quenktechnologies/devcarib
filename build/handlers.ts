@@ -26,7 +26,7 @@ import { JobFormView } from '@board/views/lib/job-form';
 import { JobView } from '@board/views/lib/job';
 import { IndexView } from '@board/views';
 
-import { OutgoingMessage } from '@board/server/lib/actors/mail/server';
+import { OutgoingMessage } from '@devcarib/server/lib/actors/mail/server';
 
 export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 

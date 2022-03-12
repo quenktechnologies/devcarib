@@ -1,4 +1,3 @@
-
 GET  /                   ./handlers#showJobs
 
 GET  /jobs/post          ./handlers#showJobJobPage 
