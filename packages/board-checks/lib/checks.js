@@ -120,7 +120,7 @@ var inc = function (field, dbid) {
                         db = _b.sent();
                         target = db.collection('settings');
                         filter = { id: exports.SETTINGS_ID };
-                        key = "counters." + field;
+                        key = "counters.".concat(field);
                         update = { $inc: (_a = {}, _a[key] = 1, _a) };
                         opts = { returnOriginal: false };
                         return [4 /*yield*/, (0, collection_1.findOneAndUpdate)(target, filter, update, opts)];
