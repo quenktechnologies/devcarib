@@ -50,7 +50,7 @@ app.dirs.public = [
 
   "public",
   "../packages/board-views/public",
-  "../packages/frontends/board-form-post/public"
+  "../frontends/board-form-post/public"
 
 ]
 

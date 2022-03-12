@@ -1,7 +1,7 @@
 import * as mongodb from 'mongodb';
 
 import { System } from '@quenk/potoo/lib/actor/system';
-import { Immutable } from '@quenk/potoo/lib/actor/resident';
+import { Immutable } from '@quenk/potoo/lib/actor/resident/immutable';
 
 import { TaskClock } from '@devcarib/server/lib/actors/task/clock';
 import { MongoDbLogger } from '@devcarib/server/lib/actors/log/mongodb';
@@ -16,7 +16,7 @@ import { doFuture, pure } from '@quenk/noni/lib/control/monad/future';
 
 import { unsafeGetUserConnection } from '@quenk/tendril/lib/app/connection';
 
-class NullActor extends Immutable<void>{}
+class NullActor extends Immutable<void>{ }
 
 export const clock = {
 
