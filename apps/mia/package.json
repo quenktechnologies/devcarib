@@ -11,7 +11,6 @@
     "author": "Quenk Technologies Limited (https://quenk.com)",
     "license": "Apache-2.0",
     "dependencies": {
-        "@quenk/jouvert": "^0.10.31",
         "@mia/models": "file:./packages/mia-models"
     }
 }
