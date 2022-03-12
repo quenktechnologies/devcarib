@@ -1,0 +1,57 @@
+{# 
+
+  schema2Fields converts JSON schema to a policy. 
+  @param {object} A JSON schema document or fragment from the properties object.
+
+  TODO: Support arrays and objects.
+  
+#}
+{%- macro schema2Fields(type, prefix='') -%}
+
+  {%- if type.hidden === true -%}
+
+  {%- elseif isObjectType(type) and (type.properties) -%}
+
+    {%- for k,v in type.properties -%}
+      
+      {% if v.hidden !== true %}
+        {{schema2Fields(v, pathjoin(prefix,k))}}{% if not loop.last %},{% endif %}
+      {% endif %}
+
+    {% endfor -%}
+
+  {%- elseif isSumType(type) -%}
+
+    {% if v.hidden !== true %}
+
+      {% if type.discriminator.type == 'shape' %}
+
+        {%- for k,v in type|mergevariants %}
+
+          {{schema2Fields(v,pathjoin(prefix,k))}}{% if (not loop.last) and (type.hidden !== true) %},{% endif %}
+
+        {% endfor -%}
+
+      {% elseif type.discriminator.type == 'rw' %}
+
+        {{schema2Fields(type.variants.write, prefix)}}
+
+      {% else %}
+
+        {% set json %}{{type|dump}}{% endset %}
+
+        {{ 'schema2Fields: unknown discriminator type :"' 
+         +type.discriminator.type+'" in' + json + '!'| error }}
+
+      {% endif %}
+
+    {% endif %}
+    
+  {%- else -%}
+
+    '{{prefix}}': 1
+
+  {%- endif -%}
+
+{%- endmacro -%}
+
