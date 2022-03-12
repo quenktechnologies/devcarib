@@ -79,11 +79,15 @@ export const id: Precondition<Value, Value> = () =>
  * inc increments a counter stored in the database returning the value.
  *
  * This is used mostly for generationg sequential ids.
+ *
+ * Note: This was previously used at the field level but that wastes ids when
+ * other checks fail. Instead, it now expects the whole object and will assign
+ * the value to the property directly.
  */
 export const inc =
-    (field: string, dbid = 'main') =>
-        (_: Value): Result<Value, Value> =>
-            doN(<DoFn<SResult<Value, Value>, Result<Value, Value>>>function*() {
+    <T extends Object>(counter: string, propName: string = 'id', dbid = 'main') =>
+        (value: T): Result<T, T> =>
+            doN(<DoFn<SResult<T, T>, Result<T, T>>>function*() {
 
                 let db = yield getMain(dbid);
 
@@ -91,7 +95,7 @@ export const inc =
 
                 let filter = { id: SETTINGS_ID };
 
-                let key = `counters.${field}`;
+                let key = `counters.${counter}`;
 
                 let update = { $inc: { [key]: 1 } };
 
@@ -99,7 +103,9 @@ export const inc =
 
                 let r = yield findOneAndUpdate(target, filter, update, opts);
 
-                return pure(succeed(unsafeGet(key, r.value)));
+                (<Object>value)[propName] = unsafeGet(key, r.value);
+
+                return pure(succeed(value));
 
             });
 

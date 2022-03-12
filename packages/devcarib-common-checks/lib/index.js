@@ -106,10 +106,15 @@ exports.id = id;
  * inc increments a counter stored in the database returning the value.
  *
  * This is used mostly for generationg sequential ids.
+ *
+ * Note: This was previously used at the field level but that wastes ids when
+ * other checks fail. Instead, it now expects the whole object and will assign
+ * the value to the property directly.
  */
-var inc = function (field, dbid) {
+var inc = function (counter, propName, dbid) {
+    if (propName === void 0) { propName = 'id'; }
     if (dbid === void 0) { dbid = 'main'; }
-    return function (_) {
+    return function (value) {
         return (0, monad_1.doN)(function () {
             var db, target, filter, key, update, opts, r;
             var _a;
@@ -120,13 +125,14 @@ var inc = function (field, dbid) {
                         db = _b.sent();
                         target = db.collection('settings');
                         filter = { id: exports.SETTINGS_ID };
-                        key = "counters." + field;
+                        key = "counters.".concat(counter);
                         update = { $inc: (_a = {}, _a[key] = 1, _a) };
                         opts = { returnOriginal: false };
                         return [4 /*yield*/, (0, collection_1.findOneAndUpdate)(target, filter, update, opts)];
                     case 2:
                         r = _b.sent();
-                        return [2 /*return*/, (0, future_1.pure)((0, result_1.succeed)((0, path_1.unsafeGet)(key, r.value)))];
+                        value[propName] = (0, path_1.unsafeGet)(key, r.value);
+                        return [2 /*return*/, (0, future_1.pure)((0, result_1.succeed)(value))];
                 }
             });
         });

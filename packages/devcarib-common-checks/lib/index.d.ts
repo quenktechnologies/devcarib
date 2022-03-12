@@ -21,8 +21,12 @@ export declare const id: Precondition<Value, Value>;
  * inc increments a counter stored in the database returning the value.
  *
  * This is used mostly for generationg sequential ids.
+ *
+ * Note: This was previously used at the field level but that wastes ids when
+ * other checks fail. Instead, it now expects the whole object and will assign
+ * the value to the property directly.
  */
-export declare const inc: (field: string, dbid?: string) => (_: Value) => Result<Value, Value>;
+export declare const inc: <T extends Object>(counter: string, propName?: string, dbid?: string) => (value: T) => Result<T, T>;
 /**
  * timestamp provides the current UTC datetime as a Date object.
  */
