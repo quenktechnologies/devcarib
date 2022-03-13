@@ -26,6 +26,7 @@
         "@devcarib/server": "file:packages/devcarib-server",
         "@devcarib/validators": "file:packages/devcarib-common-checks",
         "@mia/checks": "file:apps/mia/packages/mia-checks",
+        "@mia/fields": "file:apps/mia/packages/mia-fields",
         "@mia/models": "file:apps/mia/packages/mia-models",
         "@mia/types": "file:apps/mia/packages/mia-types",
         "@mia/validators": "file:apps/mia/packages/mia-validators",
