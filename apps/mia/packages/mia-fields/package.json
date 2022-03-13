@@ -1,4 +1,6 @@
 {
+    "name": "@mia/fields",
+    "private": true,
     "xdependencies": {
         "@quenk/noni": "^1.41.2"
     },

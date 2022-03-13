@@ -1,4 +1,4 @@
-{% from "macros/schema2Fields.fields" import schema2Fields %}
+{% from "macros/schema2Fields.nunjucks" import schema2Fields %}
 {%- set title = document.title -%}
 
 /**
