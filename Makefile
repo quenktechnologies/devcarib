@@ -45,7 +45,7 @@ SRC_DIRS:=
 include $(HERE)/schema/variables.mk
 include $(PACKAGES_DIR)/variables.mk
 include $(BOARD_FRONTENDS_DIR)/variables.mk
-include $(APPS_DIR)/variables.mk
+include $(APPS_DIR)/*/variables.mk
 
 ### Dependency Graph ###
 
@@ -55,10 +55,12 @@ include $(APPS_DIR)/variables.mk
 # Remember to add a dependency here for each of your extra packages.
 $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
                       $(BOARD_SCHEMA_DIR) \
-                      $(BOARD_PACKAGES_DIR)\
+                      $(shell find $(BOARD_PACKAGES_DIR) -mindepth 1\
+                      -maxdepth 1 -type d)\
                       $(BOARD_FRONTENDS_DIR)\
                       $(BOARD_VIEWS_DIR)\
-		      $(APPS_DIR)
+                      $(shell find $(APPS_DIR) -mindepth 1 \
+                       -maxdepth 1 -type d)
 	rm -R $@ || true
 	mkdir -p $@
 	cp -R -u $(PROJECT_SRC_DIR)/* $@
@@ -68,9 +70,9 @@ $(PROJECT_BUILD_DIR): $(PROJECT_SRC_DIR_FILES)\
 
 # Include *.mk files here.
 include $(BOARD_SCHEMA_DIR)/build.mk
-include $(BOARD_PACKAGES_DIR)/build.mk
+include $(BOARD_PACKAGES_DIR)/*/build.mk
 include $(BOARD_FRONTENDS_DIR)/build.mk
-include $(APPS_DIR)/build.mk
+include $(APPS_DIR)/*/build.mk
 
 # Remove the build application files.
 .PHONY: clean
