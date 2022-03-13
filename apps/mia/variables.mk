@@ -7,5 +7,5 @@ MIA_PACKAGES_DIR:=$(MIA_DIR)/packages
 CLEAN_TARGETS:=$(CLEAN_TARGETS) $(MIA_BUILD_DIR)
 
 include $(MIA_DIR)/schema/variables.mk
-include $(MIA_PACKAGES_DIR)/variables.mk
+include $(MIA_PACKAGES_DIR)/*/variables.mk
 include $(MIA_DIR)/frontend/variables.mk
