@@ -1,0 +1,66 @@
+{# 
+
+  schema2Policy converts JSON schema to a policy. 
+  @param {object} A JSON schema document or fragment from the properties object.
+
+  TODO: Support arrays and objects.
+  
+#}
+{%- macro schema2Policy(type, prefix='', last=false) -%}
+
+  {%- if isArrayType(type) -%}
+
+    {{schema2Policy(type.items, prefix)|trim}}
+
+  {%- elseif isObjectType(type) -%}
+
+    {%- for k,v in type.properties -%}
+
+      {{schema2Policy(v, pathjoin(prefix,k,loop.last))}}
+
+    {% endfor -%}
+
+  {%- elseif isSumType(type) -%}
+
+      {% if type.discriminator.type == 'shape' %}
+
+        {%- for k,v in type|mergevariants %}
+
+          {{schema2Policy(v,pathjoin(prefix,k))}}{% if (not loop.last) and (type.ignore !== true) %},{% endif %}
+
+        {% endfor -%}
+
+      {% elseif type.discriminator.type == 'rw' %}
+
+        {{schema2Policy(type.variants.write, prefix)}}
+
+      {% else %}
+
+        {% set json %}{{type|dump}}{% endset %}
+
+        {{ 'schema2Policy: unknown discriminator type :"' 
+         +type.discriminator.type+'" in' + json + '!'| error }}
+
+      {% endif %}
+
+  {%- elseif type.filterAs != null -%}
+
+    {% set filter -%}
+      {% if isString(type.filterAs) %}
+        '{{type.filterAs}}'
+      {% elseif isArray(type.filterAs) %}
+      [ 
+        {% for f in type.filterAs -%}
+          '{{f}}'
+        {% if not loop.last %},{% endif %} 
+        {% endfor -%} 
+        ]
+      {% endif %}
+    {%- endset %}
+
+    '{{prefix}}':{{filter}}{% if not last %},{% endif %}
+
+  {%- endif -%}
+
+{%- endmacro -%}
+
