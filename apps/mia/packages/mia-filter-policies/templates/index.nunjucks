@@ -21,7 +21,7 @@ export interface FilterPolicy {
  * policiesAvailable is a map of model names to FilterPolicys used in the 
  * application.
  */
-export const fields:Record<Fields> = {
+export const fields:Record<FilterPolicy> = {
 
   {% for model in document.models.split(" ") %}
     '{{model|camelcase}}': _{{model|camelcase}}{% if not loop.last %}{{",\n"}}{% endif %}
