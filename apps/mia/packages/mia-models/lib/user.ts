@@ -27,7 +27,7 @@ import {
     , deleteMany as deleteMany
     , count as count
     , aggregate as aggregate
-} from '@quenk/safe-mongodb/lib/database/collection';
+} from '@quenk/noni-mongodb/lib/database/collection';
 
 
 
