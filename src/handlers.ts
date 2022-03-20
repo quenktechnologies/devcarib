@@ -36,7 +36,7 @@ export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
  * This only shows the most recent 50 jobs. In future we will refactor if
  * needed to show more.
  */
-export const showJobs = (_: Request): Action<undefined> =>
+export const showJobs = (_: Request): Action<void> =>
     doAction(function*() {
 
         let db = yield getMain();
@@ -51,7 +51,7 @@ export const showJobs = (_: Request): Action<undefined> =>
             { sort: { created_on: -1 }, limit: 50 }
         ));
 
-        return <Action<undefined>>render(new IndexView({ jobs }));
+        return <Action<void>>render(new IndexView({ jobs }));
 
     });
 
@@ -59,8 +59,8 @@ export const showJobs = (_: Request): Action<undefined> =>
  * showJobJobPage displays the form for creating new jobs on a new
  * page.
  */
-export const showJobJobPage = (_: Request): Action<undefined> =>
-    <Action<undefined>>render(new JobFormView({}));
+export const showJobJobPage = (_: Request): Action<void> =>
+    render(new JobFormView({}));
 
 /**
  * createJob saves the submitted job data in the database for approval later.
@@ -104,7 +104,7 @@ export const createJob = (r: Request): Action<undefined> =>
 /**
  * showJob displays a page for a single approved job.
  */
-export const showJob = (r: Request): Action<undefined> =>
+export const showJob = (r: Request): Action<void> =>
     doAction(function*() {
 
         let id = Number(r.params.id); //XXX: this could be done with a check.
@@ -118,12 +118,12 @@ export const showJob = (r: Request): Action<undefined> =>
         let mResult = yield fork(findOne(collection, qry));
 
         if (mResult.isNothing()) {
-            return <Action<undefined>>render(new NotFoundErrorView({}), 404);
+            return render(new NotFoundErrorView({}), 404);
         } else {
 
             let job = mResult.get();
 
-            return <Action<undefined>>render(new JobView({
+            return render(new JobView({
                 job,
 
                 // TODO: Move this to a library function
