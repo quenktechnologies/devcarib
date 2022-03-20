@@ -37,7 +37,7 @@ var monad_1 = require("@quenk/noni/lib/control/monad");
 var path_1 = require("@quenk/noni/lib/data/record/path");
 var type_1 = require("@quenk/noni/lib/data/type");
 var result_1 = require("@quenk/preconditions/lib/result");
-var collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
+var collection_1 = require("@quenk/noni-mongodb/lib/database/collection");
 var connection_1 = require("@quenk/tendril/lib/app/connection");
 exports.SETTINGS_ID = 'main';
 /**
