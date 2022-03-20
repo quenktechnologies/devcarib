@@ -6,7 +6,7 @@ import { DoFn, doN } from '@quenk/noni/lib/control/monad';
 import {
     insertOne,
     findOne,
-} from '@quenk/safe-mongodb/lib/database/collection';
+} from '@quenk/noni-mongodb/lib/database/collection';
 import { App } from '@quenk/tendril/lib/app';
 
 import { Settings } from '@board/types/lib/settings';

@@ -4,7 +4,7 @@ exports.run = exports.Setup = exports.SETTINGS_ID = exports.E_NO_ADMIN_CREDS = e
 const moment = require("moment");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const monad_1 = require("@quenk/noni/lib/control/monad");
-const collection_1 = require("@quenk/safe-mongodb/lib/database/collection");
+const collection_1 = require("@quenk/noni-mongodb/lib/database/collection");
 const admin_1 = require("@mia/checks/lib/admin");
 exports.ADMIN_EMAIL = 'ADMIN_EMAIL';
 exports.ADMIN_PWD = 'ADMIN_PASSWORD';
