@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.template = exports.UsersController = exports.JobsController = exports.AdminsController = exports.BaseController = void 0;
+exports.template = exports.UsersController = exports.JobsController = exports.AdminsController = exports.BaseController = exports.QueryParams = void 0;
+const devcaribServerLibFiltersQuery = require("@devcarib/server/lib/filters/query");
+const miaFilterPolicies = require("@mia/filter-policies");
+const miaFields = require("@mia/fields");
 //@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
 const prs = require("@quenk/tendril/lib/app/api/storage/prs");
@@ -24,9 +27,28 @@ const messages = {
     notNull: '{$key} is required!'
 };
 /**
+ * QueryParams provides the additional parameters for the _SUGR operations.
+ */
+class QueryParams extends dback_resource_mongodb_1.DefaultParamsFactory {
+    /**
+     * search relies on the @devcarib/server/lib/filters/query#compile filter
+     * to shape the query property properly.
+     *
+     * This should NOT be used without that middleware.
+     */
+    search(req) {
+        return req.query;
+    }
+}
+exports.QueryParams = QueryParams;
+/**
  * BaseController for admin routes.
  */
 class BaseController extends dback_resource_mongodb_1.BaseResource {
+    constructor() {
+        super(...arguments);
+        this.params = new QueryParams();
+    }
     /**
      * before ensures the client has permission to access this api.
      */
@@ -165,6 +187,8 @@ exports.UsersController = UsersController;
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `r`,
     'app': { 'dirs': { 'self': `/apps/mia/build/r` },
+        'filters': [devcaribServerLibFiltersQuery.compile({ 'policies': miaFilterPolicies.policiesEnabled,
+                'fields': miaFields.fields })],
         'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];
@@ -179,7 +203,7 @@ const template = ($app) => ({ 'id': `r`,
             $routes.push({
                 method: 'get',
                 path: '/admins',
-                filters: [adminsCtrl.search.bind(adminsCtrl)], tags: {}
+                filters: [adminsCtrl.search.bind(adminsCtrl)], tags: { policy: `admin` }
             });
             $routes.push({
                 method: 'get',
@@ -204,7 +228,7 @@ const template = ($app) => ({ 'id': `r`,
             $routes.push({
                 method: 'get',
                 path: '/jobs',
-                filters: [jobsCtrl.search.bind(jobsCtrl)], tags: {}
+                filters: [jobsCtrl.search.bind(jobsCtrl)], tags: { policy: `job` }
             });
             $routes.push({
                 method: 'patch',
@@ -229,7 +253,7 @@ const template = ($app) => ({ 'id': `r`,
             $routes.push({
                 method: 'get',
                 path: '/users',
-                filters: [usersCtrl.search.bind(usersCtrl)], tags: {}
+                filters: [usersCtrl.search.bind(usersCtrl)], tags: { policy: `user` }
             });
             $routes.push({
                 method: 'patch',

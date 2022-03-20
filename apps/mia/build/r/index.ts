@@ -1,4 +1,6 @@
-
+import * as devcaribServerLibFiltersQuery from '@devcarib/server/lib/filters/query'; 
+import * as miaFilterPolicies from '@mia/filter-policies'; 
+import * as miaFields from '@mia/fields'; 
 //@ts-ignore: 6133
 import {System} from '@quenk/potoo/lib/actor/system';
 //@ts-ignore: 6133
@@ -36,7 +38,9 @@ import { Precondition } from '@quenk/preconditions/lib/async';
 
 import {
     BaseResource,
-    KEY_SEARCH_PARAMS
+    DefaultParamsFactory,
+    KEY_SEARCH_PARAMS,
+    SearchParams
 } from '@quenk/dback-resource-mongodb';
 
 import { Job } from '@mia/types/lib/job';
@@ -57,6 +61,25 @@ const messages = {
     notNull: '{$key} is required!'
 
 };
+
+/**
+ * QueryParams provides the additional parameters for the _SUGR operations.
+ */
+export class QueryParams extends DefaultParamsFactory {
+
+    /**
+     * search relies on the @devcarib/server/lib/filters/query#compile filter
+     * to shape the query property properly.
+     *
+     * This should NOT be used without that middleware.
+     */
+    search(req: Request) {
+
+        return <SearchParams><object>req.query;
+
+    }
+
+}
 
 /**
  * BaseController for admin routes.
@@ -84,6 +107,8 @@ export abstract class BaseController<T extends Object>
      * beforeSearch must be implemented to properly setup searches.
      */
     abstract beforeSearch(r: Request): Action<Request>;
+
+    params = new QueryParams();
 
     /**
      * before ensures the client has permission to access this api.
@@ -165,6 +190,7 @@ export abstract class BaseController<T extends Object>
                 let errors = eBody.takeLeft().explain(that.messages);
 
                 yield conflict({ errors });
+
                 yield abort();
 
             }
@@ -306,6 +332,8 @@ export class UsersController extends BaseController<User> {
 export const template = ($app: App): Template => (
  {'id': `r`,
 'app': {'dirs': {'self': `/apps/mia/build/r`},
+'filters': [devcaribServerLibFiltersQuery.compile({'policies': miaFilterPolicies.policiesEnabled,
+'fields': miaFields.fields})],
 'routes': //@ts-ignore: 6133
 ($module:Module) => {
 
@@ -322,7 +350,7 @@ filters:[adminsCtrl.create.bind(adminsCtrl)],tags:{}});
 $routes.push({
 method:'get',
 path:'/admins',
-filters:[adminsCtrl.search.bind(adminsCtrl)],tags:{}});
+filters:[adminsCtrl.search.bind(adminsCtrl)],tags:{policy: `admin` }});
 
 $routes.push({
 method:'get',
@@ -347,7 +375,7 @@ filters:[jobsCtrl.create.bind(jobsCtrl)],tags:{}});
 $routes.push({
 method:'get',
 path:'/jobs',
-filters:[jobsCtrl.search.bind(jobsCtrl)],tags:{}});
+filters:[jobsCtrl.search.bind(jobsCtrl)],tags:{policy: `job` }});
 
 $routes.push({
 method:'patch',
@@ -372,7 +400,7 @@ filters:[usersCtrl.create.bind(usersCtrl)],tags:{}});
 $routes.push({
 method:'get',
 path:'/users',
-filters:[usersCtrl.search.bind(usersCtrl)],tags:{}});
+filters:[usersCtrl.search.bind(usersCtrl)],tags:{policy: `user` }});
 
 $routes.push({
 method:'patch',
