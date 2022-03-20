@@ -18,7 +18,7 @@
 
         },
 
-        "@quenk/safe-mongodb/lib/database/collection": {
+        "@quenk/noni-mongodb/lib/database/collection": {
 
             "populate": "populate",
 

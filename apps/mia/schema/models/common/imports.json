@@ -10,7 +10,7 @@
 
     "@quenk/noni/lib/data/record": ["merge"],
 
-    "@quenk/safe-mongodb/lib/database/collection": {
+    "@quenk/noni-mongodb/lib/database/collection": {
 
         "insertOne": "insertOne",
 
