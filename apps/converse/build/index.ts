@@ -68,15 +68,15 @@ export class WebController {
      * If a user session cannot be detected, the user is redirected to the
      * login page.
      */
-    onIndex(r: Request): Action<undefined> {
+    onIndex(r: Request): Action<void> {
 
-        return doAction<undefined>(function*() {
+        return doAction(function*() {
 
             let muser = r.session.get('user');
 
             if (muser.isJust()) {
 
-                return <Action<undefined>>render(new IndexView({}));
+                return render(new IndexView({}));
 
             } else {
 
@@ -201,22 +201,22 @@ let userCtrl = new WebController();
 $routes.push({
 method:'get',
 path:'/',
-filters:[userCtrl.onIndex.bind(userCtrl)]});
+filters:[userCtrl.onIndex.bind(userCtrl)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/login',
-filters:[userCtrl.onLoginForm.bind(userCtrl)]});
+filters:[userCtrl.onLoginForm.bind(userCtrl)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/login',
-filters:[userCtrl.onLoginFormSubmit.bind(userCtrl)]});
+filters:[userCtrl.onLoginFormSubmit.bind(userCtrl)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/logout',
-filters:[userCtrl.onLogout.bind(userCtrl)]});
+filters:[userCtrl.onLogout.bind(userCtrl)],tags:{}});
 return $routes;
 }},
 'create': 

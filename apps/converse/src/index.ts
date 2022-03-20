@@ -52,15 +52,15 @@ export class WebController {
      * If a user session cannot be detected, the user is redirected to the
      * login page.
      */
-    onIndex(r: Request): Action<undefined> {
+    onIndex(r: Request): Action<void> {
 
-        return doAction<undefined>(function*() {
+        return doAction(function*() {
 
             let muser = r.session.get('user');
 
             if (muser.isJust()) {
 
-                return <Action<undefined>>render(new IndexView({}));
+                return render(new IndexView({}));
 
             } else {
 

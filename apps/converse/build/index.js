@@ -115,22 +115,22 @@ const template = ($app) => ({ 'id': `converse`,
             $routes.push({
                 method: 'get',
                 path: '/',
-                filters: [userCtrl.onIndex.bind(userCtrl)]
+                filters: [userCtrl.onIndex.bind(userCtrl)], tags: {}
             });
             $routes.push({
                 method: 'get',
                 path: '/login',
-                filters: [userCtrl.onLoginForm.bind(userCtrl)]
+                filters: [userCtrl.onLoginForm.bind(userCtrl)], tags: {}
             });
             $routes.push({
                 method: 'post',
                 path: '/login',
-                filters: [userCtrl.onLoginFormSubmit.bind(userCtrl)]
+                filters: [userCtrl.onLoginFormSubmit.bind(userCtrl)], tags: {}
             });
             $routes.push({
                 method: 'post',
                 path: '/logout',
-                filters: [userCtrl.onLogout.bind(userCtrl)]
+                filters: [userCtrl.onLogout.bind(userCtrl)], tags: {}
             });
             return $routes;
         } },
