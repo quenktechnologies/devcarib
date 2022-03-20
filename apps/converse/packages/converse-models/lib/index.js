@@ -15,6 +15,6 @@ exports.modelsAvailable = {
  *
  * The returned Model may not be completely type safe.
  */
-const getInstanceOf = (db, name) => maybe_1.fromNullable(exports.modelsAvailable[name]).map(f => f(db));
+const getInstanceOf = (db, name) => (0, maybe_1.fromNullable)(exports.modelsAvailable[name]).map(f => f(db));
 exports.getInstanceOf = getInstanceOf;
 //# sourceMappingURL=index.js.map
