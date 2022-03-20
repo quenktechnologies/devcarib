@@ -237,22 +237,22 @@ let miaCtrl = new AdminController();
 $routes.push({
 method:'get',
 path:'/',
-filters:[miaCtrl.showIndex.bind(miaCtrl)]});
+filters:[miaCtrl.showIndex.bind(miaCtrl)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/login',
-filters:[miaCtrl.showLoginForm.bind(miaCtrl)]});
+filters:[miaCtrl.showLoginForm.bind(miaCtrl)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/login',
-filters:[miaCtrl.authenticate.bind(miaCtrl)]});
+filters:[miaCtrl.authenticate.bind(miaCtrl)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/logout',
-filters:[miaCtrl.logout.bind(miaCtrl)]});
+filters:[miaCtrl.logout.bind(miaCtrl)],tags:{}});
 return $routes;
 }},
 'create': 

@@ -317,77 +317,77 @@ let usersCtrl = new UsersController();
 $routes.push({
 method:'post',
 path:'/admins',
-filters:[adminsCtrl.create.bind(adminsCtrl)]});
+filters:[adminsCtrl.create.bind(adminsCtrl)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/admins',
-filters:[adminsCtrl.search.bind(adminsCtrl)]});
+filters:[adminsCtrl.search.bind(adminsCtrl)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/admins/:id',
-filters:[adminsCtrl.get.bind(adminsCtrl)]});
+filters:[adminsCtrl.get.bind(adminsCtrl)],tags:{}});
 
 $routes.push({
 method:'patch',
 path:'/admins/:id',
-filters:[adminsCtrl.update.bind(adminsCtrl)]});
+filters:[adminsCtrl.update.bind(adminsCtrl)],tags:{}});
 
 $routes.push({
 method:'delete',
 path:'/admins/:id',
-filters:[adminsCtrl.remove.bind(adminsCtrl)]});
+filters:[adminsCtrl.remove.bind(adminsCtrl)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/jobs',
-filters:[jobsCtrl.create.bind(jobsCtrl)]});
+filters:[jobsCtrl.create.bind(jobsCtrl)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/jobs',
-filters:[jobsCtrl.search.bind(jobsCtrl)]});
+filters:[jobsCtrl.search.bind(jobsCtrl)],tags:{}});
 
 $routes.push({
 method:'patch',
 path:'/jobs/:id',
-filters:[jobsCtrl.update.bind(jobsCtrl)]});
+filters:[jobsCtrl.update.bind(jobsCtrl)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/jobs/:id',
-filters:[jobsCtrl.get.bind(jobsCtrl)]});
+filters:[jobsCtrl.get.bind(jobsCtrl)],tags:{}});
 
 $routes.push({
 method:'delete',
 path:'/jobs/:id',
-filters:[jobsCtrl.remove.bind(jobsCtrl)]});
+filters:[jobsCtrl.remove.bind(jobsCtrl)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/users',
-filters:[usersCtrl.create.bind(usersCtrl)]});
+filters:[usersCtrl.create.bind(usersCtrl)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/users',
-filters:[usersCtrl.search.bind(usersCtrl)]});
+filters:[usersCtrl.search.bind(usersCtrl)],tags:{}});
 
 $routes.push({
 method:'patch',
 path:'/users/:id',
-filters:[usersCtrl.update.bind(usersCtrl)]});
+filters:[usersCtrl.update.bind(usersCtrl)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/users/:id',
-filters:[usersCtrl.get.bind(usersCtrl)]});
+filters:[usersCtrl.get.bind(usersCtrl)],tags:{}});
 
 $routes.push({
 method:'delete',
 path:'/users/:id',
-filters:[usersCtrl.remove.bind(usersCtrl)]});
+filters:[usersCtrl.remove.bind(usersCtrl)],tags:{}});
 return $routes;
 }},
 'create': 
