@@ -21,7 +21,7 @@ import {
 import { Precondition } from '@quenk/preconditions/lib/async';
 import {
     findOneAndUpdate, count
-} from '@quenk/safe-mongodb/lib/database/collection';
+} from '@quenk/noni-mongodb/lib/database/collection';
 import { getInstance } from '@quenk/tendril/lib/app/connection';
 
 export type Result<A, B> = Future<SResult<A, B>>;
