@@ -3,25 +3,19 @@
 /** imports */
 import { Record } from '@quenk/noni/lib/data/record';
 
+import { EnabledPolicies } from '@quenk/search-filters-mongodb';
+
+export { EnabledPolicies }
+
 import _admin from './admin';
 import _job from './job';
 import _user from './user';
 
 /**
- * FilterPolicy specifies the allowed searchable fields for a given model
- * within the application.
- */
-export interface FilterPolicy {
-
-    [key: string]: string | string[]
-
-}
-
-/**
- * policiesAvailable is a map of model names to FilterPolicys used in the 
+ * policiesEnabled is a map of model names to [[EnabledPolicies]] used in the 
  * application.
  */
-export const fields: Record<FilterPolicy> = {
+export const policiesEnabled: Record<EnabledPolicies> = {
 
     'admin': _admin,
     'job': _job,

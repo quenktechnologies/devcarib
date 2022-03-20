@@ -2,8 +2,8 @@ $(MIA_FILTER_POLICIES_DIR): $(MIA_FILTER_POLICIES_LIB_DIR)
 	touch $@
 
 $(MIA_FILTER_POLICIES_LIB_DIR): $(MIA_FILTER_POLICIES_SRC_DIR)\
-                                    $(MIA_FILTER_POLICIES_TEMPLATES_DIR)\
-	                            $(MIA_SCHEMA_MODELS_DIR) 
+                                $(MIA_FILTER_POLICIES_TEMPLATES_DIR)\
+	                        $(MIA_SCHEMA_MODELS_DIR) 
 	rm -R $@ || true
 	mkdir -p $@
 	cp -R -u $(MIA_FILTER_POLICIES_SRC_DIR)/* $@
