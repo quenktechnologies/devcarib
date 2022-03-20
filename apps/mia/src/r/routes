@@ -4,7 +4,7 @@
 
 -- Admins
 POST    /admins      adminsCtrl.create
-GET     /admins      adminsCtrl.search
+GET     /admins      adminsCtrl.search +policy="admin"
 
 GET     /admins/:id  adminsCtrl.get
 PATCH   /admins/:id  adminsCtrl.update
@@ -12,7 +12,7 @@ DELETE  /admins/:id  adminsCtrl.remove
 
 -- Jobs
 POST    /jobs        jobsCtrl.create
-GET     /jobs        jobsCtrl.search
+GET     /jobs        jobsCtrl.search +policy="job"
 
 PATCH   /jobs/:id    jobsCtrl.update
 GET     /jobs/:id    jobsCtrl.get
@@ -20,7 +20,7 @@ DELETE  /jobs/:id    jobsCtrl.remove
 
 -- Users
 POST    /users        usersCtrl.create
-GET     /users        usersCtrl.search
+GET     /users        usersCtrl.search +policy="user"
 
 PATCH   /users/:id    usersCtrl.update
 GET     /users/:id    usersCtrl.get
