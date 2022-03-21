@@ -55,7 +55,7 @@ var JobPanelView = /** @class */ (function () {
             return __this.widget(new panel_1.Panel({}, [
                 __this.widget(new panel_1.PanelHeader({}, [
                     __this.node('div', { 'class': 'ww-panel__header__content' }, [
-                        __this.registerView((new features_1.JobFeaturesView(__context.values.data))).render(),
+                        __this.registerView(new features_1.JobFeaturesView(__context.values.data)).render(),
                         __this.node('div', { 'class': 'board-job-timestamp' }, [
                             __document.createTextNode('\u000a        Posted '),
                             text((0, filters_1.timestamp)(__context.values.data.created_on))

@@ -99,7 +99,7 @@ __this.node('span', <__wml.Attrs>{'class': 'board-job-preview-panel-time'}, [
         text (timefromnow (__context.created_on))
      ])
      ]),
-__this.registerView((new JobFeaturesView(__context))).render()
+__this.registerView(new JobFeaturesView(__context)).render()
      ])
      ])
      ]);

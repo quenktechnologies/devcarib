@@ -79,15 +79,15 @@ export class CurrencyMoneyTextFieldView  implements __wml.View {
 
         __this.widget(new AddOn({'button': true }, [
 
-        __this.widget(new DropList({ww : { 'name' : __context.values.dropList .name  ,'options' : __context.values.dropList .options  ,'value' : __context.values.dropList .value  ,'onSelect' : __context.values.dropList .onSelect   }}, [
+        __this.widget(new DropList({ww : { 'name' : __context.values.dropList.name ,'options' : __context.values.dropList.options ,'value' : __context.values.dropList.value ,'onSelect' : __context.values.dropList.onSelect  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : __context.values.dropList .name  ,'options' : __context.values.dropList .options  ,'value' : __context.values.dropList .value  ,'onSelect' : __context.values.dropList .onSelect   }})
+     ]),<__wml.Attrs>{ww : { 'name' : __context.values.dropList.name ,'options' : __context.values.dropList.options ,'value' : __context.values.dropList.value ,'onSelect' : __context.values.dropList.onSelect  }})
      ]),<__wml.Attrs>{'button': true }),
-__this.widget(new TextInput({ww : { 'name' : __context.values.input .name  ,'value' : __context.values.input .value  ,'type' : 'number' ,'min' : 0 ,'onChange' : __context.values.input .onChange   }}, [
+__this.widget(new TextInput({ww : { 'name' : __context.values.input.name ,'value' : __context.values.input.value ,'type' : 'number' ,'min' : 0 ,'onChange' : __context.values.input.onChange  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : __context.values.input .name  ,'value' : __context.values.input .value  ,'type' : 'number' ,'min' : 0 ,'onChange' : __context.values.input .onChange   }})
+     ]),<__wml.Attrs>{ww : { 'name' : __context.values.input.name ,'value' : __context.values.input.value ,'type' : 'number' ,'min' : 0 ,'onChange' : __context.values.input.onChange  }})
      ]),<__wml.Attrs>{'className': 'board-currency-money-text-field'});
 
        }

@@ -5,7 +5,7 @@ import { Component } from '@quenk/wml';
 import { Event } from '@quenk/wml-widgets/lib/control';
 import { HTMLElementAttrs } from '@quenk/wml-widgets';
 
-import { supportedCurrencies } from '@board/common/lib/data/currency';
+import { supportedCurrencies } from '@devcarib/common/lib/data/currency';
 
 import { CurrencyMoneyTextFieldView } from './money';
 

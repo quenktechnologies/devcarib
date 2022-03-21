@@ -17,7 +17,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CurrencyMoneyTextField = void 0;
 var wml_1 = require("@quenk/wml");
-var currency_1 = require("@board/common/lib/data/currency");
+var currency_1 = require("@devcarib/common/lib/data/currency");
 var money_1 = require("./money");
 /**
  * CurrencyMoneyTextField provides an input wrapped in an InputGroup for entering
@@ -26,8 +26,9 @@ var money_1 = require("./money");
 var CurrencyMoneyTextField = /** @class */ (function (_super) {
     __extends(CurrencyMoneyTextField, _super);
     function CurrencyMoneyTextField() {
+        var _this = this;
         var _a, _b;
-        var _this = _super.apply(this, arguments) || this;
+        _this = _super.apply(this, arguments) || this;
         _this.view = new money_1.CurrencyMoneyTextFieldView(_this);
         _this.values = {
             dropList: {

@@ -58,7 +58,7 @@ var JobPreviewPanelView = /** @class */ (function () {
                                 text((0, filters_1.timefromnow)(__context.created_on))
                             ])
                         ]),
-                        __this.registerView((new features_1.JobFeaturesView(__context))).render()
+                        __this.registerView(new features_1.JobFeaturesView(__context)).render()
                     ])
                 ])
             ]);

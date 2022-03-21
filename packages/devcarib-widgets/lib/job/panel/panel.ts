@@ -81,11 +81,11 @@ export class JobPanelView  implements __wml.View {
 
         __this.node('div', <__wml.Attrs>{'class': 'ww-panel__header__content'}, [
 
-        __this.registerView((new JobFeaturesView(__context.values.data ))).render(),
+        __this.registerView(new JobFeaturesView(__context.values.data)).render(),
 __this.node('div', <__wml.Attrs>{'class': 'board-job-timestamp'}, [
 
         __document.createTextNode('\u000a        Posted '),
-text (timestamp (__context.values.data .created_on ))
+text (timestamp (__context.values.data.created_on))
      ])
      ])
      ]),<__wml.Attrs>{}),
@@ -93,18 +93,18 @@ __this.widget(new PanelBody({}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'board-job-salary'}, [
 
-        ...(((__context.values.data .payment_amount ) != null) ?
+        ...(((__context.values.data.payment_amount) != null) ?
 (()=>([
 
         __this.node('span', <__wml.Attrs>{}, [
 
-        text (__context.values.data .payment_amount ),
+        text (__context.values.data.payment_amount),
 __document.createTextNode('\u00a0'),
 __this.node('b', <__wml.Attrs>{}, [
 
-        text (__context.values.data .payment_currency ),
+        text (__context.values.data.payment_currency),
 __document.createTextNode('\u002F'),
-text (__context.values.data .payment_frequency )
+text (__context.values.data.payment_frequency)
      ])
      ])
      ]))() :
@@ -112,14 +112,14 @@ text (__context.values.data .payment_frequency )
      ]),
 __this.node('div', <__wml.Attrs>{wml : { 'id' : 'content'  },'class': 'board-job-html'}, [
 
-        ...((__context.values.raw ) ?
+        ...((__context.values.raw) ?
 (()=>([
 
-        unsafe (__context.values.data .description_html )
+        unsafe (__context.values.data.description_html)
      ]))() :
 (()=>([
 
-        text (__context.values.data .description_html )
+        text (__context.values.data.description_html)
      ]))())
      ])
      ]),<__wml.Attrs>{})

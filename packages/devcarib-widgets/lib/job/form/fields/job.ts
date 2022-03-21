@@ -90,20 +90,20 @@ export class JobFormJobFieldsView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Title*' ,'placeholder' : 'Example: Fintech Software Engineer Needed' ,'value' : __context.data.title  ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Title*' ,'placeholder' : 'Example: Fintech Software Engineer Needed' ,'value' : __context.data.title ,'onChange' : __context.onChange  }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Title*' ,'placeholder' : 'Example: Fintech Software Engineer Needed' ,'value' : __context.data.title  ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Title*' ,'placeholder' : 'Example: Fintech Software Engineer Needed' ,'value' : __context.data.title ,'onChange' : __context.onChange  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({ww : { 'span' : 6  }}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'location'  },ww : { 'name' : 'location' ,'label' : 'Location*' ,'value' : __context.data.location  ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'location'  },ww : { 'name' : 'location' ,'label' : 'Location*' ,'value' : __context.data.location ,'onChange' : __context.onChange  }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'location'  },ww : { 'name' : 'location' ,'label' : 'Location*' ,'value' : __context.data.location  ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'location'  },ww : { 'name' : 'location' ,'label' : 'Location*' ,'value' : __context.data.location ,'onChange' : __context.onChange  }})
      ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
 __this.widget(new Column({ww : { 'span' : 6  }}, [
 
@@ -111,20 +111,20 @@ __this.widget(new Column({ww : { 'span' : 6  }}, [
 
         __document.createTextNode('Select A Job Type*')
      ]),
-__this.widget(new DropList({wml : { 'id' : 'type'  },ww : { 'className' : 'board-job-type-dropdown -block' ,'name' : 'type' ,'value' : __context.data.type  ,'options' : __context.type.options  ,'onSelect' : __context.onSelect  }}, [
+__this.widget(new DropList({wml : { 'id' : 'type'  },ww : { 'className' : 'board-job-type-dropdown -block' ,'name' : 'type' ,'value' : __context.data.type ,'options' : __context.type.options ,'onSelect' : __context.onSelect  }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'type'  },ww : { 'className' : 'board-job-type-dropdown -block' ,'name' : 'type' ,'value' : __context.data.type  ,'options' : __context.type.options  ,'onSelect' : __context.onSelect  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'type'  },ww : { 'className' : 'board-job-type-dropdown -block' ,'name' : 'type' ,'value' : __context.data.type ,'options' : __context.type.options ,'onSelect' : __context.onSelect  }})
      ]),<__wml.Attrs>{ww : { 'span' : 6  }})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'apply_url'  },ww : { 'name' : 'apply_url' ,'label' : 'Apply Link' ,'placeholder' : 'Specify a url or email address applicants can use to apply' ,'value' : __context.data.apply_url  ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'apply_url'  },ww : { 'name' : 'apply_url' ,'label' : 'Apply Link' ,'placeholder' : 'Specify a url or email address applicants can use to apply' ,'value' : __context.data.apply_url ,'onChange' : __context.onChange  }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'apply_url'  },ww : { 'name' : 'apply_url' ,'label' : 'Apply Link' ,'placeholder' : 'Specify a url or email address applicants can use to apply' ,'value' : __context.data.apply_url  ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'apply_url'  },ww : { 'name' : 'apply_url' ,'label' : 'Apply Link' ,'placeholder' : 'Specify a url or email address applicants can use to apply' ,'value' : __context.data.apply_url ,'onChange' : __context.onChange  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -134,10 +134,10 @@ __this.widget(new Row({}, [
         __this.node('b', <__wml.Attrs>{}, [
 
         __document.createTextNode('\u000a         Is this a remote position? \u000a         '),
-__this.widget(new Checkbox({ww : { 'name' : 'remote' ,'value' : __context.data.remote  ,'onChange' : __context.onSelect  }}, [
+__this.widget(new Checkbox({ww : { 'name' : 'remote' ,'value' : __context.data.remote ,'onChange' : __context.onSelect  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : 'remote' ,'value' : __context.data.remote  ,'onChange' : __context.onSelect  }})
+     ]),<__wml.Attrs>{ww : { 'name' : 'remote' ,'value' : __context.data.remote ,'onChange' : __context.onSelect  }})
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
@@ -168,20 +168,20 @@ __this.widget(new Column({ww : { 'span' : 6  }}, [
 
         __document.createTextNode('Payment Frequency')
      ]),
-__this.widget(new DropList({wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block board-job-payment-frequency' ,'name' : 'payment_frequency' ,'value' : __context.data.payment_frequency  ,'options' : __context.payment_frequency.options  ,'onSelect' : __context.onSelect  }}, [
+__this.widget(new DropList({wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block board-job-payment-frequency' ,'name' : 'payment_frequency' ,'value' : __context.data.payment_frequency ,'options' : __context.payment_frequency.options ,'onSelect' : __context.onSelect  }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block board-job-payment-frequency' ,'name' : 'payment_frequency' ,'value' : __context.data.payment_frequency  ,'options' : __context.payment_frequency.options  ,'onSelect' : __context.onSelect  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'payment_frequency'  },ww : { 'className' : '-block board-job-payment-frequency' ,'name' : 'payment_frequency' ,'value' : __context.data.payment_frequency ,'options' : __context.payment_frequency.options ,'onSelect' : __context.onSelect  }})
      ]),<__wml.Attrs>{ww : { 'span' : 6  }})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Provide full details of the job. Markdown is supported' ,'rows' : 12 ,'value' : __context.data.description  ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Provide full details of the job. Markdown is supported' ,'rows' : 12 ,'value' : __context.data.description ,'onChange' : __context.onChange  }}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Provide full details of the job. Markdown is supported' ,'rows' : 12 ,'value' : __context.data.description  ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'description'  },ww : { 'name' : 'description' ,'placeholder' : 'Provide full details of the job. Markdown is supported' ,'rows' : 12 ,'value' : __context.data.description ,'onChange' : __context.onChange  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
