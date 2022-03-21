@@ -52,7 +52,7 @@
 
             "checks": [
 
-                ["@devcarib/common-checks#unique", ["_collection", "'id'"]]
+                ["@devcarib/common/lib/checks#unique", ["_collection", "'id'"]]
 
             ]
 
@@ -78,7 +78,7 @@
 
             "checks": [
 
-                ["@devcarib/common-checks#unique", ["_collection", "'username'"]]
+                ["@devcarib/common/lib/checks#unique", ["_collection", "'username'"]]
 
             ]
 
@@ -92,7 +92,7 @@
 
             "validation": ["@converse/validators#password"],
 
-            "checks": "@devcarib/common-checks#bcrypt"
+            "checks": "@devcarib/common/lib/checks#bcrypt"
 
         },
 
