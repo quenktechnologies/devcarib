@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Job } from '@mia/types/lib/job';
-import { textsmall, minLength, textlarge, maxLength, name, email, url, currency, paymentFrequency, jobStatus } from '@devcarib/common-validators';
+import { textsmall, minLength, textlarge, maxLength, name, email, url, currency, paymentFrequency, jobStatus } from '@devcarib/common/lib/validators';
 
 /**
  * @private Used during template generation.

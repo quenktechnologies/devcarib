@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Admin } from '@mia/types/lib/admin';
-import { name, email, password } from '@devcarib/common-validators';
+import { name, email, password } from '@devcarib/common/lib/validators';
 
 /**
  * @private Used during template generation.
