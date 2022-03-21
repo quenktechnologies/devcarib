@@ -40,12 +40,12 @@ var IndexView = /** @class */ (function () {
         this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('html', {}, [
-                __this.registerView((new head_1.HeadView({
+                __this.registerView(new head_1.HeadView({
                     'title': __context.title,
                     'styles': [
                         '/mia/assets/css/mia.css'
                     ]
-                }))).render(),
+                })).render(),
                 __this.node('body', {}, [
                     __this.node('div', { 'id': 'dialogs' }, []),
                     __this.node('main', { 'id': 'app' }, []),

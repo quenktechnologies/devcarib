@@ -76,14 +76,14 @@ export class IndexView  implements __wml.View {
 
            return __this.node('html', <__wml.Attrs>{}, [
 
-        __this.registerView((new HeadView({
+        __this.registerView(new HeadView({
  
       'title' : __context.title,
 'styles' : [
 
             '/mia/assets/css/mia.css'
             ]
-     }))).render(),
+     })).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
         __this.node('div', <__wml.Attrs>{'id': 'dialogs'}, [

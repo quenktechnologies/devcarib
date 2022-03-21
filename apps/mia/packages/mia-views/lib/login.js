@@ -55,7 +55,7 @@ var LoginView = /** @class */ (function () {
         this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('html', { 'lang': 'en', 'dir': 'ltr' }, [
-                __this.registerView((new head_1.HeadView(__context))).render(),
+                __this.registerView(new head_1.HeadView(__context)).render(),
                 __this.node('body', {}, [
                     __this.widget(new grid_1.GridLayout({ ww: { 'id': 'main' } }, [
                         __this.widget(new grid_1.Row({}, __spreadArray(__spreadArray([], ((((__context.errors) != null && (__context.errors.message) != null)) ?

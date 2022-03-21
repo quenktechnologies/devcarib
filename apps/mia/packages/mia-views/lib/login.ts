@@ -84,21 +84,21 @@ export class LoginView  implements __wml.View {
 
            return __this.node('html', <__wml.Attrs>{'lang': 'en','dir': 'ltr'}, [
 
-        __this.registerView((new HeadView(__context))).render(),
+        __this.registerView(new HeadView(__context)).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
         __this.widget(new GridLayout({ww : { 'id' : 'main'  }}, [
 
         __this.widget(new Row({}, [
 
-        ...((((__context.errors) != null && (__context.errors.message ) != null)) ?
+        ...((((__context.errors) != null && (__context.errors.message) != null)) ?
 (()=>([
 
         __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'ww-alert -error','style': 'text-align:center'}, [
 
-        text (__context.errors.message )
+        text (__context.errors.message)
      ])
      ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
      ]))() :
@@ -115,7 +115,7 @@ __this.widget(new Panel({}, [
 
         __this.node('form', <__wml.Attrs>{'autocomplete': 'off','action': '/mia/login','method': 'POST'}, [
 
-        __this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.email ) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
+        __this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.email) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
 
         __this.node('label', <__wml.Attrs>{'class': 'ww-label'}, [
 
@@ -127,15 +127,15 @@ __this.node('input', <__wml.Attrs>{'name': 'email','class': 'ww-text-input -bloc
      ]),
 __this.node('span', <__wml.Attrs>{'class': 'ww-help'}, [
 
-        ...((((__context.errors) != null && (__context.errors.email ) != null)) ?
+        ...((((__context.errors) != null && (__context.errors.email) != null)) ?
 (()=>([
 
-        text (__context.errors.email )
+        text (__context.errors.email)
      ]))() :
 (()=>([]))())
      ])
      ]),
-__this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.password ) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
+__this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.password) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
 
         __this.node('label', <__wml.Attrs>{'class': 'ww-label'}, [
 
@@ -147,10 +147,10 @@ __this.node('input', <__wml.Attrs>{'name': 'password','class': 'ww-text-input -b
      ]),
 __this.node('span', <__wml.Attrs>{'class': 'ww-help'}, [
 
-        ...((((__context.errors) != null && (__context.errors.password ) != null)) ?
+        ...((((__context.errors) != null && (__context.errors.password) != null)) ?
 (()=>([
 
-        text (__context.errors.password )
+        text (__context.errors.password)
      ]))() :
 (()=>([]))())
      ])
