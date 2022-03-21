@@ -37,7 +37,7 @@ import {
 
 import { User } from '@converse/types/lib/user';
 import { validate, validatePartial } from '@converse/validators/lib/user';
-import { unique, bcrypt } from '@devcarib/common-checks';
+import { unique, bcrypt } from '@devcarib/common/lib/checks';
 
 //@ts-ignore: 6133
 const _title = 'User';

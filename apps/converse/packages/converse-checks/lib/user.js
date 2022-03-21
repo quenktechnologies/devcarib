@@ -6,7 +6,7 @@ var async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
 var user_1 = require("@converse/validators/lib/user");
-var common_checks_1 = require("@devcarib/common-checks");
+var checks_1 = require("@devcarib/common/lib/checks");
 //@ts-ignore: 6133
 var _title = 'User';
 //@ts-ignore: 6133
@@ -15,10 +15,10 @@ var _collection = 'users';
  * checks for User provided as a map.
  */
 exports.checks = {
-    'id': (0, async_1.every)((0, common_checks_1.unique)(_collection, 'id')),
+    'id': (0, async_1.every)((0, checks_1.unique)(_collection, 'id')),
     'name': async_1.identity,
-    'username': (0, async_1.every)((0, common_checks_1.unique)(_collection, 'username')),
-    'password': (0, async_1.every)(common_checks_1.bcrypt),
+    'username': (0, async_1.every)((0, checks_1.unique)(_collection, 'username')),
+    'password': (0, async_1.every)(checks_1.bcrypt),
     'status': async_1.identity,
     'last_login': async_1.identity
 };
@@ -26,10 +26,10 @@ exports.checks = {
  * partialChecks for User provided as a map.
  */
 exports.partialChecks = {
-    'id': (0, async_1.every)((0, common_checks_1.unique)(_collection, 'id')),
+    'id': (0, async_1.every)((0, checks_1.unique)(_collection, 'id')),
     'name': async_1.identity,
-    'username': (0, async_1.every)((0, common_checks_1.unique)(_collection, 'username')),
-    'password': (0, async_1.every)(common_checks_1.bcrypt),
+    'username': (0, async_1.every)((0, checks_1.unique)(_collection, 'username')),
+    'password': (0, async_1.every)(checks_1.bcrypt),
     'status': async_1.identity,
     'last_login': async_1.identity
 };
