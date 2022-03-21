@@ -10,7 +10,7 @@
 
     "main": "lib/index.js",
 
-    "dependencies": {
+    "xdependencies": {
 
         "@devcarib/widgets": "file:../devcarib-widgets"
 
