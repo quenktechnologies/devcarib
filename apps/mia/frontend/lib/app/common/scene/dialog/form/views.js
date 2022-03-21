@@ -45,7 +45,7 @@ class MiaFormDialogView {
                     text(__context.name)
                 ]), {}),
                 __this.widget(new modal_1.ModalBody({}, [
-                    __this.registerView((__context.view)).render()
+                    __this.registerView(__context.view).render()
                 ]), {}),
                 __this.widget(new modal_1.ModalFooter({}, [
                     __this.widget(new button_1.Button({ ww: { 'text': 'Close', 'onClick': () => __context.close() } }, []), { ww: { 'text': 'Close', 'onClick': () => __context.close() } }),

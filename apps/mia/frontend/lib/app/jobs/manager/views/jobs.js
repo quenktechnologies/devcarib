@@ -46,7 +46,7 @@ class JobsManagerView {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.registerView((new header_1.ManagerHeader(__context.values.table))).render()
+                        __this.registerView(new header_1.ManagerHeader(__context.values.table)).render()
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [

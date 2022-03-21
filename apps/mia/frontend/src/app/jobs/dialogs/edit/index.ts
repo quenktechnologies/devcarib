@@ -7,7 +7,7 @@ import { Event } from '@quenk/wml-widgets/lib/control';
 
 import { Job } from '@board/types/lib/job';
 
-import { supportedPaymentFrequencies } from '@board/common/lib/data/payment';
+import { supportedPaymentFrequencies } from '@devcarib/common/lib/data/payment';
 
 import {
     MiaFormDialog,

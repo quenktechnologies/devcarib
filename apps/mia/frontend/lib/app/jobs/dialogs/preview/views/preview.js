@@ -58,7 +58,7 @@ class JobPreviewDialogView {
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.registerView((new features_1.JobFeaturesView(__context.values.data))).render()
+                                __this.registerView(new features_1.JobFeaturesView(__context.values.data)).render()
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [

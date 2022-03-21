@@ -80,7 +80,7 @@ export class JobPreviewDialogView  implements __wml.View {
 
         __this.widget(new ModalHeader({}, [
 
-        text (__context.values.data .company )
+        text (__context.values.data.company)
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalBody({}, [
 
@@ -92,7 +92,7 @@ __this.widget(new ModalBody({}, [
 
         __this.node('h1', <__wml.Attrs>{}, [
 
-        text (__context.values.data .title )
+        text (__context.values.data.title)
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
@@ -100,14 +100,14 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.registerView((new JobFeaturesView(__context.values.data ))).render()
+        __this.registerView(new JobFeaturesView(__context.values.data)).render()
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.node('iframe', <__wml.Attrs>{wml : { 'id' : __context.values.frame .id   },'class': __context.values.frame .className ,'srcdoc': __context.values.frame .content ,'sandbox': '','allow': ''}, [
+        __this.node('iframe', <__wml.Attrs>{wml : { 'id' : __context.values.frame.id  },'class': __context.values.frame.className,'srcdoc': __context.values.frame.content,'sandbox': '','allow': ''}, [
 
         
      ])
@@ -117,14 +117,14 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalFooter({}, [
 
-        __this.widget(new Button({ww : { 'className' : '-primary' ,'onClick' : __context.values.edit  ,'text' : 'Edit'  }}, [
+        __this.widget(new Button({ww : { 'className' : '-primary' ,'onClick' : __context.values.edit ,'text' : 'Edit'  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : '-primary' ,'onClick' : __context.values.edit  ,'text' : 'Edit'  }}),
-__this.widget(new Button({ww : { 'onClick' : __context.values.close  ,'text' : 'Close'  }}, [
+     ]),<__wml.Attrs>{ww : { 'className' : '-primary' ,'onClick' : __context.values.edit ,'text' : 'Edit'  }}),
+__this.widget(new Button({ww : { 'onClick' : __context.values.close ,'text' : 'Close'  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.close  ,'text' : 'Close'  }})
+     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.close ,'text' : 'Close'  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{ww : { 'className' : '-large'  }});
 

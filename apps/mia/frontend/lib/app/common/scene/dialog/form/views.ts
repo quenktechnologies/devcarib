@@ -86,7 +86,7 @@ export class MiaFormDialogView  implements __wml.View {
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalBody({}, [
 
-        __this.registerView((__context.view)).render()
+        __this.registerView(__context.view).render()
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalFooter({}, [
 

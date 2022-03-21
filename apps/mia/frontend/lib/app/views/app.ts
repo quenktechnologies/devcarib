@@ -79,19 +79,19 @@ export class MiaView  implements __wml.View {
 
            return __this.node('div', <__wml.Attrs>{wml : { 'id' : 'main'  }}, [
 
-        __this.widget(new NavBar({'className': 'mia-navbar-bar','links': __context.values.header .links }, [
+        __this.widget(new NavBar({'className': 'mia-navbar-bar','links': __context.values.header.links}, [
 
         __this.widget(new Nav({ww : { 'className' : 'mia-logout'  }}, [
 
         __this.widget(new Item({}, [
 
-        __this.widget(new Link({ww : { 'text' : 'Logout' ,'onClick' : __context.values.header .logout   }}, [
+        __this.widget(new Link({ww : { 'text' : 'Logout' ,'onClick' : __context.values.header.logout  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Logout' ,'onClick' : __context.values.header .logout   }})
+     ]),<__wml.Attrs>{ww : { 'text' : 'Logout' ,'onClick' : __context.values.header.logout  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{ww : { 'className' : 'mia-logout'  }})
-     ]),<__wml.Attrs>{'className': 'mia-navbar-bar','links': __context.values.header .links }),
+     ]),<__wml.Attrs>{'className': 'mia-navbar-bar','links': __context.values.header.links}),
 __this.widget(new MainLayout({wml : { 'id' : 'content'  },ww : { 'className' : 'mia-content'  }}, [
 
         

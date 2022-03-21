@@ -86,7 +86,7 @@ export class EditJobDialogView  implements __wml.View {
 
         __this.widget(new PanelBody({}, [
 
-        __this.registerView((new JobFormJobFieldsView(__context.values))).render()
+        __this.registerView(new JobFormJobFieldsView(__context.values)).render()
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
@@ -99,7 +99,7 @@ __this.widget(new Row({}, [
 
         __this.widget(new PanelBody({}, [
 
-        __this.registerView((new JobFormCompanyFieldsView(__context.values))).render()
+        __this.registerView(new JobFormCompanyFieldsView(__context.values)).render()
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})

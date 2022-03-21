@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobsManager = exports.TIME_SEARCH_DEBOUNCE = void 0;
-const jobStatus = require("@board/common/lib/data/job");
+const jobStatus = require("@devcarib/common/lib/data/job");
 const api = require("../../api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const string_1 = require("@quenk/noni/lib/data/string");

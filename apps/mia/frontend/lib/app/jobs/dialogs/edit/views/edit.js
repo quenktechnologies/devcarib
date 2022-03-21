@@ -48,7 +48,7 @@ class EditJobDialogView {
                     __this.widget(new grid_1.Column({}, [
                         __this.widget(new panel_1.Panel({}, [
                             __this.widget(new panel_1.PanelBody({}, [
-                                __this.registerView((new job_1.JobFormJobFieldsView(__context.values))).render()
+                                __this.registerView(new job_1.JobFormJobFieldsView(__context.values)).render()
                             ]), {})
                         ]), {})
                     ]), {})
@@ -57,7 +57,7 @@ class EditJobDialogView {
                     __this.widget(new grid_1.Column({}, [
                         __this.widget(new panel_1.Panel({}, [
                             __this.widget(new panel_1.PanelBody({}, [
-                                __this.registerView((new company_1.JobFormCompanyFieldsView(__context.values))).render()
+                                __this.registerView(new company_1.JobFormCompanyFieldsView(__context.values)).render()
                             ]), {})
                         ]), {})
                     ]), {})

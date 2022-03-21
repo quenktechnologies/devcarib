@@ -80,10 +80,10 @@ export class TitleColumnView  implements __wml.View {
 
            return __this.node('td', <__wml.Attrs>{}, [
 
-        __this.widget(new Link({ww : { 'text' : __context.job.title  ,'onClick' : __context.onClick  }}, [
+        __this.widget(new Link({ww : { 'text' : __context.job.title ,'onClick' : __context.onClick  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : __context.job.title  ,'onClick' : __context.onClick  }})
+     ]),<__wml.Attrs>{ww : { 'text' : __context.job.title ,'onClick' : __context.onClick  }})
      ]);
 
        }

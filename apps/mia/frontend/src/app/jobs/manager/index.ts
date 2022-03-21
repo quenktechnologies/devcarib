@@ -1,4 +1,4 @@
-import * as jobStatus from '@board/common/lib/data/job';
+import * as jobStatus from '@devcarib/common/lib/data/job';
 import * as api from '../../api';
 
 import {

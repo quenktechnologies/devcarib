@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EditJobDialog = void 0;
 const api = require("../../../api");
-const payment_1 = require("@board/common/lib/data/payment");
+const payment_1 = require("@devcarib/common/lib/data/payment");
 const form_1 = require("../../../common/scene/dialog/form");
 const edit_1 = require("./views/edit");
 /**
