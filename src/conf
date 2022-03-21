@@ -24,22 +24,6 @@ app.csrf.token.send_cookie = true
 
 app.views.provider = @quenk/tendril-show-nunjucks#show
 
-app.views.options = [
-    {
-
-      path = "packages/extras/board-views/views"
-
-      filters = {
-
-          timestamp = ./filters#timestamp
-
-          timefromnow = ./filters#timefromnow
-
-        }
-
-    }
-]
-
 app.log.enable = true
 
 app.log.format = ${LOG_FORMAT}
@@ -49,8 +33,8 @@ app.parsers.body.json.enable = true
 app.dirs.public = [
 
   "public",
-  "../packages/board-views/public",
-  "../frontends/board-form-post/public"
+  "../apps/board/packages/board-views/public",
+  "../apps/board/frontend/board-form-post/public"
 
 ]
 
@@ -63,6 +47,8 @@ app.modules = {
   mia = ../apps/mia/build#template
 
   converse = ../apps/converse/build#template
+
+  board = ../apps/board/build#template
 
 }
 

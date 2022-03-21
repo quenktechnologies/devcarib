@@ -1,6 +1,1 @@
-GET  /                   ./handlers#showJobs
-
-GET  /jobs/post          ./handlers#showJobJobPage 
-POST /jobs/post          ./handlers#createJob
-
-GET  /jobs/:id           ./handlers#showJob
+GET  / ./handlers#showBoard
