@@ -9,7 +9,7 @@
   },
   "author": "Quenk Technologies Limited (https://quenk.com)",
   "license": "Apache-2.0",
-  "dependencies": {
-    "@board/common": "^0.0.1"
+  "xdependencies": {
+    "@devcarib/common": "^0.0.1"
   }
 }
