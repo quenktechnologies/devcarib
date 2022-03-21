@@ -4,9 +4,9 @@ exports.template = void 0;
 const quenkTendrilConnectionMongodb = require("@quenk/tendril-connection-mongodb");
 const quenkTendrilSessionMongodb = require("@quenk/tendril-session-mongodb");
 const quenkTendrilShowNunjucks = require("@quenk/tendril-show-nunjucks");
-const dotFilters = require("./filters");
 const dotdotAppsMiaBuild = require("../apps/mia/build");
 const dotdotAppsConverseBuild = require("../apps/converse/build");
+const dotdotAppsBoardBuild = require("../apps/board/build");
 const dotServices = require("./services");
 const dotTasks = require("./tasks");
 const dotEvents = require("./events");
@@ -17,7 +17,7 @@ const module_1 = require("@quenk/tendril/lib/app/module");
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `/`,
     'app': { 'dirs': { 'self': `/build`,
-            'public': [`public`, `../packages/board-views/public`, `../frontends/board-form-post/public`] },
+            'public': [`public`, `../apps/board/packages/board-views/public`, `../apps/board/frontend/board-form-post/public`] },
         'session': { 'enable': true,
             'options': { 'secret': process.env['SESSION_SECRET'],
                 'name': `bscid` },
@@ -25,17 +25,15 @@ const template = ($app) => ({ 'id': `/`,
                 'options': { 'uri': process.env['MONGO_URL'] } } },
         'csrf': { 'token': { 'enable': true,
                 'send_cookie': true } },
-        'views': { 'provider': quenkTendrilShowNunjucks.show,
-            'options': [{ 'path': `packages/extras/board-views/views`,
-                    'filters': { 'timestamp': dotFilters.timestamp,
-                        'timefromnow': dotFilters.timefromnow } }] },
+        'views': { 'provider': quenkTendrilShowNunjucks.show },
         'log': { 'enable': true,
             'format': process.env['LOG_FORMAT'] },
         'parsers': { 'body': { 'json': { 'enable': true } } },
         'middleware': { 'available': {},
             'enabled': [] },
         'modules': { 'mia': dotdotAppsMiaBuild.template,
-            'converse': dotdotAppsConverseBuild.template },
+            'converse': dotdotAppsConverseBuild.template,
+            'board': dotdotAppsBoardBuild.template },
         'on': { 'connected': [dotEvents.connected, dotSetup.run],
             'started': dotEvents.started },
         'routes': //@ts-ignore: 6133
@@ -44,22 +42,7 @@ const template = ($app) => ({ 'id': `/`,
             $routes.push({
                 method: 'get',
                 path: '/',
-                filters: [dotHandlers.showJobs], tags: {}
-            });
-            $routes.push({
-                method: 'get',
-                path: '/jobs/post',
-                filters: [dotHandlers.showJobJobPage], tags: {}
-            });
-            $routes.push({
-                method: 'post',
-                path: '/jobs/post',
-                filters: [dotHandlers.createJob], tags: {}
-            });
-            $routes.push({
-                method: 'get',
-                path: '/jobs/:id',
-                filters: [dotHandlers.showJob], tags: {}
+                filters: [dotHandlers.showBoard], tags: {}
             });
             return $routes;
         } },
