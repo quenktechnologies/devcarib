@@ -15,11 +15,11 @@ MIA_FRONTEND_DIR:=$(MIA_DIR)/frontend
 MIA_FRONTEND_JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
 MIA_FRONTEND_SRC_DIR:=$(MIA_FRONTEND_DIR)/src
 
-MIA_FRONTEND_SRC_FILES:=$(shell $(FIND) $(MIA_FRONTEND_SRC_DIR)\
+MIA_FRONTEND_SRC_FILES:=$(shell find $(MIA_FRONTEND_SRC_DIR)\
                          -name \*.ts -o -name \*.json -o -name \*.wml)
 
 MIA_FRONTEND_LIB_DIR:=$(MIA_FRONTEND_DIR)/lib
-MIA_FRONTEND_LESS_FILES:=$(shell $(FIND) $(MIA_FRONTEND_SRC_DIR)\
+MIA_FRONTEND_LESS_FILES:=$(shell find $(MIA_FRONTEND_SRC_DIR)\
                                 -name \*.less)
 MIA_FRONTEND_LESS_MAIN:=$(MIA_FRONTEND_DIR)/main.less
 MIA_FRONTEND_LESS_IMPORTS:=$(MIA_FRONTEND_DIR)/imports.less
