@@ -1,0 +1,11 @@
+{
+    "name": "@devcarib/common",
+    "private": "true",
+    "version": "0.0.1",
+    "main": "lib/index.js",
+    "xdependencies": {
+        "marked": "^2.0.3"
+    },
+    "xdevDependencies": {
+    }
+}
