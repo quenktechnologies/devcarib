@@ -2,7 +2,7 @@ import * as bcryptjs from 'bcryptjs';
 import * as uuid from 'uuid';
 import * as mongodb from 'mongodb';
 import * as moment from 'moment';
-import * as commonMark from '@board/common/lib/common-mark';
+import * as commonMark from '@devcarib/common/lib/common-mark';
 
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
 import {

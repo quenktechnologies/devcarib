@@ -31,7 +31,7 @@ exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.u
 var bcryptjs = require("bcryptjs");
 var uuid = require("uuid");
 var moment = require("moment");
-var commonMark = require("@board/common/lib/common-mark");
+var commonMark = require("@devcarib/common/lib/common-mark");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var monad_1 = require("@quenk/noni/lib/control/monad");
 var path_1 = require("@quenk/noni/lib/data/record/path");
