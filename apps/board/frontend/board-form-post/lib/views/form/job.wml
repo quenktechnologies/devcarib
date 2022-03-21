@@ -1,0 +1,24 @@
+{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
+
+{% import (JobFormJobFieldsView) from "@devcarib/widgets/lib/job/form/fields/job" %}
+
+{% import (JobFormApp) from "../../main" %}
+
+{% view JobFormView (JobFormApp) %}
+
+<form 
+  name="job-form"
+  onsubmit={{(e:Event) -> e.preventDefault() }}
+  autocomplete="off">
+
+  <Panel>
+
+    <PanelBody>
+
+      {{<JobFormJobFieldsView(@values.job)>}}
+      
+    </PanelBody>
+
+  </Panel>
+
+</form>
