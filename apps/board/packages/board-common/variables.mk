@@ -1,0 +1,9 @@
+BOARD_COMMON_DIR:=$(BOARD_PACKAGES_DIR)/board-common
+BOARD_COMMON_SRC_DIR:=$(BOARD_COMMON_DIR)/src
+
+BOARD_COMMON_SRC_FILES:=$(shell find $(BOARD_COMMON_SRC_DIR)\
+                         -name \*.ts -o -name \*.json)
+
+BOARD_COMMON_LIB_DIR:=$(BOARD_COMMON_DIR)/lib
+
+CLEAN_TARGETS:=$(CLEAN_TARGETS) $(BOARD_COMMON_LIB_DIR)
