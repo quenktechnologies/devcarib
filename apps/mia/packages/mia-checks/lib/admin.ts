@@ -37,7 +37,7 @@ import {
 
 import { Admin } from '@mia/types/lib/admin';
 import { validate, validatePartial } from '@mia/validators/lib/admin';
-import { inc, bcrypt, unique } from '@devcarib/common-checks';
+import { inc, bcrypt, unique } from '@devcarib/common/lib/checks';
 
 //@ts-ignore: 6133
 const _title = 'Admin';

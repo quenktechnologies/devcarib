@@ -37,7 +37,7 @@ import {
 
 import { User } from '@mia/types/lib/user';
 import { validate, validatePartial } from '@mia/validators/lib/user';
-import { inc, unique, bcrypt } from '@devcarib/common-checks';
+import { inc, unique, bcrypt } from '@devcarib/common/lib/checks';
 
 //@ts-ignore: 6133
 const _title = 'User';
