@@ -6,9 +6,9 @@ var array = require("@quenk/preconditions/lib/array");
 var preconditions_1 = require("@quenk/preconditions");
 var array_1 = require("@quenk/noni/lib/data/array");
 var result_1 = require("@quenk/preconditions/lib/result");
-var currency_1 = require("@board/common/lib/data/currency");
-var payment_1 = require("@board/common/lib/data/payment");
-var job_1 = require("@board/common/lib/data/job");
+var currency_1 = require("@devcarib/common/lib/data/currency");
+var payment_1 = require("@devcarib/common/lib/data/payment");
+var job_1 = require("@devcarib/common/lib/data/job");
 /**
  * name must be a string and between 1-64 characters.
  *
