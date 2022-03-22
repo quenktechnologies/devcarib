@@ -18,6 +18,7 @@ import {App as App} from '@quenk/tendril/lib/app';
 export const template = ($app: App): Template => (
  {'id': `build`,
 'app': {'dirs': {'self': `/apps/board/build`},
+'path': `/`,
 'routes': //@ts-ignore: 6133
 ($module:Module) => {
 
