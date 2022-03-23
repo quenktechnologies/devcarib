@@ -7,7 +7,7 @@ import { redirect, unauthorized } from '@quenk/tendril/lib/app/api/response';
 
 import { render } from '@quenk/tendril-show-wml';
 
-import { Authenticator } from '../auth';
+import { Authenticator, AuthFailedContext } from '../auth';
 
 /**
  * AuthController provides a workflow for authenticating a user. It is designed
@@ -27,12 +27,12 @@ export abstract class AuthController {
         /**
          * index is the view used to render the index.
          */
-        index: View,
+        index: (req: Request) => View,
 
         /**
          * auth is the view used to render the login form.
          */
-        auth: View
+        auth: (req: Request, ctx: AuthFailedContext) => View
 
     }
 
@@ -65,10 +65,10 @@ export abstract class AuthController {
     userSessionKey = 'user';
 
     /**
-     * authContextPRSKey is the PRS key used to store metadata between a failed
+     * authContextKey is the session key used to store metadata between a failed
      * auth attempt and the login form.
      */
-    authContextPRSKey = 'auth';
+    authContextKey = 'auth';
 
     /**
      * checkAuth produces a filter that can be included in a route to ensure
@@ -101,7 +101,7 @@ export abstract class AuthController {
 
             if (muser.isJust()) {
 
-                return render(that.views.index);
+                return render(that.views.index(req));
 
             } else {
 
@@ -116,9 +116,12 @@ export abstract class AuthController {
     /**
      * onAuthForm renders the login form.
      */
-    onAuthForm(_: Request): Action<void> {
+    onAuthForm(req: Request): Action<void> {
 
-        return render(this.views.auth);
+        let ctx =  <AuthFailedContext>req.session.getOrElse(this.authContextKey,
+            { failed: false, credentials: {} });
+
+        return render(this.views.auth(req,ctx           ));
 
     }
 
@@ -135,7 +138,7 @@ export abstract class AuthController {
 
             if (euser.isLeft()) {
 
-                req.session.setWithDescriptor(that.authContextPRSKey,
+                req.session.setWithDescriptor(that.authContextKey,
                     euser.takeLeft(), { ttl: 1 });
 
                 return redirect(that.urls.auth, 303)

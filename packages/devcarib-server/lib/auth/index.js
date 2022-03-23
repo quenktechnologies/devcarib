@@ -13,13 +13,15 @@ class BaseAuthenticator {
         return (0, future_1.doFuture)(function* () {
             let elogin = that.validate(req.body);
             if (elogin.isLeft())
-                return (0, future_1.pure)((0, either_1.left)({ authFailed: true, credentials: req.body }));
+                return (0, future_1.pure)((0, either_1.left)({
+                    failed: true, credentials: req.body
+                }));
             let muser = yield that.getUser(elogin.takeRight());
-            return (0, future_1.pure)(muser.isNothing() ?
-                (0, either_1.left)({ authFailed: true, credentials: req.body }) :
-                (0, either_1.right)(muser.get()));
+            return (0, future_1.pure)((muser.isNothing() ?
+                (0, either_1.left)({ failed: true, credentials: req.body }) :
+                (0, either_1.right)(muser.get())));
         });
     }
 }
 exports.BaseAuthenticator = BaseAuthenticator;
-//# sourceMappingURL=authenticator.js.map
+//# sourceMappingURL=index.js.map

@@ -20,10 +20,10 @@ class AuthController {
          */
         this.userSessionKey = 'user';
         /**
-         * authContextPRSKey is the PRS key used to store metadata between a failed
+         * authContextKey is the session key used to store metadata between a failed
          * auth attempt and the login form.
          */
-        this.authContextPRSKey = 'auth';
+        this.authContextKey = 'auth';
         /**
          * checkAuth produces a filter that can be included in a route to ensure
          * the user is authenticated before proceeding.
@@ -48,7 +48,7 @@ class AuthController {
         return (0, api_1.doAction)(function* () {
             let muser = req.session.get(that.userSessionKey);
             if (muser.isJust()) {
-                return (0, tendril_show_wml_1.render)(that.views.index);
+                return (0, tendril_show_wml_1.render)(that.views.index(req));
             }
             else {
                 return (0, response_1.redirect)(that.urls.auth, 302);
@@ -58,8 +58,9 @@ class AuthController {
     /**
      * onAuthForm renders the login form.
      */
-    onAuthForm(_) {
-        return (0, tendril_show_wml_1.render)(this.views.auth);
+    onAuthForm(req) {
+        let ctx = req.session.getOrElse(this.authContextKey, { failed: false, credentials: {} });
+        return (0, tendril_show_wml_1.render)(this.views.auth(req, ctx));
     }
     /**
      * onAuthenticate handles the authentication request sent by the user.
@@ -69,7 +70,7 @@ class AuthController {
         return (0, api_1.doAction)(function* () {
             let euser = yield (0, control_1.fork)(that.authenticator.authenticate(req));
             if (euser.isLeft()) {
-                req.session.setWithDescriptor(that.authContextPRSKey, euser.takeLeft(), { ttl: 1 });
+                req.session.setWithDescriptor(that.authContextKey, euser.takeLeft(), { ttl: 1 });
                 return (0, response_1.redirect)(that.urls.auth, 303);
             }
             req.session.set(that.userSessionKey, euser.takeRight());
