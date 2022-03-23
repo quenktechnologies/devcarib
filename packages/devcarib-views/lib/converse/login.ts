@@ -10,7 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
-import {HeadViewContext,HeadView} from './common/head'; 
+import {HeadView} from '../common/head'; 
 
 
 //@ts-ignore:6192
@@ -67,25 +67,26 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export interface LoginViewContext{errors?: {message? : string,
-email? : string,
-password? : string},
-csrfToken : string,
-email? : string};
+export interface LoginViewContext{title : string,
+styles : (string)[],
+auth: {failed : boolean,
+message : string,
+credentials?: {email? : string}},
+csrfToken : string};
 export class LoginView  implements __wml.View {
 
    constructor(__context: LoginViewContext) {
 
        this.template = (__this:__wml.Registry) => {
 
-       let headCtx:HeadViewContext = {
- 
-      'title' : 'Login'
-     }
+       
 
            return __this.node('html', <__wml.Attrs>{'lang': 'en','dir': 'ltr'}, [
 
-        __this.registerView(new HeadView(headCtx)).render(),
+        __this.registerView(new HeadView({
+ 
+      'title' : 'Login'
+     })).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
         __this.widget(new GridLayout({ww : { 'id' : 'main'  }}, [
@@ -98,12 +99,12 @@ __this.node('body', <__wml.Attrs>{}, [
 
         __this.widget(new Column({}, [
 
-        ...((((__context.errors) != null && (__context.errors.message) != null)) ?
+        ...((__context.auth.failed) ?
 (()=>([
 
         __this.node('div', <__wml.Attrs>{'class': 'ww-alert -error','style': 'text-align:center'}, [
 
-        text (__context.errors.message)
+        text (__context.auth.message)
      ])
      ]))() :
 (()=>([]))())
@@ -123,27 +124,18 @@ __this.widget(new Panel({}, [
 
         __this.node('form', <__wml.Attrs>{'autocomplete': 'off','action': '/converse/login','method': 'POST'}, [
 
-        __this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.email) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
+        __this.node('div', <__wml.Attrs>{'class': 'ww-text-field'}, [
 
         __this.node('label', <__wml.Attrs>{'class': 'ww-label'}, [
 
-        __document.createTextNode('Email')
+        __document.createTextNode('Username or Email')
      ]),
-__this.node('input', <__wml.Attrs>{'name': 'email','class': 'ww-text-input -block','value': __context.email,'autocomplete': 'off'}, [
+__this.node('input', <__wml.Attrs>{'name': 'email','class': 'ww-text-input -block','value': (((__context.auth.credentials) != null && (__context.auth.credentials.email) != null)) ? __context.auth.credentials.email :  '','autocomplete': 'off'}, [
 
         
-     ]),
-__this.node('span', <__wml.Attrs>{'class': 'ww-help'}, [
-
-        ...((((__context.errors) != null && (__context.errors.email) != null)) ?
-(()=>([
-
-        text (__context.errors.email)
-     ]))() :
-(()=>([]))())
      ])
      ]),
-__this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.password) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
+__this.node('div', <__wml.Attrs>{'class': 'ww-text-field'}, [
 
         __this.node('label', <__wml.Attrs>{'class': 'ww-label'}, [
 
@@ -152,15 +144,6 @@ __this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__con
 __this.node('input', <__wml.Attrs>{'name': 'password','class': 'ww-text-input -block','autocomplete': 'off','type': 'password'}, [
 
         
-     ]),
-__this.node('span', <__wml.Attrs>{'class': 'ww-help'}, [
-
-        ...((((__context.errors) != null && (__context.errors.password) != null)) ?
-(()=>([
-
-        text (__context.errors.password)
-     ]))() :
-(()=>([]))())
      ])
      ]),
 __this.node('input', <__wml.Attrs>{'type': 'hidden','name': '_csrf','value': __context.csrfToken}, [

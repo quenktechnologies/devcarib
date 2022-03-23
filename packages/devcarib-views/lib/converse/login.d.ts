@@ -1,13 +1,16 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
 export interface LoginViewContext {
-    errors?: {
-        message?: string;
-        email?: string;
-        password?: string;
+    title: string;
+    styles: (string)[];
+    auth: {
+        failed: boolean;
+        message: string;
+        credentials?: {
+            email?: string;
+        };
     };
     csrfToken: string;
-    email?: string;
 }
 export declare class LoginView implements __wml.View {
     constructor(__context: LoginViewContext);

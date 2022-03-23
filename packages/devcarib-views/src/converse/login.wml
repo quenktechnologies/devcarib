@@ -2,27 +2,28 @@
 {% import (Panel, PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
 
-{% import (HeadViewContext, HeadView) from "./common/head" %}
+{% import (HeadView) from "../common/head" %}
 
 {# LoginView provides the view for the login page. #}
 {% view LoginView where
  
-  errors.message?: String,
+  title: String,
 
-  errors.email?: String,
+  styles: String[],
 
-  errors.password?: String,
+  auth.failed: Boolean,
 
-  csrfToken: String,
+  auth.message: String,
 
-  email?: String
+  auth.credentials.email?: String,
+
+  csrfToken: String
+
 %}
-
-  {% let headCtx:HeadViewContext = { title =  "Login" } %}
 
   <html lang="en" dir="ltr">
 
-    {{ <HeadView(headCtx)> }}
+    {{ <HeadView({ title = "Login" })> }}
 
     <body>
 
@@ -36,11 +37,11 @@
 
               <Column>
 
-                {% if (@errors??) &&  (@errors.message??) %}
+                {% if @auth.failed %}
 
                   <div class="ww-alert -error" style="text-align:center">
 
-                    {{ @errors.message | text }}
+                    {{ @auth.message | text }}
 
                   </div>
 
@@ -62,34 +63,23 @@
 
                     <form autocomplete="off" action="/converse/login" method="POST">
 
-                      <div class={{if (@errors ??) && (@errors.email??)
-                            then 
-                              "ww-text-field -error" 
-                            else 
-                              "ww-text-field" }}>
+                      <div class= "ww-text-field">
                       
-                        <label class="ww-label">Email</label>
+                        <label class="ww-label">Username or Email</label>
 
                         <input name="email" 
                            class="ww-text-input -block"
-                           value={{@email}}
+                           value={{if (@auth.credentials??) && (@auth.credentials.email??)
+                                   then 
+                                     @auth.credentials.email
+                                   else
+                                    ""
+                                  }}
                            autocomplete="off" />
-
-                        <span class="ww-help">
-                      
-                          {% if (@errors??) && (@errors.email??) %}
-                            {{  @errors.email | text }}
-                          {% endif %}
-                          
-                        </span>
 
                       </div>
                         
-                      <div class={{ if (@errors??) && (@errors.password??)
-                              then
-                                "ww-text-field -error" 
-                              else "ww-text-field"
-                            }}>
+                      <div class="ww-text-field">
                 
                         <label class="ww-label">Password</label>
 
@@ -97,14 +87,6 @@
                                class="ww-text-input -block" 
                                autocomplete="off" 
                                type="password" />
-
-                        <span class="ww-help">
-                              
-                          {% if (@errors??) && (@errors.password??) %}
-                            {{ @errors.password | text }}
-                          {% endif %}
-                          
-                        </span>
 
                       </div>
 

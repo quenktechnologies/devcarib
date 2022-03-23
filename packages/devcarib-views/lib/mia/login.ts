@@ -10,7 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
-import {HeadView} from './common/head'; 
+import {HeadView} from '../common/head'; 
 
 
 //@ts-ignore:6192

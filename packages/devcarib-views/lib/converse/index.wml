@@ -1,13 +1,11 @@
-{% import (HeadView, HeadViewContext) from "./common/head" %}
+{% import (HeadView) from "../common/head" %}
 
 {# IndexView is the view for the main page of this app. #}
-{% view IndexView (Object) %}
-
-  {% let headCtx:HeadViewContext = { title = "DevCarib Converse" } %}   
+{% view IndexView where title:String %}
 
   <html>
 
-    {{ <HeadView(headCtx)> }}
+    {{ <HeadView({title = @title})> }}
 
     <body>
 

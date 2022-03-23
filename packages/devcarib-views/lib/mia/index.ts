@@ -7,7 +7,7 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {HeadView} from './common/head'; 
+import {HeadView} from '../common/head'; 
 
 
 //@ts-ignore:6192

@@ -19,7 +19,7 @@ var panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
 ;
 var button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
-var head_1 = require("./common/head");
+var head_1 = require("../common/head");
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];

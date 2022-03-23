@@ -1,7 +1,10 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
+export interface IndexViewContext {
+    title: string;
+}
 export declare class IndexView implements __wml.View {
-    constructor(__context: object);
+    constructor(__context: IndexViewContext);
     ids: {
         [key: string]: __wml.WMLElement;
     };

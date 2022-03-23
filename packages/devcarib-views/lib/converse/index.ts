@@ -7,7 +7,7 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {HeadView,HeadViewContext} from './common/head'; 
+import {HeadView} from '../common/head'; 
 
 
 //@ts-ignore:6192
@@ -64,20 +64,21 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
+export interface IndexViewContext{title : string};
 export class IndexView  implements __wml.View {
 
-   constructor(__context: object) {
+   constructor(__context: IndexViewContext) {
 
        this.template = (__this:__wml.Registry) => {
 
-       let headCtx:HeadViewContext = {
- 
-      'title' : 'DevCarib Converse'
-     }
+       
 
            return __this.node('html', <__wml.Attrs>{}, [
 
-        __this.registerView(new HeadView(headCtx)).render(),
+        __this.registerView(new HeadView({
+ 
+      'title' : __context.title
+     })).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
         

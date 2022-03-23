@@ -4,7 +4,7 @@ exports.IndexView = void 0;
 var __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
-var head_1 = require("./common/head");
+var head_1 = require("../common/head");
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
     return (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -30,6 +30,7 @@ var text = __document.text;
 var unsafe = __document.unsafe;
 // @ts-ignore 6192
 var isSet = function (value) { return value != null; };
+;
 var IndexView = /** @class */ (function () {
     function IndexView(__context) {
         this.ids = {};
@@ -38,11 +39,10 @@ var IndexView = /** @class */ (function () {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            var headCtx = {
-                'title': 'DevCarib Converse'
-            };
             return __this.node('html', {}, [
-                __this.registerView(new head_1.HeadView(headCtx)).render(),
+                __this.registerView(new head_1.HeadView({
+                    'title': __context.title
+                })).render(),
                 __this.node('body', {}, [])
             ]);
         };
