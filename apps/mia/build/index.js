@@ -10,8 +10,8 @@ const record_1 = require("@quenk/noni/lib/data/record");
 const csrf_token_1 = require("@quenk/tendril/lib/app/boot/stage/csrf-token");
 const login_1 = require("@mia/validators/lib/login");
 const admin_1 = require("@mia/models/lib/admin");
-const views_1 = require("@mia/views");
-const login_2 = require("@mia/views/lib/login");
+const mia_1 = require("@devcarib/views/lib/mia");
+const login_2 = require("@devcarib/views/lib/mia/login");
 const auth_1 = require("@devcarib/server/lib/controllers/auth");
 const auth_2 = require("@devcarib/server/lib/auth");
 const db_1 = require("@devcarib/server/lib/db");
@@ -43,13 +43,13 @@ class MiaAuthenticator extends auth_2.BaseAuthenticator {
     }
 }
 /**
- * MiaAuthController serves the endpoints for authentication.
+ * MiaAuthController serves the endpoints for mia authentication.
  */
 class MiaAuthController extends auth_1.AuthController {
     constructor() {
         super(...arguments);
         this.views = {
-            index: () => new views_1.IndexView({ title: TITLE }),
+            index: () => new mia_1.IndexView({ title: TITLE }),
             auth: (req, ctx) => new login_2.LoginView({
                 title: 'Caribbean Developers Job Board - Admin Login',
                 styles: [],

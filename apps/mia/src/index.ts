@@ -14,8 +14,8 @@ import { validate as validateLogin } from '@mia/validators/lib/login';
 
 import { AdminModel } from '@mia/models/lib/admin';
 
-import { IndexView } from '@mia/views';
-import { LoginView } from '@mia/views/lib/login';
+import { IndexView } from '@devcarib/views/lib/mia';
+import { LoginView } from '@devcarib/views/lib/mia/login';
 
 import { AuthController } from '@devcarib/server/lib/controllers/auth';
 import { AuthFailedContext, BaseAuthenticator } from '@devcarib/server/lib/auth';
@@ -64,7 +64,7 @@ class MiaAuthenticator extends BaseAuthenticator<Admin> {
 }
 
 /**
- * MiaAuthController serves the endpoints for authentication.
+ * MiaAuthController serves the endpoints for mia authentication.
  */
 export class MiaAuthController extends AuthController {
 
