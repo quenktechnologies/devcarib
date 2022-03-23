@@ -1,0 +1,19 @@
+{
+
+    "name": "@devcarib/views",
+
+    "private": "true",
+
+    "version": "0.0.1",
+
+    "description": "Server side views for all the devcarib apps",
+    
+    "xdependencies": {
+
+        "@quenk/wml": "^2.9.2",
+        "@quenk/wml-widgets": "^1.27.15",
+        "@devcarib/widgets": "file:../../../../packages/devcarib-widgets"
+
+    }
+
+}
