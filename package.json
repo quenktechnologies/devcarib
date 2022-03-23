@@ -26,6 +26,7 @@
         "@devcarib/converse-models": "file:apps/converse/packages/converse-models",
         "@devcarib/server": "file:packages/devcarib-server",
         "@devcarib/validators": "file:packages/devcarib-common-checks",
+        "@devcarib/views": "file:packages/devcarib-views",
         "@mia/checks": "file:apps/mia/packages/mia-checks",
         "@mia/fields": "file:apps/mia/packages/mia-fields",
         "@mia/filter-policies": "file:apps/mia/packages/mia-filter-policies",
