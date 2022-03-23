@@ -15,188 +15,63 @@ import {App as App} from '@quenk/tendril/lib/app';
 
 
 
-import * as mongodb from 'mongodb';
-import * as moment from 'moment';
-import * as bcrypt from 'bcryptjs';
 
-import { Object } from '@quenk/noni/lib/data/jsonx';
-import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
-import { Type } from '@quenk/noni/lib/data/type';
+import { Future, doFuture, pure } from '@quenk/noni/lib/control/monad/future';
+import { just, Maybe, nothing } from '@quenk/noni/lib/data/maybe';
+import { merge } from '@quenk/noni/lib/data/record';
 
 //@ts-ignore: 2300
 import { Request } from '@quenk/tendril/lib/app/api/request';
-import { Action, doAction } from '@quenk/tendril/lib/app/api';
-import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import { fork } from '@quenk/tendril/lib/app/api/control';
-import { redirect } from '@quenk/tendril/lib/app/api/response';
 import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
-
-import { BaseModel } from '@quenk/dback-model-mongodb';
-
-import { render } from '@quenk/tendril-show-wml';
 
 import { Admin } from '@mia/types/lib/admin';
 
 import { validate as validateLogin } from '@mia/validators/lib/login';
 
+import { AdminModel } from '@mia/models/lib/admin';
+
 import { IndexView } from '@mia/views';
 import { LoginView } from '@mia/views/lib/login';
+
+import { AuthController } from '@devcarib/server/lib/controllers/auth';
+import { AuthFailedContext, BaseAuthenticator } from '@devcarib/server/lib/auth';
+import { unsafeGetConnection } from '@devcarib/server/lib/db';
+import { compare } from '@devcarib/server/lib/data/password';
+import { now } from '@devcarib/server/lib/data/datetime';
 
 const ROUTE_INDEX = '/mia';
 const ROUTE_LOGIN = '/mia/login';
 
-const KEY_LOGIN_VIEW_CTX = 'loginCtx';
-
-const ERR_AUTH_FAILED = 'Email or password is invalid!';
-const ERR_AUTH_INVALID = 'Correct the below error(s) before continuing.';
-
 const TITLE = 'Mia';
 
-const messages = {
+class MiaAuthenticator extends BaseAuthenticator<Admin> {
 
-    minLength: '{$key} must be {target} or more characters!',
+    validate = validateLogin;
 
-    maxLength: '{$key} must be less than {target} characters!',
+    getUser(creds: Object): Future<Maybe<Admin>> {
 
-    notNull: '{$key} is required!'
+        return doFuture(function*() {
 
-}
+            let { email, password } = <Admin>creds;
 
-/**
- * AdminModel
- */
-export class AdminModel extends BaseModel<Admin> {
-
-    id = 'id';
-
-    static getInstance(db: mongodb.Db): AdminModel {
-
-        return new AdminModel(db, db.collection('admins'));
-
-    }
-
-}
-
-/**
- * AdminController serves the UI for the admin section.
- *
- * All the routes here should only be accessible to authenticated admin level
- * users!
- */
-export class AdminController {
-
-    /**
-     * showIndex displays the admin app page to the user.
-     *
-     * Note: This is not a JSON endpoint!
-     */
-    showIndex = (r: Request): Action<undefined> => {
-
-        return doAction<undefined>(function*() {
-
-            let muser = r.session.get('admin');
-
-            if (muser.isJust()) {
-
-                return <Action<undefined>>render(
-                    new IndexView({ title: TITLE }));
-
-            } else {
-
-                return redirect(ROUTE_LOGIN, 301);
-
-            }
-
-        });
-
-    }
-
-    /**
-     * showLoginForm renders the page with the login form.
-     */
-    showLoginForm(r: Request): Action<void> {
-
-        return doAction(function*() {
-
-            // Type is used here until wml optional properties are sorted out.
-            let ctx = <Type>r.session.getOrElse(KEY_LOGIN_VIEW_CTX, {});
-
-            ctx.title = 'Caribbean Developers Job Board - Admin Login';
-
-            ctx.styles = [];
-
-            return render(new LoginView({
-
-                title: 'Caribbean Developers Job Board - Admin Login',
-
-                styles: [],
-
-                csrfToken: <string>r.prs.getOrElse(PRS_CSRF_TOKEN, '')
-
-            }));
-
-        });
-
-    }
-
-    /**
-     * authenticate the admin user.
-     */
-    authenticate(req: Request): Action<undefined> {
-
-        return doAction(function*() {
-
-            let elogin = validateLogin(req.body);
-
-            if (elogin.isLeft())
-                return showAuthError(req, {
-
-                    message: ERR_AUTH_INVALID,
-
-                    errors: elogin.takeLeft().explain(messages)
-
-                });
-
-            let { email, password } = elogin.takeRight();
-
-            let db = yield checkout('main');
+            let db = yield unsafeGetConnection();
 
             let model = AdminModel.getInstance(db);
 
-            let [admin] = yield fork(model.search({ email }));
+            let [admin] = yield model.search({ email });
 
-            if (admin == null)
-                return showAuthError(req, authFailedErr(email));
+            if (admin == null) return pure(nothing());
 
-            let matches = yield fork(comparePasswords(
-                <string>password, admin.password)
-            );
+            let matches = yield compare(
+                <string>password, admin.password);
 
-            if (!matches)
-                return showAuthError(req, authFailedErr(email));
+            if (!matches) return pure(nothing());
 
-            let change = { last_login: today() };
+            let change = { last_login: now() };
 
-            yield fork(model.update(admin.id, change));
+            yield model.update(admin.id, change);
 
-            req.session.set('admin', { id: admin.id });
-
-            return redirect(ROUTE_INDEX, 302);
-
-        });
-
-    }
-
-    /**
-     * logout the admin user.
-     */
-    logout(r: Request): Action<undefined> {
-
-        return doAction(function*() {
-
-            yield fork(r.session.destroy());
-
-            return redirect(ROUTE_LOGIN, 302);
+            return pure(just({ id: admin.id }));
 
         });
 
@@ -204,23 +79,48 @@ export class AdminController {
 
 }
 
-const authFailedErr = (email?: string) => ({
-    email,
-    errors: { message: ERR_AUTH_FAILED }
-})
+/**
+ * MiaAuthController serves the endpoints for authentication.
+ */
+export class MiaAuthController extends AuthController {
 
-const showAuthError = (r: Request, ctx: Object): Action<undefined> =>
-    doAction(function*() {
+    views = {
 
-        r.session.setWithDescriptor(KEY_LOGIN_VIEW_CTX, ctx, { ttl: 1 });
-        return redirect(ROUTE_LOGIN, 303);
+        index: () => new IndexView({ title: TITLE }),
 
-    });
+        auth: (req: Request, ctx: AuthFailedContext) => new LoginView({
 
-const comparePasswords = (pwd1: string, pwd2: string): Future<boolean> =>
-    fromCallback<boolean>(cb => bcrypt.compare(pwd1, pwd2, cb));
+            title: 'Caribbean Developers Job Board - Admin Login',
 
-const today = () => moment.utc().toDate();
+            styles: [],
+
+            auth: merge(ctx, {
+
+                message: 'Email or password invalid.'
+
+            }),
+
+            csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
+
+        })
+
+    }
+
+    urls = {
+
+        index: ROUTE_INDEX,
+
+        auth: ROUTE_LOGIN
+
+    }
+
+    authenticator = new MiaAuthenticator();
+
+    userSessionKey = 'admin';
+
+}
+
+export const auth = new MiaAuthController();
 
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
@@ -232,27 +132,26 @@ export const template = ($app: App): Template => (
 ($module:Module) => {
 
 let $routes:$RouteConf[] = [];
-let miaCtrl = new AdminController();
 
 $routes.push({
 method:'get',
 path:'/',
-filters:[miaCtrl.showIndex.bind(miaCtrl)],tags:{}});
+filters:[auth.onIndex.bind(auth)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/login',
-filters:[miaCtrl.showLoginForm.bind(miaCtrl)],tags:{}});
+filters:[auth.onAuthForm.bind(auth)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/login',
-filters:[miaCtrl.authenticate.bind(miaCtrl)],tags:{}});
+filters:[auth.onAuthenticate.bind(auth)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/logout',
-filters:[miaCtrl.logout.bind(miaCtrl)],tags:{}});
+filters:[auth.onLogout.bind(auth)],tags:{}});
 return $routes;
 }},
 'create': 
