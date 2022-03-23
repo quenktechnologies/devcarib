@@ -8,7 +8,6 @@ import * as dotServices from './services';
 import * as dotTasks from './tasks'; 
 import * as dotEvents from './events'; 
 import * as dotSetup from './setup'; 
-import * as dotHandlers from './handlers'; 
 //@ts-ignore: 6133
 import {System} from '@quenk/potoo/lib/actor/system';
 //@ts-ignore: 6133
@@ -51,11 +50,6 @@ export const template = ($app: App): Template => (
 ($module:Module) => {
 
 let $routes:$RouteConf[] = [];
-
-$routes.push({
-method:'get',
-path:'/',
-filters:[dotHandlers.showBoard],tags:{}});
 return $routes;
 }},
 'create': 

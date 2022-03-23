@@ -11,7 +11,6 @@ const dotServices = require("./services");
 const dotTasks = require("./tasks");
 const dotEvents = require("./events");
 const dotSetup = require("./setup");
-const dotHandlers = require("./handlers");
 //@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
 //@ts-ignore: 6133
@@ -39,11 +38,6 @@ const template = ($app) => ({ 'id': `/`,
         'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];
-            $routes.push({
-                method: 'get',
-                path: '/',
-                filters: [dotHandlers.showBoard], tags: {}
-            });
             return $routes;
         } },
     'create': 
