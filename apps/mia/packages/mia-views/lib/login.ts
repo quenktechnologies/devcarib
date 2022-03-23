@@ -69,11 +69,10 @@ const unsafe = __document.unsafe
 const isSet = (value:any) => value != null
 export interface LoginViewContext{title : string,
 styles : (string)[],
-errors?: {message? : string,
-email? : string,
-password? : string},
-csrfToken : string,
-email? : string};
+auth: {failed : boolean,
+message : string,
+credentials?: {email? : string}},
+csrfToken : string};
 export class LoginView  implements __wml.View {
 
    constructor(__context: LoginViewContext) {
@@ -91,14 +90,14 @@ __this.node('body', <__wml.Attrs>{}, [
 
         __this.widget(new Row({}, [
 
-        ...((((__context.errors) != null && (__context.errors.message) != null)) ?
+        ...((__context.auth.failed) ?
 (()=>([
 
         __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'ww-alert -error','style': 'text-align:center'}, [
 
-        text (__context.errors.message)
+        text (__context.auth.message)
      ])
      ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
      ]))() :
@@ -115,27 +114,18 @@ __this.widget(new Panel({}, [
 
         __this.node('form', <__wml.Attrs>{'autocomplete': 'off','action': '/mia/login','method': 'POST'}, [
 
-        __this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.email) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
+        __this.node('div', <__wml.Attrs>{'class': 'ww-text-field'}, [
 
         __this.node('label', <__wml.Attrs>{'class': 'ww-label'}, [
 
         __document.createTextNode('Email')
      ]),
-__this.node('input', <__wml.Attrs>{'name': 'email','class': 'ww-text-input -block','value': __context.email,'autocomplete': 'off'}, [
+__this.node('input', <__wml.Attrs>{'name': 'email','class': 'ww-text-input -block','value': (((__context.auth.credentials) != null && (__context.auth.credentials.email) != null)) ? __context.auth.credentials.email :  '','autocomplete': 'off'}, [
 
         
-     ]),
-__this.node('span', <__wml.Attrs>{'class': 'ww-help'}, [
-
-        ...((((__context.errors) != null && (__context.errors.email) != null)) ?
-(()=>([
-
-        text (__context.errors.email)
-     ]))() :
-(()=>([]))())
      ])
      ]),
-__this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__context.errors.password) != null)) ? 'ww-text-field -error' :  'ww-text-field'}, [
+__this.node('div', <__wml.Attrs>{'class': 'ww-text-field'}, [
 
         __this.node('label', <__wml.Attrs>{'class': 'ww-label'}, [
 
@@ -144,15 +134,6 @@ __this.node('div', <__wml.Attrs>{'class': (((__context.errors) != null && (__con
 __this.node('input', <__wml.Attrs>{'name': 'password','class': 'ww-text-input -block','autocomplete': 'off','type': 'password'}, [
 
         
-     ]),
-__this.node('span', <__wml.Attrs>{'class': 'ww-help'}, [
-
-        ...((((__context.errors) != null && (__context.errors.password) != null)) ?
-(()=>([
-
-        text (__context.errors.password)
-     ]))() :
-(()=>([]))())
      ])
      ]),
 __this.node('input', <__wml.Attrs>{'type': 'hidden','name': '_csrf','value': __context.csrfToken}, [

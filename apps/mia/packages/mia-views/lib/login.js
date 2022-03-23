@@ -58,11 +58,11 @@ var LoginView = /** @class */ (function () {
                 __this.registerView(new head_1.HeadView(__context)).render(),
                 __this.node('body', {}, [
                     __this.widget(new grid_1.GridLayout({ ww: { 'id': 'main' } }, [
-                        __this.widget(new grid_1.Row({}, __spreadArray(__spreadArray([], ((((__context.errors) != null && (__context.errors.message) != null)) ?
+                        __this.widget(new grid_1.Row({}, __spreadArray(__spreadArray([], ((__context.auth.failed) ?
                             (function () { return ([
                                 __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
                                     __this.node('div', { 'class': 'ww-alert -error', 'style': 'text-align:center' }, [
-                                        text(__context.errors.message)
+                                        text(__context.auth.message)
                                     ])
                                 ]), { ww: { 'span': 6, 'offset': 3 } })
                             ]); })() :
@@ -74,27 +74,17 @@ var LoginView = /** @class */ (function () {
                                 __this.widget(new panel_1.Panel({}, [
                                     __this.widget(new panel_1.PanelBody({}, [
                                         __this.node('form', { 'autocomplete': 'off', 'action': '/mia/login', 'method': 'POST' }, [
-                                            __this.node('div', { 'class': (((__context.errors) != null && (__context.errors.email) != null)) ? 'ww-text-field -error' : 'ww-text-field' }, [
+                                            __this.node('div', { 'class': 'ww-text-field' }, [
                                                 __this.node('label', { 'class': 'ww-label' }, [
                                                     __document.createTextNode('Email')
                                                 ]),
-                                                __this.node('input', { 'name': 'email', 'class': 'ww-text-input -block', 'value': __context.email, 'autocomplete': 'off' }, []),
-                                                __this.node('span', { 'class': 'ww-help' }, __spreadArray([], ((((__context.errors) != null && (__context.errors.email) != null)) ?
-                                                    (function () { return ([
-                                                        text(__context.errors.email)
-                                                    ]); })() :
-                                                    (function () { return ([]); })()), true))
+                                                __this.node('input', { 'name': 'email', 'class': 'ww-text-input -block', 'value': (((__context.auth.credentials) != null && (__context.auth.credentials.email) != null)) ? __context.auth.credentials.email : '', 'autocomplete': 'off' }, [])
                                             ]),
-                                            __this.node('div', { 'class': (((__context.errors) != null && (__context.errors.password) != null)) ? 'ww-text-field -error' : 'ww-text-field' }, [
+                                            __this.node('div', { 'class': 'ww-text-field' }, [
                                                 __this.node('label', { 'class': 'ww-label' }, [
                                                     __document.createTextNode('Password')
                                                 ]),
-                                                __this.node('input', { 'name': 'password', 'class': 'ww-text-input -block', 'autocomplete': 'off', 'type': 'password' }, []),
-                                                __this.node('span', { 'class': 'ww-help' }, __spreadArray([], ((((__context.errors) != null && (__context.errors.password) != null)) ?
-                                                    (function () { return ([
-                                                        text(__context.errors.password)
-                                                    ]); })() :
-                                                    (function () { return ([]); })()), true))
+                                                __this.node('input', { 'name': 'password', 'class': 'ww-text-input -block', 'autocomplete': 'off', 'type': 'password' }, [])
                                             ]),
                                             __this.node('input', { 'type': 'hidden', 'name': '_csrf', 'value': __context.csrfToken }, []),
                                             __this.widget(new button_1.Button({ ww: { 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Login' } }, []), { ww: { 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Login' } })

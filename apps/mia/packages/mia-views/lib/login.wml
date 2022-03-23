@@ -11,15 +11,14 @@
 
   styles: String[],
 
-  errors.message?: String,
+  auth.failed: Boolean,
 
-  errors.email?: String,
+  auth.message: String,
 
-  errors.password?: String,
+  auth.credentials.email?: String,
 
-  csrfToken: String,
+  csrfToken: String
 
-  email?: String
 %}
 <html lang="en" dir="ltr">
 
@@ -31,13 +30,13 @@
 
       <Row>
 
-        {% if (@errors??) &&  (@errors.message??) %}
+        {% if @auth.failed %}
 
           <Column ww:span=6 ww:offset=3>
 
             <div class="ww-alert -error" style="text-align:center">
 
-              {{ @errors.message | text }}
+              {{ @auth.message | text }}
 
             </div>
 
@@ -55,34 +54,21 @@
 
               <form autocomplete="off" action="/mia/login" method="POST">
 
-                <div class={{if (@errors ??) && (@errors.email??)
-                            then 
-                              "ww-text-field -error" 
-                            else 
-                              "ww-text-field" }}>
+                <div class= "ww-text-field">
                       
                   <label class="ww-label">Email</label>
 
                   <input name="email" 
                          class="ww-text-input -block"
-                         value={{@email}}
+                         value={{if (@auth.credentials??) && (@auth.credentials.email??)
+                                   then @auth.credentials.email 
+                                   else ""
+                                }}
                          autocomplete="off" />
-
-                  <span class="ww-help">
-                      
-                    {% if (@errors??) && (@errors.email??) %}
-                      {{  @errors.email | text }}
-                    {% endif %}
-                          
-                  </span>
 
                 </div>
                         
-                <div class={{ if (@errors??) && (@errors.password??)
-                              then
-                                "ww-text-field -error" 
-                              else "ww-text-field"
-                            }}>
+                <div class="ww-text-field">
                 
                   <label class="ww-label">Password</label>
 
@@ -90,14 +76,6 @@
                          class="ww-text-input -block" 
                          autocomplete="off" 
                          type="password" />
-
-                  <span class="ww-help">
-                              
-                      {% if (@errors??) && (@errors.password??) %}
-                         {{ @errors.password | text }}
-                      {% endif %}
-                          
-                  </span>
 
                 </div>
 
