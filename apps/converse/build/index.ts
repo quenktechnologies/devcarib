@@ -16,177 +16,110 @@ import {App as App} from '@quenk/tendril/lib/app';
 
 
 
-import * as moment from 'moment';
-import * as bcrypt from 'bcryptjs';
-
 import { Object } from '@quenk/noni/lib/data/jsonx';
-import { Future, fromCallback } from '@quenk/noni/lib/control/monad/future';
+import { Future, doFuture, pure } from '@quenk/noni/lib/control/monad/future';
+import { merge } from '@quenk/noni/lib/data/record';
+import { just, Maybe, nothing } from '@quenk/noni/lib/data/maybe';
 
+// Imported automatically.
 // @ts-ignore: 2300
 import { Request } from '@quenk/tendril/lib/app/api/request';
-import { Action, doAction } from '@quenk/tendril/lib/app/api';
-import { checkout } from '@quenk/tendril/lib/app/api/pool';
-import { fork } from '@quenk/tendril/lib/app/api/control';
-import { redirect } from '@quenk/tendril/lib/app/api/response';
-
-import { render } from '@quenk/tendril-show-wml';
 import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
 
-import { validate as validateLogin } from '@converse/validators/lib/login';
+import { validate } from '@converse/validators/lib/login';
+import { IndexView } from '@devcarib/views/lib/converse';
+import { LoginView } from '@devcarib/views/lib/converse/login';
 
-import { LoginView } from '@converse/views/lib/login';
-import { IndexView } from '@converse/views';
+import { User } from '@converse/types/lib/user';
 
 import { UserModel } from '@converse/models/lib/user';
-import { merge } from '@quenk/noni/lib/data/record';
 
-const ROUTE_INDEX = '/';
+import { AuthController } from '@devcarib/server/lib/controllers/auth';
+import { AuthFailedContext, BaseAuthenticator } from '@devcarib/server/lib/auth';
+import { unsafeGetConnection } from '@devcarib/server/lib/db';
+import { compare } from '@devcarib/server/lib/data/password';
+import { now } from '@devcarib/server/lib/data/datetime';
+
+const TITLE = 'Converse';
+const ROUTE_INDEX = '/converse';
 const ROUTE_LOGIN = '/converse/login';
 
-const KEY_LOGIN_VIEW_CTX = 'loginCtx';
+class ConverseAuthenticator extends BaseAuthenticator<User> {
 
-const ERR_AUTH_FAILED = 'Email or password is incorrect.';
+    validate = validate;
 
-const messages = {
+    getUser(creds: Object): Future<Maybe<User>> {
 
-    minLength: '{$key} must be {target} or more characters!',
+        return doFuture(function*() {
 
-    maxLength: '{$key} must be less than {target} characters!',
+            let { email, password } = <User>creds;
 
-    notNull: '{$key} is required!'
+            let db = yield unsafeGetConnection();
+
+            let model = UserModel.getInstance(db);
+
+            let [user] = yield model.search({
+                $or: [{ email }, { username: email }]
+            });
+
+            if (user == null) return pure(nothing());
+
+            let matches = yield compare(<string>password, user.password);
+
+            if (!matches) return pure(nothing());
+
+            let change = { last_login: now() };
+
+            yield model.update(user.id, change);
+
+            return pure(just({ id: user.id }));
+
+        });
+
+    }
 
 }
 
 /**
- * WebController serves the UI for web requests.
+ * ConverseAuthController serves the endpoints for converse authentication.
  */
-export class WebController {
+export class ConverseAuthController extends AuthController {
 
-    /**
-     * onIndex renders the index page to the user.
-     *
-     * If a user session cannot be detected, the user is redirected to the
-     * login page.
-     */
-    onIndex(r: Request): Action<void> {
+    views = {
 
-        return doAction(function*() {
+        index: () => new IndexView({ title: TITLE }),
 
-            let muser = r.session.get('user');
+        auth: (req: Request, ctx: AuthFailedContext) => new LoginView({
 
-            if (muser.isJust()) {
+            title: 'Caribbean Developers Job Board - Admin Login',
 
-                return render(new IndexView({}));
+            styles: [],
 
-            } else {
+            auth: merge(ctx, {
 
-                return redirect(ROUTE_LOGIN, 301);
+                message: 'Email or password invalid.'
 
-            }
+            }),
 
-        });
+            csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
+
+        })
 
     }
 
-    /**
-     * onLoginForm renders the login page.
-     */
-    onLoginForm(r: Request): Action<void> {
+    urls = {
 
-        return doAction(function*() {
+        index: ROUTE_INDEX,
 
-            let ctx = r.session.getOrElse(KEY_LOGIN_VIEW_CTX, {});
-
-            return render(new LoginView(merge(<object>ctx, {
-                csrfToken: <string>r.prs.getOrElse(PRS_CSRF_TOKEN, '')
-            })));
-
-        });
+        auth: ROUTE_LOGIN
 
     }
 
-    /**
-     * onLoginFormSubmit handles the authentication atempt.
-     */
-    onLoginFormSubmit(req: Request): Action<undefined> {
-
-        return doAction(function*() {
-
-            let elogin = validateLogin(req.body);
-
-            if (elogin.isLeft())
-                return showAuthError(req, {
-
-                    message: ERR_AUTH_FAILED,
-
-                    errors: elogin.takeLeft().explain(messages)
-
-                });
-
-            let { email, password } = elogin.takeRight();
-
-            let db = yield checkout('main');
-
-            let model = UserModel.getInstance(db);
-
-            let [user] = yield fork(model.search({ email }));
-
-            if (user == null)
-                return showAuthError(req, authFailedErr(email));
-
-            let matches = yield fork(comparePasswords(
-                <string>password, user.password)
-            );
-
-            if (!matches)
-                return showAuthError(req, authFailedErr(email));
-
-            let change = { last_login: today() };
-
-            yield fork(model.update(user.id, change));
-
-            req.session.set('user', { id: user.id });
-
-            return redirect(ROUTE_INDEX, 302);
-
-        });
-
-    }
-
-    /**
-     * onLogout is called when the user logs out.
-     */
-    onLogout(r: Request): Action<undefined> {
-
-        return doAction(function*() {
-
-            yield fork(r.session.destroy());
-
-            return redirect(ROUTE_LOGIN, 302);
-
-        });
-
-    }
+    authenticator = new ConverseAuthenticator();
 
 }
 
-const authFailedErr = (email?: string) => ({
-    email,
-    errors: { message: ERR_AUTH_FAILED }
-})
-
-const showAuthError = (r: Request, ctx: Object): Action<undefined> =>
-    doAction(function*() {
-
-        r.session.setWithDescriptor(KEY_LOGIN_VIEW_CTX, ctx, { ttl: 1 });
-        return redirect(ROUTE_LOGIN, 303);
-
-    });
-
-const comparePasswords = (pwd1: string, pwd2: string): Future<boolean> =>
-    fromCallback<boolean>(cb => bcrypt.compare(pwd1, pwd2, cb));
-
-const today = () => moment.utc().toDate();
+export const auth = new ConverseAuthController();
 
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
@@ -196,27 +129,26 @@ export const template = ($app: App): Template => (
 ($module:Module) => {
 
 let $routes:$RouteConf[] = [];
-let userCtrl = new WebController();
 
 $routes.push({
 method:'get',
 path:'/',
-filters:[userCtrl.onIndex.bind(userCtrl)],tags:{}});
+filters:[auth.onIndex.bind(auth)],tags:{}});
 
 $routes.push({
 method:'get',
 path:'/login',
-filters:[userCtrl.onLoginForm.bind(userCtrl)],tags:{}});
+filters:[auth.onAuthForm.bind(auth)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/login',
-filters:[userCtrl.onLoginFormSubmit.bind(userCtrl)],tags:{}});
+filters:[auth.onAuthenticate.bind(auth)],tags:{}});
 
 $routes.push({
 method:'post',
 path:'/logout',
-filters:[userCtrl.onLogout.bind(userCtrl)],tags:{}});
+filters:[auth.onLogout.bind(auth)],tags:{}});
 return $routes;
 }},
 'create': 
