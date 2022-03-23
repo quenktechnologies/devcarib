@@ -118,10 +118,11 @@ export class Mia extends Jouvert {
 
         return confirm('Do you want to logout now?') ?
             agent
-                .post('/admin/logout', {})
+                .post('/mia/logout', {})
                 .chain(() => {
 
                     window.location.href = '/admin';
+
                     return pure(<void>undefined);
 
                 }) :
