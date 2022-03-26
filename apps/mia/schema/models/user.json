@@ -42,7 +42,7 @@
 
     "checks": [
 
-        ["@devcarib/common/lib/checks#inc", ["'users'"]]
+        ["@devcarib/server/lib/data/checks#inc", ["'users'"]]
 
     ],
 
@@ -58,7 +58,7 @@
 
             "checks": [
 
-                ["@devcarib/common/lib/checks#unique", ["_collection", "'id'"]]
+                ["@devcarib/server/lib/data/checks#unique", ["_collection", "'id'"]]
 
             ]
 
@@ -70,7 +70,7 @@
 
             "filterAs": "matchci",
 
-            "validation": "@devcarib/common/lib/validators#name"
+            "validation": "@devcarib/common/lib/data/validators#name"
 
         },
 
@@ -80,11 +80,11 @@
 
             "filterAs": "matchci",
 
-            "validation": "@devcarib/common/lib/validators#username",
+            "validation": "@devcarib/common/lib/data/validators#username",
 
             "checks": [
 
-                ["@devcarib/common/lib/checks#unique", ["_collection", "'username'"]]
+                ["@devcarib/server/lib/data/checks#unique", ["_collection", "'username'"]]
 
             ]
 
@@ -96,9 +96,9 @@
 
             "fields:hidden": true,
 
-            "validation": ["@devcarib/common/lib/validators#password"],
+            "validation": ["@devcarib/common/lib/data/validators#password"],
 
-            "checks": "@devcarib/common/lib/checks#bcrypt"
+            "checks": "@devcarib/server/lib/data/checks#bcrypt"
 
         },
 

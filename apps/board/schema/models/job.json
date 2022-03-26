@@ -21,7 +21,15 @@
     },
 
     "checks": [
-        ["./checks#parseMarkdown", ["'description'", "'description_html'"]]
+        [
+            "@devcarib/server/lib/data/checks#parseMarkdown",
+
+            ["'description'", "'description_html'"]
+
+        ],
+
+        ["@devcarib/server/lib/data/checks#inc", ["'jobs'"]]
+
     ],
 
     "properties": {
@@ -34,9 +42,7 @@
 
             "checks-complete": [
 
-                ["./checks#inc", ["'counters.jobs'"]],
-
-                ["./checks#unique", ["'jobs'", "'id'"]]
+                ["@devcarib/server/lib/data/checks#unique", ["'jobs'", "'id'"]]
 
             ]
 
@@ -50,9 +56,9 @@
 
             "validators": [
 
-                "./validators#textsmall",
+                "@devcarib/common/lib/data/validators#textsmall",
 
-                ["./validators#minLength", [3]]
+                ["@devcarib/common/lib/data/validators#minLength", [3]]
 
             ]
 
@@ -64,7 +70,7 @@
 
             "validators": [
 
-                "./validators#textsmall"
+                "@devcarib/common/lib/data/validators#textsmall"
 
             ]
 
@@ -76,7 +82,7 @@
 
             "validators": [
 
-                "./validators#textsmall"
+                "@devcarib/common/lib/data/validators#textsmall"
 
             ]
 
@@ -96,11 +102,11 @@
 
             "validators": [
 
-                "./validators#textlarge",
+                "@devcarib/common/lib/data/validators#textlarge",
 
-                ["./validators#minLength", [3]],
+                ["@devcarib/common/lib/data/validators#minLength", [3]],
 
-                ["./validators#maxLength", [6000]]
+                ["@devcarib/common/lib/data/validators#maxLength", [6000]]
 
             ]
 
@@ -118,7 +124,7 @@
 
             "type": "string",
 
-            "validators": "./validators#name"
+            "validators": "@devcarib/common/lib/data/validators#name"
 
         },
 
@@ -126,7 +132,7 @@
 
             "type": "string",
 
-            "validators": "./validators#email"
+            "validators": "@devcarib/common/lib/data/validators#email"
 
         },
 
@@ -134,7 +140,7 @@
 
             "type": "string",
 
-            "validators": "./validators#url",
+            "validators": "@devcarib/common/lib/data/validators#url",
 
             "optional": true
 
@@ -144,7 +150,7 @@
 
             "type": "string",
 
-            "validators": "./validators#url",
+            "validators": "@devcarib/common/lib/data/validators#url",
 
             "optional": true
 
@@ -162,7 +168,7 @@
 
             "type": "string",
 
-            "validators": "./validators#currency",
+            "validators": "@devcarib/common/lib/data/validators#currency",
 
             "optional": true
 
@@ -180,7 +186,7 @@
 
             "type": "string",
 
-            "validators": "./validators#paymentFrequency",
+            "validators": "@devcarib/common/lib/data/validators#paymentFrequency",
 
             "optional": true
 
@@ -190,7 +196,7 @@
 
             "type": "string",
 
-            "validators": "./validators#jobStatus"
+            "validators": "@devcarib/common/lib/data/validators#jobStatus"
 
         }
 
