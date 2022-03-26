@@ -1,4 +1,4 @@
-import * as commonMark from '@devcarib/common/lib/common-mark';
+import * as mark from '@devcarib/server/lib/data/markdown';
 
 import { View } from '@quenk/wml';
 import { Value, Object } from '@quenk/noni/lib/data/jsonx';
@@ -288,7 +288,7 @@ export class JobFormApp {
 
         if (mPanel.isJust())
             mPanel.get().setContent(
-                commonMark.parse(<string>this.values.job.data.description))
+                mark.parse(<string>this.values.job.data.description))
 
     }
 

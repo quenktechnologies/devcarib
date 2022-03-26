@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.escape = exports.JobFormApp = void 0;
-var commonMark = require("@devcarib/common/lib/common-mark");
+var mark = require("@devcarib/server/lib/data/markdown");
 var timer_1 = require("@quenk/noni/lib/control/timer");
 var future_1 = require("@quenk/noni/lib/control/monad/future");
 var util_1 = require("@quenk/wml-widgets/lib/util");
@@ -162,7 +162,7 @@ var JobFormApp = /** @class */ (function () {
         this.render(this.previewView);
         var mPanel = this.previewView.findById('panel');
         if (mPanel.isJust())
-            mPanel.get().setContent(commonMark.parse(this.values.job.data.description));
+            mPanel.get().setContent(mark.parse(this.values.job.data.description));
     };
     /**
      * showJob switches to the job screen.
