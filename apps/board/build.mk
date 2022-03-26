@@ -2,7 +2,7 @@ $(BOARD_DIR): $(BOARD_BUILD_DIR) $(BOARD_FRONTEND_DIR)
 	touch $@
 
 $(BOARD_BUILD_DIR): $(BOARD_SRC_DIR)\
-		  $(shell find $(BOARD_PACKAGES_DIR) -mindepth 1 \
+		    $(shell find $(BOARD_PACKAGES_DIR) -mindepth 1 \
 	             -maxdepth 1 -type d)
 	rm -R $@ || true
 	mkdir -p $@
