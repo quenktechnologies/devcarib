@@ -7,9 +7,9 @@ import { contains } from '@quenk/noni/lib/data/array';
 
 import { succeed, fail } from '@quenk/preconditions/lib/result';
 
-import { supportedCurrencies } from './data/currency';
-import { supportedPaymentFrequencies } from './data/payment';
-import { jobStatuses } from './data/job';
+import { supportedCurrencies } from './currency';
+import { supportedPaymentFrequencies } from './payment';
+import { jobStatuses } from './job';
 
 /**
  * name must be a string and between 1-64 characters.
