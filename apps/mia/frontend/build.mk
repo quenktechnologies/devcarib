@@ -1,9 +1,10 @@
 
-$(MIA_FRONTEND_DIR): $(MIA_FRONTEND_PUBLIC_DIR) $(MIA_FRONTEND_FRONTEND_TEST_DIR)
+$(MIA_FRONTEND_DIR): $(MIA_FRONTEND_PUBLIC_DIR)\
+                     $(MIA_FRONTEND_FRONTEND_TEST_DIR)
 	touch $@
 
 $(MIA_FRONTEND_PUBLIC_DIR): $(MIA_FRONTEND_CSS_FILE)\
-                           $(MIA_FRONTEND_JS_FILE)
+                            $(MIA_FRONTEND_JS_FILE)
 	touch $@
 
 $(MIA_FRONTEND_JS_FILE): $(MIA_FRONTEND_LIB_DIR)
@@ -11,7 +12,8 @@ $(MIA_FRONTEND_JS_FILE): $(MIA_FRONTEND_LIB_DIR)
 	$(BROWSERIFY) $(MIA_FRONTEND_LIB_DIR)/main.js \
 	$(if $(findstring yes,$(DEBUG)),,|$(UGLIFYJS)) > $@
 
-$(MIA_FRONTEND_LIB_DIR): $(MIA_FRONTEND_SRC_FILES)
+$(MIA_FRONTEND_LIB_DIR): $(MIA_FRONTEND_SRC_FILES)\
+                         $(DEVCARIB_FRONTEND_DIR)
 	rm -R $@ 2> /dev/null || true 
 	mkdir $@
 	cp -R -u $(MIA_FRONTEND_SRC_DIR)/* $@
