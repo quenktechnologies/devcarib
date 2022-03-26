@@ -11,7 +11,7 @@ var boolean_1 = require("@quenk/preconditions/lib/boolean");
 var number_1 = require("@quenk/preconditions/lib/number");
 //@ts-ignore: 6133
 var string_1 = require("@quenk/preconditions/lib/string");
-var validators_1 = require("./validators");
+var validators_1 = require("@devcarib/common/lib/data/validators");
 //@ts-ignore: 6133
 var _string = (0, preconditions_1.and)(string_1.isString, string_1.trim);
 /**

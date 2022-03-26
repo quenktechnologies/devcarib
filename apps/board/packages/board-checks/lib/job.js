@@ -6,7 +6,7 @@ var async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
 var job_1 = require("@board/validators/lib/job");
-var checks_1 = require("./checks");
+var checks_1 = require("@devcarib/server/lib/data/checks");
 //@ts-ignore: 6133
 var _title = 'Job';
 //@ts-ignore: 6133
@@ -15,7 +15,7 @@ var _collection = 'jobs';
  * checks for Job provided as a map.
  */
 exports.checks = {
-    'id': (0, async_1.every)((0, checks_1.inc)('counters.jobs'), (0, checks_1.unique)('jobs', 'id')),
+    'id': (0, async_1.every)((0, checks_1.unique)('jobs', 'id')),
     'title': async_1.identity,
     'type': async_1.identity,
     'location': async_1.identity,
@@ -64,9 +64,9 @@ exports.partialChecks = {
 /**
  * check a Job value.
  */
-exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html')));
+exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html'), (0, checks_1.inc)('jobs')));
 /**
  * checkPartial a partial Job value.
  */
-exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html')));
+exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html'), (0, checks_1.inc)('jobs')));
 //# sourceMappingURL=job.js.map

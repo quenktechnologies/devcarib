@@ -6,7 +6,7 @@ var async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
 var job_1 = require("@mia/validators/lib/job");
-var checks_1 = require("@devcarib/common/lib/checks");
+var checks_1 = require("@devcarib/server/lib/data/checks");
 //@ts-ignore: 6133
 var _title = 'Job';
 //@ts-ignore: 6133

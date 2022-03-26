@@ -37,7 +37,7 @@ import {
 
 import { Job } from '@mia/types/lib/job';
 import { validate, validatePartial } from '@mia/validators/lib/job';
-import { parseMarkdown, inc, unique } from '@devcarib/common/lib/checks';
+import { parseMarkdown, inc, unique } from '@devcarib/server/lib/data/checks';
 
 //@ts-ignore: 6133
 const _title = 'Job';
