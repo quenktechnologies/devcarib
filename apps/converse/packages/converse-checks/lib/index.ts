@@ -1,6 +1,7 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
 /** imports */
+import * as _post from './post';
 import * as _user from './user';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
@@ -12,6 +13,8 @@ import { Precondition } from '@quenk/preconditions/lib/async';
  * into one.
  */
 export type DataTypeUnion =
+    _post.DataType |
+
     _user.DataType;
 
 /**
@@ -28,6 +31,7 @@ export interface Checks {
  */
 export const checksAvailable: Checks = {
 
+    'post': <Precondition<Value, DataTypeUnion>>_post.check,
     'user': <Precondition<Value, DataTypeUnion>>_user.check
 };
 
@@ -43,6 +47,7 @@ export const getChecksFor =
  */
 export const partialChecksAvailable: Checks = {
 
+    'post': <Precondition<Value, Partial<DataTypeUnion>>>_post.checkPartial,
     'user': <Precondition<Value, Partial<DataTypeUnion>>>_user.checkPartial
 };
 

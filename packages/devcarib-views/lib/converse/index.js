@@ -41,9 +41,16 @@ var IndexView = /** @class */ (function () {
         this.template = function (__this) {
             return __this.node('html', {}, [
                 __this.registerView(new head_1.HeadView({
-                    'title': __context.title
+                    'title': __context.title,
+                    'styles': [
+                        '/converse/assets/css/converse.css'
+                    ]
                 })).render(),
-                __this.node('body', {}, [])
+                __this.node('body', {}, [
+                    __this.node('div', { 'id': 'dialogs' }, []),
+                    __this.node('main', { 'id': 'main' }, []),
+                    __this.node('script', { 'src': '/converse/assets/js/converse.js' }, [])
+                ])
             ]);
         };
     }

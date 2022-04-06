@@ -1,5 +1,6 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 /** imports */
+import * as _post from './post';
 import * as _user from './user';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe } from '@quenk/noni/lib/data/maybe';
@@ -8,7 +9,7 @@ import { Precondition } from '@quenk/preconditions/lib/async';
  * DataTypeUnion combines all the types of the validators found in this module
  * into one.
  */
-export declare type DataTypeUnion = _user.DataType;
+export declare type DataTypeUnion = _post.DataType | _user.DataType;
 /**
  * Checks is a record of checks.
  */

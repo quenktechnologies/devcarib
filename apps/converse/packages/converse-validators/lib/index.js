@@ -3,12 +3,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPartialValidatorsFor = exports.partialValidatorsAvailable = exports.getValidatorsFor = exports.validatorsAvailable = void 0;
 /** imports */
+var _post = require("./post");
 var _user = require("./user");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
  * validatorsAvailable from this module.
  */
 exports.validatorsAvailable = {
+    'post': _post.validate,
     'user': _user.validate
 };
 /**
@@ -22,6 +24,7 @@ exports.getValidatorsFor = getValidatorsFor;
  * partialValidatorsAvailable from this module.
  */
 exports.partialValidatorsAvailable = {
+    'post': _post.validatePartial,
     'user': _user.validatePartial
 };
 /**

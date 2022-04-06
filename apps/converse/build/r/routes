@@ -1,0 +1,6 @@
+POST    /posts      postsCtrl.create +model="post"
+GET     /posts      postsCtrl.search +policy="post"
+
+GET     /posts/:id  postsCtrl.get
+PATCH   /posts/:id  postsCtrl.update +model="post"
+DELETE  /posts/:id  postsCtrl.remove

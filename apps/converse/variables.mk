@@ -3,7 +3,8 @@ CONVERSE_SRC_DIR:=$(CONVERSE_DIR)/src
 CONVERSE_SRC_DIR_FILES:=$(shell find $(CONVERSE_SRC_DIR) -type f)
 CONVERSE_BUILD_DIR:=$(CONVERSE_DIR)/build
 CONVERSE_PACKAGES_DIR:=$(CONVERSE_DIR)/packages
+CONVERSE_FRONTED_DIR:=$(CONVERSE_DIR)/frontend
 
 include $(CONVERSE_DIR)/schema/variables.mk
-include $(CONVERSE_PACKAGES_DIR)/variables.mk
-
+include $(CONVERSE_PACKAGES_DIR)/*/variables.mk
+include $(CONVERSE_FRONTED_DIR)/variables.mk

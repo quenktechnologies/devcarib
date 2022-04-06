@@ -77,11 +77,26 @@ export class IndexView  implements __wml.View {
 
         __this.registerView(new HeadView({
  
-      'title' : __context.title
+      'title' : __context.title,
+'styles' : [
+
+            '/converse/assets/css/converse.css'
+            ]
      })).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
+        __this.node('div', <__wml.Attrs>{'id': 'dialogs'}, [
+
         
+     ]),
+__this.node('main', <__wml.Attrs>{'id': 'main'}, [
+
+        
+     ]),
+__this.node('script', <__wml.Attrs>{'src': '/converse/assets/js/converse.js'}, [
+
+        
+     ])
      ])
      ]);
 

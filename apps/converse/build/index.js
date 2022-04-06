@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.template = exports.auth = exports.ConverseAuthController = void 0;
+exports.template = exports.checkAuth = exports.auth = exports.ConverseAuthController = void 0;
+const dotR = require("./r");
 //@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
@@ -15,7 +16,7 @@ const auth_1 = require("@devcarib/server/lib/controllers/auth");
 const auth_2 = require("@devcarib/server/lib/auth");
 const db_1 = require("@devcarib/server/lib/db");
 const password_1 = require("@devcarib/server/lib/data/password");
-const datetime_1 = require("@devcarib/server/lib/data/datetime");
+const datetime_1 = require("@devcarib/common/lib/data/datetime");
 const TITLE = 'Converse';
 const ROUTE_INDEX = '/converse';
 const ROUTE_LOGIN = '/converse/login';
@@ -39,7 +40,7 @@ class ConverseAuthenticator extends auth_2.BaseAuthenticator {
                 return (0, future_1.pure)((0, maybe_1.nothing)());
             let change = { last_login: (0, datetime_1.now)() };
             yield model.update(user.id, change);
-            return (0, future_1.pure)((0, maybe_1.just)({ id: user.id }));
+            return (0, future_1.pure)((0, maybe_1.just)({ id: user.id, username: user.username }));
         });
     }
 }
@@ -69,9 +70,14 @@ class ConverseAuthController extends auth_1.AuthController {
 }
 exports.ConverseAuthController = ConverseAuthController;
 exports.auth = new ConverseAuthController();
+//XXX: Seems like there is a parser bug in jcon that won't let us specify
+// ..#auth.checkAuth(true)
+exports.checkAuth = exports.auth.checkAuth;
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `converse`,
-    'app': { 'dirs': { 'self': `/apps/converse/build` },
+    'app': { 'dirs': { 'self': `/apps/converse/build`,
+            'public': [`../frontend/public`] },
+        'modules': { 'r': dotR.template },
         'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];

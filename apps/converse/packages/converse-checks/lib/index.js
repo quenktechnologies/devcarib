@@ -3,12 +3,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPartialChecksFor = exports.partialChecksAvailable = exports.getChecksFor = exports.checksAvailable = void 0;
 /** imports */
+var _post = require("./post");
 var _user = require("./user");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
  * checksAvailable from this module.
  */
 exports.checksAvailable = {
+    'post': _post.check,
     'user': _user.check
 };
 /**
@@ -22,6 +24,7 @@ exports.getChecksFor = getChecksFor;
  * partialChecksAvailable from this module.
  */
 exports.partialChecksAvailable = {
+    'post': _post.checkPartial,
     'user': _user.checkPartial
 };
 /**

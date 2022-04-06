@@ -1,0 +1,42 @@
+{% import (Panel,PanelBody, PanelFooter) 
+   from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+
+{% import (PostEditor) from "./" %}
+
+{% view PostEditorView (PostEditor) %}
+
+<Panel ww:className="devcarib-post-editor">
+
+  <PanelBody>
+
+    <TextField 
+      ww:name="title"
+      ww:className="devcarib-post-editor__title"
+      ww:placeholder="Title"
+      ww:value={{@values.title.value}}
+      ww:error={{@values.title.error}}
+      ww:onChange={{@values.title.onChange}} />
+
+    <TextField 
+      ww:name="body"
+      ww:className="devcarib-post-editor__body"
+      ww:rows=10
+      ww:placeholder="Body"
+      ww:value={{@values.body.value}}
+      ww:error={{@values.body.error}}
+      ww:onChange={{@values.body.onChange}} />
+
+  </PanelBody>
+
+  <PanelFooter>
+
+    <Button
+      ww:className="devcarib-post-editor__post -primary"
+      ww:text="Post"
+      ww:onClick={{@values.post.onClick}} />
+
+  </PanelFooter>
+
+</Panel>

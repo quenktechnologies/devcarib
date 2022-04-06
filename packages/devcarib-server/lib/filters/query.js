@@ -1,13 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.compile = exports.compileSortString = exports.compileQueryString = void 0;
+exports.compile = exports.compileSortString = exports.compileQueryString = exports.QueryParams = void 0;
 const type_1 = require("@quenk/noni/lib/data/type");
 const either_1 = require("@quenk/noni/lib/data/either");
 const api_1 = require("@quenk/tendril/lib/app/api");
 const control_1 = require("@quenk/tendril/lib/app/api/control");
 const response_1 = require("@quenk/tendril/lib/app/api/response");
+const dback_resource_mongodb_1 = require("@quenk/dback-resource-mongodb");
 const search_filters_mongodb_1 = require("@quenk/search-filters-mongodb");
 const DEFAULT_PAGE_SIZE = 100;
+/**
+ * QueryParams provides the additional parameters for the _SUGR operations.
+ */
+class QueryParams extends dback_resource_mongodb_1.DefaultParamsFactory {
+    /**
+     * search relies on the results of the compile filter to shape the query
+     * property properly.
+     *
+     * This should NOT be used without the filter installed!
+     */
+    search(req) {
+        return req.query;
+    }
+}
+exports.QueryParams = QueryParams;
 const mfc = new search_filters_mongodb_1.MongoDBFilterCompiler();
 /**
  * compileQueryString compiles the "q" query parameter into a filter object that

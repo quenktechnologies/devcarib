@@ -1,0 +1,38 @@
+{% import (ListLayout, ListLayoutItem) 
+   from "@quenk/wml-widgets/lib/layout/list" %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
+
+{% import (fromNow) from "@devcarib/frontend/lib/app/filters" %}
+
+{% view PostStreamView (PostStream from ".") %}
+<ListLayout ww:className="devcarib-post-stream">
+
+  {% for post in @values.data %}
+
+    <ListLayoutItem>
+
+      <h3 class="devcarib-post-stream__title" >
+
+        <Link
+          ww:onClick={{@values.onClick(Number(post.id))}}
+          ww:text={{post.title}} />
+
+      </h3>
+
+      <div class="devcarib-post-stream__metadata">
+
+        <div class="devcarib-post-stream__author">
+          {{@values.getAuthor(post) | text }}
+        </div>
+
+        <div class="devcarib-post-stream__datetime">
+          posted {{String(post.created_on) | fromNow | text }}
+        </div>
+
+      </div>
+
+    </ListLayoutItem>
+
+  {% endfor %}
+
+</ListLayout>

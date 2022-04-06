@@ -3,6 +3,7 @@ import { Record } from '@quenk/noni/lib/data/record';
 import { Except } from '@quenk/noni/lib/control/error';
 import { Action } from '@quenk/tendril/lib/app/api';
 import { Request } from '@quenk/tendril/lib/app/api/request';
+import { DefaultParamsFactory, SearchParams } from '@quenk/dback-resource-mongodb';
 import { EnabledPolicies } from '@quenk/search-filters-mongodb';
 /**
  * CompileQueryConf provies the configuration for compile().
@@ -18,6 +19,18 @@ export interface CompileQueryConf {
      * each target route.
      */
     fields: Record<Record<number>>;
+}
+/**
+ * QueryParams provides the additional parameters for the _SUGR operations.
+ */
+export declare class QueryParams extends DefaultParamsFactory {
+    /**
+     * search relies on the results of the compile filter to shape the query
+     * property properly.
+     *
+     * This should NOT be used without the filter installed!
+     */
+    search(req: Request): SearchParams;
 }
 /**
  * compileQueryString compiles the "q" query parameter into a filter object that

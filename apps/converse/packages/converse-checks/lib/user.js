@@ -6,7 +6,7 @@ var async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/async/record");
 var user_1 = require("@converse/validators/lib/user");
-var checks_1 = require("@devcarib/common/lib/checks");
+var checks_1 = require("@devcarib/server/lib/data/checks");
 //@ts-ignore: 6133
 var _title = 'User';
 //@ts-ignore: 6133

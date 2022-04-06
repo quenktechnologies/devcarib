@@ -1,4 +1,3 @@
-
 GET  /               auth.onIndex
 GET  /login          auth.onAuthForm
 POST /login          auth.onAuthenticate

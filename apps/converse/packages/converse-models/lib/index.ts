@@ -2,6 +2,7 @@
 
 /** imports */
 import * as mongo from 'mongodb';
+import * as _post from './post';
 import * as _user from './user';
 
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
@@ -12,6 +13,8 @@ import { Model } from '@quenk/dback-model-mongodb';
  * a single data type.
  */
 export type DataTypeUnion =
+    _post.DataType |
+
     _user.DataType;
 
 /**
@@ -33,6 +36,7 @@ export interface Models {
  */
 export const modelsAvailable: Models = {
 
+    'post': <ModelGetter>_post.ModelImpl.getInstance,
     'user': <ModelGetter>_user.ModelImpl.getInstance
 };
 

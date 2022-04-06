@@ -3,12 +3,18 @@
 {# IndexView is the view for the main page of this app. #}
 {% view IndexView where title:String %}
 
-  <html>
+ <html>
 
-    {{ <HeadView({title = @title})> }}
+  {{ <HeadView({title=@title, styles=["/converse/assets/css/converse.css"]})> }}
 
-    <body>
+  <body>
+  
+    <div id="dialogs"/>
 
-    </body>
+    <main id="main"/>
 
-  </html>
+    <script src="/converse/assets/js/converse.js"/>
+
+  </body>
+
+</html>

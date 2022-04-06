@@ -1,6 +1,7 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
 /** imports */
+import * as _post from './post';
 import * as _user from './user';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
@@ -12,6 +13,8 @@ import { Precondition } from '@quenk/preconditions';
  * into one.
  */
 export type DataTypeUnion =
+    _post.DataType |
+
     _user.DataType;
 
 /**
@@ -28,6 +31,7 @@ export interface Validators {
  */
 export const validatorsAvailable: Validators = {
 
+    'post': _post.validate,
     'user': _user.validate
 };
 
@@ -43,6 +47,7 @@ export const getValidatorsFor =
  */
 export const partialValidatorsAvailable: Validators = {
 
+    'post': _post.validatePartial,
     'user': _user.validatePartial
 };
 

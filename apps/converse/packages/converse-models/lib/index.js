@@ -2,12 +2,14 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getInstanceOf = exports.modelsAvailable = void 0;
+const _post = require("./post");
 const _user = require("./user");
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
  * modelsAvailable from this module.
  */
 exports.modelsAvailable = {
+    'post': _post.ModelImpl.getInstance,
     'user': _user.ModelImpl.getInstance
 };
 /**

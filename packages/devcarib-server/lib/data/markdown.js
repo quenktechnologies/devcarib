@@ -7,7 +7,7 @@ const sanitize = require("sanitize-html");
  * parse a string treating it as CommonMark giving the result back as HTML.
  */
 const parse = (src) => {
-    let raw = marked(String(src), { breaks: true, gfm: true });
+    let raw = marked.parse(String(src), { breaks: true, gfm: true });
     return sanitize(raw, {
         allowedTags: [
             'b', 'i', 'em', 'strong', 'p', 'h1', 'h2', 'h3', 'h4', 'h5',
