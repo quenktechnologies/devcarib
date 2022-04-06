@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EditJobDialog = void 0;
 const api = require("../../../api");
 const payment_1 = require("@devcarib/common/lib/data/payment");
+const remote_1 = require("@devcarib/frontend/lib/app/scene/form/remote");
 const form_1 = require("../../../common/scene/dialog/form");
 const edit_1 = require("./views/edit");
 /**
@@ -14,7 +15,7 @@ class EditJobDialog extends form_1.MiaFormDialog {
         this.name = 'Job Edit Dialog';
         this.view = new edit_1.EditJobDialogView(this);
         this.model = this.app.getModel(api.JOB);
-        this.mode = form_1.MIA_FORM_MODE_UPDATE;
+        this.mode = remote_1.REMOTE_FORM_MODE_UPDATE;
         this.values = {
             data: this.value,
             errors: {},

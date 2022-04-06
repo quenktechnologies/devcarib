@@ -21,7 +21,7 @@ import { AuthController } from '@devcarib/server/lib/controllers/auth';
 import { AuthFailedContext, BaseAuthenticator } from '@devcarib/server/lib/auth';
 import { unsafeGetConnection } from '@devcarib/server/lib/db';
 import { compare } from '@devcarib/server/lib/data/password';
-import { now } from '@devcarib/server/lib/data/datetime';
+import { now } from '@devcarib/common/lib/data/datetime';
 
 const ROUTE_INDEX = '/mia';
 const ROUTE_LOGIN = '/mia/login';

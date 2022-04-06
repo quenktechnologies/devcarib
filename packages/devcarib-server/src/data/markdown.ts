@@ -16,7 +16,7 @@ export type HTML = string;
  */
 export const parse = (src: CommonMark) : HTML => {
 
-    let raw = marked(String(src), { breaks: true, gfm: true });
+    let raw = marked.parse(String(src), { breaks: true, gfm: true });
 
     return sanitize(raw, {
 

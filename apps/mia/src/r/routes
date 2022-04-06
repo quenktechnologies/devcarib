@@ -1,27 +1,23 @@
-%set adminsCtrl = AdminsController()
-%set jobsCtrl = JobsController()
-%set usersCtrl = UsersController()
-
 -- Admins
-POST    /admins      adminsCtrl.create
+POST    /admins      adminsCtrl.create +model="admin"
 GET     /admins      adminsCtrl.search +policy="admin"
 
 GET     /admins/:id  adminsCtrl.get
-PATCH   /admins/:id  adminsCtrl.update
+PATCH   /admins/:id  adminsCtrl.update +model="admin"
 DELETE  /admins/:id  adminsCtrl.remove
 
 -- Jobs
-POST    /jobs        jobsCtrl.create
+POST    /jobs        jobsCtrl.create +model="job"
 GET     /jobs        jobsCtrl.search +policy="job"
 
-PATCH   /jobs/:id    jobsCtrl.update
+PATCH   /jobs/:id    jobsCtrl.update +model="job"
 GET     /jobs/:id    jobsCtrl.get
 DELETE  /jobs/:id    jobsCtrl.remove
 
 -- Users
-POST    /users        usersCtrl.create
+POST    /users        usersCtrl.create +model="user"
 GET     /users        usersCtrl.search +policy="user"
 
-PATCH   /users/:id    usersCtrl.update
+PATCH   /users/:id    usersCtrl.update +model="user"
 GET     /users/:id    usersCtrl.get
 DELETE  /users/:id    usersCtrl.remove

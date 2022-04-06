@@ -1,0 +1,6 @@
+
+interface Window {
+
+    system: any
+
+}

@@ -1,0 +1,51 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+
+{% import (PostStream) from "@devcarib/widgets/lib/post/stream" %}
+
+{% import (Dashboard) from "../" %}
+
+{% view DashboardView (Dashboard) %}
+
+<GridLayout>
+
+  <Row>
+
+    <Column ww:span=6 ww:offset=3>
+
+      <Row>
+
+        <Column>
+
+          <header class="converse-dashboard-header">
+
+            <h1>Posts</h1>
+
+              <Button
+                ww:className="converse-dashboard-post-button -primary"
+                ww:text="New Post"
+                ww:onClick={{@values.posts.create}} />
+
+          </header>
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <PostStream
+            wml:id={{@values.posts.id}}
+            data={{@values.posts.data}} />
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+  </Row>
+
+</GridLayout>

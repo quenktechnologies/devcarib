@@ -7,14 +7,16 @@ import { left, right } from '@quenk/noni/lib/data/either';
 
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { Request } from '@quenk/tendril/lib/app/api/request';
-import { abort, next  } from '@quenk/tendril/lib/app/api/control';
+import { abort, next } from '@quenk/tendril/lib/app/api/control';
 import { badRequest, conflict } from '@quenk/tendril/lib/app/api/response';
 
 import {
-    EnabledPolicies,
-    MongoDBFilterCompiler
-} from '@quenk/search-filters-mongodb';
+    DefaultParamsFactory,
+    SearchParams
+} from '@quenk/dback-resource-mongodb';
+import { EnabledPolicies, MongoDBFilterCompiler } from '@quenk/search-filters-mongodb';
 
+const DEFAULT_PAGE_SIZE = 100;
 
 /**
  * CompileQueryConf provies the configuration for compile().
@@ -35,7 +37,24 @@ export interface CompileQueryConf {
 
 }
 
-const DEFAULT_PAGE_SIZE = 100;
+/**
+ * QueryParams provides the additional parameters for the _SUGR operations.
+ */
+export class QueryParams extends DefaultParamsFactory {
+
+    /**
+     * search relies on the results of the compile filter to shape the query
+     * property properly.
+     *
+     * This should NOT be used without the filter installed!
+     */
+    search(req: Request) {
+
+        return <SearchParams><object>req.query;
+
+    }
+
+}
 
 const mfc = new MongoDBFilterCompiler();
 

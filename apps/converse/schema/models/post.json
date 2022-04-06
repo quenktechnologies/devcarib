@@ -1,0 +1,117 @@
+{
+
+    "title": "Post",
+
+    "type": "object",
+
+    "collection": "posts",
+
+    "model.type": "ModelType",
+
+    "models:imports": {
+
+        "$ref": "./common/imports.json",
+
+        "@converse/types/lib/post": {
+
+            "Post": "ModelType"
+
+        },
+
+        "@quenk/noni-mongodb/lib/database/collection": {
+
+            "populate": "populate",
+
+            "populateN": "populateN"
+
+        }
+
+    },
+
+
+    "validators:imports": {
+
+        "@converse/types/lib/post": "Post"
+
+    },
+
+    "checks:imports": {
+
+        "@converse/validators/lib/post": ["validate", "validatePartial"]
+
+    },
+
+    "checks": [
+
+        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'body'", "'body_html'"]],
+
+        ["@devcarib/server/lib/data/checks#inc", ["'posts'"]]
+
+    ],
+
+    "properties": {
+
+        "id": {
+
+            "type": "number",
+
+            "readOnly": true,
+
+            "checks-complete": [
+
+
+                ["@devcarib/server/lib/data/checks#unique", ["'jobs'", "'id'"]]
+
+            ]
+
+        },
+
+        "$ref": "./common/properties.json",
+
+        "title": {
+
+            "type": "string",
+
+            "filterAs": "matchci",
+
+            "validators": [
+
+                "@devcarib/common/lib/data/validators#textsmall",
+
+                ["@devcarib/common/lib/data/validators#minLength", [3]],
+
+                ["@devcarib/common/lib/data/validators#maxLength", [140]]
+
+            ]
+
+        },
+
+        "body": {
+
+            "type": "string",
+
+            "optional": true,
+
+            "validators": [
+
+                "@devcarib/common/lib/data/validators#textlarge",
+
+                ["@devcarib/common/lib/data/validators#minLength", [3]],
+
+                ["@devcarib/common/lib/data/validators#maxLength", [10000]]
+
+            ]
+
+        },
+
+        "body_html": {
+
+            "type": "string",
+
+            "readOnly": true
+
+        }
+
+    }
+
+}

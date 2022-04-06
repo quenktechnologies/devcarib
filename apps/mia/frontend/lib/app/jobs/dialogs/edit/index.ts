@@ -10,9 +10,9 @@ import { Job } from '@board/types/lib/job';
 import { supportedPaymentFrequencies } from '@devcarib/common/lib/data/payment';
 
 import {
-    MiaFormDialog,
-    MIA_FORM_MODE_UPDATE
-} from '../../../common/scene/dialog/form';
+    REMOTE_FORM_MODE_UPDATE
+} from '@devcarib/frontend/lib/app/scene/form/remote';
+import { MiaFormDialog } from '../../../common/scene/dialog/form';
 import { EditJobDialogView } from './views/edit';
 
 /**
@@ -26,7 +26,7 @@ export class EditJobDialog extends MiaFormDialog<Job, void> {
 
     model = this.app.getModel(api.JOB);
 
-    mode = MIA_FORM_MODE_UPDATE;
+    mode = REMOTE_FORM_MODE_UPDATE;
 
     values = {
 

@@ -1,16 +1,19 @@
 import * as api from '../../api';
 
-import { MIA_FORM_MODE_UPDATE } from '../../common/scene/dialog/form';
+import {
+    REMOTE_FORM_MODE_UPDATE
+} from '@devcarib/frontend/lib/app/scene/form/remote';
+
 import { AddUserDialog } from './add';
 
 /**
- * EditUserDialog provides a form embeded in a dialog for editing existing users.
+ * EditUserDialog provides a form embedded in a dialog for editing existing users.
  */
 export class EditUserDialog extends AddUserDialog {
 
     name = 'Edit';
 
-    mode = MIA_FORM_MODE_UPDATE;
+    mode = REMOTE_FORM_MODE_UPDATE;
 
     model = this.app.getModel(api.USER);
 

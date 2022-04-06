@@ -34,7 +34,7 @@ export declare abstract class MiaManager<T extends Object, M> extends MiaScene<M
      * model used to fetch the remote data.
      */
     abstract model: RemoteModel<T>;
-    receive(): Case<MiaManagerMessage<M>>[];
+    receive(): Case<MainSceneMessage<M>>[];
     /**
      * search the server for data that matches the specified query criteria.
      *

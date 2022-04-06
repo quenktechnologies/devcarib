@@ -22,7 +22,7 @@ import { AuthController } from '@devcarib/server/lib/controllers/auth';
 import { AuthFailedContext, BaseAuthenticator } from '@devcarib/server/lib/auth';
 import { unsafeGetConnection } from '@devcarib/server/lib/db';
 import { compare } from '@devcarib/server/lib/data/password';
-import { now } from '@devcarib/server/lib/data/datetime';
+import { now } from '@devcarib/common/lib/data/datetime';
 
 const TITLE = 'Converse';
 const ROUTE_INDEX = '/converse';
@@ -56,7 +56,7 @@ class ConverseAuthenticator extends BaseAuthenticator<User> {
 
             yield model.update(user.id, change);
 
-            return pure(just({ id: user.id }));
+            return pure(just({ id: user.id, username: user.username }));
 
         });
 
@@ -104,5 +104,9 @@ export class ConverseAuthController extends AuthController {
 }
 
 export const auth = new ConverseAuthController();
+
+//XXX: Seems like there is a parser bug in jcon that won't let us specify
+// ..#auth.checkAuth(true)
+export const checkAuth = auth.checkAuth;
 
 /* tdc-output-exports */
