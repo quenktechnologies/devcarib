@@ -14,8 +14,9 @@
       <h3 class="devcarib-post-stream__title">
 
         <Link
-          ww:onClick={{@values.onClick(Number(post.id))}}
-          ww:text={{post.title}} />
+          ww:text={{post.title}}
+          ww:href={{@values.getPostHref(post)}}
+          ww:onClick={{@values.onClick(Number(post.id))}} />
 
       </h3>
 
