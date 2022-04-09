@@ -8,13 +8,17 @@ import { left, right } from '@quenk/noni/lib/data/either';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { abort, next } from '@quenk/tendril/lib/app/api/control';
-import { badRequest, conflict } from '@quenk/tendril/lib/app/api/response';
+import { badRequest  } from '@quenk/tendril/lib/app/api/response';
+
+import {
+    EnabledPolicies,
+    MongoDBFilterCompiler
+} from '@quenk/search-filters-mongodb';
 
 import {
     DefaultParamsFactory,
     SearchParams
 } from '@quenk/dback-resource-mongodb';
-import { EnabledPolicies, MongoDBFilterCompiler } from '@quenk/search-filters-mongodb';
 
 const DEFAULT_PAGE_SIZE = 100;
 
@@ -121,9 +125,11 @@ export const compile = (conf: CompileQueryConf) =>
 
         if (!policy) {
 
-            yield conflict();
+            // Do not allow the parsed query object to be used if there are no
+            // policies.
+            req.query = {};
 
-            return abort();
+            return next(req);
 
         }
 
