@@ -33,8 +33,6 @@ export class PostStream extends Component<PostStreamAttrs> {
 
         data: this.attrs.data?.slice() || [],
 
-        getAuthor: (post: Post) => post.created_by?.username,
-
         getPostHref: (post: Post) => `#/posts/${post.id}`,
 
         onClick: (idx: number) => () => {
