@@ -3,16 +3,17 @@ import * as api from '../api';
 import {
     AfterSearchSetData,
     AfterSearchSetPagination,
-    AfterSearchShowData,
+    OnCompleteShowData,
     AfterSearchUpdateWidget,
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
+import { Result } from '@quenk/jouvert/lib/app/remote/model';
 
 import { Post } from '@converse/types/lib/post';
 
 import { ConverseScene } from '../common/scene';
 import { CreatePostForm } from './forms/post';
-import { DashboardView } from './views/dashboard';
+import { DashboardView } from './views';
 
 class DefaultPagination {
     current = {
@@ -34,6 +35,11 @@ class DefaultPagination {
     }
 }
 
+/**
+ * Dashboard is the controller for the user's dashboard view.
+ *
+ * Here recent posts and overviews of other interesting data is shown.
+ */
 export class Dashboard extends ConverseScene<void> {
 
     name = 'dashboard';
@@ -59,17 +65,17 @@ export class Dashboard extends ConverseScene<void> {
 
     posts = this.app.getModel(api.POSTS, [
 
-        new AfterSearchSetData(this.values.posts),
+        new AfterSearchSetData(data => this.values.posts.data = data),
 
         new AfterSearchSetPagination(this.values.posts),
 
-    new ShiftingOnComplete([
+        new ShiftingOnComplete<void | Result<Post>>([
 
-        new AfterSearchShowData(this),
+            new OnCompleteShowData(this),
 
-        new AfterSearchUpdateWidget(this.view, this.values.posts.id)
+            new AfterSearchUpdateWidget(this.view, this.values.posts.id)
 
-    ])
+        ])
 
     ]);
 
