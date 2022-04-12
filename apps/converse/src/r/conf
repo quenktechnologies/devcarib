@@ -11,6 +11,8 @@ app.filters = [
      @devcarib/common/lib/error#templates
   ),
 
+  @devcarib/server/lib/filters/body#fromParams,
+
   @devcarib/server/lib/filters/query#compile({
 
     policies = @converse/filter-policies#policiesEnabled

@@ -20,6 +20,12 @@ export interface Errors {
  * PostEditorAttrs
  */
 export interface PostEditorAttrs extends Attrs {
+
+    /**
+     * notitle if true will hide the title section.
+     */
+    notitle?: boolean,
+
     /**
      * value to initialize the editor to.
      */
@@ -52,6 +58,8 @@ export class PostEditor extends Component<PostEditorAttrs> {
     values = {
 
         title: {
+
+            hide: this.attrs.notitle,
 
             value: this.attrs.value?.title || '',
 

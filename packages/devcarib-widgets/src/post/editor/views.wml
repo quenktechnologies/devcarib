@@ -11,13 +11,17 @@
 
   <PanelBody>
 
-    <TextField 
-      ww:name="title"
-      ww:className="devcarib-post-editor__title"
-      ww:placeholder="Title"
-      ww:value={{@values.title.value}}
-      ww:error={{@values.title.error}}
-      ww:onChange={{@values.title.onChange}} />
+    {% if !@values.title.hide %}
+
+      <TextField 
+       ww:name="title"
+       ww:className="devcarib-post-editor__title"
+       ww:placeholder="Title"
+       ww:value={{@values.title.value}}
+       ww:error={{@values.title.error}}
+       ww:onChange={{@values.title.onChange}} />
+
+    {% endif %}
 
     <TextField 
       ww:name="body"

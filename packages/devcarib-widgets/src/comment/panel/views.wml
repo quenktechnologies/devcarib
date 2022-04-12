@@ -1,0 +1,19 @@
+{% import (Panel,PanelHeader,PanelBody) 
+   from "@quenk/wml-widgets/lib/layout/panel" %}
+
+{% import (PostMetadata) from "../../post/metadata" %}
+
+{% view CommentPanelView (CommentPanel from ".") %}
+
+<Panel ww:className="devcarib-comment-panel">
+
+  <PanelHeader><PostMetadata data={{@values.data}} /></PanelHeader>
+
+  <PanelBody>
+
+    {{ @values.data.body_html | unsafe }}
+
+  </PanelBody>
+
+</Panel>
+

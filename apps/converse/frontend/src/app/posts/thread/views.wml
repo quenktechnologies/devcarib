@@ -2,6 +2,8 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 
 {% import (PostMetadata) from "@devcarib/widgets/lib/post/metadata" %}
+{% import (PostEditor) from "@devcarib/widgets/lib/post/editor" %} 
+{% import (CommentStream) from "@devcarib/widgets/lib/comment/stream" %}
 
 {% view PostThreadView (PostThread from ".") %}
 <GridLayout>
@@ -20,17 +22,17 @@
 
                 <header class="converse-post__header">
 
-                  <PostMetadata data={{@values.data}} />
+                  <PostMetadata data={{@values.post.data}} />
 
-                  <h1>{{@values.data.title | text }}</h1>
+                  <h1>{{@values.post.data.title | text }}</h1>
 
                 </header>
 
-                {% if @values.data.body ?? %}
+                {% if @values.post.data.body ?? %}
 
                   <div class="converse-post_body">
 
-                    {{@values.data.body_html | unsafe }}
+                    {{@values.post.data.body_html | unsafe }}
 
                   </div>
 
@@ -39,6 +41,31 @@
               </PanelBody>
 
             </Panel>
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <CommentStream wml:id={{@values.comments.id}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <PostEditor
+            notitle=true
+            value={{@values.comment.data}}
+            errors={{@values.comment.errors}}
+            onChange={{@values.comment.onChange}} 
+            onPost={{@values.comment.onPost}} />
 
         </Column>
 

@@ -1,0 +1,14 @@
+
+{% import (CommentPanel) from "../panel" %}
+
+{% view CommentStreamView (CommentStream from ".") %}
+
+<div class="devcarib-comment-stream">
+
+  {% for comment in @values.data %}
+
+    <CommentPanel data={{comment}} />
+
+  {% endfor %}
+
+</div>

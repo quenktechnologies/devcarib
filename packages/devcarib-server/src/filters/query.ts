@@ -1,14 +1,16 @@
-
 import { Object } from '@quenk/noni/lib/data/jsonx';
 import { isNumber, isString } from '@quenk/noni/lib/data/type';
 import { Record } from '@quenk/noni/lib/data/record';
 import { Except } from '@quenk/noni/lib/control/error';
 import { left, right } from '@quenk/noni/lib/data/either';
+import { interpolate } from '@quenk/noni/lib/data/string';
 
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { abort, next } from '@quenk/tendril/lib/app/api/control';
-import { badRequest  } from '@quenk/tendril/lib/app/api/response';
+import { badRequest } from '@quenk/tendril/lib/app/api/response';
+
+import { sanitize } from '@quenk/search-filters';
 
 import {
     EnabledPolicies,
@@ -113,6 +115,13 @@ export const compileSortString = (refs: { [key: string]: number }, sort: string)
  *
  * This filter relies on the +policy tag being set to determine the correct
  * policy and fields document to use. Note that they must have the same value.
+ *
+ * Additional restrictions can be placed on the parsed query via the +query
+ * tag which will be interpolated against the request then parsed into a
+ * separate filter. This filter will be included via $and to ensure it's
+ * conditions are met when executing a query.
+ *
+ * Use this to restrict the scope of user submitted queries.
  */
 export const compile = (conf: CompileQueryConf) =>
     (req: Request): Action<void> => doAction(function*() {
@@ -121,9 +130,11 @@ export const compile = (conf: CompileQueryConf) =>
 
         let ptr = <string>req.route.tags.policy;
 
+        let additionalFilters = <string>req.route.tags.query;
+
         let policy = conf.policies[ptr];
 
-        if (!policy) {
+        if (!policy && !additionalFilters) {
 
             // Do not allow the parsed query object to be used if there are no
             // policies.
@@ -143,13 +154,30 @@ export const compile = (conf: CompileQueryConf) =>
 
         if (mQuery.isLeft()) {
 
-            yield badRequest();
+            yield badRequest({ error: 'ERR_BAD_QUERY' });
 
             return abort();
 
         }
 
         let query = mQuery.takeRight();
+
+        if (additionalFilters) {
+
+            let mAdditionalQuery = compileQueryString(policy,
+                interpolate(additionalFilters, req, { transform: sanitize }));
+
+            if (mAdditionalQuery.isLeft()) {
+                console.error('--> ', conf,ptr,policy, mAdditionalQuery.takeLeft());
+                yield badRequest({ error: 'ERR_QUERY_MISCONFIGURED' });
+
+                return abort();
+
+            }
+
+            query = { $and: [mAdditionalQuery.takeRight(), query] };
+
+        }
 
         let fields = <Object>conf.fields[ptr];
 

@@ -4,3 +4,6 @@ GET     /posts      postsCtrl.search +policy="post"
 GET     /posts/:id  postsCtrl.get
 PATCH   /posts/:id  postsCtrl.update +model="post"
 DELETE  /posts/:id  postsCtrl.remove
+
+POST    /posts/:post/comments commentsCtrl.create +model="comment" +nparams="post"
+GET     /posts/:post/comments commentsCtrl.search +policy="comment" +query="post:{params.post}"

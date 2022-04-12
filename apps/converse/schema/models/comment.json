@@ -1,10 +1,10 @@
 {
 
-    "title": "Post",
+    "title": "Comment",
 
     "type": "object",
 
-    "collection": "posts",
+    "collection": "comments",
 
     "model.type": "ModelType",
 
@@ -12,9 +12,9 @@
 
         "$ref": "./common/imports.json",
 
-        "@converse/types/lib/post": {
+        "@converse/types/lib/comment": {
 
-            "Post": "ModelType"
+            "Comment": "ModelType"
 
         },
 
@@ -31,19 +31,19 @@
 
     "validators:imports": {
 
-        "@converse/types/lib/post": "Post"
+        "@converse/types/lib/comment": "Comment"
 
     },
 
     "checks:imports": {
 
-        "@converse/validators/lib/post": ["validate", "validatePartial"]
+        "@converse/validators/lib/comment": ["validate", "validatePartial"]
 
     },
 
     "checks-complete": [
 
-        ["@devcarib/server/lib/data/checks#inc", ["'posts'"]]
+        ["@devcarib/server/lib/data/checks#inc", ["'comments'"]]
 
     ],
 
@@ -53,6 +53,7 @@
 
     ],
 
+
     "properties": {
 
         "id": {
@@ -61,10 +62,11 @@
 
             "readOnly": true,
 
+            "filterAs": ["number", "numbers"],
+
             "checks-complete": [
 
-
-                ["@devcarib/server/lib/data/checks#unique", ["'posts'", "'id'"]]
+                ["@devcarib/server/lib/data/checks#unique", ["'comments'", "'id'"]]
 
             ]
 
@@ -72,19 +74,17 @@
 
         "$ref": "./common/properties.json",
 
-        "title": {
+        "post": {
 
-            "type": "string",
+            "type": "number",
 
-            "filterAs": "matchci",
+            "readOnly": true,
 
-            "validators": [
+            "filterAs": ["number", "numbers"],
 
-                "@devcarib/common/lib/data/validators#textsmall",
+            "checks-complete": [
 
-                ["@devcarib/common/lib/data/validators#minLength", [3]],
-
-                ["@devcarib/common/lib/data/validators#maxLength", [140]]
+                ["@devcarib/server/lib/data/checks#unique", ["'posts'", "'id'"]]
 
             ]
 
