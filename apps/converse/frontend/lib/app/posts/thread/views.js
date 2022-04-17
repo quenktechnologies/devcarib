@@ -1,14 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DashboardView = void 0;
+exports.PostThreadView = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
+const panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
+;
 const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-const button_1 = require("@quenk/wml-widgets/lib/control/button");
+const metadata_1 = require("@devcarib/widgets/lib/post/metadata");
 ;
-const stream_1 = require("@devcarib/widgets/lib/post/stream");
+const editor_1 = require("@devcarib/widgets/lib/post/editor");
+;
+const stream_1 = require("@devcarib/widgets/lib/comment/stream");
 ;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -33,7 +37,7 @@ const text = __document.text;
 const unsafe = __document.unsafe;
 // @ts-ignore 6192
 const isSet = (value) => value != null;
-class DashboardView {
+class PostThreadView {
     constructor(__context) {
         this.ids = {};
         this.groups = {};
@@ -46,17 +50,33 @@ class DashboardView {
                     __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('header', { 'class': 'converse-dashboard-header' }, [
-                                    __this.node('h1', {}, [
-                                        __document.createTextNode('Posts')
-                                    ]),
-                                    __this.widget(new button_1.Button({ ww: { 'className': 'converse-dashboard-post-button -primary', 'text': 'New Post', 'onClick': __context.values.posts.create } }, []), { ww: { 'className': 'converse-dashboard-post-button -primary', 'text': 'New Post', 'onClick': __context.values.posts.create } })
-                                ])
+                                __this.widget(new panel_1.Panel({ ww: { 'className': 'converse-post' } }, [
+                                    __this.widget(new panel_1.PanelBody({}, [
+                                        __this.node('header', { 'class': 'converse-post__header' }, [
+                                            __this.widget(new metadata_1.PostMetadata({ 'data': __context.values.post.data }, []), { 'data': __context.values.post.data }),
+                                            __this.node('h1', {}, [
+                                                text(__context.values.post.data.title)
+                                            ])
+                                        ]),
+                                        ...(((__context.values.post.data.body) != null) ?
+                                            (() => ([
+                                                __this.node('div', { 'class': 'converse-post_body' }, [
+                                                    unsafe(__context.values.post.data.body_html)
+                                                ])
+                                            ]))() :
+                                            (() => ([]))())
+                                    ]), {})
+                                ]), { ww: { 'className': 'converse-post' } })
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new stream_1.PostStream({ wml: { 'id': __context.values.posts.id }, 'data': __context.values.posts.data }, []), { wml: { 'id': __context.values.posts.id }, 'data': __context.values.posts.data })
+                                __this.widget(new stream_1.CommentStream({ wml: { 'id': __context.values.comments.id }, 'user': __context.app.user.id, 'onEdit': __context.values.comments.onEdit }, []), { wml: { 'id': __context.values.comments.id }, 'user': __context.app.user.id, 'onEdit': __context.values.comments.onEdit })
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new editor_1.PostEditor({ 'notitle': true, 'value': __context.values.comment.data, 'errors': __context.values.comment.errors, 'onChange': __context.values.comment.onChange, 'onPost': __context.values.comment.onPost }, []), { 'notitle': true, 'value': __context.values.comment.data, 'errors': __context.values.comment.errors, 'onChange': __context.values.comment.onChange, 'onPost': __context.values.comment.onPost })
                             ]), {})
                         ]), {})
                     ]), { ww: { 'span': 6, 'offset': 3 } })
@@ -158,5 +178,5 @@ class DashboardView {
         return this.tree;
     }
 }
-exports.DashboardView = DashboardView;
-//# sourceMappingURL=dashboard.js.map
+exports.PostThreadView = PostThreadView;
+//# sourceMappingURL=views.js.map

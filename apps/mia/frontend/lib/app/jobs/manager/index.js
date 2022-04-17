@@ -4,7 +4,6 @@ exports.JobsManager = exports.TIME_SEARCH_DEBOUNCE = void 0;
 const jobStatus = require("@devcarib/common/lib/data/job");
 const api = require("../../api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
-const string_1 = require("@quenk/noni/lib/data/string");
 const timer_1 = require("@quenk/noni/lib/control/timer");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
 const columns_1 = require("../columns");
@@ -73,11 +72,11 @@ class JobsManager extends manager_1.MiaManager {
                 ]
             }
         };
-        this.model = this.app.getModel(api.JOBS, [
-            new handlers_1.AfterSearchSetData(this.values.table),
+        this.model = this.app.getModel(api.jobs, [
+            new handlers_1.AfterSearchSetData(data => this.values.table.data = data),
             new handlers_1.AfterSearchSetPagination(this.values.table),
             new handlers_1.ShiftingOnComplete([
-                new handlers_1.AfterSearchShowData(this),
+                new handlers_1.OnCompleteShowData(this),
                 new handlers_1.AfterSearchUpdateWidget(this.view, this.values.table.id)
             ])
         ]);
@@ -105,9 +104,8 @@ class JobsManager extends manager_1.MiaManager {
     approveJob(id) {
         let that = this;
         return (0, future_1.doFuture)(function* () {
-            let path = (0, string_1.interpolate)(api.JOB, { id });
             let change = { status: jobStatus.JOB_STATUS_ACTIVE };
-            let r = yield that.model.update(path, change);
+            let r = yield that.model.update(id, change);
             if (r.code == 200) {
                 alert('Job approved!');
                 that.reload();
@@ -134,8 +132,7 @@ class JobsManager extends manager_1.MiaManager {
     removeJob(id) {
         let that = this;
         return (0, future_1.doFuture)(function* () {
-            let path = (0, string_1.interpolate)(api.JOB, { id });
-            let r = yield that.model.remove(path);
+            let r = yield that.model.remove(id);
             if (r.code == 200) {
                 alert('Job removed!');
                 that.reload();

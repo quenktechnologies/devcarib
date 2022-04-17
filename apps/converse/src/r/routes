@@ -1,9 +1,19 @@
+GET     /me         userCtrl.get
+
 POST    /posts      postsCtrl.create +model="post"
-GET     /posts      postsCtrl.search +policy="post"
+GET     /posts      postsCtrl.search +search="post"
 
-GET     /posts/:id  postsCtrl.get
-PATCH   /posts/:id  postsCtrl.update +model="post"
-DELETE  /posts/:id  postsCtrl.remove
+GET     /posts/:id  postsCtrl.get +get="post"
 
-POST    /posts/:post/comments commentsCtrl.create +model="comment" +nparams="post"
-GET     /posts/:post/comments commentsCtrl.search +policy="comment" +query="post:{params.post}"
+--Note: Users can only modify posts they own.
+PATCH   /posts/:id  postsCtrl.update +model="post" +owned
+DELETE  /posts/:id  postsCtrl.remove +model="post" +owned
+
+POST    /posts/:post/comments commentsCtrl.create +model="comment" 
+                                                  +nparams="post"
+
+GET     /posts/:post/comments commentsCtrl.search +search="comment" 
+                                                  +query="post:{params.post}"
+
+-- Note: Users can only update comments they own.
+PATCH   /comments/:id commentsCtrl.update +model="comment" +owned

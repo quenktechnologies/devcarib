@@ -7,7 +7,7 @@ import { Pagination, RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
 import {
     AfterSearchSetData,
     AfterSearchSetPagination,
-    AfterSearchShowData,
+    OnCompleteShowData,
     AfterSearchUpdateWidget,
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
@@ -92,7 +92,7 @@ export abstract class MiaManager<T extends Object, M>
      */
     afterFormSaved() {
 
-        return this.search({}).map(()=>{});
+        return this.search({}).map(() => { });
 
     }
 
@@ -106,13 +106,13 @@ export abstract class MiaManager<T extends Object, M>
 
 export const defaultHandlers = <T extends Object, M>(mgr: MiaManager<T, M>) => [
 
-    new AfterSearchSetData(mgr.values.table),
+    new AfterSearchSetData<T>(data => mgr.values.table.data = data),
 
     new AfterSearchSetPagination(mgr.values.table),
 
     new ShiftingOnComplete([
 
-        new AfterSearchShowData(mgr),
+        new OnCompleteShowData(mgr),
 
         new AfterSearchUpdateWidget(mgr.view, mgr.values.table.id)
 

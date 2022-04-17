@@ -13,6 +13,8 @@ app.filters = [
 
   @devcarib/server/lib/filters/body#fromParams,
 
+  @devcarib/server/lib/filters/audit#ensureOwner,
+
   @devcarib/server/lib/filters/query#compile({
 
     policies = @converse/filter-policies#policiesEnabled

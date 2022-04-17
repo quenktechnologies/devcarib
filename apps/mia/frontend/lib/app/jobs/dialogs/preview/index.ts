@@ -25,7 +25,7 @@ export class JobPreviewDialog extends ConfirmDialog<void> {
 
     view = new JobPreviewDialogView(this);
 
-    jobModel = this.app.getModel(api.JOB);
+    jobModel = this.app.getModel(api.jobs);
 
     values = {
 

@@ -12,6 +12,7 @@ import { supportedPaymentFrequencies } from '@devcarib/common/lib/data/payment';
 import {
     REMOTE_FORM_MODE_UPDATE
 } from '@devcarib/frontend/lib/app/scene/form/remote';
+
 import { MiaFormDialog } from '../../../common/scene/dialog/form';
 import { EditJobDialogView } from './views/edit';
 
@@ -24,7 +25,7 @@ export class EditJobDialog extends MiaFormDialog<Job, void> {
 
     view = new EditJobDialogView(this);
 
-    model = this.app.getModel(api.JOB);
+    model = this.app.getModel(api.jobs);
 
     mode = REMOTE_FORM_MODE_UPDATE;
 

@@ -10,9 +10,20 @@ import { CommentStreamView } from './views';
 export interface CommentStreamAttrs extends Attrs {
 
     /**
+     * user if specified, is the id of the current user that will be used to
+     * toggle the edit link of any comments created by the user.
+     */
+    user?: number,
+
+    /**
      * data is the comments to initialize the stream with.
      */
-    data?: Comment[]
+    data?: Comment[],
+
+        /**
+         * onEdit is called when a comment has been inline edited.
+         */
+        onEdit?: (data:Comment) => void
 
 }
 
@@ -25,7 +36,11 @@ export class CommentStream extends Component<CommentStreamAttrs> {
 
     values = {
 
+        user: this.attrs.user || -1,
+
         data: this.attrs.data?.slice() || [],
+
+        onEdit: this.attrs.onEdit
 
     }
 

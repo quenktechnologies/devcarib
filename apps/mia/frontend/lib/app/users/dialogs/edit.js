@@ -12,7 +12,7 @@ class EditUserDialog extends add_1.AddUserDialog {
         super(...arguments);
         this.name = 'Edit';
         this.mode = remote_1.REMOTE_FORM_MODE_UPDATE;
-        this.model = this.app.getModel(api.USER);
+        this.model = this.app.getModel(api.users);
     }
 }
 exports.EditUserDialog = EditUserDialog;

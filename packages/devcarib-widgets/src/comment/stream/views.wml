@@ -7,7 +7,18 @@
 
   {% for comment in @values.data %}
 
-    <CommentPanel data={{comment}} />
+    {% if (comment.created_by && (comment.created_by.id == @values.user)) %}
+
+      <CommentPanel 
+        editable=true
+        data={{comment}} 
+        onEdit={{@values.onEdit}} />
+
+    {% else %}
+
+      <CommentPanel data={{comment}} />
+
+    {% endif %}
 
   {% endfor %}
 

@@ -1,26 +1,40 @@
 {
 
-    "created_by": {	    
+    "created_by": {
 
-                "type": "object",
+        "type": "object",
 
-                "readOnly": true,
+        "readOnly": true,
 
-                "properties": {
+        "properties": {
 
-                    "id": "number",
+            "id": {
 
-                    "username": "string"
+                "type": "number",
 
-                }
+                "filterAs": ["number", "numbers"]
 
             },
+
+            "username": {
+
+                "type": "string",
+
+                "filterAs": "matchci"
+
+            }
+
+        }
+
+    },
 
     "created_on": {
 
         "type": "string",
 
-        "readOnly": true
+        "readOnly": true,
+
+        "filterAs": "date"
 
     },
 
@@ -28,24 +42,38 @@
 
         "type": "string",
 
-        "readOnly": true
+        "readOnly": true,
+
+        "filterAs": "date"
 
     },
 
     "last_updated_by": {
 
-                "type": "object",
+        "type": "object",
 
-                "readOnly": true,
+        "readOnly": true,
 
-                "properties": {
+        "properties": {
 
-                    "id": "number",
+                     "id": {
 
-                    "username": "string"
+                "type": "number",
 
-                }
+                "filterAs": ["number", "numbers"]
+
+            },
+
+            "username": {
+
+                "type": "string",
+
+                "filterAs": "matchci"
 
             }
 
         }
+
+    }
+
+}

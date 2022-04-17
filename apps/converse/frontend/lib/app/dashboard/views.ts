@@ -10,7 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {PostStream} from '@devcarib/widgets/lib/post/stream'; ;
-import {Dashboard} from '../'; 
+import {Dashboard} from '.'; 
 
 
 //@ts-ignore:6192

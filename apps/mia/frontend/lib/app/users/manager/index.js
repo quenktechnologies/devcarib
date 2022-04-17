@@ -52,7 +52,7 @@ class UsersManager extends manager_1.MiaManager {
                 add: () => this.add()
             }
         };
-        this.model = this.app.getModel(api.USERS, (0, manager_1.defaultHandlers)(this));
+        this.model = this.app.getModel(api.users, (0, manager_1.defaultHandlers)(this));
     }
     /**
      * add brings up the form for adding a new user.

@@ -15,7 +15,7 @@ class JobPreviewDialog extends confirm_1.ConfirmDialog {
         this.onEdit = onEdit;
         this.name = 'Job Preview Dialog';
         this.view = new preview_1.JobPreviewDialogView(this);
-        this.jobModel = this.app.getModel(api.JOB);
+        this.jobModel = this.app.getModel(api.jobs);
         this.values = {
             data: this.job,
             frame: {

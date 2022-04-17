@@ -20,7 +20,7 @@ export class CreatePostForm extends RemoteForm<Post, void> {
 
     view = new CreatePostFormView(this);
 
-    model = this.getModel(api.POSTS);
+    model = this.getModel(api.posts);
 
     values = {
 

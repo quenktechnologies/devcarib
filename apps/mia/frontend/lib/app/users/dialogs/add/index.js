@@ -14,7 +14,7 @@ class AddUserDialog extends form_1.MiaFormDialog {
         super(...arguments);
         this.name = 'Add User';
         this.view = new add_1.AddUserDialogView(this);
-        this.model = this.getModel(api.USERS);
+        this.model = this.getModel(api.users);
         this.value = (0, record_1.merge)({ status: status_1.USER_STATUS_ACTIVE }, this.value);
         this.values = {
             data: this.value,

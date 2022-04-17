@@ -16,6 +16,7 @@ import { CreatePostForm } from './forms/post';
 import { DashboardView } from './views';
 
 class DefaultPagination {
+
     current = {
 
         count: 0,
@@ -63,7 +64,7 @@ export class Dashboard extends ConverseScene<void> {
 
     };
 
-    posts = this.app.getModel(api.POSTS, [
+    posts = this.app.getModel(api.posts, {}, [
 
         new AfterSearchSetData(data => this.values.posts.data = data),
 

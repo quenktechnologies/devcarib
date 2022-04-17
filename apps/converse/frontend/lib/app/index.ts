@@ -1,6 +1,15 @@
-import { Future, pure } from '@quenk/noni/lib/control/monad/future';
+import * as api from './api';
+
+import {
+    Future,
+    pure,
+    doFuture,
+    voidPure
+} from '@quenk/noni/lib/control/monad/future';
 
 import { DevCarib } from '@devcarib/frontend/lib/app';
+
+import { User } from '@converse/types/lib/user';
 
 import { ConverseView } from './views/app';
 import { routes } from './routes';
@@ -13,6 +22,8 @@ export class Converse extends DevCarib {
     view = new ConverseView(this);
 
     routes = routes;
+
+    user: User = {};
 
     values = {
 
@@ -48,6 +59,34 @@ export class Converse extends DevCarib {
 
                 }) :
             pure(<void>undefined);
+
+    }
+
+    run() {
+
+        let that = this;
+
+        let runSuper = () => super.run();
+
+        doFuture(function*() {
+
+            let res = yield that.agent.get(api.me.get);
+
+            if (res.code === 200) {
+
+                that.user = res.body.data;
+
+                runSuper();
+
+            } else {
+
+                window.location.replace('/converse/login');
+
+            }
+
+            return voidPure;
+
+        }).fork();
 
     }
 

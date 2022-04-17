@@ -12,7 +12,7 @@ class CreatePostForm extends remote_1.RemoteForm {
         super(...arguments);
         this.name = 'Create Post';
         this.view = new views_1.CreatePostFormView(this);
-        this.model = this.getModel(api.POSTS);
+        this.model = this.getModel(api.posts);
         this.values = {
             data: this.value,
             errors: {},

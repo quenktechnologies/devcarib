@@ -51,4 +51,4 @@ export declare abstract class MiaManager<T extends Object, M> extends MiaScene<M
     afterFormSaved(): Future<void>;
     run(): Future<T[]>;
 }
-export declare const defaultHandlers: <T extends Object, M>(mgr: MiaManager<T, M>) => (AfterSearchSetData<T> | AfterSearchSetPagination<Object> | ShiftingOnComplete<import("@quenk/jouvert/lib/app/remote/model").SearchResult<Object>>)[];
+export declare const defaultHandlers: <T extends Object, M>(mgr: MiaManager<T, M>) => (AfterSearchSetData<T> | AfterSearchSetPagination<Object> | ShiftingOnComplete<unknown>)[];

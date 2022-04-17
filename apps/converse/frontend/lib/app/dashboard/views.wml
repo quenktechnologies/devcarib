@@ -3,9 +3,7 @@
 
 {% import (PostStream) from "@devcarib/widgets/lib/post/stream" %}
 
-{% import (Dashboard) from "../" %}
-
-{% view DashboardView (Dashboard) %}
+{% view DashboardView (Dashboard from ".") %}
 
 <GridLayout>
 

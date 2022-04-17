@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Converse = void 0;
+const api = require("./api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const app_1 = require("@devcarib/frontend/lib/app");
 const app_2 = require("./views/app");
@@ -13,6 +14,7 @@ class Converse extends app_1.DevCarib {
         super(...arguments);
         this.view = new app_2.ConverseView(this);
         this.routes = routes_1.routes;
+        this.user = {};
         this.values = {
             header: {
                 links: {},
@@ -32,6 +34,21 @@ class Converse extends app_1.DevCarib {
                 return (0, future_1.pure)(undefined);
             }) :
             (0, future_1.pure)(undefined);
+    }
+    run() {
+        let that = this;
+        let runSuper = () => super.run();
+        (0, future_1.doFuture)(function* () {
+            let res = yield that.agent.get(api.me.get);
+            if (res.code === 200) {
+                that.user = res.body.data;
+                runSuper();
+            }
+            else {
+                window.location.replace('/converse/login');
+            }
+            return future_1.voidPure;
+        }).fork();
     }
 }
 exports.Converse = Converse;

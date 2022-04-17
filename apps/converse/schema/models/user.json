@@ -46,15 +46,7 @@
 
             "type": "number",
 
-            "filterAs": ["number", "numbers"],
-
-            "readOnly": true,
-
-            "checks": [
-
-                ["@devcarib/server/lib/data/checks#unique", ["_collection", "'id'"]]
-
-            ]
+            "readOnly": true
 
         },
 

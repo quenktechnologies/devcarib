@@ -24,7 +24,7 @@ export class AddUserDialog extends MiaFormDialog<User, void> {
 
     view = new AddUserDialogView(this);
 
-    model = this.getModel(api.USERS);
+    model = this.getModel(api.users);
 
     value: User = merge({ status: USER_STATUS_ACTIVE }, this.value);
 

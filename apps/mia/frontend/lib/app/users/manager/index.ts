@@ -97,7 +97,7 @@ export class UsersManager extends MiaManager<User, void> {
 
     }
 
-    model: RemoteModel<User> = this.app.getModel(api.USERS, defaultHandlers(this));
+    model: RemoteModel<User> = this.app.getModel(api.users, defaultHandlers(this));
 
     /**
      * add brings up the form for adding a new user.

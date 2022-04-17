@@ -10,6 +10,7 @@ import { Request } from '@quenk/frontend-routers/lib/hash';
 
 import { Dashboard } from './dashboard';
 import { Converse } from './';
+import { PostThread } from './posts/thread';
 
 let ignoredErrors = ['ClientError', 'ServerError'];
 
@@ -17,6 +18,7 @@ const trap = (e: Err) => contains(ignoredErrors, e.message) ?
     ACTION_IGNORE : ACTION_RAISE;
 
 export const routes: RoutingTable<Request> = {
+
     '/': {
 
         id: 'dashboard',
@@ -25,6 +27,17 @@ export const routes: RoutingTable<Request> = {
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new Dashboard(<Converse>s, r)
+
+    },
+
+    '/posts/:id': {
+
+        id: 'post',
+
+        trap,
+
+        create: (s: System, _: object, r: Resume<Request>) =>
+        new PostThread(<Converse>s, r)
 
     }
 

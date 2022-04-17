@@ -15,6 +15,6 @@ export class EditUserDialog extends AddUserDialog {
 
     mode = REMOTE_FORM_MODE_UPDATE;
 
-    model = this.app.getModel(api.USER);
+    model = this.app.getModel(api.users);
 
 }

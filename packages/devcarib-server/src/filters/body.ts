@@ -17,7 +17,9 @@ const supportedMethods = ['POST', 'PATCH'];
  */
 export const fromParams = (req: Request): Action<void> => doAction(function*() {
 
-    if (!supportedMethods.includes(req.method)) return next(req);
+    if (!supportedMethods.includes(req.method) ||
+    !req.route.tags.params &&
+    !req.route.tags.nparams) return next(req);
 
     req.body = getPairs(<string>req.route.tags.params)
         .reduce(ingest(req.params), <Object>req.body);

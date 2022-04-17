@@ -7,7 +7,6 @@ import {
     doFuture
 } from '@quenk/noni/lib/control/monad/future';
 import { Value, Object } from '@quenk/noni/lib/data/jsonx';
-import { interpolate } from '@quenk/noni/lib/data/string';
 import { debounce } from '@quenk/noni/lib/control/timer';
 
 import { Column } from '@quenk/wml-widgets/lib/data/table';
@@ -15,12 +14,12 @@ import { Event } from '@quenk/wml-widgets/lib/control';
 
 import {
     AfterSearchSetData,
-    AfterSearchShowData,
+    OnCompleteShowData,
     AfterSearchSetPagination,
     ShiftingOnComplete,
     AfterSearchUpdateWidget
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
-
+import { Result } from '@quenk/jouvert/lib/app/remote/model';
 
 import { Job } from '@board/types/lib/job';
 
@@ -66,7 +65,7 @@ export class JobsManager extends MiaManager<Job, void> {
 
             title: 'Jobs',
 
-            add: ()=> {},
+            add: () => { },
 
             data: <Job[]>[],
 
@@ -146,15 +145,15 @@ export class JobsManager extends MiaManager<Job, void> {
 
     }
 
-    model = this.app.getModel(api.JOBS, [
+    model = this.app.getModel(api.jobs, [
 
-        new AfterSearchSetData(this.values.table),
+        new AfterSearchSetData(data => this.values.table.data = data),
 
         new AfterSearchSetPagination(this.values.table),
 
-        new ShiftingOnComplete([
+        new ShiftingOnComplete<void|Result<Job>>([
 
-            new AfterSearchShowData(this),
+            new OnCompleteShowData(this),
 
             new AfterSearchUpdateWidget(this.view, this.values.table.id)
 
@@ -195,11 +194,9 @@ export class JobsManager extends MiaManager<Job, void> {
 
         return doFuture<void>(function*() {
 
-            let path = interpolate(api.JOB, { id });
-
             let change = { status: jobStatus.JOB_STATUS_ACTIVE };
 
-            let r = yield that.model.update(path, change);
+            let r = yield that.model.update(id, change);
 
             if (r.code == 200) {
 
@@ -244,9 +241,7 @@ export class JobsManager extends MiaManager<Job, void> {
 
         return doFuture<void>(function*() {
 
-            let path = interpolate(api.JOB, { id });
-
-            let r = yield that.model.remove(path);
+            let r = yield that.model.remove(id);
 
             if (r.code == 200) {
 

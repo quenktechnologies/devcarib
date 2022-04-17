@@ -14,7 +14,7 @@ class EditJobDialog extends form_1.MiaFormDialog {
         super(...arguments);
         this.name = 'Job Edit Dialog';
         this.view = new edit_1.EditJobDialogView(this);
-        this.model = this.app.getModel(api.JOB);
+        this.model = this.app.getModel(api.jobs);
         this.mode = remote_1.REMOTE_FORM_MODE_UPDATE;
         this.values = {
             data: this.value,
