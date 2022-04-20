@@ -28,8 +28,8 @@ class RemoteForm extends _1.DevCaribForm {
      *
      * A handler is installed by default to handle the 409 "Conflict" response.
      */
-    getModel(resource) {
-        return this.app.getModel(resource, new handlers_1.OnSaveFailed(this));
+    getModel(paths) {
+        return this.app.getModel(paths, new handlers_1.OnSaveFailed(this));
     }
     /**
      * onSaveFailed handles errors from a 409 "Conflict" response, indicating

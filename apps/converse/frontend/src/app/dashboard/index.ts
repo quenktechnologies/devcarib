@@ -64,7 +64,7 @@ export class Dashboard extends ConverseScene<void> {
 
     };
 
-    posts = this.app.getModel(api.posts, {}, [
+    posts = this.app.getModel(api.posts, [
 
         new AfterSearchSetData(data => this.values.posts.data = data),
 

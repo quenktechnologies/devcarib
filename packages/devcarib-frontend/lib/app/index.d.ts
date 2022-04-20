@@ -1,9 +1,11 @@
 import { View } from '@quenk/wml';
 import { Record } from '@quenk/noni/lib/data/record';
 import { Object } from '@quenk/noni/lib/data/jsonx';
+import { Conf } from '@quenk/potoo/lib/actor/system/vm/conf';
 import { Address } from '@quenk/potoo/lib/actor/address';
 import { Message } from '@quenk/potoo/lib/actor/message';
 import { CompleteHandlerSpec, RemoteModelFactory } from '@quenk/jouvert/lib/app/remote/model/factory';
+import { Paths } from '@quenk/jouvert/lib/app/remote/model';
 import { RoutingTable } from '@quenk/jouvert/lib/app/service/director';
 import { Jouvert, Template } from '@quenk/jouvert';
 import { DefaultRequest, HashRouter } from '@quenk/frontend-routers/lib/hash';
@@ -20,18 +22,8 @@ import { DefaultRequest, HashRouter } from '@quenk/frontend-routers/lib/hash';
 export declare abstract class DevCarib extends Jouvert {
     main: HTMLElement;
     dialogs: HTMLElement;
-    conf: {
-        log: {
-            level: number;
-            logger: Console;
-        };
-    };
-    constructor(main: HTMLElement, dialogs: HTMLElement, conf?: {
-        log: {
-            level: number;
-            logger: Console;
-        };
-    });
+    conf: Partial<Conf>;
+    constructor(main: HTMLElement, dialogs: HTMLElement, conf?: Partial<Conf>);
     /**
      * view is the main view of the application.
      *
@@ -62,7 +54,7 @@ export declare abstract class DevCarib extends Jouvert {
     /**
      * getModel is a factory method for creating [[RemoteModel]] instances.
      */
-    getModel<T extends Object>(path: string, handler?: CompleteHandlerSpec<T>): import("@quenk/jouvert/lib/app/remote/model").RemoteModel<Object>;
+    getModel<T extends Object>(paths: Paths, handler?: CompleteHandlerSpec<T>, context?: Object): import("@quenk/jouvert/lib/app/remote/model").RemoteModel<Object>;
     /**
      * spawn an actor directly from the root.
      *

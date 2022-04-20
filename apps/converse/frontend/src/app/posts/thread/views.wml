@@ -1,8 +1,7 @@
-{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 
-{% import (PostMetadata) from "@devcarib/widgets/lib/post/metadata" %}
 {% import (PostEditor) from "@devcarib/widgets/lib/post/editor" %} 
+{% import (PostPanel) from "@devcarib/widgets/lib/post/panel" %}
 {% import (CommentStream) from "@devcarib/widgets/lib/comment/stream" %}
 
 {% view PostThreadView (PostThread from ".") %}
@@ -16,31 +15,11 @@
 
           <Column>
 
-            <Panel ww:className="converse-post">
-
-              <PanelBody>
-
-                <header class="converse-post__header">
-
-                  <PostMetadata data={{@values.post.data}} />
-
-                  <h1>{{@values.post.data.title | text }}</h1>
-
-                </header>
-
-                {% if @values.post.data.body ?? %}
-
-                  <div class="converse-post_body">
-
-                    {{@values.post.data.body_html | unsafe }}
-
-                  </div>
-
-                {% endif %}
-
-              </PanelBody>
-
-            </Panel>
+            <PostPanel
+              editable={{@values.post.data.created_by &&
+                         (@values.post.data.created_by.id == @app.user.id)}}
+              data={{@values.post.data}} 
+              onEdit={{@values.post.onEdit}} />
 
         </Column>
 

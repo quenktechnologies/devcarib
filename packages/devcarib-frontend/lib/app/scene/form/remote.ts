@@ -2,7 +2,7 @@ import { Object } from '@quenk/noni/lib/data/jsonx';
 import { doFuture, Future, voidPure } from '@quenk/noni/lib/control/monad/future';
 
 import { FormErrors, SaveFailed, SaveOk } from '@quenk/jouvert/lib/app/scene/form';
-import { RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
+import { Paths, RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
 import { OnSaveFailed } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { Close } from '@quenk/jouvert/lib/app/service/display';
 
@@ -47,9 +47,9 @@ export abstract class RemoteForm<T extends Object, M>
      *
      * A handler is installed by default to handle the 409 "Conflict" response.
      */
-    getModel(resource: string): RemoteModel<T> {
+    getModel(paths: Paths): RemoteModel<T> {
 
-        return <RemoteModel<T>>this.app.getModel(resource,
+        return <RemoteModel<T>>this.app.getModel(paths,
             new OnSaveFailed(this));
 
     }

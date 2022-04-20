@@ -151,7 +151,7 @@ export class JobsManager extends MiaManager<Job, void> {
 
         new AfterSearchSetPagination(this.values.table),
 
-        new ShiftingOnComplete<void|Result<Job>>([
+        new ShiftingOnComplete<void | Result<Job>>([
 
             new OnCompleteShowData(this),
 

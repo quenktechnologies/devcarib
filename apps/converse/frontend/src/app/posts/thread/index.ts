@@ -79,7 +79,14 @@ export class PostThread extends ConverseScene<void> {
 
         post: {
 
-            data: <Post>{}
+            data: <Post>{},
+
+            onEdit: (post: Post) => {
+
+                this.wait(<Future<void>><Future<unknown>>this.posts
+                    .update(<number>this.values.post.data.id, post));
+
+            }
 
         },
 
@@ -128,10 +135,12 @@ export class PostThread extends ConverseScene<void> {
 
     posts = this.app.getModel(
         api.posts,
-        {},
         [
 
-            new AfterGetSetData(data => this.values.post.data = data),
+            new AfterGetSetData(data => {
+                if (data)
+                    this.values.post.data = data
+            }),
 
             new OnCompleteShowData(this),
 
@@ -139,7 +148,7 @@ export class PostThread extends ConverseScene<void> {
 
         ]);
 
-    comments = this.app.getModel(api.comments, this.resume.request.params, [
+    comments = this.app.getModel(api.comments, [
 
         new AfterSearchSetData(data => this.values.comments.data = data),
 
@@ -149,9 +158,9 @@ export class PostThread extends ConverseScene<void> {
 
         new OnPatchCommentFailed(this)
 
-    ]);
+    ], <Object>this.resume.request.params);
 
-    comment = this.app.getModel(api.comments, {}, [
+    comment = this.app.getModel(api.comments, [
 
         new OnPatchCommentFailed(this)
 

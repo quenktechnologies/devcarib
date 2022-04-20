@@ -8,6 +8,12 @@ const remote_1 = require("@quenk/jouvert/lib/app/remote");
 const jouvert_1 = require("@quenk/jouvert");
 const hash_1 = require("@quenk/frontend-routers/lib/hash");
 const browser_1 = require("@quenk/jhr/lib/browser");
+const defaultConf = {
+    log: {
+        level: Number(process.env.PVM_LOG_LEVEL) || 1,
+        logger: console
+    }
+};
 /**
  * DevCarib serves as the parent class for the various frontend SPAs.
  *
@@ -19,7 +25,7 @@ const browser_1 = require("@quenk/jhr/lib/browser");
  * @param conf       - Potoo compatiable configuration object.
  */
 class DevCarib extends jouvert_1.Jouvert {
-    constructor(main, dialogs, conf = { log: { level: 1, logger: console } }) {
+    constructor(main, dialogs, conf = defaultConf) {
         super(conf);
         this.main = main;
         this.dialogs = dialogs;
@@ -47,8 +53,8 @@ class DevCarib extends jouvert_1.Jouvert {
     /**
      * getModel is a factory method for creating [[RemoteModel]] instances.
      */
-    getModel(path, handler) {
-        return this.models.create(path, handler);
+    getModel(paths, handler = [], context = {}) {
+        return this.models.create(paths, handler, context);
     }
     /**
      * spawn an actor directly from the root.

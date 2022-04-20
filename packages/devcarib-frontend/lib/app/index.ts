@@ -3,6 +3,7 @@ import { View } from '@quenk/wml';
 import { Record } from '@quenk/noni/lib/data/record';
 import { Object } from '@quenk/noni/lib/data/jsonx';
 
+import { Conf } from '@quenk/potoo/lib/actor/system/vm/conf';
 import { Address } from '@quenk/potoo/lib/actor/address';
 import { Message } from '@quenk/potoo/lib/actor/message';
 
@@ -15,6 +16,7 @@ import {
     CompleteHandlerSpec,
     RemoteModelFactory
 } from '@quenk/jouvert/lib/app/remote/model/factory';
+import { Paths } from '@quenk/jouvert/lib/app/remote/model';
 import { Director, RoutingTable } from '@quenk/jouvert/lib/app/service/director';
 import { Remote } from '@quenk/jouvert/lib/app/remote';
 import { Jouvert, Template } from '@quenk/jouvert';
@@ -24,6 +26,13 @@ import { MainLayout } from '@quenk/wml-widgets/lib/layout/main';
 import { DefaultRequest, HashRouter } from '@quenk/frontend-routers/lib/hash';
 
 import { createAgent } from '@quenk/jhr/lib/browser';
+
+const defaultConf: Partial<Conf> = {
+    log: {
+        level: Number(process.env.PVM_LOG_LEVEL) || 1,
+        logger: console
+    }
+}
 
 /**
  * DevCarib serves as the parent class for the various frontend SPAs.
@@ -40,7 +49,7 @@ export abstract class DevCarib extends Jouvert {
     constructor(
         public main: HTMLElement,
         public dialogs: HTMLElement,
-        public conf = { log: { level: 1, logger: console } }) { super(conf); }
+        public conf = defaultConf) { super(conf); }
 
     /**
      * view is the main view of the application.
@@ -81,9 +90,13 @@ export abstract class DevCarib extends Jouvert {
     /**
      * getModel is a factory method for creating [[RemoteModel]] instances.
      */
-    getModel<T extends Object>(path: string, handler?: CompleteHandlerSpec<T>) {
+    getModel<T extends Object>(
+        paths: Paths,
+        handler: CompleteHandlerSpec<T> = [],
+        context: Object = {}
+    ) {
 
-        return this.models.create(path, handler);
+        return this.models.create(paths, handler, context);
 
     }
 
