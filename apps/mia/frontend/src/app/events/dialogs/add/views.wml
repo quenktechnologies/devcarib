@@ -1,0 +1,182 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+{% import (DateField) from "@quenk/wml-widgets/lib/control/date-field" %}
+{% import (DropList) from "@quenk/wml-widgets/lib/control/drop-list" %}
+{% import (Label) from "@quenk/wml-widgets/lib/control/label" %}
+{% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
+
+{% view AddEventDialogView (AddEventDialog from ".") %}
+<GridLayout>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+       wml:id="title"
+       ww:name="title"
+       ww:label="Title*"
+       ww:error={{@values.errors.title}}
+       ww:value={{@values.data.title}}
+       ww:onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <Label>Starts</Label>
+
+    </Column>
+
+    <Column ww:span=8>
+
+      <DateField
+        wml:id="startDate"
+        ww:className="start-date -block"
+        ww:placeholder="YYYY-MM-DD"
+        ww:name="startDate"     
+        ww:value={{@values.start.date()}}
+        ww:onChange={{@values.start.onChange}} />
+
+    </Column>
+
+    <Column ww:span=4>
+
+      <DropList
+        wml:id="startTime"
+        ww:name="startTime"
+        ww:className="start-time"
+        ww:value={{@values.start.time()}}
+        ww:options={{@values.start.timeOptions}}
+        ww:onSelect={{@values.start.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <Label>Ends</Label>
+
+    </Column>
+
+    <Column ww:span=8>
+
+      <DateField
+        wml:id="endDate"
+        ww:className="start-date -block"
+        ww:placeholder="YYYY-MM-DD"
+        ww:name="endDate"     
+        ww:value={{@values.end.date()}}
+        ww:onChange={{@values.end.onChange}} />
+
+    </Column>
+
+    <Column ww:span=4>
+
+      <DropList
+        wml:id="endTime"
+        ww:name="endTime"
+        ww:className="start-time"
+        ww:value={{@values.end.time()}}
+        ww:options={{@values.end.timeOptions}}
+        ww:onSelect={{@values.end.onChange}} />
+
+    </Column>
+
+    <Column>
+
+      <Label>All day event? </Label>
+
+      <Checkbox
+        wml:id="allDay"
+        ww:name="allDay"
+        ww:value={{@values.data.allDay}}
+        ww:onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+       wml:id="host"
+       ww:name="host"
+       ww:label="Host"
+       ww:error={{@values.errors.host}}
+       ww:value={{@values.data.host}}
+       ww:onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+       wml:id="location"
+       ww:name="location"
+       ww:label="Location"
+       ww:error={{@values.errors.location}}
+       ww:value={{@values.data.location}}
+       ww:onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+       wml:id="url"
+       ww:name="url"
+       ww:label="Url"
+       ww:error={{@values.errors.url}}
+       ww:value={{@values.data.url}}
+       ww:onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+    </Column>
+
+  </Row>
+
+</GridLayout>
+

@@ -21,3 +21,12 @@ GET     /users        usersCtrl.search +policy="user"
 PATCH   /users/:id    usersCtrl.update +model="user"
 GET     /users/:id    usersCtrl.get
 DELETE  /users/:id    usersCtrl.remove
+
+-- Events
+
+POST    /events        eventsCtrl.create +model="event"
+GET     /events        eventsCtrl.search +policy="event"
+
+PATCH   /events/:id    eventsCtrl.update +model="event"
+GET     /events/:id    eventsCtrl.get
+DELETE  /events/:id    eventsCtrl.remove

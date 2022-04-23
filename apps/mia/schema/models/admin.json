@@ -42,7 +42,7 @@
 
     "checks": [
 
-        ["@devcarib/server/lib/data/checks#inc", ["'users'"]]
+        ["@devcarib/server/lib/data/checks#inc", ["'admins'"]]
 
     ],
 

@@ -26,7 +26,9 @@ export class Mia extends DevCarib {
 
                 'Jobs': '#/jobs',
 
-                'Users': '#/users'
+                'Users': '#/users',
+
+                'Events': '#/events'
 
             },
 

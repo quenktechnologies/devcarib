@@ -10,6 +10,7 @@ import { Request } from '@quenk/frontend-routers/lib/hash';
 
 import { JobsManager } from './jobs/manager';
 import { UsersManager } from './users/manager';
+import { EventsManager } from './events/manager';
 import { Mia } from './';
 
 let ignoredErrors = ['ClientError', 'ServerError'];
@@ -48,6 +49,17 @@ export const routes: RoutingTable<Request> = {
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new UsersManager(<Mia>s, r)
+
+    },
+
+    '/events': {
+
+        id: 'events',
+
+        trap,
+
+        create: (s: System, _: object, r: Resume<Request>) =>
+            new EventsManager(<Mia>s, r)
 
     }
 
