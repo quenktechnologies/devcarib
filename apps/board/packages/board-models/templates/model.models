@@ -1,0 +1,51 @@
+{% from "macros/params.models" import params2TS,thisAndParamNames2TS %}
+{% from "macros/imports.models" import imports2TS %}
+
+ /** imports */
+import {BaseModel} from '@quenk/dback-model-mongodb';
+{{imports2TS(document.imports)}}
+
+{% set classname = document.title + "Model" | classcase %}
+
+/**
+ * @private Used by templates during generation.
+ */
+export { 
+  {{classname}} as ModelImpl, 
+  {{document.model.type}} as DataType  
+}
+
+/**
+ * {{classname}}Model.
+ * AUTO-GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
+ */
+export class {{classname}} extends BaseModel<{{document.model.type}}> {
+
+  constructor(
+    public name: string,
+    public database: mongodb.Db,
+    public collection : mongodb.Collection) { super(database, collection); }
+
+  {% if document.id %}
+    id = '{{document.id.name}}';
+  {% else %}
+    id = 'id';
+  {% endif %}
+
+  {% for k,p in document.procedures %}
+
+  {{k}}({{params2TS(p.parameters)}}) : {{p.type}} {
+  
+    {% include p.template %}
+
+  }
+
+  {% endfor -%}
+
+  static getInstance (db: mongodb.Db) : {{classname}} {
+    {% set name = document.collection %}
+    return new {{classname}}('{{name}}', db, db.collection('{{name}}'));
+
+  }
+
+}
