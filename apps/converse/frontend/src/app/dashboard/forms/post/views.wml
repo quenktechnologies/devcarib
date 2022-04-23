@@ -1,10 +1,12 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 
 {% import (PostEditor) from "@devcarib/widgets/lib/post/editor" %} 
+{% import (BackButton) from "@devcarib/widgets/lib/control/button/back" %}
 
 {% import (CreatePostForm) from "./" %}
 
 {% view CreatePostFormView (CreatePostForm) %}
+
 <GridLayout>
 
   <Row>
@@ -15,7 +17,13 @@
 
         <Column>
 
-          <h1>Start a new discussion</h1>
+          <div class="converse-create-post-header">
+
+            <BackButton onClick={{@values.onCancel}} />
+
+            <h1>Create Post</h1>
+
+          </div>
 
         </Column>
 

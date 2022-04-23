@@ -80,12 +80,6 @@ export class Dashboard extends ConverseScene<void> {
 
     ]);
 
-    afterFormSaved() {
-
-        this.reload();
-
-    }
-
     run() {
 
         return this.posts.search({});

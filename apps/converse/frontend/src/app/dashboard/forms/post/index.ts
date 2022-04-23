@@ -28,6 +28,8 @@ export class CreatePostForm extends RemoteForm<Post, void> {
 
         errors: <Record<string>>{},
 
+        onCancel: () => this.abort(),
+
         onChange: (e: Event<Value>) => {
 
             this.tell(this.self(), e);
