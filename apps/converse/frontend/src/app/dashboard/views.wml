@@ -2,6 +2,7 @@
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
 
 {% import (PostStream) from "@devcarib/widgets/lib/post/stream" %}
+{% import (RecentJobsPanel) from "@devcarib/widgets/lib/job/panel/recent" %}
 
 {% view DashboardView (Dashboard from ".") %}
 
@@ -9,7 +10,7 @@
 
   <Row>
 
-    <Column ww:span=6 ww:offset=3>
+    <Column ww:span=7 ww:offset=1>
 
       <Row>
 
@@ -41,6 +42,14 @@
         </Column>
 
       </Row>
+
+    </Column>
+
+    <Column ww:span=3>
+
+      <RecentJobsPanel 
+        wml:id="jobs" 
+        data={{@values.jobs.data}} />
 
     </Column>
 

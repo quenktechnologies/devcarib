@@ -1,0 +1,53 @@
+{% import (Panel,PanelHeader,PanelBody) 
+   from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (ListLayout, ListLayoutItem) 
+   from "@quenk/wml-widgets/lib/layout/list" %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
+
+{% view RecentJobsPanelView (RecentJobsPanel from ".") %}
+
+<Panel ww:className="devcarib-recent-jobs-panel">
+
+  <PanelHeader ww:className="devcarib-recent-jobs-panel__header">
+
+    <h3>Jobs</h3>
+
+  </PanelHeader>
+
+  {% if @values.jobs.length > 0 %}
+
+    <ListLayout>
+
+      {% for job in @values.jobs %}
+
+        <ListLayoutItem>
+
+          <Link
+            ww:className="devcarib-recent-job-title"
+            ww:text={{job.title}}
+            ww:href={{"/jobs/"+job.id}} />
+
+          <div class="devcarib-recent-job-company">{{ job.company | text}}</div>
+
+        </ListLayoutItem>
+
+      {% endfor %}
+
+    </ListLayout>
+
+  {% else %}
+
+    <PanelBody>
+
+      <div class="devcarib-recent-jobs-panel__nojobs">
+
+        No jobs <Link ww:href="/jobs/post" ww:text="create one" />.
+
+      </div>
+
+    </PanelBody>
+
+  {% endif %}
+
+</Panel>
+

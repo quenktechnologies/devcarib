@@ -11,6 +11,8 @@ import { Result } from '@quenk/jouvert/lib/app/remote/model';
 
 import { Post } from '@converse/types/lib/post';
 
+import { Job } from '@board/types/lib/job';
+
 import { ConverseScene } from '../common/scene';
 import { CreatePostForm } from './forms/post';
 import { DashboardView } from './views';
@@ -60,13 +62,27 @@ export class Dashboard extends ConverseScene<void> {
             create: () => this.spawn(() =>
                 new CreatePostForm(this.app, this.self()))
 
+        },
+
+        jobs: {
+
+            id: 'jobs',
+
+            data: <Job[]>[]
+
         }
 
     };
 
     posts = this.app.getModel(api.posts, [
 
-        new AfterSearchSetData(data => this.values.posts.data = data),
+        new AfterSearchSetData(data => {
+
+            this.values.posts.data = data;
+
+            this.jobs.search({ sort: '-created_on', limit: 5 }).fork();
+
+        }),
 
         new AfterSearchSetPagination(this.values.posts),
 
@@ -77,6 +93,14 @@ export class Dashboard extends ConverseScene<void> {
             new AfterSearchUpdateWidget(this.view, this.values.posts.id)
 
         ])
+
+    ]);
+
+    jobs = this.app.getModel(api.jobs, [
+
+            new AfterSearchSetData(data => this.values.jobs.data = data),
+
+        new AfterSearchUpdateWidget(this.view, this.values.jobs.id)
 
     ]);
 
