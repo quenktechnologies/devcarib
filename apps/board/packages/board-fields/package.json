@@ -1,0 +1,12 @@
+{
+    "name": "@board/fields",
+    "version": "0.0.1",
+    "private": true,
+    "main": "lib/index.js",
+    "xdependencies": {
+        "@quenk/noni": "^1.41.2"
+    },
+    "xdevDependencies": {
+        "@quenk/dagen-commons": "^0.5.1"
+    }
+}
