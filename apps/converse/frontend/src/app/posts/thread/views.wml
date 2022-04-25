@@ -6,6 +6,7 @@
 {% import (JobRankPanel) from "@devcarib/widgets/lib/job/panel/rank" %}
 {% import (PostRankPanel) from "@devcarib/widgets/lib/post/panel/rank" %}
 {% import (EventRankPanel) from "@devcarib/widgets/lib/event/panel/rank" %}
+{% import (BackButton) from "@devcarib/widgets/lib/control/button/back" %}
 
 {% view PostThreadView (PostThread from ".") %}
 <GridLayout>
@@ -13,6 +14,20 @@
   <Row>
 
     <Column ww:span=7 ww:offset=1>
+
+      <Row>
+
+        <Column>
+
+          <div class="converse-post-thread-header">
+          
+            <BackButton onClick={{@values.onBack}} /> <h4>Dashboard</h4>
+
+          </div>
+
+        </Column>
+
+      </Row>
       
         <Row>
 

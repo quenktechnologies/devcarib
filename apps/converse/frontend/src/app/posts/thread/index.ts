@@ -80,6 +80,8 @@ export class PostThread extends ConverseScene<void> {
 
     values = {
 
+        onBack: () => { window.location.hash = '' },
+
         post: {
 
             data: <Post>{},
