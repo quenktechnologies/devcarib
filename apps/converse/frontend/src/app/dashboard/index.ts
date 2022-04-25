@@ -100,7 +100,7 @@ export class Dashboard extends ConverseScene<void> {
         new AfterSearchSetData(data => doFuture(function*() {
 
             // @ts-ignore 2683
-            let that = this;
+            let that:Dashboard = this;
 
             that.values.posts.data = data;
 

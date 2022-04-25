@@ -3,13 +3,16 @@
 {% import (PostEditor) from "@devcarib/widgets/lib/post/editor" %} 
 {% import (PostPanel) from "@devcarib/widgets/lib/post/panel" %}
 {% import (CommentStream) from "@devcarib/widgets/lib/comment/stream" %}
+{% import (JobRankPanel) from "@devcarib/widgets/lib/job/panel/rank" %}
+{% import (PostRankPanel) from "@devcarib/widgets/lib/post/panel/rank" %}
+{% import (EventRankPanel) from "@devcarib/widgets/lib/event/panel/rank" %}
 
 {% view PostThreadView (PostThread from ".") %}
 <GridLayout>
 
   <Row>
 
-    <Column ww:span=6 ww:offset=3>
+    <Column ww:span=7 ww:offset=1>
       
         <Row>
 
@@ -48,6 +51,47 @@
             errors={{@values.comment.errors}}
             onChange={{@values.comment.onChange}} 
             onPost={{@values.comment.onPost}} />
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+    <Column ww:span=3>
+
+      <Row>
+
+        <Column>
+
+          <PostRankPanel 
+            wml:id={{@values.posts.recent.id}}
+            title="Recent Posts"
+            data={{@values.posts.recent.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <EventRankPanel 
+            wml:id={{@values.events.id}}
+            data={{@values.events.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <JobRankPanel 
+            wml:id={{@values.jobs.id}} 
+            data={{@values.jobs.data}} />
 
         </Column>
 

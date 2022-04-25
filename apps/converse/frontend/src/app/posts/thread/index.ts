@@ -2,7 +2,7 @@ import * as api from '../../api';
 
 import { Record } from '@quenk/noni/lib/data/record';
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
-import { Future } from '@quenk/noni/lib/control/monad/future';
+import { Future, doFuture, voidPure } from '@quenk/noni/lib/control/monad/future';
 
 import { Conflict, Created, Response } from '@quenk/jhr/lib/response';
 
@@ -18,10 +18,13 @@ import {
     GetHandler
 } from '@quenk/jouvert/lib/app/remote/model';
 
-import { Event } from '@quenk/wml-widgets/lib/control';
+import { Event as ControlEvent } from '@quenk/wml-widgets/lib/control';
+
+import { Job } from '@board/types/lib/job';
 
 import { Post } from '@converse/types/lib/post';
 import { Comment } from '@converse/types/lib/comment';
+import { Event } from '@converse/types/lib/event';
 
 import { ConverseScene } from '../../common/scene';
 import { PostThreadView } from './views';
@@ -90,6 +93,18 @@ export class PostThread extends ConverseScene<void> {
 
         },
 
+        posts: {
+
+            recent: {
+
+                id: 'recent-posts',
+
+                data: <Post[]>[]
+
+            }
+
+        },
+
         comments: {
 
             id: 'comments',
@@ -120,7 +135,7 @@ export class PostThread extends ConverseScene<void> {
 
             errors: <Record<string>>{},
 
-            onChange: (e: Event<Value>) => {
+            onChange: (e: ControlEvent<Value>) => {
 
                 this.values.comment.data[e.name] = e.value;
 
@@ -129,7 +144,24 @@ export class PostThread extends ConverseScene<void> {
             onPost: () => this.wait(<Future<void>><Future<unknown>>
                 this.comments.create(this.values.comment.data))
 
+        },
+
+        jobs: {
+
+            id: 'jobs',
+
+            data: <Job[]>[]
+
+        },
+
+        events: {
+
+            id: 'events',
+
+            data: <Event[]>[]
+
         }
+
 
     };
 
@@ -137,10 +169,22 @@ export class PostThread extends ConverseScene<void> {
         api.posts,
         [
 
-            new AfterGetSetData(data => {
-                if (data)
-                    this.values.post.data = data
-            }),
+            new AfterGetSetData(data => doFuture(function*() {
+
+                // @ts-ignore
+                let that: PostThread = this;
+
+                if (data) that.values.post.data = data
+
+                yield that.recentPosts.search({ sort: '-created_on', limit: 5 });
+
+                yield that.events.search({ sort: '-created_on', limit: 5 });
+
+                yield that.jobs.search({ sort: '-created_on', limit: 5 });
+
+                return voidPure;
+
+            }.bind(this))),
 
             new OnCompleteShowData(this),
 
@@ -150,7 +194,7 @@ export class PostThread extends ConverseScene<void> {
 
     comments = this.app.getModel(api.comments, [
 
-        new AfterSearchSetData(data => { this.values.comments.data = data}),
+        new AfterSearchSetData(data => { this.values.comments.data = data }),
 
         new AfterSearchUpdateWidget(this.view, this.values.comments.id),
 
@@ -163,6 +207,30 @@ export class PostThread extends ConverseScene<void> {
     comment = this.app.getModel(api.comments, [
 
         new OnPatchCommentFailed(this)
+
+    ]);
+
+    recentPosts = this.app.getModel(api.posts, [
+
+        new AfterSearchSetData(data => { this.values.posts.recent.data = data }),
+
+        new AfterSearchUpdateWidget(this.view, this.values.posts.recent.id)
+
+    ]);
+
+    jobs = this.app.getModel(api.jobs, [
+
+        new AfterSearchSetData(data => { this.values.jobs.data = data }),
+
+        new AfterSearchUpdateWidget(this.view, this.values.jobs.id)
+
+    ]);
+
+    events = this.app.getModel(api.events, [
+
+        new AfterSearchSetData(data => { this.values.events.data = data }),
+
+        new AfterSearchUpdateWidget(this.view, this.values.events.id)
 
     ]);
 
