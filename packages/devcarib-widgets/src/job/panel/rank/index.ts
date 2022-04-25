@@ -2,12 +2,12 @@ import { Attrs, Component } from '@quenk/wml';
 
 import { Job } from '@board/types/lib/job';
 
-import { RecentJobsPanelView } from './views';
+import { JobRankPanelView } from './views';
 
 /**
- * RecentJobsPanelAttrs
+ * JobRankPanelAttrs
  */
-export interface RecentJobsPanelAttrs extends Attrs {
+export interface JobRankPanelAttrs extends Attrs {
 
     /**
      * data is the list of jobs recently posted.
@@ -17,11 +17,11 @@ export interface RecentJobsPanelAttrs extends Attrs {
 }
 
 /**
- * RecentJobsPanel displays a listing of recent jobs.
+ * JobRankPanel displays a listing of recent jobs.
  */
-export class RecentJobsPanel extends Component<RecentJobsPanelAttrs> {
+export class JobRankPanel extends Component<JobRankPanelAttrs> {
 
-    view = new RecentJobsPanelView(this);
+    view = new JobRankPanelView(this);
 
     values = {
 

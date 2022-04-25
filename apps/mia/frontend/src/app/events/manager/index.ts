@@ -131,7 +131,7 @@ export class EventsManager extends MiaManager<Event, void> {
 
     model = this.app.getModel(api.events, [
 
-        new AfterSearchSetData(data => this.values.table.data = data),
+        new AfterSearchSetData(data =>{ this.values.table.data = data}),
 
         new AfterSearchSetPagination(this.values.table),
 

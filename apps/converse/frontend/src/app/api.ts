@@ -44,6 +44,20 @@ export const jobs: Paths = {
 
     get: '/r/jobs/{id}',
 
-    remove: '/converse/r/jobs/{id}'
+    remove: '/r/jobs/{id}'
+
+}
+
+export const events: Paths = {
+
+    create: '/converse/r/events',
+
+    search: '/converse/r/events',
+
+    update: '/converse/events/{id}',
+
+    get: '/converse/r/events/{id}',
+
+    remove: '/converse/r/events/{id}'
 
 }

@@ -150,7 +150,7 @@ export class PostThread extends ConverseScene<void> {
 
     comments = this.app.getModel(api.comments, [
 
-        new AfterSearchSetData(data => this.values.comments.data = data),
+        new AfterSearchSetData(data => { this.values.comments.data = data}),
 
         new AfterSearchUpdateWidget(this.view, this.values.comments.id),
 

@@ -28,7 +28,6 @@
 
     },
 
-
     "validators:imports": {
 
         "@converse/types/lib/comment": "Comment"
@@ -52,7 +51,6 @@
         ["@devcarib/server/lib/data/checks#parseMarkdown", ["'body'", "'body_html'"]]
 
     ],
-
 
     "properties": {
 

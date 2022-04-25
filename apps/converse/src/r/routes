@@ -17,3 +17,7 @@ GET     /posts/:post/comments commentsCtrl.search +search="comment"
 
 -- Note: Users can only update comments they own.
 PATCH   /comments/:id commentsCtrl.update +model="comment" +owned
+
+-- Events
+GET     /events      eventCtrl.search +search="event"
+

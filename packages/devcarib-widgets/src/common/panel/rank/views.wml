@@ -1,0 +1,17 @@
+{% import (Panel,PanelHeader) 
+   from "@quenk/wml-widgets/lib/layout/panel" %}
+
+{% view RankPanelView (RankPanel from ".") %}
+
+<Panel ww:className={{@values.className}}>
+
+  <PanelHeader ww:className="devcarib-rank-panel__header">
+
+    <h3>{{@values.title | text }}</h3>
+
+  </PanelHeader>
+
+  {{...@children}}
+
+</Panel>
+

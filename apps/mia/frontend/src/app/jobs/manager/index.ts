@@ -147,7 +147,7 @@ export class JobsManager extends MiaManager<Job, void> {
 
     model = this.app.getModel(api.jobs, [
 
-        new AfterSearchSetData(data => this.values.table.data = data),
+        new AfterSearchSetData(data =>{ this.values.table.data = data}),
 
         new AfterSearchSetPagination(this.values.table),
 

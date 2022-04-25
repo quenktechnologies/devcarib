@@ -106,7 +106,7 @@ export abstract class MiaManager<T extends Object, M>
 
 export const defaultHandlers = <T extends Object, M>(mgr: MiaManager<T, M>) => [
 
-    new AfterSearchSetData<T>(data => mgr.values.table.data = data),
+    new AfterSearchSetData<T>(data => {mgr.values.table.data = data}),
 
     new AfterSearchSetPagination(mgr.values.table),
 
