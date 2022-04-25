@@ -1,3 +1,4 @@
+import * as dotR from './r'; 
 import * as dotHandlers from './handlers'; 
 //@ts-ignore: 6133
 import {System} from '@quenk/potoo/lib/actor/system';
@@ -19,6 +20,7 @@ export const template = ($app: App): Template => (
  {'id': `build`,
 'app': {'dirs': {'self': `/apps/board/build`},
 'path': `/`,
+'modules': {'r': dotR.template},
 'routes': //@ts-ignore: 6133
 ($module:Module) => {
 

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jobStatus = exports.paymentFrequency = exports.currency = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
+exports.jobStatus = exports.paymentFrequency = exports.currency = exports.boolean = exports.date = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
+var moment = require("moment");
 var string = require("@quenk/preconditions/lib/string");
 var array = require("@quenk/preconditions/lib/array");
 var preconditions_1 = require("@quenk/preconditions");
@@ -57,6 +58,21 @@ var maxLength = function (n) {
         string.maxLength(n)(value); };
 };
 exports.maxLength = maxLength;
+/**
+ * date must be a valid ISO8601 date.
+ */
+var date = function (value) {
+    var date = moment.utc(String(value));
+    return date.isValid() ? (0, result_1.succeed)(date.toDate()) : (0, result_1.fail)('date', { value: value });
+};
+exports.date = date;
+/**
+ * boolean casts a value to a JS boolean.
+ */
+var boolean = function (value) {
+    return (0, result_1.succeed)(Boolean(value));
+};
+exports.boolean = boolean;
 /**
  * currency ensures the provided string is one of the supported currency
  * indicators.

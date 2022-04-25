@@ -2,6 +2,8 @@
 
 /** imports */
 import * as mongo from 'mongodb';
+import * as _comment from './comment';
+import * as _event from './event';
 import * as _post from './post';
 import * as _user from './user';
 
@@ -13,6 +15,10 @@ import { Model } from '@quenk/dback-model-mongodb';
  * a single data type.
  */
 export type DataTypeUnion =
+    _comment.DataType |
+
+    _event.DataType |
+
     _post.DataType |
 
     _user.DataType;
@@ -36,6 +42,8 @@ export interface Models {
  */
 export const modelsAvailable: Models = {
 
+    'comment': <ModelGetter>_comment.ModelImpl.getInstance,
+    'event': <ModelGetter>_event.ModelImpl.getInstance,
     'post': <ModelGetter>_post.ModelImpl.getInstance,
     'user': <ModelGetter>_user.ModelImpl.getInstance
 };

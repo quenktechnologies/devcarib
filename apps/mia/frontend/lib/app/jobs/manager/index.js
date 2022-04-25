@@ -73,7 +73,7 @@ class JobsManager extends manager_1.MiaManager {
             }
         };
         this.model = this.app.getModel(api.jobs, [
-            new handlers_1.AfterSearchSetData(data => this.values.table.data = data),
+            new handlers_1.AfterSearchSetData(data => { this.values.table.data = data; }),
             new handlers_1.AfterSearchSetPagination(this.values.table),
             new handlers_1.ShiftingOnComplete([
                 new handlers_1.OnCompleteShowData(this),

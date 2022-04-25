@@ -27,12 +27,14 @@ import { Request } from '@quenk/tendril/lib/app/api/request';
 import { AdminModel } from '@mia/models/lib/admin';
 import { JobModel } from '@mia/models/lib/job';
 import { UserModel } from '@mia/models/lib/user';
+import { EventModel } from '@mia/models/lib/event';
 
 import {ApiController} from '@devcarib/server/lib/controllers/api';
 
  export const adminsCtrl = new ApiController(AdminModel.getInstance)
 export const jobsCtrl = new ApiController(JobModel.getInstance)
 export const usersCtrl = new ApiController(UserModel.getInstance)
+export const eventsCtrl = new ApiController(EventModel.getInstance)
 
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
@@ -119,6 +121,31 @@ $routes.push({
 method:'delete',
 path:'/users/:id',
 filters:[usersCtrl.remove.bind(usersCtrl)],tags:{}});
+
+$routes.push({
+method:'post',
+path:'/events',
+filters:[eventsCtrl.create.bind(eventsCtrl)],tags:{model: `event` }});
+
+$routes.push({
+method:'get',
+path:'/events',
+filters:[eventsCtrl.search.bind(eventsCtrl)],tags:{policy: `event` }});
+
+$routes.push({
+method:'patch',
+path:'/events/:id',
+filters:[eventsCtrl.update.bind(eventsCtrl)],tags:{model: `event` }});
+
+$routes.push({
+method:'get',
+path:'/events/:id',
+filters:[eventsCtrl.get.bind(eventsCtrl)],tags:{}});
+
+$routes.push({
+method:'delete',
+path:'/events/:id',
+filters:[eventsCtrl.remove.bind(eventsCtrl)],tags:{}});
 return $routes;
 }},
 'create': 

@@ -1,1 +1,7 @@
 app.path = "/"
+
+app.modules = {
+
+  r = ./r#template
+
+}

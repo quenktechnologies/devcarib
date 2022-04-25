@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPartialChecksFor = exports.partialChecksAvailable = exports.getChecksFor = exports.checksAvailable = void 0;
 /** imports */
 var _admin = require("./admin");
+var _event = require("./event");
 var _job = require("./job");
 var _user = require("./user");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -12,6 +13,7 @@ var maybe_1 = require("@quenk/noni/lib/data/maybe");
  */
 exports.checksAvailable = {
     'admin': _admin.check,
+    'event': _event.check,
     'job': _job.check,
     'user': _user.check
 };
@@ -27,6 +29,7 @@ exports.getChecksFor = getChecksFor;
  */
 exports.partialChecksAvailable = {
     'admin': _admin.checkPartial,
+    'event': _event.checkPartial,
     'job': _job.checkPartial,
     'user': _user.checkPartial
 };

@@ -30,6 +30,7 @@ var PostEditor = /** @class */ (function (_super) {
         _this.view = new views_1.PostEditorView(_this);
         _this.values = {
             title: {
+                hide: _this.attrs.notitle,
                 value: ((_a = _this.attrs.value) === null || _a === void 0 ? void 0 : _a.title) || '',
                 error: (_b = _this.attrs.errors) === null || _b === void 0 ? void 0 : _b.title,
                 onChange: _this.attrs.onChange
@@ -40,7 +41,9 @@ var PostEditor = /** @class */ (function (_super) {
                 onChange: _this.attrs.onChange
             },
             post: {
-                onClick: _this.attrs.onPost
+                allowCancel: _this.attrs.allowCancel,
+                onPost: _this.attrs.onPost,
+                onCancel: _this.attrs.onCancel
             }
         };
         return _this;

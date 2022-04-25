@@ -1,12 +1,58 @@
-{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (Panel,PanelHeader,PanelBody) 
+   from "@quenk/wml-widgets/lib/layout/panel" %}
 
-{% view PostPanelView (PostPanel from ".") %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
-<Panel>
+{% import (PostMetadata) from "../metadata" %}
+{% import (PostEditor) from "../editor" %}
+{% import (PostPanel) from "." %}
 
-  <PanelBody>
+{% view PostPanelView (PostPanel) %}
+<Panel ww:className="devcarib-post-panel">
 
-  </PanelBody>
+  <PanelHeader ww:className="devcarib-post-panel-header">
+
+    <PostMetadata data={{@values.data}} />
+
+    <div class="devcarib-post-panel-header-links">
+
+      {% if @values.editable %}
+
+        <Link
+          ww:text="Edit"
+          ww:onClick={{@values.editor.show}} />
+
+      {% endif %}
+
+    </div>
+
+    <h1 class="devcarib-post-panel-header-title">
+      {{@values.data.title | text }}
+    </h1>
+
+  </PanelHeader>
+
+  {% if @values.data.body %}
+
+    <PanelBody>
+      
+      <div class="devcarib-post-panel_body">
+
+        {{@values.data.body_html | unsafe }}
+
+      </div>
+
+    </PanelBody>
+
+  {% endif %}
 
 </Panel>
 
+{% view EditPostPanelView (PostPanel) %}
+
+<PostEditor
+  allowCancel=true
+  value={{@values.editor.data}}
+  onChange={{@values.editor.onChange}}
+  onPost={{@values.editor.onPost}}
+  onCancel={{@values.editor.onCancel}} />

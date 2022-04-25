@@ -10,6 +10,9 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {PostStream} from '@devcarib/widgets/lib/post/stream'; ;
+import {JobRankPanel} from '@devcarib/widgets/lib/job/panel/rank'; ;
+import {PostRankPanel} from '@devcarib/widgets/lib/post/panel/rank'; ;
+import {EventRankPanel} from '@devcarib/widgets/lib/event/panel/rank'; ;
 import {Dashboard} from '.'; 
 
 
@@ -79,7 +82,7 @@ export class DashboardView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
+        __this.widget(new Column({ww : { 'span' : 7 ,'offset' : 1  }}, [
 
         __this.widget(new Row({}, [
 
@@ -108,7 +111,40 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{wml : { 'id' : __context.values.posts.id  },'data': __context.values.posts.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
+     ]),<__wml.Attrs>{ww : { 'span' : 7 ,'offset' : 1  }}),
+__this.widget(new Column({ww : { 'span' : 3  }}, [
+
+        __this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new EventRankPanel({wml : { 'id' : __context.values.events.id  },'data': __context.values.events.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.events.id  },'data': __context.values.events.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new PostRankPanel({wml : { 'id' : __context.values.posts.recent.id  },'title': 'Recent Posts','data': __context.values.posts.recent.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.posts.recent.id  },'title': 'Recent Posts','data': __context.values.posts.recent.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new JobRankPanel({wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{ww : { 'span' : 3  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 

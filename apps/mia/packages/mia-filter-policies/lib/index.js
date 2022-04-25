@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.policiesEnabled = void 0;
 var admin_1 = require("./admin");
+var event_1 = require("./event");
 var job_1 = require("./job");
 var user_1 = require("./user");
 /**
@@ -11,6 +12,7 @@ var user_1 = require("./user");
  */
 exports.policiesEnabled = {
     'admin': admin_1.default,
+    'event': event_1.default,
     'job': job_1.default,
     'user': user_1.default
 };

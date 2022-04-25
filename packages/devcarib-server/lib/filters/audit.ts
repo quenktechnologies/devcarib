@@ -64,3 +64,28 @@ export const auditWrite = (key: string) => (req: Request): Action<void> =>
         return next(req);
 
     })
+
+/**
+ * ensureOwner adds a query to +query to ensure the action only takes place on
+ * objects owned by the current user.
+ *
+ * This relies on the compileQueryTag filter being installed and must be
+ * installed before it.
+ */
+export const ensureOwner = (req: Request): Action<void> =>
+    doAction(function*() {
+
+        if (!req.route.tags.owned) return next(req);
+
+        let id = req.session.getOrElse('user.id', '');
+
+        let filter = `created_by.id:${id}`;
+
+        let { query } = req.route.tags;
+
+        req.route.tags.query = req.route.tags.query ?
+            `(${query}) and ${filter}` : filter;
+
+        return next(req);
+
+    })

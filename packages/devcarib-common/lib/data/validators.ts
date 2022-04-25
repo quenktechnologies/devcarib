@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import * as string from '@quenk/preconditions/lib/string';
 import * as array from '@quenk/preconditions/lib/array';
 
@@ -72,6 +73,22 @@ export const maxLength = (n: number): Precondition<Value, Value> =>
     (value: Value) => Array.isArray(value) ?
         array.max<Value>(n)(value) :
         string.maxLength(n)(<string>value);
+
+/**
+ * date must be a valid ISO8601 date.
+ */
+export const date: Precondition<Value, Value> = (value: Value) => {
+    let date = moment.utc(String(value));
+
+    return date.isValid() ? succeed(date.toDate()) : fail('date', { value });
+
+}
+
+/**
+ * boolean casts a value to a JS boolean.
+ */
+export const boolean: Precondition<Value, Value> = (value: Value) =>
+    succeed(Boolean(value));
 
 /**
  * currency ensures the provided string is one of the supported currency

@@ -79,10 +79,15 @@ export class PostEditorView  implements __wml.View {
 
         __this.widget(new PanelBody({}, [
 
+        ...((!(__context.values.title.hide)) ?
+(()=>([
+
         __this.widget(new TextField({ww : { 'name' : 'title' ,'className' : 'devcarib-post-editor__title' ,'placeholder' : 'Title' ,'value' : __context.values.title.value ,'error' : __context.values.title.error ,'onChange' : __context.values.title.onChange  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : 'title' ,'className' : 'devcarib-post-editor__title' ,'placeholder' : 'Title' ,'value' : __context.values.title.value ,'error' : __context.values.title.error ,'onChange' : __context.values.title.onChange  }}),
+     ]),<__wml.Attrs>{ww : { 'name' : 'title' ,'className' : 'devcarib-post-editor__title' ,'placeholder' : 'Title' ,'value' : __context.values.title.value ,'error' : __context.values.title.error ,'onChange' : __context.values.title.onChange  }})
+     ]))() :
+(()=>([]))()),
 __this.widget(new TextField({ww : { 'name' : 'body' ,'className' : 'devcarib-post-editor__body' ,'rows' : 10 ,'placeholder' : 'Body' ,'value' : __context.values.body.value ,'error' : __context.values.body.error ,'onChange' : __context.values.body.onChange  }}, [
 
         
@@ -90,10 +95,19 @@ __this.widget(new TextField({ww : { 'name' : 'body' ,'className' : 'devcarib-pos
      ]),<__wml.Attrs>{}),
 __this.widget(new PanelFooter({}, [
 
-        __this.widget(new Button({ww : { 'className' : 'devcarib-post-editor__post -primary' ,'text' : 'Post' ,'onClick' : __context.values.post.onClick  }}, [
+        ...((__context.values.post.allowCancel) ?
+(()=>([
+
+        __this.widget(new Button({ww : { 'className' : 'devcarib-post-editor__post cancel-button' ,'text' : 'Cancel' ,'onClick' : __context.values.post.onCancel  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-post-editor__post -primary' ,'text' : 'Post' ,'onClick' : __context.values.post.onClick  }})
+     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-post-editor__post cancel-button' ,'text' : 'Cancel' ,'onClick' : __context.values.post.onCancel  }})
+     ]))() :
+(()=>([]))()),
+__this.widget(new Button({ww : { 'className' : 'devcarib-post-editor__post post-button -primary' ,'text' : 'Post' ,'onClick' : __context.values.post.onPost  }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-post-editor__post post-button -primary' ,'text' : 'Post' ,'onClick' : __context.values.post.onPost  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-post-editor'  }});
 

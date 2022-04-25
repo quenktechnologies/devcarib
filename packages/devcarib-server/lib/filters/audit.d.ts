@@ -19,3 +19,11 @@ export declare type KeySpec = string;
  * @param key - The session key to get the value from.
  */
 export declare const auditWrite: (key: string) => (req: Request) => Action<void>;
+/**
+ * ensureOwner adds a query to +query to ensure the action only takes place on
+ * objects owned by the current user.
+ *
+ * This relies on the compileQueryTag filter being installed and must be
+ * installed before it.
+ */
+export declare const ensureOwner: (req: Request) => Action<void>;

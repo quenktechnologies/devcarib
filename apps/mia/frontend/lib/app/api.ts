@@ -30,3 +30,17 @@ export const users: Paths = {
     remove: '/mia/r/users/{id}',
 
 };
+
+export const events: Paths = {
+
+    create: '/mia/r/events',
+
+    search: '/mia/r/events',
+
+    update: '/mia/r/events/{id}',
+
+    get: '/mia/r/events/{id}',
+
+    remove: '/mia/r/events/{id}',
+
+};

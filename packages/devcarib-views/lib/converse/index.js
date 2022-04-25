@@ -42,6 +42,7 @@ var IndexView = /** @class */ (function () {
             return __this.node('html', {}, [
                 __this.registerView(new head_1.HeadView({
                     'title': __context.title,
+                    'noSite': true,
                     'styles': [
                         '/converse/assets/css/converse.css'
                     ]

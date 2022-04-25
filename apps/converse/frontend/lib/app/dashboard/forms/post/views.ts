@@ -9,6 +9,7 @@ fromArray as __fromArray
 from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {PostEditor} from '@devcarib/widgets/lib/post/editor'; ;
+import {BackButton} from '@devcarib/widgets/lib/control/button/back'; ;
 import {CreatePostForm} from './'; 
 
 
@@ -84,9 +85,16 @@ export class CreatePostFormView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.node('h1', <__wml.Attrs>{}, [
+        __this.node('div', <__wml.Attrs>{'class': 'converse-create-post-header'}, [
 
-        __document.createTextNode('Start a new discussion')
+        __this.widget(new BackButton({'onClick': __context.values.onCancel}, [
+
+        
+     ]),<__wml.Attrs>{'onClick': __context.values.onCancel}),
+__this.node('h1', <__wml.Attrs>{}, [
+
+        __document.createTextNode('Create Post')
+     ])
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),

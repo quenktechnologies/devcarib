@@ -11,13 +11,17 @@
 
   <PanelBody>
 
-    <TextField 
-      ww:name="title"
-      ww:className="devcarib-post-editor__title"
-      ww:placeholder="Title"
-      ww:value={{@values.title.value}}
-      ww:error={{@values.title.error}}
-      ww:onChange={{@values.title.onChange}} />
+    {% if !@values.title.hide %}
+
+      <TextField 
+       ww:name="title"
+       ww:className="devcarib-post-editor__title"
+       ww:placeholder="Title"
+       ww:value={{@values.title.value}}
+       ww:error={{@values.title.error}}
+       ww:onChange={{@values.title.onChange}} />
+
+    {% endif %}
 
     <TextField 
       ww:name="body"
@@ -32,10 +36,19 @@
 
   <PanelFooter>
 
+    {% if @values.post.allowCancel %}
+    
+      <Button
+        ww:className="devcarib-post-editor__post cancel-button"
+        ww:text="Cancel"
+        ww:onClick={{@values.post.onCancel}} />
+
+    {% endif %}
+
     <Button
-      ww:className="devcarib-post-editor__post -primary"
+      ww:className="devcarib-post-editor__post post-button -primary"
       ww:text="Post"
-      ww:onClick={{@values.post.onClick}} />
+      ww:onClick={{@values.post.onPost}} />
 
   </PanelFooter>
 

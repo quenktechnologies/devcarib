@@ -7,6 +7,7 @@ export interface Meta {
 }
 export interface HeadViewContext {
     title: string;
+    noSite?: boolean;
     styles?: (string)[];
     meta?: (Meta)[];
 }

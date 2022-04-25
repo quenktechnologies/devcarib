@@ -42,7 +42,7 @@ class MiaManager extends __1.MiaScene {
 }
 exports.MiaManager = MiaManager;
 const defaultHandlers = (mgr) => [
-    new handlers_1.AfterSearchSetData(data => mgr.values.table.data = data),
+    new handlers_1.AfterSearchSetData(data => { mgr.values.table.data = data; }),
     new handlers_1.AfterSearchSetPagination(mgr.values.table),
     new handlers_1.ShiftingOnComplete([
         new handlers_1.OnCompleteShowData(mgr),

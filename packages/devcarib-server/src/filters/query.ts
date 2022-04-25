@@ -160,11 +160,13 @@ export const compileSearchTag =
 
             let filters = <string>req.route.tags.query;
 
-            let page = isNumber(req.query.page) ? req.query.page : 1;
+            let page = Number(req.query.page);
 
-            let limit = isNumber(req.query.limit) ?
-                req.query.limit :
-                DEFAULT_PAGE_SIZE;
+            page = isNumber(page) ? page : 1;
+
+            let limit = Number(req.query.limit);
+
+            limit = isNumber(limit) ? limit :                DEFAULT_PAGE_SIZE;
 
             let mQuery = compileQueryString(policy, <string>req.query.q);
 

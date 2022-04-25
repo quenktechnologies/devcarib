@@ -5,7 +5,7 @@
 
  <html>
 
-  {{ <HeadView({title=@title, styles=["/converse/assets/css/converse.css"]})> }}
+  {{ <HeadView({title=@title, noSite=true, styles=["/converse/assets/css/converse.css"]})> }}
 
   <body>
   

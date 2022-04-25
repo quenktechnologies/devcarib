@@ -15,7 +15,7 @@ var _collection = 'posts';
  * checks for Post provided as a map.
  */
 exports.checks = {
-    'id': (0, async_1.every)((0, checks_1.unique)('jobs', 'id')),
+    'id': (0, async_1.every)((0, checks_1.unique)('posts', 'id')),
     'title': async_1.identity,
     'body': async_1.identity,
     'body_html': async_1.identity,
@@ -44,5 +44,5 @@ exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(post_1.vali
 /**
  * checkPartial a partial Post value.
  */
-exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(post_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, checks_1.parseMarkdown)('body', 'body_html'), (0, checks_1.inc)('posts')));
+exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(post_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, checks_1.parseMarkdown)('body', 'body_html')));
 //# sourceMappingURL=post.js.map

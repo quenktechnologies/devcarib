@@ -32,9 +32,9 @@ exports.partialChecks = {
 /**
  * check a Admin value.
  */
-exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(admin_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, checks_1.inc)('users')));
+exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(admin_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, checks_1.inc)('admins')));
 /**
  * checkPartial a partial Admin value.
  */
-exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(admin_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, checks_1.inc)('users')));
+exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(admin_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, checks_1.inc)('admins')));
 //# sourceMappingURL=admin.js.map

@@ -1,46 +1,43 @@
-{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 
-{% import (PostMetadata) from "@devcarib/widgets/lib/post/metadata" %}
 {% import (PostEditor) from "@devcarib/widgets/lib/post/editor" %} 
+{% import (PostPanel) from "@devcarib/widgets/lib/post/panel" %}
 {% import (CommentStream) from "@devcarib/widgets/lib/comment/stream" %}
+{% import (JobRankPanel) from "@devcarib/widgets/lib/job/panel/rank" %}
+{% import (PostRankPanel) from "@devcarib/widgets/lib/post/panel/rank" %}
+{% import (EventRankPanel) from "@devcarib/widgets/lib/event/panel/rank" %}
+{% import (BackButton) from "@devcarib/widgets/lib/control/button/back" %}
 
 {% view PostThreadView (PostThread from ".") %}
 <GridLayout>
 
   <Row>
 
-    <Column ww:span=6 ww:offset=3>
+    <Column ww:span=7 ww:offset=1>
+
+      <Row>
+
+        <Column>
+
+          <div class="converse-post-thread-header">
+          
+            <BackButton onClick={{@values.onBack}} /> <h4>Dashboard</h4>
+
+          </div>
+
+        </Column>
+
+      </Row>
       
         <Row>
 
           <Column>
 
-            <Panel ww:className="converse-post">
-
-              <PanelBody>
-
-                <header class="converse-post__header">
-
-                  <PostMetadata data={{@values.post.data}} />
-
-                  <h1>{{@values.post.data.title | text }}</h1>
-
-                </header>
-
-                {% if @values.post.data.body ?? %}
-
-                  <div class="converse-post_body">
-
-                    {{@values.post.data.body_html | unsafe }}
-
-                  </div>
-
-                {% endif %}
-
-              </PanelBody>
-
-            </Panel>
+            <PostPanel
+              editable={{@values.post.data.created_by &&
+                         (@values.post.data.created_by.id == @app.user.id)}}
+              data={{@values.post.data}} 
+              onEdit={{@values.post.onEdit}} />
 
         </Column>
 
@@ -69,6 +66,47 @@
             errors={{@values.comment.errors}}
             onChange={{@values.comment.onChange}} 
             onPost={{@values.comment.onPost}} />
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+    <Column ww:span=3>
+
+      <Row>
+
+        <Column>
+
+          <PostRankPanel 
+            wml:id={{@values.posts.recent.id}}
+            title="Recent Posts"
+            data={{@values.posts.recent.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <EventRankPanel 
+            wml:id={{@values.events.id}}
+            data={{@values.events.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <JobRankPanel 
+            wml:id={{@values.jobs.id}} 
+            data={{@values.jobs.data}} />
 
         </Column>
 

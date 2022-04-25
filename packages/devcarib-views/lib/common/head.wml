@@ -9,6 +9,9 @@
      {# title of the page. #}
      title: String,
 
+     {# noSite if set will not include the site.css file #}
+     noSite?: Boolean,
+
      {# styles is a list of urls to css files to include. #}
      styles?: String[],
 
@@ -44,7 +47,9 @@
               content={{meta.content}} />
       {% endfor %}
     {% endif %}
-    <link rel="stylesheet" href="/assets/css/site.css"/> 
+    {% if !@noSite  %}
+      <link rel="stylesheet" href="/assets/css/site.css"/> 
+    {% endif %}
     {% if @styles?? %}
       {% for style in @styles %}
         <link rel="stylesheet" href={{style}} />

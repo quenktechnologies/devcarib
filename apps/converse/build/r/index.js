@@ -1,27 +1,51 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.template = exports.postsCtrl = void 0;
+exports.template = exports.eventCtrl = exports.userCtrl = exports.commentsCtrl = exports.postsCtrl = exports.UserController = void 0;
 const dotdot = require("..");
 const devcaribServerLibFiltersCheck = require("@devcarib/server/lib/filters/check");
 const converseChecks = require("@converse/checks");
 const devcaribCommonLibError = require("@devcarib/common/lib/error");
+const devcaribServerLibFiltersBody = require("@devcarib/server/lib/filters/body");
+const devcaribServerLibFiltersAudit = require("@devcarib/server/lib/filters/audit");
 const devcaribServerLibFiltersQuery = require("@devcarib/server/lib/filters/query");
 const converseFilterPolicies = require("@converse/filter-policies");
 const converseFields = require("@converse/fields");
-const devcaribServerLibFiltersAudit = require("@devcarib/server/lib/filters/audit");
 //@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
+const response_1 = require("@quenk/tendril/lib/app/api/response");
 const api_1 = require("@devcarib/server/lib/controllers/api");
 const post_1 = require("@converse/models/lib/post");
+const comment_1 = require("@converse/models/lib/comment");
+const event_1 = require("@converse/models/lib/event");
+/**
+ * UserController provides the api endpoint for the current user.
+ */
+class UserController {
+    get(req) {
+        let muser = req.session.get('user');
+        if (muser.isNothing())
+            return (0, response_1.notFound)();
+        return (0, response_1.ok)({ data: muser.get() });
+    }
+}
+exports.UserController = UserController;
 exports.postsCtrl = new api_1.ApiController(post_1.PostModel.getInstance);
+exports.commentsCtrl = new api_1.ApiController(comment_1.CommentModel.getInstance);
+exports.userCtrl = new UserController();
+exports.eventCtrl = new api_1.ApiController(event_1.EventModel.getInstance);
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `r`,
     'app': { 'dirs': { 'self': `/apps/converse/build/r` },
-        'filters': [dotdot.checkAuth(true), devcaribServerLibFiltersCheck.checkBody(converseChecks.checksAvailable, converseChecks.partialChecksAvailable, devcaribCommonLibError.templates), devcaribServerLibFiltersQuery.compile({ 'policies': converseFilterPolicies.policiesEnabled,
+        'filters': [dotdot.checkAuth(true), devcaribServerLibFiltersCheck.checkBody(converseChecks.checksAvailable, converseChecks.partialChecksAvailable, devcaribCommonLibError.templates), devcaribServerLibFiltersBody.fromParams, devcaribServerLibFiltersAudit.ensureOwner, devcaribServerLibFiltersQuery.compile({ 'policies': converseFilterPolicies.policiesEnabled,
                 'fields': converseFields.fields }), devcaribServerLibFiltersAudit.auditWrite(`user`)],
         'routes': //@ts-ignore: 6133
         ($module) => {
             let $routes = [];
+            $routes.push({
+                method: 'get',
+                path: '/me',
+                filters: [exports.userCtrl.get.bind(exports.userCtrl)], tags: {}
+            });
             $routes.push({
                 method: 'post',
                 path: '/posts',
@@ -30,22 +54,47 @@ const template = ($app) => ({ 'id': `r`,
             $routes.push({
                 method: 'get',
                 path: '/posts',
-                filters: [exports.postsCtrl.search.bind(exports.postsCtrl)], tags: { policy: `post` }
+                filters: [exports.postsCtrl.search.bind(exports.postsCtrl)], tags: { search: `post` }
             });
             $routes.push({
                 method: 'get',
                 path: '/posts/:id',
-                filters: [exports.postsCtrl.get.bind(exports.postsCtrl)], tags: {}
+                filters: [exports.postsCtrl.get.bind(exports.postsCtrl)], tags: { get: `post` }
             });
             $routes.push({
                 method: 'patch',
                 path: '/posts/:id',
-                filters: [exports.postsCtrl.update.bind(exports.postsCtrl)], tags: { model: `post` }
+                filters: [exports.postsCtrl.update.bind(exports.postsCtrl)], tags: { model: `post`,
+                    owned: true }
             });
             $routes.push({
                 method: 'delete',
                 path: '/posts/:id',
-                filters: [exports.postsCtrl.remove.bind(exports.postsCtrl)], tags: {}
+                filters: [exports.postsCtrl.remove.bind(exports.postsCtrl)], tags: { model: `post`,
+                    owned: true }
+            });
+            $routes.push({
+                method: 'post',
+                path: '/posts/:post/comments',
+                filters: [exports.commentsCtrl.create.bind(exports.commentsCtrl)], tags: { model: `comment`,
+                    nparams: `post` }
+            });
+            $routes.push({
+                method: 'get',
+                path: '/posts/:post/comments',
+                filters: [exports.commentsCtrl.search.bind(exports.commentsCtrl)], tags: { search: `comment`,
+                    query: `post:{params.post}` }
+            });
+            $routes.push({
+                method: 'patch',
+                path: '/comments/:id',
+                filters: [exports.commentsCtrl.update.bind(exports.commentsCtrl)], tags: { model: `comment`,
+                    owned: true }
+            });
+            $routes.push({
+                method: 'get',
+                path: '/events',
+                filters: [exports.eventCtrl.search.bind(exports.eventCtrl)], tags: { search: `event` }
             });
             return $routes;
         } },

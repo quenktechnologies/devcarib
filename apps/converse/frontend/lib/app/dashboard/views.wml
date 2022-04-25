@@ -2,6 +2,9 @@
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
 
 {% import (PostStream) from "@devcarib/widgets/lib/post/stream" %}
+{% import (JobRankPanel) from "@devcarib/widgets/lib/job/panel/rank" %}
+{% import (PostRankPanel) from "@devcarib/widgets/lib/post/panel/rank" %}
+{% import (EventRankPanel) from "@devcarib/widgets/lib/event/panel/rank" %}
 
 {% view DashboardView (Dashboard from ".") %}
 
@@ -9,7 +12,7 @@
 
   <Row>
 
-    <Column ww:span=6 ww:offset=3>
+    <Column ww:span=7 ww:offset=1>
 
       <Row>
 
@@ -37,6 +40,47 @@
           <PostStream
             wml:id={{@values.posts.id}}
             data={{@values.posts.data}} />
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+    <Column ww:span=3>
+
+      <Row>
+
+        <Column>
+
+          <EventRankPanel 
+            wml:id={{@values.events.id}}
+            data={{@values.events.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <PostRankPanel 
+            wml:id={{@values.posts.recent.id}}
+            title="Recent Posts"
+            data={{@values.posts.recent.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <JobRankPanel 
+            wml:id={{@values.jobs.id}} 
+            data={{@values.jobs.data}} />
 
         </Column>
 

@@ -2,7 +2,6 @@
 
 /** imports */
 import * as _job from './job';
-import * as _mailMessage from './mail-message';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
@@ -13,9 +12,7 @@ import { Precondition } from '@quenk/preconditions/lib/async';
  * into one.
  */
 export type DataTypeUnion =
-    _job.DataType |
-
-    _mailMessage.DataType;
+    _job.DataType;
 
 /**
  * Checks is a record of checks.
@@ -31,8 +28,7 @@ export interface Checks {
  */
 export const checksAvailable: Checks = {
 
-    'job': <Precondition<Value, DataTypeUnion>>_job.check,
-    'mail-message': <Precondition<Value, DataTypeUnion>>_mailMessage.check
+    'job': <Precondition<Value, DataTypeUnion>>_job.check
 };
 
 /**
@@ -47,8 +43,7 @@ export const getChecksFor =
  */
 export const partialChecksAvailable: Checks = {
 
-    'job': <Precondition<Value, Partial<DataTypeUnion>>>_job.checkPartial,
-    'mail-message': <Precondition<Value, Partial<DataTypeUnion>>>_mailMessage.checkPartial
+    'job': <Precondition<Value, Partial<DataTypeUnion>>>_job.checkPartial
 };
 
 /**

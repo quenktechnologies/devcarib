@@ -21,7 +21,8 @@ class Mia extends app_1.DevCarib {
                  */
                 links: {
                     'Jobs': '#/jobs',
-                    'Users': '#/users'
+                    'Users': '#/users',
+                    'Events': '#/events'
                 },
                 logout: () => this.runFuture(this.logout())
             },

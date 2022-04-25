@@ -53,7 +53,7 @@ export type DataType = Post;
  * checks for Post provided as a map.
  */
 export const checks: Preconditions<Value, Value> = {
-    'id': _every<Value, Value>(unique('jobs', 'id'))
+    'id': _every<Value, Value>(unique('posts', 'id'))
     ,
     'title': _identity
     ,
@@ -108,5 +108,5 @@ export const check: Precondition<Value, Post> =
 export const checkPartial: Precondition<Value, Partial<Post>> =
     _and(_and<Value, Post, Post>(_async(validatePartial),
         partial(partialChecks)),
-        _every(parseMarkdown('body', 'body_html'), inc('posts')));
+        _every(parseMarkdown('body', 'body_html')));
 

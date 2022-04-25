@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.SETTINGS_ID = void 0;
+exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.COUNTERS_ID = void 0;
 const bcryptjs = require("bcryptjs");
 const uuid = require("uuid");
 const moment = require("moment");
@@ -9,10 +9,10 @@ const future_1 = require("@quenk/noni/lib/control/monad/future");
 const monad_1 = require("@quenk/noni/lib/control/monad");
 const path_1 = require("@quenk/noni/lib/data/record/path");
 const type_1 = require("@quenk/noni/lib/data/type");
+const connection_1 = require("@quenk/tendril/lib/app/connection");
 const result_1 = require("@quenk/preconditions/lib/result");
 const collection_1 = require("@quenk/noni-mongodb/lib/database/collection");
-const connection_1 = require("@quenk/tendril/lib/app/connection");
-exports.SETTINGS_ID = 'main';
+exports.COUNTERS_ID = 'counters';
 /**
  * bcrypt
  */
@@ -54,13 +54,12 @@ exports.id = id;
  */
 const inc = (counter, propName = 'id', dbid = 'main') => (value) => (0, monad_1.doN)(function* () {
     let db = yield getMain(dbid);
-    let target = db.collection('settings');
-    let filter = { id: exports.SETTINGS_ID };
-    let key = `counters.${counter}`;
-    let update = { $inc: { [key]: 1 } };
-    let opts = { returnOriginal: false };
-    let r = yield (0, collection_1.findOneAndUpdate)(target, filter, update, opts);
-    value[propName] = (0, path_1.unsafeGet)(key, r.value);
+    let target = db.collection('counters');
+    let filter = { id: exports.COUNTERS_ID };
+    let update = { $inc: { [counter]: 1 } };
+    let opts = { returnDocument: 'after', upsert: true };
+    let mresult = yield (0, collection_1.findOneAndUpdate)(target, filter, update, opts);
+    value[propName] = (0, path_1.unsafeGet)(counter, mresult.get());
     return (0, future_1.pure)((0, result_1.succeed)(value));
 });
 exports.inc = inc;

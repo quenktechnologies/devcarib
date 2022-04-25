@@ -1,4 +1,13 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostEditorView = void 0;
 var __document = require("@quenk/wml/lib/dom");
@@ -44,13 +53,20 @@ var PostEditorView = /** @class */ (function () {
         this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.widget(new panel_1.Panel({ ww: { 'className': 'devcarib-post-editor' } }, [
-                __this.widget(new panel_1.PanelBody({}, [
-                    __this.widget(new text_field_1.TextField({ ww: { 'name': 'title', 'className': 'devcarib-post-editor__title', 'placeholder': 'Title', 'value': __context.values.title.value, 'error': __context.values.title.error, 'onChange': __context.values.title.onChange } }, []), { ww: { 'name': 'title', 'className': 'devcarib-post-editor__title', 'placeholder': 'Title', 'value': __context.values.title.value, 'error': __context.values.title.error, 'onChange': __context.values.title.onChange } }),
+                __this.widget(new panel_1.PanelBody({}, __spreadArray(__spreadArray([], ((!(__context.values.title.hide)) ?
+                    (function () { return ([
+                        __this.widget(new text_field_1.TextField({ ww: { 'name': 'title', 'className': 'devcarib-post-editor__title', 'placeholder': 'Title', 'value': __context.values.title.value, 'error': __context.values.title.error, 'onChange': __context.values.title.onChange } }, []), { ww: { 'name': 'title', 'className': 'devcarib-post-editor__title', 'placeholder': 'Title', 'value': __context.values.title.value, 'error': __context.values.title.error, 'onChange': __context.values.title.onChange } })
+                    ]); })() :
+                    (function () { return ([]); })()), true), [
                     __this.widget(new text_field_1.TextField({ ww: { 'name': 'body', 'className': 'devcarib-post-editor__body', 'rows': 10, 'placeholder': 'Body', 'value': __context.values.body.value, 'error': __context.values.body.error, 'onChange': __context.values.body.onChange } }, []), { ww: { 'name': 'body', 'className': 'devcarib-post-editor__body', 'rows': 10, 'placeholder': 'Body', 'value': __context.values.body.value, 'error': __context.values.body.error, 'onChange': __context.values.body.onChange } })
-                ]), {}),
-                __this.widget(new panel_1.PanelFooter({}, [
-                    __this.widget(new button_1.Button({ ww: { 'className': 'devcarib-post-editor__post -primary', 'text': 'Post', 'onClick': __context.values.post.onClick } }, []), { ww: { 'className': 'devcarib-post-editor__post -primary', 'text': 'Post', 'onClick': __context.values.post.onClick } })
-                ]), {})
+                ], false)), {}),
+                __this.widget(new panel_1.PanelFooter({}, __spreadArray(__spreadArray([], ((__context.values.post.allowCancel) ?
+                    (function () { return ([
+                        __this.widget(new button_1.Button({ ww: { 'className': 'devcarib-post-editor__post cancel-button', 'text': 'Cancel', 'onClick': __context.values.post.onCancel } }, []), { ww: { 'className': 'devcarib-post-editor__post cancel-button', 'text': 'Cancel', 'onClick': __context.values.post.onCancel } })
+                    ]); })() :
+                    (function () { return ([]); })()), true), [
+                    __this.widget(new button_1.Button({ ww: { 'className': 'devcarib-post-editor__post post-button -primary', 'text': 'Post', 'onClick': __context.values.post.onPost } }, []), { ww: { 'className': 'devcarib-post-editor__post post-button -primary', 'text': 'Post', 'onClick': __context.values.post.onPost } })
+                ], false)), {})
             ]), { ww: { 'className': 'devcarib-post-editor' } });
         };
     }

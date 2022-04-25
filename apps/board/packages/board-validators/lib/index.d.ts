@@ -1,7 +1,6 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 /** imports */
 import * as _job from './job';
-import * as _mailMessage from './mail-message';
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Maybe } from '@quenk/noni/lib/data/maybe';
 import { Precondition } from '@quenk/preconditions';
@@ -9,7 +8,7 @@ import { Precondition } from '@quenk/preconditions';
  * DataTypeUnion combines all the types of the validators found in this module
  * into one.
  */
-export declare type DataTypeUnion = _job.DataType | _mailMessage.DataType;
+export declare type DataTypeUnion = _job.DataType;
 /**
  * Validators is a record of validators.
  */

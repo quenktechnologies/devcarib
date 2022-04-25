@@ -7,11 +7,14 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {PostMetadata} from '@devcarib/widgets/lib/post/metadata'; ;
 import {PostEditor} from '@devcarib/widgets/lib/post/editor'; ;
+import {PostPanel} from '@devcarib/widgets/lib/post/panel'; ;
 import {CommentStream} from '@devcarib/widgets/lib/comment/stream'; ;
+import {JobRankPanel} from '@devcarib/widgets/lib/job/panel/rank'; ;
+import {PostRankPanel} from '@devcarib/widgets/lib/post/panel/rank'; ;
+import {EventRankPanel} from '@devcarib/widgets/lib/event/panel/rank'; ;
+import {BackButton} from '@devcarib/widgets/lib/control/button/back'; ;
 import {PostThread} from '.'; 
 
 
@@ -81,38 +84,33 @@ export class PostThreadView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
+        __this.widget(new Column({ww : { 'span' : 7 ,'offset' : 1  }}, [
 
         __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new Panel({ww : { 'className' : 'converse-post'  }}, [
+        __this.node('div', <__wml.Attrs>{'class': 'converse-post-thread-header'}, [
 
-        __this.widget(new PanelBody({}, [
-
-        __this.node('header', <__wml.Attrs>{'class': 'converse-post__header'}, [
-
-        __this.widget(new PostMetadata({'data': __context.values.post.data}, [
+        __this.widget(new BackButton({'onClick': __context.values.onBack}, [
 
         
-     ]),<__wml.Attrs>{'data': __context.values.post.data}),
-__this.node('h1', <__wml.Attrs>{}, [
+     ]),<__wml.Attrs>{'onClick': __context.values.onBack}),
+__this.node('h4', <__wml.Attrs>{}, [
 
-        text (__context.values.post.data.title)
+        __document.createTextNode('Dashboard')
      ])
-     ]),
-...(((__context.values.post.data.body) != null) ?
-(()=>([
-
-        __this.node('div', <__wml.Attrs>{'class': 'converse-post_body'}, [
-
-        unsafe (__context.values.post.data.body_html)
      ])
-     ]))() :
-(()=>([]))())
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'className' : 'converse-post'  }})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new PostPanel({'editable': (__context.values.post.data.created_by && (__context.values.post.data.created_by.id === __context.app.user.id)),'data': __context.values.post.data,'onEdit': __context.values.post.onEdit}, [
+
+        
+     ]),<__wml.Attrs>{'editable': (__context.values.post.data.created_by && (__context.values.post.data.created_by.id === __context.app.user.id)),'data': __context.values.post.data,'onEdit': __context.values.post.onEdit})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -135,7 +133,40 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{'notitle': true ,'value': __context.values.comment.data,'errors': __context.values.comment.errors,'onChange': __context.values.comment.onChange,'onPost': __context.values.comment.onPost})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
+     ]),<__wml.Attrs>{ww : { 'span' : 7 ,'offset' : 1  }}),
+__this.widget(new Column({ww : { 'span' : 3  }}, [
+
+        __this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new PostRankPanel({wml : { 'id' : __context.values.posts.recent.id  },'title': 'Recent Posts','data': __context.values.posts.recent.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.posts.recent.id  },'title': 'Recent Posts','data': __context.values.posts.recent.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new EventRankPanel({wml : { 'id' : __context.values.events.id  },'data': __context.values.events.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.events.id  },'data': __context.values.events.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new JobRankPanel({wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{ww : { 'span' : 3  }})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 

@@ -1,0 +1,25 @@
+
+{% import (CommentPanel) from "../panel" %}
+
+{% view CommentStreamView (CommentStream from ".") %}
+
+<div class="devcarib-comment-stream">
+
+  {% for comment in @values.data %}
+
+    {% if (comment.created_by && (comment.created_by.id == @values.user)) %}
+
+      <CommentPanel 
+        editable=true
+        data={{comment}} 
+        onEdit={{@values.onEdit}} />
+
+    {% else %}
+
+      <CommentPanel data={{comment}} />
+
+    {% endif %}
+
+  {% endfor %}
+
+</div>

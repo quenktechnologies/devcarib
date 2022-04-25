@@ -1,0 +1,28 @@
+-- 1. Ensures user is authenticated.
+-- 2. Checks create and update request bodies.
+-- 3. Converts searches to proper queries.
+app.filters = [ 
+
+  ../../../converse/build#checkAuth(true),
+
+  @devcarib/server/lib/filters/check#checkBody(
+     @board/checks#checksAvailable,
+     @board/checks#partialChecksAvailable,
+     @devcarib/common/lib/error#templates
+  ),
+
+  @devcarib/server/lib/filters/body#fromParams,
+
+  @devcarib/server/lib/filters/audit#ensureOwner,
+
+  @devcarib/server/lib/filters/query#compile({
+
+    policies = @board/filter-policies#policiesEnabled
+
+    fields = @board/fields#fields
+
+  }),
+
+  @devcarib/server/lib/filters/audit#auditWrite("user")
+
+]

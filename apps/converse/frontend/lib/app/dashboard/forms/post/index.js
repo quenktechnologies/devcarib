@@ -16,6 +16,7 @@ class CreatePostForm extends remote_1.RemoteForm {
         this.values = {
             data: this.value,
             errors: {},
+            onCancel: () => this.abort(),
             onChange: (e) => {
                 this.tell(this.self(), e);
             },

@@ -53,7 +53,7 @@ export type DataType = User;
  * checks for User provided as a map.
  */
 export const checks: Preconditions<Value, Value> = {
-    'id': _every<Value, Value>(unique(_collection, 'id'))
+    'id': _identity
     ,
     'name': _identity
     ,
@@ -71,7 +71,7 @@ export const checks: Preconditions<Value, Value> = {
  * partialChecks for User provided as a map.
  */
 export const partialChecks: Preconditions<Value, Value> = {
-    'id': _every<Value, Value>(unique(_collection, 'id'))
+    'id': _identity
     ,
     'name': _identity
     ,

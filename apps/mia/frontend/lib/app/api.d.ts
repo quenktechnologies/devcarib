@@ -4,3 +4,4 @@ import { Paths } from '@quenk/jouvert/lib/app/remote/model';
  */
 export declare const jobs: Paths;
 export declare const users: Paths;
+export declare const events: Paths;

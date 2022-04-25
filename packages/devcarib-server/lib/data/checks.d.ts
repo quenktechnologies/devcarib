@@ -3,7 +3,7 @@ import { Future } from '@quenk/noni/lib/control/monad/future';
 import { Result as SResult } from '@quenk/preconditions/lib/result';
 import { Precondition } from '@quenk/preconditions/lib/async';
 export declare type Result<A, B> = Future<SResult<A, B>>;
-export declare const SETTINGS_ID = "main";
+export declare const COUNTERS_ID = "counters";
 /**
  * bcrypt
  */

@@ -12,7 +12,7 @@ import { PostEditorView } from './views';
  */
 export interface Errors {
 
-    [key:string]: string
+    [key: string]: string
 
 }
 
@@ -20,6 +20,17 @@ export interface Errors {
  * PostEditorAttrs
  */
 export interface PostEditorAttrs extends Attrs {
+
+    /**
+     * notitle if true will hide the title section.
+     */
+    notitle?: boolean,
+
+    /**
+     * allowCancel if true will show the button to cancel editing.
+     */
+    allowCancel?: boolean,
+
     /**
      * value to initialize the editor to.
      */
@@ -33,12 +44,17 @@ export interface PostEditorAttrs extends Attrs {
     /**
      * onChange handler.
      */
-    onChange?: (e: TextChangedEvent) => void
+    onChange?: (e: TextChangedEvent) => void,
 
     /**
      * onPost is called when the user submits the post.
      */
-    onPost?: () => void
+    onPost?: () => void,
+
+    /**
+     * onCancel is called when the user cancels editing.
+     */
+    onCancel?: () => void
 
 }
 
@@ -52,6 +68,8 @@ export class PostEditor extends Component<PostEditorAttrs> {
     values = {
 
         title: {
+
+            hide: this.attrs.notitle,
 
             value: this.attrs.value?.title || '',
 
@@ -73,7 +91,11 @@ export class PostEditor extends Component<PostEditorAttrs> {
 
         post: {
 
-            onClick: this.attrs.onPost
+            allowCancel: this.attrs.allowCancel,
+
+            onPost: this.attrs.onPost,
+
+            onCancel: this.attrs.onCancel
 
         }
 

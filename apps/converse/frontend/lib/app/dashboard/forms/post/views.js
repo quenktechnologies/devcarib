@@ -8,6 +8,8 @@ const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
 const editor_1 = require("@devcarib/widgets/lib/post/editor");
 ;
+const back_1 = require("@devcarib/widgets/lib/control/button/back");
+;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -44,8 +46,11 @@ class CreatePostFormView {
                     __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('h1', {}, [
-                                    __document.createTextNode('Start a new discussion')
+                                __this.node('div', { 'class': 'converse-create-post-header' }, [
+                                    __this.widget(new back_1.BackButton({ 'onClick': __context.values.onCancel }, []), { 'onClick': __context.values.onCancel }),
+                                    __this.node('h1', {}, [
+                                        __document.createTextNode('Create Post')
+                                    ])
                                 ])
                             ]), {})
                         ]), {}),

@@ -76,9 +76,11 @@ var HeadView = /** @class */ (function () {
                         __this.node('meta', { 'property': meta.property, 'name': meta.name, 'content': meta.content }, [])
                     ]);
                 }, function () { return ([]); }), true)); })() :
-                (function () { return ([]); })()), true), [
-                __this.node('link', { 'rel': 'stylesheet', 'href': '/assets/css/site.css' }, [])
-            ], false), (((__context.styles) != null) ?
+                (function () { return ([]); })()), true), ((!(__context.noSite)) ?
+                (function () { return ([
+                    __this.node('link', { 'rel': 'stylesheet', 'href': '/assets/css/site.css' }, [])
+                ]); })() :
+                (function () { return ([]); })()), true), (((__context.styles) != null) ?
                 (function () { return (__spreadArray([], __forIn(__context.styles, function (style, _$$i, _$$all) {
                     return ([
                         __this.node('link', { 'rel': 'stylesheet', 'href': style }, [])

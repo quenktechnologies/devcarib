@@ -7,6 +7,8 @@ import { EnabledPolicies } from '@quenk/search-filters-mongodb';
 
 export { EnabledPolicies }
 
+import _comment from './comment';
+import _event from './event';
 import _post from './post';
 import _user from './user';
 
@@ -16,6 +18,8 @@ import _user from './user';
  */
 export const policiesEnabled: Record<EnabledPolicies> = {
 
+    'comment': _comment,
+    'event': _event,
     'post': _post,
     'user': _user
 }

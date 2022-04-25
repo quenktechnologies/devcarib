@@ -9,7 +9,7 @@ fromArray as __fromArray
 from '@quenk/noni/lib/data/maybe';
 import {ListLayout,ListLayoutItem} from '@quenk/wml-widgets/lib/layout/list'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {fromNow} from '@devcarib/frontend/lib/app/filters'; ;
+import {PostMetadata} from '../metadata'; ;
 import {PostStream} from '.'; 
 
 
@@ -84,23 +84,15 @@ export class PostStreamView  implements __wml.View {
 
         __this.node('h3', <__wml.Attrs>{'class': 'devcarib-post-stream__title'}, [
 
-        __this.widget(new Link({ww : { 'onClick' : __context.values.onClick(Number(post.id)) ,'text' : post.title  }}, [
+        __this.widget(new Link({ww : { 'text' : post.title ,'href' : __context.values.getPostHref(post) ,'onClick' : __context.values.onClick(Number(post.id))  }}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.onClick(Number(post.id)) ,'text' : post.title  }})
+     ]),<__wml.Attrs>{ww : { 'text' : post.title ,'href' : __context.values.getPostHref(post) ,'onClick' : __context.values.onClick(Number(post.id))  }})
      ]),
-__this.node('div', <__wml.Attrs>{'class': 'devcarib-post-stream__metadata'}, [
+__this.widget(new PostMetadata({'data': post}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'devcarib-post-stream__author'}, [
-
-        text (__context.values.getAuthor(post))
-     ]),
-__this.node('div', <__wml.Attrs>{'class': 'devcarib-post-stream__datetime'}, [
-
-        __document.createTextNode('\u000a          posted '),
-text (fromNow (String(post.created_on)))
-     ])
-     ])
+        
+     ]),<__wml.Attrs>{'data': post})
      ]),<__wml.Attrs>{})
      ]), 
 ()=> ([]))

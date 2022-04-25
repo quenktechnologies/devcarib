@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.auditWrite = void 0;
+exports.ensureOwner = exports.auditWrite = void 0;
 const api_1 = require("@quenk/tendril/lib/app/api");
 const control_1 = require("@quenk/tendril/lib/app/api/control");
 const response_1 = require("@quenk/tendril/lib/app/api/response");
@@ -38,4 +38,22 @@ const auditWrite = (key) => (req) => (0, api_1.doAction)(function* () {
     return (0, control_1.next)(req);
 });
 exports.auditWrite = auditWrite;
+/**
+ * ensureOwner adds a query to +query to ensure the action only takes place on
+ * objects owned by the current user.
+ *
+ * This relies on the compileQueryTag filter being installed and must be
+ * installed before it.
+ */
+const ensureOwner = (req) => (0, api_1.doAction)(function* () {
+    if (!req.route.tags.owned)
+        return (0, control_1.next)(req);
+    let id = req.session.getOrElse('user.id', '');
+    let filter = `created_by.id:${id}`;
+    let { query } = req.route.tags;
+    req.route.tags.query = req.route.tags.query ?
+        `(${query}) and ${filter}` : filter;
+    return (0, control_1.next)(req);
+});
+exports.ensureOwner = ensureOwner;
 //# sourceMappingURL=audit.js.map

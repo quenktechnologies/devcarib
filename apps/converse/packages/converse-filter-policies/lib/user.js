@@ -6,10 +6,6 @@ exports.User = void 0;
  * AUTO_GENERATED! DO NOT EDIT DIRECTLY!
  */
 exports.User = {
-    'id': [
-        'number',
-        'numbers'
-    ],
     'name': 'matchci',
     'username': 'matchci',
     'status': [

@@ -8,6 +8,26 @@
 
     "model.type": "ModelType",
 
+    "models:imports": {
+
+        "$ref": "./common/imports.json",
+
+        "@board/types/lib/job": {
+
+            "Job": "ModelType"
+
+        },
+
+        "@quenk/noni-mongodb/lib/database/collection": {
+
+            "populate": "populate",
+
+            "populateN": "populateN"
+
+        }
+
+    },
+
     "validators:imports": {
 
         "@board/types/lib/job": "Job"

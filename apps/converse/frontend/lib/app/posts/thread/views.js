@@ -4,15 +4,21 @@ exports.PostThreadView = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
-const panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
-;
 const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
-;
-const metadata_1 = require("@devcarib/widgets/lib/post/metadata");
 ;
 const editor_1 = require("@devcarib/widgets/lib/post/editor");
 ;
+const panel_1 = require("@devcarib/widgets/lib/post/panel");
+;
 const stream_1 = require("@devcarib/widgets/lib/comment/stream");
+;
+const rank_1 = require("@devcarib/widgets/lib/job/panel/rank");
+;
+const rank_2 = require("@devcarib/widgets/lib/post/panel/rank");
+;
+const rank_3 = require("@devcarib/widgets/lib/event/panel/rank");
+;
+const back_1 = require("@devcarib/widgets/lib/control/button/back");
 ;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -47,26 +53,20 @@ class PostThreadView {
         this.template = (__this) => {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
+                    __this.widget(new grid_1.Column({ ww: { 'span': 7, 'offset': 1 } }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new panel_1.Panel({ ww: { 'className': 'converse-post' } }, [
-                                    __this.widget(new panel_1.PanelBody({}, [
-                                        __this.node('header', { 'class': 'converse-post__header' }, [
-                                            __this.widget(new metadata_1.PostMetadata({ 'data': __context.values.post.data }, []), { 'data': __context.values.post.data }),
-                                            __this.node('h1', {}, [
-                                                text(__context.values.post.data.title)
-                                            ])
-                                        ]),
-                                        ...(((__context.values.post.data.body) != null) ?
-                                            (() => ([
-                                                __this.node('div', { 'class': 'converse-post_body' }, [
-                                                    unsafe(__context.values.post.data.body_html)
-                                                ])
-                                            ]))() :
-                                            (() => ([]))())
-                                    ]), {})
-                                ]), { ww: { 'className': 'converse-post' } })
+                                __this.node('div', { 'class': 'converse-post-thread-header' }, [
+                                    __this.widget(new back_1.BackButton({ 'onClick': __context.values.onBack }, []), { 'onClick': __context.values.onBack }),
+                                    __this.node('h4', {}, [
+                                        __document.createTextNode('Dashboard')
+                                    ])
+                                ])
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new panel_1.PostPanel({ 'editable': (__context.values.post.data.created_by && (__context.values.post.data.created_by.id === __context.app.user.id)), 'data': __context.values.post.data, 'onEdit': __context.values.post.onEdit }, []), { 'editable': (__context.values.post.data.created_by && (__context.values.post.data.created_by.id === __context.app.user.id)), 'data': __context.values.post.data, 'onEdit': __context.values.post.onEdit })
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
@@ -79,7 +79,24 @@ class PostThreadView {
                                 __this.widget(new editor_1.PostEditor({ 'notitle': true, 'value': __context.values.comment.data, 'errors': __context.values.comment.errors, 'onChange': __context.values.comment.onChange, 'onPost': __context.values.comment.onPost }, []), { 'notitle': true, 'value': __context.values.comment.data, 'errors': __context.values.comment.errors, 'onChange': __context.values.comment.onChange, 'onPost': __context.values.comment.onPost })
                             ]), {})
                         ]), {})
-                    ]), { ww: { 'span': 6, 'offset': 3 } })
+                    ]), { ww: { 'span': 7, 'offset': 1 } }),
+                    __this.widget(new grid_1.Column({ ww: { 'span': 3 } }, [
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data }, []), { wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data })
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_3.EventRankPanel({ wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data })
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_1.JobRankPanel({ wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data })
+                            ]), {})
+                        ]), {})
+                    ]), { ww: { 'span': 3 } })
                 ]), {})
             ]), {});
         };

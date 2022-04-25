@@ -68,6 +68,7 @@ export interface Meta{property? : string,
 name? : string,
 content? : string};
 export interface HeadViewContext{title : string,
+noSite? : boolean,
 styles? : (string)[],
 meta? : (Meta)[]};
 export class HeadView  implements __wml.View {
@@ -178,10 +179,15 @@ __this.node('meta', <__wml.Attrs>{'name': 'theme-color','content': '#218c8d'}, [
 ()=> ([]))
      ]))() :
 (()=>([]))()),
-__this.node('link', <__wml.Attrs>{'rel': 'stylesheet','href': '/assets/css/site.css'}, [
+...((!(__context.noSite)) ?
+(()=>([
+
+        __this.node('link', <__wml.Attrs>{'rel': 'stylesheet','href': '/assets/css/site.css'}, [
 
         
-     ]),
+     ])
+     ]))() :
+(()=>([]))()),
 ...(((__context.styles) != null) ?
 (()=>([
 

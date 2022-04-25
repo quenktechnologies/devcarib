@@ -15,6 +15,7 @@ export declare class Mia extends DevCarib {
             links: {
                 Jobs: string;
                 Users: string;
+                Events: string;
             };
             logout: () => void;
         };

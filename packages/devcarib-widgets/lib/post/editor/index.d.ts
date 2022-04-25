@@ -14,6 +14,14 @@ export interface Errors {
  */
 export interface PostEditorAttrs extends Attrs {
     /**
+     * notitle if true will hide the title section.
+     */
+    notitle?: boolean;
+    /**
+     * allowCancel if true will show the button to cancel editing.
+     */
+    allowCancel?: boolean;
+    /**
      * value to initialize the editor to.
      */
     value?: Post;
@@ -29,6 +37,10 @@ export interface PostEditorAttrs extends Attrs {
      * onPost is called when the user submits the post.
      */
     onPost?: () => void;
+    /**
+     * onCancel is called when the user cancels editing.
+     */
+    onCancel?: () => void;
 }
 /**
  * PostEditor is used by the user to add a new [[Post]] to the system.
@@ -37,6 +49,7 @@ export declare class PostEditor extends Component<PostEditorAttrs> {
     view: PostEditorView;
     values: {
         title: {
+            hide: boolean | undefined;
             value: string;
             error: string | undefined;
             onChange: ((e: TextChangedEvent) => void) | undefined;
@@ -47,7 +60,9 @@ export declare class PostEditor extends Component<PostEditorAttrs> {
             onChange: ((e: TextChangedEvent) => void) | undefined;
         };
         post: {
-            onClick: (() => void) | undefined;
+            allowCancel: boolean | undefined;
+            onPost: (() => void) | undefined;
+            onCancel: (() => void) | undefined;
         };
     };
 }

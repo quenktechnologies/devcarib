@@ -39,6 +39,14 @@ export declare const minLength: (n: number) => Precondition<Value, Value>;
  */
 export declare const maxLength: (n: number) => Precondition<Value, Value>;
 /**
+ * date must be a valid ISO8601 date.
+ */
+export declare const date: Precondition<Value, Value>;
+/**
+ * boolean casts a value to a JS boolean.
+ */
+export declare const boolean: Precondition<Value, Value>;
+/**
  * currency ensures the provided string is one of the supported currency
  * indicators.
  */

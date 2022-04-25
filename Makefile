@@ -9,6 +9,7 @@ TDC?=$(HERE)/node_modules/.bin/tdc
 TSC?=$(HERE)/node_modules/.bin/tsc
 LESSC?=$(HERE)/node_modules/.bin/lessc
 WML?=$(HERE)/node_modules/.bin/wmlc
+ENVIFY?=$(HERE)/node_modules/.bin/envify
 TSFMT?=./node_modules/.bin/tsfmt
 TSC?=./node_modules/.bin/tsc
 DAGEN?=./node_modules/.bin/dagen

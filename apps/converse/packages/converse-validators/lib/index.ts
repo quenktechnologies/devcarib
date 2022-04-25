@@ -1,6 +1,8 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
 /** imports */
+import * as _comment from './comment';
+import * as _event from './event';
 import * as _post from './post';
 import * as _user from './user';
 
@@ -13,6 +15,10 @@ import { Precondition } from '@quenk/preconditions';
  * into one.
  */
 export type DataTypeUnion =
+    _comment.DataType |
+
+    _event.DataType |
+
     _post.DataType |
 
     _user.DataType;
@@ -31,6 +37,8 @@ export interface Validators {
  */
 export const validatorsAvailable: Validators = {
 
+    'comment': _comment.validate,
+    'event': _event.validate,
     'post': _post.validate,
     'user': _user.validate
 };
@@ -47,6 +55,8 @@ export const getValidatorsFor =
  */
 export const partialValidatorsAvailable: Validators = {
 
+    'comment': _comment.validatePartial,
+    'event': _event.validatePartial,
     'post': _post.validatePartial,
     'user': _user.validatePartial
 };

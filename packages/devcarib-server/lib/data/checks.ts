@@ -13,20 +13,23 @@ import {
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
 import { unsafeGet } from '@quenk/noni/lib/data/record/path';
 import { isObject } from '@quenk/noni/lib/data/type';
+
+import { getInstance } from '@quenk/tendril/lib/app/connection';
+
 import {
     Result as SResult,
     succeed,
     fail
 } from '@quenk/preconditions/lib/result';
 import { Precondition } from '@quenk/preconditions/lib/async';
+
 import {
     findOneAndUpdate, count
 } from '@quenk/noni-mongodb/lib/database/collection';
-import { getInstance } from '@quenk/tendril/lib/app/connection';
 
 export type Result<A, B> = Future<SResult<A, B>>;
 
-export const SETTINGS_ID = 'main';
+export const COUNTERS_ID = 'counters';
 
 /**
  * bcrypt
@@ -91,19 +94,18 @@ export const inc =
 
                 let db = yield getMain(dbid);
 
-                let target = db.collection('settings');
+                let target = db.collection('counters');
 
-                let filter = { id: SETTINGS_ID };
+                let filter = { id: COUNTERS_ID };
 
-                let key = `counters.${counter}`;
+                let update = { $inc: { [counter]: 1 } };
 
-                let update = { $inc: { [key]: 1 } };
+                let opts = { returnDocument: 'after', upsert: true };
 
-                let opts = { returnOriginal: false };
+                let mresult = yield findOneAndUpdate(target, filter,
+                    update, opts);
 
-                let r = yield findOneAndUpdate(target, filter, update, opts);
-
-                (<Object>value)[propName] = unsafeGet(key, r.value);
+                (<Object>value)[propName] = unsafeGet(counter, mresult.get());
 
                 return pure(succeed(value));
 

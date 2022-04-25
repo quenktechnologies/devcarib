@@ -12,7 +12,13 @@ export interface PostStreamAttrs extends Attrs {
     /**
      * data is the posts initialize the stream with.
      */
-    data?: Post[]
+    data?: Post[],
+
+    /**
+     * onPost if specified, is called when the user clicks on an area of
+     * the stream that should take them to a post.
+     */
+    onPost?: (post: Post) => void
 
 }
 
@@ -27,9 +33,13 @@ export class PostStream extends Component<PostStreamAttrs> {
 
         data: this.attrs.data?.slice() || [],
 
-        getAuthor: (post: Post) => post.created_by?.username,
+        getPostHref: (post: Post) => `#/posts/${post.id}`,
 
-        onClick: (_: number) => () => { }
+        onClick: (idx: number) => () => {
+
+            this.attrs.onPost && this.attrs.onPost(this.values.data[idx]);
+
+        }
 
     }
 

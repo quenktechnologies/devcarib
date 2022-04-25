@@ -5,13 +5,6 @@
 export const User = {
 
 
-    'id': [
-        'number'
-        ,
-        'numbers'
-
-    ]
-    ,
 
 
     'name': 'matchci'

@@ -1,0 +1,46 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (DataTable) from "@quenk/wml-widgets/lib/data/table" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+
+{% import (ManagerHeader) from "../../common/scene/manager/views/header" %}
+
+{% view EventsManagerView (EventsManager from ".") %}
+
+<GridLayout>
+
+  <Row>
+
+    <Column>
+
+      {{ <ManagerHeader(@values.table)> }}
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+        ww:placeholder="Search"
+        ww:onChange={{@values.search.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <DataTable
+       wml:id={{@values.table.id}}
+       ww:data={{@values.table.data}}
+       ww:columns={{@values.table.columns}} />
+
+    </Column>
+
+  </Row>
+
+</GridLayout>

@@ -1,6 +1,7 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 /** imports */
 import * as _admin from './admin';
+import * as _event from './event';
 import * as _job from './job';
 import * as _user from './user';
 import { Value } from '@quenk/noni/lib/data/jsonx';
@@ -10,7 +11,7 @@ import { Precondition } from '@quenk/preconditions/lib/async';
  * DataTypeUnion combines all the types of the validators found in this module
  * into one.
  */
-export declare type DataTypeUnion = _admin.DataType | _job.DataType | _user.DataType;
+export declare type DataTypeUnion = _admin.DataType | _event.DataType | _job.DataType | _user.DataType;
 /**
  * Checks is a record of checks.
  */

@@ -4,14 +4,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPartialValidatorsFor = exports.partialValidatorsAvailable = exports.getValidatorsFor = exports.validatorsAvailable = void 0;
 /** imports */
 var _job = require("./job");
-var _mailMessage = require("./mail-message");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
  * validatorsAvailable from this module.
  */
 exports.validatorsAvailable = {
-    'job': _job.validate,
-    'mail-message': _mailMessage.validate
+    'job': _job.validate
 };
 /**
  * getValidatorsFor provides a validator from this module.
@@ -24,8 +22,7 @@ exports.getValidatorsFor = getValidatorsFor;
  * partialValidatorsAvailable from this module.
  */
 exports.partialValidatorsAvailable = {
-    'job': _job.validatePartial,
-    'mail-message': _mailMessage.validatePartial
+    'job': _job.validatePartial
 };
 /**
  * getPartialValidatorsFor provides a validator from this module.

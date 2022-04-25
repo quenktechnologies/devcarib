@@ -39,8 +39,10 @@ var PostStream = /** @class */ (function (_super) {
         _this.view = new views_1.PostStreamView(_this);
         _this.values = {
             data: ((_a = _this.attrs.data) === null || _a === void 0 ? void 0 : _a.slice()) || [],
-            getAuthor: function (post) { var _a; return (_a = post.created_by) === null || _a === void 0 ? void 0 : _a.username; },
-            onClick: function (_) { return function () { }; }
+            getPostHref: function (post) { return "#/posts/".concat(post.id); },
+            onClick: function (idx) { return function () {
+                _this.attrs.onPost && _this.attrs.onPost(_this.values.data[idx]);
+            }; }
         };
         return _this;
     }

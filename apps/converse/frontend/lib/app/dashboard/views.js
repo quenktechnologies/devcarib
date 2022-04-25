@@ -10,6 +10,12 @@ const button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
 const stream_1 = require("@devcarib/widgets/lib/post/stream");
 ;
+const rank_1 = require("@devcarib/widgets/lib/job/panel/rank");
+;
+const rank_2 = require("@devcarib/widgets/lib/post/panel/rank");
+;
+const rank_3 = require("@devcarib/widgets/lib/event/panel/rank");
+;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -43,7 +49,7 @@ class DashboardView {
         this.template = (__this) => {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
+                    __this.widget(new grid_1.Column({ ww: { 'span': 7, 'offset': 1 } }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('header', { 'class': 'converse-dashboard-header' }, [
@@ -59,7 +65,24 @@ class DashboardView {
                                 __this.widget(new stream_1.PostStream({ wml: { 'id': __context.values.posts.id }, 'data': __context.values.posts.data }, []), { wml: { 'id': __context.values.posts.id }, 'data': __context.values.posts.data })
                             ]), {})
                         ]), {})
-                    ]), { ww: { 'span': 6, 'offset': 3 } })
+                    ]), { ww: { 'span': 7, 'offset': 1 } }),
+                    __this.widget(new grid_1.Column({ ww: { 'span': 3 } }, [
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_3.EventRankPanel({ wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data })
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data }, []), { wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data })
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_1.JobRankPanel({ wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data })
+                            ]), {})
+                        ]), {})
+                    ]), { ww: { 'span': 3 } })
                 ]), {})
             ]), {});
         };

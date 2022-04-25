@@ -2,6 +2,7 @@
 /** imports */
 import * as mongo from 'mongodb';
 import * as _admin from './admin';
+import * as _event from './event';
 import * as _job from './job';
 import * as _user from './user';
 import { Maybe } from '@quenk/noni/lib/data/maybe';
@@ -10,7 +11,7 @@ import { Model } from '@quenk/dback-model-mongodb';
  * DataTypeUnion combines all the types the various models handle into
  * a single data type.
  */
-export declare type DataTypeUnion = _admin.DataType | _job.DataType | _user.DataType;
+export declare type DataTypeUnion = _admin.DataType | _event.DataType | _job.DataType | _user.DataType;
 /**
  * ModelGetter is a function that provides an instance of a Model.
  */

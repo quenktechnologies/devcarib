@@ -17,7 +17,7 @@ var list_1 = require("@quenk/wml-widgets/lib/layout/list");
 ;
 var link_1 = require("@quenk/wml-widgets/lib/content/link");
 ;
-var filters_1 = require("@devcarib/frontend/lib/app/filters");
+var metadata_1 = require("../metadata");
 ;
 //@ts-ignore:6192
 var __if = function (__expr, __conseq, __alt) {
@@ -56,17 +56,9 @@ var PostStreamView = /** @class */ (function () {
                 return ([
                     __this.widget(new list_1.ListLayoutItem({}, [
                         __this.node('h3', { 'class': 'devcarib-post-stream__title' }, [
-                            __this.widget(new link_1.Link({ ww: { 'onClick': __context.values.onClick(Number(post.id)), 'text': post.title } }, []), { ww: { 'onClick': __context.values.onClick(Number(post.id)), 'text': post.title } })
+                            __this.widget(new link_1.Link({ ww: { 'text': post.title, 'href': __context.values.getPostHref(post), 'onClick': __context.values.onClick(Number(post.id)) } }, []), { ww: { 'text': post.title, 'href': __context.values.getPostHref(post), 'onClick': __context.values.onClick(Number(post.id)) } })
                         ]),
-                        __this.node('div', { 'class': 'devcarib-post-stream__metadata' }, [
-                            __this.node('div', { 'class': 'devcarib-post-stream__author' }, [
-                                text(__context.values.getAuthor(post))
-                            ]),
-                            __this.node('div', { 'class': 'devcarib-post-stream__datetime' }, [
-                                __document.createTextNode('\u000a          posted '),
-                                text((0, filters_1.fromNow)(String(post.created_on)))
-                            ])
-                        ])
+                        __this.widget(new metadata_1.PostMetadata({ 'data': post }, []), { 'data': post })
                     ]), {})
                 ]);
             }, function () { return ([]); }), true)), { ww: { 'className': 'devcarib-post-stream' } });

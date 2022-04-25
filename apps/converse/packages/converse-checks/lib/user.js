@@ -15,7 +15,7 @@ var _collection = 'users';
  * checks for User provided as a map.
  */
 exports.checks = {
-    'id': (0, async_1.every)((0, checks_1.unique)(_collection, 'id')),
+    'id': async_1.identity,
     'name': async_1.identity,
     'username': (0, async_1.every)((0, checks_1.unique)(_collection, 'username')),
     'password': (0, async_1.every)(checks_1.bcrypt),
@@ -26,7 +26,7 @@ exports.checks = {
  * partialChecks for User provided as a map.
  */
 exports.partialChecks = {
-    'id': (0, async_1.every)((0, checks_1.unique)(_collection, 'id')),
+    'id': async_1.identity,
     'name': async_1.identity,
     'username': (0, async_1.every)((0, checks_1.unique)(_collection, 'username')),
     'password': (0, async_1.every)(checks_1.bcrypt),

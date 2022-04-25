@@ -3,6 +3,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPartialValidatorsFor = exports.partialValidatorsAvailable = exports.getValidatorsFor = exports.validatorsAvailable = void 0;
 /** imports */
+var _comment = require("./comment");
+var _event = require("./event");
 var _post = require("./post");
 var _user = require("./user");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -10,6 +12,8 @@ var maybe_1 = require("@quenk/noni/lib/data/maybe");
  * validatorsAvailable from this module.
  */
 exports.validatorsAvailable = {
+    'comment': _comment.validate,
+    'event': _event.validate,
     'post': _post.validate,
     'user': _user.validate
 };
@@ -24,6 +28,8 @@ exports.getValidatorsFor = getValidatorsFor;
  * partialValidatorsAvailable from this module.
  */
 exports.partialValidatorsAvailable = {
+    'comment': _comment.validatePartial,
+    'event': _event.validatePartial,
     'post': _post.validatePartial,
     'user': _user.validatePartial
 };

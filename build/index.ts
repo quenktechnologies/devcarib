@@ -27,7 +27,7 @@ import {App as App} from '@quenk/tendril/lib/app';
 export const template = ($app: App): Template => (
  {'id': `/`,
 'app': {'dirs': {'self': `/build`,
-'public': [`public`,`../apps/board/packages/board-views/public`,`../apps/board/frontend/board-form-post/public`]},
+'public': [`public`,`../packages/devcarib-widgets/public`,`../apps/board/packages/board-views/public`,`../apps/board/frontend/board-form-post/public`]},
 'session': {'enable': true,
 'options': {'secret': (<string>process.env['SESSION_SECRET']),
 'name': `bscid`},

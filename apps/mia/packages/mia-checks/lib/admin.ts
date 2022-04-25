@@ -83,7 +83,7 @@ export const partialChecks: Preconditions<Value, Value> = {
 export const check: Precondition<Value, Admin> =
     _and(_and<Value, Admin, Admin>(
         _async(validate), complete(checks)),
-        _every<Admin, Admin>(inc('users'))
+        _every<Admin, Admin>(inc('admins'))
     );
 
 /**
@@ -92,5 +92,5 @@ export const check: Precondition<Value, Admin> =
 export const checkPartial: Precondition<Value, Partial<Admin>> =
     _and(_and<Value, Admin, Admin>(_async(validatePartial),
         partial(partialChecks)),
-        _every(inc('users')));
+        _every(inc('admins')));
 

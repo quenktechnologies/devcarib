@@ -78,6 +78,7 @@ export class IndexView  implements __wml.View {
         __this.registerView(new HeadView({
  
       'title' : __context.title,
+'noSite' : true ,
 'styles' : [
 
             '/converse/assets/css/converse.css'
