@@ -30,6 +30,7 @@
         "@devcarib/common": "file:packages/devcarib-common",
         "@devcarib/server": "file:packages/devcarib-server",
         "@devcarib/views": "file:packages/devcarib-views",
+        "@devcarib/widgets": "file:packages/devcarib-widgets",
         "@mia/checks": "file:apps/mia/packages/mia-checks",
         "@mia/fields": "file:apps/mia/packages/mia-fields",
         "@mia/filter-policies": "file:apps/mia/packages/mia-filter-policies",
@@ -68,7 +69,6 @@
     "devDependencies": {
         "@board/widgets": "file:packages/devcarib-widgets",
         "@devcarib/frontend": "file:packages/devcarib-frontend",
-        "@devcarib/widgets": "file:packages/devcarib-widgets",
         "@quenk/crapaud": "^0.5.1",
         "@quenk/dagen": "^1.10.3",
         "@quenk/dagen-commons": "^0.5.1",
