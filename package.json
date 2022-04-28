@@ -7,6 +7,10 @@
         "test": "./node_modules/.bin/mocha $(find test -name *_test.ts)",
         "start": "node -r dotenv/config build/start.js"
     },
+    "engines": {
+        "node": "12.13.0",
+        "npm": "6.12.0"
+    },
     "author": "Quenk Technologies 2019 <info@@quenk.com> (https://quenk.com)",
     "license": "Apache-2.0",
     "dependencies": {
