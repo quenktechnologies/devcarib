@@ -40,11 +40,16 @@
 
     },
 
-    "checks": [
-
-        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]],
+    "checks-complete": [
 
         ["@devcarib/server/lib/data/checks#inc", ["'jobs'"]]
+
+    ],
+
+    "checks": [
+
+        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]]
+
     ],
 
     "properties": {

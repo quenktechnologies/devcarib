@@ -40,7 +40,7 @@
 
     },
 
-    "checks": [
+    "checks-complete": [
 
         ["@devcarib/server/lib/data/checks#inc", ["'admins'"]]
 

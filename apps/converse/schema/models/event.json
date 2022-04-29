@@ -40,11 +40,16 @@
 
     },
 
-    "checks": [
-
-        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]],
+    "checks-complete": [
 
         ["@devcarib/server/lib/data/checks#inc", ["'events'"]]
+
+    ],
+
+    "checks": [
+
+        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]]
+
     ],
 
     "properties": {
@@ -103,11 +108,11 @@
 
         "allDay": {
 
-          "type": "boolean",
+            "type": "boolean",
 
-          "optional": true,
+            "optional": true,
 
-          "validators": "@devcarib/common/lib/data/validators#boolean"
+            "validators": "@devcarib/common/lib/data/validators#boolean"
 
         },
 

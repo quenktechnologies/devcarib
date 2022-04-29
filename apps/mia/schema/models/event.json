@@ -42,9 +42,14 @@
 
     "checks": [
 
-        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]],
+        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]]
+
+    ],
+
+    "checks-complete": [
 
         ["@devcarib/server/lib/data/checks#inc", ["'events'"]]
+
     ],
 
     "properties": {

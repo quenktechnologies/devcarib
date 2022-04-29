@@ -156,5 +156,5 @@ export const check: Precondition<Value, Job> =
 export const checkPartial: Precondition<Value, Partial<Job>> =
     _and(_and<Value, Job, Job>(_async(validatePartial),
         partial(partialChecks)),
-        _every(parseMarkdown('description', 'description_html'), inc('jobs')));
+        _every(parseMarkdown('description', 'description_html')));
 

@@ -37,7 +37,7 @@ import {
 
 import { Admin } from '@mia/types/lib/admin';
 import { validate, validatePartial } from '@mia/validators/lib/admin';
-import { inc, bcrypt, unique } from '@devcarib/server/lib/data/checks';
+import { bcrypt, inc, unique } from '@devcarib/server/lib/data/checks';
 
 //@ts-ignore: 6133
 const _title = 'Admin';
@@ -90,7 +90,6 @@ export const check: Precondition<Value, Admin> =
  * checkPartial a partial Admin value.
  */
 export const checkPartial: Precondition<Value, Partial<Admin>> =
-    _and(_and<Value, Admin, Admin>(_async(validatePartial),
-        partial(partialChecks)),
-        _every(inc('admins')));
+    _and<Value, Admin, Admin>(_async<Value, Admin>(validatePartial),
+        partial(partialChecks));
 

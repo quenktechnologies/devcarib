@@ -132,5 +132,5 @@ export const check: Precondition<Value, Event> =
 export const checkPartial: Precondition<Value, Partial<Event>> =
     _and(_and<Value, Event, Event>(_async(validatePartial),
         partial(partialChecks)),
-        _every(parseMarkdown('description', 'description_html'), inc('events')));
+        _every(parseMarkdown('description', 'description_html')));
 
