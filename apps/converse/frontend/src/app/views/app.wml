@@ -2,7 +2,6 @@
 {% import (Nav) from "@quenk/wml-widgets/lib/menu/nav" %}
 {% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
-{% import (MainLayout) from "@quenk/wml-widgets/lib/layout/main" %}
 
 {% import (Converse) from "../" %}
 
@@ -28,6 +27,6 @@
 
   </NavBar>
 
-  <MainLayout wml:id="content" ww:className="converse-content" />
+  <div wml:id="content" id="content" />
 
 </div>
