@@ -5,7 +5,7 @@
 
   <html>
 
-    {{ <HeadView({title=@title, styles=["/mia/assets/css/mia.css"]})> }}
+    {{ <HeadView({title=@title, noSite=true, styles=["/mia/assets/css/mia.css"]})> }}
 
     <body>
       
