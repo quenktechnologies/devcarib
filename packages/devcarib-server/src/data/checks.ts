@@ -125,7 +125,7 @@ export const timestamp = (): Result<Value, Value> =>
  * and sets the result to the target destination.
  */
 export const parseMarkdown =
-    (src: string, dest: string) =>
+    (src: string, dest: string, allowLinks = false) =>
         <T extends Object>(value: T): Result<T, T> => fromCallback(cb => {
 
             if (!isObject(value)) return cb(null, succeed(value));
@@ -134,7 +134,7 @@ export const parseMarkdown =
 
             if (val[src] == null) return cb(null, succeed(value));
 
-            val[dest] = mark.parse(String(val[src]));
+            val[dest] = mark.parse(String(val[src]), {allowLinks});
 
             cb(null, succeed(<T>val));
 

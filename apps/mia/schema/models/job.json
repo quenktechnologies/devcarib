@@ -48,7 +48,7 @@
 
     "checks": [
 
-        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]]
+        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'", "true"]]
 
     ],
 
