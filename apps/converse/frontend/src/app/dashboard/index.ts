@@ -159,7 +159,7 @@ export class Dashboard extends ConverseScene<void> {
 
         return this.posts.search({
 
-            sort: '-created_by',
+            sort: '-created_on',
 
             limit: this.values.posts.pagination.current.limit
 

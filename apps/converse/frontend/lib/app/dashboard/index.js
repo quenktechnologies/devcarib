@@ -89,7 +89,7 @@ class Dashboard extends scene_1.ConverseScene {
     }
     run() {
         return this.posts.search({
-            sort: '-created_by',
+            sort: '-created_on',
             limit: this.values.posts.pagination.current.limit
         });
     }
