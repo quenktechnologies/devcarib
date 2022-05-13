@@ -11,7 +11,6 @@ import {NavBar} from '@quenk/wml-widgets/lib/layout/nav-bar'; ;
 import {Nav} from '@quenk/wml-widgets/lib/menu/nav'; ;
 import {Item} from '@quenk/wml-widgets/lib/menu/item'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {MainLayout} from '@quenk/wml-widgets/lib/layout/main'; ;
 import {Converse} from '../'; 
 
 
@@ -92,10 +91,10 @@ export class ConverseView  implements __wml.View {
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{ww : { 'className' : 'converse-logout'  }})
      ]),<__wml.Attrs>{'className': 'converse-navbar','links': __context.values.header.links}),
-__this.widget(new MainLayout({wml : { 'id' : 'content'  },ww : { 'className' : 'converse-content'  }}, [
+__this.node('div', <__wml.Attrs>{wml : { 'id' : 'content'  },'id': 'content'}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'content'  },ww : { 'className' : 'converse-content'  }})
+     ])
      ]);
 
        }

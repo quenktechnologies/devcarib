@@ -35,4 +35,4 @@ export declare const timestamp: () => Result<Value, Value>;
  * parseMarkdown parses the value of a property on a object as markdown
  * and sets the result to the target destination.
  */
-export declare const parseMarkdown: (src: string, dest: string) => <T extends Object>(value: T) => Result<T, T>;
+export declare const parseMarkdown: (src: string, dest: string, allowLinks?: boolean) => <T extends Object>(value: T) => Result<T, T>;

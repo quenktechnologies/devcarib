@@ -73,13 +73,13 @@ exports.timestamp = timestamp;
  * parseMarkdown parses the value of a property on a object as markdown
  * and sets the result to the target destination.
  */
-const parseMarkdown = (src, dest) => (value) => (0, future_1.fromCallback)(cb => {
+const parseMarkdown = (src, dest, allowLinks = false) => (value) => (0, future_1.fromCallback)(cb => {
     if (!(0, type_1.isObject)(value))
         return cb(null, (0, result_1.succeed)(value));
     let val = value;
     if (val[src] == null)
         return cb(null, (0, result_1.succeed)(value));
-    val[dest] = mark.parse(String(val[src]));
+    val[dest] = mark.parse(String(val[src]), { allowLinks });
     cb(null, (0, result_1.succeed)(val));
 });
 exports.parseMarkdown = parseMarkdown;

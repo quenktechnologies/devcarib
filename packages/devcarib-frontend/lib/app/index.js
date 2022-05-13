@@ -83,7 +83,7 @@ class DevCarib extends jouvert_1.Jouvert {
         viewDelegate.set(this.view);
         this.spawn({
             id: 'views',
-            create: () => new display_1.Display(new display_1.WMLLayoutViewDelegate(this.view.findById('content').get()), this)
+            create: () => new display_1.Display(new display_1.HTMLElementViewDelegate(this.view.findById('content').get()), this)
         });
         this.spawn({
             id: 'dialogs',

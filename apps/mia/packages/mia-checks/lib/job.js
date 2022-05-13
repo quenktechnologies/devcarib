@@ -64,9 +64,9 @@ exports.partialChecks = {
 /**
  * check a Job value.
  */
-exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html'), (0, checks_1.inc)('jobs')));
+exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html', true), (0, checks_1.inc)('jobs')));
 /**
  * checkPartial a partial Job value.
  */
-exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html')));
+exports.checkPartial = (0, async_1.and)((0, async_1.and)((0, async_1.async)(job_1.validatePartial), (0, record_1.intersect)(exports.partialChecks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html', true)));
 //# sourceMappingURL=job.js.map

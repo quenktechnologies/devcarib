@@ -12,8 +12,6 @@ const item_1 = require("@quenk/wml-widgets/lib/menu/item");
 ;
 const link_1 = require("@quenk/wml-widgets/lib/content/link");
 ;
-const main_1 = require("@quenk/wml-widgets/lib/layout/main");
-;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -53,7 +51,7 @@ class MiaView {
                         ]), {})
                     ]), { ww: { 'className': 'mia-logout' } })
                 ]), { 'className': 'mia-navbar-bar', 'links': __context.values.header.links }),
-                __this.widget(new main_1.MainLayout({ wml: { 'id': 'content' }, ww: { 'className': 'mia-content' } }, []), { wml: { 'id': 'content' }, ww: { 'className': 'mia-content' } })
+                __this.node('div', { wml: { 'id': 'content' }, 'id': 'content' }, [])
             ]);
         };
     }

@@ -12,8 +12,6 @@ const item_1 = require("@quenk/wml-widgets/lib/menu/item");
 ;
 const link_1 = require("@quenk/wml-widgets/lib/content/link");
 ;
-const main_1 = require("@quenk/wml-widgets/lib/layout/main");
-;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -53,7 +51,7 @@ class ConverseView {
                         ]), {})
                     ]), { ww: { 'className': 'converse-logout' } })
                 ]), { 'className': 'converse-navbar', 'links': __context.values.header.links }),
-                __this.widget(new main_1.MainLayout({ wml: { 'id': 'content' }, ww: { 'className': 'converse-content' } }, []), { wml: { 'id': 'content' }, ww: { 'className': 'converse-content' } })
+                __this.node('div', { wml: { 'id': 'content' }, 'id': 'content' }, [])
             ]);
         };
     }

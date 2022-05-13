@@ -10,7 +10,6 @@ import { Message } from '@quenk/potoo/lib/actor/message';
 import {
     Display,
     HTMLElementViewDelegate,
-    WMLLayoutViewDelegate
 } from '@quenk/jouvert/lib/app/service/display';
 import {
     CompleteHandlerSpec,
@@ -20,8 +19,6 @@ import { Paths } from '@quenk/jouvert/lib/app/remote/model';
 import { Director, RoutingTable } from '@quenk/jouvert/lib/app/service/director';
 import { Remote } from '@quenk/jouvert/lib/app/remote';
 import { Jouvert, Template } from '@quenk/jouvert';
-
-import { MainLayout } from '@quenk/wml-widgets/lib/layout/main';
 
 import { DefaultRequest, HashRouter } from '@quenk/frontend-routers/lib/hash';
 
@@ -141,8 +138,8 @@ export abstract class DevCarib extends Jouvert {
 
             id: 'views',
 
-            create: () => new Display(new WMLLayoutViewDelegate(
-                this.view.findById<MainLayout>('content').get()), this)
+            create: () => new Display(new HTMLElementViewDelegate(
+                this.view.findById<HTMLDivElement>('content').get()), this)
 
         });
 
