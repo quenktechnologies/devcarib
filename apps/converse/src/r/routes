@@ -3,7 +3,8 @@ GET     /me         userCtrl.get
 POST    /posts      postsCtrl.create +model="post"
 GET     /posts      postsCtrl.search +search="post"
 
-GET     /posts/:id  postsCtrl.get +get="post"
+GET     /posts/:id  postsCtrl.increment("web-views") 
+                    postsCtrl.get +get="post"
 
 --Note: Users can only modify posts they own.
 PATCH   /posts/:id  postsCtrl.update +model="post" +owned

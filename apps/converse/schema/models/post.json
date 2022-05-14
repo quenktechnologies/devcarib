@@ -114,6 +114,14 @@
 
             "readOnly": true
 
+        },
+
+        "web-views": {
+
+          "type": "number",
+
+          "readOnly": true
+
         }
 
     }

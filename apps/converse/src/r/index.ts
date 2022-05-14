@@ -12,7 +12,7 @@ import { CommentModel } from '@converse/models/lib/comment';
 import { EventModel } from '@converse/models/lib/event';
 
 /**
- * UserController provides the api endpoint for the current user.
+ * UserController provides the API endpoint for the current user.
  */
 export class UserController {
 
