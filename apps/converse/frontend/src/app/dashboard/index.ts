@@ -64,9 +64,9 @@ export class Dashboard extends ConverseScene<void> {
             create: () => this.spawn(() =>
                 new CreatePostForm(this.app, this.self())),
 
-            recent: {
+            popular: {
 
-                id: 'recent-posts',
+                id: 'popular-posts',
 
                 data: <Post[]>[]
 
@@ -100,13 +100,13 @@ export class Dashboard extends ConverseScene<void> {
         new AfterSearchSetData(data => doFuture(function*() {
 
             // @ts-ignore 2683
-            let that:Dashboard = this;
+            let that: Dashboard = this;
 
             that.values.posts.data = data;
 
             yield that.jobs.search({ sort: '-created_on', limit: 5 });
 
-            yield that.recentPosts.search({ sort: '-created_on', limit: 5 });
+            yield that.popularPosts.search({ sort: '-web-views', limit: 5 });
 
             yield that.events.search({ sort: '-created_on', limit: 5 });
 
@@ -127,15 +127,15 @@ export class Dashboard extends ConverseScene<void> {
     ]);
 
     /**
-     * recentPosts is used to fetch the most recently created posts.
+     * popularPosts is used to fetch the most popular posts.
      *
      * This does not affect the main view posts.
      */
-    recentPosts = this.app.getModel(api.posts, [
+    popularPosts = this.app.getModel(api.posts, [
 
-        new AfterSearchSetData(data => { this.values.posts.recent.data = data }),
+        new AfterSearchSetData(data => { this.values.posts.popular.data = data }),
 
-        new AfterSearchUpdateWidget(this.view, this.values.posts.recent.id)
+        new AfterSearchUpdateWidget(this.view, this.values.posts.popular.id)
 
     ]);
 
