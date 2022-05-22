@@ -1,5 +1,6 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+{% import (Pager) from "@quenk/wml-widgets/lib/control/pager" %}
 
 {% import (PostStream) from "@devcarib/widgets/lib/post/stream" %}
 {% import (JobRankPanel) from "@devcarib/widgets/lib/job/panel/rank" %}
@@ -69,6 +70,19 @@
             wml:id={{@values.posts.id}}
             className="-devcarib-spaced"
             data={{@values.posts.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <Pager
+            total={{@values.posts.pagination.total.pages}}
+            current={{@values.posts.pagination.current.page}} 
+            onChange={{@values.posts.next}} />
 
         </Column>
 

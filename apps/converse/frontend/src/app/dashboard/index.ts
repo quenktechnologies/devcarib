@@ -1,6 +1,13 @@
 import * as api from '../api';
 
 import {
+    Future,
+    doFuture,
+    voidPure
+} from '@quenk/noni/lib/control/monad/future';
+import { noop } from '@quenk/noni/lib/data/function';
+
+import {
     AfterSearchSetData,
     AfterSearchSetPagination,
     OnCompleteShowData,
@@ -8,6 +15,8 @@ import {
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { Result } from '@quenk/jouvert/lib/app/remote/model';
+
+import { PageSelectedEvent } from '@quenk/wml-widgets/lib/control/pager';
 
 import { Job } from '@board/types/lib/job';
 
@@ -17,7 +26,6 @@ import { Event } from '@converse/types/lib/event';
 import { ConverseScene } from '../common/scene';
 import { CreatePostForm } from './forms/post';
 import { DashboardView } from './views';
-import { doFuture, voidPure } from '@quenk/noni/lib/control/monad/future';
 
 class DefaultPagination {
 
@@ -27,7 +35,7 @@ class DefaultPagination {
 
         page: 1,
 
-        limit: 25
+        limit: 2
 
     };
 
@@ -63,6 +71,9 @@ export class Dashboard extends ConverseScene<void> {
 
             create: () => this.spawn(() =>
                 new CreatePostForm(this.app, this.self())),
+
+            next: ({ value }: PageSelectedEvent) =>
+                this.wait(this.fetchPosts(value)),
 
             popular: {
 
@@ -155,15 +166,32 @@ export class Dashboard extends ConverseScene<void> {
 
     ]);
 
-    run() {
+    /**
+     * fetchPosts recently posted for the main part of the view using the
+     * current pagination data.
+     *
+     * Currently ranks on created_on but future iterations will use last
+     * activity data.
+     *
+     * @param page - The page number to return from the paginated results.
+     */
+    fetchPosts(page = 1): Future<void> {
 
         return this.posts.search({
 
             sort: '-created_on',
 
+            page,
+
             limit: this.values.posts.pagination.current.limit
 
-        });
+        }).map(noop);
+
+    }
+
+    run() {
+
+        return this.fetchPosts();
 
     }
 
