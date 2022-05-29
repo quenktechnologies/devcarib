@@ -5,7 +5,7 @@
 {% import (PostMetadata) from "../metadata" %}
 
 {% view PostStreamView (PostStream from ".") %}
-<ListLayout ww:className="devcarib-post-stream">
+<ListLayout ww:className={{@values.className}}>
 
   {% for post in @values.data %}
 
