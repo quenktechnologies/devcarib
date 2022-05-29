@@ -11,6 +11,8 @@ const devcaribServerLibFiltersQuery = require("@devcarib/server/lib/filters/quer
 const converseFilterPolicies = require("@converse/filter-policies");
 const converseFields = require("@converse/fields");
 //@ts-ignore: 6133
+const _json = require("@quenk/noni/lib/data/jsonx");
+//@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
 const response_1 = require("@quenk/tendril/lib/app/api/response");
 const api_1 = require("@devcarib/server/lib/controllers/api");
@@ -18,7 +20,7 @@ const post_1 = require("@converse/models/lib/post");
 const comment_1 = require("@converse/models/lib/comment");
 const event_1 = require("@converse/models/lib/event");
 /**
- * UserController provides the api endpoint for the current user.
+ * UserController provides the API endpoint for the current user.
  */
 class UserController {
     get(req) {
@@ -59,7 +61,17 @@ const template = ($app) => ({ 'id': `r`,
             $routes.push({
                 method: 'get',
                 path: '/posts/:id',
-                filters: [exports.postsCtrl.get.bind(exports.postsCtrl)], tags: { get: `post` }
+                filters: [
+                    ($request) => {
+                        // @ts-ignore: 6133
+                        let $params = $request.params || {};
+                        // @ts-ignore: 6133
+                        let $query = $request.query || {};
+                        //@ts-ignore: 6133
+                        let $body = _json.Value = $request.body;
+                        return exports.postsCtrl.increment.apply(exports.postsCtrl, [`web-views`]);
+                    }, exports.postsCtrl.get.bind(exports.postsCtrl)
+                ], tags: { get: `post` }
             });
             $routes.push({
                 method: 'patch',

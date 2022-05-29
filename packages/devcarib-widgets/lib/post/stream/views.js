@@ -52,7 +52,7 @@ var PostStreamView = /** @class */ (function () {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = function (__this) {
-            return __this.widget(new list_1.ListLayout({ ww: { 'className': 'devcarib-post-stream' } }, __spreadArray([], __forIn(__context.values.data, function (post, _$$i, _$$all) {
+            return __this.widget(new list_1.ListLayout({ ww: { 'className': __context.values.className } }, __spreadArray([], __forIn(__context.values.data, function (post, _$$i, _$$all) {
                 return ([
                     __this.widget(new list_1.ListLayoutItem({}, [
                         __this.node('h3', { 'class': 'devcarib-post-stream__title' }, [
@@ -61,7 +61,7 @@ var PostStreamView = /** @class */ (function () {
                         __this.widget(new metadata_1.PostMetadata({ 'data': post }, []), { 'data': post })
                     ]), {})
                 ]);
-            }, function () { return ([]); }), true)), { ww: { 'className': 'devcarib-post-stream' } });
+            }, function () { return ([]); }), true)), { ww: { 'className': __context.values.className } });
         };
     }
     PostStreamView.prototype.registerView = function (v) {

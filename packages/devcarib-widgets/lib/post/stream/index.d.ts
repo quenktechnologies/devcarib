@@ -6,6 +6,10 @@ import { PostStreamView } from './views';
  */
 export interface PostStreamAttrs extends Attrs {
     /**
+     * className list to append to the root element.
+     */
+    className?: string;
+    /**
      * data is the posts initialize the stream with.
      */
     data?: Post[];
@@ -21,14 +25,21 @@ export interface PostStreamAttrs extends Attrs {
 export declare class PostStream extends Component<PostStreamAttrs> {
     view: PostStreamView;
     values: {
+        className: string;
         data: Post[];
         getPostHref: (post: Post) => string;
         onClick: (idx: number) => () => void;
     };
     /**
-     * update appends new posts to the stream.
+     * update the stream with new posts.
      *
      * This will trigger a refresh of the view.
      */
     update(data: Post[]): void;
+    /**
+     * append new posts to the stream.
+     *
+     * This will trigger a refresh of the view.
+     */
+    append(data: Post[]): void;
 }

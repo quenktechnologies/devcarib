@@ -27,6 +27,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostStream = void 0;
 var wml_1 = require("@quenk/wml");
 var views_1 = require("./views");
+var util_1 = require("@quenk/wml-widgets/lib/util");
 /**
  * PostStream is used to display recent post activity in a list view fashion.
  */
@@ -38,6 +39,7 @@ var PostStream = /** @class */ (function (_super) {
         _this = _super.apply(this, arguments) || this;
         _this.view = new views_1.PostStreamView(_this);
         _this.values = {
+            className: (0, util_1.concat)('devcarib-post-stream', _this.attrs.className),
             data: ((_a = _this.attrs.data) === null || _a === void 0 ? void 0 : _a.slice()) || [],
             getPostHref: function (post) { return "#/posts/".concat(post.id); },
             onClick: function (idx) { return function () {
@@ -47,13 +49,21 @@ var PostStream = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * update appends new posts to the stream.
+     * update the stream with new posts.
      *
      * This will trigger a refresh of the view.
      */
     PostStream.prototype.update = function (data) {
-        this.values.data = __spreadArray(__spreadArray([], this.values.data, true), data, true);
+        this.values.data = data;
         this.view.invalidate();
+    };
+    /**
+     * append new posts to the stream.
+     *
+     * This will trigger a refresh of the view.
+     */
+    PostStream.prototype.append = function (data) {
+        this.update(__spreadArray(__spreadArray([], this.values.data, true), data, true));
     };
     return PostStream;
 }(wml_1.Component));

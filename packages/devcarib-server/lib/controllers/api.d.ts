@@ -1,6 +1,7 @@
 import * as mongo from 'mongodb';
 import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Request } from '@quenk/tendril/lib/app/api/request';
+import { Action } from '@quenk/tendril/lib/app/api';
 import { BaseResource, DefaultParamsFactory, GetParams, RemoveParams, SearchParams, UpdateParams } from '@quenk/dback-resource-mongodb';
 import { Model } from '@quenk/dback-model-mongodb';
 /**
@@ -28,4 +29,9 @@ export declare class ApiController<T extends Object> extends BaseResource<T> {
     constructor(modelGetter: (db: mongo.Db) => Model<T>, conn?: string);
     params: QueryParams;
     getModel(db: mongo.Db): Model<T>;
+    /**
+     * increment a counter property on the target record identified by
+     * `req.param.id`.
+     */
+    increment: (key: string) => (req: Request) => Action<void>;
 }

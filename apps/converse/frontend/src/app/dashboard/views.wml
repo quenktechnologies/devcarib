@@ -97,9 +97,9 @@
         <Column>
 
           <PostRankPanel 
-            wml:id={{@values.posts.popular.id}}
+            wml:id={{@values.popular.id}}
             title="Popular"
-            data={{@values.posts.popular.data}} />
+            data={{@values.popular.data}} />
 
         </Column>
 

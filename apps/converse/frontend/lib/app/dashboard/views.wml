@@ -1,5 +1,6 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+{% import (Pager) from "@quenk/wml-widgets/lib/control/pager" %}
 
 {% import (PostStream) from "@devcarib/widgets/lib/post/stream" %}
 {% import (JobRankPanel) from "@devcarib/widgets/lib/job/panel/rank" %}
@@ -11,41 +12,6 @@
 <GridLayout>
 
   <Row>
-
-    <Column ww:span=7 ww:offset=1>
-
-      <Row>
-
-        <Column>
-
-          <header class="converse-dashboard-header">
-
-            <h1>Posts</h1>
-
-              <Button
-                ww:className="converse-dashboard-post-button -primary"
-                ww:text="New Post"
-                ww:onClick={{@values.posts.create}} />
-
-          </header>
-
-        </Column>
-
-      </Row>
-
-      <Row>
-
-        <Column>
-
-          <PostStream
-            wml:id={{@values.posts.id}}
-            data={{@values.posts.data}} />
-
-        </Column>
-
-      </Row>
-
-    </Column>
 
     <Column ww:span=3>
 
@@ -65,10 +31,32 @@
 
         <Column>
 
-          <PostRankPanel 
-            wml:id={{@values.posts.recent.id}}
-            title="Recent Posts"
-            data={{@values.posts.recent.data}} />
+          <JobRankPanel 
+            wml:id={{@values.jobs.id}} 
+            data={{@values.jobs.data}} />
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+    <Column ww:span=6>
+
+      <Row>
+
+        <Column>
+
+          <header class="converse-dashboard-header">
+
+            <h1>Posts</h1>
+
+              <Button
+                ww:className="converse-dashboard-post-button -primary"
+                ww:text="Create Post"
+                ww:onClick={{@values.posts.create}} />
+
+          </header>
 
         </Column>
 
@@ -78,9 +66,40 @@
 
         <Column>
 
-          <JobRankPanel 
-            wml:id={{@values.jobs.id}} 
-            data={{@values.jobs.data}} />
+          <PostStream
+            wml:id={{@values.posts.id}}
+            className="-devcarib-spaced"
+            data={{@values.posts.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <Pager
+            total={{@values.posts.pagination.total.pages}}
+            current={{@values.posts.pagination.current.page}} 
+            onChange={{@values.posts.next}} />
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+    <Column ww:span=3>
+
+      <Row>
+
+        <Column>
+
+          <PostRankPanel 
+            wml:id={{@values.popular.id}}
+            title="Popular"
+            data={{@values.popular.data}} />
 
         </Column>
 

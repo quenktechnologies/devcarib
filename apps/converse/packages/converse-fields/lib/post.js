@@ -10,6 +10,7 @@ exports.Post = {
     'title': 1,
     'body': 1,
     'body_html': 1,
+    'web-views': 1,
     'created_by.id': 1,
     'created_by.username': 1,
     'created_on': 1,

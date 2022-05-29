@@ -9,6 +9,7 @@ fromArray as __fromArray
 from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
+import {Pager} from '@quenk/wml-widgets/lib/control/pager'; ;
 import {PostStream} from '@devcarib/widgets/lib/post/stream'; ;
 import {JobRankPanel} from '@devcarib/widgets/lib/job/panel/rank'; ;
 import {PostRankPanel} from '@devcarib/widgets/lib/post/panel/rank'; ;
@@ -82,37 +83,7 @@ export class DashboardView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 7 ,'offset' : 1  }}, [
-
-        __this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.node('header', <__wml.Attrs>{'class': 'converse-dashboard-header'}, [
-
-        __this.node('h1', <__wml.Attrs>{}, [
-
-        __document.createTextNode('Posts')
-     ]),
-__this.widget(new Button({ww : { 'className' : 'converse-dashboard-post-button -primary' ,'text' : 'New Post' ,'onClick' : __context.values.posts.create  }}, [
-
-        
-     ]),<__wml.Attrs>{ww : { 'className' : 'converse-dashboard-post-button -primary' ,'text' : 'New Post' ,'onClick' : __context.values.posts.create  }})
-     ])
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
-
-        __this.widget(new Column({}, [
-
-        __this.widget(new PostStream({wml : { 'id' : __context.values.posts.id  },'data': __context.values.posts.data}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.posts.id  },'data': __context.values.posts.data})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 7 ,'offset' : 1  }}),
-__this.widget(new Column({ww : { 'span' : 3  }}, [
+        __this.widget(new Column({ww : { 'span' : 3  }}, [
 
         __this.widget(new Row({}, [
 
@@ -128,20 +99,63 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new PostRankPanel({wml : { 'id' : __context.values.posts.recent.id  },'title': 'Recent Posts','data': __context.values.posts.recent.data}, [
+        __this.widget(new JobRankPanel({wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.posts.recent.id  },'title': 'Recent Posts','data': __context.values.posts.recent.data})
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{ww : { 'span' : 3  }}),
+__this.widget(new Column({ww : { 'span' : 6  }}, [
+
+        __this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.node('header', <__wml.Attrs>{'class': 'converse-dashboard-header'}, [
+
+        __this.node('h1', <__wml.Attrs>{}, [
+
+        __document.createTextNode('Posts')
+     ]),
+__this.widget(new Button({ww : { 'className' : 'converse-dashboard-post-button -primary' ,'text' : 'Create Post' ,'onClick' : __context.values.posts.create  }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'className' : 'converse-dashboard-post-button -primary' ,'text' : 'Create Post' ,'onClick' : __context.values.posts.create  }})
+     ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new JobRankPanel({wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data}, [
+        __this.widget(new PostStream({wml : { 'id' : __context.values.posts.id  },'className': '-devcarib-spaced','data': __context.values.posts.data}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data})
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.posts.id  },'className': '-devcarib-spaced','data': __context.values.posts.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new Pager({'total': __context.values.posts.pagination.total.pages,'current': __context.values.posts.pagination.current.page,'onChange': __context.values.posts.next}, [
+
+        
+     ]),<__wml.Attrs>{'total': __context.values.posts.pagination.total.pages,'current': __context.values.posts.pagination.current.page,'onChange': __context.values.posts.next})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
+__this.widget(new Column({ww : { 'span' : 3  }}, [
+
+        __this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new PostRankPanel({wml : { 'id' : __context.values.popular.id  },'title': 'Popular','data': __context.values.popular.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.popular.id  },'title': 'Popular','data': __context.values.popular.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{ww : { 'span' : 3  }})

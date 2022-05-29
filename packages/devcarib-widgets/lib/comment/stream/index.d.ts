@@ -30,9 +30,15 @@ export declare class CommentStream extends Component<CommentStreamAttrs> {
         onEdit: ((data: Comment) => void) | undefined;
     };
     /**
-     * update appends new comments to the stream.
+     * update adds new comments to the stream.
      *
      * This will trigger a refresh of the view.
      */
     update(data: Comment[]): void;
+    /**
+     * append new comments to the stream.
+     *
+     * This will trigger a refresh of the view.
+     */
+    append(data: Comment[]): void;
 }

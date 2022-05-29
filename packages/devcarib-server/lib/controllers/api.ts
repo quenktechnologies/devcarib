@@ -3,6 +3,9 @@ import * as mongo from 'mongodb';
 import { Object } from '@quenk/noni/lib/data/jsonx';
 
 import { Request } from '@quenk/tendril/lib/app/api/request';
+import { Action, doAction } from '@quenk/tendril/lib/app/api';
+import { checkout } from '@quenk/tendril/lib/app/api/pool';
+import { fork, next } from '@quenk/tendril/lib/app/api/control';
 
 import {
     BaseResource,
@@ -70,6 +73,29 @@ export class ApiController<T extends Object>
     getModel(db: mongo.Db): Model<T> {
 
         return this.modelGetter(db);
+
+    }
+
+    /**
+     * increment a counter property on the target record identified by
+     * `req.param.id`.
+     */
+    increment = (key: string) => (req: Request): Action<void> => {
+
+        let that = this;
+
+        return doAction(function*() {
+
+            let db = yield checkout(that.conn);
+
+            let model = that.getModel(db);
+
+            yield fork(model.unsafeUpdate({ id: Number(req.params.id) },
+                { $inc: { [key]: 1 } }));
+
+            return next(req);
+
+        });
 
     }
 

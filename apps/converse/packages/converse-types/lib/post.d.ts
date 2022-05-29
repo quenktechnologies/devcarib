@@ -14,6 +14,7 @@ export interface Post extends _json.Object {
     'title'?: string;
     'body'?: string;
     'body_html'?: string;
+    'web-views'?: number;
     'created_by'?: {
         [key: string]: _json.Value;
         'id'?: number;

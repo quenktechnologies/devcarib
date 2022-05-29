@@ -15,6 +15,8 @@ export const Post = {
 
 
 
+
+
     'created_by.id': [
         'number'
         ,

@@ -75,13 +75,14 @@ export class Dashboard extends ConverseScene<void> {
             next: ({ value }: PageSelectedEvent) =>
                 this.wait(this.fetchPosts(value)),
 
-            popular: {
 
-                id: 'popular-posts',
+        },
 
-                data: <Post[]>[]
+        popular: {
 
-            }
+            id: 'popular-posts',
+
+            data: <Post[]>[]
 
         },
 
@@ -108,22 +109,7 @@ export class Dashboard extends ConverseScene<void> {
      */
     posts = this.app.getModel(api.posts, [
 
-        new AfterSearchSetData(data => doFuture(function*() {
-
-            // @ts-ignore 2683
-            let that: Dashboard = this;
-
-            that.values.posts.data = data;
-
-            yield that.jobs.search({ sort: '-created_on', limit: 5 });
-
-            yield that.popularPosts.search({ sort: '-web-views', limit: 5 });
-
-            yield that.events.search({ sort: '-created_on', limit: 5 });
-
-            return voidPure;
-
-        }.bind(this))),
+        new AfterSearchSetData(data => { this.values.posts.data = data; }),
 
         new AfterSearchSetPagination(this.values.posts),
 
@@ -144,9 +130,9 @@ export class Dashboard extends ConverseScene<void> {
      */
     popularPosts = this.app.getModel(api.posts, [
 
-        new AfterSearchSetData(data => { this.values.posts.popular.data = data }),
+        new AfterSearchSetData(data => { this.values.popular.data = data }),
 
-        new AfterSearchUpdateWidget(this.view, this.values.posts.popular.id)
+        new AfterSearchUpdateWidget(this.view, this.values.popular.id)
 
     ]);
 
@@ -191,7 +177,22 @@ export class Dashboard extends ConverseScene<void> {
 
     run() {
 
-        return this.fetchPosts();
+        let that = this;
+
+        return doFuture(function*() {
+
+            yield that.fetchPosts();
+
+            yield that.jobs.search({ sort: '-created_on', limit: 5 });
+
+            yield that.popularPosts.search({ sort: '-web-views', limit: 5 });
+
+            yield that.events.search({ sort: '-created_on', limit: 5 });
+
+                return voidPure;
+
+        });
+
 
     }
 

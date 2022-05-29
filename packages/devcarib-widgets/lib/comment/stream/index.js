@@ -45,13 +45,21 @@ var CommentStream = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * update appends new comments to the stream.
+     * update adds new comments to the stream.
      *
      * This will trigger a refresh of the view.
      */
     CommentStream.prototype.update = function (data) {
-        this.values.data = __spreadArray(__spreadArray([], this.values.data, true), data, true);
+        this.values.data = data.slice();
         this.view.invalidate();
+    };
+    /**
+     * append new comments to the stream.
+     *
+     * This will trigger a refresh of the view.
+     */
+    CommentStream.prototype.append = function (data) {
+        this.update(__spreadArray(__spreadArray([], this.values.data, true), data, true));
     };
     return CommentStream;
 }(wml_1.Component));

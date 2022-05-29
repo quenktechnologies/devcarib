@@ -3,11 +3,17 @@ import { Attrs, Component } from '@quenk/wml';
 import { Post } from '@converse/types/lib/post';
 
 import { PostStreamView } from './views';
+import { concat } from '@quenk/wml-widgets/lib/util';
 
 /**
  * PostStreamAttrs
  */
 export interface PostStreamAttrs extends Attrs {
+
+    /**
+     * className list to append to the root element.
+     */
+    className?: string
 
     /**
      * data is the posts initialize the stream with.
@@ -31,6 +37,8 @@ export class PostStream extends Component<PostStreamAttrs> {
 
     values = {
 
+        className: concat('devcarib-post-stream', this.attrs.className),
+
         data: this.attrs.data?.slice() || [],
 
         getPostHref: (post: Post) => `#/posts/${post.id}`,
@@ -44,15 +52,26 @@ export class PostStream extends Component<PostStreamAttrs> {
     }
 
     /**
-     * update appends new posts to the stream.
+     * update the stream with new posts.
      *
      * This will trigger a refresh of the view.
      */
     update(data: Post[]) {
 
-        this.values.data = [...this.values.data, ...data];
+        this.values.data = data;
 
         this.view.invalidate();
+
+    }
+
+    /**
+     * append new posts to the stream.
+     *
+     * This will trigger a refresh of the view.
+     */
+    append(data: Post[]) {
+
+        this.update([...this.values.data, ...data]);
 
     }
 

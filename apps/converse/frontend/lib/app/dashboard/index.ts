@@ -1,6 +1,13 @@
 import * as api from '../api';
 
 import {
+    Future,
+    doFuture,
+    voidPure
+} from '@quenk/noni/lib/control/monad/future';
+import { noop } from '@quenk/noni/lib/data/function';
+
+import {
     AfterSearchSetData,
     AfterSearchSetPagination,
     OnCompleteShowData,
@@ -8,6 +15,8 @@ import {
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { Result } from '@quenk/jouvert/lib/app/remote/model';
+
+import { PageSelectedEvent } from '@quenk/wml-widgets/lib/control/pager';
 
 import { Job } from '@board/types/lib/job';
 
@@ -17,7 +26,6 @@ import { Event } from '@converse/types/lib/event';
 import { ConverseScene } from '../common/scene';
 import { CreatePostForm } from './forms/post';
 import { DashboardView } from './views';
-import { doFuture, voidPure } from '@quenk/noni/lib/control/monad/future';
 
 class DefaultPagination {
 
@@ -27,7 +35,7 @@ class DefaultPagination {
 
         page: 1,
 
-        limit: 25
+        limit: 2
 
     };
 
@@ -64,13 +72,17 @@ export class Dashboard extends ConverseScene<void> {
             create: () => this.spawn(() =>
                 new CreatePostForm(this.app, this.self())),
 
-            recent: {
+            next: ({ value }: PageSelectedEvent) =>
+                this.wait(this.fetchPosts(value)),
 
-                id: 'recent-posts',
 
-                data: <Post[]>[]
+        },
 
-            }
+        popular: {
+
+            id: 'popular-posts',
+
+            data: <Post[]>[]
 
         },
 
@@ -97,22 +109,7 @@ export class Dashboard extends ConverseScene<void> {
      */
     posts = this.app.getModel(api.posts, [
 
-        new AfterSearchSetData(data => doFuture(function*() {
-
-            // @ts-ignore 2683
-            let that:Dashboard = this;
-
-            that.values.posts.data = data;
-
-            yield that.jobs.search({ sort: '-created_on', limit: 5 });
-
-            yield that.recentPosts.search({ sort: '-created_on', limit: 5 });
-
-            yield that.events.search({ sort: '-created_on', limit: 5 });
-
-            return voidPure;
-
-        }.bind(this))),
+        new AfterSearchSetData(data => { this.values.posts.data = data; }),
 
         new AfterSearchSetPagination(this.values.posts),
 
@@ -127,15 +124,15 @@ export class Dashboard extends ConverseScene<void> {
     ]);
 
     /**
-     * recentPosts is used to fetch the most recently created posts.
+     * popularPosts is used to fetch the most popular posts.
      *
      * This does not affect the main view posts.
      */
-    recentPosts = this.app.getModel(api.posts, [
+    popularPosts = this.app.getModel(api.posts, [
 
-        new AfterSearchSetData(data => { this.values.posts.recent.data = data }),
+        new AfterSearchSetData(data => { this.values.popular.data = data }),
 
-        new AfterSearchUpdateWidget(this.view, this.values.posts.recent.id)
+        new AfterSearchUpdateWidget(this.view, this.values.popular.id)
 
     ]);
 
@@ -155,15 +152,47 @@ export class Dashboard extends ConverseScene<void> {
 
     ]);
 
-    run() {
+    /**
+     * fetchPosts recently posted for the main part of the view using the
+     * current pagination data.
+     *
+     * Currently ranks on created_on but future iterations will use last
+     * activity data.
+     *
+     * @param page - The page number to return from the paginated results.
+     */
+    fetchPosts(page = 1): Future<void> {
 
         return this.posts.search({
 
             sort: '-created_on',
 
+            page,
+
             limit: this.values.posts.pagination.current.limit
 
+        }).map(noop);
+
+    }
+
+    run() {
+
+        let that = this;
+
+        return doFuture(function*() {
+
+            yield that.fetchPosts();
+
+            yield that.jobs.search({ sort: '-created_on', limit: 5 });
+
+            yield that.popularPosts.search({ sort: '-web-views', limit: 5 });
+
+            yield that.events.search({ sort: '-created_on', limit: 5 });
+
+                return voidPure;
+
         });
+
 
     }
 

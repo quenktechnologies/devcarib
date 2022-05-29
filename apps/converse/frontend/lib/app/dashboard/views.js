@@ -8,6 +8,8 @@ const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
 const button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
+const pager_1 = require("@quenk/wml-widgets/lib/control/pager");
+;
 const stream_1 = require("@devcarib/widgets/lib/post/stream");
 ;
 const rank_1 = require("@devcarib/widgets/lib/job/panel/rank");
@@ -49,23 +51,6 @@ class DashboardView {
         this.template = (__this) => {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({ ww: { 'span': 7, 'offset': 1 } }, [
-                        __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({}, [
-                                __this.node('header', { 'class': 'converse-dashboard-header' }, [
-                                    __this.node('h1', {}, [
-                                        __document.createTextNode('Posts')
-                                    ]),
-                                    __this.widget(new button_1.Button({ ww: { 'className': 'converse-dashboard-post-button -primary', 'text': 'New Post', 'onClick': __context.values.posts.create } }, []), { ww: { 'className': 'converse-dashboard-post-button -primary', 'text': 'New Post', 'onClick': __context.values.posts.create } })
-                                ])
-                            ]), {})
-                        ]), {}),
-                        __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({}, [
-                                __this.widget(new stream_1.PostStream({ wml: { 'id': __context.values.posts.id }, 'data': __context.values.posts.data }, []), { wml: { 'id': __context.values.posts.id }, 'data': __context.values.posts.data })
-                            ]), {})
-                        ]), {})
-                    ]), { ww: { 'span': 7, 'offset': 1 } }),
                     __this.widget(new grid_1.Column({ ww: { 'span': 3 } }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
@@ -74,12 +59,36 @@ class DashboardView {
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data }, []), { wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data })
+                                __this.widget(new rank_1.JobRankPanel({ wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data })
+                            ]), {})
+                        ]), {})
+                    ]), { ww: { 'span': 3 } }),
+                    __this.widget(new grid_1.Column({ ww: { 'span': 6 } }, [
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.node('header', { 'class': 'converse-dashboard-header' }, [
+                                    __this.node('h1', {}, [
+                                        __document.createTextNode('Posts')
+                                    ]),
+                                    __this.widget(new button_1.Button({ ww: { 'className': 'converse-dashboard-post-button -primary', 'text': 'Create Post', 'onClick': __context.values.posts.create } }, []), { ww: { 'className': 'converse-dashboard-post-button -primary', 'text': 'Create Post', 'onClick': __context.values.posts.create } })
+                                ])
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new rank_1.JobRankPanel({ wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data })
+                                __this.widget(new stream_1.PostStream({ wml: { 'id': __context.values.posts.id }, 'className': '-devcarib-spaced', 'data': __context.values.posts.data }, []), { wml: { 'id': __context.values.posts.id }, 'className': '-devcarib-spaced', 'data': __context.values.posts.data })
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new pager_1.Pager({ 'total': __context.values.posts.pagination.total.pages, 'current': __context.values.posts.pagination.current.page, 'onChange': __context.values.posts.next }, []), { 'total': __context.values.posts.pagination.total.pages, 'current': __context.values.posts.pagination.current.page, 'onChange': __context.values.posts.next })
+                            ]), {})
+                        ]), {})
+                    ]), { ww: { 'span': 6 } }),
+                    __this.widget(new grid_1.Column({ ww: { 'span': 3 } }, [
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.popular.id }, 'title': 'Popular', 'data': __context.values.popular.data }, []), { wml: { 'id': __context.values.popular.id }, 'title': 'Popular', 'data': __context.values.popular.data })
                             ]), {})
                         ]), {})
                     ]), { ww: { 'span': 3 } })

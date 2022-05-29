@@ -75,7 +75,7 @@ export class PostStreamView  implements __wml.View {
 
        
 
-           return __this.widget(new ListLayout({ww : { 'className' : 'devcarib-post-stream'  }}, [
+           return __this.widget(new ListLayout({ww : { 'className' : __context.values.className  }}, [
 
         ...__forIn (__context.values.data, (post , _$$i, _$$all)=> 
 ([
@@ -96,7 +96,7 @@ __this.widget(new PostMetadata({'data': post}, [
      ]),<__wml.Attrs>{})
      ]), 
 ()=> ([]))
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-post-stream'  }});
+     ]),<__wml.Attrs>{ww : { 'className' : __context.values.className  }});
 
        }
 

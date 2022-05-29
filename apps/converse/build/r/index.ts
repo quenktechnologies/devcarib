@@ -36,7 +36,7 @@ import { CommentModel } from '@converse/models/lib/comment';
 import { EventModel } from '@converse/models/lib/event';
 
 /**
- * UserController provides the api endpoint for the current user.
+ * UserController provides the API endpoint for the current user.
  */
 export class UserController {
 
@@ -89,7 +89,18 @@ filters:[postsCtrl.search.bind(postsCtrl)],tags:{search: `post` }});
 $routes.push({
 method:'get',
 path:'/posts/:id',
-filters:[postsCtrl.get.bind(postsCtrl)],tags:{get: `post` }});
+filters:[// @ts-ignore: 6133
+                ($request: Request)=> {
+
+                  // @ts-ignore: 6133
+                 let $params:_json.Object = $request.params || {};
+                 // @ts-ignore: 6133
+                 let $query: _json.Object = $request.query || {};
+                 //@ts-ignore: 6133
+                 let $body = _json.Value = $request.body;
+
+                 return postsCtrl.increment.apply(postsCtrl, [`web-views`]);
+        },postsCtrl.get.bind(postsCtrl)],tags:{get: `post` }});
 
 $routes.push({
 method:'patch',

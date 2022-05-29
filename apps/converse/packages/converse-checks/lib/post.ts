@@ -61,6 +61,8 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'body_html': _identity
     ,
+    'web-views': _identity
+    ,
     'created_by': _identity
     ,
     'created_on': _identity
@@ -82,6 +84,8 @@ export const partialChecks: Preconditions<Value, Value> = {
     'body': _identity
     ,
     'body_html': _identity
+    ,
+    'web-views': _identity
     ,
     'created_by': _identity
     ,
