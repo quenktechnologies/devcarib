@@ -20,10 +20,10 @@ export interface CommentStreamAttrs extends Attrs {
      */
     data?: Comment[],
 
-        /**
-         * onEdit is called when a comment has been inline edited.
-         */
-        onEdit?: (data:Comment) => void
+    /**
+     * onEdit is called when a comment has been inline edited.
+     */
+    onEdit?: (data: Comment) => void
 
 }
 
@@ -45,15 +45,27 @@ export class CommentStream extends Component<CommentStreamAttrs> {
     }
 
     /**
-     * update appends new comments to the stream.
+     * update adds new comments to the stream.
      *
      * This will trigger a refresh of the view.
      */
     update(data: Comment[]) {
 
-        this.values.data = [...this.values.data, ...data];
+        this.values.data = data.slice();
 
         this.view.invalidate();
+
+    }
+
+
+    /**
+     * append new comments to the stream.
+     *
+     * This will trigger a refresh of the view.
+     */
+    append(data: Comment[]) {
+
+        this.update( [...this.values.data, ...data]);
 
     }
 

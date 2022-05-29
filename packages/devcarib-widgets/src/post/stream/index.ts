@@ -52,15 +52,26 @@ export class PostStream extends Component<PostStreamAttrs> {
     }
 
     /**
-     * update appends new posts to the stream.
+     * update the stream with new posts.
      *
      * This will trigger a refresh of the view.
      */
     update(data: Post[]) {
 
-        this.values.data = [...this.values.data, ...data];
+        this.values.data = data;
 
         this.view.invalidate();
+
+    }
+
+    /**
+     * append new posts to the stream.
+     *
+     * This will trigger a refresh of the view.
+     */
+    append(data: Post[]) {
+
+        this.update([...this.values.data, ...data]);
 
     }
 
