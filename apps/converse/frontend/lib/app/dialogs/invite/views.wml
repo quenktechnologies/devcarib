@@ -1,0 +1,57 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+
+{% view CreateInviteDialogView (CreateInviteDialog from ".") %}
+<GridLayout>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+       wml:id="name"
+       ww:name="name"
+       ww:label="Name*"
+       ww:error={{@values.errors.name}}
+       ww:value={{@values.data.name}}
+       ww:onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+       wml:id="email"
+       ww:name="email"
+       ww:label="Email*"
+       ww:value={{@values.data.email}}
+       ww:error={{@values.errors.email}}
+       ww:onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+       wml:id="message"
+       ww:name="message"
+       ww:rows=10
+       ww:placeholder="Message (Optional)"
+       ww:error={{@values.errors.message}}
+       ww:value={{@values.data.message}}
+       ww:onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+</GridLayout>
+

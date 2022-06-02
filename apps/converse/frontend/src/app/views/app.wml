@@ -1,8 +1,6 @@
 {% import (NavBar) from "@quenk/wml-widgets/lib/layout/nav-bar" %}
-{% import (Nav) from "@quenk/wml-widgets/lib/menu/nav" %}
-{% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
-{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
+{% import (AccountDropDownView) from "./account-dropdown" %}
 {% import (Converse) from "../" %}
 
 {% view ConverseView(Converse) %}
@@ -13,17 +11,7 @@
    className="converse-navbar" 
    links={{@values.header.links}}>
 
-    <Nav ww:className="converse-logout">
-
-      <Item>
-      
-        <Link
-          ww:text="Logout"
-          ww:onClick={{@values.header.logout}} />
-
-      </Item>
-
-    </Nav>
+   {{<AccountDropDownView(@)>}}
 
   </NavBar>
 

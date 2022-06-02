@@ -7,14 +7,14 @@ import { Event } from '@quenk/wml-widgets/lib/control';
 
 import { Post } from '@converse/types/lib/post';
 
-import { RemoteForm } from '@devcarib/frontend/lib/app/scene/form/remote';
+import { DevCaribRemoteForm } from '@devcarib/frontend/lib/app/scene/form/remote';
 
 import { CreatePostFormView } from './views';
 
 /**
  * CreatePostForm displays a form for creating new posts.
  */
-export class CreatePostForm extends RemoteForm<Post, void> {
+export class CreatePostForm extends DevCaribRemoteForm<Post, void> {
 
     name = 'Create Post';
 

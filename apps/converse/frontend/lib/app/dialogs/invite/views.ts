@@ -7,9 +7,9 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {NavBar} from '@quenk/wml-widgets/lib/layout/nav-bar'; ;
-import {AccountDropDownView} from './account-dropdown'; ;
-import {Converse} from '../'; 
+import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
+import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
+import {CreateInviteDialog} from '.'; 
 
 
 //@ts-ignore:6192
@@ -66,25 +66,47 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class ConverseView  implements __wml.View {
+export class CreateInviteDialogView  implements __wml.View {
 
-   constructor(__context: Converse) {
+   constructor(__context: CreateInviteDialog) {
 
        this.template = (__this:__wml.Registry) => {
 
        
 
-           return __this.node('div', <__wml.Attrs>{wml : { 'id' : 'main'  }}, [
+           return __this.widget(new GridLayout({}, [
 
-        __this.widget(new NavBar({'className': 'converse-navbar','links': __context.values.header.links}, [
+        __this.widget(new Row({}, [
 
-        __this.registerView(new AccountDropDownView(__context)).render()
-     ]),<__wml.Attrs>{'className': 'converse-navbar','links': __context.values.header.links}),
-__this.node('div', <__wml.Attrs>{wml : { 'id' : 'content'  },'id': 'content'}, [
+        __this.widget(new Column({}, [
+
+        __this.widget(new TextField({wml : { 'id' : 'name'  },ww : { 'name' : 'name' ,'label' : 'Name*' ,'error' : __context.values.errors.name ,'value' : __context.values.data.name ,'onChange' : __context.values.onChange  }}, [
 
         
-     ])
-     ]);
+     ]),<__wml.Attrs>{wml : { 'id' : 'name'  },ww : { 'name' : 'name' ,'label' : 'Name*' ,'error' : __context.values.errors.name ,'value' : __context.values.data.name ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new TextField({wml : { 'id' : 'email'  },ww : { 'name' : 'email' ,'label' : 'Email*' ,'value' : __context.values.data.email ,'error' : __context.values.errors.email ,'onChange' : __context.values.onChange  }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'email'  },ww : { 'name' : 'email' ,'label' : 'Email*' ,'value' : __context.values.data.email ,'error' : __context.values.errors.email ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new TextField({wml : { 'id' : 'message'  },ww : { 'name' : 'message' ,'rows' : 10 ,'placeholder' : 'Message (Optional)' ,'error' : __context.values.errors.message ,'value' : __context.values.data.message ,'onChange' : __context.values.onChange  }}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'message'  },ww : { 'name' : 'message' ,'rows' : 10 ,'placeholder' : 'Message (Optional)' ,'error' : __context.values.errors.message ,'value' : __context.values.data.message ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{});
 
        }
 

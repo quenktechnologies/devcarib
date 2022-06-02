@@ -14,7 +14,7 @@ import { PostThread } from './posts/thread';
 
 let ignoredErrors = ['ClientError', 'ServerError'];
 
-const trap = (e: Err) => contains(ignoredErrors, e.message) ?
+export const trap = (e: Err) => contains(ignoredErrors, e.message) ?
     ACTION_IGNORE : ACTION_RAISE;
 
 export const routes: RoutingTable<Request> = {

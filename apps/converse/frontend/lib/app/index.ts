@@ -11,8 +11,9 @@ import { DevCarib } from '@devcarib/frontend/lib/app';
 
 import { User } from '@converse/types/lib/user';
 
+import { CreateInviteDialog } from './dialogs/invite';
 import { ConverseView } from './views/app';
-import { routes } from './routes';
+import { trap, routes } from './routes';
 
 /**
  * Converse application frontend main class.
@@ -33,6 +34,16 @@ export class Converse extends DevCarib {
 
 
             },
+
+            invite: () => this.spawn({
+
+                id: 'invite',
+
+                trap,
+
+                create: () => new CreateInviteDialog(this, this.services.display)
+
+            }),
 
             logout: () => this.logout().fork()
 

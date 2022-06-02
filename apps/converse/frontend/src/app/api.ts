@@ -61,3 +61,17 @@ export const events: Paths = {
     remove: '/converse/r/events/{id}'
 
 }
+
+export const invites: Paths = {
+
+    create: '/converse/r/invites',
+
+    search: '/converse/r/invites',
+
+    update: '/converse/invites/{id}',
+
+    get: '/converse/r/invites/{id}',
+
+    remove: '/converse/r/invites/{id}'
+
+}

@@ -7,8 +7,10 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {NavBar} from '@quenk/wml-widgets/lib/layout/nav-bar'; ;
-import {AccountDropDownView} from './account-dropdown'; ;
+import {Menu} from '@quenk/wml-widgets/lib/menu/menu'; ;
+import {Item,Divider} from '@quenk/wml-widgets/lib/menu/item'; ;
+import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
+import {DropDown} from '@quenk/wml-widgets/lib/control/drop-down'; ;
 import {Converse} from '../'; 
 
 
@@ -66,7 +68,7 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export class ConverseView  implements __wml.View {
+export class AccountDropDownView  implements __wml.View {
 
    constructor(__context: Converse) {
 
@@ -74,17 +76,30 @@ export class ConverseView  implements __wml.View {
 
        
 
-           return __this.node('div', <__wml.Attrs>{wml : { 'id' : 'main'  }}, [
+           return __this.widget(new DropDown({ww : { 'className' : 'converse-account-dropdown' ,'buttonText' : 'Account'  }}, [
 
-        __this.widget(new NavBar({'className': 'converse-navbar','links': __context.values.header.links}, [
+        __this.widget(new Menu({}, [
 
-        __this.registerView(new AccountDropDownView(__context)).render()
-     ]),<__wml.Attrs>{'className': 'converse-navbar','links': __context.values.header.links}),
-__this.node('div', <__wml.Attrs>{wml : { 'id' : 'content'  },'id': 'content'}, [
+        __this.widget(new Item({}, [
+
+        __this.widget(new Link({ww : { 'text' : 'Invite Friend' ,'onClick' : __context.values.header.invite  }}, [
 
         
-     ])
-     ]);
+     ]),<__wml.Attrs>{ww : { 'text' : 'Invite Friend' ,'onClick' : __context.values.header.invite  }})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Divider({}, [
+
+        
+     ]),<__wml.Attrs>{}),
+__this.widget(new Item({}, [
+
+        __this.widget(new Link({ww : { 'text' : 'Log Out' ,'onClick' : __context.values.header.logout  }}, [
+
+        
+     ]),<__wml.Attrs>{ww : { 'text' : 'Log Out' ,'onClick' : __context.values.header.logout  }})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{ww : { 'className' : 'converse-account-dropdown' ,'buttonText' : 'Account'  }});
 
        }
 

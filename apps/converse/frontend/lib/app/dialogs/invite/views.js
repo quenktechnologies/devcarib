@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConverseView = void 0;
+exports.CreateInviteDialogView = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
-const nav_bar_1 = require("@quenk/wml-widgets/lib/layout/nav-bar");
+const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-const account_dropdown_1 = require("./account-dropdown");
+const text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
 ;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -31,7 +31,7 @@ const text = __document.text;
 const unsafe = __document.unsafe;
 // @ts-ignore 6192
 const isSet = (value) => value != null;
-class ConverseView {
+class CreateInviteDialogView {
     constructor(__context) {
         this.ids = {};
         this.groups = {};
@@ -39,12 +39,23 @@ class ConverseView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.node('div', { wml: { 'id': 'main' } }, [
-                __this.widget(new nav_bar_1.NavBar({ 'className': 'converse-navbar', 'links': __context.values.header.links }, [
-                    __this.registerView(new account_dropdown_1.AccountDropDownView(__context)).render()
-                ]), { 'className': 'converse-navbar', 'links': __context.values.header.links }),
-                __this.node('div', { wml: { 'id': 'content' }, 'id': 'content' }, [])
-            ]);
+            return __this.widget(new grid_1.GridLayout({}, [
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'name' }, ww: { 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'name' }, ww: { 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange } })
+                    ]), {})
+                ]), {}),
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'email' }, ww: { 'name': 'email', 'label': 'Email*', 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'email' }, ww: { 'name': 'email', 'label': 'Email*', 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange } })
+                    ]), {})
+                ]), {}),
+                __this.widget(new grid_1.Row({}, [
+                    __this.widget(new grid_1.Column({}, [
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'message' }, ww: { 'name': 'message', 'rows': 10, 'placeholder': 'Message (Optional)', 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'message' }, ww: { 'name': 'message', 'rows': 10, 'placeholder': 'Message (Optional)', 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange } })
+                    ]), {})
+                ]), {})
+            ]), {});
         };
     }
     registerView(v) {
@@ -141,5 +152,5 @@ class ConverseView {
         return this.tree;
     }
 }
-exports.ConverseView = ConverseView;
-//# sourceMappingURL=app.js.map
+exports.CreateInviteDialogView = CreateInviteDialogView;
+//# sourceMappingURL=views.js.map

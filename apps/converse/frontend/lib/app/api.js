@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.events = exports.jobs = exports.comments = exports.posts = exports.me = void 0;
+exports.invites = exports.events = exports.jobs = exports.comments = exports.posts = exports.me = void 0;
 exports.me = {
     get: '/converse/r/me'
 };
@@ -31,5 +31,12 @@ exports.events = {
     update: '/converse/events/{id}',
     get: '/converse/r/events/{id}',
     remove: '/converse/r/events/{id}'
+};
+exports.invites = {
+    create: '/converse/r/invites',
+    search: '/converse/r/invites',
+    update: '/converse/invites/{id}',
+    get: '/converse/r/invites/{id}',
+    remove: '/converse/r/invites/{id}'
 };
 //# sourceMappingURL=api.js.map

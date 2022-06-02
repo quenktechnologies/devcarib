@@ -1,12 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConverseView = void 0;
+exports.AccountDropDownView = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
-const nav_bar_1 = require("@quenk/wml-widgets/lib/layout/nav-bar");
+const menu_1 = require("@quenk/wml-widgets/lib/menu/menu");
 ;
-const account_dropdown_1 = require("./account-dropdown");
+const item_1 = require("@quenk/wml-widgets/lib/menu/item");
+;
+const link_1 = require("@quenk/wml-widgets/lib/content/link");
+;
+const drop_down_1 = require("@quenk/wml-widgets/lib/control/drop-down");
 ;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -31,7 +35,7 @@ const text = __document.text;
 const unsafe = __document.unsafe;
 // @ts-ignore 6192
 const isSet = (value) => value != null;
-class ConverseView {
+class AccountDropDownView {
     constructor(__context) {
         this.ids = {};
         this.groups = {};
@@ -39,12 +43,17 @@ class ConverseView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.node('div', { wml: { 'id': 'main' } }, [
-                __this.widget(new nav_bar_1.NavBar({ 'className': 'converse-navbar', 'links': __context.values.header.links }, [
-                    __this.registerView(new account_dropdown_1.AccountDropDownView(__context)).render()
-                ]), { 'className': 'converse-navbar', 'links': __context.values.header.links }),
-                __this.node('div', { wml: { 'id': 'content' }, 'id': 'content' }, [])
-            ]);
+            return __this.widget(new drop_down_1.DropDown({ ww: { 'className': 'converse-account-dropdown', 'buttonText': 'Account' } }, [
+                __this.widget(new menu_1.Menu({}, [
+                    __this.widget(new item_1.Item({}, [
+                        __this.widget(new link_1.Link({ ww: { 'text': 'Invite Friend', 'onClick': __context.values.header.invite } }, []), { ww: { 'text': 'Invite Friend', 'onClick': __context.values.header.invite } })
+                    ]), {}),
+                    __this.widget(new item_1.Divider({}, []), {}),
+                    __this.widget(new item_1.Item({}, [
+                        __this.widget(new link_1.Link({ ww: { 'text': 'Log Out', 'onClick': __context.values.header.logout } }, []), { ww: { 'text': 'Log Out', 'onClick': __context.values.header.logout } })
+                    ]), {})
+                ]), {})
+            ]), { ww: { 'className': 'converse-account-dropdown', 'buttonText': 'Account' } });
         };
     }
     registerView(v) {
@@ -141,5 +150,5 @@ class ConverseView {
         return this.tree;
     }
 }
-exports.ConverseView = ConverseView;
-//# sourceMappingURL=app.js.map
+exports.AccountDropDownView = AccountDropDownView;
+//# sourceMappingURL=account-dropdown.js.map

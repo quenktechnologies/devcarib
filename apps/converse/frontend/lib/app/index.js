@@ -4,6 +4,7 @@ exports.Converse = void 0;
 const api = require("./api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const app_1 = require("@devcarib/frontend/lib/app");
+const invite_1 = require("./dialogs/invite");
 const app_2 = require("./views/app");
 const routes_1 = require("./routes");
 /**
@@ -18,6 +19,11 @@ class Converse extends app_1.DevCarib {
         this.values = {
             header: {
                 links: {},
+                invite: () => this.spawn({
+                    id: 'invite',
+                    trap: routes_1.trap,
+                    create: () => new invite_1.CreateInviteDialog(this, this.services.display)
+                }),
                 logout: () => this.logout().fork()
             },
         };

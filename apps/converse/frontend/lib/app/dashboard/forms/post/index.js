@@ -7,7 +7,7 @@ const views_1 = require("./views");
 /**
  * CreatePostForm displays a form for creating new posts.
  */
-class CreatePostForm extends remote_1.RemoteForm {
+class CreatePostForm extends remote_1.DevCaribRemoteForm {
     constructor() {
         super(...arguments);
         this.name = 'Create Post';

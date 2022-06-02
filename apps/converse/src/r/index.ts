@@ -10,6 +10,7 @@ import { ApiController } from '@devcarib/server/lib/controllers/api';
 import { PostModel } from '@converse/models/lib/post';
 import { CommentModel } from '@converse/models/lib/comment';
 import { EventModel } from '@converse/models/lib/event';
+import { InviteModel } from '@converse/models/lib/invite';
 
 /**
  * UserController provides the API endpoint for the current user.
@@ -35,5 +36,7 @@ export const commentsCtrl = new ApiController(CommentModel.getInstance);
 export const userCtrl = new UserController();
 
 export const eventCtrl = new ApiController(EventModel.getInstance);
+
+export const invitesCtrl = new ApiController(InviteModel.getInstance);
 
 /* tdc-output-exports */
