@@ -9,7 +9,9 @@ import { Option } from '@quenk/wml-widgets/lib/control/drop-list';
 
 import { Event } from '@mia/types/lib/event';
 
-import { MiaFormDialog } from '../../../common/scene/dialog/form';
+import {
+    DevCaribDialogRemoteForm
+} from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
 import { AddEventDialogView } from './views';
 
 const getTimes = () => {
@@ -31,7 +33,7 @@ const getTimes = () => {
 
 const now = () => moment.utc().startOf('day').add(9, 'hours').add(15, 'minutes');
 
-export class AddEventDialog extends MiaFormDialog<Event, void> {
+export class AddEventDialog extends DevCaribDialogRemoteForm<Event, void> {
 
     name = 'Add Event';
 

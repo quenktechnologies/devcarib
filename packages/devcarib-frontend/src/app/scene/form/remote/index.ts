@@ -1,24 +1,32 @@
 import { Object } from '@quenk/noni/lib/data/jsonx';
-import { doFuture, Future, voidPure } from '@quenk/noni/lib/control/monad/future';
+import {
+    Future,
+    doFuture,
+    voidPure
+} from '@quenk/noni/lib/control/monad/future';
 
-import { FormErrors, SaveFailed, SaveOk } from '@quenk/jouvert/lib/app/scene/form';
+import {
+    FormErrors,
+    SaveFailed,
+    SaveOk
+} from '@quenk/jouvert/lib/app/scene/form';
 import { Paths, RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
 import { OnSaveFailed } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { Close } from '@quenk/jouvert/lib/app/service/display';
 
-import { DevCaribForm } from '.';
+import { DevCaribForm } from '../';
 
 export const REMOTE_FORM_MODE_CREATE = 'create';
 export const REMOTE_FORM_MODE_UPDATE = 'update';
 
 /**
- * RemoteForm is an actor that serves as the form controller for forms that
- * submit data to the backend.
+ * DevCaribRemoteForm is an actor that serves as the form controller for forms
+ * that submit data to the back-end.
  *
  * These actors are based around jouvert [[RemoteModel]]s and use them to
  * submit new data or updates.
  */
-export abstract class RemoteForm<T extends Object, M>
+export abstract class DevCaribRemoteForm<T extends Object, M>
     extends
     DevCaribForm<T, M> {
 
