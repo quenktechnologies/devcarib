@@ -442,7 +442,6 @@
             "version": "1.31.3",
             "resolved": "https://registry.npmjs.org/@quenk/wml-widgets/-/wml-widgets-1.31.3.tgz",
             "integrity": "sha512-+8lS9WFFNgUEn7XNw2ydxvQ28/rQVaRz2CpChdS5pDsdoEgLKY5tXwKreDr2OIvXHA7tOOfHWqWA7aQdx87ilw==",
-            "dev": true,
             "requires": {
                 "@quenk/noni": "^1.40.14",
                 "moment": "^2.29.1"
