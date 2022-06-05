@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MiaFormDialogView = void 0;
+exports.DevCaribDialogRemoteFormView = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -8,6 +8,7 @@ const maybe_1 = require("@quenk/noni/lib/data/maybe");
 const modal_1 = require("@quenk/wml-widgets/lib/dialog/modal");
 ;
 const button_1 = require("@quenk/wml-widgets/lib/control/button");
+;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -31,8 +32,7 @@ const text = __document.text;
 const unsafe = __document.unsafe;
 // @ts-ignore 6192
 const isSet = (value) => value != null;
-;
-class MiaFormDialogView {
+class DevCaribDialogRemoteFormView {
     constructor(__context) {
         this.ids = {};
         this.groups = {};
@@ -148,5 +148,5 @@ class MiaFormDialogView {
         return this.tree;
     }
 }
-exports.MiaFormDialogView = MiaFormDialogView;
+exports.DevCaribDialogRemoteFormView = DevCaribDialogRemoteFormView;
 //# sourceMappingURL=views.js.map

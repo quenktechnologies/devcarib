@@ -3,9 +3,9 @@ import { Record } from '@quenk/noni/lib/data/record';
 import { Event as ControlEvent } from '@quenk/wml-widgets/lib/control';
 import { Option } from '@quenk/wml-widgets/lib/control/drop-list';
 import { Event } from '@mia/types/lib/event';
-import { MiaFormDialog } from '../../../common/scene/dialog/form';
+import { DevCaribDialogRemoteForm } from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
 import { AddEventDialogView } from './views';
-export declare class AddEventDialog extends MiaFormDialog<Event, void> {
+export declare class AddEventDialog extends DevCaribDialogRemoteForm<Event, void> {
     name: string;
     view: AddEventDialogView;
     model: import("@quenk/jouvert/lib/app/remote/model").RemoteModel<Event>;

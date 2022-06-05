@@ -80,7 +80,7 @@ export class ApiController<T extends Object>
      * increment a counter property on the target record identified by
      * `req.param.id`.
      */
-    increment = (key: string) => (req: Request): Action<void> => {
+    increment = (req: Request, key:string): Action<void> => {
 
         let that = this;
 

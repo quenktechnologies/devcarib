@@ -9,7 +9,7 @@ fromArray as __fromArray
 from '@quenk/noni/lib/data/maybe';
 import {DropDown} from '@quenk/wml-widgets/lib/control/drop-down'; ;
 import {Menu} from '@quenk/wml-widgets/lib/menu/menu'; ;
-import {Item} from '@quenk/wml-widgets/lib/menu/item'; ;
+import {Item,Divider} from '@quenk/wml-widgets/lib/menu/item'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
 import {Event} from '@mia/types/lib/event'; 
 
@@ -282,10 +282,10 @@ export class ActionColumnView  implements __wml.View {
         ...((spec.divider) ?
 (()=>([
 
-        __this.widget(new Item({ww : { 'divider' : true   }}, [
+        __this.widget(new Divider({}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'divider' : true   }})
+     ]),<__wml.Attrs>{})
      ]))() :
 (()=>([]))()),
 __this.widget(new Item({}, [

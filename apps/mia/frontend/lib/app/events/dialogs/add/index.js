@@ -4,7 +4,7 @@ exports.AddEventDialog = void 0;
 const moment = require("moment");
 const api = require("../../../api");
 const record_1 = require("@quenk/noni/lib/data/record");
-const form_1 = require("../../../common/scene/dialog/form");
+const dialog_1 = require("@devcarib/frontend/lib/app/scene/form/remote/dialog");
 const views_1 = require("./views");
 const getTimes = () => {
     let mins = ['00', '15', '30', '45'];
@@ -19,7 +19,7 @@ const getTimes = () => {
     })), []);
 };
 const now = () => moment.utc().startOf('day').add(9, 'hours').add(15, 'minutes');
-class AddEventDialog extends form_1.MiaFormDialog {
+class AddEventDialog extends dialog_1.DevCaribDialogRemoteForm {
     constructor() {
         super(...arguments);
         this.name = 'Add Event';

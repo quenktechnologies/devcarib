@@ -2,7 +2,7 @@ DEVCARIB_FRONTEND_DIR:=$(PACKAGES_DIR)/devcarib-frontend
 DEVCARIB_FRONTEND_SRC_DIR:=$(DEVCARIB_FRONTEND_DIR)/src
 
 DEVCARIB_FRONTEND_SRC_FILES:=$(shell find $(DEVCARIB_FRONTEND_SRC_DIR)\
-                         -name \*.ts -o -name \*.json)
+                         -name \*.ts -o -name \*.json -o -name \*.wml)
 
 DEVCARIB_FRONTEND_LIB_DIR:=$(DEVCARIB_FRONTEND_DIR)/lib
 

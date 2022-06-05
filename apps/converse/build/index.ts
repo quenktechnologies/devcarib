@@ -40,6 +40,8 @@ import { unsafeGetConnection } from '@devcarib/server/lib/db';
 import { compare } from '@devcarib/server/lib/data/password';
 import { now } from '@devcarib/common/lib/data/datetime';
 
+import {InviteController} from './invites';
+
 const TITLE = 'Converse';
 const ROUTE_INDEX = '/converse';
 const ROUTE_LOGIN = '/converse/login';
@@ -120,6 +122,7 @@ export class ConverseAuthController extends AuthController {
 }
 
 export const auth = new ConverseAuthController();
+export const invites = new InviteController();
 
 //XXX: Seems like there is a parser bug in jcon that won't let us specify
 // ..#auth.checkAuth(true)
@@ -155,6 +158,21 @@ $routes.push({
 method:'post',
 path:'/logout',
 filters:[auth.onLogout.bind(auth)],tags:{}});
+
+$routes.push({
+method:'get',
+path:'/invites/:id',
+filters:[invites.onForm.bind(invites)],tags:{}});
+
+$routes.push({
+method:'post',
+path:'/invites/:id',
+filters:[invites.onRegister.bind(invites)],tags:{}});
+
+$routes.push({
+method:'get',
+path:'/register/success',
+filters:[invites.onSuccess.bind(invites)],tags:{}});
 return $routes;
 }},
 'create': 

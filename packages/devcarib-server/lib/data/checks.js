@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.COUNTERS_ID = void 0;
+exports.rand = exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.COUNTERS_ID = void 0;
 const bcryptjs = require("bcryptjs");
 const uuid = require("uuid");
 const moment = require("moment");
+const crypto = require("crypto");
 const mark = require("./markdown");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const monad_1 = require("@quenk/noni/lib/control/monad");
@@ -83,4 +84,16 @@ const parseMarkdown = (src, dest, allowLinks = false) => (value) => (0, future_1
     cb(null, (0, result_1.succeed)(val));
 });
 exports.parseMarkdown = parseMarkdown;
+/**
+ * rand generates a secure random string using the crypto.randomString()
+ * function then sets the property at target to the returned value.
+ *
+ * By default, we generate 32 bytes.
+ */
+const rand = (target, bytes = 32) => (value) => (0, future_1.doFuture)(function* () {
+    let str = yield (0, future_1.fromCallback)(cb => crypto.randomBytes(bytes, cb));
+    value[target] = str.toString('hex');
+    return (0, future_1.pure)((0, result_1.succeed)(value));
+});
+exports.rand = rand;
 //# sourceMappingURL=checks.js.map

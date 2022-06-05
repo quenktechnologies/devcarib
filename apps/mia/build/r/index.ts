@@ -98,11 +98,6 @@ path:'/jobs/:id',
 filters:[jobsCtrl.remove.bind(jobsCtrl)],tags:{}});
 
 $routes.push({
-method:'post',
-path:'/users',
-filters:[usersCtrl.create.bind(usersCtrl)],tags:{model: `user` }});
-
-$routes.push({
 method:'get',
 path:'/users',
 filters:[usersCtrl.search.bind(usersCtrl)],tags:{policy: `user` }});

@@ -13,13 +13,16 @@ import {
     REMOTE_FORM_MODE_UPDATE
 } from '@devcarib/frontend/lib/app/scene/form/remote';
 
-import { MiaFormDialog } from '../../../common/scene/dialog/form';
+import {
+    DevCaribDialogRemoteForm
+} from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
+
 import { EditJobDialogView } from './views/edit';
 
 /**
  * EditJobDialog provides an editor for a job in a dialog.
  */
-export class EditJobDialog extends MiaFormDialog<Job, void> {
+export class EditJobDialog extends DevCaribDialogRemoteForm<Job, void> {
 
     name = 'Job Edit Dialog';
 

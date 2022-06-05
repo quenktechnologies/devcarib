@@ -7,9 +7,10 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {View} from '@quenk/wml'; ;
+import {JSONXObject} from '@quenk/noni/lib/data/jsonx/types'; ;
 import {Modal,ModalHeader,ModalBody,ModalFooter} from '@quenk/wml-widgets/lib/dialog/modal'; ;
-import {Button} from '@quenk/wml-widgets/lib/control/button'; 
+import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
+import {DevCaribDialogRemoteForm} from './dialog'; 
 
 
 //@ts-ignore:6192
@@ -66,13 +67,9 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export interface MiaFormDialogViewContext{name : string,
-view : View,
-save : () => void,
-close : () => void};
-export class MiaFormDialogView  implements __wml.View {
+export class DevCaribDialogRemoteFormView <T extends JSONXObject ,M  >  implements __wml.View {
 
-   constructor(__context: MiaFormDialogViewContext) {
+   constructor(__context: DevCaribDialogRemoteForm<T  ,M  > ) {
 
        this.template = (__this:__wml.Registry) => {
 

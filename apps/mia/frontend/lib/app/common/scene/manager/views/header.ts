@@ -65,7 +65,7 @@ const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
 export interface ManagerHeaderContext{title : string,
-add : () => void};
+add? : () => void};
 export class ManagerHeader  implements __wml.View {
 
    constructor(__context: ManagerHeaderContext) {
@@ -80,10 +80,15 @@ export class ManagerHeader  implements __wml.View {
 
         text (__context.title)
      ]),
-__this.widget(new Button({ww : { 'text' : 'Add' ,'className' : '-primary' ,'onClick' : __context.add  }}, [
+...((__context.add) ?
+(()=>([
+
+        __this.widget(new Button({ww : { 'text' : 'Add' ,'className' : '-primary' ,'onClick' : __context.add  }}, [
 
         
      ]),<__wml.Attrs>{ww : { 'text' : 'Add' ,'className' : '-primary' ,'onClick' : __context.add  }})
+     ]))() :
+(()=>([]))())
      ]);
 
        }

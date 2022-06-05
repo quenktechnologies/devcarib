@@ -8,6 +8,7 @@ exports.User = void 0;
 exports.User = {
     'id': 1,
     'name': 1,
+    'email': 1,
     'username': 1,
     'status': 1,
     'last_login': 1

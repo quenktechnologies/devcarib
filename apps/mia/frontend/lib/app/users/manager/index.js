@@ -6,7 +6,6 @@ const timer_1 = require("@quenk/noni/lib/control/timer");
 const columns_1 = require("../../common/columns");
 const columns_2 = require("../columns");
 const manager_1 = require("../../common/scene/manager");
-const add_1 = require("../dialogs/add");
 const edit_1 = require("../dialogs/edit");
 const users_1 = require("./views/users");
 exports.TIME_SEARCH_DEBOUNCE = 500;
@@ -49,16 +48,9 @@ class UsersManager extends manager_1.MiaManager {
                         }
                     ])
                 ],
-                add: () => this.add()
             }
         };
         this.model = this.app.getModel(api.users, (0, manager_1.defaultHandlers)(this));
-    }
-    /**
-     * add brings up the form for adding a new user.
-     */
-    add() {
-        this.spawn(() => new add_1.AddUserDialog(this.app, this.self()));
     }
     /**
      * edit brings up the form for editing an existing user profile.

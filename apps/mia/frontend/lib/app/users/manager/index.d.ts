@@ -32,14 +32,9 @@ export declare class UsersManager extends MiaManager<User, void> {
                 };
             };
             columns: Column<Value, User>[];
-            add: () => void;
         };
     };
     model: RemoteModel<User>;
-    /**
-     * add brings up the form for adding a new user.
-     */
-    add(): void;
     /**
      * edit brings up the form for editing an existing user profile.
      */

@@ -77,11 +77,6 @@ const template = ($app) => ({ 'id': `r`,
                 filters: [exports.jobsCtrl.remove.bind(exports.jobsCtrl)], tags: {}
             });
             $routes.push({
-                method: 'post',
-                path: '/users',
-                filters: [exports.usersCtrl.create.bind(exports.usersCtrl)], tags: { model: `user` }
-            });
-            $routes.push({
                 method: 'get',
                 path: '/users',
                 filters: [exports.usersCtrl.search.bind(exports.usersCtrl)], tags: { policy: `user` }

@@ -10,7 +10,7 @@ const tendril_show_wml_1 = require("@quenk/tendril-show-wml");
  * with the intention of serving an Single Page Application (SPA) but can be
  * used to authenticate a regular website as well.
  *
- * The actual details of determing whether an authentication request should be
+ * The actual details of determining whether an authentication request should be
  * honoured or not are left up to the provided authenticator.
  */
 class AuthController {

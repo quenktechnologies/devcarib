@@ -36,3 +36,10 @@ export declare const timestamp: () => Result<Value, Value>;
  * and sets the result to the target destination.
  */
 export declare const parseMarkdown: (src: string, dest: string, allowLinks?: boolean) => <T extends Object>(value: T) => Result<T, T>;
+/**
+ * rand generates a secure random string using the crypto.randomString()
+ * function then sets the property at target to the returned value.
+ *
+ * By default, we generate 32 bytes.
+ */
+export declare const rand: <T extends Object>(target: string, bytes?: number) => (value: T) => Result<T, T>;

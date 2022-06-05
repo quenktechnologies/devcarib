@@ -6,8 +6,6 @@ var preconditions_1 = require("@quenk/preconditions");
 //@ts-ignore: 6133
 var record_1 = require("@quenk/preconditions/lib/record");
 //@ts-ignore: 6133
-var number_1 = require("@quenk/preconditions/lib/number");
-//@ts-ignore: 6133
 var string_1 = require("@quenk/preconditions/lib/string");
 //@ts-ignore: 6133
 var _string = (0, preconditions_1.and)(string_1.isString, string_1.trim);
@@ -16,18 +14,18 @@ var _string = (0, preconditions_1.and)(string_1.isString, string_1.trim);
  */
 exports.validators = {
     'name': (0, preconditions_1.and)(preconditions_1.notNull, _string),
+    'email': (0, preconditions_1.and)(preconditions_1.notNull, _string),
     'username': (0, preconditions_1.and)(preconditions_1.notNull, _string),
     'password': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'status': (0, preconditions_1.and)(preconditions_1.notNull, number_1.toNumber),
 };
 /**
  * partialValidators for User provided as a map.
  */
 exports.partialValidators = {
     'name': (0, preconditions_1.and)(preconditions_1.notNull, _string),
+    'email': (0, preconditions_1.and)(preconditions_1.notNull, _string),
     'username': (0, preconditions_1.and)(preconditions_1.notNull, _string),
     'password': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'status': (0, preconditions_1.and)(preconditions_1.notNull, number_1.toNumber),
 };
 /**
  * validate a single Value against the rules for User.

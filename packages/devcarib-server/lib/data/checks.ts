@@ -2,12 +2,14 @@ import * as bcryptjs from 'bcryptjs';
 import * as uuid from 'uuid';
 import * as mongodb from 'mongodb';
 import * as moment from 'moment';
+import * as crypto from 'crypto';
 import * as mark from './markdown';
 
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
 import {
     Future,
     fromCallback,
+    doFuture,
     pure
 } from '@quenk/noni/lib/control/monad/future';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
@@ -134,8 +136,26 @@ export const parseMarkdown =
 
             if (val[src] == null) return cb(null, succeed(value));
 
-            val[dest] = mark.parse(String(val[src]), {allowLinks});
+            val[dest] = mark.parse(String(val[src]), { allowLinks });
 
             cb(null, succeed(<T>val));
+
+        });
+
+/**
+ * rand generates a secure random string using the crypto.randomString()
+ * function then sets the property at target to the returned value.
+ *
+ * By default, we generate 32 bytes.
+ */
+export const rand = <T extends Object>(target: string, bytes = 32) =>
+    (value: T): Result<T, T> =>
+        doFuture(<DoFn<SResult<T, T>, Result<T, T>>>function*() {
+
+                let str = yield fromCallback(cb => crypto.randomBytes(bytes, cb));
+
+            (<Object>value)[target] = str.toString('hex');
+
+            return pure(succeed(value));
 
         });

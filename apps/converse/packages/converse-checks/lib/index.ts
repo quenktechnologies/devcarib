@@ -3,6 +3,7 @@
 /** imports */
 import * as _comment from './comment';
 import * as _event from './event';
+import * as _invite from './invite';
 import * as _post from './post';
 import * as _user from './user';
 
@@ -18,6 +19,8 @@ export type DataTypeUnion =
     _comment.DataType |
 
     _event.DataType |
+
+    _invite.DataType |
 
     _post.DataType |
 
@@ -39,6 +42,7 @@ export const checksAvailable: Checks = {
 
     'comment': <Precondition<Value, DataTypeUnion>>_comment.check,
     'event': <Precondition<Value, DataTypeUnion>>_event.check,
+    'invite': <Precondition<Value, DataTypeUnion>>_invite.check,
     'post': <Precondition<Value, DataTypeUnion>>_post.check,
     'user': <Precondition<Value, DataTypeUnion>>_user.check
 };
@@ -57,6 +61,7 @@ export const partialChecksAvailable: Checks = {
 
     'comment': <Precondition<Value, Partial<DataTypeUnion>>>_comment.checkPartial,
     'event': <Precondition<Value, Partial<DataTypeUnion>>>_event.checkPartial,
+    'invite': <Precondition<Value, Partial<DataTypeUnion>>>_invite.checkPartial,
     'post': <Precondition<Value, Partial<DataTypeUnion>>>_post.checkPartial,
     'user': <Precondition<Value, Partial<DataTypeUnion>>>_user.checkPartial
 };

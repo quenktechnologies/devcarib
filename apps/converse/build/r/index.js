@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.template = exports.eventCtrl = exports.userCtrl = exports.commentsCtrl = exports.postsCtrl = exports.UserController = void 0;
+exports.template = exports.invitesCtrl = exports.eventCtrl = exports.userCtrl = exports.commentsCtrl = exports.postsCtrl = exports.UserController = void 0;
 const dotdot = require("..");
 const devcaribServerLibFiltersCheck = require("@devcarib/server/lib/filters/check");
 const converseChecks = require("@converse/checks");
@@ -19,6 +19,7 @@ const api_1 = require("@devcarib/server/lib/controllers/api");
 const post_1 = require("@converse/models/lib/post");
 const comment_1 = require("@converse/models/lib/comment");
 const event_1 = require("@converse/models/lib/event");
+const invite_1 = require("@converse/models/lib/invite");
 /**
  * UserController provides the API endpoint for the current user.
  */
@@ -35,6 +36,7 @@ exports.postsCtrl = new api_1.ApiController(post_1.PostModel.getInstance);
 exports.commentsCtrl = new api_1.ApiController(comment_1.CommentModel.getInstance);
 exports.userCtrl = new UserController();
 exports.eventCtrl = new api_1.ApiController(event_1.EventModel.getInstance);
+exports.invitesCtrl = new api_1.ApiController(invite_1.InviteModel.getInstance);
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `r`,
     'app': { 'dirs': { 'self': `/apps/converse/build/r` },
@@ -69,7 +71,7 @@ const template = ($app) => ({ 'id': `r`,
                         let $query = $request.query || {};
                         //@ts-ignore: 6133
                         let $body = _json.Value = $request.body;
-                        return exports.postsCtrl.increment.apply(exports.postsCtrl, [`web-views`]);
+                        return exports.postsCtrl.increment.apply(exports.postsCtrl, [$request, `web-views`]);
                     }, exports.postsCtrl.get.bind(exports.postsCtrl)
                 ], tags: { get: `post` }
             });
@@ -107,6 +109,33 @@ const template = ($app) => ({ 'id': `r`,
                 method: 'get',
                 path: '/events',
                 filters: [exports.eventCtrl.search.bind(exports.eventCtrl)], tags: { search: `event` }
+            });
+            $routes.push({
+                method: 'post',
+                path: '/invites',
+                filters: [exports.invitesCtrl.create.bind(exports.invitesCtrl)], tags: { model: `invite` }
+            });
+            $routes.push({
+                method: 'get',
+                path: '/invites',
+                filters: [exports.invitesCtrl.search.bind(exports.invitesCtrl)], tags: { search: `invite` }
+            });
+            $routes.push({
+                method: 'get',
+                path: '/invites/:id',
+                filters: [exports.invitesCtrl.get.bind(exports.invitesCtrl)], tags: { get: `invite` }
+            });
+            $routes.push({
+                method: 'patch',
+                path: '/posts/:id',
+                filters: [exports.invitesCtrl.update.bind(exports.invitesCtrl)], tags: { model: `invite`,
+                    owned: true }
+            });
+            $routes.push({
+                method: 'delete',
+                path: '/posts/:id',
+                filters: [exports.invitesCtrl.remove.bind(exports.invitesCtrl)], tags: { model: `invite`,
+                    owned: true }
             });
             return $routes;
         } },

@@ -2,7 +2,7 @@ import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
 export interface ManagerHeaderContext {
     title: string;
-    add: () => void;
+    add?: () => void;
 }
 export declare class ManagerHeader implements __wml.View {
     constructor(__context: ManagerHeaderContext);

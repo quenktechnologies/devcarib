@@ -23,18 +23,7 @@
             "version": "file:apps/board/packages/board-validators"
         },
         "@board/views": {
-            "version": "file:apps/board/packages/board-views",
-            "dependencies": {
-                "@quenk/wml": {
-                    "version": "2.10.3",
-                    "resolved": "https://registry.npmjs.org/@quenk/wml/-/wml-2.10.3.tgz",
-                    "integrity": "sha512-8r4HUL40wvz2u8DkDMZEblHyxw3ulwjOquQK6okAQNoLFHESzknvOsajJwLXmqeKzb/9r3b/QEwIL23C0Wbrpw==",
-                    "requires": {
-                        "@quenk/noni": "^1.40.14",
-                        "docopt": "^0.6.2"
-                    }
-                }
-            }
+            "version": "file:apps/board/packages/board-views"
         },
         "@board/widgets": {
             "version": "file:packages/devcarib-widgets",
@@ -72,8 +61,7 @@
             "version": "file:packages/devcarib-views"
         },
         "@devcarib/widgets": {
-            "version": "file:packages/devcarib-widgets",
-            "dev": true
+            "version": "file:packages/devcarib-widgets"
         },
         "@mia/checks": {
             "version": "file:apps/mia/packages/mia-checks"
@@ -220,13 +208,21 @@
             }
         },
         "@quenk/jcon": {
-            "version": "0.14.9",
-            "resolved": "https://registry.npmjs.org/@quenk/jcon/-/jcon-0.14.9.tgz",
-            "integrity": "sha512-IPpgDWJE3U3yjQw8WxUswU/OXZRf44YE+JKW0isIYrQKASwKCkRpcU/PMcKW5gln6rP5quMvu1FokOt3sP4SQw==",
+            "version": "0.14.10",
+            "resolved": "https://registry.npmjs.org/@quenk/jcon/-/jcon-0.14.10.tgz",
+            "integrity": "sha512-/lM/XsGpYm4/VVGpt8Mz7BZMYl1UPwd3D8x8tMFK2kLwnWYNb/qPRlg3byKLjyOk+a9rz+y6w0sEpHuFfiEIiw==",
             "dev": true,
             "requires": {
-                "@quenk/noni": "^1.41.3",
+                "@quenk/noni": "^1.42.3",
                 "property-seek": "^3.2.1"
+            },
+            "dependencies": {
+                "@quenk/noni": {
+                    "version": "1.43.3",
+                    "resolved": "https://registry.npmjs.org/@quenk/noni/-/noni-1.43.3.tgz",
+                    "integrity": "sha512-GKs2jQ9h7SgH59kgR6jCZBxiS3Uxbre+QkVV70WXJGDcFghlBN3VvcbvvkD7qyWaohoM1JufitGfXE5SeHZwLQ==",
+                    "dev": true
+                }
             }
         },
         "@quenk/jhr": {
@@ -344,15 +340,23 @@
             }
         },
         "@quenk/tdc": {
-            "version": "2.1.3",
-            "resolved": "https://registry.npmjs.org/@quenk/tdc/-/tdc-2.1.3.tgz",
-            "integrity": "sha512-ROXs6f9uZ/duT0i+ntRFYJgumaxlXVhCM4oimeFZh6dG4L32CL01fRmar5Zx5+qy3MtDxwqmSNzhUdjE+TM+fQ==",
+            "version": "2.1.4",
+            "resolved": "https://registry.npmjs.org/@quenk/tdc/-/tdc-2.1.4.tgz",
+            "integrity": "sha512-ujNmus4+m6Qrs7U10rilTvXFE4/Atr7BU2Nb08HvFMGrYs4xCQNz2BANGoTa7V99mcsKGe3FWALT5IJHlv8ZRQ==",
             "dev": true,
             "requires": {
-                "@quenk/jcon": "^0.14.9",
-                "@quenk/noni": "^1.41.3",
+                "@quenk/jcon": "^0.14.10",
+                "@quenk/noni": "^1.43.3",
                 "@quenk/rcl": "^0.11.1",
                 "docopt": "^0.6.2"
+            },
+            "dependencies": {
+                "@quenk/noni": {
+                    "version": "1.43.3",
+                    "resolved": "https://registry.npmjs.org/@quenk/noni/-/noni-1.43.3.tgz",
+                    "integrity": "sha512-GKs2jQ9h7SgH59kgR6jCZBxiS3Uxbre+QkVV70WXJGDcFghlBN3VvcbvvkD7qyWaohoM1JufitGfXE5SeHZwLQ==",
+                    "dev": true
+                }
             }
         },
         "@quenk/tendril": {
@@ -435,9 +439,9 @@
             }
         },
         "@quenk/wml-widgets": {
-            "version": "1.29.4",
-            "resolved": "https://registry.npmjs.org/@quenk/wml-widgets/-/wml-widgets-1.29.4.tgz",
-            "integrity": "sha512-hqVhOb36IW3I07Y08GxHw/X9Vv52FOlCvyZzbscxy5XV6a2dPDuY0RmCu2ulAg/A/mncZulqPwALcoS8BSfFEw==",
+            "version": "1.31.3",
+            "resolved": "https://registry.npmjs.org/@quenk/wml-widgets/-/wml-widgets-1.31.3.tgz",
+            "integrity": "sha512-+8lS9WFFNgUEn7XNw2ydxvQ28/rQVaRz2CpChdS5pDsdoEgLKY5tXwKreDr2OIvXHA7tOOfHWqWA7aQdx87ilw==",
             "dev": true,
             "requires": {
                 "@quenk/noni": "^1.40.14",

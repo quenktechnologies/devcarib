@@ -3,6 +3,7 @@
 /** imports */
 import * as _comment from './comment';
 import * as _event from './event';
+import * as _invite from './invite';
 import * as _post from './post';
 import * as _user from './user';
 
@@ -18,6 +19,8 @@ export type DataTypeUnion =
     _comment.DataType |
 
     _event.DataType |
+
+    _invite.DataType |
 
     _post.DataType |
 
@@ -39,6 +42,7 @@ export const validatorsAvailable: Validators = {
 
     'comment': _comment.validate,
     'event': _event.validate,
+    'invite': _invite.validate,
     'post': _post.validate,
     'user': _user.validate
 };
@@ -57,6 +61,7 @@ export const partialValidatorsAvailable: Validators = {
 
     'comment': _comment.validatePartial,
     'event': _event.validatePartial,
+    'invite': _invite.validatePartial,
     'post': _post.validatePartial,
     'user': _user.validatePartial
 };

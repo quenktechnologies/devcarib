@@ -13,7 +13,6 @@ import { User } from '@mia/types/lib/user';
 import { ActionColumn } from '../../common/columns';
 import { UsernameColumn } from '../columns';
 import { defaultHandlers, MiaManager } from '../../common/scene/manager';
-import { AddUserDialog } from '../dialogs/add';
 import { EditUserDialog } from '../dialogs/edit';
 
 import { UsersManagerView } from './views/users';
@@ -91,22 +90,11 @@ export class UsersManager extends MiaManager<User, void> {
 
             ],
 
-            add: () => this.add()
-
         }
 
     }
 
     model: RemoteModel<User> = this.app.getModel(api.users, defaultHandlers(this));
-
-    /**
-     * add brings up the form for adding a new user.
-     */
-    add() {
-
-        this.spawn(() => new AddUserDialog(this.app, this.self()));
-
-    }
 
     /**
      * edit brings up the form for editing an existing user profile.

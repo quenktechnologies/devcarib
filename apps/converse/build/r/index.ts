@@ -34,6 +34,7 @@ import { ApiController } from '@devcarib/server/lib/controllers/api';
 import { PostModel } from '@converse/models/lib/post';
 import { CommentModel } from '@converse/models/lib/comment';
 import { EventModel } from '@converse/models/lib/event';
+import { InviteModel } from '@converse/models/lib/invite';
 
 /**
  * UserController provides the API endpoint for the current user.
@@ -59,6 +60,8 @@ export const commentsCtrl = new ApiController(CommentModel.getInstance);
 export const userCtrl = new UserController();
 
 export const eventCtrl = new ApiController(EventModel.getInstance);
+
+export const invitesCtrl = new ApiController(InviteModel.getInstance);
 
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
@@ -99,7 +102,7 @@ filters:[// @ts-ignore: 6133
                  //@ts-ignore: 6133
                  let $body = _json.Value = $request.body;
 
-                 return postsCtrl.increment.apply(postsCtrl, [`web-views`]);
+                 return postsCtrl.increment.apply(postsCtrl, [$request,`web-views`]);
         },postsCtrl.get.bind(postsCtrl)],tags:{get: `post` }});
 
 $routes.push({
@@ -136,6 +139,33 @@ $routes.push({
 method:'get',
 path:'/events',
 filters:[eventCtrl.search.bind(eventCtrl)],tags:{search: `event` }});
+
+$routes.push({
+method:'post',
+path:'/invites',
+filters:[invitesCtrl.create.bind(invitesCtrl)],tags:{model: `invite` }});
+
+$routes.push({
+method:'get',
+path:'/invites',
+filters:[invitesCtrl.search.bind(invitesCtrl)],tags:{search: `invite` }});
+
+$routes.push({
+method:'get',
+path:'/invites/:id',
+filters:[invitesCtrl.get.bind(invitesCtrl)],tags:{get: `invite` }});
+
+$routes.push({
+method:'patch',
+path:'/posts/:id',
+filters:[invitesCtrl.update.bind(invitesCtrl)],tags:{model: `invite` ,
+owned: true }});
+
+$routes.push({
+method:'delete',
+path:'/posts/:id',
+filters:[invitesCtrl.remove.bind(invitesCtrl)],tags:{model: `invite` ,
+owned: true }});
 return $routes;
 }},
 'create': 

@@ -43,7 +43,7 @@ class ApiController extends dback_resource_mongodb_1.BaseResource {
          * increment a counter property on the target record identified by
          * `req.param.id`.
          */
-        this.increment = (key) => (req) => {
+        this.increment = (req, key) => {
             let that = this;
             return (0, api_1.doAction)(function* () {
                 let db = yield (0, pool_1.checkout)(that.conn);

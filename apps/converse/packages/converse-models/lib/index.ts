@@ -4,6 +4,7 @@
 import * as mongo from 'mongodb';
 import * as _comment from './comment';
 import * as _event from './event';
+import * as _invite from './invite';
 import * as _post from './post';
 import * as _user from './user';
 
@@ -18,6 +19,8 @@ export type DataTypeUnion =
     _comment.DataType |
 
     _event.DataType |
+
+    _invite.DataType |
 
     _post.DataType |
 
@@ -44,6 +47,7 @@ export const modelsAvailable: Models = {
 
     'comment': <ModelGetter>_comment.ModelImpl.getInstance,
     'event': <ModelGetter>_event.ModelImpl.getInstance,
+    'invite': <ModelGetter>_invite.ModelImpl.getInstance,
     'post': <ModelGetter>_post.ModelImpl.getInstance,
     'user': <ModelGetter>_user.ModelImpl.getInstance
 };

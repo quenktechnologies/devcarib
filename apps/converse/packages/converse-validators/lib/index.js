@@ -5,6 +5,7 @@ exports.getPartialValidatorsFor = exports.partialValidatorsAvailable = exports.g
 /** imports */
 var _comment = require("./comment");
 var _event = require("./event");
+var _invite = require("./invite");
 var _post = require("./post");
 var _user = require("./user");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -14,6 +15,7 @@ var maybe_1 = require("@quenk/noni/lib/data/maybe");
 exports.validatorsAvailable = {
     'comment': _comment.validate,
     'event': _event.validate,
+    'invite': _invite.validate,
     'post': _post.validate,
     'user': _user.validate
 };
@@ -30,6 +32,7 @@ exports.getValidatorsFor = getValidatorsFor;
 exports.partialValidatorsAvailable = {
     'comment': _comment.validatePartial,
     'event': _event.validatePartial,
+    'invite': _invite.validatePartial,
     'post': _post.validatePartial,
     'user': _user.validatePartial
 };

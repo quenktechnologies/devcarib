@@ -161,7 +161,7 @@ class ActionColumnView {
                         ...__forIn(__context.actions, (spec, _$$i, _$$all) => ([
                             ...((spec.divider) ?
                                 (() => ([
-                                    __this.widget(new item_1.Item({ ww: { 'divider': true } }, []), { ww: { 'divider': true } })
+                                    __this.widget(new item_1.Divider({}, []), {})
                                 ]))() :
                                 (() => ([]))()),
                             __this.widget(new item_1.Item({}, [

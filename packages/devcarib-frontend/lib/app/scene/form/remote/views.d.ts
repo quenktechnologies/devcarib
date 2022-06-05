@@ -1,14 +1,9 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-import { View } from '@quenk/wml';
-export interface MiaFormDialogViewContext {
-    name: string;
-    view: View;
-    save: () => void;
-    close: () => void;
-}
-export declare class MiaFormDialogView implements __wml.View {
-    constructor(__context: MiaFormDialogViewContext);
+import { JSONXObject } from '@quenk/noni/lib/data/jsonx/types';
+import { DevCaribDialogRemoteForm } from './dialog';
+export declare class DevCaribDialogRemoteFormView<T extends JSONXObject, M> implements __wml.View {
+    constructor(__context: DevCaribDialogRemoteForm<T, M>);
     ids: {
         [key: string]: __wml.WMLElement;
     };

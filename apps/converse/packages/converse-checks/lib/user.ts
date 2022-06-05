@@ -37,7 +37,7 @@ import {
 
 import { User } from '@converse/types/lib/user';
 import { validate, validatePartial } from '@converse/validators/lib/user';
-import { unique, bcrypt } from '@devcarib/server/lib/data/checks';
+import { inc, unique, bcrypt } from '@devcarib/server/lib/data/checks';
 
 //@ts-ignore: 6133
 const _title = 'User';
@@ -57,6 +57,8 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'name': _identity
     ,
+    'email': _every<Value, Value>(unique(_collection, 'email'))
+    ,
     'username': _every<Value, Value>(unique(_collection, 'username'))
     ,
     'password': _every<Value, Value>(bcrypt)
@@ -75,6 +77,8 @@ export const partialChecks: Preconditions<Value, Value> = {
     ,
     'name': _identity
     ,
+    'email': _every<Value, Value>(unique(_collection, 'email'))
+    ,
     'username': _every<Value, Value>(unique(_collection, 'username'))
     ,
     'password': _every<Value, Value>(bcrypt)
@@ -89,13 +93,16 @@ export const partialChecks: Preconditions<Value, Value> = {
  * check a User value.
  */
 export const check: Precondition<Value, User> =
-    _and<Value, User, User>(_async<Value, User>(validate),
-        complete(checks));
+    _and(_and<Value, User, User>(
+        _async(validate), complete(checks)),
+        _every<User, User>(inc('users'))
+    );
 
 /**
  * checkPartial a partial User value.
  */
 export const checkPartial: Precondition<Value, Partial<User>> =
-    _and<Value, User, User>(_async<Value, User>(validatePartial),
-        partial(partialChecks));
+    _and(_and<Value, User, User>(_async(validatePartial),
+        partial(partialChecks)),
+        _every(inc('users')));
 

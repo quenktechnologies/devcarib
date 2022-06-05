@@ -5,6 +5,7 @@ exports.getPartialChecksFor = exports.partialChecksAvailable = exports.getChecks
 /** imports */
 var _comment = require("./comment");
 var _event = require("./event");
+var _invite = require("./invite");
 var _post = require("./post");
 var _user = require("./user");
 var maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -14,6 +15,7 @@ var maybe_1 = require("@quenk/noni/lib/data/maybe");
 exports.checksAvailable = {
     'comment': _comment.check,
     'event': _event.check,
+    'invite': _invite.check,
     'post': _post.check,
     'user': _user.check
 };
@@ -30,6 +32,7 @@ exports.getChecksFor = getChecksFor;
 exports.partialChecksAvailable = {
     'comment': _comment.checkPartial,
     'event': _event.checkPartial,
+    'invite': _invite.checkPartial,
     'post': _post.checkPartial,
     'user': _user.checkPartial
 };

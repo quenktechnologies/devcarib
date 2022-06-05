@@ -10,7 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {JSONXObject} from '@quenk/noni/lib/data/jsonx/types'; ;
 import {DropDown} from '@quenk/wml-widgets/lib/control/drop-down'; ;
 import {Menu} from '@quenk/wml-widgets/lib/menu/menu'; ;
-import {Item} from '@quenk/wml-widgets/lib/menu/item'; ;
+import {Item,Divider} from '@quenk/wml-widgets/lib/menu/item'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; 
 
 
@@ -93,10 +93,10 @@ export class ActionColumnView <T extends JSONXObject >  implements __wml.View {
         ...((spec.divider) ?
 (()=>([
 
-        __this.widget(new Item({ww : { 'divider' : true   }}, [
+        __this.widget(new Divider({}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'divider' : true   }})
+     ]),<__wml.Attrs>{})
      ]))() :
 (()=>([]))()),
 __this.widget(new Item({}, [

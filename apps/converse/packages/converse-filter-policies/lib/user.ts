@@ -11,6 +11,10 @@ export const User = {
     ,
 
 
+    'email': 'matchci'
+    ,
+
+
     'username': 'matchci'
     ,
 

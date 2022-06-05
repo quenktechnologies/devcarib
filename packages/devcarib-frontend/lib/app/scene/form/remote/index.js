@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RemoteForm = exports.REMOTE_FORM_MODE_UPDATE = exports.REMOTE_FORM_MODE_CREATE = void 0;
+exports.DevCaribRemoteForm = exports.REMOTE_FORM_MODE_UPDATE = exports.REMOTE_FORM_MODE_CREATE = void 0;
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const form_1 = require("@quenk/jouvert/lib/app/scene/form");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
 const display_1 = require("@quenk/jouvert/lib/app/service/display");
-const _1 = require(".");
+const __1 = require("../");
 exports.REMOTE_FORM_MODE_CREATE = 'create';
 exports.REMOTE_FORM_MODE_UPDATE = 'update';
 /**
- * RemoteForm is an actor that serves as the form controller for forms that
- * submit data to the backend.
+ * DevCaribRemoteForm is an actor that serves as the form controller for forms
+ * that submit data to the back-end.
  *
  * These actors are based around jouvert [[RemoteModel]]s and use them to
  * submit new data or updates.
  */
-class RemoteForm extends _1.DevCaribForm {
+class DevCaribRemoteForm extends __1.DevCaribForm {
     constructor() {
         super(...arguments);
         /**
@@ -80,5 +80,5 @@ class RemoteForm extends _1.DevCaribForm {
             this.doCreate());
     }
 }
-exports.RemoteForm = RemoteForm;
-//# sourceMappingURL=remote.js.map
+exports.DevCaribRemoteForm = DevCaribRemoteForm;
+//# sourceMappingURL=index.js.map

@@ -4,12 +4,12 @@ exports.AddUserDialog = void 0;
 const api = require("../../../api");
 const record_1 = require("@quenk/noni/lib/data/record");
 const status_1 = require("@devcarib/server/lib/user/status");
-const form_1 = require("../../../common/scene/dialog/form");
+const dialog_1 = require("@devcarib/frontend/lib/app/scene/form/remote/dialog");
 const add_1 = require("./views/add");
 /**
  * AddUserDialog provides a form embeded in a dialog for adding new users.
  */
-class AddUserDialog extends form_1.MiaFormDialog {
+class AddUserDialog extends dialog_1.DevCaribDialogRemoteForm {
     constructor() {
         super(...arguments);
         this.name = 'Add User';

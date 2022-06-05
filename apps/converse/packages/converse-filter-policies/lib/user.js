@@ -7,6 +7,7 @@ exports.User = void 0;
  */
 exports.User = {
     'name': 'matchci',
+    'email': 'matchci',
     'username': 'matchci',
     'status': [
         'number',

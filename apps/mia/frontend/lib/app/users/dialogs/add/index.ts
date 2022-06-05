@@ -12,13 +12,16 @@ import {
     USER_STATUS_DISABLED
 } from '@devcarib/server/lib/user/status';
 
-import { MiaFormDialog } from '../../../common/scene/dialog/form';
+import {
+    DevCaribDialogRemoteForm
+} from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
+
 import { AddUserDialogView } from './views/add';
 
 /**
  * AddUserDialog provides a form embeded in a dialog for adding new users.
  */
-export class AddUserDialog extends MiaFormDialog<User, void> {
+export class AddUserDialog extends DevCaribDialogRemoteForm<User, void> {
 
     name = 'Add User';
 

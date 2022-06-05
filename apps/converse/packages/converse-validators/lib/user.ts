@@ -57,13 +57,13 @@ export const validators: Preconditions<Value, Value> = {
     'name': _and(_notNull, _string
     ),
 
+    'email': _and(_notNull, _string
+    ),
+
     'username': _and(_notNull, _string
     ),
 
     'password': _and(_notNull, _string
-    ),
-
-    'status': _and(_notNull, _number
     ),
 
 };
@@ -75,13 +75,13 @@ export const partialValidators: Preconditions<Value, Value> = {
     'name': _and(_notNull, _string
     ),
 
+    'email': _and(_notNull, _string
+    ),
+
     'username': _and(_notNull, _string
     ),
 
     'password': _and(_notNull, _string
-    ),
-
-    'status': _and(_notNull, _number
     ),
 
 };

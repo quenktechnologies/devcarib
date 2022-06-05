@@ -17,6 +17,6 @@ export interface User extends _json.Object {
 
     [key: string]: _json.Value
 
-    'id'?: number, 'name'?: string, 'username'?: string, 'password'?: string, 'status'?: number, 'last_login'?: string
+    'id'?: number, 'name'?: string, 'email'?: string, 'username'?: string, 'password'?: string, 'status'?: number, 'last_login'?: string
 }
 
