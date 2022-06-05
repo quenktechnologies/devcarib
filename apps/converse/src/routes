@@ -2,3 +2,9 @@ GET  /               auth.onIndex
 GET  /login          auth.onAuthForm
 POST /login          auth.onAuthenticate
 POST /logout         auth.onLogout
+
+-- Invite handling.
+GET     /invites/:id      invites.onForm
+POST    /invites/:id      invites.onRegister
+
+GET     /register/success invites.onSuccess

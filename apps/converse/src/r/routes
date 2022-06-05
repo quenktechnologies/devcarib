@@ -3,7 +3,7 @@ GET     /me         userCtrl.get
 POST    /posts      postsCtrl.create +model="post"
 GET     /posts      postsCtrl.search +search="post"
 
-GET     /posts/:id  postsCtrl.increment("web-views") 
+GET     /posts/:id  postsCtrl.increment($request, "web-views")
                     postsCtrl.get +get="post"
 
 --Note: Users can only modify posts they own.

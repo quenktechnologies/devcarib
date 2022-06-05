@@ -1,0 +1,118 @@
+{% import (Record) from "@quenk/noni/lib/data/record" %}
+
+{% import (GridLayout, Row, Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Panel, PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+
+{% import (HeadView) from "../common/head" %}
+
+{% type Strings = Record[String] %}
+
+{# InviteView displays the registration form for invited users #}
+{% view InviteView where
+ 
+  {# The token used in the invite url (matches the invite id). #}
+  token: String,
+
+  {# Flag indicating whether a prior attempt to submit the form failed. #}
+  failed?: Boolean,
+
+  {# Message to display to the user upon failure #}
+  message?: String,
+
+  {# Any errors encountered after form submission #}
+  errors: Record[String],
+
+  {# The name of the user. #}
+  values.name?: String,
+
+  {# The email of the user. #}
+  values.email?: String,
+
+  {# The username for the user. #}
+  values.username?: String,
+
+  {# The password for the user. #}
+  values.password?: String,
+
+  {# Beloved csrf token #}
+  csrfToken: String
+
+%}
+
+{% let values:Record[String] = [*Record[String]]@values %} 
+
+<html lang="en" dir="ltr">
+
+  {{ <HeadView({ title = "Register" })> }}
+
+  <body>
+    <form autocomplete="off" action={{"/converse/invites/"+@token}} method="POST">
+      <GridLayout ww:id="main">
+        <Row>
+          <Column ww:span=4 ww:offset=4>
+            <Row>
+              <Column>
+                <h1>User Registration</h1>
+              </Colum>
+            </Row>
+            <Row>
+              <Column>
+                {% if @failed %}
+                  <div class="ww-alert -error" style="text-align:center">
+                    {{ @message | text }}
+                  </div>
+                {% endif %}
+              </Column>
+            </Row>
+            <Row>
+              <Column>
+                <Panel>
+                  <PanelBody>
+                    <TextField
+                      ww:name="name"
+                      ww:value={{values.name}}
+                      ww:label="Your Name*"
+                      ww:error={{@errors.name}} />
+                    <TextField
+                      ww:name="email"
+                      ww:value={{values.email}}
+                      ww:label="Email*"
+                      ww:error={{@errors.email}} />
+                   </PanelBody>
+                  </Panel>
+                  <Panel>
+                    <PanelBody>
+                      <TextField
+                        ww:name="username"
+                        ww:value={{values.username}}
+                        ww:label="Username*"
+                        ww:error={{@errors.username}} />
+                      <TextField
+                        ww:name="password"
+                        ww:label="Password*"
+                        ww:type="password"
+                        ww:placeholder="8 characters minimum"
+                        ww:error={{@errors.password}} />
+                    </PanelBody>
+                  </Panel>
+                </Column>
+              </Row>
+              <Row>
+                <Column>
+                  <input type="hidden" 
+                         name="_csrf" 
+                         value={{@csrfToken}} />
+                  <Button
+                    ww:type="submit" 
+                    ww:className="-toolbar-compat -primary -block"
+                    ww:text="Register"/>
+                </Column>
+              </Row>
+            </Column>
+          </Row>
+        </GridLayout>
+      </form>
+    </body>
+  </html>
