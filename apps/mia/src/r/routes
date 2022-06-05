@@ -15,7 +15,6 @@ GET     /jobs/:id    jobsCtrl.get
 DELETE  /jobs/:id    jobsCtrl.remove
 
 -- Users
-POST    /users        usersCtrl.create +model="user"
 GET     /users        usersCtrl.search +policy="user"
 
 PATCH   /users/:id    usersCtrl.update +model="user"
