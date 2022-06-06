@@ -6,6 +6,7 @@ const future_1 = require("@quenk/noni/lib/control/monad/future");
 const monad_1 = require("@quenk/noni/lib/control/monad");
 const collection_1 = require("@quenk/noni-mongodb/lib/database/collection");
 const admin_1 = require("@mia/checks/lib/admin");
+const updates_1 = require("./updates");
 exports.ADMIN_EMAIL = 'ADMIN_EMAIL';
 exports.ADMIN_PWD = 'ADMIN_PASSWORD';
 exports.VERSION = '0.0.1';
@@ -68,7 +69,8 @@ class Setup {
                 yield that.installAdminUser(db);
                 yield that.installSettings(db);
             }
-            return (0, future_1.pure)(undefined);
+            let updater = new updates_1.DevCaribUpdater(app);
+            return updater.run();
         });
     }
 }
