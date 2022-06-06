@@ -10,7 +10,10 @@ import {
 import { App } from '@quenk/tendril/lib/app';
 
 import { Settings } from '@board/types/lib/settings';
+
 import { check } from '@mia/checks/lib/admin';
+
+import {DevCaribUpdater} from './updates';
 
 export const ADMIN_EMAIL = 'ADMIN_EMAIL';
 export const ADMIN_PWD = 'ADMIN_PASSWORD';
@@ -115,7 +118,9 @@ export class Setup {
 
             }
 
-            return pure(<void>undefined);
+            let updater = new DevCaribUpdater(app);
+
+            return updater.run();
 
         });
 
