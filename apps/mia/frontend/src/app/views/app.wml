@@ -1,4 +1,4 @@
-{% import (NavBar) from "@quenk/wml-widgets/lib/layout/nav-bar" %}
+{% import (ActionBar) from "@quenk/wml-widgets/lib/layout/action-bar" %}
 {% import (Nav) from "@quenk/wml-widgets/lib/menu/nav" %}
 {% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
@@ -7,26 +7,27 @@
 
 {% view MiaView(Mia) %}
 
-  <div wml:id="main">
+<div wml:id="main">
 
-    <NavBar 
-     className="mia-navbar-bar" 
-     links={{@values.header.links}}>
+  <ActionBar
+    ww:className="mia-navbar-bar">
 
-      <Nav ww:className="mia-logout">
+    <Nav 
+      ww:className="mia-logout"
+      ww:items={{@values.header.links}}>
 
-        <Item>
+      <Item>
         
-          <Link
-            ww:text="Logout"
-            ww:onClick={{@values.header.logout}} />
+        <Link
+         ww:text="Logout"
+         ww:onClick={{@values.header.logout}} />
 
-        </Item>
+      </Item>
 
-      </Nav>
+    </Nav>
 
-    </NavBar>
+  </ActionBar>
 
-    <div wml:id="content" id="content" />
+  <div wml:id="content" id="content" />
 
-  </div>
+</div>
