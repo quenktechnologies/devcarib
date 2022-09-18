@@ -6,8 +6,7 @@ $(MIA_FRONTEND_PUBLIC_DIR): $(MIA_FRONTEND_CSS_FILE)\
                             $(MIA_FRONTEND_JS_FILE)
 	touch $@
 
-$(MIA_FRONTEND_JS_FILE): $(MIA_FRONTEND_LIB_DIR)\
-
+$(MIA_FRONTEND_JS_FILE): $(MIA_FRONTEND_LIB_DIR)
 	mkdir -p $(dir $@)
 	$(BROWSERIFY) -t envify $(MIA_FRONTEND_LIB_DIR)/main.js | \
 	$(ENVIFY)\
