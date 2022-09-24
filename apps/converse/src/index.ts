@@ -10,6 +10,12 @@ import { just, Maybe, nothing } from '@quenk/noni/lib/data/maybe';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
 
+import { AuthController } from '@quenk/server/lib/app/auth/controller';
+import {
+    AuthFailedContext,
+    BaseAuthenticator
+} from '@quenk/server/lib/app/auth/authenticator';
+
 import { validate } from '@converse/validators/lib/login';
 import { IndexView } from '@devcarib/views/lib/converse';
 import { LoginView } from '@devcarib/views/lib/converse/login';
@@ -18,13 +24,11 @@ import { User } from '@converse/types/lib/user';
 
 import { UserModel } from '@converse/models/lib/user';
 
-import { AuthController } from '@devcarib/server/lib/controllers/auth';
-import { AuthFailedContext, BaseAuthenticator } from '@devcarib/server/lib/auth';
 import { unsafeGetConnection } from '@devcarib/server/lib/db';
 import { compare } from '@devcarib/server/lib/data/password';
 import { now } from '@devcarib/common/lib/data/datetime';
 
-import {InviteController} from './invites';
+import { InviteController } from './invites';
 
 const TITLE = 'Converse';
 const ROUTE_INDEX = '/converse';
@@ -75,7 +79,7 @@ export class ConverseAuthController extends AuthController {
 
         index: () => new IndexView({ title: TITLE }),
 
-        auth: (req: Request, ctx: AuthFailedContext) => new LoginView({
+        form: (req: Request, ctx: AuthFailedContext) => new LoginView({
 
             title: 'Caribbean Developers Job Board - Admin Login',
 
@@ -97,7 +101,7 @@ export class ConverseAuthController extends AuthController {
 
         index: ROUTE_INDEX,
 
-        auth: ROUTE_LOGIN
+        form: ROUTE_LOGIN
 
     }
 
@@ -107,9 +111,6 @@ export class ConverseAuthController extends AuthController {
 
 export const auth = new ConverseAuthController();
 export const invites = new InviteController();
-
-//XXX: Seems like there is a parser bug in jcon that won't let us specify
-// ..#auth.checkAuth(true)
-export const checkAuth = auth.checkAuth;
+export const ensureAuthXHR = auth.ensureAuthXHR;
 
 /* tdc-output-exports */

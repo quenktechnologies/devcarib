@@ -3,7 +3,7 @@
 -- 3. Converts searches to proper queries.
 app.filters = [ 
 
-  ../../../converse/build#checkAuth(true),
+  ../../../converse/build#ensureAuthXHR,
 
   @devcarib/server/lib/filters/check#checkBody(
      @board/checks#checksAvailable,

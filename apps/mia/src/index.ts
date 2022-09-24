@@ -8,6 +8,13 @@ import { merge } from '@quenk/noni/lib/data/record';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
 
+import { AuthController } from '@quenk/server/lib/app/auth/controller';
+import {
+    AuthFailedContext,
+    BaseAuthenticator
+} from '@quenk/server/lib/app/auth/authenticator';
+
+
 import { Admin } from '@mia/types/lib/admin';
 
 import { validate as validateLogin } from '@mia/validators/lib/login';
@@ -17,8 +24,6 @@ import { AdminModel } from '@mia/models/lib/admin';
 import { IndexView } from '@devcarib/views/lib/mia';
 import { LoginView } from '@devcarib/views/lib/mia/login';
 
-import { AuthController } from '@devcarib/server/lib/controllers/auth';
-import { AuthFailedContext, BaseAuthenticator } from '@devcarib/server/lib/auth';
 import { unsafeGetConnection } from '@devcarib/server/lib/db';
 import { compare } from '@devcarib/server/lib/data/password';
 import { now } from '@devcarib/common/lib/data/datetime';
@@ -72,7 +77,7 @@ export class MiaAuthController extends AuthController {
 
         index: () => new IndexView({ title: TITLE }),
 
-        auth: (req: Request, ctx: AuthFailedContext) => new LoginView({
+        form: (req: Request, ctx: AuthFailedContext) => new LoginView({
 
             title: 'Caribbean Developers Job Board - Admin Login',
 
@@ -94,7 +99,7 @@ export class MiaAuthController extends AuthController {
 
         index: ROUTE_INDEX,
 
-        auth: ROUTE_LOGIN
+        form: ROUTE_LOGIN
 
     }
 
