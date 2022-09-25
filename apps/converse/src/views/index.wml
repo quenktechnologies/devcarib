@@ -1,11 +1,12 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (Image) from "@quenk/wml-widgets/lib/content/image" %}
 
-{% import (HeadView) from "../common/head" %}
+{% import (HeadView) from "@devcarib/views/lib/common/head" %}
+
 {% import (LoginFormViewContext, LoginFormView) from "./login/form" %}
 
 {% let title:String = "Deverse: The Software Developer Community" %}
-{% let css:String = "/converse/assets/css/converse.css" %}
+{% let css:String = "converse/assets/css/converse-site.css" %}
 
 {# IndexView serves the landing page of the site. #}
 {% view IndexView (LoginFormViewContext) %}

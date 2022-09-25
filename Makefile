@@ -30,6 +30,7 @@ APPS_DIR:=$(HERE)/apps
 LIBS_PACKAGES_DIR:=$(PACKAGES_DIR)/libs
 APPS_PACKAGES_DIR:=$(PACKAGES_DIR)/frontend
 PROJECT_BUILD_DIR:=$(HERE)/build
+JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
 
 CLEAN_TARGETS:=
 SRC_DIRS:=

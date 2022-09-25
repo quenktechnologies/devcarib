@@ -1,6 +1,6 @@
 {% import (GridLayout, Row, Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 
-{% import (HeadView) from "../common/head" %}
+{% import (HeadView) from "@devcarib/views/lib/common/head" %}
 
 {# SuccessView is used when a visitor has successfully registered. #}
 {% view SuccessView (Object) %}

@@ -1,4 +1,5 @@
-{% import (HeadView) from "../common/head" %}
+{% import (HeadView) from "@devcarib/views/lib/common/head" %}
+
 {% import (css) from "./" %}
 
 {% let title:String = "@quenk/tendril/lib/app/api/request" %}

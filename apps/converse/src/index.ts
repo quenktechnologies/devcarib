@@ -17,8 +17,6 @@ import {
 } from '@quenk/server/lib/app/auth/authenticator';
 
 import { validate } from '@converse/validators/lib/login';
-import { IndexView } from '@devcarib/views/lib/converse';
-import { LoginView } from '@devcarib/views/lib/converse/login';
 
 import { User } from '@converse/types/lib/user';
 
@@ -28,9 +26,12 @@ import { unsafeGetConnection } from '@devcarib/server/lib/db';
 import { compare } from '@devcarib/server/lib/data/password';
 import { now } from '@devcarib/common/lib/data/datetime';
 
+import { IndexView } from './views';
+import { UserView } from './views/user';
+import { LoginView } from './views/login';
+
 import { InviteController } from './invites';
 
-const TITLE = 'Converse';
 const ROUTE_INDEX = '/converse';
 const ROUTE_LOGIN = '/converse/login';
 
@@ -77,7 +78,7 @@ export class ConverseAuthController extends AuthController {
 
     views = {
 
-        index: () => new IndexView({ title: TITLE }),
+        index: () => new UserView(),
 
         form: (req: Request, ctx: AuthFailedContext) => new LoginView({
 
@@ -106,6 +107,26 @@ export class ConverseAuthController extends AuthController {
     }
 
     authenticator = new ConverseAuthenticator();
+
+    userNotDetected(req: Request) {
+
+        //TODO: We should not need to specify all these properties here.
+        //Only csrfToken should be required.
+        return this.show(new IndexView({
+
+            auth: {
+
+                failed: false,
+
+                message: ''
+
+            },
+
+            csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
+
+        }));
+
+    }
 
 }
 

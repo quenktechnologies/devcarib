@@ -2,4 +2,4 @@ id = "converse"
 
 app.modules.r = ./r#template
 
-app.dirs.public = ["../frontend/public"]
+app.dirs.public = ["../public", "../frontend/public"]

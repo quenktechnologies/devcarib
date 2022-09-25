@@ -1,6 +1,7 @@
 {% import (GridLayout, Row, Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 
-{% import (HeadView) from "../../common/head" %}
+{% import (HeadView) from "@devcarib/views/lib/common/head" %}
+
 {% import (LoginFormView) from "./form" %}
 
 {# LoginView provides the view for the login page. #}
