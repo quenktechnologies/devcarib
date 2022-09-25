@@ -11,8 +11,8 @@
 <td>
 
   <Link
-    ww:text={{@job.title}}
-    ww:onClick={{@onClick}} />
+    text={{@job.title}}
+    onClick={{@onClick}} />
 
 </td>
 
@@ -38,8 +38,8 @@
 <td>
 
   <DropDown
-    ww:className="-left"
-    ww:buttonText="Action">
+    className="-left"
+    buttonText="Action">
 
     <Menu>
 
@@ -54,8 +54,8 @@
         <Item>
 
           <Link
-            ww:text={{spec.text}}
-            ww:onClick={{->spec.onClick(@job)}} />
+            text={{spec.text}}
+            onClick={{->spec.onClick(@job)}} />
 
         </Item>
 

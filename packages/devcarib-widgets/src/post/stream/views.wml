@@ -5,7 +5,7 @@
 {% import (PostMetadata) from "../metadata" %}
 
 {% view PostStreamView (PostStream from ".") %}
-<ListLayout ww:className={{@values.className}}>
+<ListLayout className={{@values.className}}>
 
   {% for post in @values.data %}
 
@@ -14,9 +14,9 @@
       <h3 class="devcarib-post-stream__title">
 
         <Link
-          ww:text={{post.title}}
-          ww:href={{@values.getPostHref(post)}}
-          ww:onClick={{@values.onClick(Number(post.id))}} />
+          text={{post.title}}
+          href={{@values.getPostHref(post)}}
+          onClick={{@values.onClick(Number(post.id))}} />
 
       </h3>
 

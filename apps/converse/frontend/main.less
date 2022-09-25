@@ -5,10 +5,44 @@
 @import "./imports";
 
 // Less variables
-@grid-layout-row-padding-vertical: .5em;
+@grid-layout-row-padding-vertical: 1em;
+@grid-layout-column-margin-vertical: 2em;
 
 html {
 
   line-height: 1.4;
+
+}
+
+#main {
+
+  & .ww-panel {
+
+    border-color: #000;
+
+  }
+
+}
+
+#title {
+
+  margin: 0;
+  font-size: 3em;
+  .screen-not-small({
+    font-size: 6em;
+  })
+
+}
+
+#subtitle {
+
+  font-size: 2em;
+  margin: 0;
+
+}
+
+#landing-image {
+
+  margin-top: 2em;
 
 }

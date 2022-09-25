@@ -9,7 +9,7 @@
 
 {% view CommentPanelView (CommentPanel) %}
 
-<Panel ww:className="devcarib-comment-panel">
+<Panel className="devcarib-comment-panel">
 
   <PanelHeader>
 
@@ -22,8 +22,8 @@
         {% if @values.editable %}
 
           <Link
-            ww:text="Edit"
-            ww:onClick={{@values.editor.show}} />
+            text="Edit"
+            onClick={{@values.editor.show}} />
 
         {% endif %}
 

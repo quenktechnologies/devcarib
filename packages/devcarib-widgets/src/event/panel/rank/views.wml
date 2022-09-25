@@ -23,8 +23,8 @@
           {% if event.url ?? %}
 
             <Link
-              ww:className="devcarib-event-rank-panel-link"
-              ww:href={{event.url}} >
+              className="devcarib-event-rank-panel-link"
+              href={{event.url}} >
 
               <h4 class="devcarib-event-rank-panel-title">
 

@@ -22,10 +22,10 @@
 
             <TextField
               wml:id="company"
-              ww:name="company"
-              ww:label="Company Name*"
-              ww:value={{@data.company}}
-              ww:onChange={{@onChange}} />
+              name="company"
+              label="Company Name*"
+              value={{@data.company}}
+              onChange={{@onChange}} />
 
           </Column>
 
@@ -37,11 +37,11 @@
 
             <TextField
               wml:id="company_logo"
-              ww:name="company_logo"
-              ww:label="Logo"
-              ww:placeholder="Please provide a url to a png image with resolution 400 x 400"
-              ww:value={{@data.company_logo}}
-              ww:onChange={{@onChange}} />
+              name="company_logo"
+              label="Logo"
+              placeholder="Please provide a url to a png image with resolution 400 x 400"
+              value={{@data.company_logo}}
+              onChange={{@onChange}} />
 
           </Column>
 
@@ -53,10 +53,10 @@
 
             <TextField
               wml:id="company_email"
-              ww:name="company_email" 
-              ww:label="Email*"
-              ww:value={{@data.company_email}}
-              ww:onChange={{@onChange}} />
+              name="company_email" 
+              label="Email*"
+              value={{@data.company_email}}
+              onChange={{@onChange}} />
 
           </Column>
 

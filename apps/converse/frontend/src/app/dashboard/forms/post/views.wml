@@ -11,7 +11,7 @@
 
   <Row>
 
-    <Column ww:span=6 ww:offset=3>
+    <Column span=6 offset=3>
 
       <Row>
 

@@ -41,7 +41,7 @@
 
 %}
 
-{% let values:Record[String] = [*Record[String]]@values %} 
+{% let values:Record[String] = @values as Record[String] %} 
 
 <html lang="en" dir="ltr">
 
@@ -49,9 +49,9 @@
 
   <body>
     <form autocomplete="off" action={{"/converse/invites/"+@token}} method="POST">
-      <GridLayout ww:id="main">
+      <GridLayout id="main">
         <Row>
-          <Column ww:span=4 ww:offset=4>
+          <Column span=4 offset=4>
             <Row>
               <Column>
                 <h1>User Registration</h1>
@@ -71,30 +71,30 @@
                 <Panel>
                   <PanelBody>
                     <TextField
-                      ww:name="name"
-                      ww:value={{values.name}}
-                      ww:label="Your Name*"
-                      ww:error={{@errors.name}} />
+                      name="name"
+                      value={{values.name}}
+                      label="Your Name*"
+                      error={{@errors.name}} />
                     <TextField
-                      ww:name="email"
-                      ww:value={{values.email}}
-                      ww:label="Email*"
-                      ww:error={{@errors.email}} />
+                      name="email"
+                      value={{values.email}}
+                      label="Email*"
+                      error={{@errors.email}} />
                    </PanelBody>
                   </Panel>
                   <Panel>
                     <PanelBody>
                       <TextField
-                        ww:name="username"
-                        ww:value={{values.username}}
-                        ww:label="Username*"
-                        ww:error={{@errors.username}} />
+                        name="username"
+                        value={{values.username}}
+                        label="Username*"
+                        error={{@errors.username}} />
                       <TextField
-                        ww:name="password"
-                        ww:label="Password*"
-                        ww:type="password"
-                        ww:placeholder="8 characters minimum"
-                        ww:error={{@errors.password}} />
+                        name="password"
+                        label="Password*"
+                        type="password"
+                        placeholder="8 characters minimum"
+                        error={{@errors.password}} />
                     </PanelBody>
                   </Panel>
                 </Column>
@@ -105,9 +105,9 @@
                          name="_csrf" 
                          value={{@csrfToken}} />
                   <Button
-                    ww:type="submit" 
-                    ww:className="-toolbar-compat -primary -block"
-                    ww:text="Register"/>
+                    type="submit" 
+                    className="-toolbar-compat -primary -block"
+                    text="Register"/>
                 </Column>
               </Row>
             </Column>

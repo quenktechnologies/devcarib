@@ -7,30 +7,30 @@
 
 {% view PostEditorView (PostEditor) %}
 
-<Panel ww:className="devcarib-post-editor">
+<Panel className="devcarib-post-editor">
 
   <PanelBody>
 
     {% if !@values.title.hide %}
 
       <TextField 
-       ww:name="title"
-       ww:className="devcarib-post-editor__title"
-       ww:placeholder="Title"
-       ww:value={{@values.title.value}}
-       ww:error={{@values.title.error}}
-       ww:onChange={{@values.title.onChange}} />
+       name="title"
+       className="devcarib-post-editor__title"
+       placeholder="Title"
+       value={{@values.title.value}}
+       error={{@values.title.error}}
+       onChange={{@values.title.onChange}} />
 
     {% endif %}
 
     <TextField 
-      ww:name="body"
-      ww:className="devcarib-post-editor__body"
-      ww:rows=10
-      ww:placeholder="Body"
-      ww:value={{@values.body.value}}
-      ww:error={{@values.body.error}}
-      ww:onChange={{@values.body.onChange}} />
+      name="body"
+      className="devcarib-post-editor__body"
+      rows=10
+      placeholder="Body"
+      value={{@values.body.value}}
+      error={{@values.body.error}}
+      onChange={{@values.body.onChange}} />
 
   </PanelBody>
 
@@ -39,16 +39,16 @@
     {% if @values.post.allowCancel %}
     
       <Button
-        ww:className="devcarib-post-editor__post cancel-button"
-        ww:text="Cancel"
-        ww:onClick={{@values.post.onCancel}} />
+        className="devcarib-post-editor__post cancel-button"
+        text="Cancel"
+        onClick={{@values.post.onCancel}} />
 
     {% endif %}
 
     <Button
-      ww:className="devcarib-post-editor__post post-button -primary"
-      ww:text="Post"
-      ww:onClick={{@values.post.onPost}} />
+      className="devcarib-post-editor__post post-button -primary"
+      text="Post"
+      onClick={{@values.post.onPost}} />
 
   </PanelFooter>
 

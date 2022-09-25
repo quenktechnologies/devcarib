@@ -1,5 +1,5 @@
 {% import (ActionBar) from "@quenk/wml-widgets/lib/layout/action-bar" %}
-{% import (Nav) from "@quenk/wml-widgets/lib/menu/nav" %}
+{% import (NavMenu) from "@quenk/wml-widgets/lib/menu/nav" %}
 {% import (Item) from "@quenk/wml-widgets/lib/menu/item" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
@@ -10,21 +10,21 @@
 <div wml:id="main">
 
   <ActionBar
-    ww:className="mia-navbar-bar">
+    className="mia-navbar-bar">
 
-    <Nav 
-      ww:className="mia-logout"
-      ww:items={{@values.header.links}}>
+    <NavMenu
+      className="mia-logout"
+      items={{@values.header.links}}>
 
       <Item>
         
         <Link
-         ww:text="Logout"
-         ww:onClick={{@values.header.logout}} />
+         text="Logout"
+         onClick={{@values.header.logout}} />
 
       </Item>
 
-    </Nav>
+    </NavMenu>
 
   </ActionBar>
 

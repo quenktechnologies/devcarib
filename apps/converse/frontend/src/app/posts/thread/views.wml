@@ -13,7 +13,7 @@
 
   <Row>
 
-    <Column ww:span=7 ww:offset=1>
+    <Column span=7 offset=1>
 
       <Row>
 
@@ -73,7 +73,7 @@
 
     </Column>
 
-    <Column ww:span=3>
+    <Column span=3>
 
       <Row>
 

@@ -26,13 +26,13 @@
 
   <body>
 
-    <GridLayout ww:id="main">
+    <GridLayout id="main">
 
       <Row>
 
         {% if @auth.failed %}
 
-          <Column ww:span=6 ww:offset=3>
+          <Column span=6 offset=3>
 
             <div class="ww-alert -error" style="text-align:center">
 
@@ -44,7 +44,7 @@
 
         {% endif %}
 
-        <Column ww:span=6 ww:offset=3>
+        <Column span=6 offset=3>
 
           <h3>Mia Login</h3>
 
@@ -84,9 +84,9 @@
                        value={{@csrfToken}} />
 
                 <Button
-                  ww:type="submit" 
-                  ww:className="-toolbar-compat -primary -block"
-                  ww:text="Login"/>
+                  type="submit" 
+                  className="-toolbar-compat -primary -block"
+                  text="Login"/>
 
               </form>
 

@@ -8,9 +8,9 @@
 {% import (PostPanel) from "." %}
 
 {% view PostPanelView (PostPanel) %}
-<Panel ww:className="devcarib-post-panel">
+<Panel className="devcarib-post-panel">
 
-  <PanelHeader ww:className="devcarib-post-panel-header">
+  <PanelHeader className="devcarib-post-panel-header">
 
     <PostMetadata data={{@values.data}} />
 
@@ -19,8 +19,8 @@
       {% if @values.editable %}
 
         <Link
-          ww:text="Edit"
-          ww:onClick={{@values.editor.show}} />
+          text="Edit"
+          onClick={{@values.editor.show}} />
 
       {% endif %}
 

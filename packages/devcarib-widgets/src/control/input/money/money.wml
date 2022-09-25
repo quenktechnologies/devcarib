@@ -11,18 +11,18 @@
   <AddOn button=true>
     
     <DropList
-      ww:name={{@values.dropList.name}}
-      ww:options={{@values.dropList.options}}
-      ww:value={{@values.dropList.value}}
-      ww:onSelect={{@values.dropList.onSelect}} />
+      name={{@values.dropList.name}}
+      options={{@values.dropList.options}}
+      value={{@values.dropList.value}}
+      onSelect={{@values.dropList.onSelect}} />
 
   </AddOn>
 
     <TextInput
-      ww:name={{@values.input.name}}
-      ww:value={{@values.input.value}}
-      ww:type="number"
-      ww:min=0
-      ww:onChange={{@values.input.onChange}} />
+      name={{@values.input.name}}
+      value={{@values.input.value}}
+      type="number"
+      min=0
+      onChange={{@values.input.onChange}} />
 
  </InputGroup>

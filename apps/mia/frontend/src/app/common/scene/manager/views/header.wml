@@ -9,9 +9,9 @@
   {% if @add %}
 
     <Button
-      ww:text="Add"
-      ww:className="-primary"
-      ww:onClick={{@add}} />
+      text="Add"
+      className="-primary"
+      onClick={{@add}} />
 
  {% endif %}
 
