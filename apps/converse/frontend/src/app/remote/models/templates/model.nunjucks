@@ -1,0 +1,133 @@
+{% from "macros.nunjucks" import imports2TS,params2TS %}
+
+ /** imports */
+ import { Object } from '@quenk/noni/lib/data/jsonx';
+ import { 
+  Future, 
+  doFuture,
+  pure,
+  raise
+ } from '@quenk/noni/lib/control/monad/future';
+ import { Maybe, fromNullable, nothing } from '@quenk/noni/lib/data/maybe';
+ import { interpolate } from '@quenk/noni/lib/data/string';
+ import { Post, Patch, Get, Delete } from '@quenk/jhr/lib/request';
+
+ import {
+  CreateResult,
+  SearchResult,
+  GetResult,
+  BaseRemoteModel
+ } from '@quenk/jouvert/lib/app/remote/model';
+ import { Id } from '@quenk/jouvert/lib/app/model';
+
+{# Remember to include document.title type in the list of imports. #}
+{{imports2TS(document.imports)}}
+
+{% set classname = document.title + "RemoteModel" %}
+
+{% if not document.paths %}
+
+  {% set paths = {search: 'invalid', get: 'invalid'} %}
+
+{% else %}
+
+  {% set paths = document.paths %}
+
+{% endif %}
+
+/**
+ * {{classname}}RemoteModel.
+ * AUTO-GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
+ */
+ export class {{classname}} extends BaseRemoteModel<{{document.title}}> {
+
+ create(data: {{document.title}}): Future<Id> {
+
+        let that = this;
+
+        return doFuture(function*() {
+
+          let r = yield that.send(new Post('{{paths.search}}', data));
+
+          return pure((<CreateResult>r.body).data.id);
+
+        });
+
+    }
+
+    search(qry: Object): Future<{{document.title}}[]> {
+
+        let that = this;
+
+        return doFuture(function*() {
+
+          let r = yield that.send(new Get('{{paths.search}}', qry));
+
+          return pure((r.code === 204) ?
+          [] : (<SearchResult<{{document.title}}>>r.body).data);
+
+        });
+
+    }
+
+    update(id: Id, changes: Partial<{{document.title}}>): Future<boolean> {
+
+        let that = this;
+
+        return doFuture(function*() {
+
+        let r = yield that.send(new Patch(interpolate('{{paths.get}}', {id}),
+                changes));
+
+          return pure((r.code === 200) ? true : false);
+
+        });
+
+    }
+ 
+    get(id: Id): Future<Maybe<{{document.title}}>> {
+
+        let that = this;
+
+        return doFuture(function*() {
+
+          let req = new Get(interpolate('{{paths.get}}', {id}));
+
+            return that
+                .send(req)
+                .chain(res => pure(fromNullable((<GetResult<{{document.title}}>>res.body).data)))
+                .catch(e => ((e.message == 'ClientError') && (e.code == 404)) ?
+                    pure(nothing()) :
+                    raise(e)
+                );
+
+        });
+
+    }
+
+    remove(id: Id): Future<boolean> {
+
+        let that = this;
+
+        return doFuture(function*() {
+
+        let r = yield that.send(new Delete(interpolate(
+        '{{paths.get}}', { id })));
+
+            return pure((r.code === 200) ? true : false);
+
+        });
+
+    }
+
+    {% for method,spec in document.methods %}
+
+    {{method}}({{params2TS(spec.parameters)}}) : {{spec.type}} {
+  
+      {% include spec.template %}
+
+    }
+
+    {% endfor -%}
+
+}

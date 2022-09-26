@@ -1,0 +1,66 @@
+/** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
+
+import { Object } from '@quenk/noni/lib/data/jsonx';
+import { isObject } from '@quenk/noni/lib/data/type';
+
+import { Spawner } from '@quenk/potoo/lib/actor/resident/api';
+import { Address } from '@quenk/potoo/lib/actor/address';
+
+import { SpawnSpec } from '@quenk/jouvert/lib/app/remote/model/factory';
+import { Result, SpawnFunc } from '@quenk/jouvert/lib/app/remote/model';
+import { 
+  CompleteHandler,
+  CompositeCompleteHandler
+} from '@quenk/jouvert/lib/app/remote/callback';
+
+{% for model in document.models.split(" ") %}
+  {% set classname = model | classcase %}
+  {% set classname = classname + "RemoteModel" %}
+  import { {{ classname }} } from './{{model|modulecase}}';
+{% endfor %}
+
+/**
+ * RemoteModels is a factory class for producing auto-generated RemoteModels.
+ *
+ * AUTO GENERATED, DO NOT EDIT!
+ */ 
+export class RemoteModels {
+
+  constructor(public remote: Address, public spawn: SpawnFunc) { }
+
+  static getInstance(remote:Address, spawn: SpawnSpec) : RemoteModels {
+
+        return new RemoteModels(remote, isObject(spawn) ?
+            (<Spawner>spawn).spawn.bind(spawn) : spawn);
+
+   }
+
+  /**
+   * create a new instance of a RemoteModel based on the provided model name.
+   */ 
+   create<T extends Object>(
+      name:string, 
+      handler: CompleteHandler<Result<T>>|CompleteHandler<Result<T>>[]=[]) {
+
+    switch(name) {
+
+      {% for model in document.models.split(" ") %}
+      {% set classname = model +"-remote-model" %}
+      {% set classname = classname | classcase %}
+
+        case '{{model|modulecase}}':
+        return new {{ classname }}(
+          this.remote, 
+          this.spawn,
+          Array.isArray(handler) ? new CompositeCompleteHandler(handler) : handler
+          )
+      {% endfor %}
+
+      default:
+        throw new Error(`Unknown model name "${name}"!`);
+
+    }
+
+  }
+
+}
