@@ -1,120 +1,106 @@
-{% from "macros.nunjucks" import imports2TS,params2TS %}
+{% from "macros.nunjucks" import params2TS %}
 
- /** imports */
- import { Object } from '@quenk/noni/lib/data/jsonx';
- import { 
-  Future, 
-  doFuture,
-  pure,
-  raise
- } from '@quenk/noni/lib/control/monad/future';
- import { Maybe, fromNullable, nothing } from '@quenk/noni/lib/data/maybe';
- import { interpolate } from '@quenk/noni/lib/data/string';
- import { Post, Patch, Get, Delete } from '@quenk/jhr/lib/request';
+import * as jsonx from '@quenk/noni/lib/data/jsonx';
+import * as future from '@quenk/noni/lib/control/monad/future';
+import * as maybe from '@quenk/noni/lib/data/maybe';
+import * as strings from '@quenk/noni/lib/data/string';
 
- import {
-  CreateResult,
-  SearchResult,
-  GetResult,
-  BaseRemoteModel
- } from '@quenk/jouvert/lib/app/remote/model';
- import { Id } from '@quenk/jouvert/lib/app/model';
+import * as request from '@quenk/jhr/lib/request';
+
+import * as remoteModel from '@quenk/jouvert/lib/app/remote/model';
+import * as models from '@quenk/jouvert/lib/app/model';
 
 {# Remember to include document.title type in the list of imports. #}
 {{imports2TS(document.imports)}}
 
 {% set classname = document.title + "RemoteModel" %}
 
-{% if not document.paths %}
-
-  {% set paths = {search: 'invalid', get: 'invalid'} %}
-
-{% else %}
-
-  {% set paths = document.paths %}
-
-{% endif %}
+{% set paths = merge({search: 'invalid', get: 'invalid'}, document.paths or {}) %}
 
 /**
- * {{classname}}RemoteModel.
+ * {{classname}}
+ *
  * AUTO-GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
- export class {{classname}} extends BaseRemoteModel<{{document.title}}> {
+ export class {{classname}} 
+ extends 
+   remoteModel.BaseRemoteModel<{{document.title}}> {
 
- create(data: {{document.title}}): Future<Id> {
+ create(data: {{document.title}}): future.Future<models.Id> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-          let r = yield that.send(new Post('{{paths.search}}', data));
+          let r = yield that.send(new request.Post('{{paths.search}}', data));
 
-          return pure((<CreateResult>r.body).data.id);
+          return future.pure((<remoteModel.CreateResult>r.body).data.id);
 
         });
 
     }
 
-    search(qry: Object): Future<{{document.title}}[]> {
+    search(qry: jsonx.Object): future.Future<{{document.title}}[]> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-          let r = yield that.send(new Get('{{paths.search}}', qry));
+          let r = yield that.send(new request.Get('{{paths.search}}', qry));
 
-          return pure((r.code === 204) ?
-          [] : (<SearchResult<{{document.title}}>>r.body).data);
+          return future.pure((r.code === 204) ?
+          [] : (<remoteModel.SearchResult<{{document.title}}>>r.body).data);
 
         });
 
     }
 
-    update(id: Id, changes: Partial<{{document.title}}>): Future<boolean> {
+    update(id: models.Id, changes: Partial<{{document.title}}>): future.Future<boolean> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-        let r = yield that.send(new Patch(interpolate('{{paths.get}}', {id}),
+        let r = yield that.send(new request.Patch(strings.interpolate('{{paths.get}}', {id}),
                 changes));
 
-          return pure((r.code === 200) ? true : false);
+          return future.pure((r.code === 200) ? true : false);
 
         });
 
     }
  
-    get(id: Id): Future<Maybe<{{document.title}}>> {
+    get(id: models.Id): future.Future<maybe.Maybe<{{document.title}}>> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-          let req = new Get(interpolate('{{paths.get}}', {id}));
+          let req = new request.Get(strings.interpolate('{{paths.get}}', {id}));
 
             return that
                 .send(req)
-                .chain(res => pure(fromNullable((<GetResult<{{document.title}}>>res.body).data)))
+                .chain(res => future.pure(maybe.fromNullable(
+                (<remoteModel.GetResult<{{document.title}}>>res.body).data)))
                 .catch(e => ((e.message == 'ClientError') && (e.code == 404)) ?
-                    pure(nothing()) :
-                    raise(e)
+                    future.pure(maybe.nothing()) :
+                    future.raise(e)
                 );
 
         });
 
     }
 
-    remove(id: Id): Future<boolean> {
+    remove(id: models.Id): future.Future<boolean> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-        let r = yield that.send(new Delete(interpolate(
+        let r = yield that.send(new request.Delete(strings.interpolate(
         '{{paths.get}}', { id })));
 
-            return pure((r.code === 200) ? true : false);
+            return future.pure((r.code === 200) ? true : false);
 
         });
 
