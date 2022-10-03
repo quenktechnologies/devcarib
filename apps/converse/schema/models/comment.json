@@ -6,37 +6,19 @@
 
     "collection": "comments",
 
-    "model.type": "ModelType",
+    "paths": {
 
-    "models:imports": {
+        "search": "/r/comments",
 
-        "$ref": "./common/imports.json",
-
-        "@converse/types/lib/comment": {
-
-            "Comment": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
+        "get": "/r/comments/{id}"
 
     },
 
-    "validators:imports": {
+    "imports": {
 
-        "@converse/types/lib/comment": "Comment"
+        "@converse/types/lib/comment": ["Comment"],
 
-    },
-
-    "checks:imports": {
-
-        "@converse/validators/lib/comment": ["validate", "validatePartial"]
+        "checks:@converse/validators/lib/comment": ["validate", "validatePartial"]
 
     },
 

@@ -17,6 +17,7 @@ $(CONVERSE_MODELS_LIB_DIR): $(CONVERSE_SCHEMA_DIR) \
 	$(foreach d,$(CONVERSE_MODELS_MODEL_NAMES), \
 	$(eval name=$(notdir $(basename $(d)))) \
 	$(DAGEN) --templates $(CONVERSE_MODELS_TEMPLATE_DIR) \
+	--plugin $(DAGEN_PLUGIN_IMPORTS)\
 	--template $(CONVERSE_MODELS_MODEL_TEMPLATE) \
 	--check $(CONVERSE_MODELS_DIR)/checks/model.json \
 	--check $(CONVERSE_MODELS_DIR)/checks/procedures.json \

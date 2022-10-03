@@ -6,7 +6,7 @@
 
     "validation:imports": {
 
-        "@board/types/lib/login": "Login"
+        "@board/types/lib/login": ["Login"]
 
     },
 

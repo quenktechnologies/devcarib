@@ -6,38 +6,13 @@
 
     "collection": "users",
 
-    "model.type": "ModelType",
+      "paths.get": "/r/me",
 
-    "models:imports": {
+    "imports": {
 
-        "$ref": "./common/imports.json",
+        "@converse/types/lib/user": ["User"],
 
-        "@converse/types/lib/user": {
-
-            "User": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
-
-    },
-
-    "validation:imports": {
-
-        "@converse/types/lib/user": "User"
-
-    },
-
-    "checks:imports": {
-
-        "@converse/validators/lib/user": ["validate", "validatePartial"]
-
+        "checks:@converse/validators/lib/user": ["validate", "validatePartial"]
     },
 
     "checks": [

@@ -6,38 +6,19 @@
 
     "collection": "posts",
 
-    "model.type": "ModelType",
+    "paths": {
 
-    "models:imports": {
+      "search": "/r/posts",
 
-        "$ref": "./common/imports.json",
-
-        "@converse/types/lib/post": {
-
-            "Post": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
+      "get": "/r/posts/{id}"
 
     },
 
+    "imports": {
 
-    "validators:imports": {
+        "@converse/types/lib/post": ["Post"],
 
-        "@converse/types/lib/post": "Post"
-
-    },
-
-    "checks:imports": {
-
-        "@converse/validators/lib/post": ["validate", "validatePartial"]
+        "checks:@converse/validators/lib/post": ["validate", "validatePartial"]
 
     },
 
@@ -118,9 +99,9 @@
 
         "web-views": {
 
-          "type": "number",
+            "type": "number",
 
-          "readOnly": true
+            "readOnly": true
 
         }
 

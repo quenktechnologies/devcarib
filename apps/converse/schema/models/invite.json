@@ -6,37 +6,19 @@
 
     "collection": "invites",
 
-    "model.type": "ModelType",
+    "paths": {
 
-    "models:imports": {
+        "search": "/r/invites",
 
-        "$ref": "./common/imports.json",
-
-        "@converse/types/lib/invite": {
-
-            "Invite": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
+        "get": "/r/invites/{id}"
 
     },
 
-    "validation:imports": {
+    "imports": {
 
-        "@converse/types/lib/invite": "Invite"
+        "@converse/types/lib/invite": ["Invite"],
 
-    },
-
-    "checks:imports": {
-
-        "@converse/validators/lib/invite": ["validate", "validatePartial"]
+        "checks:@converse/validators/lib/invite": ["validate", "validatePartial"]
 
     },
 

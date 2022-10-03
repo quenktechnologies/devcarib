@@ -70,7 +70,7 @@
         "@devcarib/frontend": "file:packages/devcarib-frontend",
         "@quenk/crapaud": "^0.5.1",
         "@quenk/dagen": "^1.10.3",
-        "@quenk/dagen-commons": "^0.5.1",
+        "@quenk/dagen-commons": "^0.5.2",
         "@quenk/dback-mongodb-testkit": "^1.0.8",
         "@quenk/frontend-routers": "^1.0.0",
         "@quenk/jhr": "^2.6.26",
