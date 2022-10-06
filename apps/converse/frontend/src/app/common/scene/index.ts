@@ -4,6 +4,7 @@ import { Resume } from '@quenk/jouvert/lib/app/service/director';
 import { MainScene } from '@quenk/jouvert/lib/app/scene/main';
 
 import { Converse } from '../../';
+import { RemoteModels } from '../../remote/models';
 
 /**
  * ConverseScene is the base class for all mia AppScenes.
@@ -18,5 +19,8 @@ export abstract class ConverseScene<M>
         super(app, resume);
 
     }
+
+    models = RemoteModels
+        .getInstance(this.app.services['remote.background'], this);
 
 }

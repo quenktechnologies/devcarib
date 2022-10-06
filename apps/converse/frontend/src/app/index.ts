@@ -1,11 +1,14 @@
-import * as api from './api';
-
 import {
     Future,
     pure,
     doFuture,
     voidPure
 } from '@quenk/noni/lib/control/monad/future';
+
+import {
+    AfterGetSetData,
+    OnNotFound
+} from '@quenk/jouvert/lib/app/scene/remote/handlers';
 
 import { DevCarib } from '@devcarib/frontend/lib/app';
 
@@ -14,6 +17,7 @@ import { User } from '@converse/types/lib/user';
 import { CreateInviteDialog } from './dialogs/invite';
 import { ConverseView } from './views/app';
 import { trap, routes } from './routes';
+import { RemoteModels } from './remote/models';
 
 /**
  * Converse application frontend main class.
@@ -75,29 +79,40 @@ export class Converse extends DevCarib {
 
     run() {
 
+        //XXX: For debugging;
+        this.vm.conf.log.level = 1000
+
         let that = this;
 
-        let runSuper = () => super.run();
+        let init = () => super.init();
 
-        doFuture(function*() {
+        return doFuture(function*() {
 
-            let res = yield that.agent.get(api.me.get);
+            init();
 
-            if (res.code === 200) {
+            let models = RemoteModels
+                .getInstance(that.services['remote.background'], that);
 
-                that.user = res.body.data;
+            yield models.create('user', [
 
-                runSuper();
+                new AfterGetSetData(data => {
 
-            } else {
+                    that.user = data
 
-                window.location.replace('/converse/login');
+                    that.router.start();
 
-            }
+                    setTimeout(() =>
+                        that.router.handleEvent(new Event('hashchanged')), 100);
+
+                }),
+
+                new OnNotFound(() => window.location.replace('login'))
+
+            ]).get('');
 
             return voidPure;
 
-        }).fork();
+        });
 
     }
 

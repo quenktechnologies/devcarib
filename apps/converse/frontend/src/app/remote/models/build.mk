@@ -5,6 +5,7 @@ $(CONVERSE_REMOTE_MODELS_DIR): $(CONVERSE_SCHEMA_DIR)\
 	$(foreach d,$(CONVERSE_REMOTE_MODELS_MODEL_NAMES), \
 	$(eval name=$(notdir $(basename $(d)))) \
 	$(DAGEN) --templates $@/templates \
+	--plugin $(DAGEN_PLUGIN_IMPORTS)\
 	--template $@/templates/model.nunjucks\
 	--check $@/checks.json \
 	--namespace rmodel \

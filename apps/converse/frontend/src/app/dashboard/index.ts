@@ -1,5 +1,3 @@
-import * as api from '../api';
-
 import {
     Future,
     doFuture,
@@ -107,7 +105,7 @@ export class Dashboard extends ConverseScene<void> {
     /**
      * posts is used to fetch the main posts displayed on the page.
      */
-    posts = this.app.getModel(api.posts, [
+    posts = this.models.create('post', [
 
         new AfterSearchSetData(data => { this.values.posts.data = data; }),
 
@@ -128,7 +126,7 @@ export class Dashboard extends ConverseScene<void> {
      *
      * This does not affect the main view posts.
      */
-    popularPosts = this.app.getModel(api.posts, [
+    popularPosts = this.models.create('post', [
 
         new AfterSearchSetData(data => { this.values.popular.data = data }),
 
@@ -136,7 +134,7 @@ export class Dashboard extends ConverseScene<void> {
 
     ]);
 
-    jobs = this.app.getModel(api.jobs, [
+    jobs = this.models.create('job', [
 
         new AfterSearchSetData(data => { this.values.jobs.data = data }),
 
@@ -144,7 +142,7 @@ export class Dashboard extends ConverseScene<void> {
 
     ]);
 
-    events = this.app.getModel(api.events, [
+    events = this.models.create('event', [
 
         new AfterSearchSetData(data => { this.values.events.data = data }),
 
@@ -189,10 +187,9 @@ export class Dashboard extends ConverseScene<void> {
 
             yield that.events.search({ sort: '-created_on', limit: 5 });
 
-                return voidPure;
+            return voidPure;
 
         });
-
 
     }
 

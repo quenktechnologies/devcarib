@@ -176,7 +176,7 @@ export class PostThread extends ConverseScene<void> {
                 // @ts-ignore
                 let that: PostThread = this;
 
-                if (data) that.values.post.data = data
+                if (data) that.values.post.data = <Post>data
 
                 yield that.recentPosts.search({ sort: '-created_on', limit: 5 });
 

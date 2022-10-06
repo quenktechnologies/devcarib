@@ -10,26 +10,26 @@ import * as remoteModel from '@quenk/jouvert/lib/app/remote/model';
 import * as models from '@quenk/jouvert/lib/app/model';
 
 
-import { Event } from '@mia/types/lib/event';
+import { Job } from '@converse/types/lib/job';
 
 
 
 /**
- * EventRemoteModel
+ * JobRemoteModel
  *
  * AUTO-GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
-export class EventRemoteModel
+export class JobRemoteModel
     extends
-    remoteModel.BaseRemoteModel<Event> {
+    remoteModel.BaseRemoteModel<Job> {
 
-    create(data: Event): future.Future<models.Id> {
+    create(data: Job): future.Future<models.Id> {
 
         let that = this;
 
         return future.doFuture(function*() {
 
-            let r = yield that.send(new request.Post('/r/events', data));
+            let r = yield that.send(new request.Post('invalid', data));
 
             return future.pure((<remoteModel.CreateResult>r.body).data.id);
 
@@ -37,28 +37,28 @@ export class EventRemoteModel
 
     }
 
-    search(qry: jsonx.Object): future.Future<Event[]> {
+    search(qry: jsonx.Object): future.Future<Job[]> {
 
         let that = this;
 
         return future.doFuture(function*() {
 
-            let r = yield that.send(new request.Get('/r/events', qry));
+            let r = yield that.send(new request.Get('invalid', qry));
 
             return future.pure((r.code === 204) ?
-                [] : (<remoteModel.SearchResult<Event>>r.body).data);
+                [] : (<remoteModel.SearchResult<Job>>r.body).data);
 
         });
 
     }
 
-    update(id: models.Id, changes: Partial<Event>): future.Future<boolean> {
+    update(id: models.Id, changes: Partial<Job>): future.Future<boolean> {
 
         let that = this;
 
         return future.doFuture(function*() {
 
-            let r = yield that.send(new request.Patch(strings.interpolate('/r/events/{id}', { id }),
+            let r = yield that.send(new request.Patch(strings.interpolate('invalid', { id }),
                 changes));
 
             return future.pure((r.code === 200) ? true : false);
@@ -67,18 +67,18 @@ export class EventRemoteModel
 
     }
 
-    get(id: models.Id): future.Future<maybe.Maybe<Event>> {
+    get(id: models.Id): future.Future<maybe.Maybe<Job>> {
 
         let that = this;
 
         return future.doFuture(function*() {
 
-            let req = new request.Get(strings.interpolate('/r/events/{id}', { id }));
+            let req = new request.Get(strings.interpolate('invalid', { id }));
 
             return that
                 .send(req)
                 .chain(res => future.pure(maybe.fromNullable(
-                    (<remoteModel.GetResult<Event>>res.body).data)))
+                    (<remoteModel.GetResult<Job>>res.body).data)))
                 .catch(e => ((e.message == 'ClientError') && (e.code == 404)) ?
                     future.pure(maybe.nothing()) :
                     future.raise(e)
@@ -95,7 +95,7 @@ export class EventRemoteModel
         return future.doFuture(function*() {
 
             let r = yield that.send(new request.Delete(strings.interpolate(
-                '/r/events/{id}', { id })));
+                'invalid', { id })));
 
             return future.pure((r.code === 200) ? true : false);
 

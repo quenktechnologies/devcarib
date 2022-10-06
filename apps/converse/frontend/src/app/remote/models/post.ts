@@ -1,111 +1,103 @@
 
-/** imports */
-import { Object } from '@quenk/noni/lib/data/jsonx';
-import {
-    Future,
-    doFuture,
-    pure,
-    raise
-} from '@quenk/noni/lib/control/monad/future';
-import { Maybe, fromNullable, nothing } from '@quenk/noni/lib/data/maybe';
-import { interpolate } from '@quenk/noni/lib/data/string';
-import { Post, Patch, Get, Delete } from '@quenk/jhr/lib/request';
+import * as jsonx from '@quenk/noni/lib/data/jsonx';
+import * as future from '@quenk/noni/lib/control/monad/future';
+import * as maybe from '@quenk/noni/lib/data/maybe';
+import * as strings from '@quenk/noni/lib/data/string';
 
-import {
-    CreateResult,
-    SearchResult,
-    GetResult,
-    BaseRemoteModel
-} from '@quenk/jouvert/lib/app/remote/model';
-import { Id } from '@quenk/jouvert/lib/app/model';
+import * as request from '@quenk/jhr/lib/request';
+
+import * as remoteModel from '@quenk/jouvert/lib/app/remote/model';
+import * as models from '@quenk/jouvert/lib/app/model';
 
 
-
-
-
+import { Post } from '@converse/types/lib/post';
 
 
 
 /**
- * PostRemoteModelRemoteModel.
+ * PostRemoteModel
+ *
  * AUTO-GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
-export class PostRemoteModel extends BaseRemoteModel<Post> {
+export class PostRemoteModel
+    extends
+    remoteModel.BaseRemoteModel<Post> {
 
-    create(data: Post): Future<Id> {
+    create(data: Post): future.Future<models.Id> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-            let r = yield that.send(new Post('invalid', data));
+            let r = yield that.send(new request.Post('/r/posts', data));
 
-            return pure((<CreateResult>r.body).data.id);
+            return future.pure((<remoteModel.CreateResult>r.body).data.id);
 
         });
 
     }
 
-    search(qry: Object): Future<Post[]> {
+    search(qry: jsonx.Object): future.Future<Post[]> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-            let r = yield that.send(new Get('invalid', qry));
+            let r = yield that.send(new request.Get('/r/posts', qry));
 
-            return pure((r.code === 204) ?
-                [] : (<SearchResult<Post>>r.body).data);
+            return future.pure((r.code === 204) ?
+                [] : (<remoteModel.SearchResult<Post>>r.body).data);
 
         });
 
     }
 
-    update(id: Id, changes: Partial<Post>): Future<boolean> {
+    update(id: models.Id, changes: Partial<Post>): future.Future<boolean> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-            let r = yield that.send(new Patch(interpolate('invalid', { id }),
+            let r = yield that.send(new request.Patch(strings.interpolate('/r/posts/{id}', { id }),
                 changes));
 
-            return pure((r.code === 200) ? true : false);
+            return future.pure((r.code === 200) ? true : false);
 
         });
 
     }
 
-    get(id: Id): Future<Maybe<Post>> {
+    get(id: models.Id): future.Future<maybe.Maybe<Post>> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-            let req = new Get(interpolate('invalid', { id }));
+            let req = new request.Get(strings.interpolate('/r/posts/{id}', { id }));
 
             return that
                 .send(req)
-                .chain(res => pure(fromNullable((<GetResult<Post>>res.body).data)))
+                .chain(res => future.pure(maybe.fromNullable(
+                    (<remoteModel.GetResult<Post>>res.body).data)))
                 .catch(e => ((e.message == 'ClientError') && (e.code == 404)) ?
-                    pure(nothing()) :
-                    raise(e)
+                    future.pure(maybe.nothing()) :
+                    future.raise(e)
                 );
 
         });
 
     }
 
-    remove(id: Id): Future<boolean> {
+    remove(id: models.Id): future.Future<boolean> {
 
         let that = this;
 
-        return doFuture(function*() {
+        return future.doFuture(function*() {
 
-            let r = yield that.send(new Delete(interpolate(
-                'invalid', { id })));
+            let r = yield that.send(new request.Delete(strings.interpolate(
+                '/r/posts/{id}', { id })));
 
-            return pure((r.code === 200) ? true : false);
+            return future.pure((r.code === 200) ? true : false);
 
         });
 

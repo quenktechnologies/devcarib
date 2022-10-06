@@ -16,6 +16,7 @@ import {
 import { CommentRemoteModel } from './comment';
 import { EventRemoteModel } from './event';
 import { InviteRemoteModel } from './invite';
+import { JobRemoteModel } from './job';
 import { PostRemoteModel } from './post';
 import { UserRemoteModel } from './user';
 
@@ -61,6 +62,13 @@ export class RemoteModels {
 
             case 'invite':
                 return new InviteRemoteModel(
+                    this.remote,
+                    this.spawn,
+                    Array.isArray(handler) ? new CompositeCompleteHandler(handler) : handler
+                )
+
+            case 'job':
+                return new JobRemoteModel(
                     this.remote,
                     this.spawn,
                     Array.isArray(handler) ? new CompositeCompleteHandler(handler) : handler
