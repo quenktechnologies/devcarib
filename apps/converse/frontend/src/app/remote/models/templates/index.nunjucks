@@ -1,10 +1,10 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
 import * as jsonx from '@quenk/noni/lib/data/jsonx';
-import * as types '@quenk/noni/lib/data/type';
+import * as types from '@quenk/noni/lib/data/type';
 
 import * as api from '@quenk/potoo/lib/actor/resident/api';
-import * address from '@quenk/potoo/lib/actor/address';
+import * as address from '@quenk/potoo/lib/actor/address';
 
 import * as factory from '@quenk/jouvert/lib/app/remote/model/factory';
 import * as remoteModel from '@quenk/jouvert/lib/app/remote/model';
@@ -38,7 +38,9 @@ export class RemoteModels {
    */ 
    create<T extends jsonx.Object>(
       name:string, 
-      handler: remoteCallback.CompleteHandler<remoteModel.Result<T>>|remoteCallback.CompleteHandler<remoteModel.Result<T>>[]=[]) : model.Model<T> {
+      handler: remoteCallback.CompleteHandler<remoteModel.Result<T>>|
+               remoteCallback.CompleteHandler<remoteModel.Result<T>>[]=[]
+               ) : model.Model<T> {
 
     switch(name) {
 
@@ -47,10 +49,12 @@ export class RemoteModels {
       {% set classname = classname | classcase %}
 
         case '{{model|modulecase}}':
-        return new {{ classname }}<{{model}}>(
+        return <model.Model<T>><model.Model<jsonx.Object>>new {{ classname }}(
           this.remote, 
           this.spawn,
-          Array.isArray(handler) ? new remoteCallback.CompositeCompleteHandler(handler) : handler
+          Array.isArray(handler) ?
+          new remoteCallback.CompositeCompleteHandler(handler) : 
+          handler
           )
       {% endfor %}
 

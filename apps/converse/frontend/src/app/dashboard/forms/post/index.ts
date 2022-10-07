@@ -18,7 +18,7 @@ export class CreatePostForm extends ConverseRemoteForm<Post, void> {
 
     view = new CreatePostFormView(this);
 
-    model = this.models.create('post');
+    model = this.models.create<Post>('post');
 
     values = {
 

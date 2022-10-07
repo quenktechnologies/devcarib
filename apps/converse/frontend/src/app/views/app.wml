@@ -9,7 +9,7 @@
 <div wml:id="main">
 
   <ActionBar
-    className="mia-navbar-bar">
+    className="converse-navbar">
 
     <NavMenu
       className="mia-logout"

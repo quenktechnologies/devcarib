@@ -95,7 +95,7 @@ export class Converse extends DevCarib {
 
             yield models.create('user', [
 
-                new AfterGetSetData(data => {
+                new AfterGetSetData<User>(data => {
 
                     that.user = data
 
