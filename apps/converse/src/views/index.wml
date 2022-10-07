@@ -5,8 +5,8 @@
 
 {% import (LoginFormViewContext, LoginFormView) from "./login/form" %}
 
-{% let title:String = "Deverse: The Software Developer Community" %}
-{% let css:String = "converse/assets/css/converse-site.css" %}
+{% let title:String = "Deverse: The Caribbean Developer Community" %}
+{% let css:String = "/converse/assets/css/site.css" %}
 
 {# IndexView serves the landing page of the site. #}
 {% view IndexView (LoginFormViewContext) %}
@@ -29,10 +29,10 @@
 
               <h1 id="title">WeDeverse</h1>
 
-              <p id="subtitle">A Community of Caribbean Software Developers</p>
+              <p id="subtitle">A Community for Caribbean Software Developers</p>
 
               <Image id="landing-image"
-                     src="converse/assets/img/landing.png"
+                     src="/converse/assets/img/landing.png"
                      alt="Landing Image"
                      block=true/>
 
