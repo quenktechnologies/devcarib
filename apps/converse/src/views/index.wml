@@ -5,7 +5,7 @@
 
 {% import (LoginFormViewContext, LoginFormView) from "./login/form" %}
 
-{% let title:String = "Deverse: The Caribbean Developer Community" %}
+{% let title:String = "Deverse: A Community for Caribbean Software Developers" %}
 {% let css:String = "/converse/assets/css/site.css" %}
 
 {# IndexView serves the landing page of the site. #}
@@ -27,7 +27,7 @@
 
             <Column span=8>
 
-              <h1 id="title">WeDeverse</h1>
+              <h1 id="title">Deverse</h1>
 
               <p id="subtitle">A Community for Caribbean Software Developers</p>
 

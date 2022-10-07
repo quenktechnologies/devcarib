@@ -1,17 +1,15 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
-import { Object } from '@quenk/noni/lib/data/jsonx';
-import { isObject } from '@quenk/noni/lib/data/type';
+import * as jsonx from '@quenk/noni/lib/data/jsonx';
+import * as types '@quenk/noni/lib/data/type';
 
-import { Spawner } from '@quenk/potoo/lib/actor/resident/api';
-import { Address } from '@quenk/potoo/lib/actor/address';
+import * as api from '@quenk/potoo/lib/actor/resident/api';
+import * address from '@quenk/potoo/lib/actor/address';
 
-import { SpawnSpec } from '@quenk/jouvert/lib/app/remote/model/factory';
-import { Result, SpawnFunc } from '@quenk/jouvert/lib/app/remote/model';
-import { 
-  CompleteHandler,
-  CompositeCompleteHandler
-} from '@quenk/jouvert/lib/app/remote/callback';
+import * as factory from '@quenk/jouvert/lib/app/remote/model/factory';
+import * as remoteModel from '@quenk/jouvert/lib/app/remote/model';
+import * as model from '@quenk/jouvert/lib/app/model';
+import * as remoteCallback from '@quenk/jouvert/lib/app/remote/callback';
 
 {% for model in document.models.split(" ") %}
   {% set classname = model | classcase %}
@@ -26,21 +24,21 @@ import {
  */ 
 export class RemoteModels {
 
-  constructor(public remote: Address, public spawn: SpawnFunc) { }
+  constructor(public remote: address.Address, public spawn: remoteModel.SpawnFunc) { }
 
-  static getInstance(remote:Address, spawn: SpawnSpec) : RemoteModels {
+  static getInstance(remote:address.Address, spawn: factory.SpawnSpec) : RemoteModels {
 
-        return new RemoteModels(remote, isObject(spawn) ?
-            (<Spawner>spawn).spawn.bind(spawn) : spawn);
+        return new RemoteModels(remote, types.isObject(spawn) ?
+            (<api.Spawner>spawn).spawn.bind(spawn) : spawn);
 
    }
 
   /**
    * create a new instance of a RemoteModel based on the provided model name.
    */ 
-   create<T extends Object>(
+   create<T extends jsonx.Object>(
       name:string, 
-      handler: CompleteHandler<Result<T>>|CompleteHandler<Result<T>>[]=[]) {
+      handler: remoteCallback.CompleteHandler<remoteModel.Result<T>>|remoteCallback.CompleteHandler<remoteModel.Result<T>>[]=[]) : model.Model<T> {
 
     switch(name) {
 
@@ -49,10 +47,10 @@ export class RemoteModels {
       {% set classname = classname | classcase %}
 
         case '{{model|modulecase}}':
-        return new {{ classname }}(
+        return new {{ classname }}<{{model}}>(
           this.remote, 
           this.spawn,
-          Array.isArray(handler) ? new CompositeCompleteHandler(handler) : handler
+          Array.isArray(handler) ? new remoteCallback.CompositeCompleteHandler(handler) : handler
           )
       {% endfor %}
 
