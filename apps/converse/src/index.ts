@@ -32,9 +32,6 @@ import { LoginView } from './views/login';
 
 import { InviteController } from './invites';
 
-const ROUTE_INDEX = '/converse';
-const ROUTE_LOGIN = '/converse/login';
-
 class ConverseAuthenticator extends BaseAuthenticator<User> {
 
     validate = validate;
@@ -95,14 +92,6 @@ export class ConverseAuthController extends AuthController {
             csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
 
         })
-
-    }
-
-    urls = {
-
-        index: ROUTE_INDEX,
-
-        form: ROUTE_LOGIN
 
     }
 

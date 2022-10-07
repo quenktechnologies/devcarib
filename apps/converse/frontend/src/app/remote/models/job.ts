@@ -29,7 +29,7 @@ export class JobRemoteModel
 
         return future.doFuture(function*() {
 
-            let r = yield that.send(new request.Post('invalid', data));
+            let r = yield that.send(new request.Post('/board/r/jobs', data));
 
             return future.pure((<remoteModel.CreateResult>r.body).data.id);
 
@@ -43,7 +43,7 @@ export class JobRemoteModel
 
         return future.doFuture(function*() {
 
-            let r = yield that.send(new request.Get('invalid', qry));
+            let r = yield that.send(new request.Get('/board/r/jobs', qry));
 
             return future.pure((r.code === 204) ?
                 [] : (<remoteModel.SearchResult<Job>>r.body).data);
@@ -58,7 +58,7 @@ export class JobRemoteModel
 
         return future.doFuture(function*() {
 
-            let r = yield that.send(new request.Patch(strings.interpolate('invalid', { id }),
+            let r = yield that.send(new request.Patch(strings.interpolate('/board/r/jobs/{id}', { id }),
                 changes));
 
             return future.pure((r.code === 200) ? true : false);
@@ -73,7 +73,7 @@ export class JobRemoteModel
 
         return future.doFuture(function*() {
 
-            let req = new request.Get(strings.interpolate('invalid', { id }));
+            let req = new request.Get(strings.interpolate('/board/r/jobs/{id}', { id }));
 
             return that
                 .send(req)
@@ -95,7 +95,7 @@ export class JobRemoteModel
         return future.doFuture(function*() {
 
             let r = yield that.send(new request.Delete(strings.interpolate(
-                'invalid', { id })));
+                '/board/r/jobs/{id}', { id })));
 
             return future.pure((r.code === 200) ? true : false);
 

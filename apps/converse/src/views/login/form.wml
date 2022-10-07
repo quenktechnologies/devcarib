@@ -17,7 +17,7 @@
 
   <PanelBody>
 
-    <form autocomplete="off" action="/converse/login" method="POST">
+    <form autocomplete="off" action="/login" method="POST">
 
       <TextField
        className="-block"
