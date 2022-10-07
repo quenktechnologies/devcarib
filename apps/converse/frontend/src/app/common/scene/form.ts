@@ -11,6 +11,6 @@ export abstract class ConverseRemoteForm<T extends Object, M>
     extends
     DevCaribRemoteForm<T, M> {
 
-    models = RemoteModels.getInstance(this.app.services.background, this);
+    models = RemoteModels.getInstance(this.app.services['remote.background'], this);
 
 }
