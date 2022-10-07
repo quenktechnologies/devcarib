@@ -1,8 +1,7 @@
 {% import (HeadView) from "@devcarib/views/lib/common/head" %}
 
-{% import (css) from "./" %}
-
-{% let title:String = "@quenk/tendril/lib/app/api/request" %}
+{% let css:String = "/converse/assets/css/app.css" %}
+{% let title:String = "Deverse" %}
 
 {# UserView is index view for authenticated users. #}
 {% view UserView (Void) %}
@@ -17,7 +16,7 @@
 
     <main id="main"/>
 
-    <script src="/converse/assets/js/converse.js"/>
+    <script src="/converse/assets/js/app.js"/>
 
   </body>
 
