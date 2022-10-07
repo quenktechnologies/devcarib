@@ -63,17 +63,21 @@ export class Converse extends DevCarib {
 
     logout(): Future<void> {
 
-        return confirm('Do you want to logout now?') ?
-            this.agent
-                .post('/converse/logout', {})
-                .chain(() => {
+        let that = this;
 
-                    window.location.href = '/admin';
+        return doFuture(function *() {
 
-                    return pure(<void>undefined);
+            if (confirm('Do you want to logout now?')) {
 
-                }) :
-            pure(<void>undefined);
+                yield that.agent.post('/logout', {});
+
+                    window.location.href = '/';
+
+            }
+
+           return pure(<void>undefined);
+
+        });
 
     }
 
