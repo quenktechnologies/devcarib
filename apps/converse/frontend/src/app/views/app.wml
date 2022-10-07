@@ -1,4 +1,3 @@
-{% import (NavMenu) from "@quenk/wml-widgets/lib/menu/nav" %}
 {% import (ActionBar) from "@quenk/wml-widgets/lib/layout/action-bar" %}
 
 {% import (AccountDropDownView) from "./account-dropdown" %}
@@ -11,13 +10,7 @@
   <ActionBar
     className="converse-navbar">
 
-    <NavMenu
-      className="mia-logout"
-      items={{@values.header.links}}>
-
-      {{<AccountDropDownView(@)>}}
-
-    </NavMenu>
+    {{<AccountDropDownView(@)>}}
 
   </ActionBar>
 
