@@ -1,4 +1,3 @@
-{% from "macros.nunjucks" import params2TS %}
 
 import * as jsonx from '@quenk/noni/lib/data/jsonx';
 import * as future from '@quenk/noni/lib/control/monad/future';
@@ -108,9 +107,13 @@ import * as models from '@quenk/jouvert/lib/app/model';
 
     {% for method,spec in document.methods %}
 
-    {{method}}({{params2TS(spec.parameters)}}) : {{spec.type}} {
+      {{method}}({{spec.parameters.join(',') if isArray(spec.parameters) else []}}) : {{spec.type}} {
   
-      {% include spec.template %}
+      {% if spec.template %}
+        {% include spec.template %}
+      {% else %}
+        {% include method + ".template" %}
+      {% endif %}
 
     }
 

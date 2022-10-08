@@ -15,7 +15,7 @@ $(CONVERSE_REMOTE_MODELS_DIR): $(CONVERSE_SCHEMA_DIR)\
 	$(DAGEN) --templates $@/templates \
 	--template $@/templates/index.nunjucks \
 	--set models="$(CONVERSE_REMOTE_MODELS_MODEL_NAMES)" \
-	--namespace remote | \
+	--namespace rmodel | \
 	$(TSFMT) --stdin > \
 	$@/index.ts
 

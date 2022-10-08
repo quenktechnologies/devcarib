@@ -38,25 +38,3 @@
   {% endfor %}
 
 {%- endmacro %}
-
-{#
-  params2TS converts a param spec to a list of TS parameters.
-
-  @param {Params} params
-#}
-{% macro params2TS(params) -%}
-
-  {%- if isObject(params) -%}
-
-    {%- for name,type in params %}
-      {{name}}:{{type}}{% if not loop.last %},{% endif %}
-    {% endfor %}
-
-  {% else %}
-
-    {{ '' }}
-
-  {% endif %}
-
-{%- endmacro %}
-

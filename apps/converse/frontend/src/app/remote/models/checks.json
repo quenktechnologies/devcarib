@@ -52,7 +52,9 @@
 
         },
 
-        "collection": { "type": "string" },
+        "collection": {
+            "type": "string"
+        },
 
         "paths": {
 
@@ -105,21 +107,24 @@
 
                     "parameters": {
 
-                        "type": "object",
+                        "type": "array",
 
                         "optional": true,
 
-                        "additionalProperties": {
+                        "items": {
 
                             "type": "string"
 
                         }
 
+
                     },
 
                     "template": {
 
-                        "type": "string"
+                        "type": "string",
+
+                        "optional": true
 
                     }
 

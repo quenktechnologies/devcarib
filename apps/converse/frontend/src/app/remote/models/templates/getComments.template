@@ -1,0 +1,13 @@
+{% set path = document.paths.comments or "no-comments-path" %}
+  let that = this;
+
+  return future.doFuture(function*() {
+
+    let req = new request.Get(strings.interpolate('{{path}}', { id }), qry);
+
+    let res = yield that.send(req);
+
+    return future.pure((res.code === 204) ?
+                [] : (<remoteModel.SearchResult<Comment>>res.body).data);
+
+  });

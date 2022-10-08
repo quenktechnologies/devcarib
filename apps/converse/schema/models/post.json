@@ -8,15 +8,17 @@
 
     "paths": {
 
-      "search": "/r/posts",
+        "search": "/r/posts",
 
-      "get": "/r/posts/{id}"
+        "get": "/r/posts/{id}"
 
     },
 
     "imports": {
 
         "@converse/types/lib/post": ["Post"],
+
+        "rmodel:@converse/types/lib/comment": ["Comment"],
 
         "checks:@converse/validators/lib/post": ["validate", "validatePartial"]
 
@@ -102,6 +104,18 @@
             "type": "number",
 
             "readOnly": true
+
+        }
+
+    },
+
+    "methods": {
+
+        "getComments": {
+
+            "type": "future.Future<Comment[]>",
+
+            "parameters": ["id: models.Id", "qry: jsonx.Object"]
 
         }
 

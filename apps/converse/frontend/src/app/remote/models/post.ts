@@ -11,6 +11,7 @@ import * as models from '@quenk/jouvert/lib/app/model';
 
 
 import { Post } from '@converse/types/lib/post';
+import { Comment } from '@converse/types/lib/comment';
 
 
 
@@ -98,6 +99,24 @@ export class PostRemoteModel
                 '/r/posts/{id}', { id })));
 
             return future.pure((r.code === 200) ? true : false);
+
+        });
+
+    }
+
+
+    getComments(id: models.Id, qry: jsonx.Object): future.Future<Comment[]> {
+
+        let that = this;
+
+        return future.doFuture(function*() {
+
+            let req = new request.Get(strings.interpolate('no-comments-path', { id }), qry);
+
+            let res = yield that.send(req);
+
+            return future.pure((res.code === 204) ?
+                [] : (<remoteModel.SearchResult<Comment>>res.body).data);
 
         });
 
