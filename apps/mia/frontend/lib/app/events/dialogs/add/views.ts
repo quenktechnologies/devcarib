@@ -84,10 +84,10 @@ export class AddEventDialogView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Title*' ,'error' : __context.values.errors.title ,'value' : __context.values.data.title ,'onChange' : __context.values.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'title'  },'name': 'title','label': 'Title*','error': __context.values.errors.title,'value': __context.values.data.title,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'title'  },ww : { 'name' : 'title' ,'label' : 'Title*' ,'error' : __context.values.errors.title ,'value' : __context.values.data.title ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'title'  },'name': 'title','label': 'Title*','error': __context.values.errors.title,'value': __context.values.data.title,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -99,20 +99,20 @@ __this.widget(new Row({}, [
         __document.createTextNode('Starts')
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
-__this.widget(new Column({ww : { 'span' : 8  }}, [
+__this.widget(new Column({'span': 8}, [
 
-        __this.widget(new DateField({wml : { 'id' : 'startDate'  },ww : { 'className' : 'start-date -block' ,'placeholder' : 'YYYY-MM-DD' ,'name' : 'startDate' ,'value' : __context.values.start.date() ,'onChange' : __context.values.start.onChange  }}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : 'startDate'  },ww : { 'className' : 'start-date -block' ,'placeholder' : 'YYYY-MM-DD' ,'name' : 'startDate' ,'value' : __context.values.start.date() ,'onChange' : __context.values.start.onChange  }})
-     ]),<__wml.Attrs>{ww : { 'span' : 8  }}),
-__this.widget(new Column({ww : { 'span' : 4  }}, [
-
-        __this.widget(new DropList({wml : { 'id' : 'startTime'  },ww : { 'name' : 'startTime' ,'className' : 'start-time' ,'value' : __context.values.start.time() ,'options' : __context.values.start.timeOptions ,'onSelect' : __context.values.start.onChange  }}, [
+        __this.widget(new DateField({wml : { 'id' : 'startDate'  },'className': 'start-date -block','placeholder': 'YYYY-MM-DD','name': 'startDate','value': __context.values.start.date(),'onChange': __context.values.start.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'startTime'  },ww : { 'name' : 'startTime' ,'className' : 'start-time' ,'value' : __context.values.start.time() ,'options' : __context.values.start.timeOptions ,'onSelect' : __context.values.start.onChange  }})
-     ]),<__wml.Attrs>{ww : { 'span' : 4  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'startDate'  },'className': 'start-date -block','placeholder': 'YYYY-MM-DD','name': 'startDate','value': __context.values.start.date(),'onChange': __context.values.start.onChange})
+     ]),<__wml.Attrs>{'span': 8}),
+__this.widget(new Column({'span': 4}, [
+
+        __this.widget(new DropList({wml : { 'id' : 'startTime'  },'name': 'startTime','className': 'start-time','value': __context.values.start.time(),'options': __context.values.start.timeOptions,'onSelect': __context.values.start.onChange}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'startTime'  },'name': 'startTime','className': 'start-time','value': __context.values.start.time(),'options': __context.values.start.timeOptions,'onSelect': __context.values.start.onChange})
+     ]),<__wml.Attrs>{'span': 4})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
@@ -123,60 +123,60 @@ __this.widget(new Row({}, [
         __document.createTextNode('Ends')
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
-__this.widget(new Column({ww : { 'span' : 8  }}, [
+__this.widget(new Column({'span': 8}, [
 
-        __this.widget(new DateField({wml : { 'id' : 'endDate'  },ww : { 'className' : 'start-date -block' ,'placeholder' : 'YYYY-MM-DD' ,'name' : 'endDate' ,'value' : __context.values.end.date() ,'onChange' : __context.values.end.onChange  }}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : 'endDate'  },ww : { 'className' : 'start-date -block' ,'placeholder' : 'YYYY-MM-DD' ,'name' : 'endDate' ,'value' : __context.values.end.date() ,'onChange' : __context.values.end.onChange  }})
-     ]),<__wml.Attrs>{ww : { 'span' : 8  }}),
-__this.widget(new Column({ww : { 'span' : 4  }}, [
-
-        __this.widget(new DropList({wml : { 'id' : 'endTime'  },ww : { 'name' : 'endTime' ,'className' : 'start-time' ,'value' : __context.values.end.time() ,'options' : __context.values.end.timeOptions ,'onSelect' : __context.values.end.onChange  }}, [
+        __this.widget(new DateField({wml : { 'id' : 'endDate'  },'className': 'start-date -block','placeholder': 'YYYY-MM-DD','name': 'endDate','value': __context.values.end.date(),'onChange': __context.values.end.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'endTime'  },ww : { 'name' : 'endTime' ,'className' : 'start-time' ,'value' : __context.values.end.time() ,'options' : __context.values.end.timeOptions ,'onSelect' : __context.values.end.onChange  }})
-     ]),<__wml.Attrs>{ww : { 'span' : 4  }}),
+     ]),<__wml.Attrs>{wml : { 'id' : 'endDate'  },'className': 'start-date -block','placeholder': 'YYYY-MM-DD','name': 'endDate','value': __context.values.end.date(),'onChange': __context.values.end.onChange})
+     ]),<__wml.Attrs>{'span': 8}),
+__this.widget(new Column({'span': 4}, [
+
+        __this.widget(new DropList({wml : { 'id' : 'endTime'  },'name': 'endTime','className': 'start-time','value': __context.values.end.time(),'options': __context.values.end.timeOptions,'onSelect': __context.values.end.onChange}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'id' : 'endTime'  },'name': 'endTime','className': 'start-time','value': __context.values.end.time(),'options': __context.values.end.timeOptions,'onSelect': __context.values.end.onChange})
+     ]),<__wml.Attrs>{'span': 4}),
 __this.widget(new Column({}, [
 
         __this.widget(new Label({}, [
 
         __document.createTextNode('All day event? ')
      ]),<__wml.Attrs>{}),
-__this.widget(new Checkbox({wml : { 'id' : 'allDay'  },ww : { 'name' : 'allDay' ,'value' : __context.values.data.allDay ,'onChange' : __context.values.onChange  }}, [
+__this.widget(new Checkbox({wml : { 'id' : 'allDay'  },'name': 'allDay','value': __context.values.data.allDay,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'allDay'  },ww : { 'name' : 'allDay' ,'value' : __context.values.data.allDay ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'allDay'  },'name': 'allDay','value': __context.values.data.allDay,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'host'  },ww : { 'name' : 'host' ,'label' : 'Host' ,'error' : __context.values.errors.host ,'value' : __context.values.data.host ,'onChange' : __context.values.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'host'  },'name': 'host','label': 'Host','error': __context.values.errors.host,'value': __context.values.data.host,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'host'  },ww : { 'name' : 'host' ,'label' : 'Host' ,'error' : __context.values.errors.host ,'value' : __context.values.data.host ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'host'  },'name': 'host','label': 'Host','error': __context.values.errors.host,'value': __context.values.data.host,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'location'  },ww : { 'name' : 'location' ,'label' : 'Location' ,'error' : __context.values.errors.location ,'value' : __context.values.data.location ,'onChange' : __context.values.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'location'  },'name': 'location','label': 'Location','error': __context.values.errors.location,'value': __context.values.data.location,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'location'  },ww : { 'name' : 'location' ,'label' : 'Location' ,'error' : __context.values.errors.location ,'value' : __context.values.data.location ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'location'  },'name': 'location','label': 'Location','error': __context.values.errors.location,'value': __context.values.data.location,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'url'  },ww : { 'name' : 'url' ,'label' : 'Url' ,'error' : __context.values.errors.url ,'value' : __context.values.data.url ,'onChange' : __context.values.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'url'  },'name': 'url','label': 'Url','error': __context.values.errors.url,'value': __context.values.data.url,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'url'  },ww : { 'name' : 'url' ,'label' : 'Url' ,'error' : __context.values.errors.url ,'value' : __context.values.data.url ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'url'  },'name': 'url','label': 'Url','error': __context.values.errors.url,'value': __context.values.data.url,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [

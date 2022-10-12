@@ -1,0 +1,74 @@
+{% import (GridLayout, Row, Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+
+{% import (HeadView) from "@devcarib/views/lib/common/head" %}
+
+{% import (LoginFormView) from "./form" %}
+
+{# LoginView provides the view for the login page. #}
+{% view LoginView where
+ 
+  title: String,
+
+  styles: String[],
+
+  auth.failed: Boolean,
+
+  auth.message: String,
+
+  auth.credentials.email?: String,
+
+  csrfToken: String
+
+%}
+
+  <html lang="en" dir="ltr">
+
+    {{ <HeadView({ title = "Login" })> }}
+
+    <body>
+
+      <GridLayout id="main">
+
+        <Row>
+
+          <Column span=4 offset=4>
+
+            <Row>
+
+              <Column>
+
+                {% if @auth.failed %}
+
+                  <div class="ww-alert -error" style="text-align:center">
+
+                    {{ @auth.message | text }}
+
+                  </div>
+
+                {% endif %}
+
+             </Column>
+
+            </Row>
+
+            <Row>
+
+              <Column>
+
+                <h3>Log into Converse</h3>
+
+                {{ <LoginFormView(@)> }}
+
+              </Column>
+
+            </Row>
+
+          </Column>
+
+      </Row>
+
+    </GridLayout>
+            
+  </body>
+
+</html>

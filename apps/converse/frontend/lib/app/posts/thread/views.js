@@ -53,7 +53,7 @@ class PostThreadView {
         this.template = (__this) => {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({ ww: { 'span': 7, 'offset': 1 } }, [
+                    __this.widget(new grid_1.Column({ 'span': 7, 'offset': 1 }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('div', { 'class': 'converse-post-thread-header' }, [
@@ -79,8 +79,8 @@ class PostThreadView {
                                 __this.widget(new editor_1.PostEditor({ 'notitle': true, 'value': __context.values.comment.data, 'errors': __context.values.comment.errors, 'onChange': __context.values.comment.onChange, 'onPost': __context.values.comment.onPost }, []), { 'notitle': true, 'value': __context.values.comment.data, 'errors': __context.values.comment.errors, 'onChange': __context.values.comment.onChange, 'onPost': __context.values.comment.onPost })
                             ]), {})
                         ]), {})
-                    ]), { ww: { 'span': 7, 'offset': 1 } }),
-                    __this.widget(new grid_1.Column({ ww: { 'span': 3 } }, [
+                    ]), { 'span': 7, 'offset': 1 }),
+                    __this.widget(new grid_1.Column({ 'span': 3 }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data }, []), { wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data })
@@ -96,7 +96,7 @@ class PostThreadView {
                                 __this.widget(new rank_1.JobRankPanel({ wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data })
                             ]), {})
                         ]), {})
-                    ]), { ww: { 'span': 3 } })
+                    ]), { 'span': 3 })
                 ]), {})
             ]), {});
         };

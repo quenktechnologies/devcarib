@@ -81,7 +81,7 @@ export class JobFormAppView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
+        __this.widget(new Column({'span': 6,'offset': 3}, [
 
         __this.widget(new Row({}, [
 
@@ -89,10 +89,10 @@ export class JobFormAppView  implements __wml.View {
 
         __this.node('div', <__wml.Attrs>{'class': 'back-link-container'}, [
 
-        __this.widget(new Link({ww : { 'className' : 'back-link' ,'text' : '← Back to Listings' ,'href' : '/'  }}, [
+        __this.widget(new Link({'className': 'back-link','text': '← Back to Listings','href': '/'}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : 'back-link' ,'text' : '← Back to Listings' ,'href' : '/'  }})
+     ]),<__wml.Attrs>{'className': 'back-link','text': '← Back to Listings','href': '/'})
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
@@ -124,10 +124,10 @@ __this.widget(new Row({}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'preview-button-container'}, [
 
-        __this.widget(new Button({wml : { 'id' : __context.values.buttons.preview.id  },ww : { 'disabled' : true  ,'className' : 'preview-button -primary -large' ,'text' : 'Preview' ,'onClick' : __context.values.buttons.preview.click  }}, [
+        __this.widget(new Button({wml : { 'id' : __context.values.buttons.preview.id  },'disabled': true ,'className': 'preview-button -primary -large','text': 'Preview','onClick': __context.values.buttons.preview.click}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.buttons.preview.id  },ww : { 'disabled' : true  ,'className' : 'preview-button -primary -large' ,'text' : 'Preview' ,'onClick' : __context.values.buttons.preview.click  }})
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.buttons.preview.id  },'disabled': true ,'className': 'preview-button -primary -large','text': 'Preview','onClick': __context.values.buttons.preview.click})
      ]),
 __this.node('p', <__wml.Attrs>{'class': 'required-note'}, [
 
@@ -138,7 +138,7 @@ __this.node('p', <__wml.Attrs>{'class': 'required-note'}, [
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
+     ]),<__wml.Attrs>{'span': 6,'offset': 3})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 

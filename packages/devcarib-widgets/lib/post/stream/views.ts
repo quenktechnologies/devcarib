@@ -75,7 +75,7 @@ export class PostStreamView  implements __wml.View {
 
        
 
-           return __this.widget(new ListLayout({ww : { 'className' : __context.values.className  }}, [
+           return __this.widget(new ListLayout({'className': __context.values.className}, [
 
         ...__forIn (__context.values.data, (post , _$$i, _$$all)=> 
 ([
@@ -84,10 +84,10 @@ export class PostStreamView  implements __wml.View {
 
         __this.node('h3', <__wml.Attrs>{'class': 'devcarib-post-stream__title'}, [
 
-        __this.widget(new Link({ww : { 'text' : post.title ,'href' : __context.values.getPostHref(post) ,'onClick' : __context.values.onClick(Number(post.id))  }}, [
+        __this.widget(new Link({'text': post.title,'href': __context.values.getPostHref(post),'onClick': __context.values.onClick(Number(post.id))}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : post.title ,'href' : __context.values.getPostHref(post) ,'onClick' : __context.values.onClick(Number(post.id))  }})
+     ]),<__wml.Attrs>{'text': post.title,'href': __context.values.getPostHref(post),'onClick': __context.values.onClick(Number(post.id))})
      ]),
 __this.widget(new PostMetadata({'data': post}, [
 
@@ -96,7 +96,7 @@ __this.widget(new PostMetadata({'data': post}, [
      ]),<__wml.Attrs>{})
      ]), 
 ()=> ([]))
-     ]),<__wml.Attrs>{ww : { 'className' : __context.values.className  }});
+     ]),<__wml.Attrs>{'className': __context.values.className});
 
        }
 

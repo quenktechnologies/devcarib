@@ -1,0 +1,23 @@
+{% import (HeadView) from "@devcarib/views/lib/common/head" %}
+
+{% let css:String = "/converse/assets/css/app.css" %}
+{% let title:String = "Deverse" %}
+
+{# UserView is index view for authenticated users. #}
+{% view UserView (Void) %}
+
+ <html>
+
+  {{ <HeadView({title=title, noSite=true, styles=[css]})> }}
+
+  <body>
+  
+    <div id="dialogs"/>
+
+    <main id="main"/>
+
+    <script src="/converse/assets/js/app.js"/>
+
+  </body>
+
+</html>

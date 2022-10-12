@@ -40,7 +40,7 @@ exports.invitesCtrl = new api_1.ApiController(invite_1.InviteModel.getInstance);
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `r`,
     'app': { 'dirs': { 'self': `/apps/converse/build/r` },
-        'filters': [dotdot.checkAuth(true), devcaribServerLibFiltersCheck.checkBody(converseChecks.checksAvailable, converseChecks.partialChecksAvailable, devcaribCommonLibError.templates), devcaribServerLibFiltersBody.fromParams, devcaribServerLibFiltersAudit.ensureOwner, devcaribServerLibFiltersQuery.compile({ 'policies': converseFilterPolicies.policiesEnabled,
+        'filters': [dotdot.ensureAuthXHR, devcaribServerLibFiltersCheck.checkBody(converseChecks.checksAvailable, converseChecks.partialChecksAvailable, devcaribCommonLibError.templates), devcaribServerLibFiltersBody.fromParams, devcaribServerLibFiltersAudit.ensureOwner, devcaribServerLibFiltersQuery.compile({ 'policies': converseFilterPolicies.policiesEnabled,
                 'fields': converseFields.fields }), devcaribServerLibFiltersAudit.auditWrite(`user`)],
         'routes': //@ts-ignore: 6133
         ($module) => {
@@ -98,6 +98,12 @@ const template = ($app) => ({ 'id': `r`,
                 path: '/posts/:post/comments',
                 filters: [exports.commentsCtrl.search.bind(exports.commentsCtrl)], tags: { search: `comment`,
                     query: `post:{params.post}` }
+            });
+            $routes.push({
+                method: 'post',
+                path: '/posts/:post/comments',
+                filters: [exports.commentsCtrl.create.bind(exports.commentsCtrl)], tags: { model: `comment`,
+                    params: `post` }
             });
             $routes.push({
                 method: 'patch',

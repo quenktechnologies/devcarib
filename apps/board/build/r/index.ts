@@ -37,7 +37,7 @@ export const jobsCtrl = new ApiController(JobModel.getInstance);
 export const template = ($app: App): Template => (
  {'id': `r`,
 'app': {'dirs': {'self': `/apps/board/build/r`},
-'filters': [dotdotDotdotDotdotConverseBuild.checkAuth(true),devcaribServerLibFiltersCheck.checkBody(boardChecks.checksAvailable,boardChecks.partialChecksAvailable,devcaribCommonLibError.templates),devcaribServerLibFiltersBody.fromParams,devcaribServerLibFiltersAudit.ensureOwner,devcaribServerLibFiltersQuery.compile({'policies': boardFilterPolicies.policiesEnabled,
+'filters': [dotdotDotdotDotdotConverseBuild.ensureAuthXHR,devcaribServerLibFiltersCheck.checkBody(boardChecks.checksAvailable,boardChecks.partialChecksAvailable,devcaribCommonLibError.templates),devcaribServerLibFiltersBody.fromParams,devcaribServerLibFiltersAudit.ensureOwner,devcaribServerLibFiltersQuery.compile({'policies': boardFilterPolicies.policiesEnabled,
 'fields': boardFields.fields}),devcaribServerLibFiltersAudit.auditWrite(`user`)],
 'routes': //@ts-ignore: 6133
 ($module:Module) => {

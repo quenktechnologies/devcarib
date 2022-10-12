@@ -10,7 +10,8 @@ import {
     SaveFailed,
     SaveOk
 } from '@quenk/jouvert/lib/app/scene/form';
-import { Paths, RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
+import { Model } from '@quenk/jouvert/lib/app/model';
+import { Paths } from '@quenk/jouvert/lib/app/remote/model';
 import { OnSaveFailed } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { Close } from '@quenk/jouvert/lib/app/service/display';
 
@@ -31,11 +32,9 @@ export abstract class DevCaribRemoteForm<T extends Object, M>
     DevCaribForm<T, M> {
 
     /**
-     * model used to save the form data.
-     *
-     * Use getModel() when instantiating.
+     * model used to save the form data to the remote collection.
      */
-    abstract model: RemoteModel<T>;
+    abstract model: Model<T>;
 
     /**
      * values for the FormScene's view.
@@ -55,9 +54,10 @@ export abstract class DevCaribRemoteForm<T extends Object, M>
      *
      * A handler is installed by default to handle the 409 "Conflict" response.
      */
-    getModel(paths: Paths): RemoteModel<T> {
+    getModel(paths: Paths): Model<T> {
 
-        return <RemoteModel<T>>this.app.getModel(paths,
+        //XXX: This method is to be removed eventually.
+        return <any>this.app.getModel(paths,
             new OnSaveFailed(this));
 
     }
@@ -140,3 +140,8 @@ export abstract class DevCaribRemoteForm<T extends Object, M>
     }
 
 }
+
+export const defaultHandlers =
+    <T extends Object, M>(form: DevCaribRemoteForm<T, M>) => [
+        new OnSaveFailed(form)
+    ];

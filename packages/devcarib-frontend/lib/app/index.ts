@@ -90,10 +90,10 @@ export abstract class DevCarib extends Jouvert {
     getModel<T extends Object>(
         paths: Paths,
         handler: CompleteHandlerSpec<T> = [],
-        context: Object = {}
+        _context: Object = {}
     ) {
 
-        return this.models.create(paths, handler, context);
+        return this.models.create(paths, handler);
 
     }
 
@@ -124,10 +124,9 @@ export abstract class DevCarib extends Jouvert {
     }
 
     /**
-     * run puts up the applications base view and spawns all the needed service
-     * actors for routing, remote requests etc.
+     * init spawns all the services needed by the application
      */
-    run() {
+    init() {
 
         // TODO: Replace this with library calls once available.
         let viewDelegate = new HTMLElementViewDelegate(this.main);
@@ -169,10 +168,18 @@ export abstract class DevCarib extends Jouvert {
 
         });
 
+    }
+
+    /**
+     * run the application.
+     */
+    run() {
+
+        this.init();
+
         this.router.start();
 
         setTimeout(() => this.router.handleEvent(new Event('hashchanged')), 100);
 
     }
-
 }

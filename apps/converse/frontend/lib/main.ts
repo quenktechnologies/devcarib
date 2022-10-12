@@ -5,4 +5,4 @@ window.system = Converse.create(
     <HTMLElement>document.getElementById('dialogs')
 );
 
-window.system.run();
+window.system.run().fork();

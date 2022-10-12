@@ -80,30 +80,30 @@ export class CreateInviteDialogView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'name'  },ww : { 'name' : 'name' ,'label' : 'Name*' ,'error' : __context.values.errors.name ,'value' : __context.values.data.name ,'onChange' : __context.values.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'name'  },'name': 'name','label': 'Name*','error': __context.values.errors.name,'value': __context.values.data.name,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'name'  },ww : { 'name' : 'name' ,'label' : 'Name*' ,'error' : __context.values.errors.name ,'value' : __context.values.data.name ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'name'  },'name': 'name','label': 'Name*','error': __context.values.errors.name,'value': __context.values.data.name,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'email'  },ww : { 'name' : 'email' ,'label' : 'Email*' ,'value' : __context.values.data.email ,'error' : __context.values.errors.email ,'onChange' : __context.values.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'email'  },'name': 'email','label': 'Email*','value': __context.values.data.email,'error': __context.values.errors.email,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'email'  },ww : { 'name' : 'email' ,'label' : 'Email*' ,'value' : __context.values.data.email ,'error' : __context.values.errors.email ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'email'  },'name': 'email','label': 'Email*','value': __context.values.data.email,'error': __context.values.errors.email,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'message'  },ww : { 'name' : 'message' ,'rows' : 10 ,'placeholder' : 'Message (Optional)' ,'error' : __context.values.errors.message ,'value' : __context.values.data.message ,'onChange' : __context.values.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'message'  },'name': 'message','rows': 10,'placeholder': 'Message (Optional)','error': __context.values.errors.message,'value': __context.values.data.message,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'message'  },ww : { 'name' : 'message' ,'rows' : 10 ,'placeholder' : 'Message (Optional)' ,'error' : __context.values.errors.message ,'value' : __context.values.data.message ,'onChange' : __context.values.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'message'  },'name': 'message','rows': 10,'placeholder': 'Message (Optional)','error': __context.values.errors.message,'value': __context.values.data.message,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});

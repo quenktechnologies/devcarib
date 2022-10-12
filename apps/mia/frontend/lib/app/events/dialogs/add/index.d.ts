@@ -8,7 +8,7 @@ import { AddEventDialogView } from './views';
 export declare class AddEventDialog extends DevCaribDialogRemoteForm<Event, void> {
     name: string;
     view: AddEventDialogView;
-    model: import("@quenk/jouvert/lib/app/remote/model").RemoteModel<Event>;
+    model: import("@quenk/jouvert/lib/app/model").Model<Event>;
     value: Event;
     values: {
         data: Event;

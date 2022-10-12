@@ -4,7 +4,7 @@ exports.ConverseView = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
-const nav_bar_1 = require("@quenk/wml-widgets/lib/layout/nav-bar");
+const action_bar_1 = require("@quenk/wml-widgets/lib/layout/action-bar");
 ;
 const account_dropdown_1 = require("./account-dropdown");
 ;
@@ -40,9 +40,9 @@ class ConverseView {
         this.tree = __document.createElement('div');
         this.template = (__this) => {
             return __this.node('div', { wml: { 'id': 'main' } }, [
-                __this.widget(new nav_bar_1.NavBar({ 'className': 'converse-navbar', 'links': __context.values.header.links }, [
+                __this.widget(new action_bar_1.ActionBar({ 'className': 'converse-navbar' }, [
                     __this.registerView(new account_dropdown_1.AccountDropDownView(__context)).render()
-                ]), { 'className': 'converse-navbar', 'links': __context.values.header.links }),
+                ]), { 'className': 'converse-navbar' }),
                 __this.node('div', { wml: { 'id': 'content' }, 'id': 'content' }, [])
             ]);
         };

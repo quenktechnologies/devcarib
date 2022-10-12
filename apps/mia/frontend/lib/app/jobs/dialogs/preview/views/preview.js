@@ -43,7 +43,7 @@ class JobPreviewDialogView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.widget(new modal_1.Modal({ ww: { 'className': '-large' } }, [
+            return __this.widget(new modal_1.Modal({ 'className': '-large' }, [
                 __this.widget(new modal_1.ModalHeader({}, [
                     text(__context.values.data.company)
                 ]), {}),
@@ -69,10 +69,10 @@ class JobPreviewDialogView {
                     ]), {})
                 ]), {}),
                 __this.widget(new modal_1.ModalFooter({}, [
-                    __this.widget(new button_1.Button({ ww: { 'className': '-primary', 'onClick': __context.values.edit, 'text': 'Edit' } }, []), { ww: { 'className': '-primary', 'onClick': __context.values.edit, 'text': 'Edit' } }),
-                    __this.widget(new button_1.Button({ ww: { 'onClick': __context.values.close, 'text': 'Close' } }, []), { ww: { 'onClick': __context.values.close, 'text': 'Close' } })
+                    __this.widget(new button_1.Button({ 'className': '-primary', 'onClick': __context.values.edit, 'text': 'Edit' }, []), { 'className': '-primary', 'onClick': __context.values.edit, 'text': 'Edit' }),
+                    __this.widget(new button_1.Button({ 'onClick': __context.values.close, 'text': 'Close' }, []), { 'onClick': __context.values.close, 'text': 'Close' })
                 ]), {})
-            ]), { ww: { 'className': '-large' } });
+            ]), { 'className': '-large' });
         };
     }
     registerView(v) {

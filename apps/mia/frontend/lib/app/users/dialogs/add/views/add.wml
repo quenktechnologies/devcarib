@@ -13,11 +13,11 @@
 
       <TextField
        wml:id="name"
-       ww:name="name"
-       ww:label="Name*"
-       ww:error={{@values.errors.name}}
-       ww:value={{@values.data.name}}
-       ww:onChange={{@values.onChange}} />
+       name="name"
+       label="Name*"
+       error={{@values.errors.name}}
+       value={{@values.data.name}}
+       onChange={{@values.onChange}} />
 
     </Column>
 
@@ -29,11 +29,11 @@
 
       <TextField
        wml:id="username"
-       ww:name="username"
-       ww:label="Username*"
-       ww:value={{@values.data.username}}
-       ww:error={{@values.errors.username}}
-       ww:onChange={{@values.onChange}} />
+       name="username"
+       label="Username*"
+       value={{@values.data.username}}
+       error={{@values.errors.username}}
+       onChange={{@values.onChange}} />
 
     </Column>
 
@@ -45,11 +45,11 @@
 
       <TextField
        wml:id="password"
-       ww:name="password"
-       ww:label="Password*"
-       ww:error={{@values.errors.password}}
-       ww:value={{@values.data.password}}
-       ww:onChange={{@values.onChange}} />
+       name="password"
+       label="Password*"
+       error={{@values.errors.password}}
+       value={{@values.data.password}}
+       onChange={{@values.onChange}} />
 
     </Column>
 
@@ -63,10 +63,10 @@
 
       <ButtonSelect
        wml:id="status"
-       ww:name="status"
-       ww:options={{@values.status.options}}
-       ww:value={{@values.data.status}}
-       ww:onChange={{@values.onChange}} />
+       name="status"
+       options={{@values.status.options}}
+       value={{@values.data.status}}
+       onChange={{@values.onChange}} />
 
     </Column>
 

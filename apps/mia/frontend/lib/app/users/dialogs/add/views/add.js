@@ -44,17 +44,17 @@ class AddUserDialogView {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'name' }, ww: { 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'name' }, ww: { 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange } })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'name' }, 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'name' }, 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'username' }, ww: { 'name': 'username', 'label': 'Username*', 'value': __context.values.data.username, 'error': __context.values.errors.username, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'username' }, ww: { 'name': 'username', 'label': 'Username*', 'value': __context.values.data.username, 'error': __context.values.errors.username, 'onChange': __context.values.onChange } })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'username' }, 'name': 'username', 'label': 'Username*', 'value': __context.values.data.username, 'error': __context.values.errors.username, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'username' }, 'name': 'username', 'label': 'Username*', 'value': __context.values.data.username, 'error': __context.values.errors.username, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'password' }, ww: { 'name': 'password', 'label': 'Password*', 'error': __context.values.errors.password, 'value': __context.values.data.password, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'password' }, ww: { 'name': 'password', 'label': 'Password*', 'error': __context.values.errors.password, 'value': __context.values.data.password, 'onChange': __context.values.onChange } })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'password' }, 'name': 'password', 'label': 'Password*', 'error': __context.values.errors.password, 'value': __context.values.data.password, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'password' }, 'name': 'password', 'label': 'Password*', 'error': __context.values.errors.password, 'value': __context.values.data.password, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
@@ -64,7 +64,7 @@ class AddUserDialogView {
                                 __document.createTextNode('Status:')
                             ])
                         ]),
-                        __this.widget(new button_select_1.ButtonSelect({ wml: { 'id': 'status' }, ww: { 'name': 'status', 'options': __context.values.status.options, 'value': __context.values.data.status, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'status' }, ww: { 'name': 'status', 'options': __context.values.status.options, 'value': __context.values.data.status, 'onChange': __context.values.onChange } })
+                        __this.widget(new button_select_1.ButtonSelect({ wml: { 'id': 'status' }, 'name': 'status', 'options': __context.values.status.options, 'value': __context.values.data.status, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'status' }, 'name': 'status', 'options': __context.values.status.options, 'value': __context.values.data.status, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {})
             ]), {});

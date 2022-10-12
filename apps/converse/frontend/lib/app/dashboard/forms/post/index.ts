@@ -1,14 +1,15 @@
-import * as api from '../../../api';
-
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Record } from '@quenk/noni/lib/data/record';
 
 import { Event } from '@quenk/wml-widgets/lib/control';
 
+import {
+    DevCaribRemoteForm
+} from '@devcarib/frontend/lib/app/scene/form/remote';
+
 import { Post } from '@converse/types/lib/post';
 
-import { DevCaribRemoteForm } from '@devcarib/frontend/lib/app/scene/form/remote';
-
+import { RemoteModels } from '../../../remote/models';
 import { CreatePostFormView } from './views';
 
 /**
@@ -20,7 +21,8 @@ export class CreatePostForm extends DevCaribRemoteForm<Post, void> {
 
     view = new CreatePostFormView(this);
 
-    model = this.getModel(api.posts);
+    model = RemoteModels.create<Post>('post',
+        this.app.services['remote.background'], this);
 
     values = {
 

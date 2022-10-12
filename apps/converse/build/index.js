@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.template = exports.checkAuth = exports.invites = exports.auth = exports.ConverseAuthController = void 0;
+exports.template = exports.ensureAuthXHR = exports.invites = exports.auth = exports.ConverseAuthController = void 0;
 const dotR = require("./r");
 //@ts-ignore: 6133
 const module_1 = require("@quenk/tendril/lib/app/module");
@@ -8,20 +8,18 @@ const future_1 = require("@quenk/noni/lib/control/monad/future");
 const record_1 = require("@quenk/noni/lib/data/record");
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
 const csrf_token_1 = require("@quenk/tendril/lib/app/boot/stage/csrf-token");
+const controller_1 = require("@quenk/server/lib/app/auth/controller");
+const authenticator_1 = require("@quenk/server/lib/app/auth/authenticator");
 const login_1 = require("@converse/validators/lib/login");
-const converse_1 = require("@devcarib/views/lib/converse");
-const login_2 = require("@devcarib/views/lib/converse/login");
 const user_1 = require("@converse/models/lib/user");
-const auth_1 = require("@devcarib/server/lib/controllers/auth");
-const auth_2 = require("@devcarib/server/lib/auth");
 const db_1 = require("@devcarib/server/lib/db");
 const password_1 = require("@devcarib/server/lib/data/password");
 const datetime_1 = require("@devcarib/common/lib/data/datetime");
+const views_1 = require("./views");
+const user_2 = require("./views/user");
+const login_2 = require("./views/login");
 const invites_1 = require("./invites");
-const TITLE = 'Converse';
-const ROUTE_INDEX = '/converse';
-const ROUTE_LOGIN = '/converse/login';
-class ConverseAuthenticator extends auth_2.BaseAuthenticator {
+class ConverseAuthenticator extends authenticator_1.BaseAuthenticator {
     constructor() {
         super(...arguments);
         this.validate = login_1.validate;
@@ -48,12 +46,12 @@ class ConverseAuthenticator extends auth_2.BaseAuthenticator {
 /**
  * ConverseAuthController serves the endpoints for converse authentication.
  */
-class ConverseAuthController extends auth_1.AuthController {
+class ConverseAuthController extends controller_1.AuthController {
     constructor() {
         super(...arguments);
         this.views = {
-            index: () => new converse_1.IndexView({ title: TITLE }),
-            auth: (req, ctx) => new login_2.LoginView({
+            index: () => new user_2.UserView(),
+            form: (req, ctx) => new login_2.LoginView({
                 title: 'Caribbean Developers Job Board - Admin Login',
                 styles: [],
                 auth: (0, record_1.merge)(ctx, {
@@ -62,23 +60,29 @@ class ConverseAuthController extends auth_1.AuthController {
                 csrfToken: req.prs.getOrElse(csrf_token_1.PRS_CSRF_TOKEN, '')
             })
         };
-        this.urls = {
-            index: ROUTE_INDEX,
-            auth: ROUTE_LOGIN
-        };
         this.authenticator = new ConverseAuthenticator();
+    }
+    userNotDetected(req) {
+        //TODO: We should not need to specify all these properties here.
+        //Only csrfToken should be required.
+        return this.show(new views_1.IndexView({
+            auth: {
+                failed: false,
+                message: ''
+            },
+            csrfToken: req.prs.getOrElse(csrf_token_1.PRS_CSRF_TOKEN, '')
+        }));
     }
 }
 exports.ConverseAuthController = ConverseAuthController;
 exports.auth = new ConverseAuthController();
 exports.invites = new invites_1.InviteController();
-//XXX: Seems like there is a parser bug in jcon that won't let us specify
-// ..#auth.checkAuth(true)
-exports.checkAuth = exports.auth.checkAuth;
+exports.ensureAuthXHR = exports.auth.ensureAuthXHR;
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `converse`,
     'app': { 'dirs': { 'self': `/apps/converse/build`,
-            'public': [`../frontend/public`] },
+            'public': [`../public`, `../frontend/public`] },
+        'path': `/`,
         'modules': { 'r': dotR.template },
         'routes': //@ts-ignore: 6133
         ($module) => {

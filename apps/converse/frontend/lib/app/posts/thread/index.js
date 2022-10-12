@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostThread = void 0;
-const api = require("../../api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const response_1 = require("@quenk/jhr/lib/response");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
-const model_1 = require("@quenk/jouvert/lib/app/remote/model");
+const result_1 = require("@quenk/jouvert/lib/app/remote/model/handlers/result");
+const tag_1 = require("@quenk/jouvert/lib/app/remote/model/handlers/tag");
 const scene_1 = require("../../common/scene");
 const views_1 = require("./views");
-class AfterPostLoadComments extends model_1.GetHandler {
+class AfterPostLoadComments extends result_1.GetResultHandler {
     constructor(thread) {
         super();
         this.thread = thread;
@@ -17,7 +17,7 @@ class AfterPostLoadComments extends model_1.GetHandler {
         this.thread.loadComments();
     }
 }
-class AfterPostCommentReload extends model_1.CreateHandler {
+class AfterPostCommentReload extends result_1.CreateResultHandler {
     constructor(thread) {
         super();
         this.thread = thread;
@@ -51,7 +51,7 @@ class PostThread extends scene_1.ConverseScene {
                 data: {},
                 onEdit: (post) => {
                     this.wait(this.posts
-                        .update(this.values.post.data.id, post));
+                        .update(this.id, post));
                 }
             },
             posts: {
@@ -66,7 +66,7 @@ class PostThread extends scene_1.ConverseScene {
                 onEdit: (comment) => {
                     let target = this.values.comments.data.find(c => c.id === comment.id);
                     if (target) {
-                        this.wait(this.comment
+                        this.wait(this.comments
                             .update(comment.id, { body: comment.body }));
                     }
                 }
@@ -78,7 +78,7 @@ class PostThread extends scene_1.ConverseScene {
                 onChange: (e) => {
                     this.values.comment.data[e.name] = e.value;
                 },
-                onPost: () => this.wait(this.comments.create(this.values.comment.data))
+                onPost: () => this.wait(this.posts.createComment(this.id, this.values.comment.data))
             },
             jobs: {
                 id: 'jobs',
@@ -89,47 +89,64 @@ class PostThread extends scene_1.ConverseScene {
                 data: []
             }
         };
-        this.posts = this.app.getModel(api.posts, [
-            new handlers_1.AfterGetSetData(data => (0, future_1.doFuture)(function* () {
-                // @ts-ignore
-                let that = this;
-                if (data)
-                    that.values.post.data = data;
-                yield that.recentPosts.search({ sort: '-created_on', limit: 5 });
-                yield that.events.search({ sort: '-created_on', limit: 5 });
-                yield that.jobs.search({ sort: '-created_on', limit: 5 });
-                return future_1.voidPure;
-            }.bind(this))),
-            new handlers_1.OnCompleteShowData(this),
-            new AfterPostLoadComments(this)
-        ]);
-        this.comments = this.app.getModel(api.comments, [
-            new handlers_1.AfterSearchSetData(data => { this.values.comments.data = data; }),
-            new handlers_1.AfterSearchUpdateWidget(this.view, this.values.comments.id),
-            new AfterPostCommentReload(this),
+        this.posts = this.models.create('post', tag_1.TaggedHandler.create([
+            ['method', 'get', [
+                    new handlers_1.AfterGetSetData(data => {
+                        this.values.post.data = data;
+                        this.wait(this.loadSidebar());
+                    }),
+                    new handlers_1.OnCompleteShowData(this),
+                    new AfterPostLoadComments(this)
+                ]],
+            ['target', 'recentPosts', [
+                    new handlers_1.AfterSearchSetData(data => {
+                        this.values.posts.recent.data = data;
+                    }),
+                    new handlers_1.AfterSearchUpdateWidget(this.view, this.values.posts.recent.id)
+                ]],
+            ['method', 'getComments', [
+                    new handlers_1.AfterSearchSetData(data => { this.values.comments.data = data; }),
+                    new handlers_1.AfterSearchUpdateWidget(this.view, this.values.comments.id),
+                    new AfterPostCommentReload(this),
+                    new OnPatchCommentFailed(this)
+                ]],
+            ['method', 'createComment', [
+                    new AfterPostCommentReload(this),
+                ]]
+        ]));
+        this.comments = this.models.create('comment', [
             new OnPatchCommentFailed(this)
-        ], this.resume.request.params);
-        this.comment = this.app.getModel(api.comments, [
-            new OnPatchCommentFailed(this)
         ]);
-        this.recentPosts = this.app.getModel(api.posts, [
-            new handlers_1.AfterSearchSetData(data => { this.values.posts.recent.data = data; }),
-            new handlers_1.AfterSearchUpdateWidget(this.view, this.values.posts.recent.id)
-        ]);
-        this.jobs = this.app.getModel(api.jobs, [
+        this.jobs = this.models.create('job', [
             new handlers_1.AfterSearchSetData(data => { this.values.jobs.data = data; }),
             new handlers_1.AfterSearchUpdateWidget(this.view, this.values.jobs.id)
         ]);
-        this.events = this.app.getModel(api.events, [
+        this.events = this.models.create('event', [
             new handlers_1.AfterSearchSetData(data => { this.values.events.data = data; }),
             new handlers_1.AfterSearchUpdateWidget(this.view, this.values.events.id)
         ]);
     }
+    get id() {
+        return this.values.post.data.id;
+    }
     /**
-     * loadComments takes care of loading the comments.
+     * loadComments for the post.
      */
     loadComments() {
-        this.wait(this.comments.search({}));
+        this.wait(this.posts.getComments(this.resume.request.params.id));
+    }
+    loadSidebar() {
+        let that = this;
+        return (0, future_1.doFuture)(function* () {
+            yield that.posts.search({
+                $tags: { target: 'recentPosts' },
+                sort: '-created_on',
+                limit: 5
+            });
+            yield that.events.search({ sort: '-created_on', limit: 5 });
+            yield that.jobs.search({ sort: '-created_on', limit: 5 });
+            return future_1.voidPure;
+        });
     }
     run() {
         return this.posts.get(Number(this.resume.request.params.id));

@@ -8,19 +8,19 @@ const future_1 = require("@quenk/noni/lib/control/monad/future");
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
 const record_1 = require("@quenk/noni/lib/data/record");
 const csrf_token_1 = require("@quenk/tendril/lib/app/boot/stage/csrf-token");
+const controller_1 = require("@quenk/server/lib/app/auth/controller");
+const authenticator_1 = require("@quenk/server/lib/app/auth/authenticator");
 const login_1 = require("@mia/validators/lib/login");
 const admin_1 = require("@mia/models/lib/admin");
 const mia_1 = require("@devcarib/views/lib/mia");
 const login_2 = require("@devcarib/views/lib/mia/login");
-const auth_1 = require("@devcarib/server/lib/controllers/auth");
-const auth_2 = require("@devcarib/server/lib/auth");
 const db_1 = require("@devcarib/server/lib/db");
 const password_1 = require("@devcarib/server/lib/data/password");
 const datetime_1 = require("@devcarib/common/lib/data/datetime");
 const ROUTE_INDEX = '/mia';
 const ROUTE_LOGIN = '/mia/login';
 const TITLE = 'Mia';
-class MiaAuthenticator extends auth_2.BaseAuthenticator {
+class MiaAuthenticator extends authenticator_1.BaseAuthenticator {
     constructor() {
         super(...arguments);
         this.validate = login_1.validate;
@@ -45,12 +45,12 @@ class MiaAuthenticator extends auth_2.BaseAuthenticator {
 /**
  * MiaAuthController serves the endpoints for mia authentication.
  */
-class MiaAuthController extends auth_1.AuthController {
+class MiaAuthController extends controller_1.AuthController {
     constructor() {
         super(...arguments);
         this.views = {
             index: () => new mia_1.IndexView({ title: TITLE }),
-            auth: (req, ctx) => new login_2.LoginView({
+            form: (req, ctx) => new login_2.LoginView({
                 title: 'Caribbean Developers Job Board - Admin Login',
                 styles: [],
                 auth: (0, record_1.merge)(ctx, {
@@ -61,7 +61,7 @@ class MiaAuthController extends auth_1.AuthController {
         };
         this.urls = {
             index: ROUTE_INDEX,
-            auth: ROUTE_LOGIN
+            form: ROUTE_LOGIN
         };
         this.authenticator = new MiaAuthenticator();
         this.userSessionKey = 'admin';

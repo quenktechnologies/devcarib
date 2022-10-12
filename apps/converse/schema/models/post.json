@@ -10,7 +10,9 @@
 
         "search": "/r/posts",
 
-        "get": "/r/posts/{id}"
+        "get": "/r/posts/{id}",
+
+        "comments": "/r/posts/{id}/comments"
 
     },
 
@@ -19,6 +21,16 @@
         "@converse/types/lib/post": ["Post"],
 
         "rmodel:@converse/types/lib/comment": ["Comment"],
+
+        "rmodel:@quenk/jouvert/lib/app/model": ["Id"],
+
+        "rmodel:@quenk/noni/lib/control/monad/future": ["Future", "pure", "doFuture"],
+
+        "rmodel:@quenk/noni/lib/data/jsonx": ["Object"],
+
+        "rmodel:@quenk/noni/lib/data/string": ["interpolate"],
+
+        "rmodel:@quenk/jhr/lib/request": "request",
 
         "checks:@converse/validators/lib/post": ["validate", "validatePartial"]
 
@@ -109,15 +121,24 @@
 
     },
 
-    "methods": {
+    "rmodel:methods": {
+
+        "createComment": {
+
+            "type": "Future<Id>",
+
+            "parameters": ["id: Id", "data: Comment"]
+
+        },
 
         "getComments": {
 
-            "type": "future.Future<Comment[]>",
+            "type": "Future<Comment[]>",
 
-            "parameters": ["id: models.Id", "qry: jsonx.Object"]
+            "parameters": ["id: Id", "qry: Object={}"]
 
         }
+
 
     }
 

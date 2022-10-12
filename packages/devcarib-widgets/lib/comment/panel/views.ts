@@ -76,7 +76,7 @@ export class CommentPanelView  implements __wml.View {
 
        
 
-           return __this.widget(new Panel({ww : { 'className' : 'devcarib-comment-panel'  }}, [
+           return __this.widget(new Panel({'className': 'devcarib-comment-panel'}, [
 
         __this.widget(new PanelHeader({}, [
 
@@ -91,10 +91,10 @@ __this.node('div', <__wml.Attrs>{'class': 'devcarib-comment-panel__header-links'
         ...((__context.values.editable) ?
 (()=>([
 
-        __this.widget(new Link({ww : { 'text' : 'Edit' ,'onClick' : __context.values.editor.show  }}, [
+        __this.widget(new Link({'text': 'Edit','onClick': __context.values.editor.show}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Edit' ,'onClick' : __context.values.editor.show  }})
+     ]),<__wml.Attrs>{'text': 'Edit','onClick': __context.values.editor.show})
      ]))() :
 (()=>([]))())
      ])
@@ -104,7 +104,7 @@ __this.widget(new PanelBody({}, [
 
         unsafe (__context.values.data.body_html)
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-comment-panel'  }});
+     ]),<__wml.Attrs>{'className': 'devcarib-comment-panel'});
 
        }
 

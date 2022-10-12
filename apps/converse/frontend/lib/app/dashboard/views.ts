@@ -83,7 +83,7 @@ export class DashboardView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 3  }}, [
+        __this.widget(new Column({'span': 3}, [
 
         __this.widget(new Row({}, [
 
@@ -105,8 +105,8 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 3  }}),
-__this.widget(new Column({ww : { 'span' : 6  }}, [
+     ]),<__wml.Attrs>{'span': 3}),
+__this.widget(new Column({'span': 6}, [
 
         __this.widget(new Row({}, [
 
@@ -118,10 +118,10 @@ __this.widget(new Column({ww : { 'span' : 6  }}, [
 
         __document.createTextNode('Posts')
      ]),
-__this.widget(new Button({ww : { 'className' : 'converse-dashboard-post-button -primary' ,'text' : 'Create Post' ,'onClick' : __context.values.posts.create  }}, [
+__this.widget(new Button({'className': 'converse-dashboard-post-button -primary','text': 'Create Post','onClick': __context.values.posts.create}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : 'converse-dashboard-post-button -primary' ,'text' : 'Create Post' ,'onClick' : __context.values.posts.create  }})
+     ]),<__wml.Attrs>{'className': 'converse-dashboard-post-button -primary','text': 'Create Post','onClick': __context.values.posts.create})
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
@@ -145,8 +145,8 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{'total': __context.values.posts.pagination.total.pages,'current': __context.values.posts.pagination.current.page,'onChange': __context.values.posts.next})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 6  }}),
-__this.widget(new Column({ww : { 'span' : 3  }}, [
+     ]),<__wml.Attrs>{'span': 6}),
+__this.widget(new Column({'span': 3}, [
 
         __this.widget(new Row({}, [
 
@@ -158,7 +158,7 @@ __this.widget(new Column({ww : { 'span' : 3  }}, [
      ]),<__wml.Attrs>{wml : { 'id' : __context.values.popular.id  },'title': 'Popular','data': __context.values.popular.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 3  }})
+     ]),<__wml.Attrs>{'span': 3})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 

@@ -75,7 +75,7 @@ export class DevCaribDialogRemoteFormView <T extends JSONXObject ,M  >  implemen
 
        
 
-           return __this.widget(new Modal({ww : { 'className' : '-large'  }}, [
+           return __this.widget(new Modal({'className': '-large'}, [
 
         __this.widget(new ModalHeader({}, [
 
@@ -87,16 +87,16 @@ __this.widget(new ModalBody({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalFooter({}, [
 
-        __this.widget(new Button({ww : { 'text' : 'Close' ,'onClick' : () => __context.close()  }}, [
+        __this.widget(new Button({'text': 'Close','onClick': () => __context.close()}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Close' ,'onClick' : () => __context.close()  }}),
-__this.widget(new Button({ww : { 'text' : 'Save' ,'className' : '-primary' ,'onClick' : () => __context.save()  }}, [
+     ]),<__wml.Attrs>{'text': 'Close','onClick': () => __context.close()}),
+__this.widget(new Button({'text': 'Save','className': '-primary','onClick': () => __context.save()}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Save' ,'className' : '-primary' ,'onClick' : () => __context.save()  }})
+     ]),<__wml.Attrs>{'text': 'Save','className': '-primary','onClick': () => __context.save()})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'className' : '-large'  }});
+     ]),<__wml.Attrs>{'className': '-large'});
 
        }
 

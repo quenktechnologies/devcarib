@@ -76,16 +76,16 @@ export class AccountDropDownView  implements __wml.View {
 
        
 
-           return __this.widget(new DropDown({ww : { 'className' : 'converse-account-dropdown' ,'buttonText' : 'Account'  }}, [
+           return __this.widget(new DropDown({'className': 'converse-account-dropdown','buttonText': 'Account'}, [
 
         __this.widget(new Menu({}, [
 
         __this.widget(new Item({}, [
 
-        __this.widget(new Link({ww : { 'text' : 'Invite Friend' ,'onClick' : __context.values.header.invite  }}, [
+        __this.widget(new Link({'text': 'Invite Friend','onClick': __context.values.header.invite}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Invite Friend' ,'onClick' : __context.values.header.invite  }})
+     ]),<__wml.Attrs>{'text': 'Invite Friend','onClick': __context.values.header.invite})
      ]),<__wml.Attrs>{}),
 __this.widget(new Divider({}, [
 
@@ -93,13 +93,13 @@ __this.widget(new Divider({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new Item({}, [
 
-        __this.widget(new Link({ww : { 'text' : 'Log Out' ,'onClick' : __context.values.header.logout  }}, [
+        __this.widget(new Link({'text': 'Log Out','onClick': __context.values.header.logout}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Log Out' ,'onClick' : __context.values.header.logout  }})
+     ]),<__wml.Attrs>{'text': 'Log Out','onClick': __context.values.header.logout})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'className' : 'converse-account-dropdown' ,'buttonText' : 'Account'  }});
+     ]),<__wml.Attrs>{'className': 'converse-account-dropdown','buttonText': 'Account'});
 
        }
 

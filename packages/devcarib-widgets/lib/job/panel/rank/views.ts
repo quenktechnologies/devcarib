@@ -88,10 +88,10 @@ export class JobRankPanelView  implements __wml.View {
 
         __this.widget(new ListLayoutItem({}, [
 
-        __this.widget(new Link({ww : { 'className' : 'devcarib-job-rank-panel-title' ,'text' : job.title ,'href' : ('/jobs/' + job.id)  }}, [
+        __this.widget(new Link({'className': 'devcarib-job-rank-panel-title','text': job.title,'href': ('/jobs/' + job.id)}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-job-rank-panel-title' ,'text' : job.title ,'href' : ('/jobs/' + job.id)  }}),
+     ]),<__wml.Attrs>{'className': 'devcarib-job-rank-panel-title','text': job.title,'href': ('/jobs/' + job.id)}),
 __this.node('div', <__wml.Attrs>{'class': 'devcarib-job-rank-panel-company'}, [
 
         text (job.company)
@@ -108,10 +108,10 @@ __this.node('div', <__wml.Attrs>{'class': 'devcarib-job-rank-panel-company'}, [
         __this.node('div', <__wml.Attrs>{'class': 'devcarib-job-rank-panel-nojobs'}, [
 
         __document.createTextNode('\u000a\u000a        No jobs '),
-__this.widget(new Link({ww : { 'href' : '/jobs/post' ,'text' : 'create one'  }}, [
+__this.widget(new Link({'href': '/jobs/post','text': 'create one'}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'href' : '/jobs/post' ,'text' : 'create one'  }}),
+     ]),<__wml.Attrs>{'href': '/jobs/post','text': 'create one'}),
 __document.createTextNode('.\u000a\u000a      ')
      ])
      ]),<__wml.Attrs>{})

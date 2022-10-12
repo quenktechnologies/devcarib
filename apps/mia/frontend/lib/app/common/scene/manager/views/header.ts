@@ -83,10 +83,10 @@ export class ManagerHeader  implements __wml.View {
 ...((__context.add) ?
 (()=>([
 
-        __this.widget(new Button({ww : { 'text' : 'Add' ,'className' : '-primary' ,'onClick' : __context.add  }}, [
+        __this.widget(new Button({'text': 'Add','className': '-primary','onClick': __context.add}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Add' ,'className' : '-primary' ,'onClick' : __context.add  }})
+     ]),<__wml.Attrs>{'text': 'Add','className': '-primary','onClick': __context.add})
      ]))() :
 (()=>([]))())
      ]);

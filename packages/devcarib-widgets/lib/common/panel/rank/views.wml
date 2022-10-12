@@ -3,9 +3,9 @@
 
 {% view RankPanelView (RankPanel from ".") %}
 
-<Panel ww:className={{@values.className}}>
+<Panel className={{@values.className}}>
 
-  <PanelHeader ww:className="devcarib-rank-panel__header">
+  <PanelHeader className="devcarib-rank-panel__header">
 
     <h3>{{@values.title | text }}</h3>
 

@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkPartial = exports.check = exports.partialChecks = exports.checks = void 0;
 //@ts-ignore: 6133
-var async_1 = require("@quenk/preconditions/lib/async");
+const async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
-var record_1 = require("@quenk/preconditions/lib/async/record");
-var comment_1 = require("@converse/validators/lib/comment");
-var checks_1 = require("@devcarib/server/lib/data/checks");
+const record_1 = require("@quenk/preconditions/lib/async/record");
+const comment_1 = require("@converse/validators/lib/comment");
+const checks_1 = require("@devcarib/server/lib/data/checks");
 //@ts-ignore: 6133
-var _title = 'Comment';
+const _title = 'Comment';
 //@ts-ignore: 6133
-var _collection = 'comments';
+const _collection = 'comments';
 /**
  * checks for Comment provided as a map.
  */

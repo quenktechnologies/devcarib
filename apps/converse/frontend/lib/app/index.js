@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Converse = void 0;
-const api = require("./api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
+const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
 const app_1 = require("@devcarib/frontend/lib/app");
 const invite_1 = require("./dialogs/invite");
+const models_1 = require("./remote/models");
 const app_2 = require("./views/app");
 const routes_1 = require("./routes");
 /**
@@ -32,29 +33,32 @@ class Converse extends app_1.DevCarib {
         return new Converse(appNode, dialogNode);
     }
     logout() {
-        return confirm('Do you want to logout now?') ?
-            this.agent
-                .post('/converse/logout', {})
-                .chain(() => {
-                window.location.href = '/admin';
-                return (0, future_1.pure)(undefined);
-            }) :
-            (0, future_1.pure)(undefined);
+        let that = this;
+        return (0, future_1.doFuture)(function* () {
+            if (confirm('Do you want to logout now?')) {
+                yield that.agent.post('/logout', {});
+                window.location.href = '/';
+            }
+            return (0, future_1.pure)(undefined);
+        });
     }
     run() {
+        //XXX: For debugging;
+        this.vm.conf.log.level = 1000;
         let that = this;
-        let runSuper = () => super.run();
-        (0, future_1.doFuture)(function* () {
-            let res = yield that.agent.get(api.me.get);
-            if (res.code === 200) {
-                that.user = res.body.data;
-                runSuper();
-            }
-            else {
-                window.location.replace('/converse/login');
-            }
+        let init = () => super.init();
+        return (0, future_1.doFuture)(function* () {
+            init();
+            yield models_1.RemoteModels.create('user', that.services['remote.background'], that, [
+                new handlers_1.AfterGetSetData(data => {
+                    that.user = data;
+                    that.router.start();
+                    setTimeout(() => that.router.handleEvent(new Event('hashchanged')), 100);
+                }),
+                new handlers_1.OnNotFound(() => window.location.replace('login'))
+            ]).get('');
             return future_1.voidPure;
-        }).fork();
+        });
     }
 }
 exports.Converse = Converse;

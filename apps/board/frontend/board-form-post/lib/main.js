@@ -1,27 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.escape = exports.JobFormApp = void 0;
-var mark = require("@devcarib/server/lib/data/markdown");
-var timer_1 = require("@quenk/noni/lib/control/timer");
-var future_1 = require("@quenk/noni/lib/control/monad/future");
-var util_1 = require("@quenk/wml-widgets/lib/util");
-var feedback_1 = require("@quenk/wml-widgets/lib/control/feedback");
-var browser_1 = require("@quenk/jhr/lib/browser");
-var job_1 = require("@board/validators/lib/job");
-var payment_1 = require("@devcarib/common/lib/data/payment");
-var job_2 = require("@devcarib/common/lib/data/job");
-var app_1 = require("./views/app");
-var preview_1 = require("./views/preview");
-var finish_1 = require("./views/finish");
-var DELAY_job_VALIDATION = 250;
-var messages = {
+const mark = require("@devcarib/server/lib/data/markdown");
+const timer_1 = require("@quenk/noni/lib/control/timer");
+const future_1 = require("@quenk/noni/lib/control/monad/future");
+const util_1 = require("@quenk/wml-widgets/lib/util");
+const feedback_1 = require("@quenk/wml-widgets/lib/control/feedback");
+const browser_1 = require("@quenk/jhr/lib/browser");
+const job_1 = require("@board/validators/lib/job");
+const payment_1 = require("@devcarib/common/lib/data/payment");
+const job_2 = require("@devcarib/common/lib/data/job");
+const app_1 = require("./views/app");
+const preview_1 = require("./views/preview");
+const finish_1 = require("./views/finish");
+const DELAY_job_VALIDATION = 250;
+const messages = {
     notNull: '{name} is required.',
     minLength: '{name} must be at least {target} characters.',
     maxLength: '{name} must not be more than {target} characters.',
     isString: '{name} is invalid.',
     isNumber: '{name} is invalid.'
 };
-var escapeMap = {
+const escapeMap = {
     '&': '&amp;',
     '"': '&quot;',
     '\'': '&#39;',
@@ -35,9 +35,8 @@ var escapeMap = {
  * abuse. Additional measures should be put in place if the board's popularity
  * grows.
  */
-var JobFormApp = /** @class */ (function () {
-    function JobFormApp(node) {
-        var _this = this;
+class JobFormApp {
+    constructor(node) {
         this.node = node;
         this.view = new app_1.JobFormAppView(this);
         this.previewView = new preview_1.PreviewView(this);
@@ -62,172 +61,166 @@ var JobFormApp = /** @class */ (function () {
                     ]
                 },
                 payment_frequency: {
-                    options: payment_1.supportedPaymentFrequencies.map(function (value) {
-                        return ({ label: value, value: value });
-                    })
+                    options: payment_1.supportedPaymentFrequencies.map(value => ({ label: value, value }))
                 },
-                onChange: function (e) {
-                    var name = e.name, value = e.value;
+                onChange: (e) => {
+                    let { name, value } = e;
                     if (job_1.validators.hasOwnProperty(name)) {
-                        _this.values.job.data[name] = value;
-                        var eResult = job_1.validators[name](value);
+                        this.values.job.data[name] = value;
+                        let eResult = job_1.validators[name](value);
                         if (eResult.isLeft()) {
-                            var msg = eResult
+                            let msg = eResult
                                 .takeLeft()
-                                .explain(messages, { name: name });
-                            _this.setControlErrorMessage(name, msg);
+                                .explain(messages, { name });
+                            this.setControlErrorMessage(name, msg);
                         }
                         else {
-                            _this.values.job.data[name] = eResult.takeRight();
-                            _this.setControlOk(name);
+                            this.values.job.data[name] = eResult.takeRight();
+                            this.setControlOk(name);
                         }
-                        _this.delayedValidateJob(undefined);
+                        this.delayedValidateJob(undefined);
                     }
                     else {
-                        console.warn("Ignoring unknown field: \"".concat(name, "\""));
+                        console.warn(`Ignoring unknown field: "${name}"`);
                     }
                 },
-                onSelect: function (e) {
-                    _this.values.job.data[e.name] = e.value;
-                    _this.validateJob();
+                onSelect: (e) => {
+                    this.values.job.data[e.name] = e.value;
+                    this.validateJob();
                 }
             },
             preview: {
-                csp: "default-src:'none'; style-src 'self'",
+                csp: `default-src:'none'; style-src 'self'`,
                 sandbox: '',
                 srcdoc: ''
             },
             buttons: {
                 preview: {
                     id: 'preview-button',
-                    click: function () { return _this.showPreview(); }
+                    click: () => this.showPreview()
                 },
                 job: {
-                    click: function () { return _this.showJob(); }
+                    click: () => this.showJob()
                 },
                 send: {
                     id: 'send',
-                    click: function () { return _this.send(); }
+                    click: () => this.send()
                 }
             }
         };
-        this.delayedValidateJob = (0, timer_1.debounce)(function () { return _this.validateJob(); }, DELAY_job_VALIDATION);
+        this.delayedValidateJob = (0, timer_1.debounce)(() => this.validateJob(), DELAY_job_VALIDATION);
     }
-    JobFormApp.create = function (node) {
+    static create(node) {
         return new JobFormApp(node);
-    };
+    }
     /**
      * setControlErrorMessages updates a control to have an error message.
      *
      * The control will be switched into the "error" validation state.
      */
-    JobFormApp.prototype.setControlErrorMessage = function (id, msg) {
-        var mCtl = (0, util_1.getById)(this.view, id);
+    setControlErrorMessage(id, msg) {
+        let mCtl = (0, util_1.getById)(this.view, id);
         if (mCtl.isJust()) {
-            var ctl = mCtl.get();
+            let ctl = mCtl.get();
             ctl.setMessage(msg);
             ctl.setValidationState(feedback_1.ValidationState.Error);
         }
-    };
+    }
     /**
      * setControlOk gives the user visual feedback when a control's value is
      * valid.
      */
-    JobFormApp.prototype.setControlOk = function (id) {
-        var mCtl = (0, util_1.getById)(this.view, id);
+    setControlOk(id) {
+        let mCtl = (0, util_1.getById)(this.view, id);
         if (mCtl.isJust()) {
-            var ctl = mCtl.get();
+            let ctl = mCtl.get();
             ctl.setMessage('');
             ctl.setValidationState(feedback_1.ValidationState.Success);
         }
-    };
+    }
     /**
      * validateJob tests whether the data entered into the form so far is
      * valid.
      *
      * If it is, the "preview" button will be enabled.
      */
-    JobFormApp.prototype.validateJob = function () {
-        var btn = (0, util_1.getById)(this.view, this.values.buttons.preview.id).get();
-        var eresult = (0, job_1.validate)(this.values.job.data);
+    validateJob() {
+        let btn = (0, util_1.getById)(this.view, this.values.buttons.preview.id).get();
+        let eresult = (0, job_1.validate)(this.values.job.data);
         if (eresult.isRight())
             btn.enable();
         else
             btn.disable();
-    };
+    }
     /**
      * showPreview switches to the preview screen.
      */
-    JobFormApp.prototype.showPreview = function () {
+    showPreview() {
         this.render(this.previewView);
-        var mPanel = this.previewView.findById('panel');
+        let mPanel = this.previewView.findById('panel');
         if (mPanel.isJust())
             mPanel.get().setContent(mark.parse(this.values.job.data.description));
-    };
+    }
     /**
      * showJob switches to the job screen.
      */
-    JobFormApp.prototype.showJob = function () {
+    showJob() {
         this.render(this.view);
         this.validateJob();
-    };
+    }
     /**
      * showFinished shows the finished views.
      */
-    JobFormApp.prototype.showFinished = function () {
+    showFinished() {
         this.render(this.finishView);
-    };
+    }
     /**
      * send the data to the backend.
      */
-    JobFormApp.prototype.send = function () {
-        var _this = this;
-        var mButton = (0, util_1.getById)(this.previewView, this.values.buttons.send.id);
+    send() {
+        let mButton = (0, util_1.getById)(this.previewView, this.values.buttons.send.id);
         if (mButton.isJust())
             mButton.get().disable();
         this
             .agent
             .post('/jobs/post', this.values.job.data)
-            .chain(function (r) {
+            .chain((r) => {
             if (r.code === 401) {
-                _this.values.job.errors = r.body.errors;
-                _this.view.invalidate();
+                this.values.job.errors = r.body.errors;
+                this.view.invalidate();
             }
             else if (r.code === 201) {
-                _this.showFinished();
+                this.showFinished();
             }
             else {
-                return (0, future_1.raise)(new Error("Status: ".concat(r.code)));
+                return (0, future_1.raise)(new Error(`Status: ${r.code}`));
             }
             return (0, future_1.pure)(undefined);
         })
-            .catch(function (e) {
+            .catch(e => {
             alert('An error occured please go back and try again!');
             return (0, future_1.raise)(e);
         })
-            .fork(console.error, function () { });
-    };
+            .fork(console.error, () => { });
+    }
     /**
      * run the application.
      */
-    JobFormApp.prototype.run = function () {
+    run() {
         this.render(this.view);
-    };
+    }
     /**
      * render a view of the application to the screen.
      */
-    JobFormApp.prototype.render = function (view) {
+    render(view) {
         while (this.node.firstChild != null)
             this.node.removeChild(this.node.firstChild);
         this.node.appendChild(view.render());
         window.scroll(0, 0);
-    };
-    return JobFormApp;
-}());
+    }
+}
 exports.JobFormApp = JobFormApp;
-var escape = function (str) {
-    return str.replace(/[&"'<>]/g, function (t) { return escapeMap[t]; });
-};
+const escape = (str) => str.replace(/[&"'<>]/g, t => escapeMap[t]);
 exports.escape = escape;
 window.jobFormApp = JobFormApp.create(document.getElementById('main'));
 window.jobFormApp.run();

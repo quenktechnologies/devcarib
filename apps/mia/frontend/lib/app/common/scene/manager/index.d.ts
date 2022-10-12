@@ -1,7 +1,8 @@
 import { Future } from '@quenk/noni/lib/control/monad/future';
 import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Case } from '@quenk/potoo/lib/actor/resident/case';
-import { Pagination, RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
+import { Pagination } from '@quenk/jouvert/lib/app/remote/model/response';
+import { RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
 import { AfterSearchSetData, AfterSearchSetPagination, ShiftingOnComplete } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { FormSaved } from '@quenk/jouvert/lib/app/scene/form';
 import { MainSceneMessage } from '@quenk/jouvert/lib/app/scene/main';

@@ -43,17 +43,17 @@ class AccountDropDownView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.widget(new drop_down_1.DropDown({ ww: { 'className': 'converse-account-dropdown', 'buttonText': 'Account' } }, [
+            return __this.widget(new drop_down_1.DropDown({ 'className': 'converse-account-dropdown', 'buttonText': 'Account' }, [
                 __this.widget(new menu_1.Menu({}, [
                     __this.widget(new item_1.Item({}, [
-                        __this.widget(new link_1.Link({ ww: { 'text': 'Invite Friend', 'onClick': __context.values.header.invite } }, []), { ww: { 'text': 'Invite Friend', 'onClick': __context.values.header.invite } })
+                        __this.widget(new link_1.Link({ 'text': 'Invite Friend', 'onClick': __context.values.header.invite }, []), { 'text': 'Invite Friend', 'onClick': __context.values.header.invite })
                     ]), {}),
                     __this.widget(new item_1.Divider({}, []), {}),
                     __this.widget(new item_1.Item({}, [
-                        __this.widget(new link_1.Link({ ww: { 'text': 'Log Out', 'onClick': __context.values.header.logout } }, []), { ww: { 'text': 'Log Out', 'onClick': __context.values.header.logout } })
+                        __this.widget(new link_1.Link({ 'text': 'Log Out', 'onClick': __context.values.header.logout }, []), { 'text': 'Log Out', 'onClick': __context.values.header.logout })
                     ]), {})
                 ]), {})
-            ]), { ww: { 'className': 'converse-account-dropdown', 'buttonText': 'Account' } });
+            ]), { 'className': 'converse-account-dropdown', 'buttonText': 'Account' });
         };
     }
     registerView(v) {

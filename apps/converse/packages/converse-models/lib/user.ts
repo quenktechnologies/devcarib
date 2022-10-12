@@ -1,82 +1,8 @@
 
 /** imports */
 import { BaseModel } from '@quenk/dback-model-mongodb';
-
-//@ts-ignore: 6133
-
-
-import {
-    User as ModelType
-} from '@converse/types/lib/user';
-
-
-
-//@ts-ignore: 6133
-
-
-import {
-    populate as populate
-    , populateN as populateN
-    , insertOne as insertOne
-    , insertMany as insertMany
-    , findOne as findOne
-    , find as find
-    , updateOne as updateOne
-    , updateMany as updateMany
-    , deleteOne as deleteOne
-    , deleteMany as deleteMany
-    , count as count
-    , aggregate as aggregate
-} from '@quenk/noni-mongodb/lib/database/collection';
-
-
-
-//@ts-ignore: 6133
-
-
+import { User } from '@converse/types/lib/user';
 import * as mongodb from 'mongodb';
-
-
-
-//@ts-ignore: 6133
-
-
-import {
-    Object
-} from '@quenk/noni/lib/data/json';
-
-
-
-//@ts-ignore: 6133
-
-
-import {
-    Future
-    , pure
-    , raise
-    , fromCallback
-} from '@quenk/noni/lib/control/monad/future';
-
-
-
-//@ts-ignore: 6133
-
-
-import {
-    Maybe
-} from '@quenk/noni/lib/data/maybe';
-
-
-
-//@ts-ignore: 6133
-
-
-import {
-    merge
-} from '@quenk/noni/lib/data/record';
-
-
-
 
 
 /**
@@ -84,14 +10,14 @@ import {
  */
 export {
     UserModel as ModelImpl,
-    ModelType as DataType
+    User as DataType
 }
 
 /**
  * UserModelModel.
  * AUTO-GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
-export class UserModel extends BaseModel<ModelType> {
+export class UserModel extends BaseModel<User> {
 
     constructor(
         public name: string,

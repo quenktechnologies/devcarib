@@ -84,30 +84,30 @@ export class JobFormCompanyFieldsView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company Name*' ,'value' : __context.data.company ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'company'  },'name': 'company','label': 'Company Name*','value': __context.data.company,'onChange': __context.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'company'  },ww : { 'name' : 'company' ,'label' : 'Company Name*' ,'value' : __context.data.company ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'company'  },'name': 'company','label': 'Company Name*','value': __context.data.company,'onChange': __context.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo' ,'placeholder' : 'Please provide a url to a png image with resolution 400 x 400' ,'value' : __context.data.company_logo ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'company_logo'  },'name': 'company_logo','label': 'Logo','placeholder': 'Please provide a url to a png image with resolution 400 x 400','value': __context.data.company_logo,'onChange': __context.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'company_logo'  },ww : { 'name' : 'company_logo' ,'label' : 'Logo' ,'placeholder' : 'Please provide a url to a png image with resolution 400 x 400' ,'value' : __context.data.company_logo ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'company_logo'  },'name': 'company_logo','label': 'Logo','placeholder': 'Please provide a url to a png image with resolution 400 x 400','value': __context.data.company_logo,'onChange': __context.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.data.company_email ,'onChange' : __context.onChange  }}, [
+        __this.widget(new TextField({wml : { 'id' : 'company_email'  },'name': 'company_email','label': 'Email*','value': __context.data.company_email,'onChange': __context.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'company_email'  },ww : { 'name' : 'company_email' ,'label' : 'Email*' ,'value' : __context.data.company_email ,'onChange' : __context.onChange  }})
+     ]),<__wml.Attrs>{wml : { 'id' : 'company_email'  },'name': 'company_email','label': 'Email*','value': __context.data.company_email,'onChange': __context.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});

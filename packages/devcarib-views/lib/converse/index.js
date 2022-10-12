@@ -1,10 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IndexView = void 0;
+exports.IndexView = exports.css = exports.title = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
+const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
+;
+const image_1 = require("@quenk/wml-widgets/lib/content/image");
+;
 const head_1 = require("../common/head");
+;
+const form_1 = require("./login/form");
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -28,7 +34,8 @@ const text = __document.text;
 const unsafe = __document.unsafe;
 // @ts-ignore 6192
 const isSet = (value) => value != null;
-;
+exports.title = 'Deverse: The Software Developer Community';
+exports.css = '/converse/assets/css/converse.css';
 class IndexView {
     constructor(__context) {
         this.ids = {};
@@ -39,16 +46,36 @@ class IndexView {
         this.template = (__this) => {
             return __this.node('html', {}, [
                 __this.registerView(new head_1.HeadView({
-                    'title': __context.title,
+                    'title': exports.title,
                     'noSite': true,
                     'styles': [
-                        '/converse/assets/css/converse.css'
+                        exports.css
                     ]
                 })).render(),
                 __this.node('body', {}, [
-                    __this.node('div', { 'id': 'dialogs' }, []),
-                    __this.node('main', { 'id': 'main' }, []),
-                    __this.node('script', { 'src': '/converse/assets/js/converse.js' }, [])
+                    __this.widget(new grid_1.GridLayout({ 'id': 'main' }, [
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({ 'span': 8, 'offset': 2 }, [
+                                __this.widget(new grid_1.Row({}, [
+                                    __this.widget(new grid_1.Column({ 'span': 8 }, [
+                                        __this.node('h1', { 'id': 'title' }, [
+                                            __document.createTextNode('WeDeverse')
+                                        ]),
+                                        __this.node('p', { 'id': 'subtitle' }, [
+                                            __document.createTextNode('A Community of Caribbean Software Developers')
+                                        ]),
+                                        __this.widget(new image_1.Image({ 'id': 'landing-image', 'src': 'converse/assets/img/landing.png', 'alt': 'Landing Image', 'block': true }, []), { 'id': 'landing-image', 'src': 'converse/assets/img/landing.png', 'alt': 'Landing Image', 'block': true })
+                                    ]), { 'span': 8 }),
+                                    __this.widget(new grid_1.Column({ 'span': 4 }, [
+                                        __this.node('p', {}, [
+                                            __document.createTextNode('Log into the community')
+                                        ]),
+                                        __this.registerView(new form_1.LoginFormView(__context)).render()
+                                    ]), { 'span': 4 })
+                                ]), {})
+                            ]), { 'span': 8, 'offset': 2 })
+                        ]), {})
+                    ]), { 'id': 'main' })
                 ])
             ]);
         };

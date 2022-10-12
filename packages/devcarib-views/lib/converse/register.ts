@@ -85,7 +85,7 @@ __this.node('body', <__wml.Attrs>{}, [
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 4 ,'offset' : 4  }}, [
+        __this.widget(new Column({'span': 4,'offset': 4}, [
 
         __this.node('h1', <__wml.Attrs>{}, [
 
@@ -104,7 +104,7 @@ __this.node('p', <__wml.Attrs>{}, [
 
         __document.createTextNode('Thank you for joining and have a great time!')
      ])
-     ]),<__wml.Attrs>{ww : { 'span' : 4 ,'offset' : 4  }})
+     ]),<__wml.Attrs>{'span': 4,'offset': 4})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ])

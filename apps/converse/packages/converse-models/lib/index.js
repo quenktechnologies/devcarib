@@ -5,6 +5,7 @@ exports.getInstanceOf = exports.modelsAvailable = void 0;
 const _comment = require("./comment");
 const _event = require("./event");
 const _invite = require("./invite");
+const _job = require("./job");
 const _post = require("./post");
 const _user = require("./user");
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -15,6 +16,7 @@ exports.modelsAvailable = {
     'comment': _comment.ModelImpl.getInstance,
     'event': _event.ModelImpl.getInstance,
     'invite': _invite.ModelImpl.getInstance,
+    'job': _job.ModelImpl.getInstance,
     'post': _post.ModelImpl.getInstance,
     'user': _user.ModelImpl.getInstance
 };

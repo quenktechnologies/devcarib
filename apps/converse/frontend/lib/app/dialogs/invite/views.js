@@ -42,17 +42,17 @@ class CreateInviteDialogView {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'name' }, ww: { 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'name' }, ww: { 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange } })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'name' }, 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'name' }, 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'email' }, ww: { 'name': 'email', 'label': 'Email*', 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'email' }, ww: { 'name': 'email', 'label': 'Email*', 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange } })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'email' }, 'name': 'email', 'label': 'Email*', 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'email' }, 'name': 'email', 'label': 'Email*', 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'message' }, ww: { 'name': 'message', 'rows': 10, 'placeholder': 'Message (Optional)', 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange } }, []), { wml: { 'id': 'message' }, ww: { 'name': 'message', 'rows': 10, 'placeholder': 'Message (Optional)', 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange } })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'message' }, 'name': 'message', 'rows': 10, 'placeholder': 'Message (Optional)', 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'message' }, 'name': 'message', 'rows': 10, 'placeholder': 'Message (Optional)', 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {})
             ]), {});

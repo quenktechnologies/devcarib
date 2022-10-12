@@ -3,7 +3,7 @@
 -- 3. Converts searches to proper queries.
 app.filters = [ 
 
-  ..#checkAuth(true),
+  ..#ensureAuthXHR,
 
   @devcarib/server/lib/filters/check#checkBody(
      @converse/checks#checksAvailable,

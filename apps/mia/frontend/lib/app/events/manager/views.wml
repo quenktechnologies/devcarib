@@ -23,8 +23,8 @@
     <Column>
 
       <TextField
-        ww:placeholder="Search"
-        ww:onChange={{@values.search.onChange}} />
+        placeholder="Search"
+        onChange={{@values.search.onChange}} />
 
     </Column>
 
@@ -36,8 +36,8 @@
 
       <DataTable
        wml:id={{@values.table.id}}
-       ww:data={{@values.table.data}}
-       ww:columns={{@values.table.columns}} />
+       data={{@values.table.data}}
+       columns={{@values.table.columns}} />
 
     </Column>
 

@@ -89,20 +89,20 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({ww : { 'placeholder' : 'Search' ,'onChange' : __context.values.search.onChange  }}, [
+        __this.widget(new TextField({'placeholder': 'Search','onChange': __context.values.search.onChange}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'placeholder' : 'Search' ,'onChange' : __context.values.search.onChange  }})
+     ]),<__wml.Attrs>{'placeholder': 'Search','onChange': __context.values.search.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new DataTable({wml : { 'id' : __context.values.table.id  },ww : { 'data' : __context.values.table.data ,'columns' : __context.values.table.columns  }}, [
+        __this.widget(new DataTable({wml : { 'id' : __context.values.table.id  },'data': __context.values.table.data,'columns': __context.values.table.columns}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.table.id  },ww : { 'data' : __context.values.table.data ,'columns' : __context.values.table.columns  }})
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.table.id  },'data': __context.values.table.data,'columns': __context.values.table.columns})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});

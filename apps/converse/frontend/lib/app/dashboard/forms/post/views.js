@@ -43,7 +43,7 @@ class CreatePostFormView {
         this.template = (__this) => {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
+                    __this.widget(new grid_1.Column({ 'span': 6, 'offset': 3 }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('div', { 'class': 'converse-create-post-header' }, [
@@ -59,7 +59,7 @@ class CreatePostFormView {
                                 __this.widget(new editor_1.PostEditor({ 'value': __context.values.data, 'errors': __context.values.errors, 'onChange': __context.values.onChange, 'onPost': __context.values.onPost }, []), { 'value': __context.values.data, 'errors': __context.values.errors, 'onChange': __context.values.onChange, 'onPost': __context.values.onPost })
                             ]), {})
                         ]), {})
-                    ]), { ww: { 'span': 6, 'offset': 3 } })
+                    ]), { 'span': 6, 'offset': 3 })
                 ]), {})
             ]), {});
         };

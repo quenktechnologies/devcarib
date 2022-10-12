@@ -1,10 +1,10 @@
 import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
-export interface IndexViewContext {
-    title: string;
-}
+import { LoginFormViewContext } from './login/form';
+export declare const title: string;
+export declare const css: string;
 export declare class IndexView implements __wml.View {
-    constructor(__context: IndexViewContext);
+    constructor(__context: LoginFormViewContext);
     ids: {
         [key: string]: __wml.WMLElement;
     };

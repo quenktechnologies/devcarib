@@ -6,7 +6,7 @@
 {% view DevCaribDialogRemoteFormView[T:JSONXObject, M]
    (DevCaribDialogRemoteForm[T,M] from "./dialog") %}
 
-<Modal ww:className="-large">
+<Modal className="-large">
 
   <ModalHeader>{{@name | text }}</ModalHeader>
 
@@ -19,13 +19,13 @@
   <ModalFooter>
 
     <Button 
-      ww:text="Close"
-      ww:onClick={{->@close()}} />
+      text="Close"
+      onClick={{->@close()}} />
 
     <Button 
-      ww:text="Save"
-      ww:className="-primary"
-      ww:onClick={{->@save()}} />
+      text="Save"
+      className="-primary"
+      onClick={{->@save()}} />
 
   </ModalFooter>
 

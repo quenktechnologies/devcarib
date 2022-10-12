@@ -8,7 +8,6 @@ const module_1 = require("@quenk/tendril/lib/app/module");
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `build`,
     'app': { 'dirs': { 'self': `/apps/board/build` },
-        'path': `/`,
         'modules': { 'r': dotR.template },
         'routes': //@ts-ignore: 6133
         ($module) => {

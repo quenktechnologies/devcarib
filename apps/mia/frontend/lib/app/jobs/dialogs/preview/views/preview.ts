@@ -76,7 +76,7 @@ export class JobPreviewDialogView  implements __wml.View {
 
        
 
-           return __this.widget(new Modal({ww : { 'className' : '-large'  }}, [
+           return __this.widget(new Modal({'className': '-large'}, [
 
         __this.widget(new ModalHeader({}, [
 
@@ -117,16 +117,16 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalFooter({}, [
 
-        __this.widget(new Button({ww : { 'className' : '-primary' ,'onClick' : __context.values.edit ,'text' : 'Edit'  }}, [
+        __this.widget(new Button({'className': '-primary','onClick': __context.values.edit,'text': 'Edit'}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : '-primary' ,'onClick' : __context.values.edit ,'text' : 'Edit'  }}),
-__this.widget(new Button({ww : { 'onClick' : __context.values.close ,'text' : 'Close'  }}, [
+     ]),<__wml.Attrs>{'className': '-primary','onClick': __context.values.edit,'text': 'Edit'}),
+__this.widget(new Button({'onClick': __context.values.close,'text': 'Close'}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'onClick' : __context.values.close ,'text' : 'Close'  }})
+     ]),<__wml.Attrs>{'onClick': __context.values.close,'text': 'Close'})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'className' : '-large'  }});
+     ]),<__wml.Attrs>{'className': '-large'});
 
        }
 

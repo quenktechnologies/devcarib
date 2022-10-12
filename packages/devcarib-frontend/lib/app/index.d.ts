@@ -54,7 +54,7 @@ export declare abstract class DevCarib extends Jouvert {
     /**
      * getModel is a factory method for creating [[RemoteModel]] instances.
      */
-    getModel<T extends Object>(paths: Paths, handler?: CompleteHandlerSpec<T>, context?: Object): import("@quenk/jouvert/lib/app/remote/model").RemoteModel<Object>;
+    getModel<T extends Object>(paths: Paths, handler?: CompleteHandlerSpec<T>, _context?: Object): import("@quenk/jouvert/lib/app/remote/model").RemoteModel<Object>;
     /**
      * spawn an actor directly from the root.
      *
@@ -66,8 +66,11 @@ export declare abstract class DevCarib extends Jouvert {
      */
     tell(addr: Address, msg: Message): DevCarib;
     /**
-     * run puts up the applications base view and spawns all the needed service
-     * actors for routing, remote requests etc.
+     * init spawns all the services needed by the application
+     */
+    init(): void;
+    /**
+     * run the application.
      */
     run(): void;
 }

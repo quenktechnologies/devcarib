@@ -19,7 +19,7 @@ import {
     ShiftingOnComplete,
     AfterSearchUpdateWidget
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
-import { Result } from '@quenk/jouvert/lib/app/remote/model';
+import { Result } from '@quenk/jouvert/lib/app/remote/model/response';
 
 import { Job } from '@board/types/lib/job';
 
@@ -147,7 +147,7 @@ export class JobsManager extends MiaManager<Job, void> {
 
     model = this.app.getModel(api.jobs, [
 
-        new AfterSearchSetData(data =>{ this.values.table.data = data}),
+        new AfterSearchSetData(data => { this.values.table.data = data }),
 
         new AfterSearchSetPagination(this.values.table),
 

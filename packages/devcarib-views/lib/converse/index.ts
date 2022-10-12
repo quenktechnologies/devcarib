@@ -7,7 +7,10 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {HeadView} from '../common/head'; 
+import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
+import {Image} from '@quenk/wml-widgets/lib/content/image'; ;
+import {HeadView} from '../common/head'; ;
+import {LoginFormViewContext,LoginFormView} from './login/form'; 
 
 
 //@ts-ignore:6192
@@ -64,10 +67,11 @@ const text = __document.text;
 const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
-export interface IndexViewContext{title : string};
+export const title:string = 'Deverse: The Software Developer Community';
+export const css:string = '/converse/assets/css/converse.css';
 export class IndexView  implements __wml.View {
 
-   constructor(__context: IndexViewContext) {
+   constructor(__context: LoginFormViewContext) {
 
        this.template = (__this:__wml.Registry) => {
 
@@ -77,27 +81,50 @@ export class IndexView  implements __wml.View {
 
         __this.registerView(new HeadView({
  
-      'title' : __context.title,
+      'title' : title,
 'noSite' : true ,
 'styles' : [
 
-            '/converse/assets/css/converse.css'
+            css
             ]
      })).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
-        __this.node('div', <__wml.Attrs>{'id': 'dialogs'}, [
+        __this.widget(new GridLayout({'id': 'main'}, [
 
-        
+        __this.widget(new Row({}, [
+
+        __this.widget(new Column({'span': 8,'offset': 2}, [
+
+        __this.widget(new Row({}, [
+
+        __this.widget(new Column({'span': 8}, [
+
+        __this.node('h1', <__wml.Attrs>{'id': 'title'}, [
+
+        __document.createTextNode('WeDeverse')
      ]),
-__this.node('main', <__wml.Attrs>{'id': 'main'}, [
+__this.node('p', <__wml.Attrs>{'id': 'subtitle'}, [
 
-        
+        __document.createTextNode('A Community of Caribbean Software Developers')
      ]),
-__this.node('script', <__wml.Attrs>{'src': '/converse/assets/js/converse.js'}, [
+__this.widget(new Image({'id': 'landing-image','src': 'converse/assets/img/landing.png','alt': 'Landing Image','block': true }, [
 
         
-     ])
+     ]),<__wml.Attrs>{'id': 'landing-image','src': 'converse/assets/img/landing.png','alt': 'Landing Image','block': true })
+     ]),<__wml.Attrs>{'span': 8}),
+__this.widget(new Column({'span': 4}, [
+
+        __this.node('p', <__wml.Attrs>{}, [
+
+        __document.createTextNode('Log into the community')
+     ]),
+__this.registerView(new LoginFormView(__context)).render()
+     ]),<__wml.Attrs>{'span': 4})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{'span': 8,'offset': 2})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{'id': 'main'})
      ])
      ]);
 

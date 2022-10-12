@@ -78,7 +78,7 @@ export class FinishView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 8 ,'offset' : 2  }}, [
+        __this.widget(new Column({'span': 8,'offset': 2}, [
 
         __this.widget(new Row({}, [
 
@@ -110,14 +110,14 @@ __this.widget(new Row({}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'action-container'}, [
 
-        __this.widget(new Link({ww : { 'text' : 'See Current Listings' ,'className' : 'current-listings-link' ,'href' : '/'  }}, [
+        __this.widget(new Link({'text': 'See Current Listings','className': 'current-listings-link','href': '/'}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'See Current Listings' ,'className' : 'current-listings-link' ,'href' : '/'  }})
+     ]),<__wml.Attrs>{'text': 'See Current Listings','className': 'current-listings-link','href': '/'})
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 8 ,'offset' : 2  }})
+     ]),<__wml.Attrs>{'span': 8,'offset': 2})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 

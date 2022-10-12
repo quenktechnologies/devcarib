@@ -46,18 +46,18 @@ class LoginView {
             return __this.node('html', { 'lang': 'en', 'dir': 'ltr' }, [
                 __this.registerView(new head_1.HeadView(__context)).render(),
                 __this.node('body', {}, [
-                    __this.widget(new grid_1.GridLayout({ ww: { 'id': 'main' } }, [
+                    __this.widget(new grid_1.GridLayout({ 'id': 'main' }, [
                         __this.widget(new grid_1.Row({}, [
                             ...((__context.auth.failed) ?
                                 (() => ([
-                                    __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
+                                    __this.widget(new grid_1.Column({ 'span': 6, 'offset': 3 }, [
                                         __this.node('div', { 'class': 'ww-alert -error', 'style': 'text-align:center' }, [
                                             text(__context.auth.message)
                                         ])
-                                    ]), { ww: { 'span': 6, 'offset': 3 } })
+                                    ]), { 'span': 6, 'offset': 3 })
                                 ]))() :
                                 (() => ([]))()),
-                            __this.widget(new grid_1.Column({ ww: { 'span': 6, 'offset': 3 } }, [
+                            __this.widget(new grid_1.Column({ 'span': 6, 'offset': 3 }, [
                                 __this.node('h3', {}, [
                                     __document.createTextNode('Mia Login')
                                 ]),
@@ -77,13 +77,13 @@ class LoginView {
                                                 __this.node('input', { 'name': 'password', 'class': 'ww-text-input -block', 'autocomplete': 'off', 'type': 'password' }, [])
                                             ]),
                                             __this.node('input', { 'type': 'hidden', 'name': '_csrf', 'value': __context.csrfToken }, []),
-                                            __this.widget(new button_1.Button({ ww: { 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Login' } }, []), { ww: { 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Login' } })
+                                            __this.widget(new button_1.Button({ 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Login' }, []), { 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Login' })
                                         ])
                                     ]), {})
                                 ]), {})
-                            ]), { ww: { 'span': 6, 'offset': 3 } })
+                            ]), { 'span': 6, 'offset': 3 })
                         ]), {})
-                    ]), { ww: { 'id': 'main' } })
+                    ]), { 'id': 'main' })
                 ])
             ]);
         };

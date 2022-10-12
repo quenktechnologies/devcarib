@@ -92,7 +92,7 @@ export class EventRankPanelView  implements __wml.View {
         ...(((event.url) != null) ?
 (()=>([
 
-        __this.widget(new Link({ww : { 'className' : 'devcarib-event-rank-panel-link' ,'href' : event.url  }}, [
+        __this.widget(new Link({'className': 'devcarib-event-rank-panel-link','href': event.url}, [
 
         __this.node('h4', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-title'}, [
 
@@ -103,7 +103,7 @@ __this.node('small', <__wml.Attrs>{}, [
 text (timestamp (event.start))
      ])
      ])
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-event-rank-panel-link' ,'href' : event.url  }})
+     ]),<__wml.Attrs>{'className': 'devcarib-event-rank-panel-link','href': event.url})
      ]))() :
 (()=>([
 

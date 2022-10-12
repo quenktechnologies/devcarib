@@ -20,9 +20,9 @@
         <ListLayoutItem>
 
           <Link
-            ww:className="devcarib-job-rank-panel-title"
-            ww:text={{job.title}}
-            ww:href={{"/jobs/"+job.id}} />
+            className="devcarib-job-rank-panel-title"
+            text={{job.title}}
+            href={{"/jobs/"+job.id}} />
 
           <div class="devcarib-job-rank-panel-company">{{ job.company | text}}</div>
 
@@ -38,7 +38,7 @@
 
       <div class="devcarib-job-rank-panel-nojobs">
 
-        No jobs <Link ww:href="/jobs/post" ww:text="create one" />.
+        No jobs <Link href="/jobs/post" text="create one" />.
 
       </div>
 

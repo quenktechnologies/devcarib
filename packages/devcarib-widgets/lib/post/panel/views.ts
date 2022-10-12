@@ -76,9 +76,9 @@ export class PostPanelView  implements __wml.View {
 
        
 
-           return __this.widget(new Panel({ww : { 'className' : 'devcarib-post-panel'  }}, [
+           return __this.widget(new Panel({'className': 'devcarib-post-panel'}, [
 
-        __this.widget(new PanelHeader({ww : { 'className' : 'devcarib-post-panel-header'  }}, [
+        __this.widget(new PanelHeader({'className': 'devcarib-post-panel-header'}, [
 
         __this.widget(new PostMetadata({'data': __context.values.data}, [
 
@@ -89,10 +89,10 @@ __this.node('div', <__wml.Attrs>{'class': 'devcarib-post-panel-header-links'}, [
         ...((__context.values.editable) ?
 (()=>([
 
-        __this.widget(new Link({ww : { 'text' : 'Edit' ,'onClick' : __context.values.editor.show  }}, [
+        __this.widget(new Link({'text': 'Edit','onClick': __context.values.editor.show}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : 'Edit' ,'onClick' : __context.values.editor.show  }})
+     ]),<__wml.Attrs>{'text': 'Edit','onClick': __context.values.editor.show})
      ]))() :
 (()=>([]))())
      ]),
@@ -100,7 +100,7 @@ __this.node('h1', <__wml.Attrs>{'class': 'devcarib-post-panel-header-title'}, [
 
         text (__context.values.data.title)
      ])
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-post-panel-header'  }}),
+     ]),<__wml.Attrs>{'className': 'devcarib-post-panel-header'}),
 ...((__context.values.data.body) ?
 (()=>([
 
@@ -113,7 +113,7 @@ __this.node('h1', <__wml.Attrs>{'class': 'devcarib-post-panel-header-title'}, [
      ]),<__wml.Attrs>{})
      ]))() :
 (()=>([]))())
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-post-panel'  }});
+     ]),<__wml.Attrs>{'className': 'devcarib-post-panel'});
 
        }
 

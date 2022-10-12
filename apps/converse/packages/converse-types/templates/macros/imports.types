@@ -3,7 +3,7 @@
 
   {% if doc.import %}
     {% for sym,mod in doc.import %}
-      {% if (not doc.definitions) or (not doc.definitions[sym])%}
+      {% if (sym != doc.title) and ((not doc.definitions) or (not doc.definitions[sym])) %}
         import { {{sym}} }from '{{mod}}';{{'\n'}}
       {% else %}
           {{''}}

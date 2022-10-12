@@ -79,7 +79,7 @@ export class PreviewView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 8 ,'offset' : 2  }}, [
+        __this.widget(new Column({'span': 8,'offset': 2}, [
 
         __this.widget(new Row({}, [
 
@@ -107,18 +107,18 @@ __this.widget(new Row({}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'action-container'}, [
 
-        __this.widget(new Button({ww : { 'className' : 'back-button -default -large' ,'text' : 'Back' ,'onClick' : __context.values.buttons.job.click  }}, [
+        __this.widget(new Button({'className': 'back-button -default -large','text': 'Back','onClick': __context.values.buttons.job.click}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'className' : 'back-button -default -large' ,'text' : 'Back' ,'onClick' : __context.values.buttons.job.click  }}),
-__this.widget(new Button({wml : { 'id' : __context.values.buttons.send.id  },ww : { 'className' : 'send-button -primary -large' ,'text' : 'Post' ,'onClick' : __context.values.buttons.send.click  }}, [
+     ]),<__wml.Attrs>{'className': 'back-button -default -large','text': 'Back','onClick': __context.values.buttons.job.click}),
+__this.widget(new Button({wml : { 'id' : __context.values.buttons.send.id  },'className': 'send-button -primary -large','text': 'Post','onClick': __context.values.buttons.send.click}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.buttons.send.id  },ww : { 'className' : 'send-button -primary -large' ,'text' : 'Post' ,'onClick' : __context.values.buttons.send.click  }})
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.buttons.send.id  },'className': 'send-button -primary -large','text': 'Post','onClick': __context.values.buttons.send.click})
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 8 ,'offset' : 2  }})
+     ]),<__wml.Attrs>{'span': 8,'offset': 2})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 

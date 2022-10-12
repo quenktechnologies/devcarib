@@ -43,7 +43,7 @@ class ManagerHeader {
                 ]),
                 ...((__context.add) ?
                     (() => ([
-                        __this.widget(new button_1.Button({ ww: { 'text': 'Add', 'className': '-primary', 'onClick': __context.add } }, []), { ww: { 'text': 'Add', 'className': '-primary', 'onClick': __context.add } })
+                        __this.widget(new button_1.Button({ 'text': 'Add', 'className': '-primary', 'onClick': __context.add }, []), { 'text': 'Add', 'className': '-primary', 'onClick': __context.add })
                     ]))() :
                     (() => ([]))())
             ]);

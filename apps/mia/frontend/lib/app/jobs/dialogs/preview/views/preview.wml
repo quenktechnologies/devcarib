@@ -8,7 +8,7 @@
 {% import (JobPreviewDialog) from "../" %}
 
 {% view JobPreviewDialogView (JobPreviewDialog) %}
-<Modal ww:className="-large">
+<Modal className="-large">
 
   <ModalHeader>{{@values.data.company | text }}</ModalHeader>
 
@@ -56,12 +56,12 @@
 
 <ModalFooter>
 
-  <Button ww:className="-primary"
-          ww:onClick={{@values.edit}} 
-          ww:text="Edit" />
+  <Button className="-primary"
+          onClick={{@values.edit}} 
+          text="Edit" />
 
-  <Button ww:onClick={{@values.close}} 
-          ww:text="Close" />
+  <Button onClick={{@values.close}} 
+          text="Close" />
 
 </ModalFooter>
 

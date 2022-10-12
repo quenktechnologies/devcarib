@@ -11,7 +11,8 @@ $(CONVERSE_FRONTEND_JS_FILE): $(CONVERSE_FRONTEND_LIB_DIR)
 	$(BROWSERIFY) $(CONVERSE_FRONTEND_LIB_DIR)/main.js \
 	$(if $(findstring yes,$(DEBUG)),,|$(UGLIFYJS)) > $@
 
-$(CONVERSE_FRONTEND_LIB_DIR): $(CONVERSE_FRONTEND_SRC_FILES)\
+$(CONVERSE_FRONTEND_LIB_DIR): $(CONVERSE_FRONTEND_SRC_DIR)\
+	                      $(CONVERSE_REMOTE_MODELS_DIR)/*\
 	                      $(DEVCARIB_FRONTEND_DIR)\
 	                      $(DEVCARIB_WIDGETS_DIR)
 	rm -R $@ 2> /dev/null || true 
@@ -21,13 +22,19 @@ $(CONVERSE_FRONTEND_LIB_DIR): $(CONVERSE_FRONTEND_SRC_FILES)\
 	$(TSC) --project $@
 	touch $@
 
+$(CONVERSE_FRONTEND_SRC_DIR): $(CONVERSE_FRONTEND_SRC_FILES)\
+                              $(CONVERSE_REMOTE_MODELS_DIR)
+	touch $@
+
+include $(CONVERSE_REMOTE_MODELS_DIR)/build.mk
+
 $(CONVERSE_FRONTEND_CSS_FILE): $(DEVCARIB_WIDGETS_DIR)\
 			       $(CONVERSE_FRONTEND_LESS_IMPORTS)\
                                $(CONVERSE_FRONTEND_LESS_MAIN)
 	mkdir -p $(dir $@)
 	rm -R $@ || true
 	$(LESSC) --source-map-less-inline \
-	--js-vars=$(CONVERSE_FRONTEND_JS_VARS) $(CONVERSE_FRONTEND_LESS_MAIN) \
+	--js-vars=$(JS_VARS) $(CONVERSE_FRONTEND_LESS_MAIN) \
 	| ./node_modules/.bin/cleancss > $@
 
 $(CONVERSE_FRONTEND_LESS_IMPORTS): $(CONVERSE_FRONTEND_LESS_FILES)

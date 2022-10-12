@@ -1,4 +1,4 @@
-{% import (NavBar) from "@quenk/wml-widgets/lib/layout/nav-bar" %}
+{% import (ActionBar) from "@quenk/wml-widgets/lib/layout/action-bar" %}
 
 {% import (AccountDropDownView) from "./account-dropdown" %}
 {% import (Converse) from "../" %}
@@ -7,13 +7,12 @@
 
 <div wml:id="main">
 
-  <NavBar 
-   className="converse-navbar" 
-   links={{@values.header.links}}>
+  <ActionBar
+    className="converse-navbar">
 
-   {{<AccountDropDownView(@)>}}
+    {{<AccountDropDownView(@)>}}
 
-  </NavBar>
+  </ActionBar>
 
   <div wml:id="content" id="content" />
 

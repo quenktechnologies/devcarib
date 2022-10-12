@@ -40,7 +40,7 @@ class DevCaribDialogRemoteFormView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.widget(new modal_1.Modal({ ww: { 'className': '-large' } }, [
+            return __this.widget(new modal_1.Modal({ 'className': '-large' }, [
                 __this.widget(new modal_1.ModalHeader({}, [
                     text(__context.name)
                 ]), {}),
@@ -48,10 +48,10 @@ class DevCaribDialogRemoteFormView {
                     __this.registerView(__context.view).render()
                 ]), {}),
                 __this.widget(new modal_1.ModalFooter({}, [
-                    __this.widget(new button_1.Button({ ww: { 'text': 'Close', 'onClick': () => __context.close() } }, []), { ww: { 'text': 'Close', 'onClick': () => __context.close() } }),
-                    __this.widget(new button_1.Button({ ww: { 'text': 'Save', 'className': '-primary', 'onClick': () => __context.save() } }, []), { ww: { 'text': 'Save', 'className': '-primary', 'onClick': () => __context.save() } })
+                    __this.widget(new button_1.Button({ 'text': 'Close', 'onClick': () => __context.close() }, []), { 'text': 'Close', 'onClick': () => __context.close() }),
+                    __this.widget(new button_1.Button({ 'text': 'Save', 'className': '-primary', 'onClick': () => __context.save() }, []), { 'text': 'Save', 'className': '-primary', 'onClick': () => __context.save() })
                 ]), {})
-            ]), { ww: { 'className': '-large' } });
+            ]), { 'className': '-large' });
         };
     }
     registerView(v) {

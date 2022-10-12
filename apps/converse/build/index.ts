@@ -26,25 +26,27 @@ import { just, Maybe, nothing } from '@quenk/noni/lib/data/maybe';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
 
+import { AuthController } from '@quenk/server/lib/app/auth/controller';
+import {
+    AuthFailedContext,
+    BaseAuthenticator
+} from '@quenk/server/lib/app/auth/authenticator';
+
 import { validate } from '@converse/validators/lib/login';
-import { IndexView } from '@devcarib/views/lib/converse';
-import { LoginView } from '@devcarib/views/lib/converse/login';
 
 import { User } from '@converse/types/lib/user';
 
 import { UserModel } from '@converse/models/lib/user';
 
-import { AuthController } from '@devcarib/server/lib/controllers/auth';
-import { AuthFailedContext, BaseAuthenticator } from '@devcarib/server/lib/auth';
 import { unsafeGetConnection } from '@devcarib/server/lib/db';
 import { compare } from '@devcarib/server/lib/data/password';
 import { now } from '@devcarib/common/lib/data/datetime';
 
-import {InviteController} from './invites';
+import { IndexView } from './views';
+import { UserView } from './views/user';
+import { LoginView } from './views/login';
 
-const TITLE = 'Converse';
-const ROUTE_INDEX = '/converse';
-const ROUTE_LOGIN = '/converse/login';
+import { InviteController } from './invites';
 
 class ConverseAuthenticator extends BaseAuthenticator<User> {
 
@@ -89,9 +91,9 @@ export class ConverseAuthController extends AuthController {
 
     views = {
 
-        index: () => new IndexView({ title: TITLE }),
+        index: () => new UserView(),
 
-        auth: (req: Request, ctx: AuthFailedContext) => new LoginView({
+        form: (req: Request, ctx: AuthFailedContext) => new LoginView({
 
             title: 'Caribbean Developers Job Board - Admin Login',
 
@@ -109,30 +111,40 @@ export class ConverseAuthController extends AuthController {
 
     }
 
-    urls = {
+    authenticator = new ConverseAuthenticator();
 
-        index: ROUTE_INDEX,
+    userNotDetected(req: Request) {
 
-        auth: ROUTE_LOGIN
+        //TODO: We should not need to specify all these properties here.
+        //Only csrfToken should be required.
+        return this.show(new IndexView({
+
+            auth: {
+
+                failed: false,
+
+                message: ''
+
+            },
+
+            csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
+
+        }));
 
     }
-
-    authenticator = new ConverseAuthenticator();
 
 }
 
 export const auth = new ConverseAuthController();
 export const invites = new InviteController();
-
-//XXX: Seems like there is a parser bug in jcon that won't let us specify
-// ..#auth.checkAuth(true)
-export const checkAuth = auth.checkAuth;
+export const ensureAuthXHR = auth.ensureAuthXHR;
 
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
  {'id': `converse`,
 'app': {'dirs': {'self': `/apps/converse/build`,
-'public': [`../frontend/public`]},
+'public': [`../public`,`../frontend/public`]},
+'path': `/`,
 'modules': {'r': dotR.template},
 'routes': //@ts-ignore: 6133
 ($module:Module) => {

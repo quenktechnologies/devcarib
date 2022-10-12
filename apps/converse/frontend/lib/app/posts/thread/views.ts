@@ -84,7 +84,7 @@ export class PostThreadView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 7 ,'offset' : 1  }}, [
+        __this.widget(new Column({'span': 7,'offset': 1}, [
 
         __this.widget(new Row({}, [
 
@@ -133,8 +133,8 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{'notitle': true ,'value': __context.values.comment.data,'errors': __context.values.comment.errors,'onChange': __context.values.comment.onChange,'onPost': __context.values.comment.onPost})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 7 ,'offset' : 1  }}),
-__this.widget(new Column({ww : { 'span' : 3  }}, [
+     ]),<__wml.Attrs>{'span': 7,'offset': 1}),
+__this.widget(new Column({'span': 3}, [
 
         __this.widget(new Row({}, [
 
@@ -166,7 +166,7 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 3  }})
+     ]),<__wml.Attrs>{'span': 3})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 

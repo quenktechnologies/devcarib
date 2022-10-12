@@ -1,92 +1,86 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobFeaturesView = void 0;
-var __document = require("@quenk/wml/lib/dom");
+const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
-var maybe_1 = require("@quenk/noni/lib/data/maybe");
+const maybe_1 = require("@quenk/noni/lib/data/maybe");
 ;
-var filters_1 = require("../../filters");
+const filters_1 = require("../../filters");
 //@ts-ignore:6192
-var __if = function (__expr, __conseq, __alt) {
-    return (__expr) ? __conseq() : __alt ? __alt() : [];
-};
+const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
-var __forIn = function (list, f, alt) {
-    var ret = [];
-    for (var i = 0; i < list.length; i++)
+const __forIn = (list, f, alt) => {
+    let ret = [];
+    for (let i = 0; i < list.length; i++)
         ret = ret.concat(f(list[i], i, list));
     return ret.length === 0 ? alt() : ret;
 };
 //@ts-ignore:6192
-var __forOf = function (o, f, alt) {
-    var ret = [];
-    for (var key in o)
+const __forOf = (o, f, alt) => {
+    let ret = [];
+    for (let key in o)
         if (o.hasOwnProperty(key))
             ret = ret.concat(f((o)[key], key, o));
     return ret.length === 0 ? alt() : ret;
 };
 // @ts-ignore 6192
-var text = __document.text;
+const text = __document.text;
 // @ts-ignore 6192
-var unsafe = __document.unsafe;
+const unsafe = __document.unsafe;
 // @ts-ignore 6192
-var isSet = function (value) { return value != null; };
-var JobFeaturesView = /** @class */ (function () {
-    function JobFeaturesView(__context) {
+const isSet = (value) => value != null;
+class JobFeaturesView {
+    constructor(__context) {
         this.ids = {};
         this.groups = {};
         this.views = [];
         this.widgets = [];
         this.tree = __document.createElement('div');
-        this.template = function (__this) {
-            return __this.node('div', { 'class': 'board-job-features' }, __spreadArray(__spreadArray(__spreadArray(__spreadArray([], (((__context.type) != null) ?
-                (function () { return ([
-                    __this.node('span', { 'class': 'ww-tag -default' }, [
-                        text(__context.type)
-                    ])
-                ]); })() :
-                (function () { return ([]); })()), true), (((__context.location) != null) ?
-                (function () { return ([
-                    __this.node('span', { 'class': 'ww-tag -default' }, [
-                        text((0, filters_1.truncate)(60)(__context.location))
-                    ])
-                ]); })() :
-                (function () { return ([]); })()), true), (((__context.remote) != null) ?
-                (function () { return ([
-                    __this.node('span', { 'class': 'ww-tag -default' }, [
-                        __document.createTextNode('Remote')
-                    ])
-                ]); })() :
-                (function () { return ([]); })()), true), (((__context.salary_range) != null) ?
-                (function () { return ([
-                    __this.node('span', { 'class': 'ww-tag -default' }, [
-                        __document.createTextNode('$'),
-                        text(__context.salary_range)
-                    ])
-                ]); })() :
-                (function () { return ([]); })()), true));
+        this.template = (__this) => {
+            return __this.node('div', { 'class': 'board-job-features' }, [
+                ...(((__context.type) != null) ?
+                    (() => ([
+                        __this.node('span', { 'class': 'ww-tag -default' }, [
+                            text(__context.type)
+                        ])
+                    ]))() :
+                    (() => ([]))()),
+                ...(((__context.location) != null) ?
+                    (() => ([
+                        __this.node('span', { 'class': 'ww-tag -default' }, [
+                            text((0, filters_1.truncate)(60)(__context.location))
+                        ])
+                    ]))() :
+                    (() => ([]))()),
+                ...(((__context.remote) != null) ?
+                    (() => ([
+                        __this.node('span', { 'class': 'ww-tag -default' }, [
+                            __document.createTextNode('Remote')
+                        ])
+                    ]))() :
+                    (() => ([]))()),
+                ...(((__context.salary_range) != null) ?
+                    (() => ([
+                        __this.node('span', { 'class': 'ww-tag -default' }, [
+                            __document.createTextNode('$'),
+                            text(__context.salary_range)
+                        ])
+                    ]))() :
+                    (() => ([]))())
+            ]);
         };
     }
-    JobFeaturesView.prototype.registerView = function (v) {
+    registerView(v) {
         this.views.push(v);
         return v;
-    };
-    JobFeaturesView.prototype.register = function (e, attrs) {
-        var attrsMap = attrs;
+    }
+    register(e, attrs) {
+        let attrsMap = attrs;
         if (attrsMap.wml) {
-            var _a = attrsMap.wml, id = _a.id, group = _a.group;
+            let { id, group } = attrsMap.wml;
             if (id != null) {
                 if (this.ids.hasOwnProperty(id))
-                    throw new Error("Duplicate id '".concat(id, "' detected!"));
+                    throw new Error(`Duplicate id '${id}' detected!`);
                 this.ids[id] = e;
             }
             if (group != null) {
@@ -95,11 +89,11 @@ var JobFeaturesView = /** @class */ (function () {
             }
         }
         return e;
-    };
-    JobFeaturesView.prototype.node = function (tag, attrs, children) {
-        var e = __document.createElement(tag);
-        Object.keys(attrs).forEach(function (key) {
-            var value = attrs[key];
+    }
+    node(tag, attrs, children) {
+        let e = __document.createElement(tag);
+        Object.keys(attrs).forEach(key => {
+            let value = attrs[key];
             if (typeof value === 'function') {
                 e[key] = value;
             }
@@ -116,64 +110,59 @@ var JobFeaturesView = /** @class */ (function () {
                 e.setAttribute(key, value);
             }
         });
-        children.forEach(function (c) {
+        children.forEach(c => {
             switch (typeof c) {
                 case 'string':
                 case 'number':
                 case 'boolean':
-                    var tn = __document.createTextNode('' + c);
+                    let tn = __document.createTextNode('' + c);
                     e.appendChild(tn);
                 case 'object':
                     e.appendChild(c);
                     break;
                 default:
-                    throw new TypeError("Can not adopt child ".concat(c, " of type ").concat(typeof c));
+                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
             }
         });
         this.register(e, attrs);
         return e;
-    };
-    JobFeaturesView.prototype.widget = function (w, attrs) {
+    }
+    widget(w, attrs) {
         this.register(w, attrs);
         this.widgets.push(w);
         return w.render();
-    };
-    JobFeaturesView.prototype.findById = function (id) {
-        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findById(id);
-        }, mW);
-    };
-    JobFeaturesView.prototype.findByGroup = function (name) {
-        var mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
+    }
+    findById(id) {
+        let mW = (0, maybe_1.fromNullable)(this.ids[id]);
+        return this.views.reduce((p, c) => p.isJust() ? p : c.findById(id), mW);
+    }
+    findByGroup(name) {
+        let mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
             this.groups[name] :
             []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
-    };
-    JobFeaturesView.prototype.invalidate = function () {
-        var tree = this.tree;
-        var parent = tree.parentNode;
+        return this.views.reduce((p, c) => p.isJust() ? p : c.findByGroup(name), mGroup);
+    }
+    invalidate() {
+        let { tree } = this;
+        let parent = tree.parentNode;
         if (tree == null)
             return console.warn('invalidate(): ' + 'Missing DOM tree!');
         if (tree.parentNode == null)
             throw new Error('invalidate(): cannot invalidate this view, it has no parent node!');
         parent.replaceChild(this.render(), tree);
-    };
-    JobFeaturesView.prototype.render = function () {
+    }
+    render() {
         this.ids = {};
-        this.widgets.forEach(function (w) { return w.removed(); });
+        this.widgets.forEach(w => w.removed());
         this.widgets = [];
         this.views = [];
         this.tree = this.template(this);
         this.ids['root'] = (this.ids['root']) ?
             this.ids['root'] :
             this.tree;
-        this.widgets.forEach(function (w) { return w.rendered(); });
+        this.widgets.forEach(w => w.rendered());
         return this.tree;
-    };
-    return JobFeaturesView;
-}());
+    }
+}
 exports.JobFeaturesView = JobFeaturesView;
 //# sourceMappingURL=features.js.map

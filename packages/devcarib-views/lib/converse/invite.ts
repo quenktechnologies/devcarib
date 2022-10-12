@@ -97,11 +97,11 @@ __this.node('body', <__wml.Attrs>{}, [
 
         __this.node('form', <__wml.Attrs>{'autocomplete': 'off','action': ('/converse/invites/' + __context.token),'method': 'POST'}, [
 
-        __this.widget(new GridLayout({ww : { 'id' : 'main'  }}, [
+        __this.widget(new GridLayout({'id': 'main'}, [
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 4 ,'offset' : 4  }}, [
+        __this.widget(new Column({'span': 4,'offset': 4}, [
 
         __this.widget(new Row({}, [
 
@@ -136,28 +136,28 @@ __this.widget(new Row({}, [
 
         __this.widget(new PanelBody({}, [
 
-        __this.widget(new TextField({ww : { 'name' : 'name' ,'value' : values.name ,'label' : 'Your Name*' ,'error' : __context.errors.name  }}, [
+        __this.widget(new TextField({'name': 'name','value': values.name,'label': 'Your Name*','error': __context.errors.name}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : 'name' ,'value' : values.name ,'label' : 'Your Name*' ,'error' : __context.errors.name  }}),
-__this.widget(new TextField({ww : { 'name' : 'email' ,'value' : values.email ,'label' : 'Email*' ,'error' : __context.errors.email  }}, [
+     ]),<__wml.Attrs>{'name': 'name','value': values.name,'label': 'Your Name*','error': __context.errors.name}),
+__this.widget(new TextField({'name': 'email','value': values.email,'label': 'Email*','error': __context.errors.email}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : 'email' ,'value' : values.email ,'label' : 'Email*' ,'error' : __context.errors.email  }})
+     ]),<__wml.Attrs>{'name': 'email','value': values.email,'label': 'Email*','error': __context.errors.email})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Panel({}, [
 
         __this.widget(new PanelBody({}, [
 
-        __this.widget(new TextField({ww : { 'name' : 'username' ,'value' : values.username ,'label' : 'Username*' ,'error' : __context.errors.username  }}, [
+        __this.widget(new TextField({'name': 'username','value': values.username,'label': 'Username*','error': __context.errors.username}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : 'username' ,'value' : values.username ,'label' : 'Username*' ,'error' : __context.errors.username  }}),
-__this.widget(new TextField({ww : { 'name' : 'password' ,'label' : 'Password*' ,'type' : 'password' ,'placeholder' : '8 characters minimum' ,'error' : __context.errors.password  }}, [
+     ]),<__wml.Attrs>{'name': 'username','value': values.username,'label': 'Username*','error': __context.errors.username}),
+__this.widget(new TextField({'name': 'password','label': 'Password*','type': 'password','placeholder': '8 characters minimum','error': __context.errors.password}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'name' : 'password' ,'label' : 'Password*' ,'type' : 'password' ,'placeholder' : '8 characters minimum' ,'error' : __context.errors.password  }})
+     ]),<__wml.Attrs>{'name': 'password','label': 'Password*','type': 'password','placeholder': '8 characters minimum','error': __context.errors.password})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
@@ -170,15 +170,15 @@ __this.widget(new Row({}, [
 
         
      ]),
-__this.widget(new Button({ww : { 'type' : 'submit' ,'className' : '-toolbar-compat -primary -block' ,'text' : 'Register'  }}, [
+__this.widget(new Button({'type': 'submit','className': '-toolbar-compat -primary -block','text': 'Register'}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'type' : 'submit' ,'className' : '-toolbar-compat -primary -block' ,'text' : 'Register'  }})
+     ]),<__wml.Attrs>{'type': 'submit','className': '-toolbar-compat -primary -block','text': 'Register'})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 4 ,'offset' : 4  }})
+     ]),<__wml.Attrs>{'span': 4,'offset': 4})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'id' : 'main'  }})
+     ]),<__wml.Attrs>{'id': 'main'})
      ])
      ])
      ]);

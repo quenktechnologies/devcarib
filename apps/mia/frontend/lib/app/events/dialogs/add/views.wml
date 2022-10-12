@@ -14,11 +14,11 @@
 
       <TextField
        wml:id="title"
-       ww:name="title"
-       ww:label="Title*"
-       ww:error={{@values.errors.title}}
-       ww:value={{@values.data.title}}
-       ww:onChange={{@values.onChange}} />
+       name="title"
+       label="Title*"
+       error={{@values.errors.title}}
+       value={{@values.data.title}}
+       onChange={{@values.onChange}} />
 
     </Column>
 
@@ -32,27 +32,27 @@
 
     </Column>
 
-    <Column ww:span=8>
+    <Column span=8>
 
       <DateField
         wml:id="startDate"
-        ww:className="start-date -block"
-        ww:placeholder="YYYY-MM-DD"
-        ww:name="startDate"     
-        ww:value={{@values.start.date()}}
-        ww:onChange={{@values.start.onChange}} />
+        className="start-date -block"
+        placeholder="YYYY-MM-DD"
+        name="startDate"     
+        value={{@values.start.date()}}
+        onChange={{@values.start.onChange}} />
 
     </Column>
 
-    <Column ww:span=4>
+    <Column span=4>
 
       <DropList
         wml:id="startTime"
-        ww:name="startTime"
-        ww:className="start-time"
-        ww:value={{@values.start.time()}}
-        ww:options={{@values.start.timeOptions}}
-        ww:onSelect={{@values.start.onChange}} />
+        name="startTime"
+        className="start-time"
+        value={{@values.start.time()}}
+        options={{@values.start.timeOptions}}
+        onSelect={{@values.start.onChange}} />
 
     </Column>
 
@@ -66,27 +66,27 @@
 
     </Column>
 
-    <Column ww:span=8>
+    <Column span=8>
 
       <DateField
         wml:id="endDate"
-        ww:className="start-date -block"
-        ww:placeholder="YYYY-MM-DD"
-        ww:name="endDate"     
-        ww:value={{@values.end.date()}}
-        ww:onChange={{@values.end.onChange}} />
+        className="start-date -block"
+        placeholder="YYYY-MM-DD"
+        name="endDate"     
+        value={{@values.end.date()}}
+        onChange={{@values.end.onChange}} />
 
     </Column>
 
-    <Column ww:span=4>
+    <Column span=4>
 
       <DropList
         wml:id="endTime"
-        ww:name="endTime"
-        ww:className="start-time"
-        ww:value={{@values.end.time()}}
-        ww:options={{@values.end.timeOptions}}
-        ww:onSelect={{@values.end.onChange}} />
+        name="endTime"
+        className="start-time"
+        value={{@values.end.time()}}
+        options={{@values.end.timeOptions}}
+        onSelect={{@values.end.onChange}} />
 
     </Column>
 
@@ -96,9 +96,9 @@
 
       <Checkbox
         wml:id="allDay"
-        ww:name="allDay"
-        ww:value={{@values.data.allDay}}
-        ww:onChange={{@values.onChange}} />
+        name="allDay"
+        value={{@values.data.allDay}}
+        onChange={{@values.onChange}} />
 
     </Column>
 
@@ -110,11 +110,11 @@
 
       <TextField
        wml:id="host"
-       ww:name="host"
-       ww:label="Host"
-       ww:error={{@values.errors.host}}
-       ww:value={{@values.data.host}}
-       ww:onChange={{@values.onChange}} />
+       name="host"
+       label="Host"
+       error={{@values.errors.host}}
+       value={{@values.data.host}}
+       onChange={{@values.onChange}} />
 
     </Column>
 
@@ -126,11 +126,11 @@
 
       <TextField
        wml:id="location"
-       ww:name="location"
-       ww:label="Location"
-       ww:error={{@values.errors.location}}
-       ww:value={{@values.data.location}}
-       ww:onChange={{@values.onChange}} />
+       name="location"
+       label="Location"
+       error={{@values.errors.location}}
+       value={{@values.data.location}}
+       onChange={{@values.onChange}} />
 
     </Column>
 
@@ -142,11 +142,11 @@
 
       <TextField
        wml:id="url"
-       ww:name="url"
-       ww:label="Url"
-       ww:error={{@values.errors.url}}
-       ww:value={{@values.data.url}}
-       ww:onChange={{@values.onChange}} />
+       name="url"
+       label="Url"
+       error={{@values.errors.url}}
+       value={{@values.data.url}}
+       onChange={{@values.onChange}} />
 
     </Column>
 

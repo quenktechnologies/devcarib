@@ -7,7 +7,7 @@ fromNullable as __fromNullable,
 fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
-import {NavBar} from '@quenk/wml-widgets/lib/layout/nav-bar'; ;
+import {ActionBar} from '@quenk/wml-widgets/lib/layout/action-bar'; ;
 import {AccountDropDownView} from './account-dropdown'; ;
 import {Converse} from '../'; 
 
@@ -76,10 +76,10 @@ export class ConverseView  implements __wml.View {
 
            return __this.node('div', <__wml.Attrs>{wml : { 'id' : 'main'  }}, [
 
-        __this.widget(new NavBar({'className': 'converse-navbar','links': __context.values.header.links}, [
+        __this.widget(new ActionBar({'className': 'converse-navbar'}, [
 
         __this.registerView(new AccountDropDownView(__context)).render()
-     ]),<__wml.Attrs>{'className': 'converse-navbar','links': __context.values.header.links}),
+     ]),<__wml.Attrs>{'className': 'converse-navbar'}),
 __this.node('div', <__wml.Attrs>{wml : { 'id' : 'content'  },'id': 'content'}, [
 
         

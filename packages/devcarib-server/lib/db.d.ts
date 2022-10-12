@@ -2,7 +2,7 @@ import * as mongo from 'mongodb';
 /**
  * getConnection from tendril's internal connection pool by id.
  */
-export declare const getConnection: (id?: string) => import("@quenk/noni/lib/control/monad/future").Future<import("@quenk/wml").Maybe<mongo.Db>>;
+export declare const getConnection: (id?: string) => import("@quenk/noni/lib/control/monad/future").Future<import("@quenk/noni/lib/data/maybe").Maybe<mongo.Db>>;
 /**
  * unsafeGetConnection form tendril's internal connection pool by id.
  *

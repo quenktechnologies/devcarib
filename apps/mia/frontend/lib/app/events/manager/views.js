@@ -51,12 +51,12 @@ class EventsManagerView {
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ ww: { 'placeholder': 'Search', 'onChange': __context.values.search.onChange } }, []), { ww: { 'placeholder': 'Search', 'onChange': __context.values.search.onChange } })
+                        __this.widget(new text_field_1.TextField({ 'placeholder': 'Search', 'onChange': __context.values.search.onChange }, []), { 'placeholder': 'Search', 'onChange': __context.values.search.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new table_1.DataTable({ wml: { 'id': __context.values.table.id }, ww: { 'data': __context.values.table.data, 'columns': __context.values.table.columns } }, []), { wml: { 'id': __context.values.table.id }, ww: { 'data': __context.values.table.data, 'columns': __context.values.table.columns } })
+                        __this.widget(new table_1.DataTable({ wml: { 'id': __context.values.table.id }, 'data': __context.values.table.data, 'columns': __context.values.table.columns }, []), { wml: { 'id': __context.values.table.id }, 'data': __context.values.table.data, 'columns': __context.values.table.columns })
                     ]), {})
                 ]), {})
             ]), {});

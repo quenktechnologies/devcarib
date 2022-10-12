@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DevCaribRemoteForm = exports.REMOTE_FORM_MODE_UPDATE = exports.REMOTE_FORM_MODE_CREATE = void 0;
+exports.defaultHandlers = exports.DevCaribRemoteForm = exports.REMOTE_FORM_MODE_UPDATE = exports.REMOTE_FORM_MODE_CREATE = void 0;
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const form_1 = require("@quenk/jouvert/lib/app/scene/form");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
@@ -29,6 +29,7 @@ class DevCaribRemoteForm extends __1.DevCaribForm {
      * A handler is installed by default to handle the 409 "Conflict" response.
      */
     getModel(paths) {
+        //XXX: This method is to be removed eventually.
         return this.app.getModel(paths, new handlers_1.OnSaveFailed(this));
     }
     /**
@@ -81,4 +82,8 @@ class DevCaribRemoteForm extends __1.DevCaribForm {
     }
 }
 exports.DevCaribRemoteForm = DevCaribRemoteForm;
+const defaultHandlers = (form) => [
+    new handlers_1.OnSaveFailed(form)
+];
+exports.defaultHandlers = defaultHandlers;
 //# sourceMappingURL=index.js.map

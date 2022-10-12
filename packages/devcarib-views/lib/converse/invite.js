@@ -54,9 +54,9 @@ class InviteView {
                 })).render(),
                 __this.node('body', {}, [
                     __this.node('form', { 'autocomplete': 'off', 'action': ('/converse/invites/' + __context.token), 'method': 'POST' }, [
-                        __this.widget(new grid_1.GridLayout({ ww: { 'id': 'main' } }, [
+                        __this.widget(new grid_1.GridLayout({ 'id': 'main' }, [
                             __this.widget(new grid_1.Row({}, [
-                                __this.widget(new grid_1.Column({ ww: { 'span': 4, 'offset': 4 } }, [
+                                __this.widget(new grid_1.Column({ 'span': 4, 'offset': 4 }, [
                                     __this.widget(new grid_1.Row({}, [
                                         __this.widget(new grid_1.Column({}, [
                                             __this.node('h1', {}, [
@@ -79,14 +79,14 @@ class InviteView {
                                         __this.widget(new grid_1.Column({}, [
                                             __this.widget(new panel_1.Panel({}, [
                                                 __this.widget(new panel_1.PanelBody({}, [
-                                                    __this.widget(new text_field_1.TextField({ ww: { 'name': 'name', 'value': values.name, 'label': 'Your Name*', 'error': __context.errors.name } }, []), { ww: { 'name': 'name', 'value': values.name, 'label': 'Your Name*', 'error': __context.errors.name } }),
-                                                    __this.widget(new text_field_1.TextField({ ww: { 'name': 'email', 'value': values.email, 'label': 'Email*', 'error': __context.errors.email } }, []), { ww: { 'name': 'email', 'value': values.email, 'label': 'Email*', 'error': __context.errors.email } })
+                                                    __this.widget(new text_field_1.TextField({ 'name': 'name', 'value': values.name, 'label': 'Your Name*', 'error': __context.errors.name }, []), { 'name': 'name', 'value': values.name, 'label': 'Your Name*', 'error': __context.errors.name }),
+                                                    __this.widget(new text_field_1.TextField({ 'name': 'email', 'value': values.email, 'label': 'Email*', 'error': __context.errors.email }, []), { 'name': 'email', 'value': values.email, 'label': 'Email*', 'error': __context.errors.email })
                                                 ]), {})
                                             ]), {}),
                                             __this.widget(new panel_1.Panel({}, [
                                                 __this.widget(new panel_1.PanelBody({}, [
-                                                    __this.widget(new text_field_1.TextField({ ww: { 'name': 'username', 'value': values.username, 'label': 'Username*', 'error': __context.errors.username } }, []), { ww: { 'name': 'username', 'value': values.username, 'label': 'Username*', 'error': __context.errors.username } }),
-                                                    __this.widget(new text_field_1.TextField({ ww: { 'name': 'password', 'label': 'Password*', 'type': 'password', 'placeholder': '8 characters minimum', 'error': __context.errors.password } }, []), { ww: { 'name': 'password', 'label': 'Password*', 'type': 'password', 'placeholder': '8 characters minimum', 'error': __context.errors.password } })
+                                                    __this.widget(new text_field_1.TextField({ 'name': 'username', 'value': values.username, 'label': 'Username*', 'error': __context.errors.username }, []), { 'name': 'username', 'value': values.username, 'label': 'Username*', 'error': __context.errors.username }),
+                                                    __this.widget(new text_field_1.TextField({ 'name': 'password', 'label': 'Password*', 'type': 'password', 'placeholder': '8 characters minimum', 'error': __context.errors.password }, []), { 'name': 'password', 'label': 'Password*', 'type': 'password', 'placeholder': '8 characters minimum', 'error': __context.errors.password })
                                                 ]), {})
                                             ]), {})
                                         ]), {})
@@ -94,12 +94,12 @@ class InviteView {
                                     __this.widget(new grid_1.Row({}, [
                                         __this.widget(new grid_1.Column({}, [
                                             __this.node('input', { 'type': 'hidden', 'name': '_csrf', 'value': __context.csrfToken }, []),
-                                            __this.widget(new button_1.Button({ ww: { 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Register' } }, []), { ww: { 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Register' } })
+                                            __this.widget(new button_1.Button({ 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Register' }, []), { 'type': 'submit', 'className': '-toolbar-compat -primary -block', 'text': 'Register' })
                                         ]), {})
                                     ]), {})
-                                ]), { ww: { 'span': 4, 'offset': 4 } })
+                                ]), { 'span': 4, 'offset': 4 })
                             ]), {})
-                        ]), { ww: { 'id': 'main' } })
+                        ]), { 'id': 'main' })
                     ])
                 ])
             ]);

@@ -46,7 +46,7 @@ class ActionColumnView {
         this.tree = __document.createElement('div');
         this.template = (__this) => {
             return __this.node('td', {}, [
-                __this.widget(new drop_down_1.DropDown({ ww: { 'className': '-left', 'buttonText': 'Action' } }, [
+                __this.widget(new drop_down_1.DropDown({ 'className': '-left', 'buttonText': 'Action' }, [
                     __this.widget(new menu_1.Menu({}, [
                         ...__forIn(__context.actions, (spec, _$$i, _$$all) => ([
                             ...((spec.divider) ?
@@ -55,11 +55,11 @@ class ActionColumnView {
                                 ]))() :
                                 (() => ([]))()),
                             __this.widget(new item_1.Item({}, [
-                                __this.widget(new link_1.Link({ ww: { 'text': spec.text, 'onClick': () => spec.onClick(__context.data) } }, []), { ww: { 'text': spec.text, 'onClick': () => spec.onClick(__context.data) } })
+                                __this.widget(new link_1.Link({ 'text': spec.text, 'onClick': () => spec.onClick(__context.data) }, []), { 'text': spec.text, 'onClick': () => spec.onClick(__context.data) })
                             ]), {})
                         ]), () => ([]))
                     ]), {})
-                ]), { ww: { 'className': '-left', 'buttonText': 'Action' } })
+                ]), { 'className': '-left', 'buttonText': 'Action' })
             ]);
         };
     }

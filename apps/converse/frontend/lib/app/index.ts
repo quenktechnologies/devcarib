@@ -1,5 +1,3 @@
-import * as api from './api';
-
 import {
     Future,
     pure,
@@ -7,11 +5,17 @@ import {
     voidPure
 } from '@quenk/noni/lib/control/monad/future';
 
+import {
+    AfterGetSetData,
+    OnNotFound
+} from '@quenk/jouvert/lib/app/scene/remote/handlers';
+
 import { DevCarib } from '@devcarib/frontend/lib/app';
 
 import { User } from '@converse/types/lib/user';
 
 import { CreateInviteDialog } from './dialogs/invite';
+import { RemoteModels } from './remote/models';
 import { ConverseView } from './views/app';
 import { trap, routes } from './routes';
 
@@ -59,45 +63,57 @@ export class Converse extends DevCarib {
 
     logout(): Future<void> {
 
-        return confirm('Do you want to logout now?') ?
-            this.agent
-                .post('/converse/logout', {})
-                .chain(() => {
+        let that = this;
 
-                    window.location.href = '/admin';
+        return doFuture(function*() {
 
-                    return pure(<void>undefined);
+            if (confirm('Do you want to logout now?')) {
 
-                }) :
-            pure(<void>undefined);
+                yield that.agent.post('/logout', {});
+
+                window.location.href = '/';
+
+            }
+
+            return pure(<void>undefined);
+
+        });
 
     }
 
     run() {
 
+        //XXX: For debugging;
+        this.vm.conf.log.level = 1000
+
         let that = this;
 
-        let runSuper = () => super.run();
+        let init = () => super.init();
 
-        doFuture(function*() {
+        return doFuture(function*() {
 
-            let res = yield that.agent.get(api.me.get);
+            init();
 
-            if (res.code === 200) {
+            yield RemoteModels.create('user', that.services['remote.background'], that, [
 
-                that.user = res.body.data;
+                new AfterGetSetData<User>(data => {
 
-                runSuper();
+                    that.user = data
 
-            } else {
+                    that.router.start();
 
-                window.location.replace('/converse/login');
+                    setTimeout(() =>
+                        that.router.handleEvent(new Event('hashchanged')), 100);
 
-            }
+                }),
+
+                new OnNotFound(() => window.location.replace('login'))
+
+            ]).get('');
 
             return voidPure;
 
-        }).fork();
+        });
 
     }
 

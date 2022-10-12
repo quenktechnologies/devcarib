@@ -4,7 +4,7 @@ exports.MiaView = void 0;
 const __document = require("@quenk/wml/lib/dom");
 //@ts-ignore: 6192
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
-const nav_bar_1 = require("@quenk/wml-widgets/lib/layout/nav-bar");
+const action_bar_1 = require("@quenk/wml-widgets/lib/layout/action-bar");
 ;
 const nav_1 = require("@quenk/wml-widgets/lib/menu/nav");
 ;
@@ -44,13 +44,13 @@ class MiaView {
         this.tree = __document.createElement('div');
         this.template = (__this) => {
             return __this.node('div', { wml: { 'id': 'main' } }, [
-                __this.widget(new nav_bar_1.NavBar({ 'className': 'mia-navbar-bar', 'links': __context.values.header.links }, [
-                    __this.widget(new nav_1.Nav({ ww: { 'className': 'mia-logout' } }, [
+                __this.widget(new action_bar_1.ActionBar({ 'className': 'mia-navbar-bar' }, [
+                    __this.widget(new nav_1.NavMenu({ 'className': 'mia-logout', 'items': __context.values.header.links }, [
                         __this.widget(new item_1.Item({}, [
-                            __this.widget(new link_1.Link({ ww: { 'text': 'Logout', 'onClick': __context.values.header.logout } }, []), { ww: { 'text': 'Logout', 'onClick': __context.values.header.logout } })
+                            __this.widget(new link_1.Link({ 'text': 'Logout', 'onClick': __context.values.header.logout }, []), { 'text': 'Logout', 'onClick': __context.values.header.logout })
                         ]), {})
-                    ]), { ww: { 'className': 'mia-logout' } })
-                ]), { 'className': 'mia-navbar-bar', 'links': __context.values.header.links }),
+                    ]), { 'className': 'mia-logout', 'items': __context.values.header.links })
+                ]), { 'className': 'mia-navbar-bar' }),
                 __this.node('div', { wml: { 'id': 'content' }, 'id': 'content' }, [])
             ]);
         };

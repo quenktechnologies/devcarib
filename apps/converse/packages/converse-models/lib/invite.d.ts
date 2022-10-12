@@ -1,16 +1,16 @@
 /** imports */
 import { BaseModel } from '@quenk/dback-model-mongodb';
-import { Invite as ModelType } from '@converse/types/lib/invite';
+import { Invite } from '@converse/types/lib/invite';
 import * as mongodb from 'mongodb';
 /**
  * @private Used by templates during generation.
  */
-export { InviteModel as ModelImpl, ModelType as DataType };
+export { InviteModel as ModelImpl, Invite as DataType };
 /**
  * InviteModelModel.
  * AUTO-GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
-export declare class InviteModel extends BaseModel<ModelType> {
+export declare class InviteModel extends BaseModel<Invite> {
     name: string;
     database: mongodb.Db;
     collection: mongodb.Collection;

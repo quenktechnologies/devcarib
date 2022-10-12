@@ -83,7 +83,7 @@ export class ActionColumnView <T extends JSONXObject >  implements __wml.View {
 
            return __this.node('td', <__wml.Attrs>{}, [
 
-        __this.widget(new DropDown({ww : { 'className' : '-left' ,'buttonText' : 'Action'  }}, [
+        __this.widget(new DropDown({'className': '-left','buttonText': 'Action'}, [
 
         __this.widget(new Menu({}, [
 
@@ -101,15 +101,15 @@ export class ActionColumnView <T extends JSONXObject >  implements __wml.View {
 (()=>([]))()),
 __this.widget(new Item({}, [
 
-        __this.widget(new Link({ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.data)  }}, [
+        __this.widget(new Link({'text': spec.text,'onClick': () => spec.onClick(__context.data)}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'text' : spec.text ,'onClick' : () => spec.onClick(__context.data)  }})
+     ]),<__wml.Attrs>{'text': spec.text,'onClick': () => spec.onClick(__context.data)})
      ]),<__wml.Attrs>{})
      ]), 
 ()=> ([]))
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'className' : '-left' ,'buttonText' : 'Action'  }})
+     ]),<__wml.Attrs>{'className': '-left','buttonText': 'Action'})
      ]);
 
        }

@@ -13,7 +13,7 @@
 
   <Row>
 
-    <Column ww:span=3>
+    <Column span=3>
 
       <Row>
 
@@ -41,7 +41,7 @@
 
     </Column>
 
-    <Column ww:span=6>
+    <Column span=6>
 
       <Row>
 
@@ -52,9 +52,9 @@
             <h1>Posts</h1>
 
               <Button
-                ww:className="converse-dashboard-post-button -primary"
-                ww:text="Create Post"
-                ww:onClick={{@values.posts.create}} />
+                className="converse-dashboard-post-button -primary"
+                text="Create Post"
+                onClick={{@values.posts.create}} />
 
           </header>
 
@@ -90,7 +90,7 @@
 
     </Column>
 
-    <Column ww:span=3>
+    <Column span=3>
 
       <Row>
 

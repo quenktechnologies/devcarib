@@ -8,16 +8,16 @@
 {% view AccountDropDownView(Converse) %}
 
 <DropDown
-  ww:className="converse-account-dropdown"
-  ww:buttonText="Account">
+  className="converse-account-dropdown"
+  buttonText="Account">
 
   <Menu>
 
     <Item>
     
       <Link
-        ww:text="Invite Friend"
-        ww:onClick={{@values.header.invite}} />
+        text="Invite Friend"
+        onClick={{@values.header.invite}} />
 
     </Item>
 
@@ -26,8 +26,8 @@
     <Item>
     
       <Link
-        ww:text="Log Out"
-        ww:onClick={{@values.header.logout}} />
+        text="Log Out"
+        onClick={{@values.header.logout}} />
 
     </Item>
 

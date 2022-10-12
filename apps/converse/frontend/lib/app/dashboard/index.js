@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Dashboard = void 0;
-const api = require("../api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const function_1 = require("@quenk/noni/lib/data/function");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
@@ -55,7 +54,7 @@ class Dashboard extends scene_1.ConverseScene {
         /**
          * posts is used to fetch the main posts displayed on the page.
          */
-        this.posts = this.app.getModel(api.posts, [
+        this.posts = this.models.create('post', [
             new handlers_1.AfterSearchSetData(data => { this.values.posts.data = data; }),
             new handlers_1.AfterSearchSetPagination(this.values.posts),
             new handlers_1.ShiftingOnComplete([
@@ -68,15 +67,15 @@ class Dashboard extends scene_1.ConverseScene {
          *
          * This does not affect the main view posts.
          */
-        this.popularPosts = this.app.getModel(api.posts, [
+        this.popularPosts = this.models.create('post', [
             new handlers_1.AfterSearchSetData(data => { this.values.popular.data = data; }),
             new handlers_1.AfterSearchUpdateWidget(this.view, this.values.popular.id)
         ]);
-        this.jobs = this.app.getModel(api.jobs, [
+        this.jobs = this.models.create('job', [
             new handlers_1.AfterSearchSetData(data => { this.values.jobs.data = data; }),
             new handlers_1.AfterSearchUpdateWidget(this.view, this.values.jobs.id)
         ]);
-        this.events = this.app.getModel(api.events, [
+        this.events = this.models.create('event', [
             new handlers_1.AfterSearchSetData(data => { this.values.events.data = data; }),
             new handlers_1.AfterSearchUpdateWidget(this.view, this.values.events.id)
         ]);

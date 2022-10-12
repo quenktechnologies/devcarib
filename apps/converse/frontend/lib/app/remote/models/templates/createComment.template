@@ -1,0 +1,23 @@
+{% set path = document.paths.comments or "no-comments-path" %}
+
+  let that = this;
+
+  return doFuture(function*() {
+
+    let path = interpolate('{{path}}', { id });
+
+    let res = yield that.send(new request.Post(
+    path,
+    data,
+    {
+      tags: {
+        path,
+        verb: 'post',
+        method: 'createComment'
+      }
+    }));
+
+    return pure((<{data: {id:number}}>res.body).data.id);
+
+  });
+

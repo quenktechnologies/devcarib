@@ -79,7 +79,7 @@ export class CreatePostFormView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
+        __this.widget(new Column({'span': 6,'offset': 3}, [
 
         __this.widget(new Row({}, [
 
@@ -108,7 +108,7 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{'value': __context.values.data,'errors': __context.values.errors,'onChange': __context.values.onChange,'onPost': __context.values.onPost})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
+     ]),<__wml.Attrs>{'span': 6,'offset': 3})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 

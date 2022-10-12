@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkPartial = exports.check = exports.partialChecks = exports.checks = void 0;
 //@ts-ignore: 6133
-var async_1 = require("@quenk/preconditions/lib/async");
+const async_1 = require("@quenk/preconditions/lib/async");
 //@ts-ignore: 6133
-var record_1 = require("@quenk/preconditions/lib/async/record");
-var admin_1 = require("@mia/validators/lib/admin");
-var checks_1 = require("@devcarib/server/lib/data/checks");
+const record_1 = require("@quenk/preconditions/lib/async/record");
+const admin_1 = require("@mia/validators/lib/admin");
+const checks_1 = require("@devcarib/server/lib/data/checks");
 //@ts-ignore: 6133
-var _title = 'Admin';
+const _title = 'Admin';
 //@ts-ignore: 6133
-var _collection = 'admins';
+const _collection = 'admins';
 /**
  * checks for Admin provided as a map.
  */

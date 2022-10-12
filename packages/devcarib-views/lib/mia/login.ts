@@ -86,23 +86,23 @@ export class LoginView  implements __wml.View {
         __this.registerView(new HeadView(__context)).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
-        __this.widget(new GridLayout({ww : { 'id' : 'main'  }}, [
+        __this.widget(new GridLayout({'id': 'main'}, [
 
         __this.widget(new Row({}, [
 
         ...((__context.auth.failed) ?
 (()=>([
 
-        __this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
+        __this.widget(new Column({'span': 6,'offset': 3}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'ww-alert -error','style': 'text-align:center'}, [
 
         text (__context.auth.message)
      ])
-     ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
+     ]),<__wml.Attrs>{'span': 6,'offset': 3})
      ]))() :
 (()=>([]))()),
-__this.widget(new Column({ww : { 'span' : 6 ,'offset' : 3  }}, [
+__this.widget(new Column({'span': 6,'offset': 3}, [
 
         __this.node('h3', <__wml.Attrs>{}, [
 
@@ -140,16 +140,16 @@ __this.node('input', <__wml.Attrs>{'type': 'hidden','name': '_csrf','value': __c
 
         
      ]),
-__this.widget(new Button({ww : { 'type' : 'submit' ,'className' : '-toolbar-compat -primary -block' ,'text' : 'Login'  }}, [
+__this.widget(new Button({'type': 'submit','className': '-toolbar-compat -primary -block','text': 'Login'}, [
 
         
-     ]),<__wml.Attrs>{ww : { 'type' : 'submit' ,'className' : '-toolbar-compat -primary -block' ,'text' : 'Login'  }})
+     ]),<__wml.Attrs>{'type': 'submit','className': '-toolbar-compat -primary -block','text': 'Login'})
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'span' : 6 ,'offset' : 3  }})
+     ]),<__wml.Attrs>{'span': 6,'offset': 3})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{ww : { 'id' : 'main'  }})
+     ]),<__wml.Attrs>{'id': 'main'})
      ])
      ]);
 

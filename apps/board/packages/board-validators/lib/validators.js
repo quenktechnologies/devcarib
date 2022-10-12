@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.jobStatus = exports.paymentFrequency = exports.currency = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
-var string = require("@quenk/preconditions/lib/string");
-var array = require("@quenk/preconditions/lib/array");
-var preconditions_1 = require("@quenk/preconditions");
-var array_1 = require("@quenk/noni/lib/data/array");
-var result_1 = require("@quenk/preconditions/lib/result");
-var currency_1 = require("@devcarib/common/lib/data/currency");
-var payment_1 = require("@devcarib/common/lib/data/payment");
-var job_1 = require("@devcarib/common/lib/data/job");
+const string = require("@quenk/preconditions/lib/string");
+const array = require("@quenk/preconditions/lib/array");
+const preconditions_1 = require("@quenk/preconditions");
+const array_1 = require("@quenk/noni/lib/data/array");
+const result_1 = require("@quenk/preconditions/lib/result");
+const currency_1 = require("@devcarib/common/lib/data/currency");
+const payment_1 = require("@devcarib/common/lib/data/payment");
+const job_1 = require("@devcarib/common/lib/data/job");
 /**
  * name must be a string and between 1-64 characters.
  *
@@ -42,48 +42,38 @@ exports.textlarge = (0, preconditions_1.and)(string.isString, (0, preconditions_
 /**
  * minLength for strings and array.
  */
-var minLength = function (n) {
-    return function (value) { return Array.isArray(value) ?
-        array.min(n)(value) :
-        string.minLength(n)(value); };
-};
+const minLength = (n) => (value) => Array.isArray(value) ?
+    array.min(n)(value) :
+    string.minLength(n)(value);
 exports.minLength = minLength;
 /**
  * maxLength for strings and array.
  */
-var maxLength = function (n) {
-    return function (value) { return Array.isArray(value) ?
-        array.max(n)(value) :
-        string.maxLength(n)(value); };
-};
+const maxLength = (n) => (value) => Array.isArray(value) ?
+    array.max(n)(value) :
+    string.maxLength(n)(value);
 exports.maxLength = maxLength;
 /**
  * currency ensures the provided string is one of the supported currency
  * indicators.
  */
-var currency = function (value) {
-    return (0, array_1.contains)(currency_1.supportedCurrencies, value) ?
-        (0, result_1.succeed)(value) :
-        (0, result_1.fail)('invalid', { value: value });
-};
+const currency = (value) => (0, array_1.contains)(currency_1.supportedCurrencies, value) ?
+    (0, result_1.succeed)(value) :
+    (0, result_1.fail)('invalid', { value });
 exports.currency = currency;
 /**
  * paymentFrequency is one of several period specifiers that indicate how
  * often a payment will be made.
  */
-var paymentFrequency = function (value) {
-    return (0, array_1.contains)(payment_1.supportedPaymentFrequencies, value) ?
-        (0, result_1.succeed)(value) :
-        (0, result_1.fail)('invalid', { value: value });
-};
+const paymentFrequency = (value) => (0, array_1.contains)(payment_1.supportedPaymentFrequencies, value) ?
+    (0, result_1.succeed)(value) :
+    (0, result_1.fail)('invalid', { value });
 exports.paymentFrequency = paymentFrequency;
 /**
  * jobStatus must be one of the predefined job posting statuses.
  */
-var jobStatus = function (value) {
-    return (0, array_1.contains)(job_1.jobStatuses, value) ?
-        (0, result_1.succeed)(value) :
-        (0, result_1.fail)('invalid', { value: value });
-};
+const jobStatus = (value) => (0, array_1.contains)(job_1.jobStatuses, value) ?
+    (0, result_1.succeed)(value) :
+    (0, result_1.fail)('invalid', { value });
 exports.jobStatus = jobStatus;
 //# sourceMappingURL=validators.js.map

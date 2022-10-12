@@ -73,17 +73,17 @@ export class RankPanelView  implements __wml.View {
 
        
 
-           return __this.widget(new Panel({ww : { 'className' : __context.values.className  }}, [
+           return __this.widget(new Panel({'className': __context.values.className}, [
 
-        __this.widget(new PanelHeader({ww : { 'className' : 'devcarib-rank-panel__header'  }}, [
+        __this.widget(new PanelHeader({'className': 'devcarib-rank-panel__header'}, [
 
         __this.node('h3', <__wml.Attrs>{}, [
 
         text (__context.values.title)
      ])
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-rank-panel__header'  }}),
+     ]),<__wml.Attrs>{'className': 'devcarib-rank-panel__header'}),
 ...(__context.children)
-     ]),<__wml.Attrs>{ww : { 'className' : __context.values.className  }});
+     ]),<__wml.Attrs>{'className': __context.values.className});
 
        }
 

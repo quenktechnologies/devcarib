@@ -3,7 +3,8 @@ import { Object } from '@quenk/noni/lib/data/jsonx';
 
 import { Case } from '@quenk/potoo/lib/actor/resident/case';
 
-import { Pagination, RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
+import { Pagination } from '@quenk/jouvert/lib/app/remote/model/response';
+import { RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
 import {
     AfterSearchSetData,
     AfterSearchSetPagination,
@@ -106,7 +107,7 @@ export abstract class MiaManager<T extends Object, M>
 
 export const defaultHandlers = <T extends Object, M>(mgr: MiaManager<T, M>) => [
 
-    new AfterSearchSetData<T>(data => {mgr.values.table.data = data}),
+    new AfterSearchSetData<T>(data => { mgr.values.table.data = data }),
 
     new AfterSearchSetPagination(mgr.values.table),
 

@@ -53,8 +53,8 @@ class DevCarib extends jouvert_1.Jouvert {
     /**
      * getModel is a factory method for creating [[RemoteModel]] instances.
      */
-    getModel(paths, handler = [], context = {}) {
-        return this.models.create(paths, handler, context);
+    getModel(paths, handler = [], _context = {}) {
+        return this.models.create(paths, handler);
     }
     /**
      * spawn an actor directly from the root.
@@ -74,10 +74,9 @@ class DevCarib extends jouvert_1.Jouvert {
         return this;
     }
     /**
-     * run puts up the applications base view and spawns all the needed service
-     * actors for routing, remote requests etc.
+     * init spawns all the services needed by the application
      */
-    run() {
+    init() {
         // TODO: Replace this with library calls once available.
         let viewDelegate = new display_1.HTMLElementViewDelegate(this.main);
         viewDelegate.set(this.view);
@@ -97,6 +96,12 @@ class DevCarib extends jouvert_1.Jouvert {
             id: 'router',
             create: () => new director_1.Director(this.services.views, this.router, {}, this.routes, this)
         });
+    }
+    /**
+     * run the application.
+     */
+    run() {
+        this.init();
         this.router.start();
         setTimeout(() => this.router.handleEvent(new Event('hashchanged')), 100);
     }

@@ -3,12 +3,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPartialChecksFor = exports.partialChecksAvailable = exports.getChecksFor = exports.checksAvailable = void 0;
 /** imports */
-var _comment = require("./comment");
-var _event = require("./event");
-var _invite = require("./invite");
-var _post = require("./post");
-var _user = require("./user");
-var maybe_1 = require("@quenk/noni/lib/data/maybe");
+const _comment = require("./comment");
+const _event = require("./event");
+const _invite = require("./invite");
+const _job = require("./job");
+const _post = require("./post");
+const _user = require("./user");
+const maybe_1 = require("@quenk/noni/lib/data/maybe");
 /**
  * checksAvailable from this module.
  */
@@ -16,15 +17,14 @@ exports.checksAvailable = {
     'comment': _comment.check,
     'event': _event.check,
     'invite': _invite.check,
+    'job': _job.check,
     'post': _post.check,
     'user': _user.check
 };
 /**
  * getChecksFor provides a validator from this module.
  */
-var getChecksFor = function (name) {
-    return (0, maybe_1.fromNullable)(exports.checksAvailable[name]);
-};
+const getChecksFor = (name) => (0, maybe_1.fromNullable)(exports.checksAvailable[name]);
 exports.getChecksFor = getChecksFor;
 /**
  * partialChecksAvailable from this module.
@@ -33,14 +33,13 @@ exports.partialChecksAvailable = {
     'comment': _comment.checkPartial,
     'event': _event.checkPartial,
     'invite': _invite.checkPartial,
+    'job': _job.checkPartial,
     'post': _post.checkPartial,
     'user': _user.checkPartial
 };
 /**
  * getPartialChecksFor provides a validator from this module.
  */
-var getPartialChecksFor = function (name) {
-    return (0, maybe_1.fromNullable)(exports.partialChecksAvailable[name]);
-};
+const getPartialChecksFor = (name) => (0, maybe_1.fromNullable)(exports.partialChecksAvailable[name]);
 exports.getPartialChecksFor = getPartialChecksFor;
 //# sourceMappingURL=index.js.map

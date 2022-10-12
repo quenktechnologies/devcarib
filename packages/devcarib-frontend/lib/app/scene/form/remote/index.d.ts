@@ -1,7 +1,9 @@
 import { Object } from '@quenk/noni/lib/data/jsonx';
 import { Future } from '@quenk/noni/lib/control/monad/future';
 import { FormErrors, SaveFailed } from '@quenk/jouvert/lib/app/scene/form';
-import { Paths, RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
+import { Model } from '@quenk/jouvert/lib/app/model';
+import { Paths } from '@quenk/jouvert/lib/app/remote/model';
+import { OnSaveFailed } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { DevCaribForm } from '../';
 export declare const REMOTE_FORM_MODE_CREATE = "create";
 export declare const REMOTE_FORM_MODE_UPDATE = "update";
@@ -14,11 +16,9 @@ export declare const REMOTE_FORM_MODE_UPDATE = "update";
  */
 export declare abstract class DevCaribRemoteForm<T extends Object, M> extends DevCaribForm<T, M> {
     /**
-     * model used to save the form data.
-     *
-     * Use getModel() when instantiating.
+     * model used to save the form data to the remote collection.
      */
-    abstract model: RemoteModel<T>;
+    abstract model: Model<T>;
     /**
      * values for the FormScene's view.
      *
@@ -37,7 +37,7 @@ export declare abstract class DevCaribRemoteForm<T extends Object, M> extends De
      *
      * A handler is installed by default to handle the 409 "Conflict" response.
      */
-    getModel(paths: Paths): RemoteModel<T>;
+    getModel(paths: Paths): Model<T>;
     /**
      * onSaveFailed handles errors from a 409 "Conflict" response, indicating
      * a problem with the data specified.
@@ -64,3 +64,4 @@ export declare abstract class DevCaribRemoteForm<T extends Object, M> extends De
     doUpdate(): Future<void>;
     save(): void;
 }
+export declare const defaultHandlers: <T extends Object, M>(form: DevCaribRemoteForm<T, M>) => OnSaveFailed<unknown>[];

@@ -10,11 +10,11 @@
 
       <TextField
        wml:id="name"
-       ww:name="name"
-       ww:label="Name*"
-       ww:error={{@values.errors.name}}
-       ww:value={{@values.data.name}}
-       ww:onChange={{@values.onChange}} />
+       name="name"
+       label="Name*"
+       error={{@values.errors.name}}
+       value={{@values.data.name}}
+       onChange={{@values.onChange}} />
 
     </Column>
 
@@ -26,11 +26,11 @@
 
       <TextField
        wml:id="email"
-       ww:name="email"
-       ww:label="Email*"
-       ww:value={{@values.data.email}}
-       ww:error={{@values.errors.email}}
-       ww:onChange={{@values.onChange}} />
+       name="email"
+       label="Email*"
+       value={{@values.data.email}}
+       error={{@values.errors.email}}
+       onChange={{@values.onChange}} />
 
     </Column>
 
@@ -42,12 +42,12 @@
 
       <TextField
        wml:id="message"
-       ww:name="message"
-       ww:rows=10
-       ww:placeholder="Message (Optional)"
-       ww:error={{@values.errors.message}}
-       ww:value={{@values.data.message}}
-       ww:onChange={{@values.onChange}} />
+       name="message"
+       rows=10
+       placeholder="Message (Optional)"
+       error={{@values.errors.message}}
+       value={{@values.data.message}}
+       onChange={{@values.onChange}} />
 
     </Column>
 

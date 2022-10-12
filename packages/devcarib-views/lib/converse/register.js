@@ -45,7 +45,7 @@ class SuccessView {
                 __this.node('body', {}, [
                     __this.widget(new grid_1.GridLayout({}, [
                         __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({ ww: { 'span': 4, 'offset': 4 } }, [
+                            __this.widget(new grid_1.Column({ 'span': 4, 'offset': 4 }, [
                                 __this.node('h1', {}, [
                                     __document.createTextNode('Success!')
                                 ]),
@@ -59,7 +59,7 @@ class SuccessView {
                                 __this.node('p', {}, [
                                     __document.createTextNode('Thank you for joining and have a great time!')
                                 ])
-                            ]), { ww: { 'span': 4, 'offset': 4 } })
+                            ]), { 'span': 4, 'offset': 4 })
                         ]), {})
                     ]), {})
                 ])

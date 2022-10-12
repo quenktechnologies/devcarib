@@ -34,11 +34,11 @@
 
       <TextField
        wml:id="title"
-       ww:name="title"
-       ww:label="Title*"
-       ww:placeholder="Example: Fintech Software Engineer Needed"
-       ww:value={{@data.title}}
-       ww:onChange={{@onChange}} />
+       name="title"
+       label="Title*"
+       placeholder="Example: Fintech Software Engineer Needed"
+       value={{@data.title}}
+       onChange={{@onChange}} />
 
     </Column>
 
@@ -46,28 +46,28 @@
 
   <Row>
 
-    <Column ww:span=6>
+    <Column span=6>
 
       <TextField
        wml:id="location"
-       ww:name="location"
-       ww:label="Location*"
-       ww:value={{@data.location}}
-       ww:onChange={{@onChange}} />
+       name="location"
+       label="Location*"
+       value={{@data.location}}
+       onChange={{@onChange}} />
 
     </Column>
 
-    <Column ww:span=6>
+    <Column span=6>
 
       <label class="ww-label">Select A Job Type*</label>
 
         <DropList
           wml:id="type"
-          ww:className="board-job-type-dropdown -block"
-          ww:name="type"
-          ww:value={{@data.type}}
-          ww:options={{@type.options}}
-          ww:onSelect={{@onSelect}} />
+          className="board-job-type-dropdown -block"
+          name="type"
+          value={{@data.type}}
+          options={{@type.options}}
+          onSelect={{@onSelect}} />
 
     </Column>
 
@@ -79,11 +79,11 @@
 
       <TextField
        wml:id="apply_url"
-       ww:name="apply_url"
-       ww:label="Apply Link"
-       ww:placeholder="Specify a url or email address applicants can use to apply"
-       ww:value={{@data.apply_url}}
-       ww:onChange={{@onChange}} />
+       name="apply_url"
+       label="Apply Link"
+       placeholder="Specify a url or email address applicants can use to apply"
+       value={{@data.apply_url}}
+       onChange={{@onChange}} />
 
     </Column>
 
@@ -96,9 +96,9 @@
       <b>
          Is this a remote position? 
          <Checkbox 
-           ww:name="remote" 
-           ww:value={{@data.remote}}
-           ww:onChange={{@onSelect}} />
+           name="remote" 
+           value={{@data.remote}}
+           onChange={{@onSelect}} />
       </b> 
 
     </Column>
@@ -107,7 +107,7 @@
 
   <Row>
 
-    <Column ww:span=6>
+    <Column span=6>
 
       <b>Payment</b>
 
@@ -117,17 +117,17 @@
 
     </Column>
 
-    <Column ww:span=6>
+    <Column span=6>
 
       <label class="ww-label">Payment Frequency</label>
 
         <DropList
          wml:id="payment_frequency"
-         ww:className="-block board-job-payment-frequency"
-         ww:name="payment_frequency"
-         ww:value={{@data.payment_frequency}}
-         ww:options={{@payment_frequency.options}}
-         ww:onSelect={{@onSelect}} />
+         className="-block board-job-payment-frequency"
+         name="payment_frequency"
+         value={{@data.payment_frequency}}
+         options={{@payment_frequency.options}}
+         onSelect={{@onSelect}} />
 
     </Column>
 
@@ -139,11 +139,11 @@
 
       <TextField
         wml:id="description"
-        ww:name="description"
-        ww:placeholder="Provide full details of the job. Markdown is supported"
-        ww:rows=12 
-        ww:value={{@data.description}}
-        ww:onChange={{@onChange}} />
+        name="description"
+        placeholder="Provide full details of the job. Markdown is supported"
+        rows=12 
+        value={{@data.description}}
+        onChange={{@onChange}} />
 
     </Column>
 
