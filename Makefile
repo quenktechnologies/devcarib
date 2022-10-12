@@ -13,6 +13,7 @@ ENVIFY?=$(HERE)/node_modules/.bin/envify
 TSFMT?=./node_modules/.bin/tsfmt
 TSC?=./node_modules/.bin/tsc
 DAGEN?=./node_modules/.bin/dagen
+DAGEN_PLUGIN_IMPORTS?=./node_modules/@quenk/dagen-commons/lib/plugins/imports.js
 VALIDATION_PLUGIN?=node_modules/@quenk/dagen-commons/lib/plugins/checks
 TRANSFORM?=./node_modules/.bin/transform
 
