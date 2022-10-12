@@ -79,7 +79,7 @@
         "@quenk/tdc": "^2.1.4",
         "@quenk/test": "^2.5.0",
         "@quenk/wml": "^2.13.1",
-        "@quenk/wml-widgets": "^1.33.1",
+        "@quenk/wml-widgets": "^1.33.2",
         "@types/bcrypt": "^3.0.0",
         "@types/bcryptjs": "^2.4.2",
         "@types/dotenv": "^8.2.0",
