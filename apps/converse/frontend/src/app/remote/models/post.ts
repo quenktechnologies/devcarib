@@ -1,17 +1,13 @@
-
-import * as jsonx from '@quenk/noni/lib/data/jsonx';
-import * as future from '@quenk/noni/lib/control/monad/future';
-import * as maybe from '@quenk/noni/lib/data/maybe';
-import * as strings from '@quenk/noni/lib/data/string';
-
-import * as request from '@quenk/jhr/lib/request';
-
 import * as remoteModel from '@quenk/jouvert/lib/app/remote/model';
-import * as models from '@quenk/jouvert/lib/app/model';
 
 
 import { Post } from '@converse/types/lib/post';
 import { Comment } from '@converse/types/lib/comment';
+import { Id } from '@quenk/jouvert/lib/app/model';
+import { Future, pure, doFuture } from '@quenk/noni/lib/control/monad/future';
+import { Object } from '@quenk/noni/lib/data/jsonx';
+import { interpolate } from '@quenk/noni/lib/data/string';
+import * as request from '@quenk/jhr/lib/request';
 
 
 
@@ -22,101 +18,61 @@ import { Comment } from '@converse/types/lib/comment';
  */
 export class PostRemoteModel
     extends
-    remoteModel.BaseRemoteModel<Post> {
+    remoteModel.RemoteModel<Post> {
 
-    create(data: Post): future.Future<models.Id> {
+    static paths = { "search": "/r/posts", "get": "/r/posts/{id}", "comments": "/r/posts/{id}/comments" }
 
-        let that = this;
+    paths = PostRemoteModel.paths;
 
-        return future.doFuture(function*() {
 
-            let r = yield that.send(new request.Post('/r/posts', data));
+    createComment(id: Id, data: Comment): Future<Id> {
 
-            return future.pure((<remoteModel.CreateResult>r.body).data.id);
-
-        });
-
-    }
-
-    search(qry: jsonx.Object): future.Future<Post[]> {
 
         let that = this;
 
-        return future.doFuture(function*() {
+        return doFuture(function*() {
 
-            let r = yield that.send(new request.Get('/r/posts', qry));
+            let path = interpolate('/r/posts/{id}/comments', { id });
 
-            return future.pure((r.code === 204) ?
-                [] : (<remoteModel.SearchResult<Post>>r.body).data);
+            let res = yield that.send(new request.Post(
+                path,
+                data,
+                {
+                    tags: {
+                        path,
+                        verb: 'post',
+                        method: 'createComment'
+                    }
+                }));
 
-        });
-
-    }
-
-    update(id: models.Id, changes: Partial<Post>): future.Future<boolean> {
-
-        let that = this;
-
-        return future.doFuture(function*() {
-
-            let r = yield that.send(new request.Patch(strings.interpolate('/r/posts/{id}', { id }),
-                changes));
-
-            return future.pure((r.code === 200) ? true : false);
+            return pure((<{ data: { id: number } }>res.body).data.id);
 
         });
 
-    }
-
-    get(id: models.Id): future.Future<maybe.Maybe<Post>> {
-
-        let that = this;
-
-        return future.doFuture(function*() {
-
-            let req = new request.Get(strings.interpolate('/r/posts/{id}', { id }));
-
-            return that
-                .send(req)
-                .chain(res => future.pure(maybe.fromNullable(
-                    (<remoteModel.GetResult<Post>>res.body).data)))
-                .catch(e => ((e.message == 'ClientError') && (e.code == 404)) ?
-                    future.pure(maybe.nothing()) :
-                    future.raise(e)
-                );
-
-        });
-
-    }
-
-    remove(id: models.Id): future.Future<boolean> {
-
-        let that = this;
-
-        return future.doFuture(function*() {
-
-            let r = yield that.send(new request.Delete(strings.interpolate(
-                '/r/posts/{id}', { id })));
-
-            return future.pure((r.code === 200) ? true : false);
-
-        });
 
     }
 
 
-    getComments(id: models.Id, qry: jsonx.Object): future.Future<Comment[]> {
+    getComments(id: Id, qry: Object = {}): Future<Comment[]> {
 
         let that = this;
 
-        return future.doFuture(function*() {
+        return doFuture(function*() {
 
-            let req = new request.Get(strings.interpolate('no-comments-path', { id }), qry);
+            let path = interpolate('/r/posts/{id}/comments', { id });
 
-            let res = yield that.send(req);
+            let res = yield that.send(new request.Get(
+                path,
+                qry,
+                {
+                    tags: {
+                        path,
+                        verb: 'post',
+                        method: 'getComments'
+                    }
+                }));
 
-            return future.pure((res.code === 204) ?
-                [] : (<remoteModel.SearchResult<Comment>>res.body).data);
+            return pure((res.code === 204) ? [] : (<{ data: Comment[] }>res.body).data);
 
         });
 

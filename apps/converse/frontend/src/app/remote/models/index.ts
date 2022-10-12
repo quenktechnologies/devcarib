@@ -1,15 +1,15 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
 import * as jsonx from '@quenk/noni/lib/data/jsonx';
-import * as types from '@quenk/noni/lib/data/type';
 
 import * as api from '@quenk/potoo/lib/actor/resident/api';
 import * as address from '@quenk/potoo/lib/actor/address';
 
 import * as factory from '@quenk/jouvert/lib/app/remote/model/factory';
 import * as remoteModel from '@quenk/jouvert/lib/app/remote/model';
-import * as model from '@quenk/jouvert/lib/app/model';
 import * as remoteCallback from '@quenk/jouvert/lib/app/remote/callback';
+import * as requestDecorator
+    from '@quenk/jouvert/lib/app/remote/request/decorators';
 
 import { CommentRemoteModel } from './comment';
 import { EventRemoteModel } from './event';
@@ -25,79 +25,91 @@ import { UserRemoteModel } from './user';
  */
 export class RemoteModels {
 
-    constructor(public remote: address.Address, public spawn: remoteModel.SpawnFunc) { }
+    constructor(public remote: address.Address, public actor: api.Spawner) { }
 
-    static getInstance(remote: address.Address, spawn: factory.SpawnSpec): RemoteModels {
+    static paths = {
 
-        return new RemoteModels(remote, types.isObject(spawn) ?
-            (<api.Spawner>spawn).spawn.bind(spawn) : spawn);
+        'comment': CommentRemoteModel.paths,
+        'event': EventRemoteModel.paths,
+        'invite': InviteRemoteModel.paths,
+        'job': JobRemoteModel.paths,
+        'post': PostRemoteModel.paths,
+        'user': UserRemoteModel.paths,
 
-    }
+    };
 
     /**
-     * create a new instance of a RemoteModel based on the provided model name.
+     * create a new instance of a RemoteModel using the parameters specified.
      */
-    create<T extends jsonx.Object>(
+    static create<T extends jsonx.Object>(
         name: string,
-        handler: remoteCallback.CompleteHandler<remoteModel.Result<T>> |
-            remoteCallback.CompleteHandler<remoteModel.Result<T>>[] = []
-    ): model.Model<T> {
+        remote: address.Address,
+        actor: api.Spawner,
+        handler: factory.CompleteHandlerSpec<T> = [],
+        decorator?: requestDecorator.RequestDecorator<T>)
+        : remoteModel.RemoteModel<T> {
 
         switch (name) {
 
 
             case 'comment':
-                return <model.Model<T>><model.Model<jsonx.Object>>new CommentRemoteModel(
-                    this.remote,
-                    this.spawn,
+                return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new CommentRemoteModel(
+                    remote,
+                    actor,
                     Array.isArray(handler) ?
                         new remoteCallback.CompositeCompleteHandler(handler) :
-                        handler
+                        handler,
+                    decorator
                 )
 
             case 'event':
-                return <model.Model<T>><model.Model<jsonx.Object>>new EventRemoteModel(
-                    this.remote,
-                    this.spawn,
+                return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new EventRemoteModel(
+                    remote,
+                    actor,
                     Array.isArray(handler) ?
                         new remoteCallback.CompositeCompleteHandler(handler) :
-                        handler
+                        handler,
+                    decorator
                 )
 
             case 'invite':
-                return <model.Model<T>><model.Model<jsonx.Object>>new InviteRemoteModel(
-                    this.remote,
-                    this.spawn,
+                return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new InviteRemoteModel(
+                    remote,
+                    actor,
                     Array.isArray(handler) ?
                         new remoteCallback.CompositeCompleteHandler(handler) :
-                        handler
+                        handler,
+                    decorator
                 )
 
             case 'job':
-                return <model.Model<T>><model.Model<jsonx.Object>>new JobRemoteModel(
-                    this.remote,
-                    this.spawn,
+                return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new JobRemoteModel(
+                    remote,
+                    actor,
                     Array.isArray(handler) ?
                         new remoteCallback.CompositeCompleteHandler(handler) :
-                        handler
+                        handler,
+                    decorator
                 )
 
             case 'post':
-                return <model.Model<T>><model.Model<jsonx.Object>>new PostRemoteModel(
-                    this.remote,
-                    this.spawn,
+                return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new PostRemoteModel(
+                    remote,
+                    actor,
                     Array.isArray(handler) ?
                         new remoteCallback.CompositeCompleteHandler(handler) :
-                        handler
+                        handler,
+                    decorator
                 )
 
             case 'user':
-                return <model.Model<T>><model.Model<jsonx.Object>>new UserRemoteModel(
-                    this.remote,
-                    this.spawn,
+                return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new UserRemoteModel(
+                    remote,
+                    actor,
                     Array.isArray(handler) ?
                         new remoteCallback.CompositeCompleteHandler(handler) :
-                        handler
+                        handler,
+                    decorator
                 )
 
             default:
@@ -107,5 +119,18 @@ export class RemoteModels {
 
     }
 
+    /**
+     * create an instance of a RemoteModel using the internal and specified 
+     * parameters.
+     */
+    create<T extends jsonx.Object>(
+        name: string,
+        handler: factory.CompleteHandlerSpec<T> = [],
+        decorator?: requestDecorator.RequestDecorator<T>)
+        : remoteModel.RemoteModel<T> {
+
+        return RemoteModels.create(name, this.remote, this.actor, handler, decorator);
+
+    }
 }
 

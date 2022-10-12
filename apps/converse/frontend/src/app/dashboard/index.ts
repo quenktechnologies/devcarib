@@ -12,7 +12,7 @@ import {
     AfterSearchUpdateWidget,
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
-import { Result } from '@quenk/jouvert/lib/app/remote/model';
+import { Result } from '@quenk/jouvert/lib/app/remote/model/response';
 
 import { PageSelectedEvent } from '@quenk/wml-widgets/lib/control/pager';
 

@@ -15,9 +15,9 @@ import { DevCarib } from '@devcarib/frontend/lib/app';
 import { User } from '@converse/types/lib/user';
 
 import { CreateInviteDialog } from './dialogs/invite';
+import { RemoteModels } from './remote/models';
 import { ConverseView } from './views/app';
 import { trap, routes } from './routes';
-import { RemoteModels } from './remote/models';
 
 /**
  * Converse application frontend main class.
@@ -65,17 +65,17 @@ export class Converse extends DevCarib {
 
         let that = this;
 
-        return doFuture(function *() {
+        return doFuture(function*() {
 
             if (confirm('Do you want to logout now?')) {
 
                 yield that.agent.post('/logout', {});
 
-                    window.location.href = '/';
+                window.location.href = '/';
 
             }
 
-           return pure(<void>undefined);
+            return pure(<void>undefined);
 
         });
 
@@ -94,10 +94,7 @@ export class Converse extends DevCarib {
 
             init();
 
-            let models = RemoteModels
-                .getInstance(that.services['remote.background'], that);
-
-            yield models.create('user', [
+            yield RemoteModels.create('user', that.services['remote.background'], that, [
 
                 new AfterGetSetData<User>(data => {
 

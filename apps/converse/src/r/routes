@@ -15,8 +15,10 @@ POST    /posts/:post/comments commentsCtrl.create +model="comment"
 
 GET     /posts/:post/comments commentsCtrl.search +search="comment" 
                                                   +query="post:{params.post}"
+POST    /posts/:post/comments commentsCtrl.create +model="comment"
+                                                  +params="post" 
 
--- Note: Users can only update comments they own.
+-- Note: Users are only allowed to update comments they created.
 PATCH   /comments/:id commentsCtrl.update +model="comment" +owned
 
 -- Events

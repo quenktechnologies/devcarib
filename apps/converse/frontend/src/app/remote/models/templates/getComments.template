@@ -1,13 +1,21 @@
 {% set path = document.paths.comments or "no-comments-path" %}
   let that = this;
 
-  return future.doFuture(function*() {
+  return doFuture(function*() {
 
-    let req = new request.Get(strings.interpolate('{{path}}', { id }), qry);
+    let path = interpolate('{{path}}', { id });
 
-    let res = yield that.send(req);
+    let res = yield that.send(new request.Get(
+        path,
+        qry,
+        {
+         tags: {
+         path,
+         verb: 'post',
+         method: 'getComments'
+        }
+    }));
 
-    return future.pure((res.code === 204) ?
-                [] : (<remoteModel.SearchResult<Comment>>res.body).data);
+   return pure((res.code === 204) ? [] : (<{data: Comment[]}>res.body).data);
 
   });

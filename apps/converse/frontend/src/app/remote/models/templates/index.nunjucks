@@ -1,15 +1,15 @@
 /** AUTO GENERATED MODULE, DO NOT EDIT DIRECTLY. */
 
 import * as jsonx from '@quenk/noni/lib/data/jsonx';
-import * as types from '@quenk/noni/lib/data/type';
 
 import * as api from '@quenk/potoo/lib/actor/resident/api';
 import * as address from '@quenk/potoo/lib/actor/address';
 
 import * as factory from '@quenk/jouvert/lib/app/remote/model/factory';
 import * as remoteModel from '@quenk/jouvert/lib/app/remote/model';
-import * as model from '@quenk/jouvert/lib/app/model';
 import * as remoteCallback from '@quenk/jouvert/lib/app/remote/callback';
+import * as requestDecorator 
+ from '@quenk/jouvert/lib/app/remote/request/decorators';
 
 {% for model in document.models.split(" ") %}
   {% set classname = model | classcase %}
@@ -24,37 +24,43 @@ import * as remoteCallback from '@quenk/jouvert/lib/app/remote/callback';
  */ 
 export class RemoteModels {
 
-  constructor(public remote: address.Address, public spawn: remoteModel.SpawnFunc) { }
+  constructor(public remote: address.Address, public actor: api.Spawner) {}
 
-  static getInstance(remote:address.Address, spawn: factory.SpawnSpec) : RemoteModels {
+  static paths = {
 
-        return new RemoteModels(remote, types.isObject(spawn) ?
-            (<api.Spawner>spawn).spawn.bind(spawn) : spawn);
+  {% for model in document.models.split(" ") %}
+    {% set classname = model | classcase %}
+    {% set classname = classname + "RemoteModel" %}
+    '{{model}}': {{classname}}.paths,
+  {% endfor %}
 
-   }
+  };
 
   /**
-   * create a new instance of a RemoteModel based on the provided model name.
-   */ 
-   create<T extends jsonx.Object>(
-      name:string, 
-      handler: remoteCallback.CompleteHandler<remoteModel.Result<T>>|
-               remoteCallback.CompleteHandler<remoteModel.Result<T>>[]=[]
-               ) : model.Model<T> {
+   * create a new instance of a RemoteModel using the parameters specified.
+   */
+   static create<T extends jsonx.Object>(
+       name: string,
+       remote:address.Address,
+       actor: api.Spawner,
+       handler: factory.CompleteHandlerSpec<T> = [],
+       decorator?: requestDecorator.RequestDecorator<T>) 
+       : remoteModel.RemoteModel<T> {
 
-    switch(name) {
+      switch(name) {
 
       {% for model in document.models.split(" ") %}
       {% set classname = model +"-remote-model" %}
       {% set classname = classname | classcase %}
 
         case '{{model|modulecase}}':
-        return <model.Model<T>><model.Model<jsonx.Object>>new {{ classname }}(
-          this.remote, 
-          this.spawn,
+        return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new {{ classname }}(
+          remote, 
+          actor,
           Array.isArray(handler) ?
           new remoteCallback.CompositeCompleteHandler(handler) : 
-          handler
+          handler,
+          decorator
           )
       {% endfor %}
 
@@ -65,4 +71,17 @@ export class RemoteModels {
 
   }
 
+  /**
+   * create an instance of a RemoteModel using the internal and specified 
+   * parameters.
+   */
+   create<T extends jsonx.Object>(
+       name: string,
+       handler: factory.CompleteHandlerSpec<T> = [],
+       decorator?: requestDecorator.RequestDecorator<T>) 
+       : remoteModel.RemoteModel<T> {
+
+        return RemoteModels.create(name, this.remote, this.actor, handler, decorator);
+
+       }
 }

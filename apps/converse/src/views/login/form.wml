@@ -33,8 +33,9 @@
 
         <TextField
           className="-block"
-          label="Password"
           name="password"
+          label="Password"
+          type="password"
           html:autocomplete="off"/>
 
         <input type="hidden" 

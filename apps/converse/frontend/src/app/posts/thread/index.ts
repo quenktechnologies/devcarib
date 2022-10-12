@@ -1,5 +1,3 @@
-import * as api from '../../api';
-
 import { Record } from '@quenk/noni/lib/data/record';
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
 import { Future, doFuture, voidPure } from '@quenk/noni/lib/control/monad/future';
@@ -13,10 +11,15 @@ import {
     OnCompleteShowData,
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import {
-    CreateHandler,
     CreateResult,
-    GetHandler
-} from '@quenk/jouvert/lib/app/remote/model';
+} from '@quenk/jouvert/lib/app/remote/model/response';
+import {
+    CreateResultHandler,
+    GetResultHandler
+} from '@quenk/jouvert/lib/app/remote/model/handlers/result';
+import {
+    TaggedHandler
+} from '@quenk/jouvert/lib/app/remote/model/handlers/tag';
 
 import { Event as ControlEvent } from '@quenk/wml-widgets/lib/control';
 
@@ -28,8 +31,9 @@ import { Event } from '@converse/types/lib/event';
 
 import { ConverseScene } from '../../common/scene';
 import { PostThreadView } from './views';
+import { PostRemoteModel } from '../../remote/models/post';
 
-class AfterPostLoadComments extends GetHandler<Post> {
+class AfterPostLoadComments extends GetResultHandler<Post> {
 
     constructor(public thread: PostThread) { super(); }
 
@@ -41,7 +45,7 @@ class AfterPostLoadComments extends GetHandler<Post> {
 
 }
 
-class AfterPostCommentReload extends CreateHandler {
+class AfterPostCommentReload extends CreateResultHandler {
 
     constructor(public thread: PostThread) { super(); }
 
@@ -78,6 +82,12 @@ export class PostThread extends ConverseScene<void> {
 
     view = new PostThreadView(this);
 
+    get id() {
+
+        return <number>this.values.post.data.id;
+
+    }
+
     values = {
 
         onBack: () => { window.location.hash = '' },
@@ -89,7 +99,7 @@ export class PostThread extends ConverseScene<void> {
             onEdit: (post: Post) => {
 
                 this.wait(<Future<void>><Future<unknown>>this.posts
-                    .update(<number>this.values.post.data.id, post));
+                    .update(<number>this.id, post));
 
             }
 
@@ -120,8 +130,9 @@ export class PostThread extends ConverseScene<void> {
 
                 if (target) {
 
-                    this.wait(<Future<void>><Future<unknown>>this.comment
+                    this.wait(<Future<void>><Future<unknown>>this.comments
                         .update(<number>comment.id, { body: comment.body }));
+
 
                 }
 
@@ -144,7 +155,7 @@ export class PostThread extends ConverseScene<void> {
             },
 
             onPost: () => this.wait(<Future<void>><Future<unknown>>
-                this.comments.create(this.values.comment.data))
+                this.posts.createComment(this.id, this.values.comment.data))
 
         },
 
@@ -164,63 +175,65 @@ export class PostThread extends ConverseScene<void> {
 
         }
 
-
     };
 
-    posts = this.app.getModel(
-        api.posts,
-        [
+    posts = <PostRemoteModel>this.models.create('post', TaggedHandler.create([
 
-            new AfterGetSetData(data => doFuture(function*() {
+        ['method', 'get', [
 
-                // @ts-ignore
-                let that: PostThread = this;
+            new AfterGetSetData(data => {
 
-                if (data) that.values.post.data = <Post>data
+                this.values.post.data = <Post>data;
 
-                yield that.recentPosts.search({ sort: '-created_on', limit: 5 });
+                this.wait(this.loadSidebar());
 
-                yield that.events.search({ sort: '-created_on', limit: 5 });
-
-                yield that.jobs.search({ sort: '-created_on', limit: 5 });
-
-                return voidPure;
-
-            }.bind(this))),
+            }),
 
             new OnCompleteShowData(this),
 
             new AfterPostLoadComments(this)
 
-        ]);
+        ]],
 
-    comments = this.app.getModel(api.comments, [
+        ['target', 'recentPosts', [
 
-        new AfterSearchSetData(data => { this.values.comments.data = data }),
+            new AfterSearchSetData(data => {
 
-        new AfterSearchUpdateWidget(this.view, this.values.comments.id),
+                this.values.posts.recent.data = data
 
-        new AfterPostCommentReload(this),
+            }),
 
-        new OnPatchCommentFailed(this)
+            new AfterSearchUpdateWidget(this.view, this.values.posts.recent.id)
 
-    ], <Object>this.resume.request.params);
+        ]],
 
-    comment = this.app.getModel(api.comments, [
+        ['method', 'getComments', [
+
+            new AfterSearchSetData(data => { this.values.comments.data = data }),
+
+            new AfterSearchUpdateWidget(this.view, this.values.comments.id),
+
+            new AfterPostCommentReload(this),
+
+            new OnPatchCommentFailed(this)
+
+        ]],
+
+        ['method', 'createComment', [
+
+            new AfterPostCommentReload(this),
+
+        ]]
+
+    ]));
+
+    comments = this.models.create('comment', [
 
         new OnPatchCommentFailed(this)
 
     ]);
 
-    recentPosts = this.app.getModel(api.posts, [
-
-        new AfterSearchSetData(data => { this.values.posts.recent.data = data }),
-
-        new AfterSearchUpdateWidget(this.view, this.values.posts.recent.id)
-
-    ]);
-
-    jobs = this.app.getModel(api.jobs, [
+    jobs = this.models.create('job', [
 
         new AfterSearchSetData(data => { this.values.jobs.data = data }),
 
@@ -228,7 +241,7 @@ export class PostThread extends ConverseScene<void> {
 
     ]);
 
-    events = this.app.getModel(api.events, [
+    events = this.models.create('event', [
 
         new AfterSearchSetData(data => { this.values.events.data = data }),
 
@@ -237,11 +250,38 @@ export class PostThread extends ConverseScene<void> {
     ]);
 
     /**
-     * loadComments takes care of loading the comments.
+     * loadComments for the post.
      */
     loadComments() {
 
-        this.wait(<Future<void>><Future<unknown>>this.comments.search({}));
+        this.wait(<Future<void>><Future<unknown>>
+            this.posts.getComments(<number>this.resume.request.params.id));
+
+    }
+
+    loadSidebar() {
+
+        let that = this;
+
+        return doFuture(function*() {
+
+            yield that.posts.search({
+
+                $tags: { target: 'recentPosts' },
+
+                sort: '-created_on',
+
+                limit: 5
+
+            });
+
+            yield that.events.search({ sort: '-created_on', limit: 5 });
+
+            yield that.jobs.search({ sort: '-created_on', limit: 5 });
+
+            return voidPure;
+
+        });
 
     }
 

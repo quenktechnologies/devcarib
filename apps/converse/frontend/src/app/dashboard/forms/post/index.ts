@@ -3,22 +3,26 @@ import { Record } from '@quenk/noni/lib/data/record';
 
 import { Event } from '@quenk/wml-widgets/lib/control';
 
+import {
+    DevCaribRemoteForm
+} from '@devcarib/frontend/lib/app/scene/form/remote';
+
 import { Post } from '@converse/types/lib/post';
 
-
-import { ConverseRemoteForm } from '../../../common/scene/form';
+import { RemoteModels } from '../../../remote/models';
 import { CreatePostFormView } from './views';
 
 /**
  * CreatePostForm displays a form for creating new posts.
  */
-export class CreatePostForm extends ConverseRemoteForm<Post, void> {
+export class CreatePostForm extends DevCaribRemoteForm<Post, void> {
 
     name = 'Create Post';
 
     view = new CreatePostFormView(this);
 
-    model = this.models.create<Post>('post');
+    model = RemoteModels.create<Post>('post',
+        this.app.services['remote.background'], this);
 
     values = {
 

@@ -1,5 +1,3 @@
-import * as api from '../../api';
-
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Record } from '@quenk/noni/lib/data/record';
 
@@ -14,6 +12,7 @@ import {
     REMOTE_FORM_MODE_CREATE
 } from '@devcarib/frontend/lib/app/scene/form/remote';
 
+import { RemoteModels } from '../../remote/models';
 import { CreateInviteDialogView } from './views';
 
 /**
@@ -25,7 +24,8 @@ export class CreateInviteDialog extends DevCaribDialogRemoteForm<Invite, void> {
 
     view = new CreateInviteDialogView(this);
 
-    model = this.app.getModel(api.invites);
+    model = RemoteModels.create('invite',
+        this.app.services['remote.background'], this);
 
     mode = REMOTE_FORM_MODE_CREATE;
 
