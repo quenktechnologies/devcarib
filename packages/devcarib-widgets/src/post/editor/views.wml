@@ -15,7 +15,7 @@
 
       <TextField 
        name="title"
-       className="devcarib-post-editor__title"
+       className="devcarib-post-editor__title -block"
        placeholder="Title"
        value={{@values.title.value}}
        error={{@values.title.error}}
@@ -25,7 +25,7 @@
 
     <TextField 
       name="body"
-      className="devcarib-post-editor__body"
+      className="devcarib-post-editor__body -block"
       rows=10
       placeholder="Body"
       value={{@values.body.value}}
