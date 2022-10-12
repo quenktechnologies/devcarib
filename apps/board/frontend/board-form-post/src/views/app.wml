@@ -12,7 +12,7 @@
 
   <Row>
 
-    <Column ww:span=6 ww:offset=3>
+    <Column span=6 offset=3>
 
       <Row>
 
@@ -21,9 +21,9 @@
           <div class="back-link-container">
 
             <Link
-              ww:className="back-link"
-              ww:text="← Back to Listings" 
-              ww:href="/" />
+              className="back-link"
+              text="← Back to Listings" 
+              href="/" />
 
           </div>
 
@@ -63,10 +63,10 @@
 
             <Button
               wml:id={{@values.buttons.preview.id}}
-              ww:disabled=true
-              ww:className="preview-button -primary -large"
-              ww:text="Preview" 
-              ww:onClick={{@values.buttons.preview.click}} />
+              disabled=true
+              className="preview-button -primary -large"
+              text="Preview" 
+              onClick={{@values.buttons.preview.click}} />
 
           </div>
 

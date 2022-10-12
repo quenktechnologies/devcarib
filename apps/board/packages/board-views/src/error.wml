@@ -16,9 +16,9 @@
 
         <Row>
 
-          <Column ww:span=8 ww:offset=2>
+          <Column span=8 offset=2>
 
-            <Well ww:className="devcarib-error-page-message">
+            <Well className="devcarib-error-page-message">
 
               Your request could not be completed. This may or not be our
               fault. Either way please re-try your request or click 
