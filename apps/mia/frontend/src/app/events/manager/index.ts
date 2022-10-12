@@ -18,7 +18,7 @@ import {
     ShiftingOnComplete,
     AfterSearchUpdateWidget
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
-import { Result } from '@quenk/jouvert/lib/app/remote/model';
+import { Result } from '@quenk/jouvert/lib/app/remote/model/response';
 
 import { Event } from '@mia/types/lib/event';
 
