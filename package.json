@@ -8,8 +8,8 @@
         "start": "node -r dotenv/config build/start.js"
     },
     "engines": {
-        "node": "12.13.0",
-        "npm": "6.12.0"
+        "node": "16.18.0",
+        "npm": "8.19.2"
     },
     "author": "Quenk Technologies 2019 <info@@quenk.com> (https://quenk.com)",
     "license": "Apache-2.0",
@@ -51,6 +51,7 @@
         "@quenk/tendril-session-mongodb": "^0.2.1",
         "@quenk/tendril-show-nunjucks": "0.0.7",
         "@quenk/tendril-show-wml": "0.0.9",
+        "@quenk/wml-widgets": "^1.33.2",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.17.2",
         "dotenv": "^8.2.0",
@@ -79,7 +80,6 @@
         "@quenk/tdc": "^2.1.4",
         "@quenk/test": "^2.5.0",
         "@quenk/wml": "^2.13.1",
-        "@quenk/wml-widgets": "^1.33.2",
         "@types/bcrypt": "^3.0.0",
         "@types/bcryptjs": "^2.4.2",
         "@types/dotenv": "^8.2.0",
