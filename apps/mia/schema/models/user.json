@@ -8,9 +8,9 @@
 
     "paths": {
 
-        "search": "r/users",
+        "search": "/mia/r/users",
 
-        "get": "r/users/{id}"
+        "get": "/mia/r/users/{id}"
 
     },
 

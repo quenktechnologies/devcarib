@@ -8,9 +8,9 @@
 
     "paths": {
 
-        "search": "r/events",
+        "search": "/mia/r/events",
 
-        "get": "r/events/{id}"
+        "get": "/mia/r/events/{id}"
 
     },
 
