@@ -1,4 +1,7 @@
-### Builds mia-models ###
+### Builds converse-models ###
+# The following variables must be set (in addition to variables.mk):
+# 1. MIA_SCHEMA_MODELS_DIR
+# 2. MIA_SCHEMA_DIR_FILE
 
 $(MIA_MODELS_DIR): $(MIA_MODELS_LIB_DIR)
 	touch $@
@@ -14,6 +17,7 @@ $(MIA_MODELS_LIB_DIR): $(MIA_SCHEMA_DIR) \
 	$(foreach d,$(MIA_MODELS_MODEL_NAMES), \
 	$(eval name=$(notdir $(basename $(d)))) \
 	$(DAGEN) --templates $(MIA_MODELS_TEMPLATE_DIR) \
+	--plugin $(DAGEN_PLUGIN_IMPORTS)\
 	--template $(MIA_MODELS_MODEL_TEMPLATE) \
 	--check $(MIA_MODELS_DIR)/checks/model.json \
 	--check $(MIA_MODELS_DIR)/checks/procedures.json \

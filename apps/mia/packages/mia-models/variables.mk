@@ -16,5 +16,3 @@ MIA_MODELS_CHECKS_DIR_FILES:=$(shell find $(MIA_MODELS_CHECKS_DIR) -type f)
 # This is the name of all the files in the model dir without extensions.
 MIA_MODELS_MODEL_NAMES=$(notdir $(basename $(wildcard \
 			 $(MIA_SCHEMA_MODELS_DIR)/*.json)))
-
-CLEAN_TARGETS:=$(CLEAN_TARGETS) $(MIA_MODELS_LIB_DIR)
