@@ -14,7 +14,7 @@ export class AdminRemoteModel
     extends
     remoteModel.RemoteModel<Admin> {
 
-    static paths = { "search": "r/admins", "get": "r/admins/{id}" }
+    static paths = { "search": "/mia/r/admins", "get": "/mia/r/admins/{id}" }
 
     paths = AdminRemoteModel.paths;
 

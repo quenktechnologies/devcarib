@@ -14,7 +14,7 @@ export class EventRemoteModel
     extends
     remoteModel.RemoteModel<Event> {
 
-    static paths = { "search": "r/events", "get": "r/events/{id}" }
+    static paths = { "search": "/mia/r/events", "get": "/mia/r/events/{id}" }
 
     paths = EventRemoteModel.paths;
 

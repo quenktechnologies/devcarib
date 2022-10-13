@@ -14,7 +14,7 @@ export class UserRemoteModel
     extends
     remoteModel.RemoteModel<User> {
 
-    static paths = { "search": "r/users", "get": "r/users/{id}" }
+    static paths = { "search": "/mia/r/users", "get": "/mia/r/users/{id}" }
 
     paths = UserRemoteModel.paths;
 

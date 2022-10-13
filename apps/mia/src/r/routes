@@ -29,3 +29,12 @@ GET     /events        eventsCtrl.search +policy="event"
 PATCH   /events/:id    eventsCtrl.update +model="event"
 GET     /events/:id    eventsCtrl.get
 DELETE  /events/:id    eventsCtrl.remove
+
+-- Invites
+
+POST    /invites       invitesCtrl.create +model="invite"
+GET     /invites       invitesCtrl.search +policy="invite"
+
+PATCH   /invites/:id   invitesCtrl.update +model="invite"
+GET     /invites/:id   invitesCtrl.get
+DELETE  /invites/:id   invitesCtrl.remove

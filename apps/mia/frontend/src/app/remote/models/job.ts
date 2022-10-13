@@ -14,7 +14,7 @@ export class JobRemoteModel
     extends
     remoteModel.RemoteModel<Job> {
 
-    static paths = { "search": "r/jobs", "get": "r/jobs/{id}" }
+    static paths = { "search": "/mia/r/jobs", "get": "/mia/r/jobs/{id}" }
 
     paths = JobRemoteModel.paths;
 

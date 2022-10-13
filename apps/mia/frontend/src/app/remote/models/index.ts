@@ -13,6 +13,7 @@ import * as requestDecorator
 
 import { AdminRemoteModel } from './admin';
 import { EventRemoteModel } from './event';
+import { InviteRemoteModel } from './invite';
 import { JobRemoteModel } from './job';
 import { UserRemoteModel } from './user';
 
@@ -29,6 +30,7 @@ export class RemoteModels {
 
         'admin': AdminRemoteModel.paths,
         'event': EventRemoteModel.paths,
+        'invite': InviteRemoteModel.paths,
         'job': JobRemoteModel.paths,
         'user': UserRemoteModel.paths,
 
@@ -60,6 +62,16 @@ export class RemoteModels {
 
             case 'event':
                 return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new EventRemoteModel(
+                    remote,
+                    actor,
+                    Array.isArray(handler) ?
+                        new remoteCallback.CompositeCompleteHandler(handler) :
+                        handler,
+                    decorator
+                )
+
+            case 'invite':
+                return <remoteModel.RemoteModel<T>><remoteModel.RemoteModel<jsonx.Object>>new InviteRemoteModel(
                     remote,
                     actor,
                     Array.isArray(handler) ?

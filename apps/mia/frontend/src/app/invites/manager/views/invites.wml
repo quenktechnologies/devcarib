@@ -1,12 +1,11 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (DataTable) from "@quenk/wml-widgets/lib/data/table" %}
 {% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
-{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
 {% import (ManagerHeader) from "../../../common/scene/manager/views/header" %}
-{% import (UsersManager) from "../" %}
+{% import (InvitesManager) from "../" %}
 
-{% view UsersManagerView (UsersManager) %}
+{% view InviteManagerView (InvitesManager) %}
 
 <GridLayout>
 
@@ -15,8 +14,6 @@
     <Column>
 
       {{ <ManagerHeader(@values.table)> }}
-
-      <Link href="#/invites" text="invites" />
 
     </Column>
 
