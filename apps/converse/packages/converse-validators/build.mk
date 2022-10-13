@@ -1,9 +1,3 @@
-## Builds converse-validators. ###
-# The following variables must be defined:
-# 1. CONVERSE_VALIDATORS_SCHEMA_DIR
-# 2. CONVERSE_SCHEMA_MODELS_DIR
-# 3. CONVERSE_SCHEMA_TYPES_DIR
-
 $(CONVERSE_VALIDATORS_DIR): $(CONVERSE_VALIDATORS_LIB_DIR)\
 	                    $(CONVERSE_VALIDATORS_TEST_DIR)
 	touch $@

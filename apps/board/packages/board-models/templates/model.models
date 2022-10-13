@@ -1,25 +1,24 @@
 {% from "macros/params.models" import params2TS,thisAndParamNames2TS %}
-{% from "macros/imports.models" import imports2TS %}
 
  /** imports */
 import {BaseModel} from '@quenk/dback-model-mongodb';
-{{imports2TS(document.imports)}}
+{{ imports2TS(addImports(document.imports, { "mongodb": "mongodb" })) }}
 
 {% set classname = document.title + "Model" | classcase %}
 
 /**
  * @private Used by templates during generation.
  */
-export { 
-  {{classname}} as ModelImpl, 
-  {{document.model.type}} as DataType  
+export {
+  {{classname}} as ModelImpl,
+  {{document.title}} as DataType
 }
 
 /**
  * {{classname}}Model.
  * AUTO-GENERATED, DO NOT EDIT DIRECTLY, CHANGES WILL BE LOST!
  */
-export class {{classname}} extends BaseModel<{{document.model.type}}> {
+export class {{classname}} extends BaseModel<{{document.title}}> {
 
   constructor(
     public name: string,

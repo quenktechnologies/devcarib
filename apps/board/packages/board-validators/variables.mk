@@ -29,6 +29,7 @@ CLEAN_TARGETS:=$(CLEAN_TARGETS)\
                $(BOARD_VALIDATORS_LIB_DIR)\
 	       $(BOARD_VALIDATORS_TEST_DIR)
 
+# Add our sources to the list of total project sources.
 SRC_DIRS:=$(SRC_DIRS)\
 	  $(BOARD_VALIDATORS_SRC_DIR)\
 	  $(BOARD_VALIDATORS_TEST_DATA_DIR)\

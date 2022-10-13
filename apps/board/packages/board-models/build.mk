@@ -1,8 +1,3 @@
-### Builds converse-models ###
-# The following variables must be set (in addition to variables.mk):
-# 1. BOARD_SCHEMA_MODELS_DIR
-# 2. BOARD_SCHEMA_DIR_FILE
-
 $(BOARD_MODELS_DIR): $(BOARD_MODELS_LIB_DIR)
 	touch $@
 
@@ -17,6 +12,7 @@ $(BOARD_MODELS_LIB_DIR): $(BOARD_SCHEMA_DIR) \
 	$(foreach d,$(BOARD_MODELS_MODEL_NAMES), \
 	$(eval name=$(notdir $(basename $(d)))) \
 	$(DAGEN) --templates $(BOARD_MODELS_TEMPLATE_DIR) \
+	--plugin $(DAGEN_PLUGIN_IMPORTS)\
 	--template $(BOARD_MODELS_MODEL_TEMPLATE) \
 	--check $(BOARD_MODELS_DIR)/checks/model.json \
 	--check $(BOARD_MODELS_DIR)/checks/procedures.json \

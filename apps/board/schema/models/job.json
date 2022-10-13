@@ -6,37 +6,11 @@
 
     "collection": "jobs",
 
-    "model.type": "ModelType",
+    "imports": {
 
-    "models:imports": {
+        "@board/types/lib/job": [ "Job" ],
 
-        "$ref": "./common/imports.json",
-
-        "@board/types/lib/job": {
-
-            "Job": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
-
-    },
-
-    "validators:imports": {
-
-        "@board/types/lib/job": "Job"
-
-    },
-
-    "checks:imports": {
-
-        "@board/validators/lib/job": ["validate", "validatePartial"]
+        "checks:@board/validators/lib/job": ["validate", "validatePartial"]
 
     },
 

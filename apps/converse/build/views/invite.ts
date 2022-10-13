@@ -95,7 +95,7 @@ export class InviteView  implements __wml.View {
      })).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
-        __this.node('form', <__wml.Attrs>{'autocomplete': 'off','action': ('/converse/invites/' + __context.token),'method': 'POST'}, [
+        __this.node('form', <__wml.Attrs>{'autocomplete': 'off','action': ('/invites/' + __context.token),'method': 'POST'}, [
 
         __this.widget(new GridLayout({'id': 'main'}, [
 

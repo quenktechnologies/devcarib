@@ -18,8 +18,6 @@ import { Result } from '@quenk/preconditions/lib/result';
 import { redirect } from '@quenk/tendril/lib/app/api/response';
 
 import { NotFoundView } from '@devcarib/views/lib/common/404';
-import { InviteView } from '@devcarib/views/lib/converse/invite';
-import { SuccessView } from '@devcarib/views/lib/converse/register';
 import { now } from '@devcarib/common/lib/data/datetime';
 
 import { Invite } from '@converse/types/lib/invite';
@@ -27,6 +25,9 @@ import { User } from '@converse/types/lib/user';
 
 import { InviteModel } from '@converse/models/lib/invite';
 import { UserModel } from '@converse/models/lib/user';
+
+import { InviteView } from './views/invite';
+import { SuccessView } from './views/register';
 
 const ERR_MESSAGE = 'Please correct the errors below before proceeding.';
 
@@ -165,7 +166,7 @@ export class InviteController {
 
                 req.session.setWithDescriptor('success', 1, { ttl: 1 });
 
-                return redirect('/converse/register/success', 303);
+                return redirect('/register/success', 303);
 
             }
 

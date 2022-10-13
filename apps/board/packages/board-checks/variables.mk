@@ -21,5 +21,3 @@ CLEAN_TARGETS:=$(CLEAN_TARGETS) $(BOARD_CHECKS_LIB_DIR)
 SRC_DIRS:=$(SRC_DIRS)\
           $(BOARD_CHECKS_SRC_DIR)\
           $(BOARD_CHECKS_TEMPLATE_DIR)
-
-VALIDATION_PLUGIN?=node_modules/@quenk/dagen-commons/lib/plugins/checks

@@ -10,11 +10,11 @@ const control_1 = require("@quenk/tendril/lib/app/api/control");
 const tendril_show_wml_1 = require("@quenk/tendril-show-wml");
 const response_1 = require("@quenk/tendril/lib/app/api/response");
 const _404_1 = require("@devcarib/views/lib/common/404");
-const invite_1 = require("@devcarib/views/lib/converse/invite");
-const register_1 = require("@devcarib/views/lib/converse/register");
 const datetime_1 = require("@devcarib/common/lib/data/datetime");
-const invite_2 = require("@converse/models/lib/invite");
+const invite_1 = require("@converse/models/lib/invite");
 const user_1 = require("@converse/models/lib/user");
+const invite_2 = require("./views/invite");
+const register_1 = require("./views/register");
 const ERR_MESSAGE = 'Please correct the errors below before proceeding.';
 /**
  * InviteController is responsible for the invitation based user registration
@@ -22,7 +22,7 @@ const ERR_MESSAGE = 'Please correct the errors below before proceeding.';
  */
 class InviteController {
     _getModel(db) {
-        return invite_2.InviteModel.getInstance(db);
+        return invite_1.InviteModel.getInstance(db);
     }
     _getInvite(model, id) {
         return model.get(id, { accepted_on: { $exists: false } });
@@ -43,7 +43,7 @@ class InviteController {
             if (minvite.isNothing())
                 return (0, tendril_show_wml_1.render)(new _404_1.NotFoundView({}), 404);
             let invite = minvite.get();
-            return (0, tendril_show_wml_1.render)(new invite_1.InviteView({
+            return (0, tendril_show_wml_1.render)(new invite_2.InviteView({
                 failed: false,
                 errors: {},
                 token: invite.id,
@@ -71,7 +71,7 @@ class InviteController {
             let result = yield (0, control_1.fork)(checks.check(req.body));
             if (result.isLeft()) {
                 let errors = result.takeLeft().explain();
-                return (0, tendril_show_wml_1.render)(new invite_1.InviteView({
+                return (0, tendril_show_wml_1.render)(new invite_2.InviteView({
                     failed: true,
                     message: ERR_MESSAGE,
                     errors,
@@ -93,7 +93,7 @@ class InviteController {
                 yield (0, control_1.fork)(users.create(user));
                 yield (0, control_1.fork)(model.update(req.params.id, { accepted_on: (0, datetime_1.now)() }));
                 req.session.setWithDescriptor('success', 1, { ttl: 1 });
-                return (0, response_1.redirect)('/converse/register/success', 303);
+                return (0, response_1.redirect)('/register/success', 303);
             }
         });
     }

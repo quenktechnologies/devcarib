@@ -5,7 +5,7 @@ $(DEVCARIB_VIEWS_DIR): $(DEVCARIB_VIEWS_LIB_DIR)\
 $(DEVCARIB_VIEWS_LIB_DIR): $(DEVCARIB_VIEWS_SRC_DIR)
 	rm -R $@ || true
 	cp -R -u $(DEVCARIB_VIEWS_SRC_DIR) $@
-	$(WML) $@
+	$(WMLC) $@
 	$(TSC) --project $@
 	touch $@
 

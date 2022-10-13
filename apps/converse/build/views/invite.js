@@ -53,7 +53,7 @@ class InviteView {
                     'title': 'Register'
                 })).render(),
                 __this.node('body', {}, [
-                    __this.node('form', { 'autocomplete': 'off', 'action': ('/converse/invites/' + __context.token), 'method': 'POST' }, [
+                    __this.node('form', { 'autocomplete': 'off', 'action': ('/invites/' + __context.token), 'method': 'POST' }, [
                         __this.widget(new grid_1.GridLayout({ 'id': 'main' }, [
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({ 'span': 4, 'offset': 4 }, [
