@@ -3,7 +3,8 @@ $(BOARD_DIR): $(BOARD_BUILD_DIR) $(BOARD_FRONTEND_DIR)
 
 $(BOARD_BUILD_DIR): $(BOARD_SRC_DIR)\
 		    $(shell find $(BOARD_PACKAGES_DIR) -mindepth 1 \
-	             -maxdepth 1 -type d)
+	             -maxdepth 1 -type d)\
+		    $(CONVERSE_DIR)
 	rm -R $@ || true
 	mkdir -p $@
 	cp -R -u $(BOARD_SRC_DIR)/* $@
