@@ -1,5 +1,3 @@
-import * as api from '../../api';
-
 import {
     REMOTE_FORM_MODE_UPDATE
 } from '@devcarib/frontend/lib/app/scene/form/remote';
@@ -14,7 +12,5 @@ export class EditUserDialog extends AddUserDialog {
     name = 'Edit';
 
     mode = REMOTE_FORM_MODE_UPDATE;
-
-    model = this.app.getModel(api.users);
 
 }

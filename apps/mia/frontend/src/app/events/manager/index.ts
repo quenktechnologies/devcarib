@@ -1,5 +1,3 @@
-import * as api from '../../api';
-
 import {
     Future,
     pure,
@@ -129,9 +127,9 @@ export class EventsManager extends MiaManager<Event, void> {
 
     }
 
-    model = this.app.getModel(api.events, [
+    model = this.models.create('event', [
 
-        new AfterSearchSetData(data =>{ this.values.table.data = data}),
+        new AfterSearchSetData(data => { this.values.table.data = data }),
 
         new AfterSearchSetPagination(this.values.table),
 

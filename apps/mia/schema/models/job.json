@@ -6,37 +6,19 @@
 
     "collection": "jobs",
 
-    "model.type": "ModelType",
+    "paths": {
 
-    "models:imports": {
+        "search": "r/jobs",
 
-        "$ref": "./common/imports.json",
-
-        "@mia/types/lib/job": {
-
-            "Job": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
+        "get": "r/jobs/{id}"
 
     },
 
-    "validators:imports": {
+    "imports": {
 
-        "@mia/types/lib/job": "Job"
+        "@mia/types/lib/job": ["Job"],
 
-    },
-
-    "checks:imports": {
-
-        "@mia/validators/lib/job": ["validate", "validatePartial"]
+        "checks:@mia/validators/lib/job": ["validate", "validatePartial"]
 
     },
 
@@ -48,7 +30,9 @@
 
     "checks": [
 
-        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'", "true"]]
+        [
+            "@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'", "true"]
+        ]
 
     ],
 

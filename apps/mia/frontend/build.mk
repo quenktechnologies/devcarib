@@ -13,14 +13,17 @@ $(MIA_FRONTEND_JS_FILE): $(MIA_FRONTEND_LIB_DIR)
 	$(if $(findstring yes,$(DEBUG)),,|$(UGLIFYJS)) > $@
 
 $(MIA_FRONTEND_LIB_DIR): $(MIA_FRONTEND_SRC_FILES)\
+			 $(MIA_REMOTE_MODELS_DIR)\
 			 $(DEVCARIB_FRONTEND_DIR)\
 	                 $(DEVCARIB_WIDGETS_DIR)
 	rm -R $@ 2> /dev/null || true 
 	mkdir $@
 	cp -R -u $(MIA_FRONTEND_SRC_DIR)/* $@
-	$(WMLC) $@
+	$(WML) $@
 	$(TSC) --project $@
 	touch $@
+
+include $(MIA_REMOTE_MODELS_DIR)/build.mk
 
 $(MIA_FRONTEND_CSS_FILE): $(MIA_FRONTEND_LESS_IMPORTS) \
                              $(MIA_FRONTEND_LESS_MAIN)

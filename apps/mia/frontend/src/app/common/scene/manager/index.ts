@@ -16,6 +16,7 @@ import { FormSaved, FormSavedCase } from '@quenk/jouvert/lib/app/scene/form';
 import { MainSceneMessage } from '@quenk/jouvert/lib/app/scene/main';
 
 import { MiaScene } from '../';
+import { RemoteModels } from '../../../remote/models';
 
 /**
  * MiaManagerMessage adds the FormSaved message to the accepted types.
@@ -60,6 +61,8 @@ export abstract class MiaManager<T extends Object, M>
      * model used to fetch the remote data.
      */
     abstract model: RemoteModel<T>;
+
+        models = new RemoteModels(this.app.services['remote.background'],this);
 
     receive() {
 

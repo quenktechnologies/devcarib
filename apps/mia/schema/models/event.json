@@ -6,43 +6,28 @@
 
     "collection": "events",
 
-    "model.type": "ModelType",
+    "paths": {
 
-    "models:imports": {
+        "search": "r/events",
 
-        "$ref": "./common/imports.json",
-
-        "@mia/types/lib/event": {
-
-            "Event": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
+        "get": "r/events/{id}"
 
     },
 
-    "validators:imports": {
+    "imports": {
 
-        "@mia/types/lib/event": "Event"
+        "@mia/types/lib/event": ["Event"],
 
-    },
 
-    "checks:imports": {
-
-        "@mia/validators/lib/event": ["validate", "validatePartial"]
+        "checks:@mia/validators/lib/event": ["validate", "validatePartial"]
 
     },
 
     "checks": [
 
-        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]]
+        [
+            "@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]
+        ]
 
     ],
 
@@ -108,11 +93,11 @@
 
         "allDay": {
 
-          "type": "boolean",
+            "type": "boolean",
 
-          "optional": true,
+            "optional": true,
 
-          "validators": "@devcarib/common/lib/data/validators#boolean"
+            "validators": "@devcarib/common/lib/data/validators#boolean"
 
         },
 

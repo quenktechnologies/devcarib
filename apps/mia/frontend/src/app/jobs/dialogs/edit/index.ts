@@ -1,5 +1,3 @@
-import * as api from '../../../api';
-
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Record } from '@quenk/noni/lib/data/record';
 
@@ -17,6 +15,7 @@ import {
     DevCaribDialogRemoteForm
 } from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
 
+import { RemoteModels } from '../../../remote/models';
 import { EditJobDialogView } from './views/edit';
 
 /**
@@ -28,7 +27,8 @@ export class EditJobDialog extends DevCaribDialogRemoteForm<Job, void> {
 
     view = new EditJobDialogView(this);
 
-    model = this.app.getModel(api.jobs);
+    model = RemoteModels.create('job',
+        this.app.services['remote.background'], this);
 
     mode = REMOTE_FORM_MODE_UPDATE;
 

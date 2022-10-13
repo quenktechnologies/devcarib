@@ -6,37 +6,19 @@
 
     "collection": "admins",
 
-    "model.type": "ModelType",
+    "paths": {
 
-    "models:imports": {
+        "search": "r/admins",
 
-        "$ref": "./common/imports.json",
-
-        "@mia/types/lib/admin": {
-
-            "Admin": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
+        "get": "r/admins/{id}"
 
     },
 
-    "validators:imports": {
+    "imports": {
 
-        "@mia/types/lib/admin": "Admin"
+        "@mia/types/lib/admin": ["Admin"],
 
-    },
-
-    "checks:imports": {
-
-        "@mia/validators/lib/admin": ["validate", "validatePartial"]
+        "checks:@mia/validators/lib/admin": ["validate", "validatePartial"]
 
     },
 

@@ -1,5 +1,4 @@
 import * as moment from 'moment';
-import * as api from '../../../api';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { merge, Record } from '@quenk/noni/lib/data/record';
@@ -12,6 +11,8 @@ import { Event } from '@mia/types/lib/event';
 import {
     DevCaribDialogRemoteForm
 } from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
+
+import { RemoteModels } from '../../../remote/models';
 import { AddEventDialogView } from './views';
 
 const getTimes = () => {
@@ -39,7 +40,8 @@ export class AddEventDialog extends DevCaribDialogRemoteForm<Event, void> {
 
     view = new AddEventDialogView(this);
 
-    model = this.getModel(api.events);
+    model = RemoteModels.create('event',
+        this.app.services['remote.background'], this);
 
     value: Event = merge({ start: now().toISOString() }, this.value);
 

@@ -4,9 +4,9 @@
 
     "title": "Login",
 
-    "validation:imports": {
+    "imports": {
 
-        "@mia/types/lib/login": "Login"
+        "@mia/types/lib/login": ["Login"]
 
     },
 

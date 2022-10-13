@@ -1,9 +1,8 @@
-import * as api from '../../../api';
-
 import { ConfirmDialog } from '@quenk/jouvert/lib/app/scene/dialog/confirm';
 
 import { Job } from '@board/types/lib/job';
 
+import { RemoteModels } from '../../../remote/models';
 import { Mia } from '../../../';
 import { JobPreviewDialogView } from './views/preview';
 
@@ -25,7 +24,8 @@ export class JobPreviewDialog extends ConfirmDialog<void> {
 
     view = new JobPreviewDialogView(this);
 
-    jobModel = this.app.getModel(api.jobs);
+    jobModel = RemoteModels.create('job',
+        this.app.services['remote.background'], this);
 
     values = {
 

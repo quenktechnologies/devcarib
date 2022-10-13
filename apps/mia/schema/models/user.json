@@ -6,37 +6,19 @@
 
     "collection": "users",
 
-    "model.type": "ModelType",
+    "paths": {
 
-    "models:imports": {
+        "search": "r/users",
 
-        "$ref": "./common/imports.json",
-
-        "@mia/types/lib/user": {
-
-            "User": "ModelType"
-
-        },
-
-        "@quenk/noni-mongodb/lib/database/collection": {
-
-            "populate": "populate",
-
-            "populateN": "populateN"
-
-        }
+        "get": "r/users/{id}"
 
     },
 
-    "validation:imports": {
+    "imports": {
 
-        "@mia/types/lib/user": "User"
+        "@mia/types/lib/user": ["User"],
 
-    },
-
-    "checks:imports": {
-
-        "@mia/validators/lib/user": ["validate", "validatePartial"]
+        "checks:@mia/validators/lib/user": ["validate", "validatePartial"]
 
     },
 
@@ -58,7 +40,9 @@
 
             "checks": [
 
-                ["@devcarib/server/lib/data/checks#unique", ["_collection", "'id'"]]
+                [
+                    "@devcarib/server/lib/data/checks#unique", ["_collection", "'id'"]
+                ]
 
             ]
 
@@ -84,7 +68,9 @@
 
             "checks": [
 
-                ["@devcarib/server/lib/data/checks#unique", ["_collection", "'username'"]]
+                [
+                    "@devcarib/server/lib/data/checks#unique", ["_collection", "'username'"]
+                ]
 
             ]
 

@@ -1,5 +1,4 @@
 import * as jobStatus from '@devcarib/common/lib/data/job';
-import * as api from '../../api';
 
 import {
     Future,
@@ -145,7 +144,7 @@ export class JobsManager extends MiaManager<Job, void> {
 
     }
 
-    model = this.app.getModel(api.jobs, [
+    model = this.models.create('job', [
 
         new AfterSearchSetData(data => { this.values.table.data = data }),
 

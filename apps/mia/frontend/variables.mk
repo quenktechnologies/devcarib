@@ -1,22 +1,8 @@
-### Build the board-views package. ###
-# Requires:
-# 1. MIA_FRONTEND_DIR
-
-#binaries
-DEBUG?=no
-BROWSERIFY?=./node_modules/.bin/browserify
-WMLC?=./node_modules/.bin/wmlc
-LESSC?=./node_modules/.bin/lessc
-CLEANCSS?=./node_modules/.bin/cleancss
-UGLIFYJS?=./node_modules/.bin/uglifyjs
-
-### Settings ###
 MIA_FRONTEND_DIR:=$(MIA_DIR)/frontend
 MIA_FRONTEND_JS_VARS:=$(HERE)/node_modules/@quenk/wml-widgets/lib/classNames.js
 MIA_FRONTEND_SRC_DIR:=$(MIA_FRONTEND_DIR)/src
 
-MIA_FRONTEND_SRC_FILES:=$(shell find $(MIA_FRONTEND_SRC_DIR)\
-                         -name \*.ts -o -name \*.json -o -name \*.wml)
+MIA_FRONTEND_SRC_FILES:=$(shell find $(MIA_FRONTEND_SRC_DIR) -type f)
 
 MIA_FRONTEND_LIB_DIR:=$(MIA_FRONTEND_DIR)/lib
 MIA_FRONTEND_LESS_FILES:=$(shell find $(MIA_FRONTEND_SRC_DIR)\
@@ -39,3 +25,5 @@ MIA_FRONTEND_FRONTEND_TEST_SRC_DIR_FILES:=$(shell find\
 
 MIA_FRONTEND_FRONTEND_TEST_BUILD_DIR:=$(MIA_FRONTEND_FRONTEND_TEST_DIR)/build
 MIA_FRONTEND_FRONTEND_TEST_BUNDLE_DIR:=$(MIA_FRONTEND_FRONTEND_TEST_DIR)/bundle
+
+include $(MIA_FRONTEND_SRC_DIR)/app/remote/models/variables.mk
