@@ -12,7 +12,7 @@ class DefaultPagination {
         this.current = {
             count: 0,
             page: 1,
-            limit: 2
+            limit: 500
         };
         this.total = {
             count: 0,

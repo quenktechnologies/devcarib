@@ -33,7 +33,7 @@ class DefaultPagination {
 
         page: 1,
 
-        limit: 2
+        limit: 500
 
     };
 
