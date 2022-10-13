@@ -19,5 +19,7 @@ $(CONVERSE_REMOTE_MODELS_DIR): $(CONVERSE_SCHEMA_DIR)\
 	$(TSFMT) --stdin > \
 	$@/index.ts
 
+	touch $@
+
 $(CONVERSE_REMOTE_MODELS_DIR)/templates: $(CONVERSE_REMOTE_MODELS_TEMPLATE_DIR_FILES)
 	touch $@
