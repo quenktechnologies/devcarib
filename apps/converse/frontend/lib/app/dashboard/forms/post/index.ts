@@ -21,8 +21,8 @@ export class CreatePostForm extends DevCaribRemoteForm<Post, void> {
 
     view = new CreatePostFormView(this);
 
-    model = RemoteModels.create<Post>('post',
-        this.app.services['remote.background'], this);
+    model = RemoteModels.create<Post>(
+        'post', this.app.services['remote.background'], this);
 
     values = {
 

@@ -75,7 +75,7 @@
         "@quenk/dback-mongodb-testkit": "^1.0.8",
         "@quenk/frontend-routers": "^1.0.0",
         "@quenk/jhr": "^2.6.26",
-        "@quenk/jouvert": "^0.14.0",
+        "@quenk/jouvert": "^0.14.1",
         "@quenk/must": "^1.0.3",
         "@quenk/tdc": "^2.1.4",
         "@quenk/test": "^2.5.0",

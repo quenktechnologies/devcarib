@@ -46,6 +46,7 @@
                 "@quenk/tendril-session-mongodb": "^0.2.1",
                 "@quenk/tendril-show-nunjucks": "0.0.7",
                 "@quenk/tendril-show-wml": "0.0.9",
+                "@quenk/wml-widgets": "^1.33.2",
                 "bcryptjs": "^2.4.3",
                 "body-parser": "^1.17.2",
                 "dotenv": "^8.2.0",
@@ -69,12 +70,11 @@
                 "@quenk/dback-mongodb-testkit": "^1.0.8",
                 "@quenk/frontend-routers": "^1.0.0",
                 "@quenk/jhr": "^2.6.26",
-                "@quenk/jouvert": "^0.14.0",
+                "@quenk/jouvert": "^0.14.1",
                 "@quenk/must": "^1.0.3",
                 "@quenk/tdc": "^2.1.4",
                 "@quenk/test": "^2.5.0",
                 "@quenk/wml": "^2.13.1",
-                "@quenk/wml-widgets": "^1.33.2",
                 "@types/bcrypt": "^3.0.0",
                 "@types/bcryptjs": "^2.4.2",
                 "@types/dotenv": "^8.2.0",
@@ -103,8 +103,8 @@
                 "uglify-es": "^3.3.9"
             },
             "engines": {
-                "node": "12.13.0",
-                "npm": "6.12.0"
+                "node": "16.18.0",
+                "npm": "8.19.2"
             }
         },
         "apps/board/packages/board-checks": {
@@ -472,9 +472,9 @@
             }
         },
         "node_modules/@quenk/jouvert": {
-            "version": "0.14.0",
-            "resolved": "https://registry.npmjs.org/@quenk/jouvert/-/jouvert-0.14.0.tgz",
-            "integrity": "sha512-kMuqg1MswGQMBEusx4Fh5+iNtKVOgHNATPEOfuW100SbwfoEjbdPytPxg4JhyHYQjMrCMVBYeBK4H6Y5eAKHag==",
+            "version": "0.14.1",
+            "resolved": "https://registry.npmjs.org/@quenk/jouvert/-/jouvert-0.14.1.tgz",
+            "integrity": "sha512-wvUqqJVSv7Sje8jhNSxuu4Zu5VhG/K6CJq5empgjQorQCC5g2C7jn6EHLKjLL2jpsf3R3PgWoDFb3Ei+2HB/6A==",
             "dev": true,
             "dependencies": {
                 "@quenk/jhr": "^2.6.26",
@@ -693,7 +693,6 @@
             "version": "1.33.2",
             "resolved": "https://registry.npmjs.org/@quenk/wml-widgets/-/wml-widgets-1.33.2.tgz",
             "integrity": "sha512-tGcwmCp7EV355IW+n8h1INd1EKNz2cDSahF7Rp7hoRxi48mlYFNM2MCDBSQ7jIRRfN+0mFQar7iUyhZOttBzzQ==",
-            "dev": true,
             "dependencies": {
                 "@quenk/noni": "^1.43.3",
                 "moment": "^2.29.1"
@@ -6048,9 +6047,9 @@
             }
         },
         "@quenk/jouvert": {
-            "version": "0.14.0",
-            "resolved": "https://registry.npmjs.org/@quenk/jouvert/-/jouvert-0.14.0.tgz",
-            "integrity": "sha512-kMuqg1MswGQMBEusx4Fh5+iNtKVOgHNATPEOfuW100SbwfoEjbdPytPxg4JhyHYQjMrCMVBYeBK4H6Y5eAKHag==",
+            "version": "0.14.1",
+            "resolved": "https://registry.npmjs.org/@quenk/jouvert/-/jouvert-0.14.1.tgz",
+            "integrity": "sha512-wvUqqJVSv7Sje8jhNSxuu4Zu5VhG/K6CJq5empgjQorQCC5g2C7jn6EHLKjLL2jpsf3R3PgWoDFb3Ei+2HB/6A==",
             "dev": true,
             "requires": {
                 "@quenk/jhr": "^2.6.26",
@@ -6258,7 +6257,6 @@
             "version": "1.33.2",
             "resolved": "https://registry.npmjs.org/@quenk/wml-widgets/-/wml-widgets-1.33.2.tgz",
             "integrity": "sha512-tGcwmCp7EV355IW+n8h1INd1EKNz2cDSahF7Rp7hoRxi48mlYFNM2MCDBSQ7jIRRfN+0mFQar7iUyhZOttBzzQ==",
-            "dev": true,
             "requires": {
                 "@quenk/noni": "^1.43.3",
                 "moment": "^2.29.1"
