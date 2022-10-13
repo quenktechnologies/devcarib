@@ -48,7 +48,7 @@
   {{ <HeadView({ title = "Register" })> }}
 
   <body>
-    <form autocomplete="off" action={{"/converse/invites/"+@token}} method="POST">
+    <form autocomplete="off" action={{"/invites/"+@token}} method="POST">
       <GridLayout id="main">
         <Row>
           <Column span=4 offset=4>

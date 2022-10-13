@@ -166,7 +166,7 @@ export class InviteController {
 
                 req.session.setWithDescriptor('success', 1, { ttl: 1 });
 
-                return redirect('/converse/register/success', 303);
+                return redirect('/register/success', 303);
 
             }
 
