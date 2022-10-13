@@ -5,6 +5,7 @@ import { Record } from '@quenk/noni/lib/data/record';
 
 import _admin from './admin';
 import _event from './event';
+import _invite from './invite';
 import _job from './job';
 import _user from './user';
 
@@ -25,6 +26,7 @@ export const fields: Record<Fields> = {
 
     'admin': _admin,
     'event': _event,
+    'invite': _invite,
     'job': _job,
     'user': _user
 }

@@ -10,7 +10,7 @@ import { AddUserDialogView } from './views/add';
 export declare class AddUserDialog extends DevCaribDialogRemoteForm<User, void> {
     name: string;
     view: AddUserDialogView;
-    model: import("@quenk/jouvert/lib/app/model").Model<User>;
+    model: import("@quenk/jouvert/lib/app/remote/model").RemoteModel<import("@quenk/noni/lib/data/jsonx").Object>;
     value: User;
     values: {
         data: User;

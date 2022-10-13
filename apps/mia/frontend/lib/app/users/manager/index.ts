@@ -1,5 +1,3 @@
-import * as api from '../../api';
-
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { debounce } from '@quenk/noni/lib/control/timer';
 
@@ -46,7 +44,7 @@ export class UsersManager extends MiaManager<User, void> {
 
             id: 'table',
 
-          title: 'Users',
+            title: 'Users',
 
             data: <User[]>[],
 
@@ -81,7 +79,7 @@ export class UsersManager extends MiaManager<User, void> {
                     {
                         text: 'Edit',
 
-                        onClick: (usr:User) => this.edit(usr)
+                        onClick: (usr: User) => this.edit(usr)
 
                     }
 
@@ -94,14 +92,14 @@ export class UsersManager extends MiaManager<User, void> {
 
     }
 
-    model: RemoteModel<User> = this.app.getModel(api.users, defaultHandlers(this));
+    model: RemoteModel<User> = this.models.create('user', defaultHandlers(this));
 
     /**
      * edit brings up the form for editing an existing user profile.
      */
-    edit(usr:User) {
+    edit(usr: User) {
 
-        this.spawn(()=> new EditUserDialog(this.app, this.self(), usr));
+        this.spawn(() => new EditUserDialog(this.app, this.self(), usr));
 
 
     }

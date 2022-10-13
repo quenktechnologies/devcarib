@@ -9,6 +9,7 @@ export { EnabledPolicies }
 
 import _admin from './admin';
 import _event from './event';
+import _invite from './invite';
 import _job from './job';
 import _user from './user';
 
@@ -20,6 +21,7 @@ export const policiesEnabled: Record<EnabledPolicies> = {
 
     'admin': _admin,
     'event': _event,
+    'invite': _invite,
     'job': _job,
     'user': _user
 }

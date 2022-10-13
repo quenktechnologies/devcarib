@@ -5,6 +5,7 @@ exports.getPartialChecksFor = exports.partialChecksAvailable = exports.getChecks
 /** imports */
 const _admin = require("./admin");
 const _event = require("./event");
+const _invite = require("./invite");
 const _job = require("./job");
 const _user = require("./user");
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -14,6 +15,7 @@ const maybe_1 = require("@quenk/noni/lib/data/maybe");
 exports.checksAvailable = {
     'admin': _admin.check,
     'event': _event.check,
+    'invite': _invite.check,
     'job': _job.check,
     'user': _user.check
 };
@@ -28,6 +30,7 @@ exports.getChecksFor = getChecksFor;
 exports.partialChecksAvailable = {
     'admin': _admin.checkPartial,
     'event': _event.checkPartial,
+    'invite': _invite.checkPartial,
     'job': _job.checkPartial,
     'user': _user.checkPartial
 };

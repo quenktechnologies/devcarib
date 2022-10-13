@@ -7,6 +7,7 @@ import { AfterSearchSetData, AfterSearchSetPagination, ShiftingOnComplete } from
 import { FormSaved } from '@quenk/jouvert/lib/app/scene/form';
 import { MainSceneMessage } from '@quenk/jouvert/lib/app/scene/main';
 import { MiaScene } from '../';
+import { RemoteModels } from '../../../remote/models';
 /**
  * MiaManagerMessage adds the FormSaved message to the accepted types.
  */
@@ -35,6 +36,7 @@ export declare abstract class MiaManager<T extends Object, M> extends MiaScene<M
      * model used to fetch the remote data.
      */
     abstract model: RemoteModel<T>;
+    models: RemoteModels;
     receive(): Case<MainSceneMessage<M>>[];
     /**
      * search the server for data that matches the specified query criteria.

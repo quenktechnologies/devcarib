@@ -10,6 +10,8 @@ const table_1 = require("@quenk/wml-widgets/lib/data/table");
 ;
 const text_field_1 = require("@quenk/wml-widgets/lib/control/text-field");
 ;
+const link_1 = require("@quenk/wml-widgets/lib/content/link");
+;
 const header_1 = require("../../../common/scene/manager/views/header");
 ;
 //@ts-ignore:6192
@@ -46,7 +48,8 @@ class UsersManagerView {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.registerView(new header_1.ManagerHeader(__context.values.table)).render()
+                        __this.registerView(new header_1.ManagerHeader(__context.values.table)).render(),
+                        __this.widget(new link_1.Link({ 'href': '#/invites', 'text': 'invites' }, []), { 'href': '#/invites', 'text': 'invites' })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [

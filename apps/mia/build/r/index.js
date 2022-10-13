@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.template = exports.eventsCtrl = exports.usersCtrl = exports.jobsCtrl = exports.adminsCtrl = void 0;
+exports.template = exports.invitesCtrl = exports.eventsCtrl = exports.usersCtrl = exports.jobsCtrl = exports.adminsCtrl = void 0;
 const devcaribServerLibFiltersCheck = require("@devcarib/server/lib/filters/check");
 const miaChecks = require("@mia/checks");
 const devcaribCommonLibError = require("@devcarib/common/lib/error");
@@ -13,11 +13,13 @@ const admin_1 = require("@mia/models/lib/admin");
 const job_1 = require("@mia/models/lib/job");
 const user_1 = require("@mia/models/lib/user");
 const event_1 = require("@mia/models/lib/event");
+const invite_1 = require("@mia/models/lib/invite");
 const api_1 = require("@devcarib/server/lib/controllers/api");
 exports.adminsCtrl = new api_1.ApiController(admin_1.AdminModel.getInstance);
 exports.jobsCtrl = new api_1.ApiController(job_1.JobModel.getInstance);
 exports.usersCtrl = new api_1.ApiController(user_1.UserModel.getInstance);
 exports.eventsCtrl = new api_1.ApiController(event_1.EventModel.getInstance);
+exports.invitesCtrl = new api_1.ApiController(invite_1.InviteModel.getInstance);
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `r`,
     'app': { 'dirs': { 'self': `/apps/mia/build/r` },
@@ -120,6 +122,31 @@ const template = ($app) => ({ 'id': `r`,
                 method: 'delete',
                 path: '/events/:id',
                 filters: [exports.eventsCtrl.remove.bind(exports.eventsCtrl)], tags: {}
+            });
+            $routes.push({
+                method: 'post',
+                path: '/invites',
+                filters: [exports.invitesCtrl.create.bind(exports.invitesCtrl)], tags: { model: `invite` }
+            });
+            $routes.push({
+                method: 'get',
+                path: '/invites',
+                filters: [exports.invitesCtrl.search.bind(exports.invitesCtrl)], tags: { policy: `invite` }
+            });
+            $routes.push({
+                method: 'patch',
+                path: '/invites/:id',
+                filters: [exports.invitesCtrl.update.bind(exports.invitesCtrl)], tags: { model: `invite` }
+            });
+            $routes.push({
+                method: 'get',
+                path: '/invites/:id',
+                filters: [exports.invitesCtrl.get.bind(exports.invitesCtrl)], tags: {}
+            });
+            $routes.push({
+                method: 'delete',
+                path: '/invites/:id',
+                filters: [exports.invitesCtrl.remove.bind(exports.invitesCtrl)], tags: {}
             });
             return $routes;
         } },

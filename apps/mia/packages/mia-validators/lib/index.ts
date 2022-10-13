@@ -3,6 +3,7 @@
 /** imports */
 import * as _admin from './admin';
 import * as _event from './event';
+import * as _invite from './invite';
 import * as _job from './job';
 import * as _user from './user';
 
@@ -18,6 +19,8 @@ export type DataTypeUnion =
     _admin.DataType |
 
     _event.DataType |
+
+    _invite.DataType |
 
     _job.DataType |
 
@@ -39,6 +42,7 @@ export const validatorsAvailable: Validators = {
 
     'admin': _admin.validate,
     'event': _event.validate,
+    'invite': _invite.validate,
     'job': _job.validate,
     'user': _user.validate
 };
@@ -57,6 +61,7 @@ export const partialValidatorsAvailable: Validators = {
 
     'admin': _admin.validatePartial,
     'event': _event.validatePartial,
+    'invite': _invite.validatePartial,
     'job': _job.validatePartial,
     'user': _user.validatePartial
 };

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddUserDialog = void 0;
-const api = require("../../../api");
 const record_1 = require("@quenk/noni/lib/data/record");
 const status_1 = require("@devcarib/server/lib/user/status");
 const dialog_1 = require("@devcarib/frontend/lib/app/scene/form/remote/dialog");
+const models_1 = require("../../../remote/models");
 const add_1 = require("./views/add");
 /**
  * AddUserDialog provides a form embeded in a dialog for adding new users.
@@ -14,7 +14,7 @@ class AddUserDialog extends dialog_1.DevCaribDialogRemoteForm {
         super(...arguments);
         this.name = 'Add User';
         this.view = new add_1.AddUserDialogView(this);
-        this.model = this.getModel(api.users);
+        this.model = models_1.RemoteModels.create('user', this.app.services['remote.background'], this);
         this.value = (0, record_1.merge)({ status: status_1.USER_STATUS_ACTIVE }, this.value);
         this.values = {
             data: this.value,

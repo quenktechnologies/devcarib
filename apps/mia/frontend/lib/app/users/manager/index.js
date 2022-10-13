@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersManager = exports.TIME_SEARCH_DEBOUNCE = void 0;
-const api = require("../../api");
 const timer_1 = require("@quenk/noni/lib/control/timer");
 const columns_1 = require("../../common/columns");
 const columns_2 = require("../columns");
@@ -50,7 +49,7 @@ class UsersManager extends manager_1.MiaManager {
                 ],
             }
         };
-        this.model = this.app.getModel(api.users, (0, manager_1.defaultHandlers)(this));
+        this.model = this.models.create('user', (0, manager_1.defaultHandlers)(this));
     }
     /**
      * edit brings up the form for editing an existing user profile.

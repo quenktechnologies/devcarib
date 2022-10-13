@@ -3,6 +3,7 @@
 /** imports */
 import * as _admin from './admin';
 import * as _event from './event';
+import * as _invite from './invite';
 import * as _job from './job';
 import * as _user from './user';
 
@@ -18,6 +19,8 @@ export type DataTypeUnion =
     _admin.DataType |
 
     _event.DataType |
+
+    _invite.DataType |
 
     _job.DataType |
 
@@ -39,6 +42,7 @@ export const checksAvailable: Checks = {
 
     'admin': <Precondition<Value, DataTypeUnion>>_admin.check,
     'event': <Precondition<Value, DataTypeUnion>>_event.check,
+    'invite': <Precondition<Value, DataTypeUnion>>_invite.check,
     'job': <Precondition<Value, DataTypeUnion>>_job.check,
     'user': <Precondition<Value, DataTypeUnion>>_user.check
 };
@@ -57,6 +61,7 @@ export const partialChecksAvailable: Checks = {
 
     'admin': <Precondition<Value, Partial<DataTypeUnion>>>_admin.checkPartial,
     'event': <Precondition<Value, Partial<DataTypeUnion>>>_event.checkPartial,
+    'invite': <Precondition<Value, Partial<DataTypeUnion>>>_invite.checkPartial,
     'job': <Precondition<Value, Partial<DataTypeUnion>>>_job.checkPartial,
     'user': <Precondition<Value, Partial<DataTypeUnion>>>_user.checkPartial
 };

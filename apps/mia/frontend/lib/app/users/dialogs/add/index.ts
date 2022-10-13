@@ -1,5 +1,3 @@
-import * as api from '../../../api';
-
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { merge, Record } from '@quenk/noni/lib/data/record';
 
@@ -16,6 +14,7 @@ import {
     DevCaribDialogRemoteForm
 } from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
 
+import { RemoteModels } from '../../../remote/models';
 import { AddUserDialogView } from './views/add';
 
 /**
@@ -27,7 +26,8 @@ export class AddUserDialog extends DevCaribDialogRemoteForm<User, void> {
 
     view = new AddUserDialogView(this);
 
-    model = this.getModel(api.users);
+    model = RemoteModels.create('user',
+        this.app.services['remote.background'], this);
 
     value: User = merge({ status: USER_STATUS_ACTIVE }, this.value);
 

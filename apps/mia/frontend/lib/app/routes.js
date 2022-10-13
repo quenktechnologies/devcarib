@@ -6,6 +6,7 @@ const template_1 = require("@quenk/potoo/lib/actor/template");
 const manager_1 = require("./jobs/manager");
 const manager_2 = require("./users/manager");
 const manager_3 = require("./events/manager");
+const manager_4 = require("./invites/manager");
 let ignoredErrors = ['ClientError', 'ServerError'];
 const trap = (e) => (0, array_1.contains)(ignoredErrors, e.message) ?
     template_1.ACTION_IGNORE : template_1.ACTION_RAISE;
@@ -29,6 +30,11 @@ exports.routes = {
         id: 'events',
         trap,
         create: (s, _, r) => new manager_3.EventsManager(s, r)
+    },
+    '/invites': {
+        id: 'invites',
+        trap,
+        create: (s, _, r) => new manager_4.InvitesManager(s, r)
     }
 };
 //# sourceMappingURL=routes.js.map

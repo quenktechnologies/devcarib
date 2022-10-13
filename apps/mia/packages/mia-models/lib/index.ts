@@ -4,6 +4,7 @@
 import * as mongo from 'mongodb';
 import * as _admin from './admin';
 import * as _event from './event';
+import * as _invite from './invite';
 import * as _job from './job';
 import * as _user from './user';
 
@@ -18,6 +19,8 @@ export type DataTypeUnion =
     _admin.DataType |
 
     _event.DataType |
+
+    _invite.DataType |
 
     _job.DataType |
 
@@ -44,6 +47,7 @@ export const modelsAvailable: Models = {
 
     'admin': <ModelGetter>_admin.ModelImpl.getInstance,
     'event': <ModelGetter>_event.ModelImpl.getInstance,
+    'invite': <ModelGetter>_invite.ModelImpl.getInstance,
     'job': <ModelGetter>_job.ModelImpl.getInstance,
     'user': <ModelGetter>_user.ModelImpl.getInstance
 };

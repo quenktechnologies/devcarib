@@ -5,5 +5,4 @@ import { AddUserDialog } from './add';
 export declare class EditUserDialog extends AddUserDialog {
     name: string;
     mode: string;
-    model: import("@quenk/jouvert/lib/app/remote/model").RemoteModel<import("@quenk/noni/lib/data/jsonx").Object>;
 }

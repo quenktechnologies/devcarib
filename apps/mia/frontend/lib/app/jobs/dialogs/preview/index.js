@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobPreviewDialog = void 0;
-const api = require("../../../api");
 const confirm_1 = require("@quenk/jouvert/lib/app/scene/dialog/confirm");
+const models_1 = require("../../../remote/models");
 const preview_1 = require("./views/preview");
 /**
  * JobPreviewDialog displays a light version of a post in a dialog.
@@ -15,7 +15,7 @@ class JobPreviewDialog extends confirm_1.ConfirmDialog {
         this.onEdit = onEdit;
         this.name = 'Job Preview Dialog';
         this.view = new preview_1.JobPreviewDialogView(this);
-        this.jobModel = this.app.getModel(api.jobs);
+        this.jobModel = models_1.RemoteModels.create('job', this.app.services['remote.background'], this);
         this.values = {
             data: this.job,
             frame: {

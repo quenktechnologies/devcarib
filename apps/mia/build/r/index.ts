@@ -28,13 +28,15 @@ import { AdminModel } from '@mia/models/lib/admin';
 import { JobModel } from '@mia/models/lib/job';
 import { UserModel } from '@mia/models/lib/user';
 import { EventModel } from '@mia/models/lib/event';
+import { InviteModel } from '@mia/models/lib/invite';
 
 import {ApiController} from '@devcarib/server/lib/controllers/api';
 
- export const adminsCtrl = new ApiController(AdminModel.getInstance)
+export const adminsCtrl = new ApiController(AdminModel.getInstance)
 export const jobsCtrl = new ApiController(JobModel.getInstance)
 export const usersCtrl = new ApiController(UserModel.getInstance)
 export const eventsCtrl = new ApiController(EventModel.getInstance)
+export const invitesCtrl = new ApiController(InviteModel.getInstance)
 
 //@ts-ignore: 6133
 export const template = ($app: App): Template => (
@@ -141,6 +143,31 @@ $routes.push({
 method:'delete',
 path:'/events/:id',
 filters:[eventsCtrl.remove.bind(eventsCtrl)],tags:{}});
+
+$routes.push({
+method:'post',
+path:'/invites',
+filters:[invitesCtrl.create.bind(invitesCtrl)],tags:{model: `invite` }});
+
+$routes.push({
+method:'get',
+path:'/invites',
+filters:[invitesCtrl.search.bind(invitesCtrl)],tags:{policy: `invite` }});
+
+$routes.push({
+method:'patch',
+path:'/invites/:id',
+filters:[invitesCtrl.update.bind(invitesCtrl)],tags:{model: `invite` }});
+
+$routes.push({
+method:'get',
+path:'/invites/:id',
+filters:[invitesCtrl.get.bind(invitesCtrl)],tags:{}});
+
+$routes.push({
+method:'delete',
+path:'/invites/:id',
+filters:[invitesCtrl.remove.bind(invitesCtrl)],tags:{}});
 return $routes;
 }},
 'create': 

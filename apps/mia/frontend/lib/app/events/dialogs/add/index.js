@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddEventDialog = void 0;
 const moment = require("moment");
-const api = require("../../../api");
 const record_1 = require("@quenk/noni/lib/data/record");
 const dialog_1 = require("@devcarib/frontend/lib/app/scene/form/remote/dialog");
+const models_1 = require("../../../remote/models");
 const views_1 = require("./views");
 const getTimes = () => {
     let mins = ['00', '15', '30', '45'];
@@ -24,7 +24,7 @@ class AddEventDialog extends dialog_1.DevCaribDialogRemoteForm {
         super(...arguments);
         this.name = 'Add Event';
         this.view = new views_1.AddEventDialogView(this);
-        this.model = this.getModel(api.events);
+        this.model = models_1.RemoteModels.create('event', this.app.services['remote.background'], this);
         this.value = (0, record_1.merge)({ start: now().toISOString() }, this.value);
         this.values = {
             data: this.value,

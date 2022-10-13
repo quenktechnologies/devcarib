@@ -8,6 +8,7 @@ export const Event = {
     'title': 1,
     'start': 1,
     'end': 1,
+    'allDay': 1,
     'url': 1,
     'location': 1,
     'host': 1,

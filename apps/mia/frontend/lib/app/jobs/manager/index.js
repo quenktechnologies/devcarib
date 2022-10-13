@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobsManager = exports.TIME_SEARCH_DEBOUNCE = void 0;
 const jobStatus = require("@devcarib/common/lib/data/job");
-const api = require("../../api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const timer_1 = require("@quenk/noni/lib/control/timer");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
@@ -72,7 +71,7 @@ class JobsManager extends manager_1.MiaManager {
                 ]
             }
         };
-        this.model = this.app.getModel(api.jobs, [
+        this.model = this.models.create('job', [
             new handlers_1.AfterSearchSetData(data => { this.values.table.data = data; }),
             new handlers_1.AfterSearchSetPagination(this.values.table),
             new handlers_1.ShiftingOnComplete([

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventsManager = exports.TIME_SEARCH_DEBOUNCE = void 0;
-const api = require("../../api");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const timer_1 = require("@quenk/noni/lib/control/timer");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
@@ -62,7 +61,7 @@ class EventsManager extends manager_1.MiaManager {
                 ]
             },
         };
-        this.model = this.app.getModel(api.events, [
+        this.model = this.models.create('event', [
             new handlers_1.AfterSearchSetData(data => { this.values.table.data = data; }),
             new handlers_1.AfterSearchSetPagination(this.values.table),
             new handlers_1.ShiftingOnComplete([

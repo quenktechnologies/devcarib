@@ -4,6 +4,7 @@ exports.defaultHandlers = exports.MiaManager = void 0;
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
 const form_1 = require("@quenk/jouvert/lib/app/scene/form");
 const __1 = require("../");
+const models_1 = require("../../../remote/models");
 /**
  * MiaManager is the base class for data management style views within the Mia
  * application.
@@ -12,6 +13,10 @@ const __1 = require("../");
  * same functionality including search.
  */
 class MiaManager extends __1.MiaScene {
+    constructor() {
+        super(...arguments);
+        this.models = new models_1.RemoteModels(this.app.services['remote.background'], this);
+    }
     receive() {
         return [
             new form_1.FormSavedCase(this),

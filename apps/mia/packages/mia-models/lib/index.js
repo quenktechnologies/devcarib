@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getInstanceOf = exports.modelsAvailable = void 0;
 const _admin = require("./admin");
 const _event = require("./event");
+const _invite = require("./invite");
 const _job = require("./job");
 const _user = require("./user");
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
@@ -13,6 +14,7 @@ const maybe_1 = require("@quenk/noni/lib/data/maybe");
 exports.modelsAvailable = {
     'admin': _admin.ModelImpl.getInstance,
     'event': _event.ModelImpl.getInstance,
+    'invite': _invite.ModelImpl.getInstance,
     'job': _job.ModelImpl.getInstance,
     'user': _user.ModelImpl.getInstance
 };
