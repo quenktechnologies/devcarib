@@ -40,6 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { User } from '@converse/types/lib/user';
+import { name, email, username, password } from '@devcarib/common/lib/data/validators';
 
 /**
  * @private Used during template generation.
@@ -54,16 +55,24 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for User provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'name': _and(_notNull, _string
+    'name': _and(_notNull, _and(_string,
+        _every<Value, Value>(name))
+
     ),
 
-    'email': _and(_notNull, _string
+    'email': _and(_notNull, _and(_string,
+        _every<Value, Value>(email))
+
     ),
 
-    'username': _and(_notNull, _string
+    'username': _and(_notNull, _and(_string,
+        _every<Value, Value>(username))
+
     ),
 
-    'password': _and(_notNull, _string
+    'password': _and(_notNull, _and(_string,
+        _every<Value, Value>(password))
+
     ),
 
 };
@@ -72,16 +81,24 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for User provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'name': _and(_notNull, _string
+    'name': _and(_notNull, _and(_string,
+        _every<Value, Value>(name))
+
     ),
 
-    'email': _and(_notNull, _string
+    'email': _and(_notNull, _and(_string,
+        _every<Value, Value>(email))
+
     ),
 
-    'username': _and(_notNull, _string
+    'username': _and(_notNull, _and(_string,
+        _every<Value, Value>(username))
+
     ),
 
-    'password': _and(_notNull, _string
+    'password': _and(_notNull, _and(_string,
+        _every<Value, Value>(password))
+
     ),
 
 };

@@ -11,6 +11,10 @@ export declare const name: Precondition<Value, string>;
  */
 export declare const email: Precondition<Value, string>;
 /**
+ * username must be 3-12 characters and must begin with a letter.
+ */
+export declare const username: Precondition<Value, string>;
+/**
  * password must be a string between 8-140 characters.
  */
 export declare const password: Precondition<Value, string>;

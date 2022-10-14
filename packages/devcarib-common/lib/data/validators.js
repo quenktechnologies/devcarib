@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jobStatus = exports.paymentFrequency = exports.currency = exports.boolean = exports.date = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.email = exports.name = void 0;
+exports.jobStatus = exports.paymentFrequency = exports.currency = exports.boolean = exports.date = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.username = exports.email = exports.name = void 0;
 var moment = require("moment");
 var string = require("@quenk/preconditions/lib/string");
 var array = require("@quenk/preconditions/lib/array");
@@ -19,7 +19,11 @@ exports.name = (0, preconditions_1.and)(string.isString, (0, preconditions_1.and
 /**
  * email must be a string between 3-64 characters and contain "@".
  */
-exports.email = (0, preconditions_1.and)(string.isString, (0, preconditions_1.and)((0, preconditions_1.and)(string.minLength(3), string.maxLength(64)), string.matches(/@/)));
+exports.email = (0, preconditions_1.and)(string.isString, (0, preconditions_1.and)(string.lowercase, (0, preconditions_1.and)((0, preconditions_1.and)(string.minLength(3), string.maxLength(64)), string.matches(/@/))));
+/**
+ * username must be 3-12 characters and must begin with a letter.
+ */
+exports.username = (0, preconditions_1.and)(string.isString, (0, preconditions_1.and)(string.lowercase, (0, preconditions_1.and)((0, preconditions_1.and)(string.minLength(3), string.maxLength(12)), string.matches(/^[a-z][0-9a-z$@_]+/))));
 /**
  * password must be a string between 8-140 characters.
  */
@@ -27,7 +31,7 @@ exports.password = (0, preconditions_1.and)(string.isString, (0, preconditions_1
 /**
  * url must be a string of at least 7 characters and begin with http or https.
  */
-exports.url = (0, preconditions_1.and)(string.isString, (0, preconditions_1.and)((0, preconditions_1.and)(string.minLength(7), string.maxLength(5000)), string.matches(/^(http|https):\/\//)));
+exports.url = (0, preconditions_1.and)(string.isString, (0, preconditions_1.and)(string.lowercase, (0, preconditions_1.and)((0, preconditions_1.and)(string.minLength(7), string.maxLength(5000)), string.matches(/^(http|https):\/\//))));
 /**
  * textsmall is 256 characters or less.
  */

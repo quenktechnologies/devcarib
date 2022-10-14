@@ -24,8 +24,19 @@ export const name: Precondition<Value, string> =
  * email must be a string between 3-64 characters and contain "@".
  */
 export const email: Precondition<Value, string> =
-    and(string.isString, and(
-        and(string.minLength(3), string.maxLength(64)), string.matches(/@/)));
+    and(string.isString,
+        and(string.lowercase,
+            and(and(string.minLength(3), string.maxLength(64)),
+                string.matches(/@/))));
+
+/**
+ * username must be 3-12 characters and must begin with a letter.
+ */
+export const username: Precondition<Value, string> =
+    and(string.isString,
+        and(string.lowercase,
+            and(and(string.minLength(3), string.maxLength(12)),
+                string.matches(/^[a-z][0-9a-z$@_]+/))));
 
 /**
  * password must be a string between 8-140 characters.
@@ -37,8 +48,10 @@ export const password: Precondition<Value, string> =
  * url must be a string of at least 7 characters and begin with http or https.
  */
 export const url: Precondition<Value, string> =
-    and(string.isString, and(and(string.minLength(7), string.maxLength(5000)),
-        string.matches(/^(http|https):\/\//)));
+    and(string.isString,
+        and(string.lowercase,
+            and(and(string.minLength(7), string.maxLength(5000)),
+                string.matches(/^(http|https):\/\//))));
 
 /**
  * textsmall is 256 characters or less.

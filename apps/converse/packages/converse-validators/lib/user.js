@@ -7,25 +7,26 @@ const preconditions_1 = require("@quenk/preconditions");
 const record_1 = require("@quenk/preconditions/lib/record");
 //@ts-ignore: 6133
 const string_1 = require("@quenk/preconditions/lib/string");
+const validators_1 = require("@devcarib/common/lib/data/validators");
 //@ts-ignore: 6133
 const _string = (0, preconditions_1.and)(string_1.isString, string_1.trim);
 /**
  * validators for User provided as a map.
  */
 exports.validators = {
-    'name': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'email': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'username': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'password': (0, preconditions_1.and)(preconditions_1.notNull, _string),
+    'name': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.name))),
+    'email': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.email))),
+    'username': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.username))),
+    'password': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.password))),
 };
 /**
  * partialValidators for User provided as a map.
  */
 exports.partialValidators = {
-    'name': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'email': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'username': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'password': (0, preconditions_1.and)(preconditions_1.notNull, _string),
+    'name': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.name))),
+    'email': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.email))),
+    'username': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.username))),
+    'password': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.password))),
 };
 /**
  * validate a single Value against the rules for User.
