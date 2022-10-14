@@ -65,6 +65,8 @@ const unsafe = __document.unsafe
 // @ts-ignore 6192
 const isSet = (value:any) => value != null
 export interface Meta{property? : string,
+httpEquiv? : string,
+charset? : string,
 name? : string,
 content? : string};
 export interface HeadViewContext{title : string,
@@ -81,23 +83,7 @@ export class HeadView  implements __wml.View {
 
            return __this.node('head', <__wml.Attrs>{}, [
 
-        __this.node('meta', <__wml.Attrs>{'charset': 'utf-8'}, [
-
-        
-     ]),
-__this.node('meta', <__wml.Attrs>{'http-equiv': 'X-UA-Compatible','content': unsafe ('IE=edge')}, [
-
-        
-     ]),
-__this.node('meta', <__wml.Attrs>{'name': 'viewport','content': unsafe ('width=device-width, initial-scale=1.0')}, [
-
-        
-     ]),
-__this.node('meta', <__wml.Attrs>{'name': 'author','content': 'Caribbean Developers'}, [
-
-        
-     ]),
-__this.node('link', <__wml.Attrs>{'rel': 'apple-touch-icon','sizes': '57x57','href': '/apple-icon-57x57.png'}, [
+        __this.node('link', <__wml.Attrs>{'rel': 'apple-touch-icon','sizes': '57x57','href': '/apple-icon-57x57.png'}, [
 
         
      ]),
@@ -171,7 +157,7 @@ __this.node('meta', <__wml.Attrs>{'name': 'theme-color','content': '#218c8d'}, [
         ...__forIn (__context.meta, (meta , _$$i, _$$all)=> 
 ([
 
-        __this.node('meta', <__wml.Attrs>{'property': meta.property,'name': meta.name,'content': meta.content}, [
+        __this.node('meta', <__wml.Attrs>{'property': meta.property,'http-equiv': meta.httpEquiv,'charset': meta.charset,'name': meta.name,'content': meta.content}, [
 
         
      ])

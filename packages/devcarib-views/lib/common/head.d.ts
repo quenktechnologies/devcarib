@@ -2,6 +2,8 @@ import * as __wml from '@quenk/wml';
 import { Maybe as __Maybe } from '@quenk/noni/lib/data/maybe';
 export interface Meta {
     property?: string;
+    httpEquiv?: string;
+    charset?: string;
     name?: string;
     content?: string;
 }

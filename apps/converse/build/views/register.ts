@@ -94,7 +94,7 @@ __this.node('body', <__wml.Attrs>{}, [
 __this.node('p', <__wml.Attrs>{}, [
 
         __document.createTextNode('You are almost there! Click '),
-__this.node('a', <__wml.Attrs>{'href': '/converse'}, [
+__this.node('a', <__wml.Attrs>{'href': '/'}, [
 
         __document.createTextNode('this')
      ]),

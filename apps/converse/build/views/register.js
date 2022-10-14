@@ -51,7 +51,7 @@ class SuccessView {
                                 ]),
                                 __this.node('p', {}, [
                                     __document.createTextNode('You are almost there! Click '),
-                                    __this.node('a', { 'href': '/converse' }, [
+                                    __this.node('a', { 'href': '/' }, [
                                         __document.createTextNode('this')
                                     ]),
                                     __document.createTextNode(' link to log into your new account.')

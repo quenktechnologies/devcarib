@@ -38,10 +38,6 @@ class HeadView {
         this.tree = __document.createElement('div');
         this.template = (__this) => {
             return __this.node('head', {}, [
-                __this.node('meta', { 'charset': 'utf-8' }, []),
-                __this.node('meta', { 'http-equiv': 'X-UA-Compatible', 'content': unsafe('IE=edge') }, []),
-                __this.node('meta', { 'name': 'viewport', 'content': unsafe('width=device-width, initial-scale=1.0') }, []),
-                __this.node('meta', { 'name': 'author', 'content': 'Caribbean Developers' }, []),
                 __this.node('link', { 'rel': 'apple-touch-icon', 'sizes': '57x57', 'href': '/apple-icon-57x57.png' }, []),
                 __this.node('link', { 'rel': 'apple-touch-icon', 'sizes': '60x60', 'href': '/apple-icon-60x60.png' }, []),
                 __this.node('link', { 'rel': 'apple-touch-icon', 'sizes': '72x72', 'href': '/apple-icon-72x72.png' }, []),
@@ -62,7 +58,7 @@ class HeadView {
                 ...(((__context.meta) != null) ?
                     (() => ([
                         ...__forIn(__context.meta, (meta, _$$i, _$$all) => ([
-                            __this.node('meta', { 'property': meta.property, 'name': meta.name, 'content': meta.content }, [])
+                            __this.node('meta', { 'property': meta.property, 'http-equiv': meta.httpEquiv, 'charset': meta.charset, 'name': meta.name, 'content': meta.content }, [])
                         ]), () => ([]))
                     ]))() :
                     (() => ([]))()),
