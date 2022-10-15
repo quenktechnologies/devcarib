@@ -44,7 +44,7 @@
 
             "filterAs": "matchci",
 
-            "validation": "@mia/validators#name"
+            "validators": "@devcarib/common/lib/data/validators#name"
 
         },
 
@@ -54,7 +54,7 @@
 
             "filterAs": "matchci",
 
-            "validation": "@mia/validators#email"
+            "validators": "@devcarib/common/lib/data/validators#email"
 
         },
 

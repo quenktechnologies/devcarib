@@ -54,7 +54,7 @@
 
             "filterAs": "matchci",
 
-            "validation": "@devcarib/common/lib/data/validators#name"
+            "validators": "@devcarib/common/lib/data/validators#name"
 
         },
 
@@ -64,7 +64,7 @@
 
             "filterAs": "matchci",
 
-            "validation": "@devcarib/common/lib/data/validators#username",
+            "validators": "@devcarib/common/lib/data/validators#username",
 
             "checks": [
 
@@ -82,7 +82,7 @@
 
             "fields:hidden": true,
 
-            "validation": ["@devcarib/common/lib/data/validators#password"],
+            "validators": ["@devcarib/common/lib/data/validators#password"],
 
             "checks": "@devcarib/server/lib/data/checks#bcrypt"
 
