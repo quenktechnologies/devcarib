@@ -14,16 +14,16 @@ const _string = (0, preconditions_1.and)(string_1.isString, string_1.trim);
  * validators for Invite provided as a map.
  */
 exports.validators = {
-    'name': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'email': (0, preconditions_1.and)(preconditions_1.notNull, _string),
+    'name': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.name))),
+    'email': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.email))),
     'message': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.textlarge, (0, validators_1.minLength)(1), (0, validators_1.maxLength)(6000)))),
 };
 /**
  * partialValidators for Invite provided as a map.
  */
 exports.partialValidators = {
-    'name': (0, preconditions_1.and)(preconditions_1.notNull, _string),
-    'email': (0, preconditions_1.and)(preconditions_1.notNull, _string),
+    'name': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.name))),
+    'email': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.email))),
     'message': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.textlarge, (0, validators_1.minLength)(1), (0, validators_1.maxLength)(6000)))),
 };
 /**

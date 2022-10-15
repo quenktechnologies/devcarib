@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Invite } from '@converse/types/lib/invite';
-import { textlarge, minLength, maxLength } from '@devcarib/common/lib/data/validators';
+import { name, email, textlarge, minLength, maxLength } from '@devcarib/common/lib/data/validators';
 
 /**
  * @private Used during template generation.
@@ -55,10 +55,14 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for Invite provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'name': _and(_notNull, _string
+    'name': _and(_notNull, _and(_string,
+        _every<Value, Value>(name))
+
     ),
 
-    'email': _and(_notNull, _string
+    'email': _and(_notNull, _and(_string,
+        _every<Value, Value>(email))
+
     ),
 
     'message': _optional(_and(_string,
@@ -72,10 +76,14 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for Invite provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'name': _and(_notNull, _string
+    'name': _and(_notNull, _and(_string,
+        _every<Value, Value>(name))
+
     ),
 
-    'email': _and(_notNull, _string
+    'email': _and(_notNull, _and(_string,
+        _every<Value, Value>(email))
+
     ),
 
     'message': _optional(_and(_string,
