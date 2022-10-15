@@ -40,7 +40,9 @@ class ConverseAuthenticator extends BaseAuthenticator<User> {
 
         return doFuture(function*() {
 
-            let { email, password } = <User>creds;
+            let {  password } = <User>creds;
+
+            let email = String(creds.email).toLowerCase();
 
             let db = yield unsafeGetConnection();
 

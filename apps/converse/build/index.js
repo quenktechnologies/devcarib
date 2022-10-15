@@ -26,7 +26,8 @@ class ConverseAuthenticator extends authenticator_1.BaseAuthenticator {
     }
     getUser(creds) {
         return (0, future_1.doFuture)(function* () {
-            let { email, password } = creds;
+            let { password } = creds;
+            let email = String(creds.email).toLowerCase();
             let db = yield (0, db_1.unsafeGetConnection)();
             let model = user_1.UserModel.getInstance(db);
             let [user] = yield model.search({
