@@ -63,7 +63,7 @@ including:
 5. potoo
 6. dagen
 
-Check out [Quenk][1] on github to learn more about those packages.
+Check out [Quenk][7] on github to learn more about those packages.
 
 ## Building
 
@@ -113,3 +113,4 @@ from Quenk Technologies unless explicitly agreed upon via formal contract.
 [3]: https://www.heroku.com
 [4]: https://dokku.com
 [6]: https://github.com/quenktechnologies
+[7]: https://quenk.com
