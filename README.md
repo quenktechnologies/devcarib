@@ -5,7 +5,7 @@ Software for empowering Caribbean developer communities.
 
 # About
 
-Devcarib is software developed to power the successor of the 
+DevCarib is software developed to power the successor of the 
 [Caribbean Developers][1] facebook group. It is named after the unique name 
 used in the URL of the group which is a contraction of Developers Caribbean.
 
