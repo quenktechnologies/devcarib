@@ -115,6 +115,8 @@
 
             "type": "string",
 
+            "optional": true,
+
             "validators": [
 
                 "@devcarib/common/lib/data/validators#textsmall"
@@ -126,6 +128,8 @@
         "host": {
 
             "type": "string",
+
+            "optional": true,
 
             "validators": "@devcarib/common/lib/data/validators#textmedium"
 
