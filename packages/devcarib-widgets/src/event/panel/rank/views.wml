@@ -24,7 +24,8 @@
 
             <Link
               className="devcarib-event-rank-panel-link"
-              href={{event.url}} >
+              href={{event.url}}
+              target="_blank">
 
               <h4 class="devcarib-event-rank-panel-title">
 
