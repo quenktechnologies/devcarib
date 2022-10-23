@@ -12,7 +12,6 @@ import {TextField} from '@quenk/wml-widgets/lib/control/text-field'; ;
 import {DateField} from '@quenk/wml-widgets/lib/control/date-field'; ;
 import {DropList} from '@quenk/wml-widgets/lib/control/drop-list'; ;
 import {Label} from '@quenk/wml-widgets/lib/control/label'; ;
-import {Checkbox} from '@quenk/wml-widgets/lib/control/checkbox'; ;
 import {AddEventDialog} from '.'; 
 
 
@@ -101,17 +100,17 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new Column({'span': 8}, [
 
-        __this.widget(new DateField({wml : { 'id' : 'startDate'  },'className': 'start-date -block','placeholder': 'YYYY-MM-DD','name': 'startDate','value': __context.values.start.date(),'onChange': __context.values.start.onChange}, [
+        __this.widget(new DateField({wml : { 'id' : 'startDate'  },'className': 'start-date -block','name': 'startDate','value': __context.values.data.startDate,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'startDate'  },'className': 'start-date -block','placeholder': 'YYYY-MM-DD','name': 'startDate','value': __context.values.start.date(),'onChange': __context.values.start.onChange})
+     ]),<__wml.Attrs>{wml : { 'id' : 'startDate'  },'className': 'start-date -block','name': 'startDate','value': __context.values.data.startDate,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{'span': 8}),
 __this.widget(new Column({'span': 4}, [
 
-        __this.widget(new DropList({wml : { 'id' : 'startTime'  },'name': 'startTime','className': 'start-time','value': __context.values.start.time(),'options': __context.values.start.timeOptions,'onSelect': __context.values.start.onChange}, [
+        __this.widget(new DropList({wml : { 'id' : 'startTime'  },'name': 'startTime','className': 'start-time','value': __context.values.data.startTime,'options': __context.values.time.options,'onSelect': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'startTime'  },'name': 'startTime','className': 'start-time','value': __context.values.start.time(),'options': __context.values.start.timeOptions,'onSelect': __context.values.start.onChange})
+     ]),<__wml.Attrs>{wml : { 'id' : 'startTime'  },'name': 'startTime','className': 'start-time','value': __context.values.data.startTime,'options': __context.values.time.options,'onSelect': __context.values.onChange})
      ]),<__wml.Attrs>{'span': 4})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -125,29 +124,18 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new Column({'span': 8}, [
 
-        __this.widget(new DateField({wml : { 'id' : 'endDate'  },'className': 'start-date -block','placeholder': 'YYYY-MM-DD','name': 'endDate','value': __context.values.end.date(),'onChange': __context.values.end.onChange}, [
+        __this.widget(new DateField({wml : { 'id' : 'endDate'  },'className': 'start-date -block','name': 'endDate','value': __context.values.data.endDate,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'endDate'  },'className': 'start-date -block','placeholder': 'YYYY-MM-DD','name': 'endDate','value': __context.values.end.date(),'onChange': __context.values.end.onChange})
+     ]),<__wml.Attrs>{wml : { 'id' : 'endDate'  },'className': 'start-date -block','name': 'endDate','value': __context.values.data.endDate,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{'span': 8}),
 __this.widget(new Column({'span': 4}, [
 
-        __this.widget(new DropList({wml : { 'id' : 'endTime'  },'name': 'endTime','className': 'start-time','value': __context.values.end.time(),'options': __context.values.end.timeOptions,'onSelect': __context.values.end.onChange}, [
+        __this.widget(new DropList({wml : { 'id' : 'endTime'  },'name': 'endTime','className': 'start-time','value': __context.values.data.endTime,'options': __context.values.time.options,'onSelect': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'endTime'  },'name': 'endTime','className': 'start-time','value': __context.values.end.time(),'options': __context.values.end.timeOptions,'onSelect': __context.values.end.onChange})
-     ]),<__wml.Attrs>{'span': 4}),
-__this.widget(new Column({}, [
-
-        __this.widget(new Label({}, [
-
-        __document.createTextNode('All day event? ')
-     ]),<__wml.Attrs>{}),
-__this.widget(new Checkbox({wml : { 'id' : 'allDay'  },'name': 'allDay','value': __context.values.data.allDay,'onChange': __context.values.onChange}, [
-
-        
-     ]),<__wml.Attrs>{wml : { 'id' : 'allDay'  },'name': 'allDay','value': __context.values.data.allDay,'onChange': __context.values.onChange})
-     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{wml : { 'id' : 'endTime'  },'name': 'endTime','className': 'start-time','value': __context.values.data.endTime,'options': __context.values.time.options,'onSelect': __context.values.onChange})
+     ]),<__wml.Attrs>{'span': 4})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 

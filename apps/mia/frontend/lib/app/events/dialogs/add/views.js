@@ -14,8 +14,6 @@ const drop_list_1 = require("@quenk/wml-widgets/lib/control/drop-list");
 ;
 const label_1 = require("@quenk/wml-widgets/lib/control/label");
 ;
-const checkbox_1 = require("@quenk/wml-widgets/lib/control/checkbox");
-;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
 //@ts-ignore:6192
@@ -60,10 +58,10 @@ class AddEventDialogView {
                         ]), {})
                     ]), {}),
                     __this.widget(new grid_1.Column({ 'span': 8 }, [
-                        __this.widget(new date_field_1.DateField({ wml: { 'id': 'startDate' }, 'className': 'start-date -block', 'placeholder': 'YYYY-MM-DD', 'name': 'startDate', 'value': __context.values.start.date(), 'onChange': __context.values.start.onChange }, []), { wml: { 'id': 'startDate' }, 'className': 'start-date -block', 'placeholder': 'YYYY-MM-DD', 'name': 'startDate', 'value': __context.values.start.date(), 'onChange': __context.values.start.onChange })
+                        __this.widget(new date_field_1.DateField({ wml: { 'id': 'startDate' }, 'className': 'start-date -block', 'name': 'startDate', 'value': __context.values.data.startDate, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'startDate' }, 'className': 'start-date -block', 'name': 'startDate', 'value': __context.values.data.startDate, 'onChange': __context.values.onChange })
                     ]), { 'span': 8 }),
                     __this.widget(new grid_1.Column({ 'span': 4 }, [
-                        __this.widget(new drop_list_1.DropList({ wml: { 'id': 'startTime' }, 'name': 'startTime', 'className': 'start-time', 'value': __context.values.start.time(), 'options': __context.values.start.timeOptions, 'onSelect': __context.values.start.onChange }, []), { wml: { 'id': 'startTime' }, 'name': 'startTime', 'className': 'start-time', 'value': __context.values.start.time(), 'options': __context.values.start.timeOptions, 'onSelect': __context.values.start.onChange })
+                        __this.widget(new drop_list_1.DropList({ wml: { 'id': 'startTime' }, 'name': 'startTime', 'className': 'start-time', 'value': __context.values.data.startTime, 'options': __context.values.time.options, 'onSelect': __context.values.onChange }, []), { wml: { 'id': 'startTime' }, 'name': 'startTime', 'className': 'start-time', 'value': __context.values.data.startTime, 'options': __context.values.time.options, 'onSelect': __context.values.onChange })
                     ]), { 'span': 4 })
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
@@ -73,17 +71,11 @@ class AddEventDialogView {
                         ]), {})
                     ]), {}),
                     __this.widget(new grid_1.Column({ 'span': 8 }, [
-                        __this.widget(new date_field_1.DateField({ wml: { 'id': 'endDate' }, 'className': 'start-date -block', 'placeholder': 'YYYY-MM-DD', 'name': 'endDate', 'value': __context.values.end.date(), 'onChange': __context.values.end.onChange }, []), { wml: { 'id': 'endDate' }, 'className': 'start-date -block', 'placeholder': 'YYYY-MM-DD', 'name': 'endDate', 'value': __context.values.end.date(), 'onChange': __context.values.end.onChange })
+                        __this.widget(new date_field_1.DateField({ wml: { 'id': 'endDate' }, 'className': 'start-date -block', 'name': 'endDate', 'value': __context.values.data.endDate, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'endDate' }, 'className': 'start-date -block', 'name': 'endDate', 'value': __context.values.data.endDate, 'onChange': __context.values.onChange })
                     ]), { 'span': 8 }),
                     __this.widget(new grid_1.Column({ 'span': 4 }, [
-                        __this.widget(new drop_list_1.DropList({ wml: { 'id': 'endTime' }, 'name': 'endTime', 'className': 'start-time', 'value': __context.values.end.time(), 'options': __context.values.end.timeOptions, 'onSelect': __context.values.end.onChange }, []), { wml: { 'id': 'endTime' }, 'name': 'endTime', 'className': 'start-time', 'value': __context.values.end.time(), 'options': __context.values.end.timeOptions, 'onSelect': __context.values.end.onChange })
-                    ]), { 'span': 4 }),
-                    __this.widget(new grid_1.Column({}, [
-                        __this.widget(new label_1.Label({}, [
-                            __document.createTextNode('All day event? ')
-                        ]), {}),
-                        __this.widget(new checkbox_1.Checkbox({ wml: { 'id': 'allDay' }, 'name': 'allDay', 'value': __context.values.data.allDay, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'allDay' }, 'name': 'allDay', 'value': __context.values.data.allDay, 'onChange': __context.values.onChange })
-                    ]), {})
+                        __this.widget(new drop_list_1.DropList({ wml: { 'id': 'endTime' }, 'name': 'endTime', 'className': 'start-time', 'value': __context.values.data.endTime, 'options': __context.values.time.options, 'onSelect': __context.values.onChange }, []), { wml: { 'id': 'endTime' }, 'name': 'endTime', 'className': 'start-time', 'value': __context.values.data.endTime, 'options': __context.values.time.options, 'onSelect': __context.values.onChange })
+                    ]), { 'span': 4 })
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [

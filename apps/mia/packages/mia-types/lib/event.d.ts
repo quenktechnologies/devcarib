@@ -12,9 +12,13 @@ export interface Event extends _json.Object {
     [key: string]: _json.Value;
     'id'?: number;
     'title'?: string;
-    'start'?: string;
-    'end'?: string;
-    'allDay'?: boolean;
+    'startDate'?: string;
+    'startTime'?: string;
+    'startDateTime'?: string;
+    'tzOffset'?: string;
+    'endDate'?: string;
+    'endTime'?: string;
+    'endDateTime'?: string;
     'url'?: string;
     'location'?: string;
     'host'?: string;

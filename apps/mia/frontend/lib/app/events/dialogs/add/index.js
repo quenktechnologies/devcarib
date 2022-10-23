@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddEventDialog = void 0;
-const moment = require("moment");
 const record_1 = require("@quenk/noni/lib/data/record");
 const dialog_1 = require("@devcarib/frontend/lib/app/scene/form/remote/dialog");
+const datetime_1 = require("@devcarib/common/lib/data/datetime");
 const models_1 = require("../../../remote/models");
 const views_1 = require("./views");
 const getTimes = () => {
@@ -18,62 +18,24 @@ const getTimes = () => {
         return { label, value };
     })), []);
 };
-const now = () => moment.utc().startOf('day').add(9, 'hours').add(15, 'minutes');
+const now = new Date();
+const nowDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDay() + 1}`;
 class AddEventDialog extends dialog_1.DevCaribDialogRemoteForm {
     constructor() {
         super(...arguments);
         this.name = 'Add Event';
         this.view = new views_1.AddEventDialogView(this);
         this.model = models_1.RemoteModels.create('event', this.app.services['remote.background'], this);
-        this.value = (0, record_1.merge)({ start: now().toISOString() }, this.value);
+        this.value = (0, record_1.merge)({
+            startDate: nowDate,
+            startTime: '09:00',
+            tzOffset: (0, datetime_1.getOffset)()
+        }, this.value);
         this.values = {
             data: this.value,
             errors: {},
-            start: {
-                date: () => moment.utc(this.values.data.start).format('YYYY-MM-DD'),
-                time: () => moment.utc(this.values.data.start).format('hh:mm'),
-                timeOptions: getTimes(),
-                onChange: ({ name, value }) => {
-                    if (name === 'endDate') {
-                        let start = moment.utc(this.values.data.start);
-                        let newStart = moment.utc(value);
-                        newStart.hour(start.hour());
-                        newStart.minute(start.minute());
-                        newStart.seconds(start.seconds());
-                        this.set('start', newStart.toISOString());
-                    }
-                    else if (name === 'startTime') {
-                        let start = moment.utc(this.values.data.start);
-                        let newStart = moment.utc(value);
-                        newStart.year(start.year());
-                        newStart.month(start.month());
-                        newStart.date(start.date());
-                        this.set('start', newStart.toISOString());
-                    }
-                }
-            },
-            end: {
-                date: () => moment.utc(this.values.data.end).format('YYYY-MM-DD'),
-                time: () => moment.utc(this.values.data.end).format('hh:mm'),
-                timeOptions: getTimes(),
-                onChange: ({ name, value }) => {
-                    if (name === 'endDate') {
-                        let end = moment.utc(this.values.data.end);
-                        let newStart = moment.utc(value);
-                        newStart.hour(end.hour());
-                        newStart.minute(end.minute());
-                        newStart.seconds(end.seconds());
-                        this.set('end', newStart.toISOString());
-                    }
-                    else if (name === 'endTime') {
-                        let end = moment.utc(this.values.data.end);
-                        let newStart = moment.utc(value);
-                        newStart.year(end.year());
-                        newStart.month(end.month());
-                        newStart.date(end.date());
-                        this.set('end', newStart.toISOString());
-                    }
-                }
+            time: {
+                options: getTimes(),
             },
             onSelect: (e) => {
                 this.tell(this.self(), e);

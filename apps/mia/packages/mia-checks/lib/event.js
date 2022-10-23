@@ -17,9 +17,13 @@ const _collection = 'events';
 exports.checks = {
     'id': (0, async_1.every)((0, checks_1.unique)('events', 'id')),
     'title': async_1.identity,
-    'start': async_1.identity,
-    'end': async_1.identity,
-    'allDay': async_1.identity,
+    'startDate': async_1.identity,
+    'startTime': async_1.identity,
+    'startDateTime': async_1.identity,
+    'tzOffset': async_1.identity,
+    'endDate': async_1.identity,
+    'endTime': async_1.identity,
+    'endDateTime': async_1.identity,
     'url': async_1.identity,
     'location': async_1.identity,
     'host': async_1.identity,
@@ -36,9 +40,13 @@ exports.checks = {
 exports.partialChecks = {
     'id': async_1.identity,
     'title': async_1.identity,
-    'start': async_1.identity,
-    'end': async_1.identity,
-    'allDay': async_1.identity,
+    'startDate': async_1.identity,
+    'startTime': async_1.identity,
+    'startDateTime': async_1.identity,
+    'tzOffset': async_1.identity,
+    'endDate': async_1.identity,
+    'endTime': async_1.identity,
+    'endDateTime': async_1.identity,
     'url': async_1.identity,
     'location': async_1.identity,
     'host': async_1.identity,
@@ -52,7 +60,7 @@ exports.partialChecks = {
 /**
  * check a Event value.
  */
-exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(event_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html'), (0, checks_1.inc)('events')));
+exports.check = (0, async_1.and)((0, async_1.and)((0, async_1.async)(event_1.validate), (0, record_1.restrict)(exports.checks)), (0, async_1.every)((0, checks_1.parseMarkdown)('description', 'description_html'), (0, checks_1.inc)('events'), (0, checks_1.datetime)('startDateTime', 'startDate', 'startTime', 'tzOffset'), (0, checks_1.datetime)('endDateTime', 'endDate', 'endTime', 'tzOffset')));
 /**
  * checkPartial a partial Event value.
  */

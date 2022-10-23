@@ -47,6 +47,14 @@ export declare const maxLength: (n: number) => Precondition<Value, Value>;
  */
 export declare const date: Precondition<Value, Value>;
 /**
+ * time only supports hh:mm.
+ */
+export declare const time: Precondition<Value, Value>;
+/**
+ * tzoffset in the format +04:00
+ */
+export declare const tzoffset: Precondition<Value, Value>;
+/**
  * boolean casts a value to a JS boolean.
  */
 export declare const boolean: Precondition<Value, Value>;

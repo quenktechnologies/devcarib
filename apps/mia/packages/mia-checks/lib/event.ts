@@ -37,7 +37,7 @@ import {
 
 import { Event } from '@mia/types/lib/event';
 import { validate, validatePartial } from '@mia/validators/lib/event';
-import { parseMarkdown, inc, unique } from '@devcarib/server/lib/data/checks';
+import { parseMarkdown, inc, datetime, unique } from '@devcarib/server/lib/data/checks';
 
 //@ts-ignore: 6133
 const _title = 'Event';
@@ -57,11 +57,19 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'title': _identity
     ,
-    'start': _identity
+    'startDate': _identity
     ,
-    'end': _identity
+    'startTime': _identity
     ,
-    'allDay': _identity
+    'startDateTime': _identity
+    ,
+    'tzOffset': _identity
+    ,
+    'endDate': _identity
+    ,
+    'endTime': _identity
+    ,
+    'endDateTime': _identity
     ,
     'url': _identity
     ,
@@ -91,11 +99,19 @@ export const partialChecks: Preconditions<Value, Value> = {
     ,
     'title': _identity
     ,
-    'start': _identity
+    'startDate': _identity
     ,
-    'end': _identity
+    'startTime': _identity
     ,
-    'allDay': _identity
+    'startDateTime': _identity
+    ,
+    'tzOffset': _identity
+    ,
+    'endDate': _identity
+    ,
+    'endTime': _identity
+    ,
+    'endDateTime': _identity
     ,
     'url': _identity
     ,
@@ -123,7 +139,7 @@ export const partialChecks: Preconditions<Value, Value> = {
 export const check: Precondition<Value, Event> =
     _and(_and<Value, Event, Event>(
         _async(validate), complete(checks)),
-        _every<Event, Event>(parseMarkdown('description', 'description_html'), inc('events'))
+        _every<Event, Event>(parseMarkdown('description', 'description_html'), inc('events'), datetime('startDateTime', 'startDate', 'startTime', 'tzOffset'), datetime('endDateTime', 'endDate', 'endTime', 'tzOffset'))
     );
 
 /**

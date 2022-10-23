@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validatePartial = exports.validate = exports.partialValidators = exports.validators = void 0;
 //@ts-ignore: 6133
-var preconditions_1 = require("@quenk/preconditions");
+const preconditions_1 = require("@quenk/preconditions");
 //@ts-ignore: 6133
-var record_1 = require("@quenk/preconditions/lib/record");
+const record_1 = require("@quenk/preconditions/lib/record");
 //@ts-ignore: 6133
-var string_1 = require("@quenk/preconditions/lib/string");
-var validators_1 = require("@devcarib/common/lib/data/validators");
+const string_1 = require("@quenk/preconditions/lib/string");
+const validators_1 = require("@devcarib/common/lib/data/validators");
 //@ts-ignore: 6133
-var _string = (0, preconditions_1.and)(string_1.isString, string_1.trim);
+const _string = (0, preconditions_1.and)(string_1.isString, string_1.trim);
 /**
  * validators for Admin provided as a map.
  */

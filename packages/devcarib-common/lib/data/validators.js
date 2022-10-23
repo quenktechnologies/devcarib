@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jobStatus = exports.paymentFrequency = exports.currency = exports.boolean = exports.date = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.username = exports.email = exports.name = void 0;
-var moment = require("moment");
-var string = require("@quenk/preconditions/lib/string");
-var array = require("@quenk/preconditions/lib/array");
-var preconditions_1 = require("@quenk/preconditions");
-var array_1 = require("@quenk/noni/lib/data/array");
-var result_1 = require("@quenk/preconditions/lib/result");
-var currency_1 = require("./currency");
-var payment_1 = require("./payment");
-var job_1 = require("./job");
+exports.jobStatus = exports.paymentFrequency = exports.currency = exports.boolean = exports.tzoffset = exports.time = exports.date = exports.maxLength = exports.minLength = exports.textlarge = exports.textmedium = exports.textsmall = exports.url = exports.password = exports.username = exports.email = exports.name = void 0;
+const string = require("@quenk/preconditions/lib/string");
+const array = require("@quenk/preconditions/lib/array");
+const preconditions_1 = require("@quenk/preconditions");
+const array_1 = require("@quenk/noni/lib/data/array");
+const datetime_1 = require("@quenk/noni/lib/data/datetime");
+const result_1 = require("@quenk/preconditions/lib/result");
+const currency_1 = require("./currency");
+const payment_1 = require("./payment");
+const job_1 = require("./job");
 /**
  * name must be a string and between 1-64 characters.
  *
@@ -47,63 +47,64 @@ exports.textlarge = (0, preconditions_1.and)(string.isString, (0, preconditions_
 /**
  * minLength for strings and array.
  */
-var minLength = function (n) {
-    return function (value) { return Array.isArray(value) ?
-        array.min(n)(value) :
-        string.minLength(n)(value); };
-};
+const minLength = (n) => (value) => Array.isArray(value) ?
+    array.min(n)(value) :
+    string.minLength(n)(value);
 exports.minLength = minLength;
 /**
  * maxLength for strings and array.
  */
-var maxLength = function (n) {
-    return function (value) { return Array.isArray(value) ?
-        array.max(n)(value) :
-        string.maxLength(n)(value); };
-};
+const maxLength = (n) => (value) => Array.isArray(value) ?
+    array.max(n)(value) :
+    string.maxLength(n)(value);
 exports.maxLength = maxLength;
 /**
  * date must be a valid ISO8601 date.
  */
-var date = function (value) {
-    var date = moment.utc(String(value));
-    return date.isValid() ? (0, result_1.succeed)(date.toDate()) : (0, result_1.fail)('date', { value: value });
+const date = (value) => {
+    let dateString = (0, datetime_1.parseDate)(String(value));
+    return (dateString !== '') ? (0, result_1.succeed)(dateString) : (0, result_1.fail)('date', { value });
 };
 exports.date = date;
+const timeRegex = /^([01][0-9]|2[0-3]):([0-5][0-9])$/;
+/**
+ * time only supports hh:mm.
+ */
+const time = (value) => timeRegex.test(String(value)) ? (0, result_1.succeed)(value) : (0, result_1.fail)('time', { value });
+exports.time = time;
+const tzoffsetRegex = /^[+-][01][0-9]:[0-5][0-9]$/;
+/**
+ * tzoffset in the format +04:00
+ */
+const tzoffset = (value) => tzoffsetRegex.test(String(value)) ?
+    (0, result_1.succeed)(value) : (0, result_1.fail)('tzoffset', { value });
+exports.tzoffset = tzoffset;
 /**
  * boolean casts a value to a JS boolean.
  */
-var boolean = function (value) {
-    return (0, result_1.succeed)(Boolean(value));
-};
+const boolean = (value) => (0, result_1.succeed)(Boolean(value));
 exports.boolean = boolean;
 /**
  * currency ensures the provided string is one of the supported currency
  * indicators.
  */
-var currency = function (value) {
-    return (0, array_1.contains)(currency_1.supportedCurrencies, value) ?
-        (0, result_1.succeed)(value) :
-        (0, result_1.fail)('invalid', { value: value });
-};
+const currency = (value) => (0, array_1.contains)(currency_1.supportedCurrencies, value) ?
+    (0, result_1.succeed)(value) :
+    (0, result_1.fail)('invalid', { value });
 exports.currency = currency;
 /**
  * paymentFrequency is one of several period specifiers that indicate how
  * often a payment will be made.
  */
-var paymentFrequency = function (value) {
-    return (0, array_1.contains)(payment_1.supportedPaymentFrequencies, value) ?
-        (0, result_1.succeed)(value) :
-        (0, result_1.fail)('invalid', { value: value });
-};
+const paymentFrequency = (value) => (0, array_1.contains)(payment_1.supportedPaymentFrequencies, value) ?
+    (0, result_1.succeed)(value) :
+    (0, result_1.fail)('invalid', { value });
 exports.paymentFrequency = paymentFrequency;
 /**
  * jobStatus must be one of the predefined job posting statuses.
  */
-var jobStatus = function (value) {
-    return (0, array_1.contains)(job_1.jobStatuses, value) ?
-        (0, result_1.succeed)(value) :
-        (0, result_1.fail)('invalid', { value: value });
-};
+const jobStatus = (value) => (0, array_1.contains)(job_1.jobStatuses, value) ?
+    (0, result_1.succeed)(value) :
+    (0, result_1.fail)('invalid', { value });
 exports.jobStatus = jobStatus;
 //# sourceMappingURL=validators.js.map

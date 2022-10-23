@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rand = exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.COUNTERS_ID = void 0;
+exports.datetime = exports.rand = exports.parseMarkdown = exports.timestamp = exports.inc = exports.id = exports.unique = exports.bcrypt = exports.COUNTERS_ID = void 0;
 const bcryptjs = require("bcryptjs");
 const uuid = require("uuid");
 const moment = require("moment");
@@ -96,4 +96,27 @@ const rand = (target, bytes = 32) => (value) => (0, future_1.doFuture)(function*
     return (0, future_1.pure)((0, result_1.succeed)(value));
 });
 exports.rand = rand;
+/**
+ * datetime computes the datetime value using the desired keys.
+ */
+const datetime = (key, dateKey, timeKey, offsetKey) => (value) => (0, future_1.fromCallback)(cb => {
+    let date = String(value[dateKey]);
+    let time = String(value[timeKey]);
+    if (!date || !time) {
+        cb(null, (0, result_1.succeed)(value)); // date and time are needed.
+    }
+    else {
+        let offset = value[offsetKey];
+        let mValue = moment(`${date}T${time}:00${offset}`);
+        console.error("FINI ", [date, 'T', time, ':00', offset], value, offsetKey);
+        if (!mValue.isValid()) {
+            cb(null, (0, result_1.fail)(key, value));
+        }
+        else {
+            value[key] = mValue.toISOString(true);
+            cb(null, (0, result_1.succeed)(value));
+        }
+    }
+});
+exports.datetime = datetime;
 //# sourceMappingURL=checks.js.map

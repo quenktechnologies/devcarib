@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Event } from '@mia/types/lib/event';
-import { textsmall, minLength, date, boolean, url, textmedium, textlarge, maxLength } from '@devcarib/common/lib/data/validators';
+import { textsmall, minLength, date, time, tzoffset, url, textmedium, textlarge, maxLength } from '@devcarib/common/lib/data/validators';
 
 /**
  * @private Used during template generation.
@@ -60,18 +60,28 @@ export const validators: Preconditions<Value, Value> = {
 
     ),
 
-    'start': _and(_notNull, _and(_string,
+    'startDate': _and(_notNull, _and(_string,
         _every<Value, Value>(date))
 
     ),
 
-    'end': _optional(_and(_string,
+    'startTime': _optional(_and(_string,
+        _every<Value, Value>(time))
+
+    ),
+
+    'tzOffset': _and(_notNull, _and(_string,
+        _every<Value, Value>(tzoffset))
+
+    ),
+
+    'endDate': _optional(_and(_string,
         _every<Value, Value>(date))
 
     ),
 
-    'allDay': _optional(_and(_boolean,
-        _every<Value, Value>(boolean))
+    'endTime': _optional(_and(_string,
+        _every<Value, Value>(time))
 
     ),
 
@@ -80,12 +90,12 @@ export const validators: Preconditions<Value, Value> = {
 
     ),
 
-    'location': _and(_notNull, _and(_string,
+    'location': _optional(_and(_string,
         _every<Value, Value>(textsmall))
 
     ),
 
-    'host': _and(_notNull, _and(_string,
+    'host': _optional(_and(_string,
         _every<Value, Value>(textmedium))
 
     ),
@@ -106,18 +116,28 @@ export const partialValidators: Preconditions<Value, Value> = {
 
     ),
 
-    'start': _and(_notNull, _and(_string,
+    'startDate': _and(_notNull, _and(_string,
         _every<Value, Value>(date))
 
     ),
 
-    'end': _optional(_and(_string,
+    'startTime': _optional(_and(_string,
+        _every<Value, Value>(time))
+
+    ),
+
+    'tzOffset': _and(_notNull, _and(_string,
+        _every<Value, Value>(tzoffset))
+
+    ),
+
+    'endDate': _optional(_and(_string,
         _every<Value, Value>(date))
 
     ),
 
-    'allDay': _optional(_and(_boolean,
-        _every<Value, Value>(boolean))
+    'endTime': _optional(_and(_string,
+        _every<Value, Value>(time))
 
     ),
 
@@ -126,12 +146,12 @@ export const partialValidators: Preconditions<Value, Value> = {
 
     ),
 
-    'location': _and(_notNull, _and(_string,
+    'location': _optional(_and(_string,
         _every<Value, Value>(textsmall))
 
     ),
 
-    'host': _and(_notNull, _and(_string,
+    'host': _optional(_and(_string,
         _every<Value, Value>(textmedium))
 
     ),
