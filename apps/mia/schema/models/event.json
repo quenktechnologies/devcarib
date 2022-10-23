@@ -25,15 +25,27 @@
 
     "checks": [
 
-        [
-            "@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]
-        ]
+        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'description'", "'description_html'"]]
 
     ],
 
     "checks-complete": [
 
-        ["@devcarib/server/lib/data/checks#inc", ["'events'"]]
+        ["@devcarib/server/lib/data/checks#inc", ["'events'"]],
+
+        ["@devcarib/server/lib/data/checks#datetime", [
+            "'startDateTime'",
+            "'startDate'",
+            "'startTime'",
+            "'tzOffset'"
+        ]],
+
+        ["@devcarib/server/lib/data/checks#datetime", [
+            "'endDateTime'",
+            "'endDate'",
+            "'endTime'",
+            "'tzOffset'"
+        ]]
 
     ],
 
@@ -69,35 +81,69 @@
 
         },
 
-        "start": {
+        "startDate": {
 
             "type": "string",
 
-            "validators": "@devcarib/common/lib/data/validators#date",
+            "validators": "@devcarib/common/lib/data/validators#date"
+
+        },
+
+        "startTime": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common/lib/data/validators#time",
+
+            "optional": true
+
+        },
+
+        "startDateTime": {
+
+            "type": "string",
+
+            "readOnly": true,
 
             "filterAs": "date"
 
         },
 
-        "end": {
+        "tzOffset": {
 
             "type": "string",
 
-            "optional": true,
-
-            "validators": "@devcarib/common/lib/data/validators#date",
-
-            "filterAs": "date"
+            "validators": "@devcarib/common/lib/data/validators#tzoffset"
 
         },
 
-        "allDay": {
+        "endDate": {
 
-            "type": "boolean",
+            "type": "string",
 
-            "optional": true,
+            "validators": "@devcarib/common/lib/data/validators#date",
 
-            "validators": "@devcarib/common/lib/data/validators#boolean"
+            "optional": true
+
+        },
+
+        "endTime": {
+
+            "type": "string",
+
+            "validators": "@devcarib/common/lib/data/validators#time",
+
+            "optional": true
+
+        },
+
+        "endDateTime": {
+
+            "type": "string",
+
+            "readOnly": true,
+
+            "filterAs": "date"
 
         },
 

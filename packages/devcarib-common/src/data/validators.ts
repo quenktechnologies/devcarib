@@ -1,10 +1,10 @@
-import * as moment from 'moment';
 import * as string from '@quenk/preconditions/lib/string';
 import * as array from '@quenk/preconditions/lib/array';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
 import { Precondition, and } from '@quenk/preconditions';
 import { contains } from '@quenk/noni/lib/data/array';
+import { parseDate } from '@quenk/noni/lib/data/datetime';
 
 import { succeed, fail } from '@quenk/preconditions/lib/result';
 
@@ -91,11 +91,29 @@ export const maxLength = (n: number): Precondition<Value, Value> =>
  * date must be a valid ISO8601 date.
  */
 export const date: Precondition<Value, Value> = (value: Value) => {
-    let date = moment.utc(String(value));
 
-    return date.isValid() ? succeed(date.toDate()) : fail('date', { value });
+    let dateString = parseDate(String(value));
+
+    return (dateString !== '') ? succeed(dateString) : fail('date', { value });
 
 }
+
+const timeRegex = /^([01][0-9]|2[0-3]):([0-5][0-9])$/;
+
+/**
+ * time only supports hh:mm.
+ */
+export const time: Precondition<Value, Value> = (value: Value) =>
+    timeRegex.test(String(value)) ? succeed(value) : fail('time', { value });
+
+const tzoffsetRegex = /^[+-][01][0-9]:[0-5][0-9]$/;
+
+/**
+ * tzoffset in the format +04:00
+ */
+export const tzoffset: Precondition<Value, Value> = (value: Value) =>
+    tzoffsetRegex.test(String(value)) ?
+        succeed(value) : fail('tzoffset', { value });
 
 /**
  * boolean casts a value to a JS boolean.
@@ -127,4 +145,4 @@ export const paymentFrequency: Precondition<Value, Value> = (value: Value) =>
 export const jobStatus: Precondition<Value, Value> = (value: Value) =>
     contains(jobStatuses, value) ?
         succeed(value) :
-        fail('invalid', { value })
+        fail('invalid', { value });

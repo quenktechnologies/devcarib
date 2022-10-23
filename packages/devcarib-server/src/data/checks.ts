@@ -152,10 +152,49 @@ export const rand = <T extends Object>(target: string, bytes = 32) =>
     (value: T): Result<T, T> =>
         doFuture(<DoFn<SResult<T, T>, Result<T, T>>>function*() {
 
-                let str = yield fromCallback(cb => crypto.randomBytes(bytes, cb));
+            let str = yield fromCallback(cb => crypto.randomBytes(bytes, cb));
 
             (<Object>value)[target] = str.toString('hex');
 
             return pure(succeed(value));
 
         });
+
+/**
+ * datetime computes the datetime value using the desired keys.
+ */
+export const datetime = <T extends Object>
+    (key: string, dateKey: string, timeKey: string, offsetKey: string) =>
+    (value: T): Result<T, T> => fromCallback(cb => {
+
+        let date = String(value[dateKey]);
+
+        let time = String(value[timeKey]);
+
+        if (!date || !time) {
+
+            cb(null, succeed(value)); // date and time are needed.
+
+        } else {
+
+            let offset = value[offsetKey];
+
+            let mValue = moment(`${date}T${time}:00${offset}`);
+
+            console.error("FINI ", [date, 'T', time, ':00', offset], value, offsetKey);
+
+            if (!mValue.isValid()) {
+
+                cb(null, fail(key, value));
+
+            } else {
+
+                (<Object>value)[key] = mValue.toISOString(true);
+
+                cb(null, succeed(value));
+
+            }
+
+        }
+
+    });

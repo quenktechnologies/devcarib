@@ -3,7 +3,6 @@
 {% import (DateField) from "@quenk/wml-widgets/lib/control/date-field" %}
 {% import (DropList) from "@quenk/wml-widgets/lib/control/drop-list" %}
 {% import (Label) from "@quenk/wml-widgets/lib/control/label" %}
-{% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
 
 {% view AddEventDialogView (AddEventDialog from ".") %}
 <GridLayout>
@@ -37,10 +36,9 @@
       <DateField
         wml:id="startDate"
         className="start-date -block"
-        placeholder="YYYY-MM-DD"
-        name="startDate"     
-        value={{@values.start.date()}}
-        onChange={{@values.start.onChange}} />
+        name="startDate"
+        value={{@values.data.startDate}}
+        onChange={{@values.onChange}}/>
 
     </Column>
 
@@ -50,9 +48,9 @@
         wml:id="startTime"
         name="startTime"
         className="start-time"
-        value={{@values.start.time()}}
-        options={{@values.start.timeOptions}}
-        onSelect={{@values.start.onChange}} />
+        value={{@values.data.startTime}}
+        options={{@values.time.options}}
+        onSelect={{@values.onChange}}/>
 
     </Column>
 
@@ -71,10 +69,9 @@
       <DateField
         wml:id="endDate"
         className="start-date -block"
-        placeholder="YYYY-MM-DD"
         name="endDate"     
-        value={{@values.end.date()}}
-        onChange={{@values.end.onChange}} />
+        value={{@values.data.endDate}}
+        onChange={{@values.onChange}} />
 
     </Column>
 
@@ -84,21 +81,9 @@
         wml:id="endTime"
         name="endTime"
         className="start-time"
-        value={{@values.end.time()}}
-        options={{@values.end.timeOptions}}
-        onSelect={{@values.end.onChange}} />
-
-    </Column>
-
-    <Column>
-
-      <Label>All day event? </Label>
-
-      <Checkbox
-        wml:id="allDay"
-        name="allDay"
-        value={{@values.data.allDay}}
-        onChange={{@values.onChange}} />
+        value={{@values.data.endTime}}
+        options={{@values.time.options}}
+        onSelect={{@values.onChange}} />
 
     </Column>
 
