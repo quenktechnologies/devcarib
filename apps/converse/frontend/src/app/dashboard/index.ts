@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 import {
     Future,
     doFuture,
@@ -24,6 +26,8 @@ import { Event } from '@converse/types/lib/event';
 import { ConverseScene } from '../common/scene';
 import { CreatePostForm } from './forms/post';
 import { DashboardView } from './views';
+
+const eventThreshold = moment().subtract(6, 'hours').toISOString();
 
 class DefaultPagination {
 
@@ -185,7 +189,15 @@ export class Dashboard extends ConverseScene<void> {
 
             yield that.popularPosts.search({ sort: '-web-views', limit: 5 });
 
-            yield that.events.search({ sort: '-created_on', limit: 5 });
+            yield that.events.search({
+
+                q: `startDateTime:>${eventThreshold}`,
+
+                sort: '-created_on',
+
+                limit: 5
+
+            });
 
             return voidPure;
 

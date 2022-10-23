@@ -161,15 +161,16 @@ export const rand = <T extends Object>(target: string, bytes = 32) =>
         });
 
 /**
- * datetime computes the datetime value using the desired keys.
+ * datetime computes a datetime value (returning a Date instance) using the
+ * keys provided.
  */
 export const datetime = <T extends Object>
     (key: string, dateKey: string, timeKey: string, offsetKey: string) =>
     (value: T): Result<T, T> => fromCallback(cb => {
 
-        let date = String(value[dateKey]);
+        let date = value[dateKey];
 
-        let time = String(value[timeKey]);
+        let time = value[timeKey];
 
         if (!date || !time) {
 
@@ -181,15 +182,13 @@ export const datetime = <T extends Object>
 
             let mValue = moment(`${date}T${time}:00${offset}`);
 
-            console.error("FINI ", [date, 'T', time, ':00', offset], value, offsetKey);
-
             if (!mValue.isValid()) {
 
                 cb(null, fail(key, value));
 
             } else {
 
-                (<Object>value)[key] = mValue.toISOString(true);
+                (<Object>value)[key] = mValue.toDate();
 
                 cb(null, succeed(value));
 
