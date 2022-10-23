@@ -5,7 +5,8 @@
     "description": "Platform for the Caribbean Software Industry",
     "scripts": {
         "test": "./node_modules/.bin/mocha $(find test -name *_test.ts)",
-        "start": "node -r dotenv/config build/start.js"
+        "start": "node -r dotenv/config build/start.js",
+        "prerelease": "rm -R npm-shrinkwrap.json; npm shrinkwrap"
     },
     "engines": {
         "node": "16.18.0",
