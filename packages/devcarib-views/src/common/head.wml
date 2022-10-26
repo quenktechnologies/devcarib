@@ -41,6 +41,7 @@
     <meta name="msapplication-TileColor" content="#218c8d"/>
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
     <meta name="theme-color" content="#218c8d"/>
+    <meta name="viewport" content={{ "width=device-width, initial-scale=1.0" | unsafe }}/>
     {% if @meta?? %}
       {% for meta in @meta %}
         <meta property={{meta.property}} 
