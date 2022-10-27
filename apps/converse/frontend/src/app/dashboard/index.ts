@@ -12,6 +12,7 @@ import {
     AfterSearchSetPagination,
     OnCompleteShowData,
     AfterSearchUpdateWidget,
+    AfterSearchUpdateWidgets,
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { Result } from '@quenk/jouvert/lib/app/remote/model/response';
@@ -142,7 +143,7 @@ export class Dashboard extends ConverseScene<void> {
 
         new AfterSearchSetData(data => { this.values.jobs.data = data }),
 
-        new AfterSearchUpdateWidget(this.view, this.values.jobs.id)
+        new AfterSearchUpdateWidgets(this.view, this.values.jobs.id)
 
     ]);
 
@@ -150,7 +151,7 @@ export class Dashboard extends ConverseScene<void> {
 
         new AfterSearchSetData(data => { this.values.events.data = data }),
 
-        new AfterSearchUpdateWidget(this.view, this.values.events.id)
+        new AfterSearchUpdateWidgets(this.view, this.values.events.id)
 
     ]);
 

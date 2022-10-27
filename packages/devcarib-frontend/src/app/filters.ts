@@ -5,5 +5,6 @@ import * as moment from 'moment';
  */
 export const fromNow = (date: string) => {
     let ref = moment.utc(date);
+    console.error("ref--> ", ref, ref.fromNow());
     return ref.isValid() ? ref.fromNow() : '';
 }

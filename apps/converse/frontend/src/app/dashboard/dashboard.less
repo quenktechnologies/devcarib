@@ -1,3 +1,4 @@
+@import "@quenk/wml-widgets/lib/content/screen/less/screen";
 
 .converse-dashboard-header {
 
@@ -14,5 +15,17 @@
     margin-left: auto;
 
   }
+
+}
+
+
+/**
+ * Hides the element when we determine the screen is below the small breakpoint.
+ */
+.-converse-hide-screen-small {
+
+  .screen-small({
+    display: none;
+  })
 
 }
