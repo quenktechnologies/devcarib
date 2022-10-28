@@ -1,22 +1,21 @@
 import { Record } from '@quenk/noni/lib/data/record';
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
-import { Future, doFuture, voidPure } from '@quenk/noni/lib/control/monad/future';
-
-import { Conflict, Created, Response } from '@quenk/jhr/lib/response';
+import {
+    Future,
+    doFuture,
+    voidPure
+} from '@quenk/noni/lib/control/monad/future';
 
 import {
     AfterGetSetData,
-    AfterSearchSetData,
     AfterSearchUpdateWidget,
-    OnCompleteShowData,
+    AfterPatchOk,
+    AfterCreated,
+    AfterConflict
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import {
-    CreateResult,
+    Result,
 } from '@quenk/jouvert/lib/app/remote/model/response';
-import {
-    CreateResultHandler,
-    GetResultHandler
-} from '@quenk/jouvert/lib/app/remote/model/handlers/result';
 import {
     TaggedHandler
 } from '@quenk/jouvert/lib/app/remote/model/handlers/tag';
@@ -33,50 +32,14 @@ import { ConverseScene } from '../../common/scene';
 import { PostThreadView } from './views';
 import { PostRemoteModel } from '../../remote/models/post';
 
-class AfterPostLoadComments extends GetResultHandler<Post> {
-
-    constructor(public thread: PostThread) { super(); }
-
-    onComplete() {
-
-        this.thread.loadComments();
-
-    }
-
-}
-
-class AfterPostCommentReload extends CreateResultHandler {
-
-    constructor(public thread: PostThread) { super(); }
-
-    onComplete(res: Response<CreateResult>) {
-
-        if (res instanceof Created) this.thread.loadComments();
-
-    }
-
-    onClientError(res: Response<Object>) {
-
-        // XXX: To be improved, promise!
-        if (res instanceof Conflict)
-            alert('Could not post the commment for some reason!');
-
-    }
-
-}
-
-class OnPatchCommentFailed extends AfterPostCommentReload {
-
-    onComplete() { }
-
-}
-
 /**
  * PostThread serves as the main view for a single post.
  *
  * It displays the original post as well as subsequent comments.
  */
 export class PostThread extends ConverseScene<void> {
+
+    _initialized = false; // flag indicating comments and sidebar loaded.
 
     name = 'post-thread';
 
@@ -133,7 +96,6 @@ export class PostThread extends ConverseScene<void> {
                     this.wait(<Future<void>><Future<unknown>>this.comments
                         .update(<number>comment.id, { body: comment.body }));
 
-
                 }
 
             }
@@ -177,65 +139,54 @@ export class PostThread extends ConverseScene<void> {
 
     };
 
-    posts = <PostRemoteModel>this.models.create('post', TaggedHandler.create([
+    posts = <PostRemoteModel>this.models.create('post',
+        TaggedHandler.create<Result<Object>>([
 
-        ['method', 'get', [
+            ['method', 'get', [
 
-            new AfterGetSetData(data => {
+                new AfterGetSetData(() => {
 
-                this.values.post.data = <Post>data;
+                    this.show();
 
-                this.wait(this.loadSidebar());
+                })
 
-            }),
+            ]],
 
-            new OnCompleteShowData(this),
+            ['target', 'recentPosts', [
 
-            new AfterPostLoadComments(this)
+                new AfterSearchUpdateWidget(this.view,
+                    this.values.posts.recent.id)
 
-        ]],
+            ]],
 
-        ['target', 'recentPosts', [
+            ['method', 'getComments', [
 
-            new AfterSearchSetData(data => {
+                new AfterSearchUpdateWidget(this.view, this.values.comments.id),
 
-                this.values.posts.recent.data = data
+            ]],
 
-            }),
+            ['method', 'createComment', [
 
-            new AfterSearchUpdateWidget(this.view, this.values.posts.recent.id)
+                new AfterCreated(() => this.loadComments()),
 
-        ]],
+                new AfterConflict(() =>
+                    alert('Could not post the commment for some reason!'))
+            ]],
 
-        ['method', 'getComments', [
+            ['method', 'update', new AfterPatchOk(() => this.load())]
 
-            new AfterSearchSetData(data => { this.values.comments.data = data }),
-
-            new AfterSearchUpdateWidget(this.view, this.values.comments.id),
-
-            new AfterPostCommentReload(this),
-
-            new OnPatchCommentFailed(this)
-
-        ]],
-
-        ['method', 'createComment', [
-
-            new AfterPostCommentReload(this),
-
-        ]]
-
-    ]));
+        ]));
 
     comments = this.models.create('comment', [
 
-        new OnPatchCommentFailed(this)
+        new AfterPatchOk(() => this.loadComments()),
+
+        new AfterConflict(() =>
+            alert('Could not update commment for some reason!'))
 
     ]);
 
     jobs = this.models.create('job', [
-
-        new AfterSearchSetData(data => { this.values.jobs.data = data }),
 
         new AfterSearchUpdateWidget(this.view, this.values.jobs.id)
 
@@ -243,29 +194,30 @@ export class PostThread extends ConverseScene<void> {
 
     events = this.models.create('event', [
 
-        new AfterSearchSetData(data => { this.values.events.data = data }),
-
         new AfterSearchUpdateWidget(this.view, this.values.events.id)
 
     ]);
 
     /**
-     * loadComments for the post.
+     * load the initial post data that is the main thing displayed.
      */
-    loadComments() {
+    load() {
 
-        this.wait(<Future<void>><Future<unknown>>
-            this.posts.getComments(<number>this.resume.request.params.id));
+        return this.posts.get(Number(this.resume.request.params.id)).
+            map(mdata => { this.values.post.data = mdata.get() });
 
     }
 
+    /**
+     * loadSidebar content.
+     */
     loadSidebar() {
 
         let that = this;
 
         return doFuture(function*() {
 
-            yield that.posts.search({
+            that.values.posts.recent.data = yield that.posts.search({
 
                 $tags: { target: 'recentPosts' },
 
@@ -275,9 +227,43 @@ export class PostThread extends ConverseScene<void> {
 
             });
 
-            yield that.events.search({ sort: '-created_on', limit: 5 });
+            that.values.events.data =
+                yield that.events.search({ sort: '-created_on', limit: 5 });
 
-            yield that.jobs.search({ sort: '-created_on', limit: 5 });
+            that.values.jobs.data =
+                yield that.jobs.search({ sort: '-created_on', limit: 5 });
+
+            return voidPure;
+
+        });
+
+    }
+
+    /**
+     * loadComments into the page.
+     */
+    loadComments() {
+
+        return this.posts.getComments(<number>this.resume.request.params.id)
+            .map(data => { this.values.comments.data = data });
+
+    }
+
+    afterViewShown() {
+
+        let that = this;
+
+        return doFuture(function*() {
+
+            if (!that._initialized) {
+
+                yield that.loadSidebar();
+
+                yield that.loadComments();
+
+            }
+
+            that._initialized = true;
 
             return voidPure;
 
@@ -287,7 +273,7 @@ export class PostThread extends ConverseScene<void> {
 
     run() {
 
-        return this.posts.get(Number(this.resume.request.params.id));
+        return this.load();
 
     }
 

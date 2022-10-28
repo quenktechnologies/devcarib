@@ -7,7 +7,7 @@ import {
 
 import {
     AfterGetSetData,
-    OnNotFound
+    AfterNotFound
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 
 import { DevCarib } from '@devcarib/frontend/lib/app';
@@ -107,7 +107,7 @@ export class Converse extends DevCarib {
 
                 }),
 
-                new OnNotFound(() => window.location.replace('login'))
+                new AfterNotFound(() => window.location.replace('login'))
 
             ]).get('');
 
