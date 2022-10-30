@@ -1,4 +1,5 @@
 GET     /me         userCtrl.get
+PATCH   /me         userCtrl.update +model="user"
 
 POST    /posts      postsCtrl.create +model="post"
 GET     /posts      postsCtrl.search +search="post"

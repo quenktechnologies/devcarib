@@ -1,0 +1,25 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+
+{% view PasswordChangeDialogView (PasswordChangeDialog from ".") %}
+<GridLayout>
+
+  <Row>
+
+    <Column>
+
+      <TextField
+       wml:id="password"
+       name="password"
+       type="password"
+       label="New Password"
+       error={{@values.errors.password}}
+       value={{@values.data.password}}
+       onChange={{@values.onChange}} />
+
+    </Column>
+
+  </Row>
+
+</GridLayout>
+
