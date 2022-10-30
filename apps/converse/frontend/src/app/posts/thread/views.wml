@@ -89,7 +89,7 @@
 
       </Row>
 
-      <Row>
+      <Row className="-converse-hide-screen-not-small">
 
         <Column>
 
