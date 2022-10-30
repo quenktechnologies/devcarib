@@ -1,6 +1,6 @@
 {
     "name": "@quenk/devcarib",
-    "version": "0.4.5",
+    "version": "0.5.0",
     "private": true,
     "description": "Platform for the Caribbean Software Industry",
     "scripts": {
