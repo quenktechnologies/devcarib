@@ -119,7 +119,7 @@ __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__row'}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__column -span8 -offset2 -board-center'}, [
 
-        __this.registerView((new JobApplyButtonView(__context))).render()
+        __this.registerView(new JobApplyButtonView(__context)).render()
      ])
      ])
      ]);
@@ -249,15 +249,9 @@ __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__row'}, [
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

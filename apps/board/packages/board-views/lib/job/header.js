@@ -1,8 +1,12 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobHeaderView = void 0;
@@ -59,7 +63,7 @@ var JobHeaderView = /** @class */ (function () {
                         (function () { return ([
                             __this.node('img', { 'class': 'board-job-company-logo', 'src': __context.company_logo, 'alt': 'Company Logo' }, [])
                         ]); })() :
-                        (function () { return ([]); })())), [
+                        (function () { return ([]); })()), true), [
                         __this.node('h2', { 'class': 'board-job-title' }, [
                             text(__context.title)
                         ]),
@@ -67,11 +71,11 @@ var JobHeaderView = /** @class */ (function () {
                         __this.node('p', { 'class': 'board-job-company' }, [
                             text(__context.company)
                         ])
-                    ]))
+                    ], false))
                 ]),
                 __this.node('div', { 'class': 'ww-grid-layout__row' }, [
                     __this.node('div', { 'class': 'ww-grid-layout__column -span8 -offset2 -board-center' }, [
-                        __this.registerView((new apply_1.JobApplyButtonView(__context))).render()
+                        __this.registerView(new apply_1.JobApplyButtonView(__context)).render()
                     ])
                 ])
             ]);
@@ -87,7 +91,7 @@ var JobHeaderView = /** @class */ (function () {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
             if (id != null) {
                 if (this.ids.hasOwnProperty(id))
-                    throw new Error("Duplicate id '" + id + "' detected!");
+                    throw new Error("Duplicate id '".concat(id, "' detected!"));
                 this.ids[id] = e;
             }
             if (group != null) {
@@ -128,7 +132,7 @@ var JobHeaderView = /** @class */ (function () {
                     e.appendChild(c);
                     break;
                 default:
-                    throw new TypeError("Can not adopt child " + c + " of type " + typeof c);
+                    throw new TypeError("Can not adopt child ".concat(c, " of type ").concat(typeof c));
             }
         });
         this.register(e, attrs);
@@ -140,18 +144,14 @@ var JobHeaderView = /** @class */ (function () {
         return w.render();
     };
     JobHeaderView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
+        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    JobHeaderView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
+    JobHeaderView.prototype.findGroupById = function (name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     };
     JobHeaderView.prototype.invalidate = function () {
         var tree = this.tree;

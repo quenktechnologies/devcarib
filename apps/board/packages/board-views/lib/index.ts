@@ -81,10 +81,10 @@ export class IndexView  implements __wml.View {
 
            return __this.node('html', <__wml.Attrs>{}, [
 
-        __this.registerView((new HeadView(headCtx))).render(),
+        __this.registerView(new HeadView(headCtx)).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
-        __this.registerView((new HeaderView(__context))).render(),
+        __this.registerView(new HeaderView(__context)).render(),
 __this.node('section', <__wml.Attrs>{'id': 'gayelle','class': 'ww-grid-layout'}, [
 
         __this.node('div', <__wml.Attrs>{'class': 'ww-grid-layout__row'}, [
@@ -115,7 +115,7 @@ __this.node('div', <__wml.Attrs>{'id': 'main','class': 'ww-grid-layout'}, [
         ...__forIn (__context.jobs, (job , _$$i, _$$all)=> 
 ([
 
-        __this.registerView((new JobPreviewPanelView(job))).render()
+        __this.registerView(new JobPreviewPanelView(job)).render()
      ]), 
 ()=> ([
 
@@ -255,15 +255,9 @@ __this.node('div', <__wml.Attrs>{'id': 'main','class': 'ww-grid-layout'}, [
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

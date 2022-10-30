@@ -1,8 +1,12 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IndexView = void 0;
@@ -53,9 +57,9 @@ var IndexView = /** @class */ (function () {
                 'title': ('Caribbean Developers Job Board - ' + 'Hire Software Developers From The Caribbean Region')
             };
             return __this.node('html', {}, [
-                __this.registerView((new head_1.HeadView(headCtx))).render(),
+                __this.registerView(new head_1.HeadView(headCtx)).render(),
                 __this.node('body', {}, [
-                    __this.registerView((new header_1.HeaderView(__context))).render(),
+                    __this.registerView(new header_1.HeaderView(__context)).render(),
                     __this.node('section', { 'id': 'gayelle', 'class': 'ww-grid-layout' }, [
                         __this.node('div', { 'class': 'ww-grid-layout__row' }, [
                             __this.node('div', { 'class': 'ww-grid-layout__column -span12' }, [
@@ -73,13 +77,13 @@ var IndexView = /** @class */ (function () {
                         __this.node('div', { 'class': 'ww-grid-layout__row' }, [
                             __this.node('div', { 'class': 'ww-grid-layout__column -span8 -offset2' }, __spreadArray([], __forIn(__context.jobs, function (job, _$$i, _$$all) {
                                 return ([
-                                    __this.registerView((new preview_panel_1.JobPreviewPanelView(job))).render()
+                                    __this.registerView(new preview_panel_1.JobPreviewPanelView(job)).render()
                                 ]);
                             }, function () { return ([
                                 __this.node('div', { 'class': 'board-no-jobs' }, [
                                     __document.createTextNode('\u000a\u000a                There are currently no jobs jobed. Please check again later!\u000a\u000a              ')
                                 ])
-                            ]); })))
+                            ]); }), true))
                         ])
                     ])
                 ])
@@ -96,7 +100,7 @@ var IndexView = /** @class */ (function () {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
             if (id != null) {
                 if (this.ids.hasOwnProperty(id))
-                    throw new Error("Duplicate id '" + id + "' detected!");
+                    throw new Error("Duplicate id '".concat(id, "' detected!"));
                 this.ids[id] = e;
             }
             if (group != null) {
@@ -137,7 +141,7 @@ var IndexView = /** @class */ (function () {
                     e.appendChild(c);
                     break;
                 default:
-                    throw new TypeError("Can not adopt child " + c + " of type " + typeof c);
+                    throw new TypeError("Can not adopt child ".concat(c, " of type ").concat(typeof c));
             }
         });
         this.register(e, attrs);
@@ -149,18 +153,14 @@ var IndexView = /** @class */ (function () {
         return w.render();
     };
     IndexView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
+        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    IndexView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
+    IndexView.prototype.findGroupById = function (name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     };
     IndexView.prototype.invalidate = function () {
         var tree = this.tree;

@@ -53,23 +53,25 @@ class EventRankPanelView {
                                 __this.widget(new list_1.ListLayoutItem({}, [
                                     ...(((event.url) != null) ?
                                         (() => ([
-                                            __this.widget(new link_1.Link({ 'className': 'devcarib-event-rank-panel-link', 'href': event.url }, [
+                                            __this.widget(new link_1.Link({ 'className': 'devcarib-event-rank-panel-link', 'href': event.url, 'target': '_blank' }, [
                                                 __this.node('h4', { 'class': 'devcarib-event-rank-panel-title' }, [
                                                     text(event.title),
                                                     __this.node('small', {}, [
-                                                        __document.createTextNode(' - '),
-                                                        text((0, filters_1.timestamp)(event.start))
+                                                        text((0, filters_1.timestamp)(event.startDateTime))
                                                     ])
                                                 ])
-                                            ]), { 'className': 'devcarib-event-rank-panel-link', 'href': event.url })
+                                            ]), { 'className': 'devcarib-event-rank-panel-link', 'href': event.url, 'target': '_blank' })
                                         ]))() :
                                         (() => ([
                                             __this.node('h4', { 'class': 'devcarib-event-rank-panel-title' }, [
-                                                text(event.title)
+                                                text(event.title),
+                                                __this.node('small', {}, [
+                                                    text((0, filters_1.timestamp)(event.startDateTime))
+                                                ])
                                             ])
                                         ]))()),
                                     __this.node('div', { 'class': 'devcarib-event-rank-panel-start' }, [
-                                        text((0, filters_1.timefromnow)(event.start))
+                                        text((0, filters_1.timefromnow)(event.startDateTime))
                                     ])
                                 ]), {})
                             ]), () => ([]))
@@ -151,11 +153,9 @@ class EventRankPanelView {
         let mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce((p, c) => p.isJust() ? p : c.findById(id), mW);
     }
-    findByGroup(name) {
-        let mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce((p, c) => p.isJust() ? p : c.findByGroup(name), mGroup);
+    findGroupById(name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     }
     invalidate() {
         let { tree } = this;

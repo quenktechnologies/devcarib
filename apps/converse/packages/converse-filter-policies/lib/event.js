@@ -6,8 +6,8 @@ exports.Event = void 0;
  * AUTO_GENERATED! DO NOT EDIT DIRECTLY!
  */
 exports.Event = {
-    'start': 'date',
-    'end': 'date',
+    'startDateTime': 'date',
+    'endDateTime': 'date',
     'created_by.id': [
         'number',
         'numbers'

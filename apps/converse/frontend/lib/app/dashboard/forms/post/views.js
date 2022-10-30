@@ -130,11 +130,9 @@ class CreatePostFormView {
         let mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce((p, c) => p.isJust() ? p : c.findById(id), mW);
     }
-    findByGroup(name) {
-        let mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce((p, c) => p.isJust() ? p : c.findByGroup(name), mGroup);
+    findGroupById(name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     }
     invalidate() {
         let { tree } = this;

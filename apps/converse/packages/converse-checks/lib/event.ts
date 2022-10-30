@@ -57,9 +57,9 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'title': _identity
     ,
-    'start': _identity
+    'startDateTime': _identity
     ,
-    'end': _identity
+    'endDateTime': _identity
     ,
     'allDay': _identity
     ,
@@ -91,9 +91,9 @@ export const partialChecks: Preconditions<Value, Value> = {
     ,
     'title': _identity
     ,
-    'start': _identity
+    'startDateTime': _identity
     ,
-    'end': _identity
+    'endDateTime': _identity
     ,
     'allDay': _identity
     ,

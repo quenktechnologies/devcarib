@@ -5,6 +5,7 @@ const future_1 = require("@quenk/noni/lib/control/monad/future");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
 const app_1 = require("@devcarib/frontend/lib/app");
 const invite_1 = require("./dialogs/invite");
+const password_change_1 = require("./dialogs/password-change");
 const models_1 = require("./remote/models");
 const app_2 = require("./views/app");
 const routes_1 = require("./routes");
@@ -24,6 +25,11 @@ class Converse extends app_1.DevCarib {
                     id: 'invite',
                     trap: routes_1.trap,
                     create: () => new invite_1.CreateInviteDialog(this, this.services.display)
+                }),
+                password: () => this.spawn({
+                    id: 'password',
+                    trap: routes_1.trap,
+                    create: () => new password_change_1.PasswordChangeDialog(this, this.services.display)
                 }),
                 logout: () => this.logout().fork()
             },
@@ -55,7 +61,7 @@ class Converse extends app_1.DevCarib {
                     that.router.start();
                     setTimeout(() => that.router.handleEvent(new Event('hashchanged')), 100);
                 }),
-                new handlers_1.OnNotFound(() => window.location.replace('login'))
+                new handlers_1.AfterNotFound(() => window.location.replace('login'))
             ]).get('');
             return future_1.voidPure;
         });

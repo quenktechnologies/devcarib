@@ -58,7 +58,7 @@ var JobBodyView = /** @class */ (function () {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
             if (id != null) {
                 if (this.ids.hasOwnProperty(id))
-                    throw new Error("Duplicate id '" + id + "' detected!");
+                    throw new Error("Duplicate id '".concat(id, "' detected!"));
                 this.ids[id] = e;
             }
             if (group != null) {
@@ -99,7 +99,7 @@ var JobBodyView = /** @class */ (function () {
                     e.appendChild(c);
                     break;
                 default:
-                    throw new TypeError("Can not adopt child " + c + " of type " + typeof c);
+                    throw new TypeError("Can not adopt child ".concat(c, " of type ").concat(typeof c));
             }
         });
         this.register(e, attrs);
@@ -111,18 +111,14 @@ var JobBodyView = /** @class */ (function () {
         return w.render();
     };
     JobBodyView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
+        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    JobBodyView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
+    JobBodyView.prototype.findGroupById = function (name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     };
     JobBodyView.prototype.invalidate = function () {
         var tree = this.tree;

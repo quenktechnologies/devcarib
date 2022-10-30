@@ -23,9 +23,9 @@ exports.TitleColumn = TitleColumn;
  */
 class StartColumn {
     constructor() {
-        this.name = 'start';
+        this.name = 'startDateTime';
         this.heading = 'Start';
-        this.format = (val) => moment.utc(val).calendar();
+        this.format = (val) => moment(val).calendar();
         this.sort = 'start';
     }
 }
@@ -35,9 +35,9 @@ exports.StartColumn = StartColumn;
  */
 class EndColumn {
     constructor() {
-        this.name = 'end';
+        this.name = 'endDateTime';
         this.heading = 'End';
-        this.format = (val) => val ? moment.utc(val).calendar() : '';
+        this.format = (val) => val ? moment(val).calendar() : '';
         this.sort = 'event';
     }
 }

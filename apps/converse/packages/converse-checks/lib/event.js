@@ -17,8 +17,8 @@ const _collection = 'events';
 exports.checks = {
     'id': (0, async_1.every)((0, checks_1.unique)('events', 'id')),
     'title': async_1.identity,
-    'start': async_1.identity,
-    'end': async_1.identity,
+    'startDateTime': async_1.identity,
+    'endDateTime': async_1.identity,
     'allDay': async_1.identity,
     'url': async_1.identity,
     'location': async_1.identity,
@@ -36,8 +36,8 @@ exports.checks = {
 exports.partialChecks = {
     'id': async_1.identity,
     'title': async_1.identity,
-    'start': async_1.identity,
-    'end': async_1.identity,
+    'startDateTime': async_1.identity,
+    'endDateTime': async_1.identity,
     'allDay': async_1.identity,
     'url': async_1.identity,
     'location': async_1.identity,

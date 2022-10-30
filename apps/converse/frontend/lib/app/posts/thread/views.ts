@@ -117,10 +117,10 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new CommentStream({wml : { 'id' : __context.values.comments.id  },'user': __context.app.user.id,'onEdit': __context.values.comments.onEdit}, [
+        __this.widget(new CommentStream({wml : { 'id' : __context.values.comments.id  },'user': __context.app.user.id,'data': __context.values.comments.data,'onEdit': __context.values.comments.onEdit}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.comments.id  },'user': __context.app.user.id,'onEdit': __context.values.comments.onEdit})
+     ]),<__wml.Attrs>{wml : { 'id' : __context.values.comments.id  },'user': __context.app.user.id,'data': __context.values.comments.data,'onEdit': __context.values.comments.onEdit})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -146,7 +146,7 @@ __this.widget(new Column({'span': 3}, [
      ]),<__wml.Attrs>{wml : { 'id' : __context.values.posts.recent.id  },'title': 'Recent Posts','data': __context.values.posts.recent.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
-__this.widget(new Row({}, [
+__this.widget(new Row({'className': '-converse-hide-screen-not-small'}, [
 
         __this.widget(new Column({}, [
 
@@ -155,7 +155,7 @@ __this.widget(new Row({}, [
         
      ]),<__wml.Attrs>{wml : { 'id' : __context.values.events.id  },'data': __context.values.events.data})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{}),
+     ]),<__wml.Attrs>{'className': '-converse-hide-screen-not-small'}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
@@ -295,15 +295,9 @@ __this.widget(new Row({}, [
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

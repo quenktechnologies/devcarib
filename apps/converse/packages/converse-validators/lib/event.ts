@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Event } from '@mia/types/lib/event';
-import { textsmall, minLength, date, boolean, url, textmedium, textlarge, maxLength } from '@devcarib/common/lib/data/validators';
+import { textsmall, minLength, boolean, url, textmedium, textlarge, maxLength } from '@devcarib/common/lib/data/validators';
 
 /**
  * @private Used during template generation.
@@ -57,16 +57,6 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
 export const validators: Preconditions<Value, Value> = {
     'title': _and(_notNull, _and(_string,
         _every<Value, Value>(textsmall, minLength(3)))
-
-    ),
-
-    'start': _and(_notNull, _and(_string,
-        _every<Value, Value>(date))
-
-    ),
-
-    'end': _optional(_and(_string,
-        _every<Value, Value>(date))
 
     ),
 
@@ -103,16 +93,6 @@ export const validators: Preconditions<Value, Value> = {
 export const partialValidators: Preconditions<Value, Value> = {
     'title': _and(_notNull, _and(_string,
         _every<Value, Value>(textsmall, minLength(3)))
-
-    ),
-
-    'start': _and(_notNull, _and(_string,
-        _every<Value, Value>(date))
-
-    ),
-
-    'end': _optional(_and(_string,
-        _every<Value, Value>(date))
 
     ),
 

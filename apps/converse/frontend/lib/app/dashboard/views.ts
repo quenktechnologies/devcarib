@@ -83,29 +83,29 @@ export class DashboardView  implements __wml.View {
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({'span': 3}, [
+        __this.widget(new Column({'span': 3,'className': '-converse-hide-screen-small'}, [
 
         __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new EventRankPanel({wml : { 'id' : __context.values.events.id  },'data': __context.values.events.data}, [
+        __this.widget(new EventRankPanel({wml : { 'group' : __context.values.events.id  },'data': __context.values.events.data}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.events.id  },'data': __context.values.events.data})
+     ]),<__wml.Attrs>{wml : { 'group' : __context.values.events.id  },'data': __context.values.events.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new JobRankPanel({wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data}, [
+        __this.widget(new JobRankPanel({wml : { 'group' : __context.values.jobs.id  },'data': __context.values.jobs.data}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : __context.values.jobs.id  },'data': __context.values.jobs.data})
+     ]),<__wml.Attrs>{wml : { 'group' : __context.values.jobs.id  },'data': __context.values.jobs.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{'span': 3}),
+     ]),<__wml.Attrs>{'span': 3,'className': '-converse-hide-screen-small'}),
 __this.widget(new Column({'span': 6}, [
 
         __this.widget(new Row({}, [
@@ -146,7 +146,7 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{'span': 6}),
-__this.widget(new Column({'span': 3}, [
+__this.widget(new Column({'span': 3,'className': '-converse-hide-screen-small'}, [
 
         __this.widget(new Row({}, [
 
@@ -158,7 +158,30 @@ __this.widget(new Column({'span': 3}, [
      ]),<__wml.Attrs>{wml : { 'id' : __context.values.popular.id  },'title': 'Popular','data': __context.values.popular.data})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{'span': 3})
+     ]),<__wml.Attrs>{'span': 3,'className': '-converse-hide-screen-small'}),
+__this.widget(new Column({'span': 3,'className': '-converse-hide-screen-not-small'}, [
+
+        __this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new EventRankPanel({wml : { 'group' : __context.values.events.id  },'data': __context.values.events.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'group' : __context.values.events.id  },'data': __context.values.events.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Row({}, [
+
+        __this.widget(new Column({}, [
+
+        __this.widget(new JobRankPanel({wml : { 'group' : __context.values.jobs.id  },'data': __context.values.jobs.data}, [
+
+        
+     ]),<__wml.Attrs>{wml : { 'group' : __context.values.jobs.id  },'data': __context.values.jobs.data})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{})
+     ]),<__wml.Attrs>{'span': 3,'className': '-converse-hide-screen-not-small'})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
 
@@ -287,15 +310,9 @@ __this.widget(new Column({'span': 3}, [
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

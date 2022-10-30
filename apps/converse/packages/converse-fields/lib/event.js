@@ -8,8 +8,8 @@ exports.Event = void 0;
 exports.Event = {
     'id': 1,
     'title': 1,
-    'start': 1,
-    'end': 1,
+    'startDateTime': 1,
+    'endDateTime': 1,
     'allDay': 1,
     'url': 1,
     'location': 1,

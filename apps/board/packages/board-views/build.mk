@@ -6,7 +6,7 @@ $(BOARD_VIEWS_DIR): $(BOARD_VIEWS_LIB_DIR)\
 $(BOARD_VIEWS_LIB_DIR): $(BOARD_VIEWS_SRC_DIR)
 	rm -R $@ || true
 	cp -R -u $(BOARD_VIEWS_SRC_DIR) $@
-	$(WML) $@
+	$(WMLC) $@
 	$(TSC) --project $@
 	touch $@
 

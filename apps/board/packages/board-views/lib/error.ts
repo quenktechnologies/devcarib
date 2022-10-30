@@ -76,19 +76,19 @@ export class ErrorView  implements __wml.View {
 
            return __this.node('html', <__wml.Attrs>{}, [
 
-        __this.registerView((new HeadView({
+        __this.registerView(new HeadView({
  
       'title' : 'Something went wrong'
-     }))).render(),
+     })).render(),
 __this.node('body', <__wml.Attrs>{'class': 'devcarib-error-page'}, [
 
         __this.widget(new GridLayout({}, [
 
         __this.widget(new Row({}, [
 
-        __this.widget(new Column({ww : { 'span' : 8 ,'offset' : 2  }}, [
+        __this.widget(new Column({'span': 8,'offset': 2}, [
 
-        __this.widget(new Well({ww : { 'className' : 'devcarib-error-page-message'  }}, [
+        __this.widget(new Well({'className': 'devcarib-error-page-message'}, [
 
         __document.createTextNode('\u000a\u000a              Your request could not be completed. This may or not be our\u000a              fault. Either way please re-try your request or click \u000a              '),
 __this.node('a', <__wml.Attrs>{'href': '/'}, [
@@ -96,8 +96,8 @@ __this.node('a', <__wml.Attrs>{'href': '/'}, [
         __document.createTextNode('here')
      ]),
 __document.createTextNode(' to return to the main page.\u000a\u000a            ')
-     ]),<__wml.Attrs>{ww : { 'className' : 'devcarib-error-page-message'  }})
-     ]),<__wml.Attrs>{ww : { 'span' : 8 ,'offset' : 2  }})
+     ]),<__wml.Attrs>{'className': 'devcarib-error-page-message'})
+     ]),<__wml.Attrs>{'span': 8,'offset': 2})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ])
@@ -228,15 +228,9 @@ __document.createTextNode(' to return to the main page.\u000a\u000a            '
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

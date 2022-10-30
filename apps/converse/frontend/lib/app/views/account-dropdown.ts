@@ -82,10 +82,17 @@ export class AccountDropDownView  implements __wml.View {
 
         __this.widget(new Item({}, [
 
-        __this.widget(new Link({'text': 'Invite Friend','onClick': __context.values.header.invite}, [
+        __this.widget(new Link({'text': 'Invite friend','onClick': __context.values.header.invite}, [
 
         
-     ]),<__wml.Attrs>{'text': 'Invite Friend','onClick': __context.values.header.invite})
+     ]),<__wml.Attrs>{'text': 'Invite friend','onClick': __context.values.header.invite})
+     ]),<__wml.Attrs>{}),
+__this.widget(new Item({}, [
+
+        __this.widget(new Link({'text': 'Change password','onClick': __context.values.header.password}, [
+
+        
+     ]),<__wml.Attrs>{'text': 'Change password','onClick': __context.values.header.password})
      ]),<__wml.Attrs>{}),
 __this.widget(new Divider({}, [
 
@@ -226,15 +233,9 @@ __this.widget(new Item({}, [
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

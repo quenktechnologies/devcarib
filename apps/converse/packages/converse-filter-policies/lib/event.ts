@@ -9,11 +9,11 @@ export const Event = {
 
 
 
-    'start': 'date'
+    'startDateTime': 'date'
     ,
 
 
-    'end': 'date'
+    'endDateTime': 'date'
     ,
 
 

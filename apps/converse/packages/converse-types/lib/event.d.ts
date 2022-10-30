@@ -12,8 +12,8 @@ export interface Event extends _json.Object {
     [key: string]: _json.Value;
     'id'?: number;
     'title'?: string;
-    'start'?: string;
-    'end'?: string;
+    'startDateTime'?: string;
+    'endDateTime'?: string;
     'allDay'?: boolean;
     'url'?: string;
     'location'?: string;

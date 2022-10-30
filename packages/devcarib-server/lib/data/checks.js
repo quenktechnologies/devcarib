@@ -97,23 +97,23 @@ const rand = (target, bytes = 32) => (value) => (0, future_1.doFuture)(function*
 });
 exports.rand = rand;
 /**
- * datetime computes the datetime value using the desired keys.
+ * datetime computes a datetime value (returning a Date instance) using the
+ * keys provided.
  */
 const datetime = (key, dateKey, timeKey, offsetKey) => (value) => (0, future_1.fromCallback)(cb => {
-    let date = String(value[dateKey]);
-    let time = String(value[timeKey]);
+    let date = value[dateKey];
+    let time = value[timeKey];
     if (!date || !time) {
         cb(null, (0, result_1.succeed)(value)); // date and time are needed.
     }
     else {
         let offset = value[offsetKey];
         let mValue = moment(`${date}T${time}:00${offset}`);
-        console.error("FINI ", [date, 'T', time, ':00', offset], value, offsetKey);
         if (!mValue.isValid()) {
             cb(null, (0, result_1.fail)(key, value));
         }
         else {
-            value[key] = mValue.toISOString(true);
+            value[key] = mValue.toDate();
             cb(null, (0, result_1.succeed)(value));
         }
     }

@@ -1,12 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Dashboard = void 0;
+const moment = require("moment");
 const future_1 = require("@quenk/noni/lib/control/monad/future");
 const function_1 = require("@quenk/noni/lib/data/function");
 const handlers_1 = require("@quenk/jouvert/lib/app/scene/remote/handlers");
 const scene_1 = require("../common/scene");
 const post_1 = require("./forms/post");
 const views_1 = require("./views");
+const eventThreshold = moment().subtract(6, 'hours').toISOString();
 class DefaultPagination {
     constructor() {
         this.current = {
@@ -73,11 +75,11 @@ class Dashboard extends scene_1.ConverseScene {
         ]);
         this.jobs = this.models.create('job', [
             new handlers_1.AfterSearchSetData(data => { this.values.jobs.data = data; }),
-            new handlers_1.AfterSearchUpdateWidget(this.view, this.values.jobs.id)
+            new handlers_1.AfterSearchUpdateWidgets(this.view, this.values.jobs.id)
         ]);
         this.events = this.models.create('event', [
             new handlers_1.AfterSearchSetData(data => { this.values.events.data = data; }),
-            new handlers_1.AfterSearchUpdateWidget(this.view, this.values.events.id)
+            new handlers_1.AfterSearchUpdateWidgets(this.view, this.values.events.id)
         ]);
     }
     /**
@@ -102,7 +104,11 @@ class Dashboard extends scene_1.ConverseScene {
             yield that.fetchPosts();
             yield that.jobs.search({ sort: '-created_on', limit: 5 });
             yield that.popularPosts.search({ sort: '-web-views', limit: 5 });
-            yield that.events.search({ sort: '-created_on', limit: 5 });
+            yield that.events.search({
+                q: `startDateTime:>${eventThreshold}`,
+                sort: '-created_on',
+                limit: 5
+            });
             return future_1.voidPure;
         });
     }

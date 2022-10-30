@@ -13,14 +13,14 @@
 
   <Row>
 
-    <Column span=3>
+    <Column span=3 className="-converse-hide-screen-small">
 
       <Row>
 
         <Column>
 
           <EventRankPanel 
-            wml:id={{@values.events.id}}
+            wml:group={{@values.events.id}}
             data={{@values.events.data}} />
 
         </Column>
@@ -32,7 +32,7 @@
         <Column>
 
           <JobRankPanel 
-            wml:id={{@values.jobs.id}} 
+            wml:group={{@values.jobs.id}} 
             data={{@values.jobs.data}} />
 
         </Column>
@@ -90,7 +90,7 @@
 
     </Column>
 
-    <Column span=3>
+    <Column span=3 className="-converse-hide-screen-small">
 
       <Row>
 
@@ -100,6 +100,34 @@
             wml:id={{@values.popular.id}}
             title="Popular"
             data={{@values.popular.data}} />
+
+        </Column>
+
+      </Row>
+
+    </Column>
+
+    <Column span=3 className="-converse-hide-screen-not-small">
+
+      <Row>
+
+        <Column>
+
+          <EventRankPanel 
+            wml:group={{@values.events.id}}
+            data={{@values.events.data}} />
+
+        </Column>
+
+      </Row>
+
+      <Row>
+
+        <Column>
+
+          <JobRankPanel 
+            wml:group={{@values.jobs.id}} 
+            data={{@values.jobs.data}} />
 
         </Column>
 

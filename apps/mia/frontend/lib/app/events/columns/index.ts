@@ -42,11 +42,11 @@ export class TitleColumn implements Column<Value, Event> {
  */
 export class StartColumn implements Column<Value, Event> {
 
-    name = 'start';
+    name = 'startDateTime';
 
     heading = 'Start';
 
-    format = (val: Value) => moment.utc(<string>val).calendar();
+    format = (val: Value) => moment(<string>val).calendar();
 
     sort = 'start'
 
@@ -57,11 +57,11 @@ export class StartColumn implements Column<Value, Event> {
  */
 export class EndColumn implements Column<Value, Event> {
 
-    name = 'end';
+    name = 'endDateTime';
 
     heading = 'End';
 
-    format = (val: Value) => val ? moment.utc(<string>val).calendar() : '';
+    format = (val: Value) => val ? moment(<string>val).calendar() : '';
 
     sort = 'event'
 

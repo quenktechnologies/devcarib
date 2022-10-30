@@ -82,10 +82,10 @@ export class JobFormView  implements __wml.View {
 
            return __this.node('html', <__wml.Attrs>{}, [
 
-        __this.registerView((new HeadView(headCtx))).render(),
+        __this.registerView(new HeadView(headCtx)).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
-        __this.registerView((new HeaderView(__context))).render(),
+        __this.registerView(new HeaderView(__context)).render(),
 __this.node('div', <__wml.Attrs>{'id': 'main'}, [
 
         
@@ -222,15 +222,9 @@ __this.node('script', <__wml.Attrs>{'src': '/assets/js/job-form.js'}, [
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

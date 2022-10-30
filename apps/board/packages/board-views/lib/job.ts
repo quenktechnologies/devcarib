@@ -78,18 +78,18 @@ export class JobView  implements __wml.View {
 
        let headCtx:HeadViewContext = {
  
-      'title' : String(__context.job.title ),
+      'title' : String(__context.job.title),
 'meta' : __context.meta
      }
 
            return __this.node('html', <__wml.Attrs>{}, [
 
-        __this.registerView((new HeadView(headCtx))).render(),
+        __this.registerView(new HeadView(headCtx)).render(),
 __this.node('body', <__wml.Attrs>{}, [
 
-        __this.registerView((new HeaderView(__context))).render(),
-__this.registerView((new JobHeaderView(__context.job))).render(),
-__this.registerView((new JobBodyView(__context.job))).render()
+        __this.registerView(new HeaderView(__context)).render(),
+__this.registerView(new JobHeaderView(__context.job)).render(),
+__this.registerView(new JobBodyView(__context.job)).render()
      ])
      ]);
 
@@ -218,15 +218,9 @@ __this.registerView((new JobBodyView(__context.job))).render()
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

@@ -16,8 +16,16 @@
     <Item>
     
       <Link
-        text="Invite Friend"
+        text="Invite friend"
         onClick={{@values.header.invite}} />
+
+    </Item>
+
+    <Item>
+    
+      <Link
+        text="Change password"
+        onClick={{@values.header.password}} />
 
     </Item>
 

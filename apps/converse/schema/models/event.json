@@ -66,23 +66,21 @@
 
         },
 
-        "start": {
+        "startDateTime": {
 
             "type": "string",
 
-            "validators": "@devcarib/common/lib/data/validators#date",
+            "readOnly": true,
 
             "filterAs": "date"
 
         },
 
-        "end": {
+        "endDateTime": {
 
             "type": "string",
 
-            "optional": true,
-
-            "validators": "@devcarib/common/lib/data/validators#date",
+            "readOnly": true,
 
             "filterAs": "date"
 

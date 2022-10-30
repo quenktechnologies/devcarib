@@ -44,6 +44,7 @@ export declare const parseMarkdown: (src: string, dest: string, allowLinks?: boo
  */
 export declare const rand: <T extends Object>(target: string, bytes?: number) => (value: T) => Result<T, T>;
 /**
- * datetime computes the datetime value using the desired keys.
+ * datetime computes a datetime value (returning a Date instance) using the
+ * keys provided.
  */
 export declare const datetime: <T extends Object>(key: string, dateKey: string, timeKey: string, offsetKey: string) => (value: T) => Result<T, T>;

@@ -55,6 +55,7 @@ class HeadView {
                 __this.node('meta', { 'name': 'msapplication-TileColor', 'content': '#218c8d' }, []),
                 __this.node('meta', { 'name': 'msapplication-TileImage', 'content': '/ms-icon-144x144.png' }, []),
                 __this.node('meta', { 'name': 'theme-color', 'content': '#218c8d' }, []),
+                __this.node('meta', { 'name': 'viewport', 'content': unsafe('width=device-width, initial-scale=1.0') }, []),
                 ...(((__context.meta) != null) ?
                     (() => ([
                         ...__forIn(__context.meta, (meta, _$$i, _$$all) => ([
@@ -146,11 +147,9 @@ class HeadView {
         let mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce((p, c) => p.isJust() ? p : c.findById(id), mW);
     }
-    findByGroup(name) {
-        let mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce((p, c) => p.isJust() ? p : c.findByGroup(name), mGroup);
+    findGroupById(name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     }
     invalidate() {
         let { tree } = this;

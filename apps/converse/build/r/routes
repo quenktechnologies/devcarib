@@ -1,4 +1,5 @@
 GET     /me         userCtrl.get
+PATCH   /me         userCtrl.update +model="user"
 
 POST    /posts      postsCtrl.create +model="post"
 GET     /posts      postsCtrl.search +search="post"
@@ -25,12 +26,5 @@ PATCH   /comments/:id commentsCtrl.update +model="comment" +owned
 -- Users can only view system created events currently.
 GET     /events       eventCtrl.search +search="event"
 
+-- Invites, only creating them is supported right now.
 POST    /invites      invitesCtrl.create +model="invite"
-GET     /invites      invitesCtrl.search +search="invite"
-
-GET     /invites/:id  invitesCtrl.get +get="invite"
-
---Note: Users can only modify invites they own.
-PATCH   /posts/:id  invitesCtrl.update +model="invite" +owned
-DELETE  /posts/:id  invitesCtrl.remove +model="invite" +owned
-

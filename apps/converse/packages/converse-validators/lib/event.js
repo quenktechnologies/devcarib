@@ -17,8 +17,6 @@ const _string = (0, preconditions_1.and)(string_1.isString, string_1.trim);
  */
 exports.validators = {
     'title': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.textsmall, (0, validators_1.minLength)(3)))),
-    'start': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.date))),
-    'end': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.date))),
     'allDay': (0, preconditions_1.optional)((0, preconditions_1.and)(boolean_1.isBoolean, (0, preconditions_1.every)(validators_1.boolean))),
     'url': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.url))),
     'location': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.textsmall))),
@@ -30,8 +28,6 @@ exports.validators = {
  */
 exports.partialValidators = {
     'title': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.textsmall, (0, validators_1.minLength)(3)))),
-    'start': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.date))),
-    'end': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.date))),
     'allDay': (0, preconditions_1.optional)((0, preconditions_1.and)(boolean_1.isBoolean, (0, preconditions_1.every)(validators_1.boolean))),
     'url': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.url))),
     'location': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.textsmall))),

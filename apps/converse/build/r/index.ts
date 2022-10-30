@@ -35,11 +35,14 @@ import { PostModel } from '@converse/models/lib/post';
 import { CommentModel } from '@converse/models/lib/comment';
 import { EventModel } from '@converse/models/lib/event';
 import { InviteModel } from '@converse/models/lib/invite';
+import { UserModel } from '@converse/models/lib/user';
+
+import {User} from '@converse/types/lib/user';
 
 /**
  * UserController provides the API endpoint for the current user.
  */
-export class UserController {
+export class UserController extends ApiController<User> {
 
     get(req: Request): Action<void> {
 
@@ -51,13 +54,25 @@ export class UserController {
 
     }
 
+    update(req: Request) : Action<void> {
+
+        let muser = req.session.get('user');
+
+        if (muser.isNothing()) return notFound();
+
+        req.params.id =  String((<User>muser.get()).id);
+
+        return super.update(req);
+
+    }
+
 }
 
 export const postsCtrl = new ApiController(PostModel.getInstance);
 
 export const commentsCtrl = new ApiController(CommentModel.getInstance);
 
-export const userCtrl = new UserController();
+export const userCtrl = new UserController(UserModel.getInstance);
 
 export const eventCtrl = new ApiController(EventModel.getInstance);
 
@@ -78,6 +93,11 @@ $routes.push({
 method:'get',
 path:'/me',
 filters:[userCtrl.get.bind(userCtrl)],tags:{}});
+
+$routes.push({
+method:'patch',
+path:'/me',
+filters:[userCtrl.update.bind(userCtrl)],tags:{model: `user` }});
 
 $routes.push({
 method:'post',
@@ -150,28 +170,6 @@ $routes.push({
 method:'post',
 path:'/invites',
 filters:[invitesCtrl.create.bind(invitesCtrl)],tags:{model: `invite` }});
-
-$routes.push({
-method:'get',
-path:'/invites',
-filters:[invitesCtrl.search.bind(invitesCtrl)],tags:{search: `invite` }});
-
-$routes.push({
-method:'get',
-path:'/invites/:id',
-filters:[invitesCtrl.get.bind(invitesCtrl)],tags:{get: `invite` }});
-
-$routes.push({
-method:'patch',
-path:'/posts/:id',
-filters:[invitesCtrl.update.bind(invitesCtrl)],tags:{model: `invite` ,
-owned: true }});
-
-$routes.push({
-method:'delete',
-path:'/posts/:id',
-filters:[invitesCtrl.remove.bind(invitesCtrl)],tags:{model: `invite` ,
-owned: true }});
 return $routes;
 }},
 'create': 

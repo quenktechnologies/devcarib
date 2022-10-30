@@ -71,7 +71,7 @@ class PostThreadView {
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new stream_1.CommentStream({ wml: { 'id': __context.values.comments.id }, 'user': __context.app.user.id, 'onEdit': __context.values.comments.onEdit }, []), { wml: { 'id': __context.values.comments.id }, 'user': __context.app.user.id, 'onEdit': __context.values.comments.onEdit })
+                                __this.widget(new stream_1.CommentStream({ wml: { 'id': __context.values.comments.id }, 'user': __context.app.user.id, 'data': __context.values.comments.data, 'onEdit': __context.values.comments.onEdit }, []), { wml: { 'id': __context.values.comments.id }, 'user': __context.app.user.id, 'data': __context.values.comments.data, 'onEdit': __context.values.comments.onEdit })
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
@@ -86,11 +86,11 @@ class PostThreadView {
                                 __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data }, []), { wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data })
                             ]), {})
                         ]), {}),
-                        __this.widget(new grid_1.Row({}, [
+                        __this.widget(new grid_1.Row({ 'className': '-converse-hide-screen-not-small' }, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.widget(new rank_3.EventRankPanel({ wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data })
                             ]), {})
-                        ]), {}),
+                        ]), { 'className': '-converse-hide-screen-not-small' }),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.widget(new rank_1.JobRankPanel({ wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data })
@@ -167,11 +167,9 @@ class PostThreadView {
         let mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce((p, c) => p.isJust() ? p : c.findById(id), mW);
     }
-    findByGroup(name) {
-        let mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce((p, c) => p.isJust() ? p : c.findByGroup(name), mGroup);
+    findGroupById(name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     }
     invalidate() {
         let { tree } = this;

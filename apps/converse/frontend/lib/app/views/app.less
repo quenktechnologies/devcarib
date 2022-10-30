@@ -6,7 +6,7 @@
 
 .converse-navbar {
 
-  background: #07aba5;
+  background: #fbfbfb;
 
   & > .ww-action-bar__content {
 
@@ -19,5 +19,50 @@
     margin-left: auto;
 
   }
+
+  & .converse-account-dropdown {
+
+    & > button {
+
+      border: #000 2px solid;
+
+    }
+
+    & > button:active {
+
+      box-shadow: none;
+
+    }
+
+    & > .ww-drop-down__content {
+
+      left: auto;
+      right: 0;
+
+    }
+
+  }
+
+}
+
+/**
+ * Hides the element when we determine the screen is below the small breakpoint.
+ */
+.-converse-hide-screen-small {
+
+  .screen-small({
+    display: none;
+  })
+
+}
+
+/**
+ * Hides the element when we determine the screen is above the small breakpoint.
+ */
+.-converse-hide-screen-not-small {
+
+  .screen-not-small({
+    display: none;
+  })
 
 }

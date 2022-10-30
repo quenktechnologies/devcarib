@@ -43,21 +43,21 @@ var ErrorView = /** @class */ (function () {
         this.tree = __document.createElement('div');
         this.template = function (__this) {
             return __this.node('html', {}, [
-                __this.registerView((new head_1.HeadView({
+                __this.registerView(new head_1.HeadView({
                     'title': 'Something went wrong'
-                }))).render(),
+                })).render(),
                 __this.node('body', { 'class': 'devcarib-error-page' }, [
                     __this.widget(new grid_1.GridLayout({}, [
                         __this.widget(new grid_1.Row({}, [
-                            __this.widget(new grid_1.Column({ ww: { 'span': 8, 'offset': 2 } }, [
-                                __this.widget(new well_1.Well({ ww: { 'className': 'devcarib-error-page-message' } }, [
+                            __this.widget(new grid_1.Column({ 'span': 8, 'offset': 2 }, [
+                                __this.widget(new well_1.Well({ 'className': 'devcarib-error-page-message' }, [
                                     __document.createTextNode('\u000a\u000a              Your request could not be completed. This may or not be our\u000a              fault. Either way please re-try your request or click \u000a              '),
                                     __this.node('a', { 'href': '/' }, [
                                         __document.createTextNode('here')
                                     ]),
                                     __document.createTextNode(' to return to the main page.\u000a\u000a            ')
-                                ]), { ww: { 'className': 'devcarib-error-page-message' } })
-                            ]), { ww: { 'span': 8, 'offset': 2 } })
+                                ]), { 'className': 'devcarib-error-page-message' })
+                            ]), { 'span': 8, 'offset': 2 })
                         ]), {})
                     ]), {})
                 ])
@@ -74,7 +74,7 @@ var ErrorView = /** @class */ (function () {
             var _a = attrsMap.wml, id = _a.id, group = _a.group;
             if (id != null) {
                 if (this.ids.hasOwnProperty(id))
-                    throw new Error("Duplicate id '" + id + "' detected!");
+                    throw new Error("Duplicate id '".concat(id, "' detected!"));
                 this.ids[id] = e;
             }
             if (group != null) {
@@ -115,7 +115,7 @@ var ErrorView = /** @class */ (function () {
                     e.appendChild(c);
                     break;
                 default:
-                    throw new TypeError("Can not adopt child " + c + " of type " + typeof c);
+                    throw new TypeError("Can not adopt child ".concat(c, " of type ").concat(typeof c));
             }
         });
         this.register(e, attrs);
@@ -127,18 +127,14 @@ var ErrorView = /** @class */ (function () {
         return w.render();
     };
     ErrorView.prototype.findById = function (id) {
-        var mW = maybe_1.fromNullable(this.ids[id]);
+        var mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce(function (p, c) {
             return p.isJust() ? p : c.findById(id);
         }, mW);
     };
-    ErrorView.prototype.findByGroup = function (name) {
-        var mGroup = maybe_1.fromArray(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce(function (p, c) {
-            return p.isJust() ? p : c.findByGroup(name);
-        }, mGroup);
+    ErrorView.prototype.findGroupById = function (name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     };
     ErrorView.prototype.invalidate = function () {
         var tree = this.tree;

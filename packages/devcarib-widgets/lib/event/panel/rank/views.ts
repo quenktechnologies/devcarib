@@ -92,29 +92,32 @@ export class EventRankPanelView  implements __wml.View {
         ...(((event.url) != null) ?
 (()=>([
 
-        __this.widget(new Link({'className': 'devcarib-event-rank-panel-link','href': event.url}, [
+        __this.widget(new Link({'className': 'devcarib-event-rank-panel-link','href': event.url,'target': '_blank'}, [
 
         __this.node('h4', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-title'}, [
 
         text (event.title),
 __this.node('small', <__wml.Attrs>{}, [
 
-        __document.createTextNode(' - '),
-text (timestamp (event.start))
+        text (timestamp (event.startDateTime))
      ])
      ])
-     ]),<__wml.Attrs>{'className': 'devcarib-event-rank-panel-link','href': event.url})
+     ]),<__wml.Attrs>{'className': 'devcarib-event-rank-panel-link','href': event.url,'target': '_blank'})
      ]))() :
 (()=>([
 
         __this.node('h4', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-title'}, [
 
-        text (event.title)
+        text (event.title),
+__this.node('small', <__wml.Attrs>{}, [
+
+        text (timestamp (event.startDateTime))
+     ])
      ])
      ]))()),
 __this.node('div', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-start'}, [
 
-        text (timefromnow (event.start))
+        text (timefromnow (event.startDateTime))
      ])
      ]),<__wml.Attrs>{})
      ]), 
@@ -258,15 +261,9 @@ __this.node('div', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-start'}, [
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

@@ -20,21 +20,29 @@ const post_1 = require("@converse/models/lib/post");
 const comment_1 = require("@converse/models/lib/comment");
 const event_1 = require("@converse/models/lib/event");
 const invite_1 = require("@converse/models/lib/invite");
+const user_1 = require("@converse/models/lib/user");
 /**
  * UserController provides the API endpoint for the current user.
  */
-class UserController {
+class UserController extends api_1.ApiController {
     get(req) {
         let muser = req.session.get('user');
         if (muser.isNothing())
             return (0, response_1.notFound)();
         return (0, response_1.ok)({ data: muser.get() });
     }
+    update(req) {
+        let muser = req.session.get('user');
+        if (muser.isNothing())
+            return (0, response_1.notFound)();
+        req.params.id = String(muser.get().id);
+        return super.update(req);
+    }
 }
 exports.UserController = UserController;
 exports.postsCtrl = new api_1.ApiController(post_1.PostModel.getInstance);
 exports.commentsCtrl = new api_1.ApiController(comment_1.CommentModel.getInstance);
-exports.userCtrl = new UserController();
+exports.userCtrl = new UserController(user_1.UserModel.getInstance);
 exports.eventCtrl = new api_1.ApiController(event_1.EventModel.getInstance);
 exports.invitesCtrl = new api_1.ApiController(invite_1.InviteModel.getInstance);
 //@ts-ignore: 6133
@@ -49,6 +57,11 @@ const template = ($app) => ({ 'id': `r`,
                 method: 'get',
                 path: '/me',
                 filters: [exports.userCtrl.get.bind(exports.userCtrl)], tags: {}
+            });
+            $routes.push({
+                method: 'patch',
+                path: '/me',
+                filters: [exports.userCtrl.update.bind(exports.userCtrl)], tags: { model: `user` }
             });
             $routes.push({
                 method: 'post',
@@ -120,28 +133,6 @@ const template = ($app) => ({ 'id': `r`,
                 method: 'post',
                 path: '/invites',
                 filters: [exports.invitesCtrl.create.bind(exports.invitesCtrl)], tags: { model: `invite` }
-            });
-            $routes.push({
-                method: 'get',
-                path: '/invites',
-                filters: [exports.invitesCtrl.search.bind(exports.invitesCtrl)], tags: { search: `invite` }
-            });
-            $routes.push({
-                method: 'get',
-                path: '/invites/:id',
-                filters: [exports.invitesCtrl.get.bind(exports.invitesCtrl)], tags: { get: `invite` }
-            });
-            $routes.push({
-                method: 'patch',
-                path: '/posts/:id',
-                filters: [exports.invitesCtrl.update.bind(exports.invitesCtrl)], tags: { model: `invite`,
-                    owned: true }
-            });
-            $routes.push({
-                method: 'delete',
-                path: '/posts/:id',
-                filters: [exports.invitesCtrl.remove.bind(exports.invitesCtrl)], tags: { model: `invite`,
-                    owned: true }
             });
             return $routes;
         } },

@@ -151,6 +151,10 @@ __this.node('meta', <__wml.Attrs>{'name': 'theme-color','content': '#218c8d'}, [
 
         
      ]),
+__this.node('meta', <__wml.Attrs>{'name': 'viewport','content': unsafe ('width=device-width, initial-scale=1.0')}, [
+
+        
+     ]),
 ...(((__context.meta) != null) ?
 (()=>([
 
@@ -319,15 +323,9 @@ __this.node('title', <__wml.Attrs>{}, [
 
    }
 
-   findByGroup<E extends __wml.WMLElement>(name: string): __Maybe<E[]> {
-
-      let mGroup:__Maybe<E[]> =
-           __fromArray(this.groups.hasOwnProperty(name) ?
-           <any>this.groups[name] : 
-           []);
-
-      return this.views.reduce((p,c) =>
-       p.isJust() ? p : c.findByGroup(name), mGroup);
+   findGroupById<E extends __wml.WMLElement>(name: string): E[] {
+           return this.groups.hasOwnProperty(name) ?
+           <E[]>this.groups[name] : [];
 
    }
 

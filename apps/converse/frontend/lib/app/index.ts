@@ -7,7 +7,7 @@ import {
 
 import {
     AfterGetSetData,
-    OnNotFound
+    AfterNotFound
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 
 import { DevCarib } from '@devcarib/frontend/lib/app';
@@ -15,6 +15,7 @@ import { DevCarib } from '@devcarib/frontend/lib/app';
 import { User } from '@converse/types/lib/user';
 
 import { CreateInviteDialog } from './dialogs/invite';
+import { PasswordChangeDialog } from './dialogs/password-change';
 import { RemoteModels } from './remote/models';
 import { ConverseView } from './views/app';
 import { trap, routes } from './routes';
@@ -46,6 +47,16 @@ export class Converse extends DevCarib {
                 trap,
 
                 create: () => new CreateInviteDialog(this, this.services.display)
+
+            }),
+
+            password: () => this.spawn({
+
+                id: 'password',
+
+                trap,
+
+                create: () => new PasswordChangeDialog(this, this.services.display)
 
             }),
 
@@ -107,7 +118,7 @@ export class Converse extends DevCarib {
 
                 }),
 
-                new OnNotFound(() => window.location.replace('login'))
+                new AfterNotFound(() => window.location.replace('login'))
 
             ]).get('');
 

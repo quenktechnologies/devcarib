@@ -46,7 +46,10 @@ class AccountDropDownView {
             return __this.widget(new drop_down_1.DropDown({ 'className': 'converse-account-dropdown', 'buttonText': 'Account' }, [
                 __this.widget(new menu_1.Menu({}, [
                     __this.widget(new item_1.Item({}, [
-                        __this.widget(new link_1.Link({ 'text': 'Invite Friend', 'onClick': __context.values.header.invite }, []), { 'text': 'Invite Friend', 'onClick': __context.values.header.invite })
+                        __this.widget(new link_1.Link({ 'text': 'Invite friend', 'onClick': __context.values.header.invite }, []), { 'text': 'Invite friend', 'onClick': __context.values.header.invite })
+                    ]), {}),
+                    __this.widget(new item_1.Item({}, [
+                        __this.widget(new link_1.Link({ 'text': 'Change password', 'onClick': __context.values.header.password }, []), { 'text': 'Change password', 'onClick': __context.values.header.password })
                     ]), {}),
                     __this.widget(new item_1.Divider({}, []), {}),
                     __this.widget(new item_1.Item({}, [
@@ -122,11 +125,9 @@ class AccountDropDownView {
         let mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce((p, c) => p.isJust() ? p : c.findById(id), mW);
     }
-    findByGroup(name) {
-        let mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce((p, c) => p.isJust() ? p : c.findByGroup(name), mGroup);
+    findGroupById(name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     }
     invalidate() {
         let { tree } = this;

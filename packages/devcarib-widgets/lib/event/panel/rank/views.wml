@@ -24,13 +24,14 @@
 
             <Link
               className="devcarib-event-rank-panel-link"
-              href={{event.url}} >
+              href={{event.url}}
+              target="_blank">
 
               <h4 class="devcarib-event-rank-panel-title">
 
                 {{event.title | text}}
 
-                <small> - {{event.start | timestamp | text}}</small>
+                <small>{{event.startDateTime | timestamp | text}}</small>
 
               </h4>
 
@@ -38,11 +39,17 @@
 
           {% else %}
 
-            <h4 class="devcarib-event-rank-panel-title">{{event.title | text}}</h4>
+            <h4 class="devcarib-event-rank-panel-title">
+
+                {{event.title | text}}
+
+                <small>{{event.startDateTime | timestamp | text}}</small>
+
+              </h4>
 
           {% endif %}
 
-          <div class="devcarib-event-rank-panel-start">{{ event.start | timefromnow | text }} </div>
+          <div class="devcarib-event-rank-panel-start">{{ event.startDateTime | timefromnow | text }} </div>
 
         </ListLayoutItem>
 

@@ -51,18 +51,18 @@ class DashboardView {
         this.template = (__this) => {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({ 'span': 3 }, [
+                    __this.widget(new grid_1.Column({ 'span': 3, 'className': '-converse-hide-screen-small' }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new rank_3.EventRankPanel({ wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data })
+                                __this.widget(new rank_3.EventRankPanel({ wml: { 'group': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'group': __context.values.events.id }, 'data': __context.values.events.data })
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new rank_1.JobRankPanel({ wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data })
+                                __this.widget(new rank_1.JobRankPanel({ wml: { 'group': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'group': __context.values.jobs.id }, 'data': __context.values.jobs.data })
                             ]), {})
                         ]), {})
-                    ]), { 'span': 3 }),
+                    ]), { 'span': 3, 'className': '-converse-hide-screen-small' }),
                     __this.widget(new grid_1.Column({ 'span': 6 }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
@@ -85,13 +85,25 @@ class DashboardView {
                             ]), {})
                         ]), {})
                     ]), { 'span': 6 }),
-                    __this.widget(new grid_1.Column({ 'span': 3 }, [
+                    __this.widget(new grid_1.Column({ 'span': 3, 'className': '-converse-hide-screen-small' }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.popular.id }, 'title': 'Popular', 'data': __context.values.popular.data }, []), { wml: { 'id': __context.values.popular.id }, 'title': 'Popular', 'data': __context.values.popular.data })
                             ]), {})
                         ]), {})
-                    ]), { 'span': 3 })
+                    ]), { 'span': 3, 'className': '-converse-hide-screen-small' }),
+                    __this.widget(new grid_1.Column({ 'span': 3, 'className': '-converse-hide-screen-not-small' }, [
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_3.EventRankPanel({ wml: { 'group': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'group': __context.values.events.id }, 'data': __context.values.events.data })
+                            ]), {})
+                        ]), {}),
+                        __this.widget(new grid_1.Row({}, [
+                            __this.widget(new grid_1.Column({}, [
+                                __this.widget(new rank_1.JobRankPanel({ wml: { 'group': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'group': __context.values.jobs.id }, 'data': __context.values.jobs.data })
+                            ]), {})
+                        ]), {})
+                    ]), { 'span': 3, 'className': '-converse-hide-screen-not-small' })
                 ]), {})
             ]), {});
         };
@@ -162,11 +174,9 @@ class DashboardView {
         let mW = (0, maybe_1.fromNullable)(this.ids[id]);
         return this.views.reduce((p, c) => p.isJust() ? p : c.findById(id), mW);
     }
-    findByGroup(name) {
-        let mGroup = (0, maybe_1.fromArray)(this.groups.hasOwnProperty(name) ?
-            this.groups[name] :
-            []);
-        return this.views.reduce((p, c) => p.isJust() ? p : c.findByGroup(name), mGroup);
+    findGroupById(name) {
+        return this.groups.hasOwnProperty(name) ?
+            this.groups[name] : [];
     }
     invalidate() {
         let { tree } = this;

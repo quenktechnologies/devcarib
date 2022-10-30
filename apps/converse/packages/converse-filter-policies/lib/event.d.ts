@@ -3,8 +3,8 @@
  * AUTO_GENERATED! DO NOT EDIT DIRECTLY!
  */
 export declare const Event: {
-    start: string;
-    end: string;
+    startDateTime: string;
+    endDateTime: string;
     'created_by.id': string[];
     'created_by.username': string;
     created_on: string;

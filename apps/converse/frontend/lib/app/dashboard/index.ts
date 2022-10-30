@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 import {
     Future,
     doFuture,
@@ -10,6 +12,7 @@ import {
     AfterSearchSetPagination,
     OnCompleteShowData,
     AfterSearchUpdateWidget,
+    AfterSearchUpdateWidgets,
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import { Result } from '@quenk/jouvert/lib/app/remote/model/response';
@@ -24,6 +27,8 @@ import { Event } from '@converse/types/lib/event';
 import { ConverseScene } from '../common/scene';
 import { CreatePostForm } from './forms/post';
 import { DashboardView } from './views';
+
+const eventThreshold = moment().subtract(6, 'hours').toISOString();
 
 class DefaultPagination {
 
@@ -138,7 +143,7 @@ export class Dashboard extends ConverseScene<void> {
 
         new AfterSearchSetData(data => { this.values.jobs.data = data }),
 
-        new AfterSearchUpdateWidget(this.view, this.values.jobs.id)
+        new AfterSearchUpdateWidgets(this.view, this.values.jobs.id)
 
     ]);
 
@@ -146,7 +151,7 @@ export class Dashboard extends ConverseScene<void> {
 
         new AfterSearchSetData(data => { this.values.events.data = data }),
 
-        new AfterSearchUpdateWidget(this.view, this.values.events.id)
+        new AfterSearchUpdateWidgets(this.view, this.values.events.id)
 
     ]);
 
@@ -185,7 +190,15 @@ export class Dashboard extends ConverseScene<void> {
 
             yield that.popularPosts.search({ sort: '-web-views', limit: 5 });
 
-            yield that.events.search({ sort: '-created_on', limit: 5 });
+            yield that.events.search({
+
+                q: `startDateTime:>${eventThreshold}`,
+
+                sort: '-created_on',
+
+                limit: 5
+
+            });
 
             return voidPure;
 

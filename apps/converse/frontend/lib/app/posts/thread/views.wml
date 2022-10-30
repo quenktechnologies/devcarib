@@ -49,7 +49,8 @@
 
           <CommentStream 
             wml:id={{@values.comments.id}} 
-            user={{@app.user.id}} 
+            user={{@app.user.id}}
+            data={{@values.comments.data}}
             onEdit={{@values.comments.onEdit}}/>
 
         </Column>
@@ -88,7 +89,7 @@
 
       </Row>
 
-      <Row>
+      <Row className="-converse-hide-screen-not-small">
 
         <Column>
 
