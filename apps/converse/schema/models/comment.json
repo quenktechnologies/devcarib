@@ -74,8 +74,6 @@
 
             "type": "string",
 
-            "optional": true,
-
             "validators": [
 
                 "@devcarib/common/lib/data/validators#textlarge",
