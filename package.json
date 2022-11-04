@@ -52,7 +52,7 @@
         "@quenk/tendril-session-mongodb": "^0.2.1",
         "@quenk/tendril-show-nunjucks": "0.0.7",
         "@quenk/tendril-show-wml": "0.0.9",
-        "@quenk/wml-widgets": "^1.34.2",
+        "@quenk/wml-widgets": "^1.34.3",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.17.2",
         "dotenv": "^8.2.0",
