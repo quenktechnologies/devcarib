@@ -19,14 +19,15 @@ import { Request } from '@quenk/tendril/lib/app/api/request';
 
 import { render } from '@quenk/tendril-show-wml';
 
+import { OutgoingMessage } from '@devcarib/server/lib/actors/mail/server';
+
 import { check } from '@board/checks/lib/job';
 
-import { NotFoundErrorView } from '@board/views/lib/error/404';
-import { JobFormView } from '@board/views/lib/job-form';
-import { JobView } from '@board/views/lib/job';
-import { IndexView } from '@board/views';
+import { NotFoundErrorView } from './views/error/404';
+import { JobFormView } from './views/job-form';
+import { JobView } from './views/job';
+import { IndexView } from './views';
 
-import { OutgoingMessage } from '@devcarib/server/lib/actors/mail/server';
 
 export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
 
