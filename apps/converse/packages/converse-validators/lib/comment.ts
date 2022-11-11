@@ -55,7 +55,7 @@ const _string: Precondition<Value, string> = _and(_isString, _trim);
  * validators for Comment provided as a map.
  */
 export const validators: Preconditions<Value, Value> = {
-    'body': _optional(_and(_string,
+    'body': _and(_notNull, _and(_string,
         _every<Value, Value>(textlarge, minLength(3), maxLength(10000)))
 
     ),
@@ -66,7 +66,7 @@ export const validators: Preconditions<Value, Value> = {
  * partialValidators for Comment provided as a map.
  */
 export const partialValidators: Preconditions<Value, Value> = {
-    'body': _optional(_and(_string,
+    'body': _and(_notNull, _and(_string,
         _every<Value, Value>(textlarge, minLength(3), maxLength(10000)))
 
     ),

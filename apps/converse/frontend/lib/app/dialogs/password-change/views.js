@@ -42,7 +42,7 @@ class PasswordChangeDialogView {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'password' }, 'name': 'password', 'type': 'password', 'label': 'New Password', 'error': __context.values.errors.password, 'value': __context.values.data.password, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'password' }, 'name': 'password', 'type': 'password', 'label': 'New Password', 'error': __context.values.errors.password, 'value': __context.values.data.password, 'onChange': __context.values.onChange })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'password' }, html: { 'autocomplete': 'off' }, 'name': 'password', 'type': 'password', 'label': 'New Password', 'error': __context.values.errors.password, 'value': __context.values.data.password, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'password' }, html: { 'autocomplete': 'off' }, 'name': 'password', 'type': 'password', 'label': 'New Password', 'error': __context.values.errors.password, 'value': __context.values.data.password, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {})
             ]), {});

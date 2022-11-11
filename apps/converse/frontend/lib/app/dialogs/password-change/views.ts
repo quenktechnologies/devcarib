@@ -80,10 +80,10 @@ export class PasswordChangeDialogView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'password'  },'name': 'password','type': 'password','label': 'New Password','error': __context.values.errors.password,'value': __context.values.data.password,'onChange': __context.values.onChange}, [
+        __this.widget(new TextField({wml : { 'id' : 'password'  },html : { 'autocomplete' : 'off'  },'name': 'password','type': 'password','label': 'New Password','error': __context.values.errors.password,'value': __context.values.data.password,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'password'  },'name': 'password','type': 'password','label': 'New Password','error': __context.values.errors.password,'value': __context.values.data.password,'onChange': __context.values.onChange})
+     ]),<__wml.Attrs>{wml : { 'id' : 'password'  },html : { 'autocomplete' : 'off'  },'name': 'password','type': 'password','label': 'New Password','error': __context.values.errors.password,'value': __context.values.data.password,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
