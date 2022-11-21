@@ -49,7 +49,9 @@
               content={{meta.content}} />
       {% endfor %}
     {% endif %}
-    <link rel="stylesheet" href="/assets/css/site.css"/> 
+    <link rel="stylesheet" href="/assets/css/board.css"/> 
+    <link rel="stylesheet" href="/assets/vendor/fa/css/fontawesome.min.css"/>
+    <link rel="stylesheet" href="/assets/vendor/fa/css/solid.min.css"/>
     {% if @styles?? %}
       {% for style in @styles %}
         <link rel="stylesheet" href={{style}} />

@@ -1,10 +1,10 @@
+{% import (DevBar) from "@devcarib/widgets/lib/content/devbar" %}
+
 {% import (Job) from "@board/types/lib/job" %}
 
-{% import (Meta, HeadView, HeadViewContext) from "./common/head" %}
-{% import (HeaderView) from "./common/header" %}
+{% import (JobPage) from "@devcarib/widgets/lib/page/job" %}
 
-{% import (JobHeaderView) from "./job/header" %}
-{% import (JobBodyView) from "./job/body" %}
+{% import (Meta, HeadView, HeadViewContext) from "../common/head" %}
 
 {# JobView is the view for a single job's profile page. #}
 {% view JobView where job: Job, meta?: Meta[] %}
@@ -19,17 +19,9 @@
   %}
 
   <html>
-
     {{ <HeadView(headCtx)> }}
-
     <body>
-
-      {{ <HeaderView(@)> }}
-
-      {{ <JobHeaderView(@job)> }}
-      
-      {{ <JobBodyView(@job)> }}
-
+      <DevBar/>
+      <JobPage data={{@job}} />
     </body>
-
   </html>

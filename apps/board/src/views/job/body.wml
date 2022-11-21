@@ -1,19 +1,15 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+
 {% import (Job) from "@board/types/lib/job" %}
 
 {% import (JobPanel) from "@devcarib/widgets/lib/job/panel" %}
 
 {# JobBodyView is the view for the body content of a job profile page. #}
 {% view JobBodyView (Job) %}
-<div id="main" class="ww-grid-layout board-job-body">
-
-    <div class="ww-grid-layout__row">
-
-      <div class="ww-grid-layout__column -span8 -offset2">
-
-        <JobPanel job={{@}} raw=true />
-
-      </div>
-
-    </div>
-
-</div>
+<GridLayout id="main">
+  <Row>
+    <Column span=8 offset=2>
+      <JobPanel job={{@}} raw=true />
+    </Column>
+  </Row>
+</GridLayout>

@@ -2,8 +2,6 @@
 
 .board-common-header {
 
-  margin-top: 0.5em;
-  margin-bottom: 0.75em;
   text-align: center;
   background-color: #f2f4f6;
 
@@ -23,6 +21,12 @@
 
       text-decoration: none;
       color: #333;
+
+    }
+
+    & > a + & > a {
+
+      margin-left: 1em;
 
     }
 
@@ -65,5 +69,12 @@
     }
 
   }
+
+}
+
+.board-cta-wrapper {
+
+  display: flex;
+  justify-content: flex-end;
 
 }
