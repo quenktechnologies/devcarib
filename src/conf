@@ -35,7 +35,7 @@ app.dirs.public = [
   "public",
   "../packages/devcarib-widgets/public",
   "../apps/board/packages/board-views/public",
-  "../apps/board/frontend/board-form-post/public"
+  "../apps/board/frontend/public"
 
 ]
 
