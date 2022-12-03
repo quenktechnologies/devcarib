@@ -27,4 +27,16 @@ export class JobPage extends Component<JobPageAttrs> {
 
     view = new JobPageView(this);
 
+    description = { id: 'description' };
+
+    /**
+     * setContent sets the description part of the job page.
+     */
+    setContent(html: string) {
+
+        this.view.findById<HTMLElement>(this.description.id)
+            .get().innerHTML= html;
+
+    }
+
 }

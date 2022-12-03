@@ -1,0 +1,78 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
+{% import (DropList) from "@quenk/wml-widgets/lib/control/drop-list" %}
+{% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
+
+{% view PostJobFormPanelView (PostJobFormPanel from "../") %}
+<Panel>
+  <PanelBody>
+    <GridLayout>
+      <Row>
+        <Column>
+          <TextField
+           wml:id="title"
+           name="title"
+           label="Title*"
+           placeholder="Senior Software Engineer"
+           value={{@attrs.data.title}}
+           onChange={{@attrs.onChange}} />
+        </Column>
+      </Row>
+      <Row>
+        <Column span=6>
+          <TextField
+           wml:id="location"
+           name="location"
+           label="Location (where the job is based)*"
+           value={{@attrs.data.location}}
+           onChange={{@attrs.onChange}} />
+        </Column>
+        <Column span=6>
+          <label class="ww-label">Select A Job Type*</label>
+            <DropList
+              wml:id="type"
+              className="board-job-type-dropdown -block"
+              name="type"
+              value={{@attrs.data.type}}
+              options={{@typeOptions}}
+              onSelect={{@attrs.onChange}} />
+
+        </Column>
+      </Row>
+      <Row>
+        <Column>
+          <TextField
+           wml:id="apply_url"
+           name="apply_url"
+           label="Apply Link"
+           placeholder="Specify a url or email address applicants can use to apply"
+           value={{@attrs.data.apply_url}}
+           onChange={{@attrs.onChange}} />
+        </Column>
+      </Row>
+      <Row>
+        <Column>
+          <b>
+             <Checkbox 
+               name="remote" 
+               value={{@attrs.data.remote}}
+               onChange={{@attrs.onChange}} />
+             This job is remote 
+          </b> 
+        </Column>
+      </Row>
+      <Row>
+        <Column>
+          <TextField
+            wml:id="description"
+            name="description"
+            placeholder="Provide full details of the job. Markdown is supported"
+            rows=12 
+            value={{@attrs.data.description}}
+            onChange={{@attrs.onChange}} />
+        </Column>
+      </Row>
+    </GridLayout>
+  </PanelBody>
+</Panel>
