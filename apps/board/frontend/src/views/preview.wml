@@ -1,0 +1,38 @@
+{% import (Button) from "@quenk/wml-widgets/lib/control/button" %}
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Alert) from "@quenk/wml-widgets/lib/dialog/alert" %}
+
+{% import (JobPage) from "@devcarib/widgets/lib/page/job" %}
+
+{% import (JobFormApp) from "../" %}
+
+{% view PreviewView (JobFormApp) %}
+<div>
+  <GridLayout>
+    <Row>
+      <Column span=8 offset=2>
+        <Alert text="This is a preview, you jos has not been posted yet."/>
+      </Column>
+    </Row>
+  </GridLayout>
+  <JobPage 
+    wml:id="panel"
+    data={{@values.job.data}}/>
+  <GridLayout>
+    <Row>
+      <Column span=8 offset=2>
+        <div class="action-container">
+          <Button
+            className="back-button -default -large"
+            text="Back" 
+            onClick={{@values.buttons.job.click}} />
+          <Button
+            wml:id={{@values.buttons.send.id}}
+            className="send-button -primary -large"
+            text="Post" 
+            onClick={{@values.buttons.send.click}} />
+        </div>
+      </Column>
+    </Row>
+  </GridLayout>
+</div>

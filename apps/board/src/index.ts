@@ -26,7 +26,7 @@ import { OutgoingMessage } from '@devcarib/server/lib/actors/mail/server';
 import { check } from '@board/checks/lib/job';
 
 import { NotFoundErrorView } from './views/error/404';
-import { JobFormView } from './views/job-form';
+import { PostJobFormView } from './views/job/form/post';
 import { JobView } from './views/job';
 import { IndexView } from './views';
 
@@ -68,7 +68,7 @@ export class BoardController {
      */
     onPostJobPage(_: Request): Action<void> {
 
-        return render(new JobFormView({}));
+        return render(new PostJobFormView({}));
 
     }
 
