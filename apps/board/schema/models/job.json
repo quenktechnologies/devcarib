@@ -8,7 +8,7 @@
 
     "imports": {
 
-        "@board/types/lib/job": [ "Job" ],
+        "@board/types/lib/job": ["Job"],
 
         "checks:@board/validators/lib/job": ["validate", "validatePartial"]
 
@@ -41,8 +41,6 @@
             ]
 
         },
-
-        "$ref": "./common/properties.json",
 
         "title": {
 
@@ -158,39 +156,43 @@
 
         },
 
-        "payment_currency": {
-
-            "type": "string",
-
-            "validators": "@devcarib/common/lib/data/validators#currency",
-
-            "optional": true
-
-        },
-
-        "payment_amount": {
-
-            "type": "number",
-
-            "optional": true
-
-        },
-
-        "payment_frequency": {
-
-            "type": "string",
-
-            "validators": "@devcarib/common/lib/data/validators#paymentFrequency",
-
-            "optional": true
-
-        },
-
         "status": {
 
             "type": "string",
 
             "validators": "@devcarib/common/lib/data/validators#jobStatus"
+
+        },
+
+        "created_by": {
+
+            "type": "object",
+
+            "readOnly": true,
+
+            "properties": {
+
+                "id": "number",
+
+                "username": "string"
+
+            }
+
+        },
+
+        "created_on": {
+
+            "type": "string",
+
+            "readOnly": true
+
+        },
+
+        "last_updated_on": {
+
+            "type": "string",
+
+            "readOnly": true
 
         }
 

@@ -75,55 +75,55 @@ export class JobPanelView  implements __wml.View {
 
        
 
-           return __this.widget(new Panel({}, [
+           return __this.widget(new Panel({'className': __context.className}, [
 
         __this.widget(new PanelHeader({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'ww-panel__header__content'}, [
+        __this.node('div', <__wml.Attrs>{'class': __context.contentClassName}, [
 
-        __this.registerView(new JobFeaturesView(__context.values.data)).render(),
-__this.node('div', <__wml.Attrs>{'class': 'board-job-timestamp'}, [
+        __this.registerView(new JobFeaturesView(__context.data)).render(),
+__this.node('div', <__wml.Attrs>{'class': __context.timestampClassName}, [
 
         __document.createTextNode('\u000a        Posted '),
-text (timestamp (__context.values.data.created_on))
+text (timestamp (__context.data.created_on))
      ])
      ])
      ]),<__wml.Attrs>{}),
 __this.widget(new PanelBody({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'board-job-salary'}, [
-
-        ...(((__context.values.data.payment_amount) != null) ?
+        ...(((__context.data.payment_amount) != null) ?
 (()=>([
+
+        __this.node('div', <__wml.Attrs>{'class': __context.paymentClassName}, [
 
         __this.node('span', <__wml.Attrs>{}, [
 
-        text (__context.values.data.payment_amount),
+        text (__context.data.payment_amount),
 __document.createTextNode('\u00a0'),
 __this.node('b', <__wml.Attrs>{}, [
 
-        text (__context.values.data.payment_currency),
+        text (__context.data.payment_currency),
 __document.createTextNode('\u002F'),
-text (__context.values.data.payment_frequency)
+text (__context.data.payment_frequency)
+     ])
      ])
      ])
      ]))() :
-(()=>([]))())
-     ]),
-__this.node('div', <__wml.Attrs>{wml : { 'id' : 'content'  },'class': 'board-job-html'}, [
+(()=>([]))()),
+__this.node('div', <__wml.Attrs>{wml : { 'id' : __context.body.id  },'class': __context.body.className}, [
 
-        ...((__context.values.raw) ?
+        ...((__context.raw) ?
 (()=>([
 
-        unsafe (__context.values.data.description_html)
+        unsafe (__context.data.description_html)
      ]))() :
 (()=>([
 
-        text (__context.values.data.description_html)
+        text (__context.data.description_html)
      ]))())
      ])
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{});
+     ]),<__wml.Attrs>{'className': __context.className});
 
        }
 
@@ -178,51 +178,10 @@ __this.node('div', <__wml.Attrs>{wml : { 'id' : 'content'  },'class': 'board-job
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

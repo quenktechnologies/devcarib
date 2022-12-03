@@ -15,5 +15,5 @@ $(DEVCARIB_WIDGETS_LIB_DIR): $(DEVCARIB_WIDGETS_SRC_FILES)\
 
 $(DEVCARIB_WIDGETS_LESS_IMPORTS_FILE): $(DEVCARIB_WIDGETS_LESS_FILES)
 	echo "" > $@
-	$(foreach f,$(subst $(DEVCARIB_WIDGETS_DIR),,$^),\
+	$(foreach f,$(subst $(DEVCARIB_WIDGETS_DIR)/,,$^),\
 	echo '@import "./$(f)";' >> $@ && ) true

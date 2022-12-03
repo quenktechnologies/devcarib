@@ -81,30 +81,30 @@ export class AddUserDialogView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'name'  },'name': 'name','label': 'Name*','error': __context.values.errors.name,'value': __context.values.data.name,'onChange': __context.values.onChange}, [
+        __this.widget(new TextField({wml : { 'id' : "name"  },'name': "name",'label': "Name*",'error': __context.values.errors.name,'value': __context.values.data.name,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'name'  },'name': 'name','label': 'Name*','error': __context.values.errors.name,'value': __context.values.data.name,'onChange': __context.values.onChange})
+     ]),<__wml.Attrs>{wml : { 'id' : "name"  },'name': "name",'label': "Name*",'error': __context.values.errors.name,'value': __context.values.data.name,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'username'  },'name': 'username','label': 'Username*','value': __context.values.data.username,'error': __context.values.errors.username,'onChange': __context.values.onChange}, [
+        __this.widget(new TextField({wml : { 'id' : "username"  },'name': "username",'label': "Username*",'value': __context.values.data.username,'error': __context.values.errors.username,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'username'  },'name': 'username','label': 'Username*','value': __context.values.data.username,'error': __context.values.errors.username,'onChange': __context.values.onChange})
+     ]),<__wml.Attrs>{wml : { 'id' : "username"  },'name': "username",'label': "Username*",'value': __context.values.data.username,'error': __context.values.errors.username,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new TextField({wml : { 'id' : 'password'  },'name': 'password','label': 'Password*','error': __context.values.errors.password,'value': __context.values.data.password,'onChange': __context.values.onChange}, [
+        __this.widget(new TextField({wml : { 'id' : "password"  },'name': "password",'label': "Password*",'error': __context.values.errors.password,'value': __context.values.data.password,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'password'  },'name': 'password','label': 'Password*','error': __context.values.errors.password,'value': __context.values.data.password,'onChange': __context.values.onChange})
+     ]),<__wml.Attrs>{wml : { 'id' : "password"  },'name': "password",'label': "Password*",'error': __context.values.errors.password,'value': __context.values.data.password,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
@@ -118,10 +118,10 @@ __this.widget(new Row({}, [
         __document.createTextNode('Status:')
      ])
      ]),
-__this.widget(new ButtonSelect({wml : { 'id' : 'status'  },'name': 'status','options': __context.values.status.options,'value': __context.values.data.status,'onChange': __context.values.onChange}, [
+__this.widget(new ButtonSelect({wml : { 'id' : "status"  },'name': "status",'options': __context.values.status.options,'value': __context.values.data.status,'onChange': __context.values.onChange}, [
 
         
-     ]),<__wml.Attrs>{wml : { 'id' : 'status'  },'name': 'status','options': __context.values.status.options,'value': __context.values.data.status,'onChange': __context.values.onChange})
+     ]),<__wml.Attrs>{wml : { 'id' : "status"  },'name': "status",'options': __context.values.status.options,'value': __context.values.data.status,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
@@ -179,51 +179,10 @@ __this.widget(new ButtonSelect({wml : { 'id' : 'status'  },'name': 'status','opt
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

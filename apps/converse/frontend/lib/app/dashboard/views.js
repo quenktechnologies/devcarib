@@ -51,7 +51,7 @@ class DashboardView {
         this.template = (__this) => {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
-                    __this.widget(new grid_1.Column({ 'span': 3, 'className': '-converse-hide-screen-small' }, [
+                    __this.widget(new grid_1.Column({ 'span': 3, 'className': "-converse-hide-screen-small" }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.widget(new rank_3.EventRankPanel({ wml: { 'group': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'group': __context.values.events.id }, 'data': __context.values.events.data })
@@ -62,21 +62,21 @@ class DashboardView {
                                 __this.widget(new rank_1.JobRankPanel({ wml: { 'group': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'group': __context.values.jobs.id }, 'data': __context.values.jobs.data })
                             ]), {})
                         ]), {})
-                    ]), { 'span': 3, 'className': '-converse-hide-screen-small' }),
+                    ]), { 'span': 3, 'className': "-converse-hide-screen-small" }),
                     __this.widget(new grid_1.Column({ 'span': 6 }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('header', { 'class': 'converse-dashboard-header' }, [
+                                __this.node('header', { 'class': "converse-dashboard-header" }, [
                                     __this.node('h1', {}, [
                                         __document.createTextNode('Posts')
                                     ]),
-                                    __this.widget(new button_1.Button({ 'className': 'converse-dashboard-post-button -primary', 'text': 'Create Post', 'onClick': __context.values.posts.create }, []), { 'className': 'converse-dashboard-post-button -primary', 'text': 'Create Post', 'onClick': __context.values.posts.create })
+                                    __this.widget(new button_1.Button({ 'className': "converse-dashboard-post-button -primary", 'text': "Create Post", 'onClick': __context.values.posts.create }, []), { 'className': "converse-dashboard-post-button -primary", 'text': "Create Post", 'onClick': __context.values.posts.create })
                                 ])
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new stream_1.PostStream({ wml: { 'id': __context.values.posts.id }, 'className': '-devcarib-spaced', 'data': __context.values.posts.data }, []), { wml: { 'id': __context.values.posts.id }, 'className': '-devcarib-spaced', 'data': __context.values.posts.data })
+                                __this.widget(new stream_1.PostStream({ wml: { 'id': __context.values.posts.id }, 'className': "-devcarib-spaced", 'data': __context.values.posts.data }, []), { wml: { 'id': __context.values.posts.id }, 'className': "-devcarib-spaced", 'data': __context.values.posts.data })
                             ]), {})
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
@@ -85,14 +85,14 @@ class DashboardView {
                             ]), {})
                         ]), {})
                     ]), { 'span': 6 }),
-                    __this.widget(new grid_1.Column({ 'span': 3, 'className': '-converse-hide-screen-small' }, [
+                    __this.widget(new grid_1.Column({ 'span': 3, 'className': "-converse-hide-screen-small" }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.popular.id }, 'title': 'Popular', 'data': __context.values.popular.data }, []), { wml: { 'id': __context.values.popular.id }, 'title': 'Popular', 'data': __context.values.popular.data })
+                                __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.popular.id }, 'title': "Popular", 'data': __context.values.popular.data }, []), { wml: { 'id': __context.values.popular.id }, 'title': "Popular", 'data': __context.values.popular.data })
                             ]), {})
                         ]), {})
-                    ]), { 'span': 3, 'className': '-converse-hide-screen-small' }),
-                    __this.widget(new grid_1.Column({ 'span': 3, 'className': '-converse-hide-screen-not-small' }, [
+                    ]), { 'span': 3, 'className': "-converse-hide-screen-small" }),
+                    __this.widget(new grid_1.Column({ 'span': 3, 'className': "-converse-hide-screen-not-small" }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.widget(new rank_3.EventRankPanel({ wml: { 'group': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'group': __context.values.events.id }, 'data': __context.values.events.data })
@@ -103,7 +103,7 @@ class DashboardView {
                                 __this.widget(new rank_1.JobRankPanel({ wml: { 'group': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'group': __context.values.jobs.id }, 'data': __context.values.jobs.data })
                             ]), {})
                         ]), {})
-                    ]), { 'span': 3, 'className': '-converse-hide-screen-not-small' })
+                    ]), { 'span': 3, 'className': "-converse-hide-screen-not-small" })
                 ]), {})
             ]), {});
         };
@@ -129,39 +129,8 @@ class DashboardView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

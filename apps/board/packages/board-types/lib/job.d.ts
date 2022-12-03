@@ -22,9 +22,6 @@ export interface Job extends _json.Object {
     'company_logo'?: string;
     'apply_url'?: string;
     'approved'?: boolean;
-    'payment_currency'?: string;
-    'payment_amount'?: number;
-    'payment_frequency'?: string;
     'status'?: string;
     'created_by'?: {
         [key: string]: _json.Value;
@@ -33,9 +30,4 @@ export interface Job extends _json.Object {
     };
     'created_on'?: string;
     'last_updated_on'?: string;
-    'last_updated_by'?: {
-        [key: string]: _json.Value;
-        'id'?: number;
-        'username'?: string;
-    };
 }

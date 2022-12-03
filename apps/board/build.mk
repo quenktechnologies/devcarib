@@ -1,4 +1,4 @@
-$(BOARD_DIR): $(BOARD_BUILD_DIR) $(BOARD_FRONTEND_DIR)
+$(BOARD_DIR): $(BOARD_BUILD_DIR) $(BOARD_FRONTEND_DIR) $(BOARD_PUBLIC_DIR)
 	touch $@
 
 $(BOARD_BUILD_DIR): $(BOARD_SRC_DIR)\
@@ -16,17 +16,16 @@ $(BOARD_BUILD_DIR): $(BOARD_SRC_DIR)\
 $(BOARD_SRC_DIR): $(BOARD_SRC_DIR_FILES)
 	touch $@
 
-$(BOARD_FRONTEND_DIR): $(BOARD_FORM_POST_DIR)
-	
 include $(BOARD_SCHEMA_DIR)/build.mk
 include $(BOARD_PACKAGES_DIR)/*/build.mk
-include $(BOARD_FRONTEND_DIR)/*/build.mk
+include $(BOARD_FRONTEND_DIR)/build.mk
 
 $(BOARD_PUBLIC_DIR): $(BOARD_CSS_FILE)
 	touch $@
 
 $(BOARD_CSS_FILE): $(BOARD_LESS_IMPORTS_FILE)\
-                      $(BOARD_LESS_MAIN_FILE)
+                   $(BOARD_LESS_MAIN_FILE)\
+                   $(DEVCARIB_WIDGETS_DIR)
 	mkdir -p $(dir $@)
 	rm -R $@ || true
 	$(LESSC) --source-map-less-inline \

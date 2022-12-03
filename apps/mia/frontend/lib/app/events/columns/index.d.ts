@@ -7,7 +7,7 @@ export { ActionSpec };
  * TitleColumnAction is a function invoked when the title of a event is clicked
  * on.
  */
-export declare type TitleColumnAction = (e: Event) => void;
+export type TitleColumnAction = (e: Event) => void;
 /**
  * TitleColumn displays the title of the event.
  */

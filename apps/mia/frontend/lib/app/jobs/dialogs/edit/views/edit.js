@@ -6,11 +6,7 @@ const __document = require("@quenk/wml/lib/dom");
 const maybe_1 = require("@quenk/noni/lib/data/maybe");
 const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
-const panel_1 = require("@quenk/wml-widgets/lib/layout/panel");
-;
-const job_1 = require("@devcarib/widgets/lib/job/form/fields/job");
-;
-const company_1 = require("@devcarib/widgets/lib/job/form/fields/company");
+const post_1 = require("@devcarib/widgets/lib/panel/job/post");
 ;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -46,20 +42,12 @@ class EditJobDialogView {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new panel_1.Panel({}, [
-                            __this.widget(new panel_1.PanelBody({}, [
-                                __this.registerView(new job_1.JobFormJobFieldsView(__context.values)).render()
-                            ]), {})
-                        ]), {})
+                        __this.widget(new post_1.PostJobFormPanel({ 'data': __context.values.data, 'onChange': __context.values.onChange }, []), { 'data': __context.values.data, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new panel_1.Panel({}, [
-                            __this.widget(new panel_1.PanelBody({}, [
-                                __this.registerView(new company_1.JobFormCompanyFieldsView(__context.values)).render()
-                            ]), {})
-                        ]), {})
+                        __this.widget(new post_1.PostJobFormCompanyPanel({ 'data': __context.values.data, 'onChange': __context.values.onChange }, []), { 'data': __context.values.data, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {})
             ]), {});
@@ -86,39 +74,8 @@ class EditJobDialogView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

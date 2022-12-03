@@ -74,27 +74,27 @@ export class JobPreviewPanelView  implements __wml.View {
 
        
 
-           return __this.node('div', <__wml.Attrs>{'class': 'ww-panel -default board-job-preview-panel'}, [
+           return __this.node('div', <__wml.Attrs>{'class': "ww-panel -default board-job-preview-panel"}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'ww-panel__body'}, [
+        __this.node('div', <__wml.Attrs>{'class': "ww-panel__body"}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'board-job-preview-panel-header'}, [
+        __this.node('div', <__wml.Attrs>{'class': "board-job-preview-panel-header"}, [
 
-        __this.node('h3', <__wml.Attrs>{'class': 'board-job-preview-panel-header__title'}, [
+        __this.node('h3', <__wml.Attrs>{'class': "board-job-preview-panel-header__title"}, [
 
-        __this.node('a', <__wml.Attrs>{'href': ('/jobs/' + __context.id)}, [
+        __this.node('a', <__wml.Attrs>{'href': ("/jobs/" + __context.id)}, [
 
         text (__context.title)
      ])
      ]),
-__this.node('div', <__wml.Attrs>{'class': 'board-job-preview-panel-header__text'}, [
+__this.node('div', <__wml.Attrs>{'class': "board-job-preview-panel-header__text"}, [
 
-        __this.node('span', <__wml.Attrs>{'class': 'board-job-preview-panel-company'}, [
+        __this.node('span', <__wml.Attrs>{'class': "board-job-preview-panel-company"}, [
 
         text (__context.company)
      ]),
 __document.createTextNode(' - \u000a        '),
-__this.node('span', <__wml.Attrs>{'class': 'board-job-preview-panel-time'}, [
+__this.node('span', <__wml.Attrs>{'class': "board-job-preview-panel-time"}, [
 
         text (timefromnow (__context.created_on))
      ])
@@ -157,51 +157,10 @@ __this.registerView(new JobFeaturesView(__context)).render()
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

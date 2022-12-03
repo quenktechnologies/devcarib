@@ -42,18 +42,6 @@ export const Job = {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 export default Job

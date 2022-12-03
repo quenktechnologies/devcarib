@@ -11,7 +11,7 @@ import { RemoteModels } from '../../../remote/models';
 /**
  * MiaManagerMessage adds the FormSaved message to the accepted types.
  */
-export declare type MiaManagerMessage<M> = MainSceneMessage<M> | FormSaved;
+export type MiaManagerMessage<M> = MainSceneMessage<M> | FormSaved;
 /**
  *  TableValues
  */

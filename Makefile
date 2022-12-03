@@ -7,6 +7,7 @@ SHELL=/bin/bash -o pipefail
 ### Binaries. ###
 TDC?=$(HERE)/node_modules/.bin/tdc
 TSC?=$(HERE)/node_modules/.bin/tsc
+BROWSERIFY?=./node_modules/.bin/browserify
 LESSC?=$(HERE)/node_modules/.bin/lessc
 WMLC?=$(HERE)/node_modules/.bin/wmlc
 ENVIFY?=$(HERE)/node_modules/.bin/envify
@@ -16,6 +17,9 @@ DAGEN?=./node_modules/.bin/dagen
 DAGEN_PLUGIN_IMPORTS?=./node_modules/@quenk/dagen-commons/lib/plugins/imports.js
 VALIDATION_PLUGIN?=node_modules/@quenk/dagen-commons/lib/plugins/checks
 TRANSFORM?=./node_modules/.bin/transform
+CLEANCSS?=./node_modules/.bin/cleancss
+UGLIFYJS?=./node_modules/.bin/uglifyjs
+
 
 # EOL marker
 define EOL

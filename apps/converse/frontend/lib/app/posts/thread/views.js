@@ -56,7 +56,7 @@ class PostThreadView {
                     __this.widget(new grid_1.Column({ 'span': 7, 'offset': 1 }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('div', { 'class': 'converse-post-thread-header' }, [
+                                __this.node('div', { 'class': "converse-post-thread-header" }, [
                                     __this.widget(new back_1.BackButton({ 'onClick': __context.values.onBack }, []), { 'onClick': __context.values.onBack }),
                                     __this.node('h4', {}, [
                                         __document.createTextNode('Dashboard')
@@ -83,14 +83,14 @@ class PostThreadView {
                     __this.widget(new grid_1.Column({ 'span': 3 }, [
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data }, []), { wml: { 'id': __context.values.posts.recent.id }, 'title': 'Recent Posts', 'data': __context.values.posts.recent.data })
+                                __this.widget(new rank_2.PostRankPanel({ wml: { 'id': __context.values.posts.recent.id }, 'title': "Recent Posts", 'data': __context.values.posts.recent.data }, []), { wml: { 'id': __context.values.posts.recent.id }, 'title': "Recent Posts", 'data': __context.values.posts.recent.data })
                             ]), {})
                         ]), {}),
-                        __this.widget(new grid_1.Row({ 'className': '-converse-hide-screen-not-small' }, [
+                        __this.widget(new grid_1.Row({ 'className': "-converse-hide-screen-not-small" }, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.widget(new rank_3.EventRankPanel({ wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data }, []), { wml: { 'id': __context.values.events.id }, 'data': __context.values.events.data })
                             ]), {})
-                        ]), { 'className': '-converse-hide-screen-not-small' }),
+                        ]), { 'className': "-converse-hide-screen-not-small" }),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
                                 __this.widget(new rank_1.JobRankPanel({ wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data }, []), { wml: { 'id': __context.values.jobs.id }, 'data': __context.values.jobs.data })
@@ -122,39 +122,8 @@ class PostThreadView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

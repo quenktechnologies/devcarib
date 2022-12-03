@@ -41,43 +41,43 @@ class JobPanelView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.widget(new panel_1.Panel({}, [
+            return __this.widget(new panel_1.Panel({ 'className': __context.className }, [
                 __this.widget(new panel_1.PanelHeader({}, [
-                    __this.node('div', { 'class': 'ww-panel__header__content' }, [
-                        __this.registerView(new features_1.JobFeaturesView(__context.values.data)).render(),
-                        __this.node('div', { 'class': 'board-job-timestamp' }, [
+                    __this.node('div', { 'class': __context.contentClassName }, [
+                        __this.registerView(new features_1.JobFeaturesView(__context.data)).render(),
+                        __this.node('div', { 'class': __context.timestampClassName }, [
                             __document.createTextNode('\u000a        Posted '),
-                            text((0, filters_1.timestamp)(__context.values.data.created_on))
+                            text((0, filters_1.timestamp)(__context.data.created_on))
                         ])
                     ])
                 ]), {}),
                 __this.widget(new panel_1.PanelBody({}, [
-                    __this.node('div', { 'class': 'board-job-salary' }, [
-                        ...(((__context.values.data.payment_amount) != null) ?
-                            (() => ([
+                    ...(((__context.data.payment_amount) != null) ?
+                        (() => ([
+                            __this.node('div', { 'class': __context.paymentClassName }, [
                                 __this.node('span', {}, [
-                                    text(__context.values.data.payment_amount),
+                                    text(__context.data.payment_amount),
                                     __document.createTextNode('\u00a0'),
                                     __this.node('b', {}, [
-                                        text(__context.values.data.payment_currency),
+                                        text(__context.data.payment_currency),
                                         __document.createTextNode('\u002F'),
-                                        text(__context.values.data.payment_frequency)
+                                        text(__context.data.payment_frequency)
                                     ])
                                 ])
-                            ]))() :
-                            (() => ([]))())
-                    ]),
-                    __this.node('div', { wml: { 'id': 'content' }, 'class': 'board-job-html' }, [
-                        ...((__context.values.raw) ?
+                            ])
+                        ]))() :
+                        (() => ([]))()),
+                    __this.node('div', { wml: { 'id': __context.body.id }, 'class': __context.body.className }, [
+                        ...((__context.raw) ?
                             (() => ([
-                                unsafe(__context.values.data.description_html)
+                                unsafe(__context.data.description_html)
                             ]))() :
                             (() => ([
-                                text(__context.values.data.description_html)
+                                text(__context.data.description_html)
                             ]))())
                     ])
                 ]), {})
-            ]), {});
+            ]), { 'className': __context.className });
         };
     }
     registerView(v) {
@@ -101,39 +101,8 @@ class JobPanelView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

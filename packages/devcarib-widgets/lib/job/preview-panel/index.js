@@ -39,20 +39,20 @@ class JobPreviewPanelView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.node('div', { 'class': 'ww-panel -default board-job-preview-panel' }, [
-                __this.node('div', { 'class': 'ww-panel__body' }, [
-                    __this.node('div', { 'class': 'board-job-preview-panel-header' }, [
-                        __this.node('h3', { 'class': 'board-job-preview-panel-header__title' }, [
-                            __this.node('a', { 'href': ('/jobs/' + __context.id) }, [
+            return __this.node('div', { 'class': "ww-panel -default board-job-preview-panel" }, [
+                __this.node('div', { 'class': "ww-panel__body" }, [
+                    __this.node('div', { 'class': "board-job-preview-panel-header" }, [
+                        __this.node('h3', { 'class': "board-job-preview-panel-header__title" }, [
+                            __this.node('a', { 'href': ("/jobs/" + __context.id) }, [
                                 text(__context.title)
                             ])
                         ]),
-                        __this.node('div', { 'class': 'board-job-preview-panel-header__text' }, [
-                            __this.node('span', { 'class': 'board-job-preview-panel-company' }, [
+                        __this.node('div', { 'class': "board-job-preview-panel-header__text" }, [
+                            __this.node('span', { 'class': "board-job-preview-panel-company" }, [
                                 text(__context.company)
                             ]),
                             __document.createTextNode(' - \u000a        '),
-                            __this.node('span', { 'class': 'board-job-preview-panel-time' }, [
+                            __this.node('span', { 'class': "board-job-preview-panel-time" }, [
                                 text((0, filters_1.timefromnow)(__context.created_on))
                             ])
                         ]),
@@ -83,39 +83,8 @@ class JobPreviewPanelView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

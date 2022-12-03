@@ -1,0 +1,33 @@
+{% import (ActionBar) from "@quenk/wml-widgets/lib/layout/action-bar" %}
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
+
+{% view HeaderView(Object) %}
+<ActionBar>
+  <GridLayout className="board-common-header">
+    <Row>
+      <Column span=8 offset=2>
+        <Row>
+          <Column span=6>
+            <div class="board-logo">
+              <Link
+                href="/"
+                text="WeDeverse"/>
+              <Link
+                href="/jobs"
+                text="Jobs"/>
+            </div>
+          </Column>
+          <Column span=6>
+            <div class="board-cta-wrapper">
+              <Link
+                className="ww-button -primary"
+                href="/jobs/post"
+                text="Post" />
+            </div>
+          </Column>
+        </Row>
+      </Column>
+    </Row>
+  </GridLayout>
+</ActionBar>

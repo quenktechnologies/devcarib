@@ -7,44 +7,29 @@
 {% import (JobPanel) from "." %}
 
 {# JobBodyView is the view for the body content of a job profile page. #}
-{% view JobPanelView (JobPanel) %}
+{% view JobPanelView (JobPanel from ".") %}
 
-<Panel>
-
+<Panel className={{@className}}>
   <PanelHeader>
-
-    <div class="ww-panel__header__content">
-
-      {{ <JobFeaturesView(@values.data)> }}
-
-      <div class="board-job-timestamp">
-        Posted {{@values.data.created_on | timestamp | text }}
+    <div class={{@contentClassName}}>
+      {{ <JobFeaturesView(@data)> }}
+      <div class={{@timestampClassName}}>
+        Posted {{@data.created_on | timestamp | text }}
       </div>
-
     </div>
-
   </PanelHeader>
-
   <PanelBody>
-
-    <div class="board-job-salary">
-
-      {% if @values.data.payment_amount ?? %}
-
-          <span>{{ @values.data.payment_amount | text }}\u00a0<b>{{ @values.data.payment_currency | text }}\u002F{{ @values.data.payment_frequency | text }}</b> </span>
-
-      {% endif %}
-
-    </div>
-
-    <div wml:id="content" class="board-job-html">
-      {% if @values.raw %}
-        {{@values.data.description_html | unsafe}}
+    {% if @data.payment_amount ?? %}
+      <div class={{@paymentClassName}}>
+        <span>{{ @data.payment_amount | text }}\u00a0<b>{{ @data.payment_currency | text }}\u002F{{ @data.payment_frequency | text }}</b> </span>
+      </div>
+    {% endif %}
+    <div wml:id={{@body.id}} class={{@body.className}}>
+      {% if @raw %}
+        {{@data.description_html | unsafe}}
       {% else %}
-        {{@values.data.description_html | text }}
+        {{@data.description_html | text }}
       {% endif %}
     </div>
-
   </PanelBody>
-
 </Panel>

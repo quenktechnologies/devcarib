@@ -40,7 +40,7 @@ import {
 } from '@quenk/preconditions/lib/string';
 
 import { Job } from '@board/types/lib/job';
-import { textsmall, minLength, textlarge, maxLength, name, email, url, currency, paymentFrequency, jobStatus } from '@devcarib/common/lib/data/validators';
+import { textsmall, minLength, textlarge, maxLength, name, email, url, jobStatus } from '@devcarib/common/lib/data/validators';
 
 /**
  * @private Used during template generation.
@@ -101,19 +101,6 @@ export const validators: Preconditions<Value, Value> = {
     'approved': _optional(_boolean
     ),
 
-    'payment_currency': _optional(_and(_string,
-        _every<Value, Value>(currency))
-
-    ),
-
-    'payment_amount': _optional(_number
-    ),
-
-    'payment_frequency': _optional(_and(_string,
-        _every<Value, Value>(paymentFrequency))
-
-    ),
-
     'status': _and(_notNull, _and(_string,
         _every<Value, Value>(jobStatus))
 
@@ -169,19 +156,6 @@ export const partialValidators: Preconditions<Value, Value> = {
     ),
 
     'approved': _optional(_boolean
-    ),
-
-    'payment_currency': _optional(_and(_string,
-        _every<Value, Value>(currency))
-
-    ),
-
-    'payment_amount': _optional(_number
-    ),
-
-    'payment_frequency': _optional(_and(_string,
-        _every<Value, Value>(paymentFrequency))
-
     ),
 
     'status': _and(_notNull, _and(_string,

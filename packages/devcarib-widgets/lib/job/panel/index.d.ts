@@ -21,9 +21,15 @@ export interface JobPanelAttrs extends HTMLElementAttrs {
  */
 export declare class JobPanel extends Component<JobPanelAttrs> {
     view: JobPanelView;
-    values: {
-        data: Job;
-        raw: boolean | undefined;
+    className: string;
+    data: Job;
+    raw: boolean | undefined;
+    contentClassName: string;
+    timestampClassName: string;
+    paymentClassName: string;
+    body: {
+        id: string;
+        className: string;
     };
     /**
      * setContent allows the content displayed in the JobPanel to be displayed.

@@ -43,14 +43,14 @@ class JobRankPanelView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.widget(new rank_1.RankPanel({ 'className': 'devcarib-job-rank-panel', 'title': 'Jobs' }, [
+            return __this.widget(new rank_1.RankPanel({ 'className': "devcarib-job-rank-panel", 'title': "Jobs" }, [
                 ...(((__context.values.jobs.length > 0)) ?
                     (() => ([
                         __this.widget(new list_1.ListLayout({}, [
                             ...__forIn(__context.values.jobs, (job, _$$i, _$$all) => ([
                                 __this.widget(new list_1.ListLayoutItem({}, [
-                                    __this.widget(new link_1.Link({ 'className': 'devcarib-job-rank-panel-title', 'text': job.title, 'href': ('/jobs/' + job.id) }, []), { 'className': 'devcarib-job-rank-panel-title', 'text': job.title, 'href': ('/jobs/' + job.id) }),
-                                    __this.node('div', { 'class': 'devcarib-job-rank-panel-company' }, [
+                                    __this.widget(new link_1.Link({ 'className': "devcarib-job-rank-panel-title", 'text': job.title, 'href': ("/jobs/" + job.id) }, []), { 'className': "devcarib-job-rank-panel-title", 'text': job.title, 'href': ("/jobs/" + job.id) }),
+                                    __this.node('div', { 'class': "devcarib-job-rank-panel-company" }, [
                                         text(job.company)
                                     ])
                                 ]), {})
@@ -59,14 +59,14 @@ class JobRankPanelView {
                     ]))() :
                     (() => ([
                         __this.widget(new panel_1.PanelBody({}, [
-                            __this.node('div', { 'class': 'devcarib-job-rank-panel-nojobs' }, [
+                            __this.node('div', { 'class': "devcarib-job-rank-panel-nojobs" }, [
                                 __document.createTextNode('\u000a\u000a        No jobs '),
-                                __this.widget(new link_1.Link({ 'href': '/jobs/post', 'text': 'create one' }, []), { 'href': '/jobs/post', 'text': 'create one' }),
+                                __this.widget(new link_1.Link({ 'href': "/jobs/post", 'text': "create one" }, []), { 'href': "/jobs/post", 'text': "create one" }),
                                 __document.createTextNode('.\u000a\u000a      ')
                             ])
                         ]), {})
                     ]))())
-            ]), { 'className': 'devcarib-job-rank-panel', 'title': 'Jobs' });
+            ]), { 'className': "devcarib-job-rank-panel", 'title': "Jobs" });
         };
     }
     registerView(v) {
@@ -90,39 +90,8 @@ class JobRankPanelView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

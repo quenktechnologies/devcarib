@@ -73,12 +73,12 @@ export class JobFeaturesView  implements __wml.View {
 
        
 
-           return __this.node('div', <__wml.Attrs>{'class': 'board-job-features'}, [
+           return __this.node('div', <__wml.Attrs>{'class': "board-job-features"}, [
 
         ...(((__context.type) != null) ?
 (()=>([
 
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
+        __this.node('span', <__wml.Attrs>{'class': "ww-tag -default"}, [
 
         text (__context.type)
      ])
@@ -87,7 +87,7 @@ export class JobFeaturesView  implements __wml.View {
 ...(((__context.location) != null) ?
 (()=>([
 
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
+        __this.node('span', <__wml.Attrs>{'class': "ww-tag -default"}, [
 
         text (truncate(60) (__context.location))
      ])
@@ -96,7 +96,7 @@ export class JobFeaturesView  implements __wml.View {
 ...(((__context.remote) != null) ?
 (()=>([
 
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
+        __this.node('span', <__wml.Attrs>{'class': "ww-tag -default"}, [
 
         __document.createTextNode('Remote')
      ])
@@ -105,7 +105,7 @@ export class JobFeaturesView  implements __wml.View {
 ...(((__context.salary_range) != null) ?
 (()=>([
 
-        __this.node('span', <__wml.Attrs>{'class': 'ww-tag -default'}, [
+        __this.node('span', <__wml.Attrs>{'class': "ww-tag -default"}, [
 
         __document.createTextNode('$'),
 text (__context.salary_range)
@@ -167,51 +167,10 @@ text (__context.salary_range)
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

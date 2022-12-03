@@ -76,25 +76,25 @@ export class CommentPanelView  implements __wml.View {
 
        
 
-           return __this.widget(new Panel({'className': 'devcarib-comment-panel'}, [
+           return __this.widget(new Panel({'className': "devcarib-comment-panel"}, [
 
         __this.widget(new PanelHeader({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'devcarib-comment-panel__header__content'}, [
+        __this.node('div', <__wml.Attrs>{'class': "devcarib-comment-panel__header__content"}, [
 
         __this.widget(new PostMetadata({'data': __context.values.data}, [
 
         
      ]),<__wml.Attrs>{'data': __context.values.data}),
-__this.node('div', <__wml.Attrs>{'class': 'devcarib-comment-panel__header-links'}, [
+__this.node('div', <__wml.Attrs>{'class': "devcarib-comment-panel__header-links"}, [
 
         ...((__context.values.editable) ?
 (()=>([
 
-        __this.widget(new Link({'text': 'Edit','onClick': __context.values.editor.show}, [
+        __this.widget(new Link({'text': "Edit",'onClick': __context.values.editor.show}, [
 
         
-     ]),<__wml.Attrs>{'text': 'Edit','onClick': __context.values.editor.show})
+     ]),<__wml.Attrs>{'text': "Edit",'onClick': __context.values.editor.show})
      ]))() :
 (()=>([]))())
      ])
@@ -104,7 +104,7 @@ __this.widget(new PanelBody({}, [
 
         unsafe (__context.values.data.body_html)
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{'className': 'devcarib-comment-panel'});
+     ]),<__wml.Attrs>{'className': "devcarib-comment-panel"});
 
        }
 
@@ -159,51 +159,10 @@ __this.widget(new PanelBody({}, [
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 
@@ -337,51 +296,10 @@ export class EditCommentPanelView  implements __wml.View {
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

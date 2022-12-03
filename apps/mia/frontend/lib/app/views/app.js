@@ -43,15 +43,15 @@ class MiaView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.node('div', { wml: { 'id': 'main' } }, [
-                __this.widget(new action_bar_1.ActionBar({ 'className': 'mia-navbar-bar' }, [
-                    __this.widget(new nav_1.NavMenu({ 'className': 'mia-logout', 'items': __context.values.header.links }, [
+            return __this.node('div', { wml: { 'id': "main" } }, [
+                __this.widget(new action_bar_1.ActionBar({ 'className': "mia-navbar-bar" }, [
+                    __this.widget(new nav_1.NavMenu({ 'className': "mia-logout", 'items': __context.values.header.links }, [
                         __this.widget(new item_1.Item({}, [
-                            __this.widget(new link_1.Link({ 'text': 'Logout', 'onClick': __context.values.header.logout }, []), { 'text': 'Logout', 'onClick': __context.values.header.logout })
+                            __this.widget(new link_1.Link({ 'text': "Logout", 'onClick': __context.values.header.logout }, []), { 'text': "Logout", 'onClick': __context.values.header.logout })
                         ]), {})
-                    ]), { 'className': 'mia-logout', 'items': __context.values.header.links })
-                ]), { 'className': 'mia-navbar-bar' }),
-                __this.node('div', { wml: { 'id': 'content' }, 'id': 'content' }, [])
+                    ]), { 'className': "mia-logout", 'items': __context.values.header.links })
+                ]), { 'className': "mia-navbar-bar" }),
+                __this.node('div', { wml: { 'id': "content" }, 'id': "content" }, [])
             ]);
         };
     }
@@ -76,39 +76,8 @@ class MiaView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

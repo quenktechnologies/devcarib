@@ -16,7 +16,7 @@ const module_1 = require("@quenk/tendril/lib/app/module");
 //@ts-ignore: 6133
 const template = ($app) => ({ 'id': `/`,
     'app': { 'dirs': { 'self': `/build`,
-            'public': [`public`, `../packages/devcarib-widgets/public`, `../apps/board/packages/board-views/public`, `../apps/board/frontend/board-form-post/public`] },
+            'public': [`public`, `../packages/devcarib-widgets/public`, `../apps/board/packages/board-views/public`, `../apps/board/frontend/public`] },
         'session': { 'enable': true,
             'options': { 'secret': process.env['SESSION_SECRET'],
                 'name': `bscid` },

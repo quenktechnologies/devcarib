@@ -1,0 +1,21 @@
+{% import (DevBar) from "@devcarib/widgets/lib/content/devbar" %}
+
+{% import (HeadView) from "../../common/head" %}
+
+{# PostJobFormView is the view for the "new job" form page. #}
+{% view PostJobFormView (Object) %}
+<html>
+  {{ 
+    <HeadView({
+                title = "Post a Job",
+                styles = ["/assets/css/board-frontend.css"]
+              })> 
+  }}
+  <body>
+    <DevBar/>
+    <main>
+      <noscript><b>JavaScript must be enabled to use this form.</b></noscript>
+    </main>
+    <script src="/assets/js/board.js"></script>
+  </body>
+</html>

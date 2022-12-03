@@ -37,11 +37,11 @@ class PostMetadataView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.node('div', { 'class': 'devcarib-post-metadata' }, [
-                __this.node('div', { 'class': 'devcarib-post-metadata__author' }, [
+            return __this.node('div', { 'class': "devcarib-post-metadata" }, [
+                __this.node('div', { 'class': "devcarib-post-metadata__author" }, [
                     text((__context.values.data.created_by && __context.values.data.created_by.username))
                 ]),
-                __this.node('div', { 'class': 'devcarib-post-metadata__datetime' }, [
+                __this.node('div', { 'class': "devcarib-post-metadata__datetime" }, [
                     __document.createTextNode('\u000a    posted '),
                     text((0, filters_1.fromNow)(String(__context.values.data.created_on)))
                 ])
@@ -69,39 +69,8 @@ class PostMetadataView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

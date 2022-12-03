@@ -77,7 +77,7 @@ export class EventRankPanelView  implements __wml.View {
 
        
 
-           return __this.widget(new RankPanel({'className': 'devcarib-event-rank-panel','title': 'Upcoming Events'}, [
+           return __this.widget(new RankPanel({'className': "devcarib-event-rank-panel",'title': "Upcoming Events"}, [
 
         ...(((__context.values.events.length > 0)) ?
 (()=>([
@@ -92,9 +92,9 @@ export class EventRankPanelView  implements __wml.View {
         ...(((event.url) != null) ?
 (()=>([
 
-        __this.widget(new Link({'className': 'devcarib-event-rank-panel-link','href': event.url,'target': '_blank'}, [
+        __this.widget(new Link({'className': "devcarib-event-rank-panel-link",'href': event.url,'target': "_blank"}, [
 
-        __this.node('h4', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-title'}, [
+        __this.node('h4', <__wml.Attrs>{'class': "devcarib-event-rank-panel-title"}, [
 
         text (event.title),
 __this.node('small', <__wml.Attrs>{}, [
@@ -102,11 +102,11 @@ __this.node('small', <__wml.Attrs>{}, [
         text (timestamp (event.startDateTime))
      ])
      ])
-     ]),<__wml.Attrs>{'className': 'devcarib-event-rank-panel-link','href': event.url,'target': '_blank'})
+     ]),<__wml.Attrs>{'className': "devcarib-event-rank-panel-link",'href': event.url,'target': "_blank"})
      ]))() :
 (()=>([
 
-        __this.node('h4', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-title'}, [
+        __this.node('h4', <__wml.Attrs>{'class': "devcarib-event-rank-panel-title"}, [
 
         text (event.title),
 __this.node('small', <__wml.Attrs>{}, [
@@ -115,7 +115,7 @@ __this.node('small', <__wml.Attrs>{}, [
      ])
      ])
      ]))()),
-__this.node('div', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-start'}, [
+__this.node('div', <__wml.Attrs>{'class': "devcarib-event-rank-panel-start"}, [
 
         text (timefromnow (event.startDateTime))
      ])
@@ -128,13 +128,13 @@ __this.node('div', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-start'}, [
 
         __this.widget(new PanelBody({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-noevents'}, [
+        __this.node('div', <__wml.Attrs>{'class': "devcarib-event-rank-panel-noevents"}, [
 
         __document.createTextNode('\u000a\u000a        Sorry, no events!\u000a\u000a      ')
      ])
      ]),<__wml.Attrs>{})
      ]))())
-     ]),<__wml.Attrs>{'className': 'devcarib-event-rank-panel','title': 'Upcoming Events'});
+     ]),<__wml.Attrs>{'className': "devcarib-event-rank-panel",'title': "Upcoming Events"});
 
        }
 
@@ -189,51 +189,10 @@ __this.node('div', <__wml.Attrs>{'class': 'devcarib-event-rank-panel-start'}, [
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

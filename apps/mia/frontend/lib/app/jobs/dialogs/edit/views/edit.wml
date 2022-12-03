@@ -1,51 +1,25 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
-{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
 
-{% import (JobFormJobFieldsView) 
-   from "@devcarib/widgets/lib/job/form/fields/job" %}
-{% import (JobFormCompanyFieldsView) 
-   from "@devcarib/widgets/lib/job/form/fields/company" %}
+{% import (PostJobFormPanel,PostJobFormCompanyPanel) 
+   from "@devcarib/widgets/lib/panel/job/post" %}
 
 {% import (EditJobDialog) from "../" %}
 
 {% view EditJobDialogView (EditJobDialog) %}
 <GridLayout>
-
   <Row>
-
     <Column>
-
-      <Panel>
-
-        <PanelBody>
-
-          {{<JobFormJobFieldsView(@values)>}}
-      
-        </PanelBody>
-
-      </Panel>
-
+      <PostJobFormPanel 
+        data={{@values.data}} 
+        onChange={{@values.onChange}}/>
     </Column>
-
   </Row>
-
   <Row>
-
     <Column>
-
-      <Panel>
-
-        <PanelBody>
-
-          {{<JobFormCompanyFieldsView(@values)>}}
-      
-        </PanelBody>
-
-      </Panel>
-
+      <PostJobFormCompanyPanel 
+        data={{@values.data}} 
+        onChange={{@values.onChange}}/>
     </Column>
-
   </Row>
-
 </GridLayout>
 

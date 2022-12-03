@@ -31,20 +31,32 @@ export class JobPanel extends Component<JobPanelAttrs> {
 
     view = new JobPanelView(this);
 
-    values = {
+    className = 'devcarib-job-panel';
 
-        data: this.attrs.job,
+    data = this.attrs.job;
 
-        raw: this.attrs.raw
+    raw = this.attrs.raw;
 
-    }
+    contentClassName = 'devcarib-job-panel-content';
+
+    timestampClassName = 'devcarib-job-panel-timestamp';
+
+    paymentClassName = 'devcarib-job-panel-payment';
+
+    body= {
+
+        id: 'body',
+
+        className: 'board-job-html'
+
+    };
 
     /**
      * setContent allows the content displayed in the JobPanel to be displayed.
      */
     setContent(html: string) {
 
-        let mcontent = this.view.findById<HTMLElement>('content');
+        let mcontent = this.view.findById<HTMLElement>(this.body.id);
 
         if (mcontent.isJust())
             mcontent.get().innerHTML = html;

@@ -7,7 +7,7 @@ export { ActionSpec };
  * TitleColumnAction is a function invoked when the title of a job is clicked
  * on.
  */
-export declare type TitleColumnAction = (p: Job) => void;
+export type TitleColumnAction = (p: Job) => void;
 /**
  * TitleColumn displays the title of the job.
  */

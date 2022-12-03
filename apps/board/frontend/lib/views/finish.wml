@@ -1,0 +1,25 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+
+{% import (JobFormApp) from "../" %}
+
+{% view FinishView (JobFormApp) %}
+<GridLayout>
+  <Row>
+    <Column span=8 offset=2>
+      <Row>
+        <Column>
+          <h1 class="job-title">Success !</h1>
+        </Column>
+      </Row>
+      <Row>
+        <Column>
+          <p>
+            Your job has been saved and is waiting approval. This process will
+            usually take up to 48 hours.In the mean time we invite you to
+            review our current <a href="/jobs">listings</a>.
+          </p>
+        </Column>
+      </Row>
+    </Column>
+  </Row>
+</GridLayout>

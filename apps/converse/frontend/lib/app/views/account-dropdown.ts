@@ -76,23 +76,23 @@ export class AccountDropDownView  implements __wml.View {
 
        
 
-           return __this.widget(new DropDown({'className': 'converse-account-dropdown','buttonText': 'Account'}, [
+           return __this.widget(new DropDown({'className': "converse-account-dropdown",'buttonText': "Account"}, [
 
         __this.widget(new Menu({}, [
 
         __this.widget(new Item({}, [
 
-        __this.widget(new Link({'text': 'Invite friend','onClick': __context.values.header.invite}, [
+        __this.widget(new Link({'text': "Invite friend",'onClick': __context.values.header.invite}, [
 
         
-     ]),<__wml.Attrs>{'text': 'Invite friend','onClick': __context.values.header.invite})
+     ]),<__wml.Attrs>{'text': "Invite friend",'onClick': __context.values.header.invite})
      ]),<__wml.Attrs>{}),
 __this.widget(new Item({}, [
 
-        __this.widget(new Link({'text': 'Change password','onClick': __context.values.header.password}, [
+        __this.widget(new Link({'text': "Change password",'onClick': __context.values.header.password}, [
 
         
-     ]),<__wml.Attrs>{'text': 'Change password','onClick': __context.values.header.password})
+     ]),<__wml.Attrs>{'text': "Change password",'onClick': __context.values.header.password})
      ]),<__wml.Attrs>{}),
 __this.widget(new Divider({}, [
 
@@ -100,13 +100,13 @@ __this.widget(new Divider({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new Item({}, [
 
-        __this.widget(new Link({'text': 'Log Out','onClick': __context.values.header.logout}, [
+        __this.widget(new Link({'text': "Log Out",'onClick': __context.values.header.logout}, [
 
         
-     ]),<__wml.Attrs>{'text': 'Log Out','onClick': __context.values.header.logout})
+     ]),<__wml.Attrs>{'text': "Log Out",'onClick': __context.values.header.logout})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{'className': 'converse-account-dropdown','buttonText': 'Account'});
+     ]),<__wml.Attrs>{'className': "converse-account-dropdown",'buttonText': "Account"});
 
        }
 
@@ -161,51 +161,10 @@ __this.widget(new Item({}, [
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

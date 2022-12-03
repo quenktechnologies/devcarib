@@ -8,8 +8,6 @@ const record_1 = require("@quenk/preconditions/lib/record");
 //@ts-ignore: 6133
 const boolean_1 = require("@quenk/preconditions/lib/boolean");
 //@ts-ignore: 6133
-const number_1 = require("@quenk/preconditions/lib/number");
-//@ts-ignore: 6133
 const string_1 = require("@quenk/preconditions/lib/string");
 const validators_1 = require("@devcarib/common/lib/data/validators");
 //@ts-ignore: 6133
@@ -28,9 +26,6 @@ exports.validators = {
     'company_logo': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.url))),
     'apply_url': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.url))),
     'approved': (0, preconditions_1.optional)(boolean_1.isBoolean),
-    'payment_currency': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.currency))),
-    'payment_amount': (0, preconditions_1.optional)(number_1.toNumber),
-    'payment_frequency': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.paymentFrequency))),
     'status': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.jobStatus))),
 };
 /**
@@ -47,9 +42,6 @@ exports.partialValidators = {
     'company_logo': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.url))),
     'apply_url': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.url))),
     'approved': (0, preconditions_1.optional)(boolean_1.isBoolean),
-    'payment_currency': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.currency))),
-    'payment_amount': (0, preconditions_1.optional)(number_1.toNumber),
-    'payment_frequency': (0, preconditions_1.optional)((0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.paymentFrequency))),
     'status': (0, preconditions_1.and)(preconditions_1.notNull, (0, preconditions_1.and)(_string, (0, preconditions_1.every)(validators_1.jobStatus))),
 };
 /**

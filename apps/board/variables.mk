@@ -9,10 +9,10 @@ CLEAN_TARGETS:=$(CLEAN_TARGETS) $(BOARD_BUILD_DIR)
 
 include $(BOARD_DIR)/schema/variables.mk
 include $(BOARD_PACKAGES_DIR)/*/variables.mk
-include $(BOARD_DIR)/frontend/*/variables.mk
+include $(BOARD_DIR)/frontend/variables.mk
 
-BOARD_PUBLIC_DIR:=$(BOARD_DIR)/public/board
-BOARD_CSS_FILE:=$(BOARD_PUBLIC_DIR)/assets/css/site.css
+BOARD_PUBLIC_DIR:=$(BOARD_DIR)/public
+BOARD_CSS_FILE:=$(BOARD_PUBLIC_DIR)/assets/css/board.css
 BOARD_LESS_FILES:=$(shell find $(BOARD_SRC_DIR) -name \*.less)
 BOARD_LESS_MAIN_FILE:=$(BOARD_DIR)/main.less
 BOARD_LESS_IMPORTS_FILE:=$(BOARD_DIR)/imports.less

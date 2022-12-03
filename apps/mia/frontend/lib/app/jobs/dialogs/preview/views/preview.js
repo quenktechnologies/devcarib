@@ -43,7 +43,7 @@ class JobPreviewDialogView {
         this.widgets = [];
         this.tree = __document.createElement('div');
         this.template = (__this) => {
-            return __this.widget(new modal_1.Modal({ 'className': '-large' }, [
+            return __this.widget(new modal_1.Modal({ 'className': "-large" }, [
                 __this.widget(new modal_1.ModalHeader({}, [
                     text(__context.values.data.company)
                 ]), {}),
@@ -63,16 +63,16 @@ class JobPreviewDialogView {
                         ]), {}),
                         __this.widget(new grid_1.Row({}, [
                             __this.widget(new grid_1.Column({}, [
-                                __this.node('iframe', { wml: { 'id': __context.values.frame.id }, 'class': __context.values.frame.className, 'srcdoc': __context.values.frame.content, 'sandbox': '', 'allow': '' }, [])
+                                __this.node('iframe', { wml: { 'id': __context.values.frame.id }, 'class': __context.values.frame.className, 'srcdoc': __context.values.frame.content, 'sandbox': "", 'allow': "" }, [])
                             ]), {})
                         ]), {})
                     ]), {})
                 ]), {}),
                 __this.widget(new modal_1.ModalFooter({}, [
-                    __this.widget(new button_1.Button({ 'className': '-primary', 'onClick': __context.values.edit, 'text': 'Edit' }, []), { 'className': '-primary', 'onClick': __context.values.edit, 'text': 'Edit' }),
-                    __this.widget(new button_1.Button({ 'onClick': __context.values.close, 'text': 'Close' }, []), { 'onClick': __context.values.close, 'text': 'Close' })
+                    __this.widget(new button_1.Button({ 'className': "-primary", 'onClick': __context.values.edit, 'text': "Edit" }, []), { 'className': "-primary", 'onClick': __context.values.edit, 'text': "Edit" }),
+                    __this.widget(new button_1.Button({ 'onClick': __context.values.close, 'text': "Close" }, []), { 'onClick': __context.values.close, 'text': "Close" })
                 ]), {})
-            ]), { 'className': '-large' });
+            ]), { 'className': "-large" });
         };
     }
     registerView(v) {
@@ -96,39 +96,8 @@ class JobPreviewDialogView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

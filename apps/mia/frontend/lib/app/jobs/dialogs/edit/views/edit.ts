@@ -8,9 +8,7 @@ fromArray as __fromArray
 }
 from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
-import {Panel,PanelBody} from '@quenk/wml-widgets/lib/layout/panel'; ;
-import {JobFormJobFieldsView} from '@devcarib/widgets/lib/job/form/fields/job'; ;
-import {JobFormCompanyFieldsView} from '@devcarib/widgets/lib/job/form/fields/company'; ;
+import {PostJobFormPanel,PostJobFormCompanyPanel} from '@devcarib/widgets/lib/panel/job/post'; ;
 import {EditJobDialog} from '../'; 
 
 
@@ -82,26 +80,20 @@ export class EditJobDialogView  implements __wml.View {
 
         __this.widget(new Column({}, [
 
-        __this.widget(new Panel({}, [
+        __this.widget(new PostJobFormPanel({'data': __context.values.data,'onChange': __context.values.onChange}, [
 
-        __this.widget(new PanelBody({}, [
-
-        __this.registerView(new JobFormJobFieldsView(__context.values)).render()
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
+        
+     ]),<__wml.Attrs>{'data': __context.values.data,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),
 __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.widget(new Panel({}, [
+        __this.widget(new PostJobFormCompanyPanel({'data': __context.values.data,'onChange': __context.values.onChange}, [
 
-        __this.widget(new PanelBody({}, [
-
-        __this.registerView(new JobFormCompanyFieldsView(__context.values)).render()
-     ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{})
+        
+     ]),<__wml.Attrs>{'data': __context.values.data,'onChange': __context.values.onChange})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{});
@@ -159,51 +151,10 @@ __this.widget(new Row({}, [
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

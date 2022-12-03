@@ -75,7 +75,7 @@ export class CurrencyMoneyTextFieldView  implements __wml.View {
 
        
 
-           return __this.widget(new InputGroup({'className': 'board-currency-money-text-field'}, [
+           return __this.widget(new InputGroup({'className': "board-currency-money-text-field"}, [
 
         __this.widget(new AddOn({'button': true }, [
 
@@ -84,11 +84,11 @@ export class CurrencyMoneyTextFieldView  implements __wml.View {
         
      ]),<__wml.Attrs>{'name': __context.values.dropList.name,'options': __context.values.dropList.options,'value': __context.values.dropList.value,'onSelect': __context.values.dropList.onSelect})
      ]),<__wml.Attrs>{'button': true }),
-__this.widget(new TextInput({'name': __context.values.input.name,'value': __context.values.input.value,'type': 'number','min': 0,'onChange': __context.values.input.onChange}, [
+__this.widget(new TextInput({'name': __context.values.input.name,'value': __context.values.input.value,'type': "number",'min': 0,'onChange': __context.values.input.onChange}, [
 
         
-     ]),<__wml.Attrs>{'name': __context.values.input.name,'value': __context.values.input.value,'type': 'number','min': 0,'onChange': __context.values.input.onChange})
-     ]),<__wml.Attrs>{'className': 'board-currency-money-text-field'});
+     ]),<__wml.Attrs>{'name': __context.values.input.name,'value': __context.values.input.value,'type': "number",'min': 0,'onChange': __context.values.input.onChange})
+     ]),<__wml.Attrs>{'className': "board-currency-money-text-field"});
 
        }
 
@@ -143,51 +143,10 @@ __this.widget(new TextInput({'name': __context.values.input.name,'value': __cont
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

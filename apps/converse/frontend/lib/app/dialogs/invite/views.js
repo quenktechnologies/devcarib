@@ -42,17 +42,17 @@ class CreateInviteDialogView {
             return __this.widget(new grid_1.GridLayout({}, [
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'name' }, 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'name' }, 'name': 'name', 'label': 'Name*', 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': "name" }, 'name': "name", 'label': "Name*", 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange }, []), { wml: { 'id': "name" }, 'name': "name", 'label': "Name*", 'error': __context.values.errors.name, 'value': __context.values.data.name, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'email' }, 'name': 'email', 'label': 'Email*', 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'email' }, 'name': 'email', 'label': 'Email*', 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': "email" }, 'name': "email", 'label': "Email*", 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange }, []), { wml: { 'id': "email" }, 'name': "email", 'label': "Email*", 'value': __context.values.data.email, 'error': __context.values.errors.email, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {}),
                 __this.widget(new grid_1.Row({}, [
                     __this.widget(new grid_1.Column({}, [
-                        __this.widget(new text_field_1.TextField({ wml: { 'id': 'message' }, 'name': 'message', 'rows': 10, 'placeholder': 'Message (Optional)', 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange }, []), { wml: { 'id': 'message' }, 'name': 'message', 'rows': 10, 'placeholder': 'Message (Optional)', 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange })
+                        __this.widget(new text_field_1.TextField({ wml: { 'id': "message" }, 'name': "message", 'rows': 10, 'placeholder': "Message (Optional)", 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange }, []), { wml: { 'id': "message" }, 'name': "message", 'rows': 10, 'placeholder': "Message (Optional)", 'error': __context.values.errors.message, 'value': __context.values.data.message, 'onChange': __context.values.onChange })
                     ]), {})
                 ]), {})
             ]), {});
@@ -79,39 +79,8 @@ class CreateInviteDialogView {
         return e;
     }
     node(tag, attrs, children) {
-        let e = __document.createElement(tag);
-        Object.keys(attrs).forEach(key => {
-            let value = attrs[key];
-            if (typeof value === 'function') {
-                e[key] = value;
-            }
-            else if (typeof value === 'string') {
-                //prevent setting things like disabled=''
-                if (value !== '')
-                    e.setAttribute(key, value);
-            }
-            else if (typeof value === 'boolean') {
-                e.setAttribute(key, '');
-            }
-            else if (!__document.isBrowser &&
-                value instanceof __document.WMLDOMText) {
-                e.setAttribute(key, value);
-            }
-        });
-        children.forEach(c => {
-            switch (typeof c) {
-                case 'string':
-                case 'number':
-                case 'boolean':
-                    let tn = __document.createTextNode('' + c);
-                    e.appendChild(tn);
-                case 'object':
-                    e.appendChild(c);
-                    break;
-                default:
-                    throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-            }
-        });
+        let asDOMAttrs = attrs;
+        let e = __document.createElement(tag, asDOMAttrs, children, attrs.wml && attrs.wml.ns || '');
         this.register(e, attrs);
         return e;
     }

@@ -76,7 +76,7 @@ export class JobRankPanelView  implements __wml.View {
 
        
 
-           return __this.widget(new RankPanel({'className': 'devcarib-job-rank-panel','title': 'Jobs'}, [
+           return __this.widget(new RankPanel({'className': "devcarib-job-rank-panel",'title': "Jobs"}, [
 
         ...(((__context.values.jobs.length > 0)) ?
 (()=>([
@@ -88,11 +88,11 @@ export class JobRankPanelView  implements __wml.View {
 
         __this.widget(new ListLayoutItem({}, [
 
-        __this.widget(new Link({'className': 'devcarib-job-rank-panel-title','text': job.title,'href': ('/jobs/' + job.id)}, [
+        __this.widget(new Link({'className': "devcarib-job-rank-panel-title",'text': job.title,'href': ("/jobs/" + job.id)}, [
 
         
-     ]),<__wml.Attrs>{'className': 'devcarib-job-rank-panel-title','text': job.title,'href': ('/jobs/' + job.id)}),
-__this.node('div', <__wml.Attrs>{'class': 'devcarib-job-rank-panel-company'}, [
+     ]),<__wml.Attrs>{'className': "devcarib-job-rank-panel-title",'text': job.title,'href': ("/jobs/" + job.id)}),
+__this.node('div', <__wml.Attrs>{'class': "devcarib-job-rank-panel-company"}, [
 
         text (job.company)
      ])
@@ -105,18 +105,18 @@ __this.node('div', <__wml.Attrs>{'class': 'devcarib-job-rank-panel-company'}, [
 
         __this.widget(new PanelBody({}, [
 
-        __this.node('div', <__wml.Attrs>{'class': 'devcarib-job-rank-panel-nojobs'}, [
+        __this.node('div', <__wml.Attrs>{'class': "devcarib-job-rank-panel-nojobs"}, [
 
         __document.createTextNode('\u000a\u000a        No jobs '),
-__this.widget(new Link({'href': '/jobs/post','text': 'create one'}, [
+__this.widget(new Link({'href': "/jobs/post",'text': "create one"}, [
 
         
-     ]),<__wml.Attrs>{'href': '/jobs/post','text': 'create one'}),
+     ]),<__wml.Attrs>{'href': "/jobs/post",'text': "create one"}),
 __document.createTextNode('.\u000a\u000a      ')
      ])
      ]),<__wml.Attrs>{})
      ]))())
-     ]),<__wml.Attrs>{'className': 'devcarib-job-rank-panel','title': 'Jobs'});
+     ]),<__wml.Attrs>{'className': "devcarib-job-rank-panel",'title': "Jobs"});
 
        }
 
@@ -171,51 +171,10 @@ __document.createTextNode('.\u000a\u000a      ')
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

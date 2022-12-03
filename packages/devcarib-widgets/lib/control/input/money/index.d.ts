@@ -6,11 +6,11 @@ import { CurrencyMoneyTextFieldView } from './money';
 /**
  * CurrencyFieldName refers to the name used for the currency field.
  */
-export declare type CurrencyFieldName = string;
+export type CurrencyFieldName = string;
 /**
  * ValueFieldName refers to the name used for the value field.
  */
-export declare type ValueFieldName = string;
+export type ValueFieldName = string;
 /**
  * MoneyTextFieldAttrs
  */

@@ -1,6 +1,4 @@
-GET  /                   ./handlers#showJobs
-
-GET  /jobs/post          ./handlers#showJobJobPage 
-POST /jobs/post          ./handlers#createJob
-
-GET  /jobs/:id           ./handlers#showJob
+GET  /              board.onIndex
+GET  /post          board.onPostJobPage 
+POST /post          board.onPostJob
+GET  /:id           board.onJob

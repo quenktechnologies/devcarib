@@ -76,7 +76,7 @@ export class JobPreviewDialogView  implements __wml.View {
 
        
 
-           return __this.widget(new Modal({'className': '-large'}, [
+           return __this.widget(new Modal({'className': "-large"}, [
 
         __this.widget(new ModalHeader({}, [
 
@@ -107,7 +107,7 @@ __this.widget(new Row({}, [
 
         __this.widget(new Column({}, [
 
-        __this.node('iframe', <__wml.Attrs>{wml : { 'id' : __context.values.frame.id  },'class': __context.values.frame.className,'srcdoc': __context.values.frame.content,'sandbox': '','allow': ''}, [
+        __this.node('iframe', <__wml.Attrs>{wml : { 'id' : __context.values.frame.id  },'class': __context.values.frame.className,'srcdoc': __context.values.frame.content,'sandbox': "",'allow': ""}, [
 
         
      ])
@@ -117,16 +117,16 @@ __this.widget(new Row({}, [
      ]),<__wml.Attrs>{}),
 __this.widget(new ModalFooter({}, [
 
-        __this.widget(new Button({'className': '-primary','onClick': __context.values.edit,'text': 'Edit'}, [
+        __this.widget(new Button({'className': "-primary",'onClick': __context.values.edit,'text': "Edit"}, [
 
         
-     ]),<__wml.Attrs>{'className': '-primary','onClick': __context.values.edit,'text': 'Edit'}),
-__this.widget(new Button({'onClick': __context.values.close,'text': 'Close'}, [
+     ]),<__wml.Attrs>{'className': "-primary",'onClick': __context.values.edit,'text': "Edit"}),
+__this.widget(new Button({'onClick': __context.values.close,'text': "Close"}, [
 
         
-     ]),<__wml.Attrs>{'onClick': __context.values.close,'text': 'Close'})
+     ]),<__wml.Attrs>{'onClick': __context.values.close,'text': "Close"})
      ]),<__wml.Attrs>{})
-     ]),<__wml.Attrs>{'className': '-large'});
+     ]),<__wml.Attrs>{'className': "-large"});
 
        }
 
@@ -181,51 +181,10 @@ __this.widget(new Button({'onClick': __context.values.close,'text': 'Close'}, [
 
    node(tag:string, attrs:__wml.Attrs, children: __wml.Content[]): __wml.Content {
 
-       let e = __document.createElement(tag);
+       let asDOMAttrs = <__document.WMLDOMAttrs><object>attrs
 
-       Object.keys(attrs).forEach(key => {
-
-           let value = (<any>attrs)[key];
-
-           if (typeof value === 'function') {
-
-           (<any>e)[key] = value;
-
-           } else if (typeof value === 'string') {
-
-               //prevent setting things like disabled=''
-               if (value !== '')
-               e.setAttribute(key, value);
-
-           } else if (typeof value === 'boolean') {
-
-             e.setAttribute(key, '');
-
-           } else if(!__document.isBrowser && 
-                     value instanceof __document.WMLDOMText) {
-
-             e.setAttribute(key, <any>value);
-
-           }
-
-       });
-
-       children.forEach(c => {
-
-               switch (typeof c) {
-
-                   case 'string':
-                   case 'number':
-                   case 'boolean':
-                     let tn = __document.createTextNode(''+c);
-                     e.appendChild(<Node>tn)
-                   case 'object':
-                       e.appendChild(<Node>c);
-                   break;
-                   default:
-                                throw new TypeError(`Can not adopt child ${c} of type ${typeof c}`);
-
-               }})
+       let e = __document.createElement(tag, asDOMAttrs, children,
+                attrs.wml && attrs.wml.ns || '');
 
        this.register(e, attrs);
 

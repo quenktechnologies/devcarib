@@ -77,12 +77,6 @@ export const checks: Preconditions<Value, Value> = {
     ,
     'approved': _identity
     ,
-    'payment_currency': _identity
-    ,
-    'payment_amount': _identity
-    ,
-    'payment_frequency': _identity
-    ,
     'status': _identity
     ,
     'created_by': _identity
@@ -90,8 +84,6 @@ export const checks: Preconditions<Value, Value> = {
     'created_on': _identity
     ,
     'last_updated_on': _identity
-    ,
-    'last_updated_by': _identity
 
 };
 
@@ -123,12 +115,6 @@ export const partialChecks: Preconditions<Value, Value> = {
     ,
     'approved': _identity
     ,
-    'payment_currency': _identity
-    ,
-    'payment_amount': _identity
-    ,
-    'payment_frequency': _identity
-    ,
     'status': _identity
     ,
     'created_by': _identity
@@ -136,8 +122,6 @@ export const partialChecks: Preconditions<Value, Value> = {
     'created_on': _identity
     ,
     'last_updated_on': _identity
-    ,
-    'last_updated_by': _identity
 
 };
 

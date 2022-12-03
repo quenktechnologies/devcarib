@@ -1,0 +1,70 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (Tag) from "@quenk/wml-widgets/lib/content/tag" %}
+{% import (Image) from "@quenk/wml-widgets/lib/content/image" %}
+
+{% import (timefromnow) from "../../filters" %}
+
+{% view JobPageView (JobPage from ".") %}
+<GridLayout className="devcarib-job-page">
+  <Row>
+    <Column span=8 offset=2>
+      <Row>
+       <Column className="devcarib-job-page-deets">
+         {% if @attrs.data.company_logo?? %}
+           <Image
+             className="devcarib-job-page-company-logo"
+             src={{@attrs.data.company_logo}}
+             alt="Company Logo" />
+         {% endif %}
+         <div class="devcarib-job-page-title">
+           <h1>{{@attrs.data.title|text}}</h1>
+           {% if @attrs.data.remote %}
+             <Tag text="Remote" className="-success"/>
+           {% endif %}
+         </div>
+         <div class="devcarib-job-page-meta">
+           <div><i class="fa-regular fa-building"/> {{@attrs.data.company|text}}</div>
+           <div><i class="fa fa-location-pin"/>{{@attrs.data.location | text}}</div>
+           <div><i class="fa fa-briefcase"/>{{@attrs.data["type"] | text}}</div>
+           {% if @attrs.data.payment_amount %}
+            <div>
+              <i class="fa fa-sack-dollar"/>
+              {{ @attrs.data.payment_amount | text }}\u00a0
+              <b>{{ @attrs.data.payment_currency | text }}</b>
+              \u002F
+              {{ @attrs.data.payment_frequency | text }}
+            </div>
+          {% endif %}
+          <div class="devcarib-job-page-timestamp">
+            <i class="fa fa-clock"/>
+            Posted {{@attrs.data.created_on | timefromnow | text }}
+          </div>
+        </div>
+       </Column>
+     </Row>
+     {% if @attrs.data.description_html %}
+      <Row>
+        <Column>
+          <Panel>
+            <PanelBody 
+              className="devcarib-job-page-description">
+              {{@attrs.data.description_html | unsafe}}
+            </PanelBody>
+          </Panel>
+        </Column>
+      </Row>
+     {% endif %}
+     <Row>
+       <Column>
+         <!-- TODO: Use Link once button styles can be properly applied. -->
+         {% if @attrs.data.apply_url %}
+           <a href={{@attrs.data.apply_url}}
+              class="ww-button -success -large devcarib-job-page-apply"
+              target="_blank">Apply</a>
+         {% endif %}
+       </Column>
+     </Row>
+    </Column>
+  </Row>
+</GridLayout>
