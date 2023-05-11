@@ -1,4 +1,0 @@
-GET  /              board.onIndex
-GET  /post          board.onPostJobPage 
-POST /post          board.onPostJob
-GET  /:id           board.onJob

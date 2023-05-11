@@ -1,9 +1,47 @@
-app.path = "/jobs"
+id = "/"
 
-app.dirs.public = [ "../public" ]
+server.port = ${PORT}
 
-app.modules = {
+server.host = "0.0.0.0"
 
-  r = ./r#template
+connections.main.connector = @quenk/tendril-connection-mongodb#connector
 
-}
+connections.main.options = [${MONGO_URL}, {useNewUrlParser = true}]
+
+app.session.enable = true
+
+app.session.options.secret = ${SESSION_SECRET}
+      
+app.session.options.name = "sessid"
+
+app.session.store.provider = @quenk/tendril-session-mongodb#provider
+
+app.session.store.options.uri = ${MONGO_URL}
+
+app.csrf.token.enable = true
+
+app.csrf.token.send_cookie = true
+
+app.views.provider = @quenk/tendril-show-nunjucks#show
+
+app.log.enable = true
+
+app.log.format = ${LOG_FORMAT}
+
+app.parsers.body.json.enable = true
+
+app.dirs.public = [
+  "../public",
+  "../packages/board-widgets/public",
+  "../frontend/public"
+]
+
+app.middleware.available = {}
+  
+app.middleware.enabled = []
+
+app.modules = { r = ./r#template }
+
+app.on.connected = [./events#connected]
+
+app.on.started = ./events#started

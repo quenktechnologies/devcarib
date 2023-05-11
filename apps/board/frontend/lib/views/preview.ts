@@ -10,7 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Alert} from '@quenk/wml-widgets/lib/dialog/alert'; ;
-import {JobPage} from '@devcarib/widgets/lib/page/job'; ;
+import {JobPage} from '@board/widgets/lib/page/job-page'; ;
 import {JobFormApp} from '../'; 
 
 

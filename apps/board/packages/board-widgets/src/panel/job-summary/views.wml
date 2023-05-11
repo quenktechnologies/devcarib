@@ -1,0 +1,46 @@
+{% import (Panel,PanelHeader,PanelBody) 
+   from "@quenk/wml-widgets/lib/layout/panel" %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link"%}
+
+{% import (Job) from "@board/types/lib/job" %}
+
+{% import (JobFeature) from "../../content/job-feature" %}
+{% import (timefromnow, truncate) from "../../filters" %}
+
+{% view JobFeaturesView (Job) %}
+  <div>
+    {% if @["type"]?? %}
+      <JobFeature text={{ @["type"] }}/>
+    {% endif %}
+
+    {% if @remote?? %}
+      <JobFeature text="Remote"/>
+    {% endif %}
+
+    {% if @location?? %}
+      <JobFeature text={{ @location | truncate(60) }}/>
+    {% endif %}
+
+    {% if @salary_range?? %}
+      <JobFeature text={{ String(@salary_range) }}/>
+    {% endif %}
+  </div>
+
+{% view JobSummaryPanelView (JobSummaryPanel from ".") %}
+<Panel className={{@values.className}}>
+  <PanelHeader>
+      <h3>
+        <Link
+          href={{@values.url}}
+          text={{@values.job.title}} />
+      </h3>
+  </PanelHeader>
+  <PanelBody>
+    <div class={{@values.meta.className}}>
+      <span>{{ @values.job.company | text }}</span>
+      {{ " - " | text }}
+      <span>{{ @values.job.created_on | timefromnow | text }}</span>
+    </div>
+    {{ <JobFeaturesView(@values.job)> }}
+  </PanelBody>
+</Panel>

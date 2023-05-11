@@ -1,0 +1,22 @@
+{% import (TopBar) from "@board/widgets/lib/content/top-bar" %}
+
+{% import (HeadView) from "./common/head" %}
+
+{# PostJobFormView is the view for the "new job" form page. #}
+{% view PostJobFormView (Object) %}
+<html>
+  {{
+    <HeadView({
+                title = "Post a Job",
+                noSite = true,
+                styles = ["/assets/css/board-frontend.css"]
+              })>
+  }}
+  <body>
+    <TopBar/>
+    <main>
+      <noscript><b>JavaScript must be enabled to use this form.</b></noscript>
+    </main>
+    <script src="/assets/js/board.js"></script>
+  </body>
+</html>

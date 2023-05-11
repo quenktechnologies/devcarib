@@ -1,0 +1,203 @@
+{
+
+    "title": "Job",
+
+    "type": "object",
+
+    "collection": "jobs",
+
+    "imports": {
+
+        "validators:@board/types/lib/job": ["Job"],
+
+        "models:@board/types/lib/job": ["Job"],
+
+        "checks:\\.\\./validators/job": ["validate", "validatePartial"]
+
+    },
+
+    "checks": [
+        [
+            "./common#parseMarkdown",
+
+            ["'description'", "'description_html'"]
+
+        ],
+
+        ["./common#inc", ["'jobs'"]]
+
+    ],
+
+    "properties": {
+
+        "id": {
+
+            "type": "number",
+
+            "readOnly": true,
+
+            "checks-complete": [
+
+                ["./common#unique", ["'jobs'", "'id'"]]
+
+            ]
+
+        },
+
+        "title": {
+
+            "type": "string",
+
+            "validators": [
+
+                "./common#textsmall",
+
+                ["./common#minLength", [3]]
+
+            ]
+
+        },
+
+        "type": {
+
+            "type": "string",
+
+            "validators": [
+
+                "./common#textsmall"
+
+            ]
+
+        },
+
+        "location": {
+
+            "type": "string",
+
+            "validators": [
+
+                "./common#textsmall"
+
+            ]
+
+        },
+
+        "remote": {
+
+            "type": "boolean",
+
+            "optional": true
+
+        },
+
+        "description": {
+
+            "type": "string",
+
+            "validators": [
+
+                "./common#textlarge",
+
+                ["./common#minLength", [3]],
+
+                ["./common#maxLength", [6000]]
+
+            ]
+
+        },
+
+        "description_html": {
+
+            "type": "string",
+
+            "readOnly": true
+
+        },
+
+        "company": {
+
+            "type": "string",
+
+            "validators": "./common#name"
+
+        },
+
+        "company_email": {
+
+            "type": "string",
+
+            "validators": "./common#email"
+
+        },
+
+        "company_logo": {
+
+            "type": "string",
+
+            "validators": "./common#url",
+
+            "optional": true
+
+        },
+
+        "apply_url": {
+
+            "type": "string",
+
+            "validators": "./common#url",
+
+            "optional": true
+
+        },
+
+        "approved": {
+
+            "type": "boolean",
+
+            "optional": true
+
+        },
+
+        "status": {
+
+            "type": "string",
+
+            "validators": "./common#jobStatus"
+
+        },
+
+        "created_by": {
+
+            "type": "object",
+
+            "readOnly": true,
+
+            "properties": {
+
+                "id": "number",
+
+                "username": "string"
+
+            }
+
+        },
+
+        "created_on": {
+
+            "type": "string",
+
+            "readOnly": true
+
+        },
+
+        "last_updated_on": {
+
+            "type": "string",
+
+            "readOnly": true
+
+        }
+
+    }
+
+}

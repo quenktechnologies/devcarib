@@ -7,8 +7,8 @@ const future_1 = require("@quenk/noni/lib/control/monad/future");
 const util_1 = require("@quenk/wml-widgets/lib/util");
 const feedback_1 = require("@quenk/wml-widgets/lib/control/feedback");
 const browser_1 = require("@quenk/jhr/lib/browser");
-const job_1 = require("@board/validators/lib/job");
-const job_2 = require("@devcarib/common/lib/data/job");
+const job_1 = require("@board/server/lib/data/validators/job");
+const job_2 = require("@board/server/lib/data/job");
 const app_1 = require("./views/app");
 const preview_1 = require("./views/preview");
 const finish_1 = require("./views/finish");
@@ -51,9 +51,9 @@ class JobFormApp {
                 errors: {},
                 onChange: (e) => {
                     let { name, value } = e;
-                    if (job_1.validators.hasOwnProperty(name)) {
+                    if (job_1.fieldValidators.hasOwnProperty(name)) {
                         this.values.job.data[name] = value;
-                        let eResult = job_1.validators[name](value);
+                        let eResult = job_1.fieldValidators[name](value);
                         if (eResult.isLeft()) {
                             let msg = eResult
                                 .takeLeft()
@@ -164,7 +164,7 @@ class JobFormApp {
             mButton.get().disable();
         this
             .agent
-            .post('/jobs/post', this.values.job.data)
+            .post('/post', this.values.job.data)
             .chain((r) => {
             if (r.code === 401) {
                 this.values.job.errors = r.body.errors;

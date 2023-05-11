@@ -15,9 +15,12 @@ import { Response } from '@quenk/jhr/lib/response';
 
 import { Job } from '@board/types/lib/job';
 
-import { validators, validate } from '@board/validators/lib/job';
+import {
+    fieldValidators,
+    validate
+} from '@board/server/lib/data/validators/job';
 
-import { JOB_STATUS_NEW } from '@devcarib/common/lib/data/job';
+import { JOB_STATUS_NEW } from '@board/server/lib/data/job';
 
 import { JobFormAppView } from './views/app';
 import { PreviewView } from './views/preview';
@@ -103,11 +106,11 @@ export class JobFormApp {
 
                 let { name, value } = e;
 
-                if (validators.hasOwnProperty(name)) {
+                if (fieldValidators.hasOwnProperty(name)) {
 
                     this.values.job.data[name] = value;
 
-                    let eResult = validators[name](value);
+                    let eResult = fieldValidators[name](value);
 
                     if (eResult.isLeft()) {
 
@@ -288,7 +291,7 @@ export class JobFormApp {
 
         this
             .agent
-            .post('/jobs/post', this.values.job.data)
+            .post('/post', this.values.job.data)
             .chain((r: Response<Object>) => {
 
                 if (r.code === 401) {

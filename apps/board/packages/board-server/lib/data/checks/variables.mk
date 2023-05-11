@@ -1,0 +1,1 @@
+BOARD_CHECKS_DIR:=$(BOARD_SERVER_DIR)/src/data/checks

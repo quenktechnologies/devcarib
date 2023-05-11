@@ -3,26 +3,24 @@
 -- 3. Converts searches to proper queries.
 app.filters = [ 
 
-  ../../../converse/build#ensureAuthXHR,
-
-  @devcarib/server/lib/filters/check#checkBody(
-     @board/checks#checksAvailable,
-     @board/checks#partialChecksAvailable,
-     @devcarib/common/lib/error#templates
+  @board/server/lib/filters/check#checkBody(
+     @board/server/lib/data/checks#checksAvailable,
+     @board/server/lib/data/checks#partialChecksAvailable,
+    ./errors#templates
   ),
 
-  @devcarib/server/lib/filters/body#fromParams,
+  @board/server/lib/filters/body#fromParams,
 
-  @devcarib/server/lib/filters/audit#ensureOwner,
+  @board/server/lib/filters/audit#ensureOwner,
 
-  @devcarib/server/lib/filters/query#compile({
+  @board/server/lib/filters/query#compile({
 
-    policies = @board/filter-policies#policiesEnabled
+    policies = @board/server/lib/data/search/filters#policiesAvailable
 
-    fields = @board/fields#fields
+    fields = @board/server/lib/data/search/fields#fieldsAvailable
 
   }),
 
-  @devcarib/server/lib/filters/audit#auditWrite("user")
+  @board/server/lib/filters/audit#auditWrite("user")
 
 ]

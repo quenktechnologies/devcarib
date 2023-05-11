@@ -1,0 +1,46 @@
+@import "@quenk/wml-widgets/lib/content/screen/less/screen";
+
+/**
+ * Styles for the job panels displayed on the landing page.
+ */
+.devcarib-job-summary-panel {
+
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 15%);
+
+  /**
+   * Mostly unsets the default header styles. 
+   */
+  & > .ww-panel__header {
+
+    background-color: unset !important;
+    border-bottom: none;
+    padding-bottom: 0;
+
+    & > h3 {
+
+      margin: 0;
+
+      & > a {
+
+        text-decoration: none;
+
+      }
+
+    }
+
+  }
+
+  & > .ww-panel__body {
+
+    padding-top: 0;
+
+    & > .devcarib-job-summary-panel-meta {
+
+      letter-spacing: 1px;
+      padding: 0.5em 0;
+
+    }
+
+  }
+
+}

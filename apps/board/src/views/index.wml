@@ -1,59 +1,48 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
-{% import (DevBar) from "@devcarib/widgets/lib/content/devbar" %}
-{% import (JobSummaryPanel) from "@devcarib/widgets/lib/panel/job/summary" %}
-
-{% import (HeadView) from "@devcarib/views/lib/common/head" %}
+{% import (TopBar) from "@board/widgets/lib/content/top-bar" %}
+{% import (JobSummaryPanel) from "@board/widgets/lib/panel/job-summary" %}
 
 {% import (Job) from "@board/types/lib/job" %}
 
+{% import (HeadView) from "./common/head" %}
+
 {# IndexView is the view for the main page of the site. #}
 {% view IndexView where jobs: Job[] %}
+<html>
+  {{
+    <HeadView({
+                title = "Jobs For Caribbean Software Developers",
+                noSite=true,
+                styles = ["/assets/css/board.css"]
+              })>
+  }}
 
-  <html>
-    {{ 
-      <HeadView({
-                  title = "Jobs For Caribbean Software Developers",
-                  noSite=true,
-                  styles = ["/assets/css/board.css"]
-                })> 
-    }}
-
-    <body>
-      <DevBar/>
-      <GridLayout id="main">
-        <Row>
-          <Column span=8 offset=2>
-            <Row>
-              <Column>
-                <p class="board-post-job-prompt">Need talent for a project? 
-                  <Link className="ww-button -error"
-                        href="/jobs/post" 
-                        text="Post a Job"/>
-                </p>
-              </Column>
-            </Row>
-            <Row>
-              <Column>
-                {% for job in @jobs %}
-                  <JobSummaryPanel job={{job}} />
-                {% else %}
-                  <div class="board-no-jobs">
-                    <img src="/assets/img/sad.svg" alt="Sad Face"/>
-                    <h1>{{"Sorry, This Job Board Is Empty!" | unsafe }}</h1>
-                    <p>Jobs posted by recruiters will show up here so check back in a few days.</p>
-                    <p>Looking for developers?</p>
-                    <Link
-                      className="ww-button -primary"
-                      text="Post a Job"
-                      href="/jobs/post" />
-                  </div>
-                {% endfor %}
-              </Column>
-            </Row>
-          </Column>
-        </Row>
-      </GridLayout>
-    </body>
-  </html>
+  <body>
+    <TopBar/>
+    <GridLayout id="main">
+      <Row>
+        <Column span=8 offset=2>
+          <Row>
+            <Column>
+              {% for job in @jobs %}
+                <JobSummaryPanel job={{job}} />
+              {% else %}
+                <div class="board-no-jobs">
+                  <img src="/assets/img/sad.svg" alt="Sad Face"/>
+                  <h1>{{"Sorry!" | unsafe }}</h1>
+                  <p>There are currently no jobs on this board. Hiring?</p>
+                  <Link
+                    className="ww-button -primary"
+                    text="Post a Job"
+                    href="/post" />
+                </div>
+              {% endfor %}
+            </Column>
+          </Row>
+        </Column>
+      </Row>
+    </GridLayout>
+  </body>
+</html>

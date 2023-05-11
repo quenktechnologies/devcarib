@@ -10,7 +10,7 @@ const button_1 = require("@quenk/wml-widgets/lib/control/button");
 ;
 const link_1 = require("@quenk/wml-widgets/lib/content/link");
 ;
-const post_1 = require("@devcarib/widgets/lib/panel/job/post");
+const job_post_1 = require("@board/widgets/lib/panel/job-post");
 ;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -50,7 +50,7 @@ class JobFormAppView {
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
                                     __this.node('div', { 'class': "back-link-container" }, [
-                                        __this.widget(new link_1.Link({ 'className': "ww-button -default back-link", 'text': "Back to Jobs", 'href': "/jobs" }, []), { 'className': "ww-button -default back-link", 'text': "Back to Jobs", 'href': "/jobs" })
+                                        __this.widget(new link_1.Link({ 'className': "ww-button -default back-link", 'text': "Back to Jobs", 'href': "/" }, []), { 'className': "ww-button -default back-link", 'text': "Back to Jobs", 'href': "/" })
                                     ])
                                 ]), {})
                             ]), {}),
@@ -66,12 +66,12 @@ class JobFormAppView {
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new post_1.PostJobFormPanel({ 'data': __context.values.job.data, 'onChange': __context.values.job.onChange }, []), { 'data': __context.values.job.data, 'onChange': __context.values.job.onChange })
+                                    __this.widget(new job_post_1.PostJobFormPanel({ 'data': __context.values.job.data, 'onChange': __context.values.job.onChange }, []), { 'data': __context.values.job.data, 'onChange': __context.values.job.onChange })
                                 ]), {})
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [
                                 __this.widget(new grid_1.Column({}, [
-                                    __this.widget(new post_1.PostJobFormCompanyPanel({ 'data': __context.values.job.data, 'onChange': __context.values.job.onChange }, []), { 'data': __context.values.job.data, 'onChange': __context.values.job.onChange })
+                                    __this.widget(new job_post_1.PostJobFormCompanyPanel({ 'data': __context.values.job.data, 'onChange': __context.values.job.onChange }, []), { 'data': __context.values.job.data, 'onChange': __context.values.job.onChange })
                                 ]), {})
                             ]), {}),
                             __this.widget(new grid_1.Row({}, [

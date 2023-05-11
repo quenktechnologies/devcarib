@@ -1,0 +1,1 @@
+BOARD_WIDGETS_DIR:=$(BOARD_PACKAGES_DIR)/board-widgets

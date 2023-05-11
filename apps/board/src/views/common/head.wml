@@ -1,18 +1,21 @@
-{# todo: inline when wml supports nested optional objects. #}
-{% context Meta where 
-   
-   property?: String, 
+{# Meta data section. #}
+{% context Meta where
+  property?: String, 
+  httpEquiv?: String,
+  charset?: String,
+  name?: String, 
+  content?: String %}
 
-   name?:String, 
-   
-   content?: String   
-%}
-
-{# HeadView contains the common markup for the <head> section of all pages. #}
+{# HeadView contains the common markup for the <head> section of all
+   converse-views pages.
+#}
 {% view HeadView where
 
      {# title of the page. #}
      title: String,
+
+     {# noSite if set will not include the site.css file #}
+     noSite?: Boolean,
 
      {# styles is a list of urls to css files to include. #}
      styles?: String[],
@@ -21,10 +24,6 @@
      meta?: Meta[]
 %}
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content={{ 'IE=edge' | unsafe }}/>
-    <meta name="viewport" content={{'width=device-width, initial-scale=1.0' | unsafe }}/>
-    <meta name="author" content="Caribbean Developers"/>
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"/>
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png"/>
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png"/>
@@ -42,16 +41,19 @@
     <meta name="msapplication-TileColor" content="#218c8d"/>
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
     <meta name="theme-color" content="#218c8d"/>
+    <meta name="viewport" content={{ "width=device-width, initial-scale=1.0" | unsafe }}/>
     {% if @meta?? %}
       {% for meta in @meta %}
         <meta property={{meta.property}} 
+              http-equiv={{meta.httpEquiv}}
+              charset={{meta.charset}}
               name={{meta.name}} 
               content={{meta.content}} />
       {% endfor %}
     {% endif %}
-    <link rel="stylesheet" href="/assets/css/board.css"/> 
-    <link rel="stylesheet" href="/assets/vendor/fa/css/fontawesome.min.css"/>
-    <link rel="stylesheet" href="/assets/vendor/fa/css/solid.min.css"/>
+    {% if !@noSite  %}
+      <link rel="stylesheet" href="/assets/css/site.css"/> 
+    {% endif %}
     {% if @styles?? %}
       {% for style in @styles %}
         <link rel="stylesheet" href={{style}} />

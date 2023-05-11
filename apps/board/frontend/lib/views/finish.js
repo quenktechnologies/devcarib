@@ -51,7 +51,7 @@ class FinishView {
                             __this.widget(new grid_1.Column({}, [
                                 __this.node('p', {}, [
                                     __document.createTextNode('\u000a            Your job has been saved and is waiting approval. This process will\u000a            usually take up to 48 hours.In the mean time we invite you to\u000a            review our current '),
-                                    __this.node('a', { 'href': "/jobs" }, [
+                                    __this.node('a', { 'href': "/" }, [
                                         __document.createTextNode('listings')
                                     ]),
                                     __document.createTextNode('.\u000a          ')

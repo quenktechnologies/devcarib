@@ -10,7 +10,7 @@ const grid_1 = require("@quenk/wml-widgets/lib/layout/grid");
 ;
 const alert_1 = require("@quenk/wml-widgets/lib/dialog/alert");
 ;
-const job_1 = require("@devcarib/widgets/lib/page/job");
+const job_page_1 = require("@board/widgets/lib/page/job-page");
 ;
 //@ts-ignore:6192
 const __if = (__expr, __conseq, __alt) => (__expr) ? __conseq() : __alt ? __alt() : [];
@@ -51,7 +51,7 @@ class PreviewView {
                         ]), { 'span': 8, 'offset': 2 })
                     ]), {})
                 ]), {}),
-                __this.widget(new job_1.JobPage({ wml: { 'id': "panel" }, 'data': __context.values.job.data }, []), { wml: { 'id': "panel" }, 'data': __context.values.job.data }),
+                __this.widget(new job_page_1.JobPage({ wml: { 'id': "panel" }, 'data': __context.values.job.data }, []), { wml: { 'id': "panel" }, 'data': __context.values.job.data }),
                 __this.widget(new grid_1.GridLayout({}, [
                     __this.widget(new grid_1.Row({}, [
                         __this.widget(new grid_1.Column({ 'span': 8, 'offset': 2 }, [

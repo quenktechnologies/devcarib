@@ -10,7 +10,7 @@ from '@quenk/noni/lib/data/maybe';
 import {GridLayout,Row,Column} from '@quenk/wml-widgets/lib/layout/grid'; ;
 import {Button} from '@quenk/wml-widgets/lib/control/button'; ;
 import {Link} from '@quenk/wml-widgets/lib/content/link'; ;
-import {PostJobFormPanel,PostJobFormCompanyPanel} from '@devcarib/widgets/lib/panel/job/post'; ;
+import {PostJobFormPanel,PostJobFormCompanyPanel} from '@board/widgets/lib/panel/job-post'; ;
 import {JobFormApp} from '../'; 
 
 
@@ -90,10 +90,10 @@ export class JobFormAppView  implements __wml.View {
 
         __this.node('div', <__wml.Attrs>{'class': "back-link-container"}, [
 
-        __this.widget(new Link({'className': "ww-button -default back-link",'text': "Back to Jobs",'href': "/jobs"}, [
+        __this.widget(new Link({'className': "ww-button -default back-link",'text': "Back to Jobs",'href': "/"}, [
 
         
-     ]),<__wml.Attrs>{'className': "ww-button -default back-link",'text': "Back to Jobs",'href': "/jobs"})
+     ]),<__wml.Attrs>{'className': "ww-button -default back-link",'text': "Back to Jobs",'href': "/"})
      ])
      ]),<__wml.Attrs>{})
      ]),<__wml.Attrs>{}),

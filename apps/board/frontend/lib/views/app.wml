@@ -3,7 +3,7 @@
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
 
 {% import (PostJobFormPanel,PostJobFormCompanyPanel) 
-   from "@devcarib/widgets/lib/panel/job/post" %}
+   from "@board/widgets/lib/panel/job-post" %}
 
 {% import (JobFormApp) from "../" %}
 
@@ -21,7 +21,7 @@
              <Link
                className="ww-button -default back-link"
                text="Back to Jobs" 
-               href="/jobs"/>
+               href="/"/>
            </div>
          </Column>
        </Row>

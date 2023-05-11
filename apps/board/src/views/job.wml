@@ -1,0 +1,38 @@
+{% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
+{% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
+
+{% import (TopBar) from "@board/widgets/lib/content/top-bar" %}
+
+{% import (Job) from "@board/types/lib/job" %}
+
+{% import (JobPage) from "@board/widgets/lib/page/job-page" %}
+
+{% import (Meta, HeadView, HeadViewContext) from "./common/head" %}
+
+{# JobView is the view for a single job's profile page. #}
+{% view JobView where job: Job, meta?: Meta[] %}
+
+  {% let headCtx:HeadViewContext = { 
+      title = String(@job.title),
+      noSite = true,
+      styles = ["/assets/css/board.css"],
+      meta =  @meta
+    }
+  %}
+  <html>
+    {{ <HeadView(headCtx)> }}
+    <body>
+      <TopBar/>
+      <GridLayout id="main">
+        <Row>
+          <Column span=8 offset=2>
+            <Link
+              className="devcarib-job-page-back ww-button -default"
+              href="/"
+              text="Back to Jobs"/>
+          </Column>
+        </Row>
+      </GridLayout>
+      <JobPage data={{@job}} />
+    </body>
+  </html>

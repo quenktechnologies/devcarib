@@ -1,0 +1,96 @@
+/**
+ * Styles for the header of the job page.
+ */
+.devcarib-job-page {
+
+  margin-bottom: 2.5em;
+
+  & .ww-grid-layout__row > .ww-grid-layout__column > .devcarib-job-page-back {
+
+    text-align: left;
+    text-decoration: none;
+    font-weight: 600;
+    padding: .2em .3em;
+    color: #555;
+    background-color: #fff;
+    border: #c0c0c0 solid 1px;
+    margin-bottom: 2em;
+
+  }
+
+  & .ww-grid-layout__row 
+  > .ww-grid-layout__column 
+  > .devcarib-job-page-company-logo {
+    width: 250px;
+    padding: 1em;
+    background: #fff;
+    box-shadow: 0 4px 4px rgb(0 0 0 / 15%);
+    border-radius: 4px;
+    border: #c0c0c0 solid 1px;
+    margin-bottom: 2em;
+  }
+
+  & .ww-grid-layout__row 
+  > .devcarib-job-page-deets {
+    .screen-not-small({ text-align: center; });
+  }
+
+  & .ww-grid-layout__row > .ww-grid-layout__column > .devcarib-job-page-title {
+
+    margin-bottom: 2em;
+    margin: 1em 0;
+
+    .screen-not-small({
+      display: flex;
+      justify-content: center;
+      margin: 2em 0;
+    });
+
+    & > h1 {
+
+      font-size: 1.8em;
+      margin: 0;
+
+    }
+
+    & > .ww-tag {
+
+      .screen-not-small({
+        margin-left: 5px;
+        align-self: flex-start;
+      });
+
+    }
+
+  }
+
+  & .ww-grid-layout__row > .ww-grid-layout__column > .devcarib-job-page-apply {
+    box-shadow: 0 4px 4px rgb(0 0 0 / 15%);
+    display: block;
+  }
+
+  & .ww-grid-layout__row > .ww-grid-layout__column > .devcarib-job-page-meta {
+
+    margin-bottom: 2em;
+
+    & > div {
+
+      letter-spacing: 0.125em;
+      padding: .2em 0;
+
+      & > i {
+        margin-right: 5px;
+      }
+
+    }
+
+  }
+
+  & .ww-grid-layout__row 
+  > .ww-grid-layout__column 
+  > .ww-panel 
+  > .ww-panel__body 
+  > .devcarib-job-page-description {
+    box-shadow: 0 4px 4px rgb(0 0 0 / 15%);
+  }
+}

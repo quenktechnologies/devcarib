@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 
 /**
- * timestamp displays a date in the follwing format: "January 30th 2021".
+ * timestamp displays a date in the following format: "January 30th 2021".
  */
 export const timestamp = (str: string) => {
 
