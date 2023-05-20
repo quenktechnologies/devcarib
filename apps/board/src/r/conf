@@ -2,24 +2,21 @@
 -- 2. Checks create and update request bodies.
 -- 3. Converts searches to proper queries.
 app.filters = [ 
+  @board/server/lib/filters/audit#ensureOwner,
 
-  @board/server/lib/filters/check#checkBody(
+  @quenk/backend/lib/app/filters/body/check#checkBody(
      @board/server/lib/data/checks#checksAvailable,
      @board/server/lib/data/checks#partialChecksAvailable,
     ./errors#templates
   ),
 
-  @board/server/lib/filters/body#fromParams,
-
-  @board/server/lib/filters/audit#ensureOwner,
-
-  @board/server/lib/filters/query#compile({
-
-    policies = @board/server/lib/data/search/filters#policiesAvailable
-
-    fields = @board/server/lib/data/search/fields#fieldsAvailable
-
+ @quenk/backend/lib/app/db/mongodb/filters/query#compileSearchTag({
+    maxPageSize = 100
+    policiesAvailable = @board/server/lib/data/search/filters#policiesAvailable
+    fieldsAvailable = @board/server/lib/data/search/fields#fieldsAvailable
   }),
+
+  @board/server/lib/filters/body#fromParams,
 
   @board/server/lib/filters/audit#auditWrite("user")
 
