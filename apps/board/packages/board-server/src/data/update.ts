@@ -155,7 +155,7 @@ export abstract class Updater {
             let applied: Key[] = yield that.getUpdates();
 
             yield sequential(updates.sort().map(next =>
-                doFuture(function*() {
+                Future.do(async ()=>  {
 
                     let { key } = next;
 
@@ -175,9 +175,9 @@ export abstract class Updater {
 
                     let start = Date.now();
 
-                    yield next.prepare(that);
+                    await next.prepare(that);
 
-                    yield next.run(that).catch(e => doFuture(function*() {
+                    await next.run(that).catch(e => doFuture(function*() {
 
                         logger.error(`"${key} failed! ` +
                             `Attempting to rollback...`);
@@ -195,11 +195,9 @@ export abstract class Updater {
 
                     logger.info(`Update "${key}" successfully applied!`);
 
-                    yield that.onComplete(next, start, Date.now());
+                    await that.onComplete(next, start, Date.now());
 
                     counter++;
-
-                    return voidPure;
 
                 })));
 

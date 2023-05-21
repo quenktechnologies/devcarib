@@ -9,7 +9,6 @@ import { Object, Value } from '@quenk/noni/lib/data/jsonx';
 import {
     Future,
     fromCallback,
-    doFuture,
     pure
 } from '@quenk/noni/lib/control/monad/future';
 import { DoFn, doN } from '@quenk/noni/lib/control/monad';
@@ -150,9 +149,9 @@ export const parseMarkdown =
  */
 export const rand = <T extends Object>(target: string, bytes = 32) =>
     (value: T): Result<T, T> =>
-        doFuture(<DoFn<SResult<T, T>, Result<T, T>>>function*() {
+        Future.do(async ()=> {
 
-            let str = yield fromCallback(cb => crypto.randomBytes(bytes, cb));
+            let str:Buffer = await fromCallback(cb => crypto.randomBytes(bytes, cb));
 
             (<Object>value)[target] = str.toString('hex');
 

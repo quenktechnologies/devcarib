@@ -8,9 +8,9 @@ import { parseDate } from '@quenk/noni/lib/data/datetime';
 
 import { succeed, fail } from '@quenk/preconditions/lib/result';
 
-import { supportedCurrencies } from '../currency';
-import { supportedPaymentFrequencies } from '../payment';
-import { jobStatuses } from '../job';
+import { supportedCurrencies } from '../../currency';
+import { supportedPaymentFrequencies } from '../../payment';
+import { jobStatuses } from '../../job';
 
 /**
  * name must be a string and between 1-64 characters.
