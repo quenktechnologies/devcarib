@@ -1,1 +1,0 @@
-BOARD_MODELS_DIR:=$(BOARD_SERVER_DIR)/src/data/models

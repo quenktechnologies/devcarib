@@ -3,7 +3,7 @@
  */
 import { Job } from '@board/types/lib/job';
 import * as mongodb from 'mongodb';
-import { BaseModel } from '@quenk/dback-model-mongodb';
+import { BaseModel } from '@quenk/backend/lib/app/db/mongodb/model';
 
 
 export {

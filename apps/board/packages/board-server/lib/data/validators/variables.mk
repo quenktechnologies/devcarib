@@ -1,1 +1,0 @@
-BOARD_VALIDATORS_DIR:=$(BOARD_SERVER_DIR)/src/data/validators

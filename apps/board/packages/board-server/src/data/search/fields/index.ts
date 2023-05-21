@@ -3,18 +3,15 @@
  */
 import { Record } from '@quenk/noni/lib/data/record';
 
+import { FieldSet } from '@quenk/backend/lib/app/model';
+
 import _job from './job';
 import _mailMessage from './mail-message';
 
 /**
- * Fields for mongodb projection.
- */
-export interface Fields extends Record<number> {}
-
-/**
  * fieldsAvailable from this module.
  */
-export const fieldsAvailable: Record<Fields> = {
+export const fieldsAvailable: Record<FieldSet> = {
 
 
     'job': _job,

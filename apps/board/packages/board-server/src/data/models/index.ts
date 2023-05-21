@@ -7,7 +7,11 @@ import * as _mailMessage from './mail-message';
 
 import { Maybe, fromNullable } from '@quenk/noni/lib/data/maybe';
 
-import { Model } from '@quenk/dback-model-mongodb';
+import { 
+  Model, 
+  ModelMap, 
+  ModelGetter as _ModelGetter 
+} from '@quenk/backend/lib/app/model';
 
 /**
  * DataTypeUnion combines all the model data types found in this module
@@ -22,16 +26,12 @@ export type DataTypeUnion =
 /**
  * ModelGetter is a function that provides an instance of a Model.
  */
-export type ModelGetter = (db: mongodb.Db) => Model<DataTypeUnion>
+export type ModelGetter = _ModelGetter<mongodb.Db, DataTypeUnion>;
 
 /**
- * Models is a record of Models.
+ * Models map.
  */
-export interface Models {
-
-  [key:string] : ModelGetter
-
-}
+export type Models = ModelMap<mongodb.Db, DataTypeUnion>;
 
 /**
  * modelsAvailable from this module.

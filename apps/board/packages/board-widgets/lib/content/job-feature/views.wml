@@ -1,4 +1,0 @@
-{% import (Tag) from "@quenk/wml-widgets/lib/content/tag" %}
-
-{% view JobFeatureView(JobFeature from ".") %}
-<Tag wml:attrs={{@}}/>

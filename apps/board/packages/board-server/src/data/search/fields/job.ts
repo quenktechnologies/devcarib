@@ -6,24 +6,24 @@
  */
 export const Job = {
 
-          'id': 1,
-        'title': 1,
-        'type': 1,
-        'location': 1,
-        'remote': 1,
-        'description': 1,
-        'description_html': 1,
-        'company': 1,
-        'company_email': 1,
-        'company_logo': 1,
-        'apply_url': 1,
-        'approved': 1,
-        'status': 1,
-                'created_by.id': 1,
-        'created_by.username': 1
+          'id': true,
+        'title': true,
+        'type': true,
+        'location': true,
+        'remote': true,
+        'description': true,
+        'description_html': true,
+        'company': true,
+        'company_email': true,
+        'company_logo': true,
+        'apply_url': true,
+        'approved': true,
+        'status': true,
+                'created_by.id': true,
+        'created_by.username': true
 ,
-        'created_on': 1,
-        'last_updated_on': 1
+        'created_on': true,
+        'last_updated_on': true
 
 
 }

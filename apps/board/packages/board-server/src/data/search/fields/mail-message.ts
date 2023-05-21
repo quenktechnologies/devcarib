@@ -6,10 +6,10 @@
  */
 export const MailMessage = {
 
-          'id': 1,
-        'to': 1,
-        'from': 1,
-        'body': 1
+          'id': true,
+        'to': true,
+        'from': true,
+        'body': true
 
 
 }

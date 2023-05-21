@@ -3,7 +3,7 @@
  */
 import { MailMessage } from '@board/types/lib/mail-message';
 import * as mongodb from 'mongodb';
-import { BaseModel } from '@quenk/dback-model-mongodb';
+import { BaseModel } from '@quenk/backend/lib/app/db/mongodb/model';
 
 
 export {

@@ -4,7 +4,8 @@
  
 import { Job } from '@board/types/lib/job';
 import { validate,validatePartial } from '../validators/job';
-import { parseMarkdown,inc,unique } from './common';
+import { parseMarkdown } from './common';
+import { inc,unique } from '@quenk/backend/lib/app/db/mongodb/checks';
 import * as _json from '@quenk/noni/lib/data/jsonx';
 import * as _prec from '@quenk/preconditions/lib/async';
 import * as _recordPrec from '@quenk/preconditions/lib/async/record';
@@ -14,6 +15,12 @@ import * as _arrayPrec from '@quenk/preconditions/lib/async/array';
 const title = "Job";
 //@ts-ignore: 6133
 const collection = "jobs";
+
+//@ts-ignore: 6133
+const _complete = _recordPrec.restrict;
+
+//@ts-ignore: 6133
+const _partial = _recordPrec.intersect;
 
 /**
  * DataType checked.
@@ -99,7 +106,7 @@ export const partialFieldChecks: _prec.Preconditions<_json.Value, _json.Value> =
 export const check: _prec.Precondition<_json.Value, Job> = 
     _prec.and(_prec.and<_json.Value, Job,Job>(
       _prec.async(validate), _recordPrec.restrict(fieldChecks)),
-      _prec.every<Job,Job>(parseMarkdown('description','description_html'),inc('jobs'))
+      _prec.every<Job,Job>(parseMarkdown('description','description_html'),inc({field:'jobs'}))
      );
 
 /**
@@ -110,4 +117,4 @@ export const check: _prec.Precondition<_json.Value, Job> =
     _prec.and(_prec.and<_json.Value, Job,Job>(
       _prec.async(validatePartial),
       _recordPrec.intersect(partialFieldChecks)),
-    _prec.every(parseMarkdown('description','description_html'),inc('jobs')));
+    _prec.every(parseMarkdown('description','description_html'),inc({field:'jobs'})));
