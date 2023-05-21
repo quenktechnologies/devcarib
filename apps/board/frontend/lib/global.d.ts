@@ -1,6 +1,0 @@
-
-interface Window {
-
-    jobFormApp: any
-
-}
