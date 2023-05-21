@@ -24,7 +24,7 @@
 
         ],
 
-        ["./common#inc", ["'jobs'"]]
+        ["@quenk/backend/lib/app/db/mongodb/checks#inc", ["{field:'jobs'}"]]
 
     ],
 
@@ -38,7 +38,7 @@
 
             "checks-complete": [
 
-                ["./common#unique", ["'jobs'", "'id'"]]
+                ["@quenk/backend/lib/app/db/mongodb/checks#unique", ["'jobs'", "'id'"]]
 
             ]
 
