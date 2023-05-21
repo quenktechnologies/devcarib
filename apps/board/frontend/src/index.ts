@@ -281,7 +281,7 @@ export class JobFormApp {
     /**
      * send the data to the backend.
      */
-    send(): void {
+    async send() {
 
         let mButton = getById<Button<void>>(this.previewView,
             this.values.buttons.send.id);
@@ -289,7 +289,7 @@ export class JobFormApp {
         if (mButton.isJust())
             mButton.get().disable();
 
-        this
+ await       this
             .agent
             .post('/post', this.values.job.data)
             .chain((r: Response<Object>) => {
@@ -319,7 +319,6 @@ export class JobFormApp {
                 return <Future<void>>raise(e);
 
             })
-            .fork(console.error, () => { });
 
     }
 
