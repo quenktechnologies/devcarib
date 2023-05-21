@@ -1,7 +1,7 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
 {% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
-{% import (DropList) from "@quenk/wml-widgets/lib/control/drop-list" %}
+{% import (DropDown) from "@quenk/wml-widgets/lib/control/dropdown" %}
 {% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
 
 {% view PostJobFormPanelView (PostJobFormPanel from "../") %}
@@ -30,14 +30,13 @@
         </Column>
         <Column span=6>
           <label class="ww-label">Select A Job Type*</label>
-            <DropList
+            <DropDown
               wml:id="type"
               className="board-job-type-dropdown -block"
               name="type"
               value={{@attrs.data.type}}
               options={{@typeOptions}}
-              onSelect={{@attrs.onChange}} />
-
+              onChange={{@attrs.onChange}}/>
         </Column>
       </Row>
       <Row>

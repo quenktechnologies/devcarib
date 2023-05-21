@@ -9,19 +9,19 @@
 
 {% view JobFeaturesView (Job) %}
   <div>
-    {% if @["type"]?? %}
+    {% if @["type"] %}
       <JobFeature text={{ @["type"] }}/>
     {% endif %}
 
-    {% if @remote?? %}
+    {% if @remote %}
       <JobFeature text="Remote"/>
     {% endif %}
 
-    {% if @location?? %}
+    {% if @location %}
       <JobFeature text={{ @location | truncate(60) }}/>
     {% endif %}
 
-    {% if @salary_range?? %}
+    {% if @salary_range %}
       <JobFeature text={{ String(@salary_range) }}/>
     {% endif %}
   </div>
