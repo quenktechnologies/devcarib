@@ -1,2 +1,2 @@
 -- API
-GET     /jobs      jobsCtrl.search +search="job"
+GET     /jobs      api.search +search="job"

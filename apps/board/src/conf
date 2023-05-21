@@ -4,7 +4,7 @@ server.port = ${PORT}
 
 server.host = "0.0.0.0"
 
-connections.main.connector = @quenk/tendril-connection-mongodb#connector
+connections.main.connector = @quenk/backend/lib/app/db/mongodb/connection#connector
 
 connections.main.options = [${MONGO_URL}, {useNewUrlParser = true}]
 
@@ -14,7 +14,7 @@ app.session.options.secret = ${SESSION_SECRET}
       
 app.session.options.name = "sessid"
 
-app.session.store.provider = @quenk/tendril-session-mongodb#provider
+app.session.store.provider = @quenk/backend/lib/app/db/mongodb/session#provider
 
 app.session.store.options.uri = ${MONGO_URL}
 

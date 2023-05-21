@@ -23,6 +23,7 @@ export class BoardAPI extends ApiController<mongodb.Db> {
             new SkipAndLimit()
         );
     }
+
 }
 
 export const api = new BoardAPI();

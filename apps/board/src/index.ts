@@ -19,7 +19,7 @@ import { Action, doAction } from '@quenk/tendril/lib/app/api';
 // @ts-ignore: 2300
 import { Request } from '@quenk/tendril/lib/app/api/request';
 
-import { render } from '@quenk/tendril-show-wml';
+import { render } from '@quenk/backend/lib/app/views/engine/wml';
 
 //import { OutgoingMessage } from '@board/server/lib/actors/mail/server';
 
@@ -56,7 +56,7 @@ export class BoardController {
                 { sort: { created_on: -1 }, limit: 50 }
             ));
 
-            return <Action<void>>render(new IndexView({ jobs }));
+            return render(new IndexView({ jobs }));
 
         });
 
