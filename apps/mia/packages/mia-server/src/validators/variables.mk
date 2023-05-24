@@ -1,0 +1,1 @@
+MIA_VALIDATORS_DIR:=$(MIA_SERVER_DIR)/src/validators

@@ -1,0 +1,1 @@
+MIA_SEARCH_FILTERS_DIR:=$(MIA_SERVER_DIR)/src/search-filters

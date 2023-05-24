@@ -1,0 +1,1 @@
+MIA_MODELS_DIR:=$(MIA_SERVER_DIR)/src/models

@@ -1,0 +1,1 @@
+MIA_CHECKS_DIR:=$(MIA_SERVER_DIR)/src/checks

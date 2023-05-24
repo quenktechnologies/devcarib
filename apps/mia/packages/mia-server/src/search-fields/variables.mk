@@ -1,0 +1,1 @@
+MIA_SEARCH_FIELDS_DIR:=$(MIA_SERVER_DIR)/src/search-fields
