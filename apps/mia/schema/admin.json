@@ -16,9 +16,13 @@
 
     "imports": {
 
-        "@mia/types/lib/admin": ["Admin"],
+        "validators:@mia/types/lib/admin": ["Admin"],
 
-        "checks:@mia/validators/lib/admin": ["validate", "validatePartial"]
+        "models:@mia/types/lib/admin": ["Admin"],
+
+        "remotemodels:@mia/types/lib/admin": ["Admin"],
+
+        "checks:\\.\\./validators/admin": ["validate", "validatePartial"]
 
     },
 

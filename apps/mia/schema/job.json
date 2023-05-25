@@ -16,9 +16,13 @@
 
     "imports": {
 
-        "@mia/types/lib/job": ["Job"],
+        "validators:@mia/types/lib/job": ["Job"],
 
-        "checks:@mia/validators/lib/job": ["validate", "validatePartial"]
+        "models:@mia/types/lib/job": ["Job"],
+
+        "remotemodels:@mia/types/lib/job": ["Job"],
+
+        "checks:\\.\\./validators/job": ["validate", "validatePartial"]
 
     },
 

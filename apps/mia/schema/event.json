@@ -16,10 +16,13 @@
 
     "imports": {
 
-        "@mia/types/lib/event": ["Event"],
+        "validators:@mia/types/lib/event": ["Event"],
 
+        "models:@mia/types/lib/event": ["Event"],
 
-        "checks:@mia/validators/lib/event": ["validate", "validatePartial"]
+        "remotemodels:@mia/types/lib/event": ["Event"],
+
+        "checks:\\.\\./validators/event": ["validate", "validatePartial"]
 
     },
 

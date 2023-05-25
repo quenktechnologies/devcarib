@@ -16,9 +16,13 @@
 
     "imports": {
 
-        "@mia/types/lib/invite": ["Invite"],
+        "validators:@mia/types/lib/invite": ["Invite"],
 
-        "checks:@mia/validators/lib/invite": ["validate", "validatePartial"]
+        "models:@mia/types/lib/invite": ["Invite"],
+
+        "remotemodels:@mia/types/lib/invite": ["Invite"],
+
+        "checks:\\.\\./validators/invite": ["validate", "validatePartial"]
 
     },
 

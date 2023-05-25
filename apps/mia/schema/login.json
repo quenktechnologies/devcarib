@@ -4,9 +4,11 @@
 
     "title": "Login",
 
+    "isType": true,
+
     "imports": {
 
-        "@mia/types/lib/login": ["Login"]
+        "validators:@mia/types/lib/login": ["Login"]
 
     },
 
