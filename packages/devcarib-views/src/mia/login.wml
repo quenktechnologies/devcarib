@@ -60,7 +60,7 @@
 
                   <input name="email" 
                          class="ww-text-input -block"
-                         value={{if (@auth.credentials??) && (@auth.credentials.email??)
+                         value={{if (@auth.credentials) && (@auth.credentials.email)
                                    then @auth.credentials.email 
                                    else ""
                                 }}

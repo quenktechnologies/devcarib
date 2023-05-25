@@ -42,7 +42,7 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
     <meta name="theme-color" content="#218c8d"/>
     <meta name="viewport" content={{ "width=device-width, initial-scale=1.0" | unsafe }}/>
-    {% if @meta?? %}
+    {% if @meta %}
       {% for meta in @meta %}
         <meta property={{meta.property}} 
               http-equiv={{meta.httpEquiv}}
@@ -54,7 +54,7 @@
     {% if !@noSite  %}
       <link rel="stylesheet" href="/assets/css/site.css"/> 
     {% endif %}
-    {% if @styles?? %}
+    {% if @styles %}
       {% for style in @styles %}
         <link rel="stylesheet" href={{style}} />
       {% endfor %}
