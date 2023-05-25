@@ -11,8 +11,8 @@ import {
     Display,
     HTMLElementViewDelegate,
 } from '@quenk/jouvert/lib/app/service/display';
+
 import {
-    CompleteHandlerSpec,
     RemoteModelFactory
 } from '@quenk/jouvert/lib/app/remote/model/factory';
 import { Paths } from '@quenk/jouvert/lib/app/remote/model';
@@ -25,10 +25,8 @@ import { DefaultRequest, HashRouter } from '@quenk/frontend-routers/lib/hash';
 import { createAgent } from '@quenk/jhr/lib/browser';
 
 const defaultConf: Partial<Conf> = {
-    log: {
-        level: Number(process.env.PVM_LOG_LEVEL) || 1,
-        logger: console
-    }
+    log_level: Number(process.env.PVM_LOG_LEVEL) || 1,
+    long_sink: console
 }
 
 /**
@@ -87,9 +85,9 @@ export abstract class DevCarib extends Jouvert {
     /**
      * getModel is a factory method for creating [[RemoteModel]] instances.
      */
-    getModel<T extends Object>(
+    getModel(
         paths: Paths,
-        handler: CompleteHandlerSpec<T> = [],
+        handler: any = [],
         _context: Object = {}
     ) {
 
