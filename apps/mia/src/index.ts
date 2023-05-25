@@ -17,14 +17,14 @@ import {
 
 import { Admin } from '@mia/types/lib/admin';
 
-import { validate as validateLogin } from '@mia/validators/lib/login';
+import { validate as validateLogin } from '@mia/server/lib/validators/login';
 
-import { AdminModel } from '@mia/models/lib/admin';
+import { AdminModel } from '@mia/server/lib/models/admin';
 
 import { IndexView } from '@devcarib/views/lib/mia';
 import { LoginView } from '@devcarib/views/lib/mia/login';
 
-import { unsafeGetConnection } from '@devcarib/server/lib/db';
+import { unsafeGetUserConnection } from '@quenk/tendril/lib/app/connection';
 import { compare } from '@devcarib/server/lib/data/password';
 import { now } from '@devcarib/common/lib/data/datetime';
 
@@ -43,11 +43,11 @@ class MiaAuthenticator extends BaseAuthenticator<Admin> {
 
             let { email, password } = <Admin>creds;
 
-            let db = yield unsafeGetConnection();
+            let db = yield unsafeGetUserConnection('main');
 
             let model = AdminModel.getInstance(db);
 
-            let [admin] = yield model.search({ email });
+            let [admin] = yield model.search({ filters: {email }});
 
             if (admin == null) return pure(nothing());
 

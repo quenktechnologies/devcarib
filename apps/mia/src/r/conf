@@ -1,18 +1,15 @@
 
 app.filters = [ 
 
-  @devcarib/server/lib/filters/check#checkBody(
-     @mia/checks#checksAvailable,
-     @mia/checks#partialChecksAvailable,
+  @quenk/backend/lib/app/filters/body/check#checkBody(
+     @mia/server/lib/checks#checksAvailable,
+     @mia/server/lib/checks#partialChecksAvailable,
      @devcarib/common/lib/error#templates
   ),
 
-  @devcarib/server/lib/filters/query#compile({
-
-    policies = @mia/filter-policies#policiesEnabled
-
-    fields = @mia/fields#fields
-
+ @quenk/backend/lib/app/db/mongodb/filters/query#compileSearchTag({
+    maxPageSize = 100
+    policiesAvailable = @mia/server/lib/search-filters#policiesAvailable
+    fieldsAvailable = @mia/server/lib/search-fields#fieldsAvailable
   })
-
 ]

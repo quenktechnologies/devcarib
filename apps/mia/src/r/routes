@@ -1,40 +1,40 @@
 -- Admins
-POST    /admins      adminsCtrl.create +model="admin"
-GET     /admins      adminsCtrl.search +policy="admin"
+POST    /admins      api.create +model="admin"
+GET     /admins      api.search +search="admin"
 
-GET     /admins/:id  adminsCtrl.get
-PATCH   /admins/:id  adminsCtrl.update +model="admin"
-DELETE  /admins/:id  adminsCtrl.remove
+GET     /admins/:id  api.get
+PATCH   /admins/:id  api.update +model="admin"
+DELETE  /admins/:id  api.remove
 
 -- Jobs
-POST    /jobs        jobsCtrl.create +model="job"
-GET     /jobs        jobsCtrl.search +policy="job"
+POST    /jobs        api.create +model="job"
+GET     /jobs        api.search +search="job"
 
-PATCH   /jobs/:id    jobsCtrl.update +model="job"
-GET     /jobs/:id    jobsCtrl.get
-DELETE  /jobs/:id    jobsCtrl.remove
+PATCH   /jobs/:id    api.update +model="job"
+GET     /jobs/:id    api.get
+DELETE  /jobs/:id    api.remove
 
 -- Users
-GET     /users        usersCtrl.search +policy="user"
+GET     /users       api.search +search="user"
 
-PATCH   /users/:id    usersCtrl.update +model="user"
-GET     /users/:id    usersCtrl.get
-DELETE  /users/:id    usersCtrl.remove
+PATCH   /users/:id   api.update +model="user"
+GET     /users/:id   api.get
+DELETE  /users/:id   api.remove
 
 -- Events
 
-POST    /events        eventsCtrl.create +model="event"
-GET     /events        eventsCtrl.search +policy="event"
+POST    /events      api.create +model="event"
+GET     /events      api.search +search="event"
 
-PATCH   /events/:id    eventsCtrl.update +model="event"
-GET     /events/:id    eventsCtrl.get
-DELETE  /events/:id    eventsCtrl.remove
+PATCH   /events/:id  api.update +model="event"
+GET     /events/:id  api.get
+DELETE  /events/:id  api.remove
 
 -- Invites
 
-POST    /invites       invitesCtrl.create +model="invite"
-GET     /invites       invitesCtrl.search +policy="invite"
+POST    /invites     api.create +model="invite"
+GET     /invites     api.search +search="invite"
 
-PATCH   /invites/:id   invitesCtrl.update +model="invite"
-GET     /invites/:id   invitesCtrl.get
-DELETE  /invites/:id   invitesCtrl.remove
+PATCH   /invites/:id api.update +model="invite"
+GET     /invites/:id api.get
+DELETE  /invites/:id api.remove
