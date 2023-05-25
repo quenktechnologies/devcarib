@@ -13,6 +13,7 @@ import { ActionColumn } from '../../common/columns';
 import { CreatedByColumn, EmailColumn, UrlColumn } from '../columns';
 import { defaultHandlers, MiaManager } from '../../common/scene/manager';
 import { InviteManagerView } from './views/invites';
+import { InviteRemoteModel } from '../../remote/models/invite';
 
 export const TIME_SEARCH_DEBOUNCE = 500;
 
@@ -47,25 +48,13 @@ export class InvitesManager extends MiaManager<Invite, void> {
 
             data: <Invite[]>[],
 
-            pagination: {
+            pages: {
 
-                current: {
-
-                    count: 0,
-
-                    page: 1,
-
-                    limit: 50
-
-                },
-
-                total: {
-
-                    count: 0,
-
-                    pages: 0
-
-                }
+                current: 1,
+                currentCount: 0,
+                maxPerPage: 50,
+                totalPages: 0,
+                totalCount: 0
 
             },
 
@@ -96,7 +85,7 @@ export class InvitesManager extends MiaManager<Invite, void> {
     }
 
     model: RemoteModel<Invite> =
-        this.models.create('invite', defaultHandlers(this));
+        new InviteRemoteModel('remote.background', this, defaultHandlers(this));
 
     remove(id: Id) {
 

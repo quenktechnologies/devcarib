@@ -10,13 +10,10 @@ import { Column } from '@quenk/wml-widgets/lib/data/table';
 import { Event as ControlEvent } from '@quenk/wml-widgets/lib/control';
 
 import {
-    AfterSearchSetData,
     OnCompleteShowData,
-    AfterSearchSetPagination,
     ShiftingOnComplete,
     AfterSearchUpdateWidget
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
-import { Result } from '@quenk/jouvert/lib/app/remote/model/response';
 
 import { Event } from '@mia/types/lib/event';
 
@@ -31,6 +28,8 @@ import { MiaManager } from '../../common/scene/manager';
 import { AddEventDialog } from '../dialogs/add';
 import { EditEventDialog } from '../dialogs/edit';
 import { EventsManagerView } from './views';
+import { EventRemoteModel } from '../../remote/models/event';
+import { Result } from '@quenk/jouvert/lib/app/remote/model';
 
 export const TIME_SEARCH_DEBOUNCE = 500;
 
@@ -67,26 +66,12 @@ export class EventsManager extends MiaManager<Event, void> {
 
             add: () => this.spawn(() => new AddEventDialog(this.app, this.self())),
 
-            pagination: {
-
-                current: {
-
-                    count: 0,
-
-                    page: 1,
-
-                    limit: 50
-
-                },
-
-                total: {
-
-                    count: 0,
-
-                    pages: 0
-
-                }
-
+            pages: {
+                current: 1,
+                currentCount: 0,
+                maxPerPage: 50,
+                totalPages: 1,
+                totalCount: 0
             },
 
             columns: <Column<Value, Event>[]>[
@@ -127,11 +112,12 @@ export class EventsManager extends MiaManager<Event, void> {
 
     }
 
-    model = this.models.create('event', [
+    //XXX: Not worth the effort right now.
+    model = new EventRemoteModel('remote.background', this, [
 
-        new AfterSearchSetData(data => { this.values.table.data = data }),
+       // new AfterSearchSetData(data => { this.values.table.data = data }),
 
-        new AfterSearchSetPagination(this.values.table),
+      //  new AfterSearchSetPagination(this.values.table),
 
         new ShiftingOnComplete<void | Result<Event>>([
 

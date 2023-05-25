@@ -2,7 +2,7 @@ import { Value } from '@quenk/noni/lib/data/jsonx';
 import { merge, Record } from '@quenk/noni/lib/data/record';
 
 import { Event as ControlEvent } from '@quenk/wml-widgets/lib/control';
-import { Option } from '@quenk/wml-widgets/lib/control/drop-list';
+import { Option } from '@quenk/wml-widgets/lib/control/dropdown';
 import { Event } from '@mia/types/lib/event';
 
 import {
@@ -10,7 +10,6 @@ import {
 } from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
 import { getOffset } from '@devcarib/common/lib/data/datetime';
 
-import { RemoteModels } from '../../../remote/models';
 import { AddEventDialogView } from './views';
 
 const getTimes = () => {
@@ -39,9 +38,6 @@ export class AddEventDialog extends DevCaribDialogRemoteForm<Event, void> {
     name = 'Add Event';
 
     view = new AddEventDialogView(this);
-
-    model = RemoteModels.create('event',
-        this.app.services['remote.background'], this);
 
     value: Event = merge({
 

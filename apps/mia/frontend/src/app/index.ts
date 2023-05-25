@@ -22,15 +22,15 @@ export class Mia extends DevCarib {
             /**
              * links for the main navigation area.
              */
-            links: {
+            links: [
 
-                'Jobs': '#/jobs',
+                {type:'link', text:'Jobs', href: '#/jobs'},
 
-                'Users': '#/users',
+                {type: 'link', text:'Users', herf:'#/users'},
 
-                'Events': '#/events'
+                {type: 'link', text:'Events', href: '#/events'}
 
-            },
+            ],
 
             logout: () => this.runFuture(this.logout())
 

@@ -3,7 +3,7 @@ import { Object } from '@quenk/noni/lib/data/jsonx';
 
 import { Case } from '@quenk/potoo/lib/actor/resident/case';
 
-import { Pagination } from '@quenk/jouvert/lib/app/remote/model/response';
+import { PageData } from '@quenk/jouvert/lib/app/model/http';
 import { RemoteModel } from '@quenk/jouvert/lib/app/remote/model';
 import {
     AfterSearchSetData,
@@ -12,18 +12,15 @@ import {
     AfterSearchUpdateWidget,
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
-import { FormSaved, FormSavedCase } from '@quenk/jouvert/lib/app/scene/form';
 import { MainSceneMessage } from '@quenk/jouvert/lib/app/scene/main';
 
 import { MiaScene } from '../';
-import { RemoteModels } from '../../../remote/models';
 
 /**
  * MiaManagerMessage adds the FormSaved message to the accepted types.
  */
 export type MiaManagerMessage<M>
     = MainSceneMessage<M>
-    | FormSaved
     ;
 
 /**
@@ -33,7 +30,7 @@ export interface TableValues<T extends Object> {
 
     id: string,
 
-    pagination?: Pagination,
+    pages?: PageData,
 
     sort?: string,
 
@@ -62,13 +59,9 @@ export abstract class MiaManager<T extends Object, M>
      */
     abstract model: RemoteModel<T>;
 
-        models = new RemoteModels(this.app.services['remote.background'],this);
-
     receive() {
 
         return <Case<MiaManagerMessage<M>>[]>[
-
-            new FormSavedCase(this),
 
             ...super.receive()
 

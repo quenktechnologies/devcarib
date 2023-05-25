@@ -14,8 +14,8 @@ import {
     DevCaribDialogRemoteForm
 } from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
 
-import { RemoteModels } from '../../../remote/models';
 import { AddUserDialogView } from './views/add';
+import { UserRemoteModel } from '../../../remote/models/user';
 
 /**
  * AddUserDialog provides a form embeded in a dialog for adding new users.
@@ -26,8 +26,7 @@ export class AddUserDialog extends DevCaribDialogRemoteForm<User, void> {
 
     view = new AddUserDialogView(this);
 
-    model = RemoteModels.create('user',
-        this.app.services['remote.background'], this);
+    model:UserRemoteModel = new UserRemoteModel('background', this);
 
     value: User = merge({ status: USER_STATUS_ACTIVE }, this.value);
 

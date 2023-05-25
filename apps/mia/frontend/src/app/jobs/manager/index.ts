@@ -18,7 +18,6 @@ import {
     ShiftingOnComplete,
     AfterSearchUpdateWidget
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
-import { Result } from '@quenk/jouvert/lib/app/remote/model/response';
 
 import { Job } from '@board/types/lib/job';
 
@@ -32,6 +31,8 @@ import { JobPreviewDialog } from '../dialogs/preview';
 import { MiaManager } from '../../common/scene/manager';
 import { EditJobDialog } from '../dialogs/edit';
 import { JobsManagerView } from './views/jobs';
+import { Result } from '@quenk/jouvert/lib/app/remote/model';
+import { JobRemoteModel } from '../../remote/models/job';
 
 export const TIME_SEARCH_DEBOUNCE = 500;
 
@@ -68,25 +69,13 @@ export class JobsManager extends MiaManager<Job, void> {
 
             data: <Job[]>[],
 
-            pagination: {
+            pages: {
 
-                current: {
-
-                    count: 0,
-
-                    page: 1,
-
-                    limit: 50
-
-                },
-
-                total: {
-
-                    count: 0,
-
-                    pages: 0
-
-                }
+                current: 1,
+                currentCount: 0,
+maxPerPage: 50,
+    totalPages: 1,
+    totalCount: 0
 
             },
 
@@ -144,7 +133,7 @@ export class JobsManager extends MiaManager<Job, void> {
 
     }
 
-    model = this.models.create('job', [
+    model = new JobRemoteModel('remove.services', this, [
 
         new AfterSearchSetData(data => { this.values.table.data = data }),
 

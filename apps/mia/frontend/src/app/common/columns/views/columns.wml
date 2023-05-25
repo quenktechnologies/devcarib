@@ -1,6 +1,6 @@
 {% import (JSONXObject) from "@quenk/noni/lib/data/jsonx/types" %}
 
-{% import (DropDown) from "@quenk/wml-widgets/lib/control/drop-down" %}
+{% import (DropDown) from "@quenk/wml-widgets/lib/control/dropdown" %}
 {% import (Menu) from "@quenk/wml-widgets/lib/menu/menu" %}
 {% import (Item, Divider) from "@quenk/wml-widgets/lib/menu/item" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
@@ -16,7 +16,7 @@
 %}
 
 {% context ActionColumnViewCtx[T:JSONXObject] where
-   
+
    actions: ActionSpec[T][],
 
    data: T
@@ -28,7 +28,7 @@
 
   <DropDown
     className="-left"
-    buttonText="Action">
+    label="Action">
 
     <Menu>
 

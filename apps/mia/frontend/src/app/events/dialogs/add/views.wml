@@ -1,7 +1,7 @@
 {% import (GridLayout,Row,Column) from "@quenk/wml-widgets/lib/layout/grid" %}
 {% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
 {% import (DateField) from "@quenk/wml-widgets/lib/control/date-field" %}
-{% import (DropList) from "@quenk/wml-widgets/lib/control/drop-list" %}
+{% import (DropDown) from "@quenk/wml-widgets/lib/control/dropdown" %}
 {% import (Label) from "@quenk/wml-widgets/lib/control/label" %}
 
 {% view AddEventDialogView (AddEventDialog from ".") %}
@@ -44,13 +44,13 @@
 
     <Column span=4>
 
-      <DropList
+      <DropDown
         wml:id="startTime"
         name="startTime"
         className="start-time"
         value={{@values.data.startTime}}
         options={{@values.time.options}}
-        onSelect={{@values.onChange}}/>
+        onChange={{@values.onChange}}/>
 
     </Column>
 
@@ -69,7 +69,7 @@
       <DateField
         wml:id="endDate"
         className="start-date -block"
-        name="endDate"     
+        name="endDate"
         value={{@values.data.endDate}}
         onChange={{@values.onChange}} />
 
@@ -77,13 +77,13 @@
 
     <Column span=4>
 
-      <DropList
+      <DropDown
         wml:id="endTime"
         name="endTime"
         className="start-time"
         value={{@values.data.endTime}}
         options={{@values.time.options}}
-        onSelect={{@values.onChange}} />
+        onChange={{@values.onChange}} />
 
     </Column>
 

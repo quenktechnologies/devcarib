@@ -15,8 +15,8 @@ import {
     DevCaribDialogRemoteForm
 } from '@devcarib/frontend/lib/app/scene/form/remote/dialog';
 
-import { RemoteModels } from '../../../remote/models';
 import { EditJobDialogView } from './views/edit';
+import { JobRemoteModel } from '../../../remote/models/job';
 
 /**
  * EditJobDialog provides an editor for a job in a dialog.
@@ -27,8 +27,7 @@ export class EditJobDialog extends DevCaribDialogRemoteForm<Job, void> {
 
     view = new EditJobDialogView(this);
 
-    model = RemoteModels.create('job',
-        this.app.services['remote.background'], this);
+    model:JobRemoteModel = new JobRemoteModel('remote.background', this);
 
     mode = REMOTE_FORM_MODE_UPDATE;
 

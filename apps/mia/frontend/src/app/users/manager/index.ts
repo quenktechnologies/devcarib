@@ -14,6 +14,7 @@ import { defaultHandlers, MiaManager } from '../../common/scene/manager';
 import { EditUserDialog } from '../dialogs/edit';
 
 import { UsersManagerView } from './views/users';
+import { UserRemoteModel } from '../../remote/models/user';
 
 export const TIME_SEARCH_DEBOUNCE = 500;
 
@@ -92,7 +93,7 @@ export class UsersManager extends MiaManager<User, void> {
 
     }
 
-    model: RemoteModel<User> = this.models.create('user', defaultHandlers(this));
+    model: RemoteModel<User> = new UserRemoteModel('background', this, defaultHandlers(this));
 
     /**
      * edit brings up the form for editing an existing user profile.

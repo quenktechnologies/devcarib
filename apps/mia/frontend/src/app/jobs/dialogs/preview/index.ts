@@ -2,9 +2,9 @@ import { ConfirmDialog } from '@quenk/jouvert/lib/app/scene/dialog/confirm';
 
 import { Job } from '@board/types/lib/job';
 
-import { RemoteModels } from '../../../remote/models';
 import { Mia } from '../../../';
 import { JobPreviewDialogView } from './views/preview';
+import { JobRemoteModel } from '../../../remote/models/job';
 
 /**
  * JobPreviewDialog displays a light version of a post in a dialog.
@@ -24,8 +24,7 @@ export class JobPreviewDialog extends ConfirmDialog<void> {
 
     view = new JobPreviewDialogView(this);
 
-    jobModel = RemoteModels.create('job',
-        this.app.services['remote.background'], this);
+    jobModel = new JobRemoteModel('job', this);
 
     values = {
 
