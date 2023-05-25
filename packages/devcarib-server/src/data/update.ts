@@ -8,8 +8,6 @@
 
 import {
     Future,
-    doFuture,
-    raise,
     sequential,
     voidPure
 } from '@quenk/noni/lib/control/monad/future';
@@ -150,12 +148,12 @@ export abstract class Updater {
 
         let counter = 0;
 
-        return doFuture(function*() {
+        return Future.do(async ()=> {
 
-            let applied: Key[] = yield that.getUpdates();
+            let applied: Key[] = await that.getUpdates();
 
-            yield sequential(updates.sort().map(next =>
-                doFuture(function*() {
+            await sequential(updates.sort().map(next =>
+                Future.do(async ()=> {
 
                     let { key } = next;
 
@@ -163,7 +161,7 @@ export abstract class Updater {
 
                         logger.info(`Skipping "${key}"...`);
 
-                        return voidPure;
+                        return ;
 
                     }
 
@@ -175,31 +173,33 @@ export abstract class Updater {
 
                     let start = Date.now();
 
-                    yield next.prepare(that);
+                    await next.prepare(that);
 
-                    yield next.run(that).catch(e => doFuture(function*() {
+                    try {
+
+                    await next.run(that);
+
+                    } catch(e) {
 
                         logger.error(`"${key} failed! ` +
                             `Attempting to rollback...`);
 
-                        yield next.restore(that);
+                        await next.restore(that);
 
                         logger.warn(`Rollback for "${key}" complete.`);
 
                         logger.warn(`The update process has failed! ` +
                             `The application is unable to start!`);
 
-                        return raise(e);
+                         throw e;
 
-                    }));
+                    }
 
                     logger.info(`Update "${key}" successfully applied!`);
 
-                    yield that.onComplete(next, start, Date.now());
+                    await that.onComplete(next, start, Date.now());
 
                     counter++;
-
-                    return voidPure;
 
                 })));
 
