@@ -1,4 +1,4 @@
-{% import (fromNow) from "@devcarib/frontend/lib/app/filters" %}
+{% import (fromNow) from "../../common/filters" %}
 
 {% view PostMetadataView (PostMetadata from ".") %}
 

@@ -5,19 +5,19 @@
 {# JobFeaturesView generates the tag list for a job @ #}
 {% view JobFeaturesView (Job) %}
   <div class="board-job-features">
-    {% if @["type"]?? %}
-      <span class="ww-tag -default">{{@["type"] | text}}</span>
+    {% if @."type" %}
+      <span class="ww-tag -default">{{@."type" | text}}</span>
     {% endif %}
 
-    {% if @location?? %}
+    {% if @location %}
       <span class="ww-tag -default">{{@location | truncate(60) | text }}</span>
     {% endif %}
 
-    {% if @remote?? %}
+    {% if @remote %}
       <span class="ww-tag -default">Remote</span>
     {% endif %}
 
-    {% if @salary_range?? %}
+    {% if @salary_range %}
       <span class="ww-tag -default">${{@salary_range|text}}</span>
     {% endif %}
   </div>

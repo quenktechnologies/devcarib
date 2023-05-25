@@ -2,7 +2,7 @@ import { Path } from '@quenk/noni/lib/io/file';
 
 import { Component } from '@quenk/wml';
 
-import { LinkMap } from '@quenk/wml-widgets/lib/menu/nav';
+import { MenuItemInfo } from '@quenk/wml-widgets/lib/menu/nav';
 import { LinkAttrs } from '@quenk/wml-widgets/lib/content/link';
 import { HTMLElementAttrs } from '@quenk/wml-widgets';
 
@@ -29,7 +29,7 @@ export interface DevBarAttrs extends HTMLElementAttrs {
     /**
      * links to generate in the link area of the navbar.
      */
-    links?: LinkMap,
+    links?: MenuItemInfo[],
 
     /**
      * cta if specified will render a "call to action" style link to the

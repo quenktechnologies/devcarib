@@ -19,7 +19,7 @@
     </div>
   </PanelHeader>
   <PanelBody>
-    {% if @data.payment_amount ?? %}
+    {% if @data.payment_amount %}
       <div class={{@paymentClassName}}>
         <span>{{ @data.payment_amount | text }}\u00a0<b>{{ @data.payment_currency | text }}\u002F{{ @data.payment_frequency | text }}</b> </span>
       </div>

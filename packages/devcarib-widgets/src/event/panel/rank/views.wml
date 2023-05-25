@@ -20,7 +20,7 @@
 
         <ListLayoutItem>
 
-          {% if event.url ?? %}
+          {% if event.url %}
 
             <Link
               className="devcarib-event-rank-panel-link"
