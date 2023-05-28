@@ -9,20 +9,20 @@ import { just, Maybe, nothing } from '@quenk/noni/lib/data/maybe';
 // @ts-ignore: 2300
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
+import { unsafeGetUserConnection } from '@quenk/tendril/lib/app/connection';
 
-import { AuthController } from '@quenk/server/lib/app/auth/controller';
+import { AuthController } from '@quenk/backend/lib/app/auth/controller';
 import {
     AuthFailedContext,
     BaseAuthenticator
-} from '@quenk/server/lib/app/auth/authenticator';
+} from '@quenk/backend/lib/app/auth/authenticator';
 
-import { validate } from '@converse/validators/lib/login';
+import { validate } from '@converse/server/lib/validators/login';
 
 import { User } from '@converse/types/lib/user';
 
-import { UserModel } from '@converse/models/lib/user';
+import { UserModel } from '@converse/server/models/user';
 
-import { unsafeGetConnection } from '@devcarib/server/lib/db';
 import { compare } from '@devcarib/server/lib/data/password';
 import { now } from '@devcarib/common/lib/data/datetime';
 
@@ -44,7 +44,7 @@ class ConverseAuthenticator extends BaseAuthenticator<User> {
 
             let email = String(creds.email).toLowerCase();
 
-            let db = yield unsafeGetConnection();
+            let db = yield unsafeGetUserConnection('main');
 
             let model = UserModel.getInstance(db);
 
