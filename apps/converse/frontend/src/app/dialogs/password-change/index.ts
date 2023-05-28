@@ -12,7 +12,7 @@ import {
     REMOTE_FORM_MODE_UPDATE
 } from '@devcarib/frontend/lib/app/scene/form/remote';
 
-import { RemoteModels } from '../../remote/models';
+import { UserRemoteModel } from '../../remote/models/user';
 import { PasswordChangeDialogView } from './views';
 
 /**
@@ -26,8 +26,7 @@ DevCaribDialogRemoteForm<User, void> {
 
     view = new PasswordChangeDialogView(this);
 
-    model = RemoteModels.create('user',
-        this.app.services['remote.background'], this);
+    model = new UserRemoteModel('remote.background', this);
 
     mode = REMOTE_FORM_MODE_UPDATE;
 

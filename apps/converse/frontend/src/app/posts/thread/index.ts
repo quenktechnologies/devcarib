@@ -14,9 +14,6 @@ import {
     AfterConflict
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
 import {
-    Result,
-} from '@quenk/jouvert/lib/app/remote/model/response';
-import {
     TaggedHandler
 } from '@quenk/jouvert/lib/app/remote/model/handlers/tag';
 
@@ -31,6 +28,10 @@ import { Event } from '@converse/types/lib/event';
 import { ConverseScene } from '../../common/scene';
 import { PostThreadView } from './views';
 import { PostRemoteModel } from '../../remote/models/post';
+import { JobRemoteModel } from '../../remote/models/job';
+import { EventRemoteModel } from '../../remote/models/event';
+import { CommentRemoteModel } from '../../remote/models/comment';
+import { Result } from '@quenk/jouvert/lib/app/remote/model';
 
 /**
  * PostThread serves as the main view for a single post.
@@ -139,7 +140,7 @@ export class PostThread extends ConverseScene<void> {
 
     };
 
-    posts = <PostRemoteModel>this.models.create('post',
+    posts = <PostRemoteModel>new PostRemoteModel('remote.background', this,
         TaggedHandler.create<Result<Object>>([
 
             ['method', 'get', [
@@ -177,7 +178,7 @@ export class PostThread extends ConverseScene<void> {
 
         ]));
 
-    comments = this.models.create('comment', [
+    comments = new CommentRemoteModel('remote.background', this,  [
 
         new AfterPatchOk(() => this.loadComments()),
 
@@ -186,13 +187,13 @@ export class PostThread extends ConverseScene<void> {
 
     ]);
 
-    jobs = this.models.create('job', [
+    jobs = new JobRemoteModel('remote.background', this,  [
 
         new AfterSearchUpdateWidget(this.view, this.values.jobs.id)
 
     ]);
 
-    events = this.models.create('event', [
+    events = new EventRemoteModel('event', this, [
 
         new AfterSearchUpdateWidget(this.view, this.values.events.id)
 

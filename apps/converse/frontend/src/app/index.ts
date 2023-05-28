@@ -16,9 +16,9 @@ import { User } from '@converse/types/lib/user';
 
 import { CreateInviteDialog } from './dialogs/invite';
 import { PasswordChangeDialog } from './dialogs/password-change';
-import { RemoteModels } from './remote/models';
 import { ConverseView } from './views/app';
 import { trap, routes } from './routes';
+import { UserRemoteModel } from './remote/models/user';
 
 /**
  * Converse application frontend main class.
@@ -95,7 +95,7 @@ export class Converse extends DevCarib {
     run() {
 
         //XXX: For debugging;
-        this.vm.conf.log.level = 1000
+        this.vm.conf.log_level = 1000
 
         let that = this;
 
@@ -105,7 +105,7 @@ export class Converse extends DevCarib {
 
             init();
 
-            yield RemoteModels.create('user', that.services['remote.background'], that, [
+            yield new UserRemoteModel('remote.background', that, [
 
                 new AfterGetSetData<User>(data => {
 

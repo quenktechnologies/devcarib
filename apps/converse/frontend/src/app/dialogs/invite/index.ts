@@ -12,7 +12,7 @@ import {
     REMOTE_FORM_MODE_CREATE
 } from '@devcarib/frontend/lib/app/scene/form/remote';
 
-import { RemoteModels } from '../../remote/models';
+import { JobRemoteModel } from '../../remote/models/job';
 import { CreateInviteDialogView } from './views';
 
 /**
@@ -24,8 +24,7 @@ export class CreateInviteDialog extends DevCaribDialogRemoteForm<Invite, void> {
 
     view = new CreateInviteDialogView(this);
 
-    model = RemoteModels.create('invite',
-        this.app.services['remote.background'], this);
+    model = new JobRemoteModel('remote.background', this);
 
     mode = REMOTE_FORM_MODE_CREATE;
 

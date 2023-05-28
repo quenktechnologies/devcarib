@@ -15,7 +15,7 @@ import {
     AfterSearchUpdateWidgets,
     ShiftingOnComplete
 } from '@quenk/jouvert/lib/app/scene/remote/handlers';
-import { Result } from '@quenk/jouvert/lib/app/remote/model/response';
+import { Result } from '@quenk/jouvert/lib/app/remote/model';
 
 import { PageSelectedEvent } from '@quenk/wml-widgets/lib/control/pager';
 
@@ -27,28 +27,24 @@ import { Event } from '@converse/types/lib/event';
 import { ConverseScene } from '../common/scene';
 import { CreatePostForm } from './forms/post';
 import { DashboardView } from './views';
+import { PostRemoteModel } from '../remote/models/post';
+import { JobRemoteModel } from '../remote/models/job';
+import { EventRemoteModel } from '../remote/models/event';
 
 const eventThreshold = moment().subtract(6, 'hours').toISOString();
 
 class DefaultPagination {
 
-    current = {
+    current = 0;
 
-        count: 0,
+    currentCount = 0;
 
-        page: 1,
+     maxPerPage = 50;
 
-        limit: 500
+    totalPages = 0;
 
-    };
+    totalCount = 0;
 
-    total = {
-
-        count: 0,
-
-        pages: 0
-
-    }
 }
 
 /**
@@ -70,7 +66,7 @@ export class Dashboard extends ConverseScene<void> {
 
             data: <Post[]>[],
 
-            pagination: new DefaultPagination(),
+            pages: new DefaultPagination(),
 
             create: () => this.spawn(() =>
                 new CreatePostForm(this.app, this.self())),
@@ -110,7 +106,7 @@ export class Dashboard extends ConverseScene<void> {
     /**
      * posts is used to fetch the main posts displayed on the page.
      */
-    posts = this.models.create('post', [
+    posts = new PostRemoteModel('remote.background', this, [
 
         new AfterSearchSetData(data => { this.values.posts.data = data; }),
 
@@ -131,7 +127,7 @@ export class Dashboard extends ConverseScene<void> {
      *
      * This does not affect the main view posts.
      */
-    popularPosts = this.models.create('post', [
+    popularPosts = new PostRemoteModel('remote.background', this, [
 
         new AfterSearchSetData(data => { this.values.popular.data = data }),
 
@@ -139,7 +135,7 @@ export class Dashboard extends ConverseScene<void> {
 
     ]);
 
-    jobs = this.models.create('job', [
+    jobs = new JobRemoteModel('remote.background', this , [
 
         new AfterSearchSetData(data => { this.values.jobs.data = data }),
 
@@ -147,7 +143,7 @@ export class Dashboard extends ConverseScene<void> {
 
     ]);
 
-    events = this.models.create('event', [
+    events = new EventRemoteModel('remote.background', this,  [
 
         new AfterSearchSetData(data => { this.values.events.data = data }),
 
@@ -172,7 +168,7 @@ export class Dashboard extends ConverseScene<void> {
 
             page,
 
-            limit: this.values.posts.pagination.current.limit
+            perPage: this.values.posts.pages.maxPerPage
 
         }).map(noop);
 
@@ -196,7 +192,7 @@ export class Dashboard extends ConverseScene<void> {
 
                 sort: '-created_on',
 
-                limit: 5
+                perPage: 5
 
             });
 

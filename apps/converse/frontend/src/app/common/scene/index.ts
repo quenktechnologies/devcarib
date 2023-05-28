@@ -3,7 +3,6 @@ import { Request } from '@quenk/frontend-routers/lib/hash';
 import { Resume } from '@quenk/jouvert/lib/app/service/director';
 import { MainScene } from '@quenk/jouvert/lib/app/scene/main';
 
-import { RemoteModels } from '../../remote/models';
 import { Converse } from '../../';
 
 /**
@@ -19,7 +18,5 @@ export abstract class ConverseScene<M>
         super(app, resume);
 
     }
-
-    models = new RemoteModels(this.app.services['remote.background'], this);
 
 }

@@ -80,8 +80,8 @@
         <Column>
 
           <Pager
-            total={{@values.posts.pagination.total.pages}}
-            current={{@values.posts.pagination.current.page}} 
+            total={{@values.posts.pages.totalCount}}
+            current={{@values.posts.pages.current}} 
             onChange={{@values.posts.next}} />
 
         </Column>

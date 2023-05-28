@@ -1,7 +1,7 @@
 {% import (Menu) from "@quenk/wml-widgets/lib/menu/menu" %}
 {% import (Item,Divider) from "@quenk/wml-widgets/lib/menu/item" %}
 {% import (Link) from "@quenk/wml-widgets/lib/content/link" %}
-{% import (DropDown) from "@quenk/wml-widgets/lib/control/drop-down" %}
+{% import (DropDown) from "@quenk/wml-widgets/lib/control/dropdown" %}
 
 {% import (Converse) from "../" %}
 
@@ -9,7 +9,7 @@
 
 <DropDown
   className="converse-account-dropdown"
-  buttonText="Account">
+  label="Account">
 
   <Menu>
 

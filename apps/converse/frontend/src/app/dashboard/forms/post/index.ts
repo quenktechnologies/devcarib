@@ -9,8 +9,8 @@ import {
 
 import { Post } from '@converse/types/lib/post';
 
-import { RemoteModels } from '../../../remote/models';
 import { CreatePostFormView } from './views';
+import { PostRemoteModel } from '../../../remote/models/post';
 
 /**
  * CreatePostForm displays a form for creating new posts.
@@ -21,8 +21,7 @@ export class CreatePostForm extends DevCaribRemoteForm<Post, void> {
 
     view = new CreatePostFormView(this);
 
-    model = RemoteModels.create<Post>(
-        'post', this.app.services['remote.background'], this);
+    model = new PostRemoteModel('remote.background', this);
 
     values = {
 
