@@ -1,7 +1,6 @@
 import { View } from '@quenk/wml';
 
 import { Record } from '@quenk/noni/lib/data/record';
-import { Object } from '@quenk/noni/lib/data/jsonx';
 
 import { Conf } from '@quenk/potoo/lib/actor/system/vm/conf';
 import { Address } from '@quenk/potoo/lib/actor/address';
@@ -12,10 +11,6 @@ import {
     HTMLElementViewDelegate,
 } from '@quenk/jouvert/lib/app/service/display';
 
-import {
-    RemoteModelFactory
-} from '@quenk/jouvert/lib/app/remote/model/factory';
-import { Paths } from '@quenk/jouvert/lib/app/remote/model';
 import { Director, RoutingTable } from '@quenk/jouvert/lib/app/service/director';
 import { Remote } from '@quenk/jouvert/lib/app/remote';
 import { Jouvert, Template } from '@quenk/jouvert';
@@ -73,27 +68,6 @@ export abstract class DevCarib extends Jouvert {
      * services keeps the address of service actors within the system.
      */
     services: Record<Address> = {};
-
-    /**
-     * @private
-     */
-    get models() {
-        return RemoteModelFactory
-            .getInstance(this, this.services['remote.background']);
-    }
-
-    /**
-     * getModel is a factory method for creating [[RemoteModel]] instances.
-     */
-    getModel(
-        paths: Paths,
-        handler: any = [],
-        _context: Object = {}
-    ) {
-
-        return this.models.create(paths, handler);
-
-    }
 
     /**
      * spawn an actor directly from the root.
