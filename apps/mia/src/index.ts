@@ -8,11 +8,11 @@ import { merge } from '@quenk/noni/lib/data/record';
 import { Request } from '@quenk/tendril/lib/app/api/request';
 import { PRS_CSRF_TOKEN } from '@quenk/tendril/lib/app/boot/stage/csrf-token';
 
-import { AuthController } from '@quenk/server/lib/app/auth/controller';
+import { AuthController } from '@quenk/backend/lib/app/auth/controller';
 import {
     AuthFailedContext,
     BaseAuthenticator
-} from '@quenk/server/lib/app/auth/authenticator';
+} from '@quenk/backend/lib/app/auth/authenticator';
 
 
 import { Admin } from '@mia/types/lib/admin';
