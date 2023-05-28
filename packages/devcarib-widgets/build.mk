@@ -5,7 +5,8 @@ $(DEVCARIB_WIDGETS_DIR): $(DEVCARIB_WIDGETS_LIB_DIR) \
 	touch $@
 
 $(DEVCARIB_WIDGETS_LIB_DIR): $(DEVCARIB_WIDGETS_SRC_FILES)\
-	                     $(BOARD_TYPES_DIR)
+	                     $(BOARD_TYPES_DIR) \
+			     $(CONVERSE_TYPES_DIR)
 	rm -R $@ 2> /dev/null || true 
 	mkdir $@
 	cp -R -u $(DEVCARIB_WIDGETS_SRC_DIR)/* $@

@@ -1,4 +1,4 @@
-$(MIA_FRONTEND_DIR): $(MIA_FRONTEND_PUBLIC_DIR)\
+$(MIA_FRONTEND_DIR): $(MIA_FRONTEND_PUBLIC_DIR) \
                      $(MIA_FRONTEND_FRONTEND_TEST_DIR)
 	touch $@
 
@@ -12,9 +12,9 @@ $(MIA_FRONTEND_JS_FILE): $(MIA_FRONTEND_LIB_DIR)
 	$(ENVIFY)\
 	$(if $(findstring yes,$(DEBUG)),,|$(UGLIFYJS)) > $@
 
-$(MIA_FRONTEND_LIB_DIR): $(MIA_FRONTEND_SRC_FILES)\
-			 $(MIA_REMOTE_MODELS_DIR)\
-			 $(DEVCARIB_FRONTEND_DIR)\
+$(MIA_FRONTEND_LIB_DIR): $(MIA_FRONTEND_SRC_FILES) \
+			 $(MIA_REMOTE_MODELS_DIR) \
+			 $(DEVCARIB_FRONTEND_DIR) \
 	                 $(DEVCARIB_WIDGETS_DIR)
 	rm -R $@ 2> /dev/null || true 
 	mkdir $@
@@ -26,7 +26,7 @@ $(MIA_FRONTEND_LIB_DIR): $(MIA_FRONTEND_SRC_FILES)\
 include $(MIA_REMOTE_MODELS_DIR)/build.mk
 
 $(MIA_FRONTEND_CSS_FILE): $(MIA_FRONTEND_LESS_IMPORTS) \
-                             $(MIA_FRONTEND_LESS_MAIN)
+                          $(MIA_FRONTEND_LESS_MAIN)
 	mkdir -p $(dir $@)
 	rm -R $@ || true
 	$(LESSC) --source-map-less-inline \
