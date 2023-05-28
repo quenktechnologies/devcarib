@@ -2,4 +2,4 @@ node_modules
 .env
 imports.less
 build
-public/assets/css/board.css
+public/assets/css/mia.css

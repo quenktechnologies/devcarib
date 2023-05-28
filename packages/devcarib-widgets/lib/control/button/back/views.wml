@@ -1,7 +1,0 @@
-
-{% view BackButtonView (BackButton from ".") %}
-<a class="devcarib-back-button" href="#" onclick={{@values.onClick}}>
-
-  <img src="assets/icons/back.svg" alt="back"/>
-
-</a>

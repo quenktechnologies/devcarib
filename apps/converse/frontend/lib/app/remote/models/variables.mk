@@ -1,7 +1,0 @@
-CONVERSE_REMOTE_MODELS_DIR:=$(CONVERSE_FRONTEND_SRC_DIR)/app/remote/models
-
-CONVERSE_REMOTE_MODELS_TEMPLATE_DIR_FILES:=\
-		   $(shell find $(CONVERSE_REMOTE_MODELS_DIR)/templates -type f)
-
-CONVERSE_REMOTE_MODELS_MODEL_NAMES=$(notdir $(basename $(wildcard \
-			 $(CONVERSE_SCHEMA_MODELS_DIR)/*.json)))
