@@ -20,19 +20,21 @@
 
         "@converse/types/lib/post": ["Post"],
 
-        "rmodel:@converse/types/lib/comment": ["Comment"],
+        "types:@converse/types/lib/post": [],
 
-        "rmodel:@quenk/jouvert/lib/app/model": ["Id"],
+        "remotemodels:@converse/types/lib/comment": ["Comment"],
 
-        "rmodel:@quenk/noni/lib/control/monad/future": ["Future", "pure", "doFuture"],
+        "remotemodels:@quenk/jouvert/lib/app/model": ["Id"],
 
-        "rmodel:@quenk/noni/lib/data/jsonx": ["Object"],
+        "remotemodels:@quenk/noni/lib/control/monad/future": ["Future", "pure", "doFuture"],
 
-        "rmodel:@quenk/noni/lib/data/string": ["interpolate"],
+        "remotemodels:@quenk/noni/lib/data/jsonx": ["Object"],
 
-        "rmodel:@quenk/jhr/lib/request": "request",
+        "remotemodels:@quenk/noni/lib/data/string": ["interpolate"],
 
-        "checks:@converse/validators/lib/post": ["validate", "validatePartial"]
+        "remotemodels:@quenk/jhr/lib/request": "request",
+
+        "checks:@converse/server/lib/validators/post": ["validate", "validatePartial"]
 
     },
 
@@ -121,13 +123,15 @@
 
     },
 
-    "rmodel:methods": {
+    "remotemodels:methods": {
 
         "createComment": {
 
             "type": "Future<Id>",
 
-            "parameters": ["id: Id", "data: Comment"]
+            "parameters": ["id: Id", "data: Comment"],
+
+            "template": "createComment.template"
 
         },
 
@@ -135,7 +139,9 @@
 
             "type": "Future<Comment[]>",
 
-            "parameters": ["id: Id", "qry: Object={}"]
+            "parameters": ["id: Id", "qry: Object={}"],
+
+            "template": "getComments.template"
 
         }
 

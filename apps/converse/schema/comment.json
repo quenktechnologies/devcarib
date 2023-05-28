@@ -16,9 +16,11 @@
 
     "imports": {
 
+        "types:@converse/types/lib/comment": [],
+
         "@converse/types/lib/comment": ["Comment"],
 
-        "checks:@converse/validators/lib/comment": ["validate", "validatePartial"]
+        "checks:@converse/server/lib/validators/comment": ["validate", "validatePartial"]
 
     },
 

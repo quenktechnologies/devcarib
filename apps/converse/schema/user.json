@@ -6,13 +6,15 @@
 
     "collection": "users",
 
-      "paths.get": "/r/me",
+    "paths.get": "/r/me",
 
     "imports": {
 
         "@converse/types/lib/user": ["User"],
 
-        "checks:@converse/validators/lib/user": ["validate", "validatePartial"]
+        "types:@converse/types/lib/user": [],
+
+        "checks:@converse/server/lib/validators/user": ["validate", "validatePartial"]
     },
 
     "checks": [
@@ -51,7 +53,7 @@
 
             "checks": [
 
-                ["@devcarib/server/lib/data/checks#unique", ["_collection", "'email'"]]
+                ["@devcarib/server/lib/data/checks#unique", ["collection", "'email'"]]
 
             ]
 
@@ -67,7 +69,7 @@
 
             "checks": [
 
-                ["@devcarib/server/lib/data/checks#unique", ["_collection", "'username'"]]
+                ["@devcarib/server/lib/data/checks#unique", ["collection", "'username'"]]
 
             ]
 

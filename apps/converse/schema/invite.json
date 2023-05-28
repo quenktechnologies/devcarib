@@ -16,9 +16,11 @@
 
     "imports": {
 
+        "types:@converse/types/lib/invite": [],
+
         "@converse/types/lib/invite": ["Invite"],
 
-        "checks:@converse/validators/lib/invite": ["validate", "validatePartial"]
+        "checks:@converse/server/lib/validators/invite": ["validate", "validatePartial"]
 
     },
 

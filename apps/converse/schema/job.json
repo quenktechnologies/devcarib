@@ -18,7 +18,9 @@
 
         "@converse/types/lib/job": ["Job"],
 
-        "checks:@converse/validators/lib/job": ["validate", "validatePartial"]
+        "types:@converse/types/lib/job": [],
+
+        "checks:@converse/server/lib/validators/job": ["validate", "validatePartial"]
 
     },
 

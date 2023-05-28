@@ -16,9 +16,11 @@
 
     "imports": {
 
-        "@mia/types/lib/event": ["Event"],
+        "types:@converse/types/lib/event": [],
 
-        "checks:@mia/validators/lib/event": ["validate", "validatePartial"]
+        "@converse/types/lib/event": ["Event"],
+
+        "checks:@converse/server/lib/validators/event": ["validate", "validatePartial"]
 
     },
 
