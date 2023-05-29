@@ -9,7 +9,7 @@ $(CONVERSE_FRONTEND_JS_FILE): $(CONVERSE_FRONTEND_LIB_DIR)
 	mkdir -p $(dir $@)
 	$(BROWSERIFY) -t envify $(CONVERSE_FRONTEND_LIB_DIR)/main.js | \
 	$(ENVIFY)\
-	$(if $(findstring yes,$(DEBUG)),,|$(UGLIFYJS)) > $@
+	$(if $(findstring yes,$(DEV)),,|$(UGLIFYJS)) > $@
 
 $(CONVERSE_FRONTEND_LIB_DIR): $(CONVERSE_FRONTEND_SRC_FILES) \
 			 $(CONVERSE_REMOTE_MODELS_DIR) \
