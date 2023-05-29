@@ -21,7 +21,7 @@ import { validate } from '@converse/server/lib/validators/login';
 
 import { User } from '@converse/types/lib/user';
 
-import { UserModel } from '@converse/server/models/user';
+import { UserModel } from '@converse/server/lib/models/user';
 
 import { compare } from '@devcarib/server/lib/data/password';
 import { now } from '@devcarib/common/lib/data/datetime';
@@ -48,8 +48,9 @@ class ConverseAuthenticator extends BaseAuthenticator<User> {
 
             let model = UserModel.getInstance(db);
 
-            let [user] = yield model.search({
+            let [user] = yield model.search({ filters: {
                 $or: [{ email }, { username: email }]
+            }
             });
 
             if (user == null) return pure(nothing());

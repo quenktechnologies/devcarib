@@ -5,22 +5,20 @@ app.filters = [
 
   ..#ensureAuthXHR,
 
-  @devcarib/server/lib/filters/check#checkBody(
-     @converse/checks#checksAvailable,
-     @converse/checks#partialChecksAvailable,
+  @quenk/backend/lib/app/filters/body/check#checkBody(
+     @converse/server/lib/checks#checksAvailable,
+     @converse/server/lib/checks#partialChecksAvailable,
      @devcarib/common/lib/error#templates
   ),
 
-  @devcarib/server/lib/filters/body#fromParams,
+  @board/server/lib/filters/body#fromParams,
 
-  @devcarib/server/lib/filters/audit#ensureOwner,
+  @board/server/lib/filters/audit#ensureOwner,
 
-  @devcarib/server/lib/filters/query#compile({
-
-    policies = @converse/filter-policies#policiesEnabled
-
-    fields = @converse/fields#fields
-
+  @quenk/backend/lib/app/db/mongodb/filters/query#compileSearchTag({
+    maxPageSize = 100
+    policiesAvailable = @converse/server/lib/search-filters#policiesAvailable
+    fieldsAvailable = @converse/server/lib/search-fields#fieldsAvailable
   }),
 
   @devcarib/server/lib/filters/audit#auditWrite("user")

@@ -23,7 +23,7 @@
        className="-block"
        label="Email"
        name="email"
-       value={{if (@auth.credentials??) && (@auth.credentials.email??)
+       value={{if (@auth.credentials) && (@auth.credentials.email)
                then
                  @auth.credentials.email
                else

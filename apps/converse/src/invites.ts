@@ -1,5 +1,5 @@
 import * as mongo from 'mongodb';
-import * as checks from '@converse/checks/lib/user';
+import * as checks from '@converse/server/lib/checks/user';
 
 import { Maybe } from '@quenk/noni/lib/data/maybe';
 import { Object } from '@quenk/noni/lib/data/jsonx';
@@ -23,8 +23,8 @@ import { now } from '@devcarib/common/lib/data/datetime';
 import { Invite } from '@converse/types/lib/invite';
 import { User } from '@converse/types/lib/user';
 
-import { InviteModel } from '@converse/models/lib/invite';
-import { UserModel } from '@converse/models/lib/user';
+import { InviteModel } from '@converse/server/lib/models/invite';
+import { UserModel } from '@converse/server/lib/models/user';
 
 import { InviteView } from './views/invite';
 import { SuccessView } from './views/register';
@@ -45,7 +45,7 @@ export class InviteController {
 
     _getInvite(model: InviteModel, id: string): Future<Maybe<Invite>> {
 
-        return model.get(id, { accepted_on: { $exists: false } });
+        return model.get(id, { filters: {accepted_on: { $exists: false } }});
 
     }
 
@@ -182,7 +182,7 @@ export class InviteController {
 
         return (req.session.getOrElse('success', 0) === 1) ?
             render(new SuccessView({})) :
-            redirect('/', 301);
+           <Action<void>>redirect('/', 301);
 
     }
 
