@@ -72,3 +72,22 @@ devserver:
 .PHONY: mongoserver
 mongoserver: 
 	mongod --dbpath=.mongo
+	
+.PHONY: format
+format:
+	./node_modules/.bin/prettier --write \
+	 {apps,packages}/*/src/*.{ts,less,json} \
+	 {apps,packages}/*/src/**/*.{ts,less,json} \
+	 apps/*/frontend/src/*.{ts,less,json} \
+	 apps/*/frontend/src/**/*.{ts,less,json} \
+	 apps/*/schema/*.json \
+	 apps/*/schema/**/*.json
+
+.PHONY: lint
+lint:
+	./node_modules/.bin/eslint \
+	{apps,packages}/*/src/*.ts \
+	{apps,packages}/*/src/**/*.ts \
+	apps/*/frontend/src/*.ts \
+	apps/*/frontend/src/**/*.ts
+
