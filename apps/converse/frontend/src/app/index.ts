@@ -24,7 +24,6 @@ import { UserRemoteModel } from './remote/models/user';
  * Converse application frontend main class.
  */
 export class Converse extends DevCarib {
-
     view = new ConverseView(this);
 
     routes = routes;
@@ -32,100 +31,78 @@ export class Converse extends DevCarib {
     user: User = {};
 
     values = {
-
         header: {
+            links: {},
 
-            links: {
+            invite: () =>
+                this.spawn({
+                    id: 'invite',
 
+                    trap,
 
-            },
+                    create: () =>
+                        new CreateInviteDialog(this, this.services.display)
+                }),
 
-            invite: () => this.spawn({
+            password: () =>
+                this.spawn({
+                    id: 'password',
 
-                id: 'invite',
+                    trap,
 
-                trap,
-
-                create: () => new CreateInviteDialog(this, this.services.display)
-
-            }),
-
-            password: () => this.spawn({
-
-                id: 'password',
-
-                trap,
-
-                create: () => new PasswordChangeDialog(this, this.services.display)
-
-            }),
+                    create: () =>
+                        new PasswordChangeDialog(this, this.services.display)
+                }),
 
             logout: () => this.logout().fork()
-
-        },
-
+        }
     };
 
     static create(appNode: HTMLElement, dialogNode: HTMLElement): Converse {
-
         return new Converse(appNode, dialogNode);
-
     }
 
     logout(): Future<void> {
-
         let that = this;
 
-        return doFuture(function*() {
-
+        return doFuture(function* () {
             if (confirm('Do you want to logout now?')) {
-
                 yield that.agent.post('/logout', {});
 
                 window.location.href = '/';
-
             }
 
             return pure(<void>undefined);
-
         });
-
     }
 
     run() {
-
         //XXX: For debugging;
-        this.vm.conf.log_level = 1000
+        this.vm.conf.log_level = 1000;
 
         let that = this;
 
         let init = () => super.init();
 
-        return doFuture(function*() {
-
+        return doFuture(function* () {
             init();
 
             yield new UserRemoteModel('remote.background', that, [
-
                 new AfterGetSetData<User>(data => {
-
-                    that.user = data
+                    that.user = data;
 
                     that.router.start();
 
-                    setTimeout(() =>
-                        that.router.handleEvent(new Event('hashchanged')), 100);
-
+                    setTimeout(
+                        () => that.router.handleEvent(new Event('hashchanged')),
+                        100
+                    );
                 }),
 
                 new AfterNotFound(() => window.location.replace('login'))
-
             ]).get('');
 
             return voidPure;
-
         });
-
     }
-
 }

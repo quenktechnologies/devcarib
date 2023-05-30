@@ -14,31 +14,25 @@ import { PostThread } from './posts/thread';
 
 let ignoredErrors = ['ClientError', 'ServerError'];
 
-export const trap = (e: Err) => contains(ignoredErrors, e.message) ?
-    ACTION_IGNORE : ACTION_RAISE;
+export const trap = (e: Err) =>
+    contains(ignoredErrors, e.message) ? ACTION_IGNORE : ACTION_RAISE;
 
 export const routes: RoutingTable<Request> = {
-
     '/': {
-
         id: 'dashboard',
 
         trap,
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new Dashboard(<Converse>s, r)
-
     },
 
     '/posts/:id': {
-
         id: 'post',
 
         trap,
 
         create: (s: System, _: object, r: Resume<Request>) =>
-        new PostThread(<Converse>s, r)
-
+            new PostThread(<Converse>s, r)
     }
-
 };

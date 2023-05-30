@@ -15,7 +15,6 @@ import { modelsAvailable } from '@board/server/lib/data/models';
  * BoardAPI
  */
 export class BoardAPI extends ApiController<mongodb.Db> {
-
     constructor() {
         super(
             'main',
@@ -23,7 +22,6 @@ export class BoardAPI extends ApiController<mongodb.Db> {
             new SkipAndLimit()
         );
     }
-
 }
 
 export const api = new BoardAPI();

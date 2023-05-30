@@ -1,5 +1,4 @@
 {
-
     "title": "Invite",
 
     "type": "object",
@@ -7,15 +6,12 @@
     "collection": "invites",
 
     "paths": {
-
         "search": "/mia/r/invites",
 
         "get": "/mia/r/invites/{id}"
-
     },
 
     "imports": {
-
         "validators:@mia/types/lib/invite": ["Invite"],
 
         "models:@mia/types/lib/invite": ["Invite"],
@@ -23,79 +19,57 @@
         "remotemodels:@mia/types/lib/invite": ["Invite"],
 
         "checks:\\.\\./validators/invite": ["validate", "validatePartial"]
-
     },
 
-    "checks-complete": [
-
-        ["@devcarib/server/lib/data/checks#rand", ["'id'"]]
-
-    ],
+    "checks-complete": [["@devcarib/server/lib/data/checks#rand", ["'id'"]]],
 
     "properties": {
-
         "id": {
-
             "type": "string",
 
             "readOnly": true
-
         },
 
         "name": {
-
             "type": "string",
 
             "filterAs": "matchci",
 
             "validators": "@devcarib/common/lib/data/validators#name"
-
         },
 
         "email": {
-
             "type": "string",
 
             "filterAs": "matchci",
 
             "validators": "@devcarib/common/lib/data/validators#email"
-
         },
 
         "token": {
-
             "type": "string",
 
             "readOnly": true
-
         },
 
         "message": {
-
             "type": "string",
 
             "optional": true,
 
             "validators": [
-
                 "@devcarib/common/lib/data/validators#textlarge",
 
                 ["@devcarib/common/lib/data/validators#minLength", [1]],
 
                 ["@devcarib/common/lib/data/validators#maxLength", [6000]]
-
             ]
-
         },
 
         "accepted_on": {
-
             "type": "string",
 
             "readOnly": true
-
         }
-
     }
-
 }

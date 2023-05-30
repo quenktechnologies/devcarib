@@ -6,4 +6,4 @@ import * as moment from 'moment';
 export const fromNow = (date: string) => {
     let ref = moment.utc(date);
     return ref.isValid() ? ref.fromNow() : '';
-}
+};

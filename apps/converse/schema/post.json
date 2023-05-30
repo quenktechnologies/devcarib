@@ -1,5 +1,4 @@
 {
-
     "title": "Post",
 
     "type": "object",
@@ -7,17 +6,14 @@
     "collection": "posts",
 
     "paths": {
-
         "search": "/r/posts",
 
         "get": "/r/posts/{id}",
 
         "comments": "/r/posts/{id}/comments"
-
     },
 
     "imports": {
-
         "@converse/types/lib/post": ["Post"],
 
         "types:@converse/types/lib/post": [],
@@ -26,7 +22,11 @@
 
         "remotemodels:@quenk/jouvert/lib/app/model": ["Id"],
 
-        "remotemodels:@quenk/noni/lib/control/monad/future": ["Future", "pure", "doFuture"],
+        "remotemodels:@quenk/noni/lib/control/monad/future": [
+            "Future",
+            "pure",
+            "doFuture"
+        ],
 
         "remotemodels:@quenk/noni/lib/data/jsonx": ["Object"],
 
@@ -34,118 +34,90 @@
 
         "remotemodels:@quenk/jhr/lib/request": "request",
 
-        "checks:@converse/server/lib/validators/post": ["validate", "validatePartial"]
-
+        "checks:@converse/server/lib/validators/post": [
+            "validate",
+            "validatePartial"
+        ]
     },
 
-    "checks-complete": [
-
-        ["@devcarib/server/lib/data/checks#inc", ["'posts'"]]
-
-    ],
+    "checks-complete": [["@devcarib/server/lib/data/checks#inc", ["'posts'"]]],
 
     "checks": [
-
-        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'body'", "'body_html'"]]
-
+        [
+            "@devcarib/server/lib/data/checks#parseMarkdown",
+            ["'body'", "'body_html'"]
+        ]
     ],
 
     "properties": {
-
         "id": {
-
             "type": "number",
 
             "readOnly": true,
 
             "checks-complete": [
-
-
                 ["@devcarib/server/lib/data/checks#unique", ["'posts'", "'id'"]]
-
             ]
-
         },
 
         "$ref": "./common/properties.json",
 
         "title": {
-
             "type": "string",
 
             "filterAs": "matchci",
 
             "validators": [
-
                 "@devcarib/common/lib/data/validators#textsmall",
 
                 ["@devcarib/common/lib/data/validators#minLength", [3]],
 
                 ["@devcarib/common/lib/data/validators#maxLength", [140]]
-
             ]
-
         },
 
         "body": {
-
             "type": "string",
 
             "optional": true,
 
             "validators": [
-
                 "@devcarib/common/lib/data/validators#textlarge",
 
                 ["@devcarib/common/lib/data/validators#minLength", [3]],
 
                 ["@devcarib/common/lib/data/validators#maxLength", [10000]]
-
             ]
-
         },
 
         "body_html": {
-
             "type": "string",
 
             "readOnly": true
-
         },
 
         "web-views": {
-
             "type": "number",
 
             "readOnly": true
-
         }
-
     },
 
     "remotemodels:methods": {
-
         "createComment": {
-
             "type": "Future<Id>",
 
             "parameters": ["id: Id", "data: Comment"],
 
             "template": "createComment.template"
-
         },
 
         "getComments": {
-
             "type": "Future<Comment[]>",
 
             "parameters": ["id: Id", "qry: Object={}"],
 
             "template": "getComments.template"
-
         }
-
-
     }
-
 }

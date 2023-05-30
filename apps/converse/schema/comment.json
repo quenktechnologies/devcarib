@@ -1,5 +1,4 @@
 {
-
     "title": "Comment",
 
     "type": "object",
@@ -7,39 +6,35 @@
     "collection": "comments",
 
     "paths": {
-
         "search": "/r/comments",
 
         "get": "/r/comments/{id}"
-
     },
 
     "imports": {
-
         "types:@converse/types/lib/comment": [],
 
         "@converse/types/lib/comment": ["Comment"],
 
-        "checks:@converse/server/lib/validators/comment": ["validate", "validatePartial"]
-
+        "checks:@converse/server/lib/validators/comment": [
+            "validate",
+            "validatePartial"
+        ]
     },
 
     "checks-complete": [
-
         ["@devcarib/server/lib/data/checks#inc", ["'comments'"]]
-
     ],
 
     "checks": [
-
-        ["@devcarib/server/lib/data/checks#parseMarkdown", ["'body'", "'body_html'"]]
-
+        [
+            "@devcarib/server/lib/data/checks#parseMarkdown",
+            ["'body'", "'body_html'"]
+        ]
     ],
 
     "properties": {
-
         "id": {
-
             "type": "number",
 
             "readOnly": true,
@@ -47,17 +42,16 @@
             "filterAs": ["number", "numbers"],
 
             "checks-complete": [
-
-                ["@devcarib/server/lib/data/checks#unique", ["'comments'", "'id'"]]
-
+                [
+                    "@devcarib/server/lib/data/checks#unique",
+                    ["'comments'", "'id'"]
+                ]
             ]
-
         },
 
         "$ref": "./common/properties.json",
 
         "post": {
-
             "type": "number",
 
             "readOnly": true,
@@ -65,37 +59,26 @@
             "filterAs": ["number", "numbers"],
 
             "checks-complete": [
-
                 ["@devcarib/server/lib/data/checks#unique", ["'posts'", "'id'"]]
-
             ]
-
         },
 
         "body": {
-
             "type": "string",
 
             "validators": [
-
                 "@devcarib/common/lib/data/validators#textlarge",
 
                 ["@devcarib/common/lib/data/validators#minLength", [3]],
 
                 ["@devcarib/common/lib/data/validators#maxLength", [10000]]
-
             ]
-
         },
 
         "body_html": {
-
             "type": "string",
 
             "readOnly": true
-
         }
-
     }
-
 }

@@ -16,63 +16,52 @@ import { Mia } from './';
 
 let ignoredErrors = ['ClientError', 'ServerError'];
 
-const trap = (e: Err) => contains(ignoredErrors, e.message) ?
-    ACTION_IGNORE : ACTION_RAISE;
+const trap = (e: Err) =>
+    contains(ignoredErrors, e.message) ? ACTION_IGNORE : ACTION_RAISE;
 
 export const routes: RoutingTable<Request> = {
     '/': {
-
         id: 'dashboard',
 
         trap,
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new JobsManager(<Mia>s, r)
-
     },
 
     '/jobs': {
-
         id: 'dashboard',
 
         trap,
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new JobsManager(<Mia>s, r)
-
     },
 
     '/users': {
-
         id: 'users',
 
         trap,
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new UsersManager(<Mia>s, r)
-
     },
 
     '/events': {
-
         id: 'events',
 
         trap,
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new EventsManager(<Mia>s, r)
-
     },
 
     '/invites': {
-
         id: 'invites',
 
         trap,
 
         create: (s: System, _: object, r: Resume<Request>) =>
             new InvitesManager(<Mia>s, r)
-
     }
-
 };

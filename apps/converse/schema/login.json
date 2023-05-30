@@ -1,5 +1,4 @@
 {
-
     "type": "object",
 
     "title": "Login",
@@ -7,27 +6,18 @@
     "isType": true,
 
     "imports": {
-
         "types:@converse/types/lib/login": [],
 
-    "@converse/types/lib/login": ["Login"]
-
-},
-
-"properties": {
-
-    "email": {
-
-        "type": "string"
-
+        "@converse/types/lib/login": ["Login"]
     },
 
-    "password": {
+    "properties": {
+        "email": {
+            "type": "string"
+        },
 
-        "type": "string"
-
+        "password": {
+            "type": "string"
+        }
     }
-
-}
-
 }

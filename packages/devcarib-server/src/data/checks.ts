@@ -25,7 +25,8 @@ import {
 import { Precondition } from '@quenk/preconditions/lib/async';
 
 import {
-    findOneAndUpdate, count
+    findOneAndUpdate,
+    count
 } from '@quenk/noni-mongodb/lib/database/collection';
 
 export type Result<A, B> = Future<SResult<A, B>>;
@@ -36,16 +37,13 @@ export const COUNTERS_ID = 'counters';
  * bcrypt
  */
 export const bcrypt = (str: Value): Result<Value, Value> =>
-    doN(<DoFn<SResult<Value, Value>, Result<Value, Value>>>function*() {
-
+    doN(<DoFn<SResult<Value, Value>, Result<Value, Value>>>function* () {
         let salty = yield salt();
         let salted = yield hash(String(str), salty);
         return pure(succeed(salted));
-
     });
 
-const salt = (): Future<string> =>
-    fromCallback(cb => bcryptjs.genSalt(12, cb));
+const salt = (): Future<string> => fromCallback(cb => bcryptjs.genSalt(12, cb));
 
 const hash = (str: string, salt: string) =>
     fromCallback(cb => bcryptjs.hash(str, salt, cb));
@@ -56,22 +54,20 @@ const hash = (str: string, salt: string) =>
  */
 export const unique =
     <A>(collection: string, field: string, dbid = 'main') =>
-        (value: A): Result<A, A> =>
-            doN(<DoFn<SResult<A, A>, Result<A, A>>>function*() {
+    (value: A): Result<A, A> =>
+        doN(<DoFn<SResult<A, A>, Result<A, A>>>function* () {
+            let db = yield getMain(dbid);
 
-                let db = yield getMain(dbid);
-
-                let n = yield count(db.collection(collection), {
-
-                    [field]: value
-
-                });
-
-                return pure((n > 0) ?
-                    fail<A, A>('unique', value, { value }) :
-                    succeed<A, A>(value));
-
+            let n = yield count(db.collection(collection), {
+                [field]: value
             });
+
+            return pure(
+                n > 0
+                    ? fail<A, A>('unique', value, { value })
+                    : succeed<A, A>(value)
+            );
+        });
 
 /**
  * id generates the id number for a record.
@@ -89,28 +85,25 @@ export const id: Precondition<Value, Value> = () =>
  * the value to the property directly.
  */
 export const inc =
-    <T extends Object>(counter: string, propName: string = 'id', dbid = 'main') =>
-        (value: T): Result<T, T> =>
-            doN(<DoFn<SResult<T, T>, Result<T, T>>>function*() {
+    <T extends Object>(counter: string, propName = 'id', dbid = 'main') =>
+    (value: T): Result<T, T> =>
+        doN(<DoFn<SResult<T, T>, Result<T, T>>>function* () {
+            let db = yield getMain(dbid);
 
-                let db = yield getMain(dbid);
+            let target = db.collection('counters');
 
-                let target = db.collection('counters');
+            let filter = { id: COUNTERS_ID };
 
-                let filter = { id: COUNTERS_ID };
+            let update = { $inc: { [counter]: 1 } };
 
-                let update = { $inc: { [counter]: 1 } };
+            let opts = { returnDocument: 'after', upsert: true };
 
-                let opts = { returnDocument: 'after', upsert: true };
+            let mresult = yield findOneAndUpdate(target, filter, update, opts);
 
-                let mresult = yield findOneAndUpdate(target, filter,
-                    update, opts);
+            (<Object>value)[propName] = unsafeGet(counter, mresult.get());
 
-                (<Object>value)[propName] = unsafeGet(counter, mresult.get());
-
-                return pure(succeed(value));
-
-            });
+            return pure(succeed(value));
+        });
 
 const getMain = (id: string): Future<mongodb.Db> =>
     getInstance().get(id).get().checkout();
@@ -127,8 +120,8 @@ export const timestamp = (): Result<Value, Value> =>
  */
 export const parseMarkdown =
     (src: string, dest: string, allowLinks = false) =>
-        <T extends Object>(value: T): Result<T, T> => fromCallback(cb => {
-
+    <T extends Object>(value: T): Result<T, T> =>
+        fromCallback(cb => {
             if (!isObject(value)) return cb(null, succeed(value));
 
             let val = <Object>value;
@@ -138,7 +131,6 @@ export const parseMarkdown =
             val[dest] = mark.parse(String(val[src]), { allowLinks });
 
             cb(null, succeed(<T>val));
-
         });
 
 /**
@@ -147,52 +139,49 @@ export const parseMarkdown =
  *
  * By default, we generate 32 bytes.
  */
-export const rand = <T extends Object>(target: string, bytes = 32) =>
-    (value: T): Result<T, T> =>Future.do(async ()=> {
-
+export const rand =
+    <T extends Object>(target: string, bytes = 32) =>
+    (value: T): Result<T, T> =>
+        Future.do(async () => {
             let str = await fromCallback<Buffer>(cb =>
-                crypto.randomBytes(bytes, cb));
+                crypto.randomBytes(bytes, cb)
+            );
 
             (<Object>value)[target] = str.toString('hex');
 
             return succeed(value);
-
         });
 
 /**
  * datetime computes a datetime value (returning a Date instance) using the
  * keys provided.
  */
-export const datetime = <T extends Object>
-    (key: string, dateKey: string, timeKey: string, offsetKey: string) =>
-    (value: T): Result<T, T> => fromCallback(cb => {
+export const datetime =
+    <T extends Object>(
+        key: string,
+        dateKey: string,
+        timeKey: string,
+        offsetKey: string
+    ) =>
+    (value: T): Result<T, T> =>
+        fromCallback(cb => {
+            let date = value[dateKey];
 
-        let date = value[dateKey];
+            let time = value[timeKey];
 
-        let time = value[timeKey];
-
-        if (!date || !time) {
-
-            cb(null, succeed(value)); // date and time are needed.
-
-        } else {
-
-            let offset = value[offsetKey];
-
-            let mValue = moment(`${date}T${time}:00${offset}`);
-
-            if (!mValue.isValid()) {
-
-                cb(null, fail(key, value));
-
+            if (!date || !time) {
+                cb(null, succeed(value)); // date and time are needed.
             } else {
+                let offset = value[offsetKey];
 
-                (<Object>value)[key] = mValue.toDate();
+                let mValue = moment(`${date}T${time}:00${offset}`);
 
-                cb(null, succeed(value));
+                if (!mValue.isValid()) {
+                    cb(null, fail(key, value));
+                } else {
+                    (<Object>value)[key] = mValue.toDate();
 
+                    cb(null, succeed(value));
+                }
             }
-
-        }
-
-    });
+        });

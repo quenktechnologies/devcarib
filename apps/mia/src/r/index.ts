@@ -15,7 +15,6 @@ import { modelsAvailable } from '@mia/server/lib/models';
  * MiaAPI
  */
 export class MiaAPI extends ApiController<mongodb.Db> {
-
     constructor() {
         super(
             'main',
@@ -23,7 +22,6 @@ export class MiaAPI extends ApiController<mongodb.Db> {
             new SkipAndLimit()
         );
     }
-
 }
 
 export const api = new MiaAPI();

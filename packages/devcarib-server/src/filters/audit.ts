@@ -28,42 +28,36 @@ const supportedMethods = ['POST', 'PATCH'];
  *
  * @param key - The session key to get the value from.
  */
-export const auditWrite = (key: string) => (req: Request): Action<void> =>
-    doAction(function*() {
+export const auditWrite =
+    (key: string) =>
+    (req: Request): Action<void> =>
+        doAction(function* () {
+            if (!supportedMethods.includes(req.method)) return next(req);
 
-        if (!supportedMethods.includes(req.method)) return next(req);
+            let body = <Object>req.body || {};
 
-        let body = <Object>(req.body) || {};
+            let muser = req.session.get(key);
 
-        let muser = req.session.get(key);
+            if (muser.isNothing()) {
+                forbidden();
 
-        if (muser.isNothing()) {
+                return abort();
+            }
 
-            forbidden();
+            if (req.method === 'POST') {
+                body.created_by = muser.get();
 
-            return abort();
+                body.created_on = now();
+            } else if (req.method === 'PATCH') {
+                body.last_updated_by = <Object>muser.get();
 
-        }
+                body.last_updated_on = now();
+            }
 
-        if (req.method === 'POST') {
+            req.body = body;
 
-            body.created_by = muser.get();
-
-            body.created_on = now();
-
-        } else if (req.method === 'PATCH') {
-
-            body.last_updated_by = <Object>muser.get();
-
-            body.last_updated_on = now();
-
-        }
-
-        req.body = body;
-
-        return next(req);
-
-    })
+            return next(req);
+        });
 
 /**
  * ensureOwner adds a query to +query to ensure the action only takes place on
@@ -73,8 +67,7 @@ export const auditWrite = (key: string) => (req: Request): Action<void> =>
  * installed before it.
  */
 export const ensureOwner = (req: Request): Action<void> =>
-    doAction(function*() {
-
+    doAction(function* () {
         if (!req.route.tags.owned) return next(req);
 
         let id = req.session.getOrElse('user.id', '');
@@ -83,9 +76,9 @@ export const ensureOwner = (req: Request): Action<void> =>
 
         let { query } = req.route.tags;
 
-        req.route.tags.query = req.route.tags.query ?
-            `(${query}) and ${filter}` : filter;
+        req.route.tags.query = req.route.tags.query
+            ? `(${query}) and ${filter}`
+            : filter;
 
         return next(req);
-
-    })
+    });

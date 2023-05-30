@@ -1,5 +1,4 @@
 {
-
     "type": "object",
 
     "title": "Login",
@@ -7,25 +6,16 @@
     "isType": true,
 
     "imports": {
-
         "validators:@mia/types/lib/login": ["Login"]
-
     },
 
     "properties": {
-
         "email": {
-
             "type": "string"
-
         },
 
         "password": {
-
             "type": "string"
-
         }
-
     }
-
 }

@@ -1,39 +1,31 @@
-@import "@quenk/wml-widgets/lib/content/screen/less/screen";
+@import '@quenk/wml-widgets/lib/content/screen/less/screen';
 
 /**
  * Styles a quick and dirty box to display when there are no approved jobs in
  * the system.
  */
 .board-no-jobs {
+    text-align: center;
+    background-color: #fff;
+    padding: 5em;
+    box-shadow: 0 4px 4px rgb(0 0 0 / 15%);
+    border-radius: 4px;
 
-  text-align: center;
-  background-color: #fff;
-  padding: 5em;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 15%);
-  border-radius: 4px;
+    & > img {
+        max-height: 100px;
+    }
 
-  & > img {
+    & > h1 {
+        font-size: 3em;
+        font-weight: 900;
+    }
 
-    max-height: 100px;
-
-  }
-
-  & > h1 {
-
-    font-size: 3em;
-    font-weight: 900;
-
-  }
-
-  & > p {
-
-    font-size: 1.2em;
-    letter-spacing: .5px;
-
-  }
-
+    & > p {
+        font-size: 1.2em;
+        letter-spacing: 0.5px;
+    }
 }
 
 .board-post-job-prompt {
-  text-align: center;
+    text-align: center;
 }

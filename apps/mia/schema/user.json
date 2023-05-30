@@ -1,5 +1,4 @@
 {
-
     "title": "User",
 
     "type": "object",
@@ -7,15 +6,12 @@
     "collection": "users",
 
     "paths": {
-
         "search": "/mia/r/users",
 
         "get": "/mia/r/users/{id}"
-
     },
 
     "imports": {
-
         "validators:@mia/types/lib/user": ["User"],
 
         "models:@mia/types/lib/user": ["User"],
@@ -23,19 +19,12 @@
         "remotemodels:@mia/types/lib/user": ["User"],
 
         "checks:\\.\\./validators/user": ["validate", "validatePartial"]
-
     },
 
-    "checks": [
-
-        ["@devcarib/server/lib/data/checks#inc", ["'users'"]]
-
-    ],
+    "checks": [["@devcarib/server/lib/data/checks#inc", ["'users'"]]],
 
     "properties": {
-
         "id": {
-
             "type": "number",
 
             "filterAs": ["number", "numbers"],
@@ -43,27 +32,22 @@
             "readOnly": true,
 
             "checks": [
-
                 [
-                    "@devcarib/server/lib/data/checks#unique", ["collection", "'id'"]
+                    "@devcarib/server/lib/data/checks#unique",
+                    ["collection", "'id'"]
                 ]
-
             ]
-
         },
 
         "name": {
-
             "type": "string",
 
             "filterAs": "matchci",
 
             "validators": "@devcarib/common/lib/data/validators#name"
-
         },
 
         "username": {
-
             "type": "string",
 
             "filterAs": "matchci",
@@ -71,17 +55,14 @@
             "validators": "@devcarib/common/lib/data/validators#username",
 
             "checks": [
-
                 [
-                    "@devcarib/server/lib/data/checks#unique", ["collection", "'username'"]
+                    "@devcarib/server/lib/data/checks#unique",
+                    ["collection", "'username'"]
                 ]
-
             ]
-
         },
 
         "password": {
-
             "type": "string",
 
             "fields:hidden": true,
@@ -89,27 +70,20 @@
             "validators": ["@devcarib/common/lib/data/validators#password"],
 
             "checks": "@devcarib/server/lib/data/checks#bcrypt"
-
         },
 
         "status": {
-
             "type": "number",
 
             "filterAs": ["number", "numbers"]
-
         },
 
         "last_login": {
-
             "type": "string",
 
             "filterAs": "date",
 
             "readOnly": true
-
         }
-
     }
-
 }

@@ -36,21 +36,15 @@ const ERR_MESSAGE = 'Please correct the errors below before proceeding.';
  * workflow.
  */
 export class InviteController {
-
     _getModel(db: mongo.Db): InviteModel {
-
         return InviteModel.getInstance(db);
-
     }
 
     _getInvite(model: InviteModel, id: string): Future<Maybe<Invite>> {
-
-        return model.get(id, { filters: {accepted_on: { $exists: false } }});
-
+        return model.get(id, { filters: { accepted_on: { $exists: false } } });
     }
 
     _sendNotFound(): Action<void> {
-
         return render(new NotFoundView({}), 404);
     }
 
@@ -60,43 +54,37 @@ export class InviteController {
      * 404s otherwise.
      */
     onForm(req: Request): Action<void> {
-
         let that = this;
 
-        return doAction(function*() {
-
+        return doAction(function* () {
             let model = that._getModel(yield checkout('main'));
 
-            let minvite: Maybe<Invite> =
-                yield fork(that._getInvite(model, req.params.id));
+            let minvite: Maybe<Invite> = yield fork(
+                that._getInvite(model, req.params.id)
+            );
 
-            if (minvite.isNothing())
-                return render(new NotFoundView({}), 404);
+            if (minvite.isNothing()) return render(new NotFoundView({}), 404);
 
             let invite = minvite.get();
 
-            return render(new InviteView({
+            return render(
+                new InviteView({
+                    failed: false,
 
-                failed: false,
+                    errors: <Record<string>>{},
 
-                errors: <Record<string>>{},
+                    token: <string>invite.id,
 
-                token: <string>invite.id,
+                    values: {
+                        name: invite.name,
 
-                values: {
+                        email: invite.email
+                    },
 
-                    name: invite.name,
-
-                    email: invite.email,
-
-                },
-
-                csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
-
-            }));
-
+                    csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
+                })
+            );
         });
-
     }
 
     /**
@@ -104,53 +92,51 @@ export class InviteController {
      * supplied.
      */
     onRegister(req: Request): Action<void> {
-
         let that = this;
 
-        return doAction(function*() {
-
+        return doAction(function* () {
             let db = yield checkout('main');
 
             let model = that._getModel(db);
 
-            let minvite: Maybe<Invite> =
-                yield fork(that._getInvite(model, req.params.id));
+            let minvite: Maybe<Invite> = yield fork(
+                that._getInvite(model, req.params.id)
+            );
 
             if (minvite.isNothing()) return that._sendNotFound();
 
             let invite = minvite.get();
 
-            let result: Result<Object, User> =
-                yield fork(checks.check(req.body));
+            let result: Result<Object, User> = yield fork(
+                checks.check(req.body)
+            );
 
             if (result.isLeft()) {
-
                 let errors = <Record<string>>result.takeLeft().explain();
 
-                return render(new InviteView({
+                return render(
+                    new InviteView({
+                        failed: true,
 
-                    failed: true,
+                        message: ERR_MESSAGE,
 
-                    message: ERR_MESSAGE,
+                        errors,
 
-                    errors,
+                        token: <string>invite.id,
 
-                    token: <string>invite.id,
+                        values: merge(
+                            {
+                                name: invite.name,
 
-                    values: merge({
+                                email: invite.email
+                            },
+                            <object>req.body
+                        ),
 
-                        name: invite.name,
-
-                        email: invite.email,
-
-                    }, <object>req.body),
-
-                    csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
-
-                }));
-
+                        csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
+                    })
+                );
             } else {
-
                 let user: User = result.takeRight();
 
                 user.status = 1;
@@ -167,11 +153,8 @@ export class InviteController {
                 req.session.setWithDescriptor('success', 1, { ttl: 1 });
 
                 return redirect('/register/success', 303);
-
             }
-
         });
-
     }
 
     /**
@@ -179,11 +162,8 @@ export class InviteController {
      * successful.
      */
     onSuccess(req: Request): Action<void> {
-
-        return (req.session.getOrElse('success', 0) === 1) ?
-            render(new SuccessView({})) :
-           <Action<void>>redirect('/', 301);
-
+        return req.session.getOrElse('success', 0) === 1
+            ? render(new SuccessView({}))
+            : <Action<void>>redirect('/', 301);
     }
-
 }

@@ -9,5 +9,4 @@ export const connected = (): Future<void> =>
 /**
  * started hook sample
  */
-export const started = (): Future<void> =>
-    pure(console.info('board: running'));
+export const started = (): Future<void> => pure(console.info('board: running'));

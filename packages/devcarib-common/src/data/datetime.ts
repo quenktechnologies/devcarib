@@ -12,7 +12,6 @@ export const now = (): Date => moment.utc().toDate();
  * The TZ offset is of the form +00:00.
  */
 export const getOffset = (date = now()) => {
-
     let value = date.getTimezoneOffset();
 
     let sign = value > 0 ? '-' : '+';
@@ -28,5 +27,4 @@ export const getOffset = (date = now()) => {
     let padMin = mins < 10 ? '0' : '';
 
     return `${sign}${padHrs}${hrs}:${padMin}${mins}`;
-
-}
+};

@@ -8,10 +8,13 @@ import { Message } from '@quenk/potoo/lib/actor/message';
 
 import {
     Display,
-    HTMLElementViewDelegate,
+    HTMLElementViewDelegate
 } from '@quenk/jouvert/lib/app/service/display';
 
-import { Director, RoutingTable } from '@quenk/jouvert/lib/app/service/director';
+import {
+    Director,
+    RoutingTable
+} from '@quenk/jouvert/lib/app/service/director';
 import { Remote } from '@quenk/jouvert/lib/app/remote';
 import { Jouvert, Template } from '@quenk/jouvert';
 
@@ -22,7 +25,7 @@ import { createAgent } from '@quenk/jhr/lib/browser';
 const defaultConf: Partial<Conf> = {
     log_level: Number(process.env.PVM_LOG_LEVEL) || 1,
     long_sink: console
-}
+};
 
 /**
  * DevCarib serves as the parent class for the various frontend SPAs.
@@ -35,11 +38,13 @@ const defaultConf: Partial<Conf> = {
  * @param conf       - Potoo compatiable configuration object.
  */
 export abstract class DevCarib extends Jouvert {
-
     constructor(
         public main: HTMLElement,
         public dialogs: HTMLElement,
-        public conf = defaultConf) { super(conf); }
+        public conf = defaultConf
+    ) {
+        super(conf);
+    }
 
     /**
      * view is the main view of the application.
@@ -75,83 +80,81 @@ export abstract class DevCarib extends Jouvert {
      * Any actor spawned here is automatically added to the services map.
      */
     spawn(t: Template): Address {
-
         let addr = super.spawn(t);
 
         this.services[<string>t.id] = addr;
 
         return addr;
-
     }
 
     /**
      * tell a message to an actor in the system.
      */
     tell(addr: Address, msg: Message): DevCarib {
-
         this.vm.tell(addr, msg);
 
         return this;
-
     }
 
     /**
      * init spawns all the services needed by the application
      */
     init() {
-
         // TODO: Replace this with library calls once available.
         let viewDelegate = new HTMLElementViewDelegate(this.main);
 
         viewDelegate.set(this.view);
 
         this.spawn({
-
             id: 'views',
 
-            create: () => new Display(new HTMLElementViewDelegate(
-                this.view.findById<HTMLDivElement>('content').get()), this)
-
+            create: () =>
+                new Display(
+                    new HTMLElementViewDelegate(
+                        this.view.findById<HTMLDivElement>('content').get()
+                    ),
+                    this
+                )
         });
 
         this.spawn({
-
             id: 'dialogs',
 
-            create: () => new Display(
-                new HTMLElementViewDelegate(this.dialogs), this)
-
+            create: () =>
+                new Display(new HTMLElementViewDelegate(this.dialogs), this)
         });
 
         this.spawn({
-
             id: 'remote.background',
 
             create: () => new Remote(this.agent, this)
-
         });
 
         this.spawn({
-
             id: 'router',
 
-            create: () => new Director(this.services.views,
-                this.router, {}, this.routes, this)
-
+            create: () =>
+                new Director(
+                    this.services.views,
+                    this.router,
+                    {},
+                    this.routes,
+                    this
+                )
         });
-
     }
 
     /**
      * run the application.
      */
     run() {
-
         this.init();
 
         this.router.start();
 
-        setTimeout(() => this.router.handleEvent(new Event('hashchanged')), 100);
-
+        setTimeout(
+            () => this.router.handleEvent(new Event('hashchanged')),
+            100
+        );
     }
 }

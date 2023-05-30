@@ -1,5 +1,4 @@
 {
-
     "title": "User",
 
     "type": "object",
@@ -9,42 +8,34 @@
     "paths.get": "/r/me",
 
     "imports": {
-
         "@converse/types/lib/user": ["User"],
 
         "types:@converse/types/lib/user": [],
 
-        "checks:@converse/server/lib/validators/user": ["validate", "validatePartial"]
+        "checks:@converse/server/lib/validators/user": [
+            "validate",
+            "validatePartial"
+        ]
     },
 
-    "checks": [
-
-        ["@devcarib/server/lib/data/checks#inc", ["'users'"]]
-
-    ],
+    "checks": [["@devcarib/server/lib/data/checks#inc", ["'users'"]]],
 
     "properties": {
-
         "id": {
-
             "type": "number",
 
             "readOnly": true
-
         },
 
         "name": {
-
             "type": "string",
 
             "filterAs": "matchci",
 
             "validators": "@devcarib/common/lib/data/validators#name"
-
         },
 
         "email": {
-
             "type": "string",
 
             "filterAs": "matchci",
@@ -52,15 +43,14 @@
             "validators": "@devcarib/common/lib/data/validators#email",
 
             "checks": [
-
-                ["@devcarib/server/lib/data/checks#unique", ["collection", "'email'"]]
-
+                [
+                    "@devcarib/server/lib/data/checks#unique",
+                    ["collection", "'email'"]
+                ]
             ]
-
         },
 
         "username": {
-
             "type": "string",
 
             "filterAs": "matchci",
@@ -68,15 +58,14 @@
             "validators": "@devcarib/common/lib/data/validators#username",
 
             "checks": [
-
-                ["@devcarib/server/lib/data/checks#unique", ["collection", "'username'"]]
-
+                [
+                    "@devcarib/server/lib/data/checks#unique",
+                    ["collection", "'username'"]
+                ]
             ]
-
         },
 
         "password": {
-
             "type": "string",
 
             "fields:hidden": true,
@@ -84,29 +73,22 @@
             "validators": ["@devcarib/common/lib/data/validators#password"],
 
             "checks": "@devcarib/server/lib/data/checks#bcrypt"
-
         },
 
         "status": {
-
             "type": "number",
 
             "readOnly": true,
 
             "filterAs": ["number", "numbers"]
-
         },
 
         "last_login": {
-
             "type": "string",
 
             "filterAs": "date",
 
             "readOnly": true
-
         }
-
     }
-
 }

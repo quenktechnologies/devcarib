@@ -1,63 +1,45 @@
-
 main {
-  padding-bottom: 2em;
+    padding-bottom: 2em;
 }
 
 .board-post-job-form-header {
+    text-align: center;
 
-  text-align: center;
-
-  & > .board-post-job-form-heading {
-    margin: 0;
-  }
+    & > .board-post-job-form-heading {
+        margin: 0;
+    }
 }
 
 .preview-button-container {
+    display: flex;
 
-  display: flex;
-
-  .preview-button {
-
-    margin: auto;
-
-  }
-
+    .preview-button {
+        margin: auto;
+    }
 }
 
 .required-note {
-
-  text-align: center;
-
+    text-align: center;
 }
 
 .action-container {
+    padding-top: 1em;
 
-  padding-top: 1em;
+    .back-button {
+        float: left;
+    }
 
-  .back-button {
+    .send-button {
+        float: right;
+    }
 
-    float: left;
-
-  }
-
-  .send-button {
-
-    float: right;
-
-  }
-
-  &::after {
-
-    content: "";
-    clear: both;
-    display: table;
-
-  }
-
+    &::after {
+        content: '';
+        clear: both;
+        display: table;
+    }
 }
 
 .back-link-container {
-
-  margin-bottom: 2.5em;
-
+    margin-bottom: 2.5em;
 }

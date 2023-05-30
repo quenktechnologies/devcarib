@@ -16,8 +16,7 @@ import { modelsAvailable } from '@converse/server/lib/models';
 import { User } from '@converse/types/lib/user';
 
 export class ConverseApi extends ApiController<mongodb.Db> {
-
-   constructor() {
+    constructor() {
         super(
             'main',
             new MapModelProvider(modelsAvailable),
@@ -26,31 +25,24 @@ export class ConverseApi extends ApiController<mongodb.Db> {
     }
 
     users = {
+        get(req: Request): Action<void> {
+            let muser = req.session.get('user');
 
-    get(req: Request): Action<void> {
+            if (muser.isNothing()) return notFound();
 
-        let muser = req.session.get('user');
+            return ok({ data: muser.get() });
+        },
 
-        if (muser.isNothing()) return notFound();
+        update(req: Request): Action<void> {
+            let muser = req.session.get('user');
 
-        return ok({ data: muser.get() });
+            if (muser.isNothing()) return notFound();
 
-    },
+            req.params.id = String((<User>muser.get()).id);
 
-    update(req: Request) : Action<void> {
-
-        let muser = req.session.get('user');
-
-        if (muser.isNothing()) return notFound();
-
-        req.params.id =  String((<User>muser.get()).id);
-
-        return super.update(req);
-
-    }
-
-    }
-
+            return super.update(req);
+        }
+    };
 }
 
 export const api = new ConverseApi();

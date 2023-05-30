@@ -39,8 +39,9 @@ const updates: Update[] = [];
  * lists of updates to apply.
  */
 export abstract class Update {
-
-    constructor() { updates.push(this); }
+    constructor() {
+        updates.push(this);
+    }
 
     /**
      * key for this Update.
@@ -65,9 +66,7 @@ export abstract class Update {
      * before executing the actual update.
      */
     prepare(_updater: Updater): Future<void> {
-
         return voidPure;
-
     }
 
     /**
@@ -76,29 +75,24 @@ export abstract class Update {
      * This method can be used to restore modified data to its backed up state.
      */
     restore(_updater: Updater): Future<void> {
-
         return voidPure;
-
     }
 
     /**
      * run the update.
      */
-    abstract run(_updater: Updater): Future<void>
-
+    abstract run(_updater: Updater): Future<void>;
 }
 
 /**
  * Logger interface.
  */
 export interface Logger {
+    info(...args: Type[]): void;
 
-    info(...args: Type[]): void
+    warn(...args: Type[]): void;
 
-    warn(...args: Type[]): void
-
-    error(...args: Type[]): void
-
+    error(...args: Type[]): void;
 }
 
 /**
@@ -109,8 +103,7 @@ export interface Logger {
  * by [[Update]] child classes.
  */
 export abstract class Updater {
-
-    constructor(public app: App, public logger: Logger = console) { }
+    constructor(public app: App, public logger: Logger = console) {}
 
     /**
      * getUpdates must be implemented to provide a list of updates
@@ -118,7 +111,7 @@ export abstract class Updater {
      *
      * These will be used to determine which updates still need to be applied.
      */
-    abstract getUpdates(): Future<Key[]>
+    abstract getUpdates(): Future<Key[]>;
 
     /**
      * onComplete is called each time an update has been successfully
@@ -129,7 +122,8 @@ export abstract class Updater {
     abstract onComplete(
         _udate: Update,
         _start: Milliseconds,
-        _end: Milliseconds): Future<void>
+        _end: Milliseconds
+    ): Future<void>;
 
     /**
      * run all configured updates, one at a time.
@@ -137,7 +131,6 @@ export abstract class Updater {
      * If any of these fail the entire update process is considered failed.
      */
     run(): Future<void> {
-
         let that = this;
 
         let { logger } = this;
@@ -148,66 +141,61 @@ export abstract class Updater {
 
         let counter = 0;
 
-        return Future.do(async ()=> {
-
+        return Future.do(async () => {
             let applied: Key[] = await that.getUpdates();
 
-            await sequential(updates.sort().map(next =>
-                Future.do(async ()=> {
+            await sequential(
+                updates.sort().map(next =>
+                    Future.do(async () => {
+                        let { key } = next;
 
-                    let { key } = next;
+                        if (applied.includes(key)) {
+                            logger.info(`Skipping "${key}"...`);
 
-                    if (applied.includes(key)) {
+                            return;
+                        }
 
-                        logger.info(`Skipping "${key}"...`);
+                        logger.info(`Applying update: "${key}"...`);
 
-                        return ;
+                        logger.info('Description:');
 
-                    }
+                        logger.info(next.description);
 
-                    logger.info(`Applying update: "${key}"...`);
+                        let start = Date.now();
 
-                    logger.info('Description:');
+                        await next.prepare(that);
 
-                    logger.info(next.description);
+                        try {
+                            await next.run(that);
+                        } catch (e) {
+                            logger.error(
+                                `"${key} failed! ` + `Attempting to rollback...`
+                            );
 
-                    let start = Date.now();
+                            await next.restore(that);
 
-                    await next.prepare(that);
+                            logger.warn(`Rollback for "${key}" complete.`);
 
-                    try {
+                            logger.warn(
+                                `The update process has failed! ` +
+                                    `The application is unable to start!`
+                            );
 
-                    await next.run(that);
+                            throw e;
+                        }
 
-                    } catch(e) {
+                        logger.info(`Update "${key}" successfully applied!`);
 
-                        logger.error(`"${key} failed! ` +
-                            `Attempting to rollback...`);
+                        await that.onComplete(next, start, Date.now());
 
-                        await next.restore(that);
-
-                        logger.warn(`Rollback for "${key}" complete.`);
-
-                        logger.warn(`The update process has failed! ` +
-                            `The application is unable to start!`);
-
-                         throw e;
-
-                    }
-
-                    logger.info(`Update "${key}" successfully applied!`);
-
-                    await that.onComplete(next, start, Date.now());
-
-                    counter++;
-
-                })));
+                        counter++;
+                    })
+                )
+            );
 
             logger.info(`Successfully applied ${counter} updates!`);
 
             return voidPure;
         });
-
     }
-
 }

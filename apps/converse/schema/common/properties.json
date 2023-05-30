@@ -1,79 +1,57 @@
 {
-
     "created_by": {
-
         "type": "object",
 
         "readOnly": true,
 
         "properties": {
-
             "id": {
-
                 "type": "number",
 
                 "filterAs": ["number", "numbers"]
-
             },
 
             "username": {
-
                 "type": "string",
 
                 "filterAs": "matchci"
-
             }
-
         }
-
     },
 
     "created_on": {
-
         "type": "string",
 
         "readOnly": true,
 
         "filterAs": "date"
-
     },
 
     "last_updated_on": {
-
         "type": "string",
 
         "readOnly": true,
 
         "filterAs": "date"
-
     },
 
     "last_updated_by": {
-
         "type": "object",
 
         "readOnly": true,
 
         "properties": {
-
-                     "id": {
-
+            "id": {
                 "type": "number",
 
                 "filterAs": ["number", "numbers"]
-
             },
 
             "username": {
-
                 "type": "string",
 
                 "filterAs": "matchci"
-
             }
-
         }
-
     }
-
 }

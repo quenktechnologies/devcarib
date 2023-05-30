@@ -24,26 +24,22 @@ const DEFAULT_PAGE_SIZE = 100;
  * CompileQueryTagConf provies the configuration for compileQueryTag().
  */
 export interface CompileQueryTagConf {
-
     /**
      * policies is a Record of all filter policies used by the app for reach
      * target route.
      */
-    policies: Record<EnabledPolicies>
-
+    policies: Record<EnabledPolicies>;
 }
 
 /**
  * CompileSearchTagConf provies the configuration for compileSearchTag().
  */
 export interface CompileSearchTagConf extends CompileQueryTagConf {
-
     /**
      * fields is a Record of all mongodb project specifiers used by the app for
      * each target route.
      */
-    fields: Record<Record<number>>
-
+    fields: Record<Record<number>>;
 }
 
 const mfc = new MongoDBFilterCompiler();
@@ -54,9 +50,10 @@ const mfc = new MongoDBFilterCompiler();
  *
  * Works via the @quenk/search-filters-mongodb module.
  */
-export const compileQueryString = (policies: EnabledPolicies, q: string)
-    : Except<Object> => {
-
+export const compileQueryString = (
+    policies: EnabledPolicies,
+    q: string
+): Except<Object> => {
     if (!isString(q) || q === '') return right({});
 
     let ret = mfc.compile(policies, q);
@@ -67,8 +64,7 @@ export const compileQueryString = (policies: EnabledPolicies, q: string)
     let o = ret.takeRight();
 
     return right(o);
-
-}
+};
 
 /**
  * compileSortString turns a sort indicator string into an object that could be
@@ -77,45 +73,39 @@ export const compileQueryString = (policies: EnabledPolicies, q: string)
  * Only one field can be sorted on at a time and it must be in the policy ref
  * document provided.
  */
-export const compileSortString = (refs: { [key: string]: number }, sort: string)
-    : Object => {
-
+export const compileSortString = (
+    refs: { [key: string]: number },
+    sort: string
+): Object => {
     if (!isString(sort) || sort === '') return {};
 
     let key: string = sort;
-    let dir = (key[0] === '-') ? -1 : 1;
+    let dir = key[0] === '-' ? -1 : 1;
 
-    key = ((key[0] === '+') || (key[0] === '-')) ? key.slice(1) : key;
+    key = key[0] === '+' || key[0] === '-' ? key.slice(1) : key;
 
+    /* eslint-disable no-prototype-builtins */
     if (!refs.hasOwnProperty(key)) return {};
 
     return { [key]: dir };
-
-}
+};
 
 /**
  * compile combines the compileSearchTag, compileQueryTag and compileGetTag into
  * one filter.
  */
 export const compile =
-    (conf: CompileSearchTagConf) => (req: Request): Action<void> => {
-
+    (conf: CompileSearchTagConf) =>
+    (req: Request): Action<void> => {
         if (req.method === 'GET') {
-
-            if (req.route.tags.search)
-                return compileSearchTag(conf)(req);
-            else if (req.route.tags.get)
-                return compileGetTag(conf)(req);
-
-        } else if ((req.method === 'PATCH') || (req.method === 'DELETE')) {
-
+            if (req.route.tags.search) return compileSearchTag(conf)(req);
+            else if (req.route.tags.get) return compileGetTag(conf)(req);
+        } else if (req.method === 'PATCH' || req.method === 'DELETE') {
             return compileQueryTag(conf)(req);
-
         }
 
         return next(req);
-
-    }
+    };
 
 /**
  * compileSearchTag shapes the query parameters of an incoming search request so
@@ -133,29 +123,25 @@ export const compile =
  * queries easily.
  */
 export const compileSearchTag =
-    (conf: CompileSearchTagConf) => (req: Request): Action<void> =>
-        doAction(function*() {
-
-            if ((req.method !== 'GET') || (req.route.tags.get)) return next(req);
+    (conf: CompileSearchTagConf) =>
+    (req: Request): Action<void> =>
+        doAction(function* () {
+            if (req.method !== 'GET' || req.route.tags.get) return next(req);
 
             let ptr = <string>req.route.tags.search;
 
             if (!ptr) {
-
                 req.query = {};
 
                 return next(req);
-
             }
 
             let policy = conf.policies[ptr];
 
             if (!policy) {
-
                 yield error(new Error('ERR_NO_POLICY'));
 
                 abort();
-
             }
 
             let filters = <string>req.route.tags.query;
@@ -166,55 +152,50 @@ export const compileSearchTag =
 
             let limit = Number(req.query.limit);
 
-            limit = isNumber(limit) ? limit :                DEFAULT_PAGE_SIZE;
+            limit = isNumber(limit) ? limit : DEFAULT_PAGE_SIZE;
 
             let mQuery = compileQueryString(policy, <string>req.query.q);
 
             if (mQuery.isLeft()) {
-
                 yield badRequest({ error: 'ERR_BAD_QUERY' });
 
                 return abort();
-
             }
 
             let query = mQuery.takeRight();
 
             if (filters) {
-
-                let mAdditionalQuery = compileQueryString(policy,
-                    expandTemplate(req, filters));
+                let mAdditionalQuery = compileQueryString(
+                    policy,
+                    expandTemplate(req, filters)
+                );
 
                 if (mAdditionalQuery.isLeft()) {
-
                     yield error(new Error('ERR_QUERY_MISCONFIGURED'));
 
                     return abort();
-
                 }
 
                 query = { $and: [mAdditionalQuery.takeRight(), query] };
-
             }
 
             let fields = <Object>conf.fields[ptr];
 
             if (!fields) {
-
                 yield error(new Error('ERR_NO_FIELDS'));
 
                 return abort();
-
             }
 
-            let sort = compileSortString(<{ [key: string]: number }>fields,
-                <string>req.query.sort);
+            let sort = compileSortString(
+                <{ [key: string]: number }>fields,
+                <string>req.query.sort
+            );
 
-            req.query = { query, page, limit, sort, fields }
+            req.query = { query, page, limit, sort, fields };
 
             return next(req);
-
-        })
+        });
 
 /**
  * compileQueryTag compiles the string specified in the +query tag into the
@@ -225,10 +206,10 @@ export const compileSearchTag =
  * The +query value is first interpolated with the Request object.
  */
 export const compileQueryTag =
-    (conf: CompileQueryTagConf) => (req: Request): Action<void> =>
-        doAction(function*() {
-
-            if ((req.method !== 'PATCH') && (req.method !== 'DELETE'))
+    (conf: CompileQueryTagConf) =>
+    (req: Request): Action<void> =>
+        doAction(function* () {
+            if (req.method !== 'PATCH' && req.method !== 'DELETE')
                 return next(req);
 
             req.query = {}; // Clear any user supplied query.
@@ -242,31 +223,28 @@ export const compileQueryTag =
             let policy = conf.policies[ptr];
 
             if (!policy) {
-
                 yield error(new Error('ERR_NO_POLICY'));
 
                 return abort();
-
             }
 
-            let mQuery = compileQueryString(policy,
-                expandTemplate(req, filters));
+            let mQuery = compileQueryString(
+                policy,
+                expandTemplate(req, filters)
+            );
 
             if (mQuery.isLeft()) {
-
                 console.error(mQuery.takeLeft());
 
                 yield error(new Error('ERR_BAD_QUERY_CONF'));
 
                 return abort();
-
             }
 
             req.query = mQuery.takeRight();
 
             return next(req);
-
-        })
+        });
 
 /**
  * compileGetTag shapes the query parameters of an incoming get request so
@@ -280,11 +258,10 @@ export const compileQueryTag =
  * The +get value is first interpolated with the Request object.
  */
 export const compileGetTag =
-    (conf: CompileSearchTagConf) => (req: Request): Action<void> =>
-        doAction(function*() {
-
-            if ((req.method !== 'GET') || (req.route.tags.search))
-                return next(req);
+    (conf: CompileSearchTagConf) =>
+    (req: Request): Action<void> =>
+        doAction(function* () {
+            if (req.method !== 'GET' || req.route.tags.search) return next(req);
 
             req.query = {}; // Clear any user supplied queries.
 
@@ -295,11 +272,9 @@ export const compileGetTag =
             if (!ptr) return next(req);
 
             if (!fields) {
-
                 yield error(new Error('ERR_NO_FIELDS'));
 
                 return abort();
-
             }
 
             let filters = <string>req.route.tags.query;
@@ -307,51 +282,45 @@ export const compileGetTag =
             let query = {};
 
             if (filters) {
-
                 let policy = conf.policies[ptr];
 
                 if (!policy) {
-
                     yield error(new Error('ERR_NO_POLICY'));
 
                     return abort();
-
                 }
 
-                let mquery = compileQueryString(policy,
-                    expandTemplate(req, filters));
+                let mquery = compileQueryString(
+                    policy,
+                    expandTemplate(req, filters)
+                );
 
                 if (mquery.isLeft()) {
-
                     yield error(new Error('ERR_QUERY_MISCONFIGURED'));
 
                     return abort();
-
                 }
 
                 query = mquery.takeRight();
-
             }
 
-            req.query = { query, fields }
+            req.query = { query, fields };
 
             return next(req);
-
-        })
+        });
 
 const expandTemplate = (req: Request, str: string) =>
     interpolate(str, req, {
-
         transform: sanitize,
 
         getter: (_, key) => {
-
             let paths = key.split('.');
 
-            return <string>((paths[0] === 'session') ?
-                req.session.getOrElse(paths.slice(1).join('.'), '') :
-                unsafeGet(key, <any>req));
-
+            return <string>(
+                (paths[0] === 'session'
+                    ? req.session.getOrElse(paths.slice(1).join('.'), '')
+                    : /* eslint-disable @typescript-eslint/no-explicit-any */
+                      unsafeGet(key, <any>req))
+            );
         }
-
-    })
+    });

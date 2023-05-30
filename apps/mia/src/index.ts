@@ -14,7 +14,6 @@ import {
     BaseAuthenticator
 } from '@quenk/backend/lib/app/auth/authenticator';
 
-
 import { Admin } from '@mia/types/lib/admin';
 
 import { validate as validateLogin } from '@mia/server/lib/validators/login';
@@ -34,25 +33,21 @@ const ROUTE_LOGIN = '/mia/login';
 const TITLE = 'Mia';
 
 class MiaAuthenticator extends BaseAuthenticator<Admin> {
-
     validate = validateLogin;
 
     getUser(creds: Object): Future<Maybe<Admin>> {
-
-        return doFuture(function*() {
-
+        return doFuture(function* () {
             let { email, password } = <Admin>creds;
 
             let db = yield unsafeGetUserConnection('main');
 
             let model = AdminModel.getInstance(db);
 
-            let [admin] = yield model.search({ filters: {email }});
+            let [admin] = yield model.search({ filters: { email } });
 
             if (admin == null) return pure(nothing());
 
-            let matches = yield compare(
-                <string>password, admin.password);
+            let matches = yield compare(<string>password, admin.password);
 
             if (!matches) return pure(nothing());
 
@@ -61,52 +56,40 @@ class MiaAuthenticator extends BaseAuthenticator<Admin> {
             yield model.update(admin.id, change);
 
             return pure(just({ id: admin.id }));
-
         });
-
     }
-
 }
 
 /**
  * MiaAuthController serves the endpoints for mia authentication.
  */
 export class MiaAuthController extends AuthController {
-
     views = {
-
         index: () => new IndexView({ title: TITLE }),
 
-        form: (req: Request, ctx: AuthFailedContext) => new LoginView({
+        form: (req: Request, ctx: AuthFailedContext) =>
+            new LoginView({
+                title: 'Caribbean Developers Job Board - Admin Login',
 
-            title: 'Caribbean Developers Job Board - Admin Login',
+                styles: [],
 
-            styles: [],
+                auth: merge(ctx, {
+                    message: 'Email or password invalid.'
+                }),
 
-            auth: merge(ctx, {
-
-                message: 'Email or password invalid.'
-
-            }),
-
-            csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
-
-        })
-
-    }
+                csrfToken: <string>req.prs.getOrElse(PRS_CSRF_TOKEN, '')
+            })
+    };
 
     urls = {
-
         index: ROUTE_INDEX,
 
         form: ROUTE_LOGIN
-
-    }
+    };
 
     authenticator = new MiaAuthenticator();
 
     userSessionKey = 'admin';
-
 }
 
 export const auth = new MiaAuthController();

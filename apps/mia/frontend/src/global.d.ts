@@ -1,6 +1,4 @@
-
 interface Window {
-
-    system: any
-
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    system: any;
 }

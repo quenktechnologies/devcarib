@@ -1,5 +1,4 @@
 {
-
     "type": "object",
 
     "title": "Admin",
@@ -7,15 +6,12 @@
     "collection": "admins",
 
     "paths": {
-
         "search": "/mia/r/admins",
 
         "get": "/mia/r/admins/{id}"
-
     },
 
     "imports": {
-
         "validators:@mia/types/lib/admin": ["Admin"],
 
         "models:@mia/types/lib/admin": ["Admin"],
@@ -23,57 +19,42 @@
         "remotemodels:@mia/types/lib/admin": ["Admin"],
 
         "checks:\\.\\./validators/admin": ["validate", "validatePartial"]
-
     },
 
-    "checks-complete": [
-
-        ["@devcarib/server/lib/data/checks#inc", ["'admins'"]]
-
-    ],
+    "checks-complete": [["@devcarib/server/lib/data/checks#inc", ["'admins'"]]],
 
     "properties": {
-
         "id": {
-
             "type": "number",
 
             "readOnly": true,
 
             "checks-complete": [
-
-                ["@devcarib/server/lib/data/checks#unique", ["'admins'", "'id'"]]
-
+                [
+                    "@devcarib/server/lib/data/checks#unique",
+                    ["'admins'", "'id'"]
+                ]
             ]
-
         },
 
         "name": {
-
             "type": "string",
 
             "validators": "@devcarib/common/lib/data/validators#name"
-
         },
 
         "email": {
-
             "type": "string",
 
             "validators": "@devcarib/common/lib/data/validators#email"
-
         },
 
         "password": {
-
             "type": "string",
 
             "validators": "@devcarib/common/lib/data/validators#password",
 
             "checks": ["@devcarib/server/lib/data/checks#bcrypt"]
-
         }
-
     }
-
 }

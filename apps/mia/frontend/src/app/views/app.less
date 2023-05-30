@@ -1,43 +1,33 @@
-@import "@quenk/wml-widgets/lib/content/screen/less/screen";
+@import '@quenk/wml-widgets/lib/content/screen/less/screen';
 
 #content {
-
-  padding: 60px 0px;
-
+    padding: 60px 0px;
 }
 
 .ww-modal {
+    overflow: hidden;
 
-  overflow: hidden;
+    & > .ww-modal__position {
+        width: 90%;
 
-  & > .ww-modal__position {
-
-    width: 90%;
-
-    .screen-not-small({
+        .screen-not-small({
 
       max-width: 800px;
 
     });
+    }
 
-  }
+    & .ww-modal__body {
+        max-height: 400px;
 
-  & .ww-modal__body {
-
-    max-height: 400px;
-
-    .screen-not-small({
+        .screen-not-small({
       max-height: 450px;
     });
 
-    overflow-y: auto;
+        overflow-y: auto;
+    }
 
-  }
-
-  &.-huge > .ww-modal__position {
-
-    max-width: 100%;
-
-  }
-
+    &.-huge > .ww-modal__position {
+        max-width: 100%;
+    }
 }
