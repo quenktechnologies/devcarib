@@ -12,7 +12,7 @@ import { checkout } from '@quenk/tendril/lib/app/api/pool';
 import { Action, doAction } from '@quenk/tendril/lib/app/api';
 import { fork } from '@quenk/tendril/lib/app/api/control';
 
-import { render } from '@quenk/tendril-show-wml';
+import { render } from '@quenk/backend/lib/app/views/engine/wml';
 
 import { Result } from '@quenk/preconditions/lib/result';
 import { redirect } from '@quenk/tendril/lib/app/api/response';

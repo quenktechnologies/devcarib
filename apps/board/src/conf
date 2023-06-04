@@ -22,8 +22,6 @@ app.csrf.token.enable = true
 
 app.csrf.token.send_cookie = true
 
-app.views.provider = @quenk/tendril-show-nunjucks#show
-
 app.log.enable = true
 
 app.log.format = ${LOG_FORMAT}
