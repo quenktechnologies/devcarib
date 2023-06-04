@@ -4,7 +4,7 @@ server.port = ${PORT}
 
 server.host = "0.0.0.0"
 
-connections.main.connector = @quenk/backend/lib/app/db/mongodb/connection#connector
+connections.main.connector = @quenk/backend/lib/app/db/mongodb/connection#create
 
 connections.main.options = [${MONGO_URL}, {useNewUrlParser = true}]
 
@@ -12,11 +12,11 @@ app.session.enable = true
 
 app.session.options.secret = ${SESSION_SECRET}
       
-app.session.options.name = "sessid"
+app.session.options.name = "bsid"
 
-app.session.store.provider = @quenk/backend/lib/app/db/mongodb/session#provider
+app.session.store.provider = @quenk/backend/lib/app/db/mongodb/session#create
 
-app.session.store.options.uri = ${MONGO_URL}
+app.session.store.options.mongoUrl = ${MONGO_URL}
 
 app.csrf.token.enable = true
 
