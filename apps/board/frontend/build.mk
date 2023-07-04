@@ -1,33 +1,22 @@
-$(BOARD_FRONTEND_DIR): $(BOARD_FRONTEND_PUBLIC_DIR)
+$(BOARD_JOB_FORM_DIR): $(BOARD_JOB_FORM_PUBLIC_DIR)
 	touch $@
 
-$(BOARD_FRONTEND_PUBLIC_DIR): $(BOARD_FRONTEND_CSS_FILE)\
-                              $(BOARD_FRONTEND_JS_FILE)
+$(BOARD_JOB_FORM_PUBLIC_DIR): $(BOARD_JOB_FORM_JS_FILE) \
+	                      $(BOARD_JOB_FORM_CSS_FILE)
 	touch $@
 
-$(BOARD_FRONTEND_JS_FILE): $(BOARD_FRONTEND_LIB_DIR)
+$(BOARD_JOB_FORM_JS_FILE): $(shell find $(BOARD_JOB_FORM_DIR)/src \
+	                              -name \*.ts -o -name \*.tsx)
 	mkdir -p $(dir $@)
-	$(BROWSERIFY) $(BOARD_FRONTEND_LIB_DIR)/main.js \
-	$(if $(findstring yes,$(DEV)),,|$(UGLIFYJS)) > $@
+	$(ESBUILD) $(BOARD_JOB_FORM_DIR)/src/index.tsx --bundle --target=es6 \
+	$(if $(findstring yes,$(DEV)),, --minify) > $@
 
-$(BOARD_FRONTEND_LIB_DIR): $(BOARD_FRONTEND_SRC_FILES) \
-	                   $(BOARD_WIDGETS_DIR)
-	rm -R $@ 2> /dev/null || true 
-	mkdir $@
-	cp -R -u $(BOARD_FRONTEND_SRC_DIR)/* $@
-	$(WMLC) $@
-	$(TSC) --project $@
-	touch $@
-
-$(BOARD_FRONTEND_CSS_FILE): $(BOARD_FRONTEND_LESS_IMPORTS) \
-                            $(BOARD_FRONTEND_LESS_MAIN)
+$(BOARD_JOB_FORM_CSS_FILE): $(BOARD_JOB_FORM_DIR)/imports.scss \
+	                    $(BOARD_JOB_FORM_DIR)/main.scss
 	mkdir -p $(dir $@)
-	rm -R $@ || true
-	$(LESSC) --source-map-less-inline \
-	--js-vars=$(BOARD_FRONTEND_JS_VARS) $(BOARD_FRONTEND_LESS_MAIN) \
-	| ./node_modules/.bin/cleancss > $@
+	$(SASSC) $(BOARD_JOB_FORM_DIR)/main.scss > $@
 
-$(BOARD_FRONTEND_LESS_IMPORTS): $(BOARD_FRONTEND_LESS_FILES)
+$(BOARD_JOB_FORM_DIR)/imports.scss: $(BOARD_JOB_FORM_CSS_IMPORTS)
 	echo "" > $@
-	$(foreach f,$(subst $(BOARD_FRONTEND_DIR)/,,$^),\
+	$(foreach f,$(subst $(BOARD_JOB_FORM_DIR)/,,$^),\
 	echo '@import "./$(f)";' >> $@ && ) true
