@@ -5,8 +5,8 @@ app.filters = [
   @board/server/lib/filters/audit#ensureOwner,
 
   @quenk/backend/lib/app/filters/body/check#checkBody(
-     @board/server/lib/data/checks#checksAvailable,
-     @board/server/lib/data/checks#partialChecksAvailable,
+     @board/server/lib/data/checks#checksAvailable({}),
+     @board/server/lib/data/checks#partialChecksAvailable({}),
     ./errors#templates
   ),
 

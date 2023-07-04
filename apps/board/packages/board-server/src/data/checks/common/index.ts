@@ -3,7 +3,7 @@ import * as uuid from 'uuid';
 import * as mongodb from 'mongodb';
 import * as moment from 'moment';
 import * as crypto from 'crypto';
-import * as mark from './markdown';
+import * as mark from '../../markdown';
 
 import { Object, Value } from '@quenk/noni/lib/data/jsonx';
 import {

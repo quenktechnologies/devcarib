@@ -6,8 +6,6 @@ server.host = "0.0.0.0"
 
 connections.main.connector = @quenk/backend/lib/app/db/mongodb/connection#create
 
-connections.main.options = [${MONGO_URL}, {useNewUrlParser = true}]
-
 app.session.enable = true
 
 app.session.options.secret = ${SESSION_SECRET}
@@ -31,6 +29,7 @@ app.parsers.body.json.enable = true
 app.dirs.public = [
   "../public",
   "../packages/board-widgets/public",
+  "../packages/board-job-form/public",
   "../frontend/public"
 ]
 

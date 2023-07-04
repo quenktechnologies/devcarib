@@ -20,7 +20,7 @@ import { render } from '@quenk/backend/lib/app/views/engine/wml';
 
 //import { OutgoingMessage } from '@board/server/lib/actors/mail/server';
 
-import { check } from '@board/server/lib/data/checks/job';
+import { check as _check } from '@board/server/lib/data/checks/job';
 
 import { NotFoundView } from './views/404';
 import { PostJobFormView } from './views/post';
@@ -28,6 +28,8 @@ import { JobView } from './views/job';
 import { IndexView } from './views';
 
 export const ERROR_AUTH_FAILED = 'Invalid Email or password! Try again.';
+
+const check = _check({});
 
 export class BoardController {
     /**

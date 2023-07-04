@@ -1,5 +1,6 @@
-import * as marked from 'marked';
 import * as sanitize from 'sanitize-html';
+
+import { marked }from 'marked';
 
 /**
  * CommonMark is a string containing common marked text.
