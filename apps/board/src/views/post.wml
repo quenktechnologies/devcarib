@@ -9,7 +9,10 @@
     <HeadView({
                 title = "Post a Job",
                 noSite = true,
-                styles = ["/assets/css/board-frontend.css"]
+                styles = [
+                  "/assets/css/board.css",
+                  "/assets/css/form.css"
+                  ]
               })>
   }}
   <body>
@@ -17,6 +20,6 @@
     <main>
       <noscript><b>JavaScript must be enabled to use this form.</b></noscript>
     </main>
-    <script src="/assets/js/board.js"></script>
+    <script src="/assets/js/form.js"></script>
   </body>
 </html>
