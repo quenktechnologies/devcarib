@@ -1,6 +1,6 @@
 lib
-data/checks/*.ts
-data/models/*.ts
-data/validators/*.ts
-data/search/fields/*.ts
-data/search/filters/*.ts
+src/data/checks/*.ts
+src/data/models/*.ts
+src/data/validators/*.ts
+src/data/search/fields/*.ts
+src/data/search/filters/*.ts
