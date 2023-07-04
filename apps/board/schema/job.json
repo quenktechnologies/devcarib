@@ -10,15 +10,16 @@
 
         "models:@board/types/lib/job": ["Job"],
 
-        "checks:\\.\\./validators/job": ["validate", "validatePartial"]
+        "checks:\\.\\./validators/job": ["validate", "validatePartial"],
+
+        "checks:@board/server/lib/data/checks/common/mongodb": ["getCollection"]
     },
 
     "checks": [
         ["./common#parseMarkdown", ["'description'", "'description_html'"]],
 
-        ["@quenk/backend/lib/app/db/mongodb/checks#inc", ["{field:'jobs'}"]]
+        ["@quenk/backend/lib/app/db/mongodb/checks#inc", ["{field:'jobs', collection: getCollection('jobs')}"]]
     ],
-
     "properties": {
         "id": {
             "type": "number",
@@ -28,7 +29,7 @@
             "checks-complete": [
                 [
                     "@quenk/backend/lib/app/db/mongodb/checks#unique",
-                    ["'jobs'", "'id'"]
+                    ["getCollection('jobs')", "'id'"]
                 ]
             ]
         },

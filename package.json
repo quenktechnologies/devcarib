@@ -15,17 +15,9 @@
     "author": "Quenk Technologies 2019 <info@@quenk.com> (https://quenk.com)",
     "license": "Apache-2.0",
     "workspaces": [
-        "apps/board",
         "apps/mia"
     ],
     "dependencies": {
-        "@board/checks": "file:apps/board/packages/board-checks",
-        "@board/fields": "file:apps/board/packages/board-fields",
-        "@board/filter-policies": "file:apps/board/packages/board-filter-policies",
-        "@board/models": "file:apps/board/packages/board-models",
-        "@board/types": "file:apps/board/packages/board-types",
-        "@board/validators": "file:apps/board/packages/board-validators",
-        "@board/views": "file:apps/board/packages/board-views",
         "@converse/checks": "file:apps/converse/packages/converse-checks",
         "@converse/fields": "file:apps/converse/packages/converse-fields",
         "@converse/filter-policies": "file:apps/converse/packages/converse-filter-policies",
@@ -63,7 +55,6 @@
         "uuid": "^8.3.2"
     },
     "devDependencies": {
-        "@board/widgets": "file:packages/devcarib-widgets",
         "@devcarib/frontend": "file:packages/devcarib-frontend",
         "@quenk/crapaud": "^0.5.1",
         "@quenk/dagen": "^1.10.3",

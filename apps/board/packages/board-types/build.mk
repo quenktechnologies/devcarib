@@ -1,4 +1,4 @@
-include ./node_modules/@quenk/dagen-templates-quenk/macros.mk
+include $(QTL_DAGEN_TEMPLATES_DIR)/macros.mk
 
 $(BOARD_TYPES_DIR): $(BOARD_TYPES_DIR)/lib
 	touch $@

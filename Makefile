@@ -1,35 +1,9 @@
-HERE=$(shell pwd)
-SHELL=/bin/bash -o pipefail
-DEV?=
-
-### Binaries. ###
-TDC?=$(HERE)/node_modules/.bin/tdc
-TSC?=$(HERE)/node_modules/.bin/tsc
-BROWSERIFY?=./node_modules/.bin/browserify
-LESSC?=$(HERE)/node_modules/.bin/lessc
-WMLC?=$(HERE)/node_modules/.bin/wmlc
-ENVIFY?=$(HERE)/node_modules/.bin/envify
-TSFMT?=./node_modules/.bin/tsfmt
-TSC?=./node_modules/.bin/tsc
-DAGEN?=./node_modules/.bin/dagen
-DAGEN_PLUGIN_IMPORTS?=./node_modules/@quenk/dagen-commons/lib/plugins/imports.js
-VALIDATION_PLUGIN?=node_modules/@quenk/dagen-commons/lib/plugins/checks
-TRANSFORM?=./node_modules/.bin/transform
-CLEANCSS?=./node_modules/.bin/cleancss
-UGLIFYJS?=./node_modules/.bin/uglifyjs
-
-# EOL marker
-define EOL
-
-
-endef
+include common.mk
 
 ### Settings ###
 DC_DIR:=$(HERE)
 DC_PACKAGES_DIR:=$(DC_DIR)/packages
 DC_APPS_DIR:=$(DC_DIR)/apps
-
-JS_VARS:=$(DC_DIR)/node_modules/@quenk/wml-widgets/lib/classNames.js
 
 CLEAN_TARGETS:=
 SRC_DIRS:=
