@@ -7,26 +7,45 @@ import ReactQuill from 'react-quill';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { FormStage, PageState, setValue } from '../page';
+import { createSlice } from '@reduxjs/toolkit';
+
+import { FormView, FormViewState, handleValue, newState } from './';
+
+const slice = createSlice({
+    name: 'description',
+    initialState: newState(),
+    reducers: {
+        setValue: handleValue
+    }
+});
+
+const { setValue } = slice.actions;
+
+const fields = ['description'];
 
 const toolbar = [
-    ['bold', 'italic', 'underline'], // Customize your desired buttons
+    ['bold', 'italic', 'underline'],
     [{ list: 'ordered' }, { list: 'bullet' }]
 ];
 
 /**
- * DescriptionStage gathers the job description in a rich editor.
+ * DescriptionFormView gathers the job description in a rich editor.
  */
-export class DescriptionStage implements FormStage {
+export class DescriptionFormView implements FormView {
+    static reducer = slice.reducer;
+
+    name = 'description';
+
     title = 'Description';
 
     View = () => {
         let value = useSelector(
-            (state: { page: PageState }) => state.page.values.description || ''
+            (state: { description: FormViewState }) =>
+                state.description.values.description || ''
         );
         let dispatch = useDispatch();
         let fireChange = (value: string) => {
-            dispatch(setValue({ name: 'description', value }));
+            dispatch(setValue({ name: 'description', value, fields }));
         };
         return (
             <Box sx={{ marginBottom: 2 }}>

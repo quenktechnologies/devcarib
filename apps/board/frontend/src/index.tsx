@@ -7,9 +7,6 @@ import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
-import { CompanyStage } from './stages/company';
-import { DetailsStage } from './stages/details';
-import { DescriptionStage } from './stages/description';
 import { PostJobWizardPage, reducer } from './page';
 
 /**
@@ -29,8 +26,6 @@ export class PostJobWizard {
      */
     constructor(public root: reactDOM.Root, public store: Store) {}
 
-    _stages = [new CompanyStage(), new DetailsStage(), new DescriptionStage()];
-
     /**
      * main initializes and runs the application.
      *
@@ -40,9 +35,7 @@ export class PostJobWizard {
         let app = new PostJobWizard(
             reactDOM.createRoot(root),
             configureStore({
-                reducer: {
-                    page: reducer
-                }
+                reducer
             })
         );
 
@@ -59,7 +52,7 @@ export class PostJobWizard {
             <react.StrictMode>
                 <CssBaseline />
                 <Provider store={this.store}>
-                    <PostJobWizardPage stages={this._stages} />
+                    <PostJobWizardPage />
                 </Provider>
             </react.StrictMode>
         );

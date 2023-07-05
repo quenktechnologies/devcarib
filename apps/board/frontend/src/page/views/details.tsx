@@ -12,8 +12,20 @@ import { SelectChangeEvent } from '@mui/material/Select';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Select } from '../components/select';
-import { FormStage, PageState, setValue } from '../page';
+import { createSlice } from '@reduxjs/toolkit';
+
+import { Select } from '../../components/select';
+import { FormView, FormViewState, handleValue, newState } from './';
+
+const slice = createSlice({
+    name: 'details',
+    initialState: newState(),
+    reducers: {
+        setValue: handleValue
+    }
+});
+
+const { setValue } = slice.actions;
 
 const typeOptions = [
     { label: 'Full-Time', value: 'full-time' },
@@ -31,24 +43,34 @@ const remoteOptions = [
     { label: 'Remote', value: 'remote' }
 ];
 
+const fields = ['title', 'type', 'apply_url'];
+
 /**
- * DetailsStage gathers details about the job posting itself.
+ * DetailsFormView gathers details about the job posting itself.
  *
  * The job description is captured in a separate step.
  */
-export class DetailsStage implements FormStage {
+export class DetailsFormView implements FormView {
+    static reducer = slice.reducer;
+
+    name = 'details';
+
     title = 'Job Details';
 
     View = () => {
-        let {values, errors} = useSelector(
-            (state: { page: PageState }) => state.page
+        let { values, errors } = useSelector(
+            (state: { details: FormViewState }) => state.details
         );
         let dispatch = useDispatch();
         let fireChange = ({ target }: react.ChangeEvent<HTMLInputElement>) => {
-            dispatch(setValue({ name: target.name, value: target.value }));
+            dispatch(
+                setValue({ name: target.name, value: target.value, fields })
+            );
         };
         let fireSelect = ({ target }: SelectChangeEvent<Value>) => {
-            dispatch(setValue({ name: target.name, value: target.value }));
+            dispatch(
+                setValue({ name: target.name, value: target.value, fields })
+            );
         };
         return (
             <form autoComplete="off">

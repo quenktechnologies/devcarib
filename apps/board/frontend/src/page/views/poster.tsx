@@ -4,22 +4,41 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { createSlice } from '@reduxjs/toolkit';
 
-import { FormStage, PageState, setValue } from '../page';
+import { FormView, FormViewState, newState, handleValue } from './';
+
+const slice = createSlice({
+    name: 'poster',
+    initialState: newState(),
+    reducers: {
+        setValue: handleValue
+    }
+});
+
+const { setValue } = slice.actions;
+
+const fields = ['poster', 'company_email', 'company'];
 
 /**
- * CompanyStage gathers details about company making the posting.
+ * PosterFormView gathers details about the person posting the form.
  */
-export class CompanyStage implements FormStage {
+export class PosterFormView implements FormView {
+    static reducer = slice.reducer;
+
+    name = 'poster';
+
     title = 'Poster';
 
     View = () => {
-        let {values,errors} = useSelector(
-            (state: { page: PageState }) => state.page
+        let { values, errors } = useSelector(
+            (state: { poster: FormViewState }) => state.poster
         );
         let dispatch = useDispatch();
         let fireChange = ({ target }: react.ChangeEvent<HTMLInputElement>) => {
-            dispatch(setValue({ name: target.name, value: target.value }));
+            dispatch(
+                setValue({ name: target.name, value: target.value, fields })
+            );
         };
         return (
             <form autoComplete="off">
@@ -37,14 +56,14 @@ export class CompanyStage implements FormStage {
                         onChange={fireChange}
                     />
                     <TextField
-                        name="email"
+                        name="company_email"
                         label="Email*"
                         margin="normal"
                         fullWidth
                         placeholder="In case we need to contact you."
-                        error={!!errors['email']}
-                        helperText={errors['email'] || ''}
-                        value={values['email'] || ''}
+                        error={!!errors['company_email']}
+                        helperText={errors['company_email'] || ''}
+                        value={values['company_email'] || ''}
                         onChange={fireChange}
                     />
                     <TextField
