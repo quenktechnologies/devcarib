@@ -8,3 +8,5 @@ BOARD_JOB_FORM_JS_FILE:=$(BOARD_JOB_FORM_PUBLIC_DIR)/assets/js/form.js
 CLEAN_TARGETS:=$(CLEAN_TARGETS) \
 	       $(BOARD_JOB_FORM_PUBLIC_DIR)/form.js \
 	       $(BOARD_JOB_FORM_PUBLIC_DIR)/form.css
+
+include $(BOARD_JOB_FORM_DIR)/src/models/variables.mk

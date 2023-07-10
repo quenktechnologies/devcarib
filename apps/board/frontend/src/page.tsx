@@ -1,12 +1,9 @@
-import react, { useState } from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { Object } from '@quenk/noni/lib/data/jsonx';
-import { merge, Record } from '@quenk/noni/lib/data/record';
+import {  Record } from '@quenk/noni/lib/data/record';
 import { apply } from '@quenk/noni/lib/data/function';
-
-import { restrict } from '@quenk/preconditions/lib/record';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -16,48 +13,27 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 
-import { PosterFormView } from './views/poster';
-import { DetailsFormView } from './views/details';
-import { DescriptionFormView } from './views/description';
-import { FormView, FormViewState } from './views';
-import { validators } from './validators';
-import { templates } from './templates';
+import { FormView, FormViewState } from './stages';
 
 const takeOk = (name: string, state: Record<FormViewState>) => state[name].ok;
 
 const takeValues = (name: string, state: Record<FormViewState>) =>
     state[name].values;
 
-const stages = [
-    new PosterFormView(),
-    new DetailsFormView(),
-    new DescriptionFormView()
-];
-
-export const reducer = {
-    poster: PosterFormView.reducer,
-    details: DetailsFormView.reducer,
-    description: DescriptionFormView.reducer
-};
-
 /**
  * PostJobWizardPage is the root element for the form used to submit a new job
  * to the board back-end.
  */
-export const PostJobWizardPage = () => {
+export const PostJobWizardPage = ({stages}: {stages: FormView[]}) => {
     let [ptr, setPtr] = useState(0);
+
     let validStages = stages.reduce((prev, { name }) => {
         prev[name] = useSelector(apply(takeOk, name));
         return prev;
     }, {} as Record<boolean>);
-
-    let values = stages.reduce(
-        (prev, { name }) => merge(prev, useSelector(apply(takeValues, name))),
-        {} as Object
-    );
-
-    let current = stages[ptr];
     let isFinal = ptr === stages.length - 1;
+    let values = stages.map(({name}) => useSelector(apply(takeValues, name)));
+    let current = stages[ptr];
     let canBack = ptr > 0;
     let canNext = validStages[current.name] && !isFinal;
     let onBack = () => setPtr(ptr - 1);

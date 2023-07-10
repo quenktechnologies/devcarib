@@ -1,3 +1,4 @@
 lib
 imports.scss
 public
+src/page/views/preview/preview.ts

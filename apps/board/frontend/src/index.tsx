@@ -7,18 +7,38 @@ import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
-import { PostJobWizardPage, reducer } from './page';
+import { PosterFormView } from './stages/poster';
+import { DetailsFormView } from './stages/details';
+import { DescriptionFormView } from './stages/description';
+import { PreviewFormView } from './stages/preview';
+import { PostJobWizardPage } from './page';
+
+const stages = [
+    new PosterFormView(),
+    new DetailsFormView(),
+    new DescriptionFormView(),
+    new PreviewFormView()
+];
+
+ const reducer = {
+    poster: PosterFormView.reducer,
+    details: DetailsFormView.reducer,
+    description: DescriptionFormView.reducer,
+    preview: PreviewFormView.reducer
+};
 
 /**
- * PostJobWizard renders a step by step wizard for creating a new job posting
+ * PostJobWizard serves as a wizard for creating a new job posting
  * to the board backend.
  *
- * We collect the information in 5 stages:
- * 1. The company and contact details.
- * 2. The job title and details.
- * 3. The job description.
- * 4. The preview.
- * 5. Conformation of the saved data.
+ * Data entry takes place in stages using implementors of the FormView class.
+ * 
+ * Currently the stages are:
+ * 1. Poster and company details stage.
+ * 2. Job title and details stage.
+ * 3. Job description stage.
+ * 4. Preview stage.
+ * 5. Result page.
  */
 export class PostJobWizard {
     /**
@@ -52,7 +72,7 @@ export class PostJobWizard {
             <react.StrictMode>
                 <CssBaseline />
                 <Provider store={this.store}>
-                    <PostJobWizardPage />
+                    <PostJobWizardPage stages={stages} />
                 </Provider>
             </react.StrictMode>
         );

@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { createSlice } from '@reduxjs/toolkit';
 
-import { Select } from '../../components/select';
+import { Select } from '../components/select';
 import { FormView, FormViewState, handleValue, newState } from './';
 
 const slice = createSlice({

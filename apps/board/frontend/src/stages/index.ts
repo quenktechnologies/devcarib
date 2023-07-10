@@ -5,11 +5,9 @@ import { Record, merge } from '@quenk/noni/lib/data/record';
 
 import { restrict } from '@quenk/preconditions/lib/record';
 
-import { Preconditions } from '@quenk/preconditions';
-
 import { fieldValidators as validators } from '@board/server/lib/data/validators/job';
 
-import { templates } from '../../templates';
+import { templates } from './templates';
 
 /**
  * FormViewName indicates the name of a FormView as used in the redux store.
@@ -17,7 +15,7 @@ import { templates } from '../../templates';
 export type FormViewName = string;
 
 /**
- * FormViewTitle is a string indicating the title for a FormStage.
+ * FormViewTitle is a string indicating the title for a FormView.
  */
 export type FormViewTitle = string;
 
@@ -131,7 +129,9 @@ export const handleValue = (
     state.errors[name] = '';
 
     let eresult = validator(value);
+    console.error('resukt ffffffffffffffffff', eresult);
     if (eresult.isLeft()) {
+        console.error('---------> ', eresult.takeLeft().explain({}));
         state.errors[name] = eresult.takeLeft().explain(templates) as string;
         state.ok = false;
     } else {
