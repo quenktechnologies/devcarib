@@ -6,9 +6,9 @@
     "collection": "jobs",
 
     "imports": {
-        "validators:@board/types/lib/job": ["Job"],
+        "@board/types/lib/job": ["Job"],
 
-        "models:@board/types/lib/job": ["Job"],
+        "types:@board/types/lib/job": [],
 
         "checks:\\.\\./validators/job": ["validate", "validatePartial"],
 
@@ -16,7 +16,6 @@
     },
 
     "checks": [
-        ["./common#parseMarkdown", ["'description'", "'description_html'"]],
 
         ["@quenk/backend/lib/app/db/mongodb/checks#inc", ["{field:'jobs', collection: getCollection('jobs')}"]]
     ],
@@ -66,14 +65,17 @@
 
                 ["./common#minLength", [3]],
 
-                ["./common#maxLength", [6000]]
+                ["./common#maxLength", [6000]],
+
+                "./common#html"
             ]
+
         },
 
-        "description_html": {
-            "type": "string",
+        "poster": {
 
-            "readOnly": true
+            "type": "string"
+
         },
 
         "company": {
