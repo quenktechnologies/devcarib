@@ -12,6 +12,8 @@ import { supportedCurrencies } from '../../currency';
 import { supportedPaymentFrequencies } from '../../payment';
 import { jobStatuses } from '../../job';
 
+const sanitizeHtml = require('sanitize-html');
+
 /**
  * name must be a string and between 1-64 characters.
  *
@@ -146,3 +148,11 @@ export const jobStatus: Precondition<Value, Value> = (value: Value) =>
     contains(jobStatuses, value) ?
         succeed(value) :
         fail('invalid', { value });
+
+/**
+ * html sanitizes an html string.
+ */
+export const html: Precondition<Value,Value> = (src: Value)  =>
+    succeed( sanitizeHtml(String(src), {
+      allowedTags: [ 'b', 'i', 'em', 'strong', 'h1', 'h2','h3','h4','h5', 'p', 'ul', 'ol']
+              }));
