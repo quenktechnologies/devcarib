@@ -5,3 +5,4 @@ CLEAN_TARGETS:=
 
 include variables.mk
 include build.mk
+include ../../tasks.mk
