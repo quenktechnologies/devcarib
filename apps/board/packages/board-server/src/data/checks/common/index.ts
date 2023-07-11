@@ -1,7 +1,6 @@
 import * as bcryptjs from 'bcryptjs';
 import * as uuid from 'uuid';
 import * as mongodb from 'mongodb';
-import * as moment from 'moment';
 import * as crypto from 'crypto';
 import * as mark from '../../markdown';
 
@@ -27,6 +26,8 @@ import { Precondition } from '@quenk/preconditions/lib/async';
 import {
     findOneAndUpdate, count
 } from '@quenk/noni-mongodb/lib/database/collection';
+
+const moment = require('moment');
 
 export type Result<A, B> = Future<SResult<A, B>>;
 

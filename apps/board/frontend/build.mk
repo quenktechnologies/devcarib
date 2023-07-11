@@ -15,6 +15,7 @@ $(BOARD_JOB_FORM_JS_FILE): $(BOARD_JOB_FORM_DIR)/lib
 $(BOARD_JOB_FORM_DIR)/lib: $(shell find $(BOARD_JOB_FORM_DIR)/src \
 	                              -name \*.ts -o -name \*.tsx) \
 			   $(BOARD_SERVER_DIR) \
+			   $(BOARD_WIDGETS_DIR) \
 			   $(BOARD_REMOTE_MODELS_DIR)
 	rm -R $@ 2> /dev/null || true
 	mkdir $@
