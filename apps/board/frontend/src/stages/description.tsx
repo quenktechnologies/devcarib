@@ -5,8 +5,6 @@ import AlertTitle from '@mui/material/AlertTitle';
 
 import ReactQuill from 'react-quill';
 
-import { debounce } from '@quenk/noni/lib/control/timer';
-
 import { useSelector, useDispatch } from 'react-redux';
 
 import { createSlice } from '@reduxjs/toolkit';
@@ -41,15 +39,17 @@ export class DescriptionFormView implements FormView {
 
     title = 'Description';
 
+    i = 0;
+
     View = () => {
         let value = useSelector(
             (state: { description: FormViewState }) =>
-                state.description.values.description || ''
+                (state.description.values.description || '') as string
         );
         let dispatch = useDispatch();
-        let fireChange = debounce((value: string) => {
+        let fireChange = (value: string) => {
             dispatch(setValue({ name: 'description', value, fields }));
-        }, 350);
+        };
         return (
             <Box sx={{ marginBottom: 2 }}>
                 <Typography
@@ -69,9 +69,10 @@ export class DescriptionFormView implements FormView {
                 <ReactQuill
                     modules={{ toolbar }}
                     theme="snow"
-                    value={value as string}
+                    defaultValue={value as string}
                     onChange={fireChange}
                 />
+                <p>{ value.length } / 6000</p>
             </Box>
         );
     };

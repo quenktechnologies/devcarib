@@ -129,9 +129,7 @@ export const handleValue = (
     state.errors[name] = '';
 
     let eresult = validator(value);
-    console.error('resukt ffffffffffffffffff', eresult);
     if (eresult.isLeft()) {
-        console.error('---------> ', eresult.takeLeft().explain({}));
         state.errors[name] = eresult.takeLeft().explain(templates) as string;
         state.ok = false;
     } else {

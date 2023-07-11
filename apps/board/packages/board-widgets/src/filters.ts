@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+const moment = require('moment');
 
 /**
  * timestamp displays a date in the follwing format: "January 30th 2021".

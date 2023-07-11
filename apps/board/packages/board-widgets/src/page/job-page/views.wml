@@ -43,13 +43,13 @@
         </div>
        </Column>
      </Row>
-     {% if @attrs.data.description_html %}
+     {% if @attrs.data.description %}
       <Row>
         <Column>
           <Panel>
             <PanelBody 
               className="devcarib-job-page-description">
-              {{@attrs.data.description_html | unsafe}}
+              {{@attrs.data.description | unsafe}}
             </PanelBody>
           </Panel>
         </Column>
