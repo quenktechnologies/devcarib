@@ -25,7 +25,7 @@ const fields = ['description'];
 
 const toolbar = [
     ['bold', 'italic', 'underline'],
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
     [{ list: 'ordered' }, { list: 'bullet' }]
 ];
 
@@ -72,7 +72,7 @@ export class DescriptionFormView implements FormView {
                     defaultValue={value as string}
                     onChange={fireChange}
                 />
-                <p>{ value.length } / 6000</p>
+                <p>{value.length} / 6000</p>
             </Box>
         );
     };

@@ -1,2 +1,1 @@
--- API
 GET     /jobs      api.search +search="job"

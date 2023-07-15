@@ -7,11 +7,19 @@ import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
+import { Except } from '@quenk/noni/lib/control/except';
+import { left, right } from '@quenk/noni/lib/data/either';
+
+import { createAgent } from '@quenk/jhr/lib/browser';
+
+import { Job } from '@board/types/lib/job';
+
 import { PosterFormView } from './stages/poster';
 import { DetailsFormView } from './stages/details';
 import { DescriptionFormView } from './stages/description';
 import { PreviewFormView } from './stages/preview';
 import { PostJobWizardPage } from './page';
+import { JobHttpModel } from './models/job';
 
 const stages = [
     new PosterFormView(),
@@ -20,7 +28,7 @@ const stages = [
     new PreviewFormView()
 ];
 
- const reducer = {
+const reducer = {
     poster: PosterFormView.reducer,
     details: DetailsFormView.reducer,
     description: DescriptionFormView.reducer,
@@ -32,7 +40,7 @@ const stages = [
  * to the board backend.
  *
  * Data entry takes place in stages using implementors of the FormView class.
- * 
+ *
  * Currently the stages are:
  * 1. Poster and company details stage.
  * 2. Job title and details stage.
@@ -45,6 +53,20 @@ export class PostJobWizard {
      * @param root - The DOM node that the app will be rendered to.
      */
     constructor(public root: reactDOM.Root, public store: Store) {}
+
+    /**
+     * onPost sends job data to the backend for review.
+     */
+    onPost = async (data: Job): Promise<Except<void>> => {
+        let model = new JobHttpModel(createAgent() as any); //XXX: jhr type error
+
+        try {
+            await model.create(data);
+            return right(void 0);
+        } catch (e) {
+            return left(e) as Except<void>;
+        }
+    };
 
     /**
      * main initializes and runs the application.
@@ -72,7 +94,7 @@ export class PostJobWizard {
             <react.StrictMode>
                 <CssBaseline />
                 <Provider store={this.store}>
-                    <PostJobWizardPage stages={stages} />
+                    <PostJobWizardPage stages={stages} onPost={this.onPost} />
                 </Provider>
             </react.StrictMode>
         );

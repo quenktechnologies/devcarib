@@ -2,6 +2,9 @@
 import * as mongodb from 'mongodb';
 import * as jobStatus from '@board/server/lib/data/job';
 
+import { Object } from '@quenk/noni/lib/data/jsonx';
+import { isObject } from '@quenk/noni/lib/data/type';
+
 import {
     insertOne,
     findOne,
@@ -39,7 +42,7 @@ export class BoardController {
      * needed to show more.
      */
     onIndex(_: Request): Action<void> {
-        return doAction(function* () {
+        return doAction(function*() {
             let db = yield getMain();
 
             let collection = db.collection('jobs');
@@ -66,18 +69,18 @@ export class BoardController {
      * onPostJob saves the submitted job data in the database for approval later.
      */
     onPostJob(r: Request): Action<undefined> {
-        return doAction(function* () {
+        return doAction(function*() {
+            //TODO: This should be set by a default value.
+            r.body = isObject(r.body) ? r.body : {};
+            r.body = r.body || {};
+            (<Object>r.body).status = jobStatus.JOB_STATUS_NEW;
+
             let eResult = yield fork(check(r.body));
 
             if (eResult.isRight()) {
                 let data = eResult.takeRight();
                 let db = yield getMain();
                 let collection = db.collection('jobs');
-
-                // XXX: This is important to prevent the user from being able to
-                // set the status. In the future we should split out the
-                // validation for job again.
-                data.status = jobStatus.JOB_STATUS_NEW;
 
                 data.created_on = new Date();
 
@@ -87,7 +90,7 @@ export class BoardController {
                 //   yield tell('/mail', new OutgoingMessage(process.env.ADMIN_EMAIL,
                 //     'New job', 'Someone jobed *a new job* to board!'));
 
-                return created({ id: data.id });
+                return created({ data });
             } else {
                 return conflict({ errors: eResult.takeLeft().explain() });
             }
@@ -98,7 +101,7 @@ export class BoardController {
      * showJob displays a page for a single approved job.
      */
     onJob(r: Request): Action<void> {
-        return doAction(function* () {
+        return doAction(function*() {
             let id = Number(r.params.id); //XXX: this could be done with a check.
 
             let db = yield getMain();

@@ -7,7 +7,6 @@
     "dependencies": {
         "@board/server": "file:packages/board-server",
         "@quenk/backend": "^0.5.8",
-        "@quenk/jhr": "^2.7.6",
         "@quenk/noni": "^1.50.0",
         "@quenk/tendril": "^0.44.0",
         "@quenk/wml": "^2.13.7",
@@ -27,6 +26,7 @@
         "@quenk/dagen": "^1.10.3",
         "@quenk/dagen-commons": "^0.5.2",
         "@quenk/dagen-templates-quenk": "^1.6.3",
+        "@quenk/jhr": "^2.7.6",
         "@quenk/jouvert": "^0.19.10",
         "@quenk/tdc": "^2.1.7",
         "@reduxjs/toolkit": "^1.9.5",

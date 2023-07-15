@@ -66,6 +66,8 @@ export class PosterFormView implements FormView {
                         value={values['company_email'] || ''}
                         onChange={fireChange}
                     />
+                </Paper>
+                <Paper style={{ width: '100%', marginTop: '1em', padding: 16 }}>
                     <TextField
                         name="company"
                         label="Hiring Company*"

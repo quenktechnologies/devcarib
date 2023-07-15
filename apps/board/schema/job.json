@@ -5,6 +5,12 @@
 
     "collection": "jobs",
 
+    "paths": {
+
+        "create": "/post"
+
+    },
+
     "imports": {
         "@board/types/lib/job": ["Job"],
 
@@ -17,7 +23,7 @@
 
     "checks": [
 
-        ["@quenk/backend/lib/app/db/mongodb/checks#inc", ["{field:'jobs', collection: getCollection('jobs')}"]]
+        ["@quenk/backend/lib/app/db/mongodb/checks#inc", ["{field:'jobs', collection: getCollection('counters')}"]]
     ],
     "properties": {
         "id": {
@@ -27,8 +33,7 @@
 
             "checks-complete": [
                 [
-                    "@quenk/backend/lib/app/db/mongodb/checks#unique",
-                    ["getCollection('jobs')", "'id'"]
+                    "@quenk/backend/lib/app/db/mongodb/checks#unique", ["getCollection('jobs')", "'id'"]
                 ]
             ]
         },
@@ -48,7 +53,9 @@
         "location": {
             "type": "string",
 
-            "validators": ["./common#textsmall"]
+            "validators": ["./common#textsmall"],
+
+            "optional": true
         },
 
         "remote": {

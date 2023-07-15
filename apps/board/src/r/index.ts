@@ -2,6 +2,7 @@
 
 import * as mongodb from 'mongodb';
 
+
 // @ts-ignore: 2300
 import { Request } from '@quenk/tendril/lib/app/api/request';
 
@@ -22,6 +23,7 @@ export class BoardAPI extends ApiController<mongodb.Db> {
             new SkipAndLimit()
         );
     }
+
 }
 
 export const api = new BoardAPI();
