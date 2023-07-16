@@ -186,7 +186,7 @@ export const PostJobWizardPage = ({
                                 Next
                             </Button>
                         )}
-                        {canPost &&(
+                        {canPost && (
                             <Button
                                 variant="contained"
                                 color="primary"

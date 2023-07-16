@@ -26,13 +26,19 @@
       <GridLayout id="main">
         <Row>
           <Column span=8 offset=2>
-            <Link
-              className="devcarib-job-page-back ww-button -default"
-              href="/"
-              text="Back to Jobs"/>
+            <Row>
+              <Column>
+                <Link
+                  className="devcarib-job-page-back ww-button -default"
+                  href="/"
+                  text="Back to Jobs"/>
+              </Column>
+              <Column>
+                <JobPage data={{@job}} />
+              </Column>
+            </Row>
           </Column>
         </Row>
       </GridLayout>
-      <JobPage data={{@job}} />
     </body>
   </html>

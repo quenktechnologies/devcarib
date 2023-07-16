@@ -8,7 +8,7 @@
 {% view JobPageView (JobPage from ".") %}
 <GridLayout className="devcarib-job-page">
   <Row>
-    <Column span=8 offset=2>
+    <Column>
       <Row>
        <Column className="devcarib-job-page-deets">
          {% if @attrs.data.company_logo %}
