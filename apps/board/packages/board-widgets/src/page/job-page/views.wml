@@ -20,7 +20,7 @@
          <div class="devcarib-job-page-title">
            <h1>{{@attrs.data.title|text}}</h1>
            {% if @attrs.data.remote %}
-             <Tag text="Remote" className="-success"/>
+             <Tag text={{@attrs.data.remote}} className="board-capitalize -success"/>
            {% endif %}
          </div>
          <div class="devcarib-job-page-meta">

@@ -1,3 +1,5 @@
+import * as remote from '@board/server/lib/data/job';
+
 import react from 'react';
 
 import { Value } from '@quenk/noni/lib/data/jsonx';
@@ -8,6 +10,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+
 import { SelectChangeEvent } from '@mui/material/Select';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -38,9 +41,9 @@ const typeOptions = [
 ];
 
 const remoteOptions = [
-    { label: 'On-site', value: 'on-site' },
-    { label: 'Hybrid', value: 'hybrid' },
-    { label: 'Remote', value: 'remote' }
+    { label: 'Remote', value: remote.REMOTE_STATUS_REMOTE },
+    { label: 'Hybrid', value:  remote.REMOTE_STATUS_HYBRID },
+    { label: 'On-site', value: remote.REMOTE_STATUS_ONSITE }
 ];
 
 const fields = ['title', 'type', 'apply_url'];

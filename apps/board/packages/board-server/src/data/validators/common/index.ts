@@ -10,7 +10,7 @@ import { succeed, fail } from '@quenk/preconditions/lib/result';
 
 import { supportedCurrencies } from '../../currency';
 import { supportedPaymentFrequencies } from '../../payment';
-import { jobStatuses } from '../../job';
+import { jobStatuses, remoteStatuses } from '../../job';
 
 const sanitizeHtml = require('sanitize-html');
 
@@ -156,3 +156,11 @@ export const html: Precondition<Value,Value> = (src: Value)  =>
     succeed( sanitizeHtml(String(src), {
       allowedTags: [ 'b', 'i', 'em', 'strong', 'h1', 'h2','h3','h4','h5', 'p', 'ul', 'ol']
               }));
+
+/**
+ * remote must be one of the allowed values.
+ */
+export const remote: Precondition<Value, Value> = (value: Value) =>
+    contains(remoteStatuses, value) ?
+        succeed(value) :
+        fail('invalid', { value });

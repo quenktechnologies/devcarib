@@ -2,7 +2,6 @@
 {% import (Panel,PanelBody) from "@quenk/wml-widgets/lib/layout/panel" %}
 {% import (TextField) from "@quenk/wml-widgets/lib/control/text-field" %}
 {% import (DropDown) from "@quenk/wml-widgets/lib/control/dropdown" %}
-{% import (Checkbox) from "@quenk/wml-widgets/lib/control/checkbox" %}
 
 {% view PostJobFormPanelView (PostJobFormPanel from "../") %}
 <Panel>
@@ -52,13 +51,6 @@
       </Row>
       <Row>
         <Column>
-          <b>
-             <Checkbox 
-               name="remote" 
-               value={{@attrs.data.remote}}
-               onChange={{@attrs.onChange}} />
-             This job is remote 
-          </b> 
         </Column>
       </Row>
       <Row>
