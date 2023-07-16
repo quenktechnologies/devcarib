@@ -112,10 +112,11 @@ export const PostJobWizardPage = ({
     let values = stages.map(({ name }) => useSelector(apply(takeValues, name)));
     let current = stages[ptr];
     let isFinal = ptr === stages.length - 1;
-    let isFinish = resultCode === 201;
-    let canBack = ptr > 0 && !isFinish;
+    let isSuccess = resultCode === 201;
+    let canBack = ptr > 0 && !isSuccess;
     let canNext =
-        validStages[current.name] && !isFinal && !isSaving && !isFinish;
+        validStages[current.name] && !isFinal && !isSaving && !isSuccess;
+    let canPost = isFinal && !isSuccess;
     let onSeek = (n: number) => () => {
         setPtr(ptr + n);
         reset();
@@ -185,7 +186,7 @@ export const PostJobWizardPage = ({
                                 Next
                             </Button>
                         )}
-                        {isFinal && (
+                        {canPost &&(
                             <Button
                                 variant="contained"
                                 color="primary"
