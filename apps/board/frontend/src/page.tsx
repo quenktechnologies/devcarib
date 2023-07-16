@@ -25,6 +25,8 @@ const MSG_PREVIEW = `Please review the details below before continuing.`;
 const MSG_SYS_ERROR = `We could not submit your job for some reason! This is a problem on our end.
  Please try again later while we attempt to resolve the issue!`;
 
+const MSG_FORBIDDEN = `You need to refresh this page in order to submit a job.`;
+
 const MSG_CLIENT_ERROR = `We encountered an error while submitting your job. Please go back and ensure
   you entered each field correctly.`;
 
@@ -48,11 +50,7 @@ const Message = ({ code }: { code: number }) => {
 
     if (code === 201) return <SuccessMessage />;
 
-    return (
-        <ErrorMessage
-            message={code === 409 ? MSG_CLIENT_ERROR : MSG_SYS_ERROR}
-        />
-    );
+    return <ErrorMessage code={code} />;
 };
 
 const PreviewMessage = () => {
@@ -68,16 +66,26 @@ const PreviewMessage = () => {
     );
 };
 
-const ErrorMessage = ({ message }: { message: string }) => (
+const errorMesssages = new Map([
+  [403, MSG_FORBIDDEN],
+  [409, MSG_CLIENT_ERROR],
+]);
+
+const ErrorMessage = ({ code }: { code: number }) => {
+
+  let message = errorMesssages.get(code) || MSG_SYS_ERROR;
+  return (
     <Grid container spacing={2}>
         <Grid item xs={12}>
             <Alert severity="error">
-                <AlertTitle>Something is not right!</AlertTitle>
+                <AlertTitle>Oops! Something is not right.</AlertTitle>
                 {message}
             </Alert>
         </Grid>
     </Grid>
 );
+
+}
 
 const SuccessMessage = () => (
     <Grid container spacing={2}>
@@ -186,7 +194,7 @@ export const PostJobWizardPage = ({
                                 Next
                             </Button>
                         )}
-                        {canPost && (
+                        {canPost &&(
                             <Button
                                 variant="contained"
                                 color="primary"

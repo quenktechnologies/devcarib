@@ -46,7 +46,7 @@ const remoteOptions = [
     { label: 'On-site', value: job.JOB_REMOTE_STATUS_ONSITE }
 ];
 
-const fields = ['title', 'type', 'apply_url'];
+const fields = ['title', 'type', 'remote',  'apply_url'];
 
 /**
  * DetailsFormView gathers details about the job posting itself.
@@ -118,10 +118,7 @@ export class DetailsFormView implements FormView {
                         <Grid item xs={12}>
                             <Alert severity="info">
                                 <AlertTitle>Tip</AlertTitle>
-                                Specify a link to the job page on your ATS,
-                                LinkedIn or whereever you receive applications.
-                                If you do we'll show a button seekers can click
-                                on.
+                                This will be used for the apply button.
                             </Alert>
                         </Grid>
                         <Grid item xs={12}>
