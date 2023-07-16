@@ -1,4 +1,4 @@
-import * as remote from '@board/server/lib/data/job';
+import * as job from '@board/server/lib/data/job';
 
 import react from 'react';
 
@@ -31,19 +31,19 @@ const slice = createSlice({
 const { setValue } = slice.actions;
 
 const typeOptions = [
-    { label: 'Full-Time', value: 'full-time' },
-    { label: 'Part-Time', value: 'part-time' },
-    { label: 'Contract', value: 'contract' },
-    { label: 'Internship', value: 'internship' },
-    { label: 'Contributor', value: 'contributor' },
-    { label: 'Co-Founder', value: 'co-founder' },
-    { label: 'Volunteer', value: 'volunteer' }
+    { label: 'Full-Time',   value: job.JOB_TYPE_FULL_TIME },
+    { label: 'Part-Time',   value: job.JOB_TYPE_PART_TIME },
+    { label: 'Contract',    value: job.JOB_TYPE_CONTRACT },
+    { label: 'Internship',  value: job.JOB_TYPE_INTERNSHIP },
+    { label: 'Contributor', value: job.JOB_TYPE_CONTRIBUTOR },
+    { label: 'Co-Founder',  value: job.JOB_TYPE_COFOUNDER },
+    { label: 'Volunteer',   value: job.JOB_TYPE_VOLUNTEER }
 ];
 
 const remoteOptions = [
-    { label: 'Remote', value: remote.REMOTE_STATUS_REMOTE },
-    { label: 'Hybrid', value:  remote.REMOTE_STATUS_HYBRID },
-    { label: 'On-site', value: remote.REMOTE_STATUS_ONSITE }
+    { label: 'Remote', value:  job.JOB_REMOTE_STATUS_REMOTE },
+    { label: 'Hybrid', value:  job.JOB_REMOTE_STATUS_HYBRID },
+    { label: 'On-site', value: job.JOB_REMOTE_STATUS_ONSITE }
 ];
 
 const fields = ['title', 'type', 'apply_url'];
