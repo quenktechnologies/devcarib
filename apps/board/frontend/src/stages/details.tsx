@@ -31,22 +31,22 @@ const slice = createSlice({
 const { setValue } = slice.actions;
 
 const typeOptions = [
-    { label: 'Full-Time',   value: job.JOB_TYPE_FULL_TIME },
-    { label: 'Part-Time',   value: job.JOB_TYPE_PART_TIME },
-    { label: 'Contract',    value: job.JOB_TYPE_CONTRACT },
-    { label: 'Internship',  value: job.JOB_TYPE_INTERNSHIP },
+    { label: 'Full-Time', value: job.JOB_TYPE_FULL_TIME },
+    { label: 'Part-Time', value: job.JOB_TYPE_PART_TIME },
+    { label: 'Contract', value: job.JOB_TYPE_CONTRACT },
+    { label: 'Internship', value: job.JOB_TYPE_INTERNSHIP },
     { label: 'Contributor', value: job.JOB_TYPE_CONTRIBUTOR },
-    { label: 'Co-Founder',  value: job.JOB_TYPE_COFOUNDER },
-    { label: 'Volunteer',   value: job.JOB_TYPE_VOLUNTEER }
+    { label: 'Co-Founder', value: job.JOB_TYPE_COFOUNDER },
+    { label: 'Volunteer', value: job.JOB_TYPE_VOLUNTEER }
 ];
 
 const remoteOptions = [
-    { label: 'Remote', value:  job.JOB_REMOTE_STATUS_REMOTE },
-    { label: 'Hybrid', value:  job.JOB_REMOTE_STATUS_HYBRID },
+    { label: 'Remote', value: job.JOB_REMOTE_STATUS_REMOTE },
+    { label: 'Hybrid', value: job.JOB_REMOTE_STATUS_HYBRID },
     { label: 'On-site', value: job.JOB_REMOTE_STATUS_ONSITE }
 ];
 
-const fields = ['title', 'type', 'remote',  'apply_url'];
+const fields = ['title', 'type', 'remote', 'apply_url'];
 
 /**
  * DetailsFormView gathers details about the job posting itself.

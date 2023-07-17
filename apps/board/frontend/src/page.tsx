@@ -7,6 +7,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import { useMediaQuery } from '@mui/material';
 
 import { useState } from 'react';
 
@@ -67,25 +68,23 @@ const PreviewMessage = () => {
 };
 
 const errorMesssages = new Map([
-  [403, MSG_FORBIDDEN],
-  [409, MSG_CLIENT_ERROR],
+    [403, MSG_FORBIDDEN],
+    [409, MSG_CLIENT_ERROR]
 ]);
 
 const ErrorMessage = ({ code }: { code: number }) => {
-
-  let message = errorMesssages.get(code) || MSG_SYS_ERROR;
-  return (
-    <Grid container spacing={2}>
-        <Grid item xs={12}>
-            <Alert severity="error">
-                <AlertTitle>Oops! Something is not right.</AlertTitle>
-                {message}
-            </Alert>
+    let message = errorMesssages.get(code) || MSG_SYS_ERROR;
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Alert severity="error">
+                    <AlertTitle>Oops! Something is not right.</AlertTitle>
+                    {message}
+                </Alert>
+            </Grid>
         </Grid>
-    </Grid>
-);
-
-}
+    );
+};
 
 const SuccessMessage = () => (
     <Grid container spacing={2}>
@@ -145,8 +144,10 @@ export const PostJobWizardPage = ({
         );
     };
 
+    let isMobile = useMediaQuery('(max-width: 600px)');
+
     return (
-        <Container maxWidth="lg" sx={{ mb: '2em' }}>
+        <Container maxWidth="lg" sx={{ mb: '2rem', pb: '2rem' }}>
             <Grid
                 container
                 justifyContent="center"
@@ -162,17 +163,19 @@ export const PostJobWizardPage = ({
                         >
                             Post Job
                         </Typography>
-                        <Stepper
-                            orientation="horizontal"
-                            activeStep={ptr}
-                            sx={{ mb: 3 }}
-                        >
-                            {stages.map(current => (
-                                <Step key={current.title}>
-                                    <StepLabel>{current.title}</StepLabel>
-                                </Step>
-                            ))}
-                        </Stepper>
+                        {!isMobile && (
+                            <Stepper
+                                orientation="horizontal"
+                                activeStep={ptr}
+                                sx={{ mb: 3 }}
+                            >
+                                {stages.map(current => (
+                                    <Step key={current.title}>
+                                        <StepLabel>{current.title}</StepLabel>
+                                    </Step>
+                                ))}
+                            </Stepper>
+                        )}
                     </Grid>
                     <Grid xs={12}>
                         {isFinal && <Message code={resultCode} />}
@@ -194,7 +197,7 @@ export const PostJobWizardPage = ({
                                 Next
                             </Button>
                         )}
-                        {canPost &&(
+                        {canPost && (
                             <Button
                                 variant="contained"
                                 color="primary"
