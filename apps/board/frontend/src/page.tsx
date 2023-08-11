@@ -7,6 +7,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+
 import { useMediaQuery } from '@mui/material';
 
 import { useState } from 'react';
@@ -77,7 +78,7 @@ const ErrorMessage = ({ code }: { code: number }) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Alert severity="error">
+                <Alert id="result" severity="error">
                     <AlertTitle>Oops! Something is not right.</AlertTitle>
                     {message}
                 </Alert>
@@ -89,7 +90,7 @@ const ErrorMessage = ({ code }: { code: number }) => {
 const SuccessMessage = () => (
     <Grid container spacing={2}>
         <Grid item xs={12}>
-            <Alert severity="success">
+            <Alert id="result" severity="success">
                 <AlertTitle>Success!</AlertTitle>
                 {MSG_INFO}
             </Alert>
@@ -183,12 +184,13 @@ export const PostJobWizardPage = ({
                     </Grid>
                     <Grid container xs={12} sx={{ mt: 3 }}>
                         {canBack && (
-                            <Button color="inherit" onClick={onSeek(-1)}>
+                            <Button id="backButton" color="inherit" onClick={onSeek(-1)}>
                                 Back
                             </Button>
                         )}
                         {canNext && (
                             <Button
+                                id="nextButton"
                                 variant="contained"
                                 color="primary"
                                 sx={{ ml: 'auto' }}
@@ -199,6 +201,7 @@ export const PostJobWizardPage = ({
                         )}
                         {canPost && (
                             <Button
+                                id="saveButton"
                                 variant="contained"
                                 color="primary"
                                 disabled={isSaving}

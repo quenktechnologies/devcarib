@@ -67,6 +67,7 @@ export class DescriptionFormView implements FormView {
                     </Alert>
                 </Box>
                 <ReactQuill
+                    id="description"
                     modules={{ toolbar }}
                     theme="snow"
                     defaultValue={value as string}

@@ -96,6 +96,7 @@ export class DetailsFormView implements FormView {
                         <Grid item xs={12}>
                             <Box display="flex" gap={2}>
                                 <Select
+                                    id="type"
                                     name="type"
                                     label="Job Type*"
                                     options={typeOptions}
@@ -103,6 +104,7 @@ export class DetailsFormView implements FormView {
                                     onChange={fireSelect}
                                 />
                                 <Select
+                                    id="remote"
                                     name="remote"
                                     label="Remote?*"
                                     options={remoteOptions}
